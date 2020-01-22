@@ -1,0 +1,34 @@
+version: '3.7'
+
+## ISLE 8 Draft Prototype
+## January 22, 2020
+## Release (Alpha) (0.0.1)
+
+services:
+
+  activemq:
+    image: rmohr/activemq:5.15.9
+    container_name: isle-dc-activemq-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    ports:
+      - "1883:1883"   #MQTT
+      - "5672:5672"   #AMQP
+      - "8161:8161"   #UI
+      - "61613:61613" #STOMP
+      - "61614:61614" #WS
+      - "61616:61616" #JMS
+    volumes:
+      - ./config/activemq/conf:/opt/activemq/conf
+      - isle-dc-activemq-data:/opt/activemq/data
+
+
+networks:
+  isle-dc-internal:
+  isle-dc-external:
+
+
+volumes:
+  isle-dc-activemq-data:
