@@ -7,6 +7,7 @@ version: '3.7'
 services:
 
   activemq:
+    # review https://hub.docker.com/r/rmohr/activemq/
     image: rmohr/activemq:5.15.9
     container_name: isle-dc-activemq-${CONTAINER_SHORT_ID}
     env_file:
@@ -24,6 +25,31 @@ services:
       - ./config/activemq/conf:/opt/activemq/conf
       - isle-dc-activemq-data:/opt/activemq/data
 
+  drupal:
+    # review https://github.com/docker-library/docs/blob/master/drupal/content.md
+    image: drupal:8.8.1-apache
+    container_name: isle-dc-drupal-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - mysql
+      - fedora
+      - solr
+      - traefik
+    ports:
+      - 8080:80
+    volumes:
+      # Disagreement with volumes in Drupal community https://github.com/docker-library/drupal/issues/3
+      # idea to only mount sites data and rebuild image with Drupal code changes ?
+      - ./data/drupal:/var/www/html/sites
+    restart: always
+
+-e MYSQL_DATABASE=drupal \
+	-e MYSQL_USER=user \
+	-e MYSQL_PASSWORD=password \
+	-e MYSQL_ROOT_PASSWORD=password \
 
 networks:
   isle-dc-internal:
