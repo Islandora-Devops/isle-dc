@@ -6,6 +6,37 @@ version: '3.7'
 
 services:
 
+
+  traefik:
+    # review https://hub.docker.com/_/traefik
+    image: traefik:2.1.3
+    container_name: isle-proxy-${CONTAINER_SHORT_ID}
+    networks:
+      isle-internal:
+      isle-external:
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+      - "443:443"
+      #- "8080:8080"
+    volumes:
+      # TO DO: Update according to new Traefik 2.0 conventions (values below based on 1.7.9, are incomplete & wrong due to missing "routing" labels)
+      - /var/run/docker.sock:/var/run/docker.sock
+      # SSL Choice 1: To use Let's Encrypt for SSL- uncomment ONLY the line below and then create an empty config/proxy/acme.json file
+      # - ./config/proxy/acme.json:/acme.json
+      # SSL Choice 2: To use commercial SSLs - uncomment ONLY the line below. Add your SSL certs (.cert, .pem, .key) files to config/proxy/ssl-certs
+      # - ./config/proxy/ssl-certs:/certs:ro
+      # Based on the choice of SSL type made above, you'll need to refer to this /config/proxy/traefik.production.toml file for further configuration instructions.
+      - ./config/proxy/traefik.production.toml:/etc/traefik/traefik.toml
+    # TO DO: Update according to new Traefik 2.0 conventions (values below based on 1.7.9, are incomplete & wrong due to missing "routing" labels)
+    labels:
+      - traefik.port=8080
+      ## Enabling access to the Traefik interface is not safe in a production environment unless you have the ISLE system behind a firewall and only ports 80 and 443 exposed.
+      - traefik.enable=false
+      - traefik.frontend.rule=Host:admin.${BASE_DOMAIN};
+
+
   activemq:
     # review https://hub.docker.com/r/rmohr/activemq/
     image: rmohr/activemq:5.15.9
