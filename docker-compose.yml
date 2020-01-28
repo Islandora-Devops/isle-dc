@@ -14,6 +14,8 @@ services:
       - .env
     networks:
       - isle-dc-internal
+    depends_on:
+      - traefik     
     ports:
     # TO DO: Determine what ports should be exposed?  
       - "1883:1883"   #MQTT
@@ -26,6 +28,9 @@ services:
       # TO DO: Determine correct settings of conf below
       - ./config/activemq/conf:/opt/activemq/conf
       - isle-dc-activemq-data:/opt/activemq/data
+      # TO DO: Determine what type of container handling is needed
+    restart: always
+
 
   drupal:
     # review https://github.com/docker-library/docs/blob/master/drupal/content.md
@@ -51,8 +56,61 @@ services:
       - ./data/drupal/modules:/var/www/html/modules
       - ./data/drupal/profiles:/var/www/html/profiles
       - ./data/drupal/sites:/var/www/html/sites
-      - ./data/drupal//themes:/var/www/html/themes
+      - ./data/drupal/themes:/var/www/html/themes
+      # TO DO: Determine what type of container handling is needed
     restart: always
+  
+ 
+  isle-blazegraph:
+    image: lyrasis/blazegraph:2.1.5
+    container_name: isle-dc-blazegraph-${CONTAINER_SHORT_ID}
+    environment:
+      # TO DO: Detemine Java memory needs
+      - JAVA_MAX_MEM=4096M
+      - JAVA_MIN_MEM=1024M
+    env_file:
+      - .env
+    networks:
+      - isle-internal
+    depends_on:
+      - fedora
+      - traefik
+    ports:
+      - "8889:8080"
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - config/blazegraph/RWStore.properties:/RWStore.properties
+      - ./data/blazegraph/data:/data
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
+
+  cantaloupe:
+    image: lyrasis/cantaloupe:4.0-1
+    container_name: isle-dc-cantaloupe-${CONTAINER_SHORT_ID}
+    environment:
+      # TO DO: Detemine Java memory needs
+      - JAVA_MAX_MEM=2048M
+      - JAVA_MIN_MEM=512M  
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - fedora
+      - traefik
+    ports:
+      - ##:##
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?  
+      - ./config/cantaloupe/cantaloupe.properties:/usr/local/cantaloupe/cantaloupe.properties
+      - ./config/cantaloupe/delegates.rb:/usr/local/cantaloupe/delegates.rb
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
+
+
+
 
 networks:
   isle-dc-internal:

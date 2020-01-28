@@ -8,6 +8,10 @@ This is a pseudo code draft of the `docker-compose` file, Docker service and ima
 
 Due to the current **DRAFT** status, any software contained within this repo will **not work** and should not be used in any environment yet. Updates to follow when the project shifts to the build phase (Februrary 2020).
 
+## Developer Notes
+
+Currently there are blank `.keep` files in most of the `config/service` directories. They should be removed as services are defined and created. If a service doesn't require a config to bind mounted then please remove the appropriate service directory from the `config` directory as needed.
+
 ## Requirements
 
 * Desktop / laptop / VM
