@@ -42,7 +42,7 @@ services:
       - isle-dc-internal
     depends_on:
       - mysql
-      - fedora
+      - fcrepo
       - solr
       - traefik
     ports:
@@ -61,7 +61,7 @@ services:
     restart: always
   
  
-  isle-blazegraph:
+  blazegraph:
     image: lyrasis/blazegraph:2.1.5
     container_name: isle-dc-blazegraph-${CONTAINER_SHORT_ID}
     environment:
@@ -73,7 +73,7 @@ services:
     networks:
       - isle-internal
     depends_on:
-      - fedora
+      - fcrepo
       - traefik
     ports:
       - "8889:8080"
@@ -97,7 +97,7 @@ services:
     networks:
       - isle-dc-internal
     depends_on:
-      - fedora
+      - fcrepo
       - traefik
     ports:
       - ##:##
@@ -107,6 +107,34 @@ services:
       - ./config/cantaloupe/delegates.rb:/usr/local/cantaloupe/delegates.rb
     # TO DO: Determine what type of container handling is needed
     restart: always
+
+
+  fcrepo:
+    # TO DO: We will need to build this image using elements from the Ansible playbook & https://github.com/fcrepo4-labs/fcrepo4-docker
+    image: islandorafoundation/fcrepo:5.1.0
+    container_name: isle-dc-fcrepo-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - activemq
+      - mysql
+      - solr
+      - traefik
+    ports:
+      - 8081:8080
+    volumes:
+    # TO DO: Determine if further bindmounts / config files are needed to tune Fedora
+      - ./data/fedora/datastreamStore:/usr/local/fedora/data/datastreamStore
+      - ./data/fedora/objectStore:/usr/local/fedora/data/objectStore
+      - isle-fedora-resourceIndex:/usr/local/fedora/data/resourceIndex
+    # TO DO: Should this be a bind mount / config instead?  
+      - isle-fedora-XACML:/usr/local/fedora/data/fedora-xacml-policies
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
+
 
 
 
