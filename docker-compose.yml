@@ -15,6 +15,7 @@ services:
     networks:
       - isle-dc-internal
     ports:
+    # TO DO: Determine what ports should be exposed?  
       - "1883:1883"   #MQTT
       - "5672:5672"   #AMQP
       - "8161:8161"   #UI
@@ -22,6 +23,7 @@ services:
       - "61614:61614" #WS
       - "61616:61616" #JMS
     volumes:
+      # TO DO: Determine correct settings of conf below
       - ./config/activemq/conf:/opt/activemq/conf
       - isle-dc-activemq-data:/opt/activemq/data
 
@@ -41,15 +43,16 @@ services:
     ports:
       - 8080:80
     volumes:
-      # Disagreement with volumes in Drupal community https://github.com/docker-library/drupal/issues/3
-      # idea to only mount sites data and rebuild image with Drupal code changes ?
-      - ./data/drupal:/var/www/html/sites
+      # TO DO: Determine what is Drupal volume setup?
+        # Disagreement re volumes in Drupal community https://github.com/docker-library/drupal/issues/3
+        # Is it an idea to only mount sites data and rebuild image with Drupal code changes ?
+        # Volumes setup should be reviewed https://hub.docker.com/_/drupal/
+      # TO DO: Determine what should be in config/drupal? .keep file is in place for now to allow empty dir to appear.  
+      - ./data/drupal/modules:/var/www/html/modules
+      - ./data/drupal/profiles:/var/www/html/profiles
+      - ./data/drupal/sites:/var/www/html/sites
+      - ./data/drupal//themes:/var/www/html/themes
     restart: always
-
--e MYSQL_DATABASE=drupal \
-	-e MYSQL_USER=user \
-	-e MYSQL_PASSWORD=password \
-	-e MYSQL_ROOT_PASSWORD=password \
 
 networks:
   isle-dc-internal:
