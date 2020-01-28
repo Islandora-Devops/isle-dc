@@ -166,6 +166,26 @@ services:
     restart: always
 
 
+  mysql:
+    image: mysql:5.7
+    container_name: isle-dc-mysql-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-internal
+    depends_on:
+      - traefik
+    ports:
+      - "3306:3306"
+    volumes:
+    ## TO DO: How to allow for slow query log setup?
+    ## Customization: Allows for additional tuning of MySQL.
+    ## From ISLE 7 work: keeping MySQL in a Docker volume avoids a slew of issues from bind-mounting
+      - ./config/mysql/ISLE.cnf:/etc/mysql/mysql.conf.d/ISLE.cnf
+      - isle-db-data:/var/lib/mysql
+
+
+
 
 
 
