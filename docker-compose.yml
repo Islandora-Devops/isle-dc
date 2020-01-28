@@ -10,7 +10,7 @@ services:
   traefik:
     # review https://hub.docker.com/_/traefik
     image: traefik:2.1.3
-    container_name: isle-proxy-${CONTAINER_SHORT_ID}
+    container_name: isle-dc-traefik-${CONTAINER_SHORT_ID}
     networks:
       isle-internal:
       isle-external:
@@ -164,8 +164,6 @@ services:
       - isle-fedora-XACML:/usr/local/fedora/data/fedora-xacml-policies
     # TO DO: Determine what type of container handling is needed
     restart: always
-
-
 
 
 
