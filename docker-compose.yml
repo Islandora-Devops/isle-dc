@@ -167,6 +167,7 @@ services:
 
 
   mysql:
+    ## Using for Protoype
     image: mysql:5.7
     container_name: isle-dc-mysql-${CONTAINER_SHORT_ID}
     env_file:
