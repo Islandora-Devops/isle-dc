@@ -139,7 +139,7 @@ services:
     # TO DO: Determine what type of container handling is needed
     restart: always
 
-
+## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and as an optional service
   fcrepo:
     # TO DO: We will need to build this image using elements from the Ansible playbook & https://github.com/fcrepo4-labs/fcrepo4-docker
     image: islandorafoundation/fcrepo:5.1.0
@@ -165,7 +165,7 @@ services:
     # TO DO: Determine what type of container handling is needed
     restart: always
 
-
+## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and as an conditional either mysql or postgres
   mysql:
     ## Using for protoype database
     image: mysql:5.7
@@ -186,6 +186,7 @@ services:
       - isle-dc-mysql-data:/var/lib/mysql
 
 
+## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and as an conditional either mysql or postgres 
 # TO DO" Phase III+ after prototype build, test and use but matomo expects mysql
 #  postgres:
 #    # review https://hub.docker.com/_/postgres
@@ -226,7 +227,7 @@ services:
     # TO DO: Determine what type of container handling is needed
     restart: always
 
-
+## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and as an optional service
   matomo:
     # https://github.com/matomo-org/docker 
     # TO DO: Use Apache or Nginx?
@@ -247,6 +248,14 @@ services:
       - isle-dc-matomo-data:/var/www/html
     # TO DO: Determine what type of container handling is needed
     restart: always
+
+## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and clarity
+
+### Microservices Pool    
+
+
+
+
 
 
 networks:
