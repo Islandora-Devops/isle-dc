@@ -139,7 +139,7 @@ services:
 ## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and as an optional service
   fcrepo:
     # TO DO: We will need to build this image using elements from the Ansible playbook & https://github.com/fcrepo4-labs/fcrepo4-docker
-    image: islandorafoundation/fcrepo:5.1.0
+    image: islandoradevops/fcrepo:5.1.0
     container_name: isle-dc-fcrepo-${CONTAINER_SHORT_ID}
     env_file:
       - .env
@@ -251,7 +251,7 @@ services:
 ### Microservices Connectors
 
   fits-connector: 
-    image: islandorafoundation/karaf-camel:1.0
+    image: islandoradevops/karaf-camel:1.0
     container_name: isle-dc-fits-connector-${CONTAINER_SHORT_ID}
     env_file:
       - .env
@@ -271,7 +271,7 @@ services:
 
 
   houdini-connector: 
-    image: islandorafoundation/karaf-camel:1.0
+    image: islandoradevops/karaf-camel:1.0
     container_name: isle-dc-houdini-connector-${CONTAINER_SHORT_ID}
     env_file:
       - .env
@@ -291,7 +291,7 @@ services:
 
 
   homarus-connector: 
-    image: islandorafoundation/karaf-camel:1.0
+    image: islandoradevops/karaf-camel:1.0
     container_name: isle-dc-homarus-connector-${CONTAINER_SHORT_ID}
     env_file:
       - .env
@@ -311,7 +311,7 @@ services:
 
 
   hypercube-connector: 
-    image: islandorafoundation/karaf-camel:1.0
+    image: islandoradevops/karaf-camel:1.0
     container_name: isle-dc-hypercube-connector-${CONTAINER_SHORT_ID}
     env_file:
       - .env
@@ -331,7 +331,7 @@ services:
 
 
   milliner-connector: 
-    image: islandorafoundation/karaf-camel:1.0
+    image: islandoradevops/karaf-camel:1.0
     container_name: isle-dc-milliner-connector-${CONTAINER_SHORT_ID}
     env_file:
       - .env
@@ -373,7 +373,7 @@ services:
 
 
   houdini: 
-    image: islandorafoundation/houdini:1.0
+    image: islandoradevops/houdini:1.0
     container_name: isle-dc-houdini-${CONTAINER_SHORT_ID}
     env_file:
       - .env
@@ -391,7 +391,7 @@ services:
 
 
   homarus: 
-    image: islandorafoundation/homarus:1.0
+    image: islandoradevops/homarus:1.0
     container_name: isle-dc-homarus-${CONTAINER_SHORT_ID}
     env_file:
       - .env
@@ -406,6 +406,25 @@ services:
       - ./config/homarus/:/path_on__homarus_container
     # TO DO: Determine what type of container handling is needed
     restart: always
+
+
+  hypercube: 
+    image: islandoradevops/hypercube:1.0
+    container_name: isle-dc-hypercube-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - activemq
+      - traefik
+      - :8101 # TO DO: What ports should be used here? - Don't think they need to be exposed to the world?    
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - ./config/hypercube/:/path_on__hypercube_container
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
 
 networks:
   isle-dc-internal:
