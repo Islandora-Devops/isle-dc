@@ -390,6 +390,23 @@ services:
     restart: always
 
 
+  homarus: 
+    image: islandorafoundation/homarus:1.0
+    container_name: isle-dc-homarus-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - activemq
+      - traefik
+      - :8101 # TO DO: What ports should be used here? - Don't think they need to be exposed to the world?    
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - ./config/homarus/:/path_on__homarus_container
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
 networks:
   isle-dc-internal:
   isle-dc-external:
