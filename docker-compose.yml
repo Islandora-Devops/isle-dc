@@ -217,13 +217,14 @@ services:
       - .env
     networks:
       - isle-dc-internal
+    depends_on:
+      - traefik  
     ports:
       - "8082:8080"
-    depends_on:
-      - traefik
     volumes:
       - isle-dc-solr-data:/usr/local/solr
-
+    # TO DO: Determine what type of container handling is needed
+    restart: always
 
 
 
