@@ -12,8 +12,8 @@ services:
     image: traefik:2.1.3
     container_name: isle-dc-traefik-${CONTAINER_SHORT_ID}
     networks:
-      isle-internal:
-      isle-external:
+      isle-dc-internal:
+      isle-dc-external:
     env_file:
       - .env
     ports:
@@ -23,12 +23,11 @@ services:
     volumes:
       # TO DO: Update according to new Traefik 2.0 conventions (values below based on 1.7.9, are incomplete & wrong due to missing "routing" labels)
       - /var/run/docker.sock:/var/run/docker.sock
-      # SSL Choice 1: To use Let's Encrypt for SSL- uncomment ONLY the line below and then create an empty config/proxy/acme.json file
-      # - ./config/proxy/acme.json:/acme.json
-      # SSL Choice 2: To use commercial SSLs - uncomment ONLY the line below. Add your SSL certs (.cert, .pem, .key) files to config/proxy/ssl-certs
-      # - ./config/proxy/ssl-certs:/certs:ro
-      # Based on the choice of SSL type made above, you'll need to refer to this /config/proxy/traefik.production.toml file for further configuration instructions.
-      - ./config/proxy/traefik.production.toml:/etc/traefik/traefik.toml
+      # SSL Choice 1: To use Let's Encrypt for SSL- uncomment ONLY the line below and then create an empty config/traefik/acme.json file
+      # - ./config/traefik/acme.json:/acme.json
+      # SSL Choice 2: To use commercial SSLs - uncomment ONLY the line below. Add your SSL certs (.cert, .pem, .key) files to config/traefik/ssl-certs
+      # - ./config/traefik/ssl-certs:/certs:ro
+      # TO DO: Determine if toml files are still to be bound in Traefik 2.0
     # TO DO: Update according to new Traefik 2.0 conventions (values below based on 1.7.9, are incomplete & wrong due to missing "routing" labels)
     labels:
       - traefik.port=8080
@@ -102,7 +101,7 @@ services:
     env_file:
       - .env
     networks:
-      - isle-internal
+      - isle-dc-internal
     depends_on:
       - fcrepo
       - traefik
@@ -110,7 +109,7 @@ services:
       - "8889:8080"
     volumes:
     # TO DO: Determine if this needs to be bind mounted or a Docker volume?
-      - config/blazegraph/RWStore.properties:/RWStore.properties
+      - ./config/blazegraph/RWStore.properties:/RWStore.properties
       - ./data/blazegraph/data:/data
     # TO DO: Determine what type of container handling is needed
     restart: always
@@ -133,7 +132,8 @@ services:
     ports:
       - ##:##
     volumes:
-    # TO DO: Determine if this needs to be bind mounted or a Docker volume?  
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+    # TO DO: Determine what is to be done about /cantaloupe/cache settings and storage?
       - ./config/cantaloupe/cantaloupe.properties:/usr/local/cantaloupe/cantaloupe.properties
       - ./config/cantaloupe/delegates.rb:/usr/local/cantaloupe/delegates.rb
     # TO DO: Determine what type of container handling is needed
@@ -159,21 +159,21 @@ services:
     # TO DO: Determine if further bindmounts / config files are needed to tune Fedora
       - ./data/fedora/datastreamStore:/usr/local/fedora/data/datastreamStore
       - ./data/fedora/objectStore:/usr/local/fedora/data/objectStore
-      - isle-fedora-resourceIndex:/usr/local/fedora/data/resourceIndex
+      - isle-dc-fedora-resourceIndex:/usr/local/fedora/data/resourceIndex
     # TO DO: Should this be a bind mount / config instead?  
-      - isle-fedora-XACML:/usr/local/fedora/data/fedora-xacml-policies
+      - isle-dc-fedora-XACML:/usr/local/fedora/data/fedora-xacml-policies
     # TO DO: Determine what type of container handling is needed
     restart: always
 
 
   mysql:
-    ## Using for Protoype
+    ## Using for protoype database
     image: mysql:5.7
     container_name: isle-dc-mysql-${CONTAINER_SHORT_ID}
     env_file:
       - .env
     networks:
-      - isle-internal
+      - isle-dc-internal
     depends_on:
       - traefik
     ports:
@@ -182,10 +182,47 @@ services:
     ## TO DO: How to allow for slow query log setup?
     ## Customization: Allows for additional tuning of MySQL.
     ## From ISLE 7 work: keeping MySQL in a Docker volume avoids a slew of issues from bind-mounting
-      - ./config/mysql/ISLE.cnf:/etc/mysql/mysql.conf.d/ISLE.cnf
-      - isle-db-data:/var/lib/mysql
+      - ./config/mysql/ISLE.cnf:/etc/mysql/mysql.conf.d/isle-mysql.cnf
+      - isle-dc-mysql-data:/var/lib/mysql
 
 
+# TO DO" Phase III+ after prototype build, test and use but matomo expects mysql
+#  postgres:
+#    # review https://hub.docker.com/_/postgres
+#    image: postgres:12.1
+#    container_name: isle-dc-postgres-${CONTAINER_SHORT_ID}
+#    env_file:
+#      - .env
+#    networks:
+#      - isle-dc-internal
+#    depends_on:
+#      - traefik
+#    ports:
+#      - 8082:8080
+#    volumes:
+#    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+#      - ./config/postgres/isle-postgres.cnf:/etc/postgresql/postgresql.conf
+#      - isle-dc-postgres-data:/var/lib/postgresql/data
+#    # TO DO: Determine what type of container handling is needed
+#    restart: always
+
+
+  solr:
+    image: solr/solr:8.4.1
+    container_name: isle-dc-solr-${CONTAINER_SHORT_ID}
+    environment:
+      - JAVA_MAX_MEM=2048M
+      - JAVA_MIN_MEM=512M
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    ports:
+      - "8082:8080"
+    depends_on:
+      - traefik
+    volumes:
+      - isle-dc-solr-data:/usr/local/solr
 
 
 
@@ -197,3 +234,8 @@ networks:
 
 volumes:
   isle-dc-activemq-data:
+  isle-dc-fedora-resourceIndex:
+  isle-dc-fedora-XACML:
+  isle-dc-mysql-data:
+  # isle-dc-postgres-data # Added to prototype but not currently used
+  isle-dc-solr-data:
