@@ -353,6 +353,7 @@ services:
 ### Microservices 
 
   fits: 
+    # https://github.com/harvard-lts/FITSServlet_Container
     image: harvardlts/fitsservlet_container:1.5.0
     container_name: isle-dc-fits-${CONTAINER_SHORT_ID}
     env_file:
@@ -363,10 +364,10 @@ services:
       - activemq
       - traefik
     ports:
-      - :80 #TO DO: What ports should be used here? What is dashboard port?
+      - :8080 #TO DO: What ports should be used here? What is dashboard port? given it exposes 8080, 8009 (ajp?) and 8443 (not used in backend)
     volumes:
     # TO DO: Determine if this needs to be bind mounted or a Docker volume?
-      - ./config/service:/path_on_container
+      - ./config/fits:/path_on_fits_container
     # TO DO: Determine what type of container handling is needed
     restart: always
 
