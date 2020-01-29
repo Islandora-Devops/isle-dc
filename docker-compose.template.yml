@@ -249,9 +249,116 @@ services:
     # TO DO: Determine what type of container handling is needed
     restart: always
 
+
 ## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and clarity
 
-### Microservices Pool    
+### Microservices Connectors
+
+  fits-connector: 
+    image: islandorafoundation/karaf-camel:1.0
+    container_name: isle-dc-fits-connector-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - activemq
+      - drupal
+      - fits
+      - traefik
+    ports:
+      - # TO DO: What ports should be used here?
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - ./config/connectors/fits-connector/karaf_route.xml:/path_on_fits-connector_container/karaf_route.xml
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
+
+  houdini-connector: 
+    image: islandorafoundation/karaf-camel:1.0
+    container_name: isle-dc-houdini-connector-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - activemq
+      - drupal
+      - houdini
+      - traefik
+    ports:
+      - # TO DO: What ports should be used here?
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - ./config/connectors/houdini-connector/karaf_route.xml:/path_on_houdini-connector_container/karaf_route.xml
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
+
+  homarus-connector: 
+    image: islandorafoundation/karaf-camel:1.0
+    container_name: isle-dc-homarus-connector-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - activemq
+      - drupal
+      - homarus
+      - traefik
+    ports:
+      - # TO DO: What ports should be used here?
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - ./config/connectors/homarus-connector/homarus_route.xml:/path_on_homarus-connector_container/homarus_route.xml
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
+
+  hypercube-connector: 
+    image: islandorafoundation/karaf-camel:1.0
+    container_name: isle-dc-hypercube-connector-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - activemq
+      - drupal
+      - hypercube
+      - traefik
+    ports:
+      - # TO DO: What ports should be used here?
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - ./config/connectors/hypercube-connector/hypercube_route.xml:/path_on_hypercube-connector_container/hypercube_route.xml
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
+
+  milliner-connector: 
+    image: islandorafoundation/karaf-camel:1.0
+    container_name: isle-dc-milliner-connector-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - activemq
+      - drupal
+      - milliner
+      - traefik
+    ports:
+      - # TO DO: What ports should be used here?
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - ./config/connectors/milliner-connector/milliner_route.xml:/path_on_milliner-connector_container/milliner_route.xml
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
+
 
 
 
