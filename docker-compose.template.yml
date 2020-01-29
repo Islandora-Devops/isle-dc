@@ -72,8 +72,6 @@ services:
       - isle-dc-internal
     depends_on:
       - mysql
-      - fcrepo
-      - solr
       - traefik
     ports:
       - 8080:80
@@ -127,7 +125,6 @@ services:
     networks:
       - isle-dc-internal
     depends_on:
-      - fcrepo
       - traefik
     ports:
       - ##:##
@@ -151,7 +148,6 @@ services:
     depends_on:
       - activemq
       - mysql
-      - solr
       - traefik
     ports:
       - 8081:8080
@@ -238,7 +234,7 @@ services:
     networks:
       - isle-dc-internal
     depends_on:
-      - fedora
+      - drupal
       - traefik
     ports:
       - ##:##
@@ -263,11 +259,10 @@ services:
       - isle-dc-internal
     depends_on:
       - activemq
-      - drupal
       - fits
       - traefik
     ports:
-      - # TO DO: What ports should be used here?
+      - :8101 # TO DO: What ports should be used here? - Don't think they need to be exposed to the world?
     volumes:
     # TO DO: Determine if this needs to be bind mounted or a Docker volume?
       - ./config/connectors/fits-connector/karaf_route.xml:/path_on_fits-connector_container/karaf_route.xml
@@ -284,11 +279,10 @@ services:
       - isle-dc-internal
     depends_on:
       - activemq
-      - drupal
       - houdini
       - traefik
     ports:
-      - # TO DO: What ports should be used here?
+      - :8101 # TO DO: What ports should be used here? - Don't think they need to be exposed to the world?
     volumes:
     # TO DO: Determine if this needs to be bind mounted or a Docker volume?
       - ./config/connectors/houdini-connector/karaf_route.xml:/path_on_houdini-connector_container/karaf_route.xml
@@ -305,11 +299,10 @@ services:
       - isle-dc-internal
     depends_on:
       - activemq
-      - drupal
       - homarus
       - traefik
     ports:
-      - # TO DO: What ports should be used here?
+      - :8101 # TO DO: What ports should be used here? - Don't think they need to be exposed to the world?
     volumes:
     # TO DO: Determine if this needs to be bind mounted or a Docker volume?
       - ./config/connectors/homarus-connector/homarus_route.xml:/path_on_homarus-connector_container/homarus_route.xml
@@ -326,11 +319,10 @@ services:
       - isle-dc-internal
     depends_on:
       - activemq
-      - drupal
       - hypercube
       - traefik
     ports:
-      - # TO DO: What ports should be used here?
+      - :8101 # TO DO: What ports should be used here? - Don't think they need to be exposed to the world?
     volumes:
     # TO DO: Determine if this needs to be bind mounted or a Docker volume?
       - ./config/connectors/hypercube-connector/hypercube_route.xml:/path_on_hypercube-connector_container/hypercube_route.xml
@@ -347,11 +339,10 @@ services:
       - isle-dc-internal
     depends_on:
       - activemq
-      - drupal
       - milliner
       - traefik
     ports:
-      - # TO DO: What ports should be used here?
+      - :8101 # TO DO: What ports should be used here? - Don't think they need to be exposed to the world?
     volumes:
     # TO DO: Determine if this needs to be bind mounted or a Docker volume?
       - ./config/connectors/milliner-connector/milliner_route.xml:/path_on_milliner-connector_container/milliner_route.xml
@@ -359,10 +350,25 @@ services:
     restart: always
 
 
+### Microservices 
 
-
-
-
+  fits: 
+    image: harvardlts/fitsservlet_container:1.5.0
+    container_name: isle-dc-fits-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - activemq
+      - traefik
+    ports:
+      - :80 #TO DO: What ports should be used here? What is dashboard port?
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - ./config/service:/path_on_container
+    # TO DO: Determine what type of container handling is needed
+    restart: always
 
 
 networks:
