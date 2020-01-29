@@ -157,11 +157,11 @@ services:
       - 8081:8080
     volumes:
     # TO DO: Determine if further bindmounts / config files are needed to tune Fedora
-      - ./data/fedora/datastreamStore:/usr/local/fedora/data/datastreamStore
-      - ./data/fedora/objectStore:/usr/local/fedora/data/objectStore
-      - isle-dc-fedora-resourceIndex:/usr/local/fedora/data/resourceIndex
+      - ./data/fcrepo/datastreamStore:/usr/local/fedora/data/datastreamStore
+      - ./data/fcrepo/objectStore:/usr/local/fedora/data/objectStore
+      - isle-dc-fcrepo-resourceIndex:/usr/local/fedora/data/resourceIndex
     # TO DO: Should this be a bind mount / config instead?  
-      - isle-dc-fedora-XACML:/usr/local/fedora/data/fedora-xacml-policies
+      - isle-dc-fcrepo-XACML:/usr/local/fedora/data/fedora-xacml-policies
     # TO DO: Determine what type of container handling is needed
     restart: always
 
@@ -227,6 +227,27 @@ services:
     restart: always
 
 
+  matomo:
+    # https://github.com/matomo-org/docker 
+    # TO DO: Use Apache or Nginx?
+    image: matomo/matomo:3.13.1-apache
+    container_name: isle-dc-matomo-${CONTAINER_SHORT_ID}
+    env_file:
+      - .env
+    networks:
+      - isle-dc-internal
+    depends_on:
+      - fedora
+      - traefik
+    ports:
+      - ##:##
+    volumes:
+    # TO DO: Determine if this needs to be bind mounted or a Docker volume?
+      - ./config/matomo:/path_on_container
+      - isle-dc-matomo-data:/var/www/html
+    # TO DO: Determine what type of container handling is needed
+    restart: always
+
 
 networks:
   isle-dc-internal:
@@ -235,8 +256,9 @@ networks:
 
 volumes:
   isle-dc-activemq-data:
-  isle-dc-fedora-resourceIndex:
-  isle-dc-fedora-XACML:
+  isle-dc-fcrepo-resourceIndex:
+  isle-dc-fcrepo-XACML:
   isle-dc-mysql-data:
   # isle-dc-postgres-data # Added to prototype but not currently used
   isle-dc-solr-data:
+  isle-dc-matomo-data:
