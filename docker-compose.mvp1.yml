@@ -6,7 +6,6 @@ version: '3.7'
 
 services:
 
-
   traefik:
     # review https://hub.docker.com/_/traefik
     image: traefik:2.1.3
@@ -21,6 +20,8 @@ services:
       - "443:443"
       #- "8080:8080"
     volumes:
+      # TO DO: local deployment placeholder
+      - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
       # TO DO: Update according to new Traefik 2.0 conventions (values below based on 1.7.9, are incomplete & wrong due to missing "routing" labels)
       - /var/run/docker.sock:/var/run/docker.sock
       # SSL Choice 1: To use Let's Encrypt for SSL- uncomment ONLY the line below and then create an empty config/traefik/acme.json file
@@ -29,12 +30,14 @@ services:
       # - ./config/traefik/ssl-certs:/certs:ro
       # TO DO: Determine if toml files are still to be bound in Traefik 2.0
     # TO DO: Update according to new Traefik 2.0 conventions (values below based on 1.7.9, are incomplete & wrong due to missing "routing" labels)
-    labels:
-      - traefik.port=8080
+#    labels:
+#      - traefik.port=8080
       ## Enabling access to the Traefik interface is not safe in a production environment unless you have the ISLE system behind a firewall and only ports 80 and 443 exposed.
-      - traefik.enable=false
-      - traefik.frontend.rule=Host:admin.${BASE_DOMAIN};
+#      - traefik.enable=false
+#      - traefik.frontend.rule=Host:admin.${BASE_DOMAIN};
 
+    command:
+      - "--configFile=/etc/traefik/traefik.yml"
  
   drupal:
     # review https://github.com/docker-library/docs/blob/master/drupal/content.md
@@ -61,7 +64,11 @@ services:
       - ./data/drupal/themes:/var/www/html/themes
       # TO DO: Determine what type of container handling is needed
     restart: always
-
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.drupal.rule=Host(`${DOMAIN}`)"
+      # TO DO: setup web-secure
+      - "traefik.http.routers.drupal.entrypoints=web,web-secure"
  
 ## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and as an conditional either mysql or postgres
   mysql:
@@ -85,7 +92,7 @@ services:
 
 
   solr:
-    image: solr/solr:8.4.1
+    image: solr:8.4.1
     container_name: isle-dc-solr-${CONTAINER_SHORT_ID}
     environment:
       - JAVA_MAX_MEM=2048M

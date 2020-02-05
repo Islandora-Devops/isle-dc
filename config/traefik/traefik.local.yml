@@ -1,0 +1,42 @@
+log:
+  level: "DEBUG"
+  format: "json"
+  filePath: "/var/log/traefik/traefik.log"
+
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  bufferingSize: 100
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false 
+  # Todo: optional alternative to docker-compose labels
+  # file:
+    # directory: "/etc/traefik/traefik.d/"
+    #   watch: true
+
+## Static configuration
+entryPoints:
+  web:
+    address: ":80"
+
+  web-secure:
+    address: ":443"
+
+#  web-admin:
+#    address: ":8080"
+
+# ToDo: Choice #1 - add resolver in production: 
+# certificatesResolvers:
+#  leresolver:
+#    acme:
+#      email: "cwrc@ualberta.ca"
+#      storage: "/var/letsencrypt/acme.json"
+#      httpChallenge:
+#        entryPoint: "web"
+
+api:
+  insecure: false
+  #insecure: true
+  #dashboard: true
