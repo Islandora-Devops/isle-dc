@@ -1,11 +1,5 @@
 log:
-  level: "DEBUG"
-  format: "json"
-  filePath: "/var/log/traefik/traefik.log"
-
-accessLog:
-  filePath: "/var/log/traefik/access.log"
-  bufferingSize: 100
+  level: "ERROR"
 
 providers:
   docker:
@@ -38,5 +32,6 @@ entryPoints:
 
 api:
   insecure: false
-  #insecure: true
-  #dashboard: true
+  # uncomment to enable
+  # insecure: true
+  # dashboard: true
