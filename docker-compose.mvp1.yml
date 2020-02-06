@@ -62,9 +62,29 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.drupal.rule=Host(`${DOMAIN}`)"
-      # TO DO: setup web-secure
-      - "traefik.http.routers.drupal.entrypoints=web,web-secure"
+      # Generate route for secure http
+      - "traefik.http.routers.whoami-secured.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.whoami-secured.entrypoints=websecure"
+      - "traefik.http.routers.whoami-secured.tls=true"
+      # Generate route for insecure http; redirect via middleware.secure.header
+      - "traefik.http.routers.whoami.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      # Enforce a minimum version of the TLS protocol:  ToDo: TLS 1.2 or 1.3?
+      - "traefik.tls.options.default.minVersion=VersionTLS13"
+      # Connect route to TLS options ToDo: test
+      - "traefik.http.routers.whoami-secured.tls.options=default"
+      # Enforce a set of secure headers
+      # Define middleware named "secure" to enable security headers
+      - "traefik.http.middlewares.secure.headers.framedeny=true"
+      - "traefik.http.middlewares.secure.headers.sslredirect=true"
+      - "traefik.http.middlewares.secure.headers.forceSTSHeader=true"
+      - "traefik.http.middlewares.secure.headers.browserXssFilter=true"
+      # Enable to prevent ssl redirect and STS Header enforcment
+      # ToDo: production disable to enfore redirect
+      - "traefik.http.middlewares.secure.headers.isDevelopment=true"
+      # Apply middleware "secure" to entrypoints
+      - "traefik.http.routers.whoami.middlewares=secure"
+      - "traefik.http.routers.whoami-secured.middlewares=secure"
  
 ## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and as an conditional either mysql or postgres
   mysql:
