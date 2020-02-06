@@ -20,24 +20,20 @@ services:
       - "443:443"
       #- "8080:8080"
     volumes:
-      # TO DO: local deployment placeholder
-      - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
       # TO DO: Update according to new Traefik 2.0 conventions (values below based on 1.7.9, are incomplete & wrong due to missing "routing" labels)
       - /var/run/docker.sock:/var/run/docker.sock
       # SSL Choice 1: To use Let's Encrypt for SSL- uncomment ONLY the line below and then create an empty config/traefik/acme.json file
       # - ./config/traefik/acme.json:/acme.json
       # SSL Choice 2: To use commercial SSLs - uncomment ONLY the line below. Add your SSL certs (.cert, .pem, .key) files to config/traefik/ssl-certs
       # - ./config/traefik/ssl-certs:/certs:ro
-      # TO DO: Determine if toml files are still to be bound in Traefik 2.0
-    # TO DO: Update according to new Traefik 2.0 conventions (values below based on 1.7.9, are incomplete & wrong due to missing "routing" labels)
-#    labels:
-#      - traefik.port=8080
-      ## Enabling access to the Traefik interface is not safe in a production environment unless you have the ISLE system behind a firewall and only ports 80 and 443 exposed.
-#      - traefik.enable=false
-#      - traefik.frontend.rule=Host:admin.${BASE_DOMAIN};
+  
+      # Use Environment vaiables to pass in Traefik config not supplied 
+      # by providers
+      # Alternative to a static configureation /etc/traefik/traefik.yml"
+      # Pass in config via flags or environment variables
+      # https://docs.traefik.io/getting-started/configuration-overview
+      # Obsolete - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
 
-    command:
-      - "--configFile=/etc/traefik/traefik.yml"
  
   drupal:
     # review https://github.com/docker-library/docs/blob/master/drupal/content.md
