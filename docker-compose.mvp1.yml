@@ -26,8 +26,8 @@ services:
       # - ./config/traefik/acme.json:/acme.json
       # SSL Choice 2: To use commercial SSLs - uncomment ONLY the line below. Add your SSL certs (.cert, .pem, .key) files to config/traefik/ssl-certs
       # - ./config/traefik/ssl-certs:/certs:ro
-  
-      # Use Environment vaiables to pass in Traefik config not supplied 
+
+      # Use Environment vaiables to pass in Traefik config; no traefik.yml required
       # by providers
       # Alternative to a static configureation /etc/traefik/traefik.yml"
       # Pass in config via flags or environment variables
