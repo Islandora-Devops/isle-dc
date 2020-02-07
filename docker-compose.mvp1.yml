@@ -79,6 +79,12 @@ services:
       - "traefik.http.middlewares.secure.headers.sslredirect=true"
       - "traefik.http.middlewares.secure.headers.forceSTSHeader=true"
       - "traefik.http.middlewares.secure.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.secure.headers.STSSeconds=31536000"
+      - "traefik.http.middlewares.secure.headers.STSIncludeSubdomains=true"
+      - "traefik.http.middlewares.secure.headers.STSPreload=true"
+      - "traefik.http.middlewares.secure.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.secure.headers.referrerPolicy=origin-when-cross-origin"
+      - "traefik.http.middlewares.secure.headers.featurePolicy=camera 'none'; microphone 'none'; payment 'none'; speaker 'none'; usb 'none'; vibrate 'none'; "
       # Enable to prevent ssl redirect and STS Header enforcment
       # ToDo: production disable to enfore redirect
       - "traefik.http.middlewares.secure.headers.isDevelopment=true"
