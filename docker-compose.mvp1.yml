@@ -26,14 +26,13 @@ services:
       # - ./config/traefik/acme.json:/acme.json
       # SSL Choice 2: To use commercial SSLs - uncomment ONLY the line below. Add your SSL certs (.cert, .pem, .key) files to config/traefik/ssl-certs
       # - ./config/traefik/ssl-certs:/certs:ro
-  
-      # Use Environment vaiables to pass in Traefik config not supplied 
+
+      # Use Environment vaiables to pass in Traefik config; no traefik.yml required
       # by providers
       # Alternative to a static configureation /etc/traefik/traefik.yml"
       # Pass in config via flags or environment variables
       # https://docs.traefik.io/getting-started/configuration-overview
       # Obsolete - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
-
  
   drupal:
     # review https://github.com/docker-library/docs/blob/master/drupal/content.md
@@ -62,9 +61,26 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
+      # Generate route for secure http
+      - "traefik.http.routers.drupal-secured.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.drupal-secured.entrypoints=websecure"
+      - "traefik.http.routers.drupal-secured.tls=true"
+      # Generate route for insecure http; redirect via middleware.secure.header
       - "traefik.http.routers.drupal.rule=Host(`${DOMAIN}`)"
-      # TO DO: setup web-secure
-      - "traefik.http.routers.drupal.entrypoints=web,web-secure"
+      - "traefik.http.routers.drupal.entrypoints=web"
+      # Enforce a set of secure headers
+      # Define middleware named "secure" to enable security headers
+      - "traefik.http.middlewares.secure.headers.sslredirect=true"
+      - "traefik.http.middlewares.secure.headers.forceSTSHeader=true"
+      - "traefik.http.middlewares.secure.headers.STSSeconds=31536000"
+      - "traefik.http.middlewares.secure.headers.STSIncludeSubdomains=true"
+      - "traefik.http.middlewares.secure.headers.STSPreload=true"
+      # Enable to prevent ssl redirect and STS Header enforcment
+      # ToDo: production disable to enfore redirect
+      - "traefik.http.middlewares.secure.headers.isDevelopment=true"
+      # Apply middleware "secure" to entrypoints
+      - "traefik.http.routers.drupal.middlewares=secure"
+      - "traefik.http.routers.drupal-secured.middlewares=secure"
  
 ## TO DO: Break this section out into another Docker-compose for extension https://docs.docker.com/compose/extends/ and as an conditional either mysql or postgres
   mysql:
