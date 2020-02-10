@@ -99,7 +99,7 @@ services:
     ## TO DO: How to allow for slow query log setup?
     ## Customization: Allows for additional tuning of MySQL.
     ## From ISLE 7 work: keeping MySQL in a Docker volume avoids a slew of issues from bind-mounting
-      - ./config/mysql/ISLE.cnf:/etc/mysql/mysql.conf.d/isle-mysql.cnf
+      - ./config/mysql/isle-mysql.cnf:/etc/mysql/mysql.conf.d/isle-mysql.cnf
       - isle-dc-mysql-data:/var/lib/mysql
 
 
