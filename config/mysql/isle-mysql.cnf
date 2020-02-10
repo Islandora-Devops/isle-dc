@@ -1,5 +1,5 @@
 [mysqld]
-# * Fine Tuning
+# Fine Tuning
 key_buffer_size			= 16M
 sort_buffer_size		= 4M
 read_buffer_size		= 1M
@@ -12,15 +12,15 @@ thread_cache_size       = 8
 max_connections         = 100
 table_open_cache        = 64
 
-# ** Logging and Replication
+# Logging and Replication
 expire_logs_days    = 10
 max_binlog_size     = 100M
 
-# ** Query Cache Configuration
+# Query Cache Configuration
 query_cache_limit		= 1M
 query_cache_size		= 16M
 
-# ** InnoDB
+# InnoDB
 innodb_thread_concurrency		= 10
 innodb_buffer_pool_size = 256M #128M
 innodb_flush_log_at_trx_commit = 1
