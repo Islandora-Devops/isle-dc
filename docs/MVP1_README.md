@@ -14,7 +14,6 @@ To test:
 * on linux, add `idcp.localdomain` to `/etc/hosts` as an alias for localhost
 * `lynx http://idcp.localdomain:80/`
 * if this works, one should see a Drupal 8.8.1 Installation tasks
-
-Where idcp.localdomain is the .env DOMAIN property
+  * Where `idcp.localdomain` is the .env DOMAIN property
 
 ---
