@@ -45,9 +45,11 @@ services:
     depends_on:
       - mysql
       - traefik
+      - assets
     ports:
       - 8080:80
     volumes:
+      - isle-dc-drupal-data:/mnt/assets
       # TO DO: Determine what is Drupal volume setup?
         # Disagreement re volumes in Drupal community https://github.com/docker-library/drupal/issues/3
         # Is it an idea to only mount sites data and rebuild image with Drupal code changes ?
@@ -93,6 +95,7 @@ services:
       - isle-dc-internal
     depends_on:
       - traefik
+      - assets
     ports:
       - "3306:3306"
     volumes:
@@ -115,12 +118,21 @@ services:
       - isle-dc-internal
     depends_on:
       - traefik  
+      - assets
     ports:
       - "8082:8080"
     volumes:
       - isle-dc-solr-data:/usr/local/solr
     # TO DO: Determine what type of container handling is needed
     restart: always
+
+  assets:
+    image: birkland/isle-assets:latest
+    build: ./build/assets
+    volumes:
+      - isle-dc-mysql-data:/assets/mysql
+      - isle-dc-solr-data:/assets/solr
+      - isle-dc-drupal-data:/assets/drupal
  
 
 networks:
@@ -129,6 +141,7 @@ networks:
 
 
 volumes:
+  isle-dc-drupal-data:
   isle-dc-mysql-data:
   # isle-dc-postgres-data # Added to prototype but not currently used
   isle-dc-solr-data:
