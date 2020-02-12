@@ -36,7 +36,8 @@ services:
  
   drupal:
     # review https://github.com/docker-library/docs/blob/master/drupal/content.md
-    image: drupal:8.8.1-apache
+    image: birkland/isle-drupal:latest
+    build: ./build/drupal
     container_name: isle-dc-drupal-${CONTAINER_SHORT_ID}
     env_file:
       - .env
@@ -50,15 +51,6 @@ services:
       - 8080:80
     volumes:
       - isle-dc-drupal-data:/mnt/assets
-      # TO DO: Determine what is Drupal volume setup?
-        # Disagreement re volumes in Drupal community https://github.com/docker-library/drupal/issues/3
-        # Is it an idea to only mount sites data and rebuild image with Drupal code changes ?
-        # Volumes setup should be reviewed https://hub.docker.com/_/drupal/
-      # TO DO: Determine what should be in config/drupal? .keep file is in place for now to allow empty dir to appear.  
-      - ./data/drupal/modules:/var/www/html/modules
-      - ./data/drupal/profiles:/var/www/html/profiles
-      - ./data/drupal/sites:/var/www/html/sites
-      - ./data/drupal/themes:/var/www/html/themes
       # TO DO: Determine what type of container handling is needed
     restart: always
     labels:
