@@ -8,10 +8,8 @@ FROM alpine:latest
 
 RUN apk --no-cache add docker-cli
 COPY --from=0 /assets/ /assets
-COPY entrypoint.sh /bin/
-COPY bootstrap.sh /bin/
+COPY *.sh /bin/
 
-RUN chmod 700 /bin/entrypoint.sh && \
-    chmod 700 /bin/bootstrap.sh
+RUN chmod 700 /bin/*.sh
 
 ENTRYPOINT [ "/bin/entrypoint.sh" ]
