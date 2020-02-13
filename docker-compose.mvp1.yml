@@ -36,7 +36,7 @@ services:
  
   drupal:
     # review https://github.com/docker-library/docs/blob/master/drupal/content.md
-    image: birkland/isle-drupal:latest
+    image: birkland/isle-drupal:8.8.2
     build: ./build/drupal
     container_name: isle-dc-drupal-${CONTAINER_SHORT_ID}
     env_file:
@@ -119,12 +119,18 @@ services:
     restart: always
 
   assets:
-    image: birkland/isle-assets:latest
+    image: birkland/isle-assets:0.1.0
     build: ./build/assets
+    env_file:
+      - .env
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./build/assets/data:/dump
       - isle-dc-mysql-data:/assets/mysql
       - isle-dc-solr-data:/assets/solr
       - isle-dc-drupal-data:/assets/drupal
+    networks:
+      - isle-dc-internal
  
 
 networks:
