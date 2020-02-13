@@ -121,6 +121,7 @@ services:
   assets:
     image: birkland/isle-assets:0.1.0
     build: ./build/assets
+    container_name: isle-dc-assets-${CONTAINER_SHORT_ID}
     env_file:
       - .env
     volumes:
