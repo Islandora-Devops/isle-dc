@@ -43,6 +43,8 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
   * Click Edit within the first line below (most likely red)
   * Change `Solr host` to `solr` and click save at bottom.
 
+## TO DO - Test if Solr is indexing? What is content / search setup aka block? (MVP 2?)
+
 ---
 
 ## Previous Instructions for docker-compose.yml
