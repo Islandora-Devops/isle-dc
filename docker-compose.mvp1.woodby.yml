@@ -89,8 +89,8 @@ services:
     networks:
       - isle-dc-internal    
     environment:
-      - SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
-      - SOLR_HEAP: 1024m
+      SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
+      SOLR_HEAP: 1024m
     volumes:
       - isle-dc-solr-data:/opt/solr/server/solr
     # TO DO: Determine what type of container handling is needed
