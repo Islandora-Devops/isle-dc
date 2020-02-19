@@ -35,7 +35,7 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
   * Enter the `Site email address, Username, password, email address, default country and default time zone` settings of your choice.
   * Click the blue `Save and continue` button
 
-* `chmod +x scripts/install-solr-drupal-modules.sh && scripts/./install-solr-drupal-modules.sh`
+* `chmod +x scripts/drupal/install-solr-drupal-modules.sh && scripts/drupal/./install-solr-drupal-modules.sh`
 
 * Navigate to `idcp.localhost:/admin/config/search/search-api`
   * Click Edit within the first line below (most likely red)
