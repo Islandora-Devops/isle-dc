@@ -37,6 +37,8 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 
 * `chmod +x scripts/drupal/install-solr-drupal-modules.sh && scripts/drupal/./install-solr-drupal-modules.sh`
 
+## TO DO - Make Drupal vset for this (What is Drupal 8 equivalent?)
+
 * Navigate to `idcp.localhost:/admin/config/search/search-api`
   * Click Edit within the first line below (most likely red)
   * Change `Solr host` to `solr` and click save at bottom.
