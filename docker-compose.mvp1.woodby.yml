@@ -31,8 +31,8 @@ services:
     ## Using for protoype database
     image: wodby/mariadb:$MARIADB_TAG
     container_name: isle-dc-mariadb-${PROJECT_SHORT_ID}
-    env_file:
-      - .env
+    networks:
+      - isle-dc-internal    
     stop_grace_period: 30s
     environment:
       MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
@@ -49,6 +49,8 @@ services:
   php:
     image: wodby/drupal-php:$PHP_TAG
     container_name: isle-dc-php-${PROJECT_SHORT_ID}
+    networks:
+      - isle-dc-internal    
     environment:
       # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S opensmtpd:25      
@@ -84,19 +86,13 @@ services:
   solr:
     image: wodby/solr:$SOLR_TAG
     container_name: isle-dc-solr-${PROJECT_SHORT_ID}
+    networks:
+      - isle-dc-internal    
     environment:
       - SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
       - SOLR_HEAP: 1024m
-    env_file:
-      - .env
-    networks:
-      - isle-dc-internal
-    depends_on:
-      - traefik  
-    ports:
-      - "8082:8080"
     volumes:
-      - isle-dc-solr-data:/usr/local/solr
+      - isle-dc-solr-data:/opt/solr/server/solr
     # TO DO: Determine what type of container handling is needed
     labels:
       - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"    
