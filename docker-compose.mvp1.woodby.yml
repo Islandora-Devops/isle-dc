@@ -10,7 +10,7 @@ services:
     image: wodby/apache:$APACHE_TAG
     container_name: "${PROJECT_NAME}_apache"
     networks:
-      - isle-dc-internal
+      - internal
     depends_on:
       - php
     environment:
@@ -32,7 +32,7 @@ services:
     image: wodby/mariadb:$MARIADB_TAG
     container_name: "${PROJECT_NAME}_mariadb"
     networks:
-      - isle-dc-internal   
+      - internal   
     stop_grace_period: 30s
     environment:
       MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
@@ -50,7 +50,7 @@ services:
     image: wodby/drupal-php:$PHP_TAG
     container_name: "${PROJECT_NAME}_php"
     networks:
-      - isle-dc-internal 
+      - internal 
     environment:
       # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S opensmtpd:25      
@@ -87,7 +87,7 @@ services:
     image: wodby/solr:$SOLR_TAG
     container_name: "${PROJECT_NAME}_solr"
     networks:
-      - isle-dc-internal    
+      - internal    
     environment:
       SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
       SOLR_HEAP: 1024m
@@ -104,8 +104,8 @@ services:
     container_name: "${PROJECT_NAME}_traefik"
     command: --api.insecure=true --providers.docker
     networks:
-      isle-dc-internal:
-      isle-dc-external:
+      internal:
+      external:
     ports:
       - '80:80'
       #- "443:443"
@@ -127,8 +127,8 @@ services:
 
 
 networks:
-  isle-dc-internal:
-  isle-dc-external:
+  internal:
+  external:
 
 
 volumes:
