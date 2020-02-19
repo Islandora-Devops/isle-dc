@@ -42,7 +42,7 @@ services:
     volumes:
     ## TO DO: How to allow for slow query log setup?
     ## TO DO: Customization: Allow for additional tuning of MySQL.
-      - isle-dc-mariadb-data:/var/lib/mysql
+      - mariadb-data:/var/lib/mysql
     # - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here. if needed e.g. fedora.
 
 
@@ -92,7 +92,7 @@ services:
       SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
       SOLR_HEAP: 1024m
     volumes:
-      - isle-dc-solr-data:/opt/solr/server/solr
+      - solr-data:/opt/solr/server/solr
     # TO DO: Determine what type of container handling is needed
     labels:
       - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"    
@@ -132,6 +132,6 @@ networks:
 
 
 volumes:
-  isle-dc-mariadb-data:
-  isle-dc-solr-data:
+  mariadb-data:
+  solr-data:
   # isle-dc-postgres-data # Added to prototype but not currently used    
