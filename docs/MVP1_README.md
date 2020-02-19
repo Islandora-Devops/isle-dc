@@ -15,7 +15,7 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 
 * `docker-compose -f docker-compose.mvp1.woodby.yml up -d`
 
-* `docker exec -it isle-dc-php-idcp bash -c "composer install"`
+* `docker exec -it isle_dc_proto_php bash -c "composer install"`
 
 * Access site at: http://idcp.localhost
 
