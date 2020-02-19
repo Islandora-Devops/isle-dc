@@ -5,7 +5,7 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 * `mkdir codebase` in this project root
   * _`.gitignored` currently_
 
-* `cp -Rv scripts/composer/drupal/* codebase/`
+* `cp -Rv scripts/drupal/* codebase/`
   * _this will be the composer.json & .lock files_
 
 * Add this to `/etc/hosts`
