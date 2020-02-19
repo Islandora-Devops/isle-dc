@@ -11,8 +11,6 @@ services:
     container_name: isle-dc-apache-${PROJECT_SHORT_ID}
     depends_on:
       - php
-      - traefik
-      - mysql
     environment:
       APACHE_LOG_LEVEL: debug
       APACHE_BACKEND_HOST: php
