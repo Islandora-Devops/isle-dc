@@ -27,29 +27,10 @@ services:
       - "traefik.http.routers.${PROJECT_NAME}_apache.rule=Host(`${PROJECT_BASE_URL}`)"
 
 
-  mysql:
-    ## Using for protoype database
-    image: mysql:5.7
-    container_name: isle-dc-mysql-${PROJECT_SHORT_ID}
-    env_file:
-      - .env
-    networks:
-      - isle-dc-internal
-    depends_on:
-      - traefik
-    ports:
-      - "3306:3306"
-    volumes:
-    ## TO DO: How to allow for slow query log setup?
-    ## Customization: Allows for additional tuning of MySQL.
-    ## From ISLE 7 work: keeping MySQL in a Docker volume avoids a slew of issues from bind-mounting
-      - ./config/mysql/isle-mysql.cnf:/etc/mysql/mysql.conf.d/isle-mysql.cnf
-      - isle-dc-mysql-data:/var/lib/mysql
-
   mariadb:
     ## Using for protoype database
     image: wodby/mariadb:$MARIADB_TAG
-    container_name: isle-dc-mysql-${PROJECT_SHORT_ID}
+    container_name: isle-dc-mariadb-${PROJECT_SHORT_ID}
     env_file:
       - .env
     stop_grace_period: 30s
@@ -60,13 +41,44 @@ services:
       MYSQL_PASSWORD: $DB_PASSWORD
     volumes:
     ## TO DO: How to allow for slow query log setup?
-    ## Customization: Allows for additional tuning of MySQL.
-    ## From ISLE 7 work: keeping MySQL in a Docker volume avoids a slew of issues from bind-mounting
-      - ./config/mysql/isle-mysql.cnf:/etc/mysql/mysql.conf.d/isle-mysql.cnf
-    # - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
+    ## TO DO: Customization: Allow for additional tuning of MySQL.
       - isle-dc-mariadb-data:/var/lib/mysql
+    # - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here. if needed e.g. fedora.
 
 
+  php:
+    image: wodby/drupal-php:$PHP_TAG
+    container_name: isle-dc-php-${PROJECT_SHORT_ID}
+    environment:
+      # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S opensmtpd:25      
+      DB_HOST: $DB_HOST
+      DB_PORT: $DB_PORT
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_NAME: $DB_NAME
+      DB_DRIVER: $DB_DRIVER
+      PHP_FPM_USER: wodby
+      PHP_FPM_GROUP: wodby
+      COLUMNS: 80 # Set 80 columns for docker exec -it.
+## Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
+#      PHP_XDEBUG: 1
+#      PHP_XDEBUG_DEFAULT_ENABLE: 1
+#      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
+#      PHP_IDE_CONFIG: serverName=my-ide
+#      PHP_XDEBUG_IDEKEY: "my-ide"
+#      PHP_XDEBUG_REMOTE_HOST: host.docker.internal # Docker 18.03+ Mac/Win
+#      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1 # Linux
+#      PHP_XDEBUG_REMOTE_HOST: 10.254.254.254 # macOS, Docker < 18.03
+#      PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
+#      PHP_XDEBUG_REMOTE_LOG: /tmp/php-xdebug.log
+    volumes:
+      - ./codebase:/var/www/html
+## For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
+#      - ./codebase:/var/www/html:cached # User-guided caching
+#      - docker-sync:/var/www/html # Docker-sync
+## For XHProf and Xdebug profiler traces
+#      - files:/mnt/files
 
 
   solr:
