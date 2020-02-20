@@ -12,6 +12,8 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 * Create a new Solr core called "islandora"
   * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
 
+**TO DO:** Fix in MVP2 the `improper schema.xml` complaint that is fixed in these steps http://idcp.localhost/modules/contrib/search_api_solr/INSTALL.md
+
 * Run the Drupal site installation script
   * `docker exec -it isle_dc_proto_php bash -c "sh /scripts/drupal/install-solr-drupal-modules.sh"`
   * This script will take at least 5-10 mins depending on the speed of your internet connection and/or local environment.
@@ -27,7 +29,9 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
   * `docker-compose -f docker-compose.mvp1.woodby.yml down -v`
   * `sudo rm -rf codebase`
 
-## TO DO - Test if Solr is indexing? What is content / search setup aka block? (MVP 2?)
+**TO DO** - Test if Solr is indexing? (MVP 2)
+**TO DO** - Sample items with metadata (MVP 2)
+**TO DO** - What is content / search setup aka block? (MVP 2)
 
 ### Database settings
 
