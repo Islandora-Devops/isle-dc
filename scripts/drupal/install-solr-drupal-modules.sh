@@ -54,6 +54,6 @@ echo "Disabling & removing Drupal module - search"
 drush pm-uninstall -y search
 
 echo "Set Solr server config"
-drush cset search_api.server.default_solr_server backend_config.connector_config.host solr
+drush cset -y search_api.server.default_solr_server backend_config.connector_config.host solr
 
 exit

@@ -10,8 +10,11 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 * `docker-compose -f docker-compose.mvp1.woodby.yml up -d`
 
 * `docker exec -it isle_dc_proto_php bash -c "sh /scripts/drupal/install-solr-drupal-modules.sh"`
+  * This script will take 8-16 mins depending on the speed of your internet connection and/or local environment.
 
 * Access site at: http://idcp.localhost
+
+* The directory `/var/www/html` is bind mounted in both the Apache and PHP services / containers to the local directory `isle-dc/codebase`. This directory is in the .gitignore file to ignore the contents of this data directory. 
 
 * To shut down the containers but persist data
   * `docker-compose -f docker-compose.mvp1.woodby.yml down`
