@@ -9,19 +9,23 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 
 * `docker-compose -f docker-compose.mvp1.woodby.yml up -d`
 
-* `docker exec -it isle_dc_proto_php bash -c "sh /scripts/drupal/install-solr-drupal-modules.sh"`
-  * This script will take 8-16 mins depending on the speed of your internet connection and/or local environment.
+* Create a new Solr core called "islandora"
+  * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
+
+* Run the Drupal site installation script
+  * `docker exec -it isle_dc_proto_php bash -c "sh /scripts/drupal/install-solr-drupal-modules.sh"`
+  * This script will take at least 5-10 mins depending on the speed of your internet connection and/or local environment.
 
 * Access site at: http://idcp.localhost
 
-* The directory `/var/www/html` is bind mounted in both the Apache and PHP services / containers to the local directory `isle-dc/codebase`. This directory is in the .gitignore file to ignore the contents of this data directory. 
+* The directory `/var/www/html` is bind mounted in both the Apache and PHP services / containers to the local directory `isle-dc/codebase`. This directory is in the .gitignore file to ignore the contents of this data directory.
 
 * To shut down the containers but persist data
   * `docker-compose -f docker-compose.mvp1.woodby.yml down`
 
 * To **destroy** containers and data
   * `docker-compose -f docker-compose.mvp1.woodby.yml down -v`
-  * `rm -rf codebase`
+  * `sudo rm -rf codebase`
 
 ## TO DO - Test if Solr is indexing? What is content / search setup aka block? (MVP 2?)
 
