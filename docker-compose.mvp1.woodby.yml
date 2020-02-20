@@ -50,7 +50,9 @@ services:
     image: wodby/drupal-php:$PHP_TAG
     container_name: "${PROJECT_NAME}_php"
     networks:
-      - internal 
+      - internal
+    env_file:
+      - php.env
     environment:
       # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S opensmtpd:25      

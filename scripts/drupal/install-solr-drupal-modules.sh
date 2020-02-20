@@ -5,9 +5,9 @@
 # git clone https://github.com/drupal/recommended-project.git
 
 echo "Copying composer files to /var/www/html"
-cp composer.json /var/www/html/
-cp composer.lock /var/www/html/
-chmod -v wodby:wodby /var/www/html/composer.*
+cp /scripts/drupal/composer.json /var/www/html/
+cp /scripts/drupal/composer.lock /var/www/html/
+chmod 755 /var/www/html/composer.*
 
 cd /var/www/html || exit
 
