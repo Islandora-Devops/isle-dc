@@ -1,31 +1,47 @@
 #!/bin/bash
 
-# Wodby Drupal install script
+# Drupal install script
 # composer.json and composer.lock file were from:
 # git clone https://github.com/drupal/recommended-project.git
-# Updates made to these files once configuring setup
 
-#echo "Installing Drupal site code"
-#docker exec -it isle_dc_proto_php bash -c "chmod u+w web/sites/default && composer install"
+echo "Copying composer files to /var/www/html"
+cp composer.json /var/www/html/
+cp composer.lock /var/www/html/
+
+cd /var/www/html || exit
+
+echo "composer install"
+composer install
+
+echo "composer update && installing Drupal console"
+chmod u+w web/sites/default
+composer update
+composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader
+
+echo "Installing Drupal site"
+drupal site:install $DRUPAL_INSTALL_TYPE  \
+--langcode=$DRUPAL_LANGUAGE  \
+--db-type=$DB_DRIVER  \
+--db-host=$DB_HOST  \
+--db-name=$DB_NAME  \
+--db-user=$DB_USER  \
+--db-pass=$DB_PASSWORD  \
+--db-port=$DB_PORT  \
+--site-name=$DRUPAL_SITE_NAME  \
+--site-mail=$DRUPAL_SITE_MAIL  \
+--account-name=$DRUPAL_USER  \
+--account-mail=$DRUPAL_USER_EMAIL  \
+--account-pass=$DRUPAL_USER_PASSWORD
 
 echo "Updating Composer and dependencies"
-docker exec -it isle_dc_proto_php bash -c "chmod u+w web/sites/default && composer update"
-
-echo "Enabling Drupal modules - search_api search_api_solr"
-docker exec -it isle_dc_proto_php bash -c "drush en -y search_api search_api_solr"
+chmod u+w web/sites/default
+composer update
 
 echo "Disabling & removing Drupal module - search"
-docker exec -it isle_dc_proto_php bash -c "drush pm-uninstall -y search"
+drupal module:uninstall -y search
+composer remove drupal/search
 
-echo "Enabling Drupal modules - search_api_solr_defaults search_api_solr_admin"
-docker exec -it isle_dc_proto_php bash -c "drush en -y search_api_solr_defaults search_api_solr_admin"
-
-echo "Updating Drupal console"
-docker exec -it isle_dc_proto_php bash -c "chmod u+w web/sites/default && composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader"
-
-echo "Updating Composer and dependencies"
-docker exec -it isle_dc_proto_php bash -c "chmod u+w web/sites/default && composer update"
-
-# echo "Import Solr config"
+echo "Set Solr server config"
+drupal settings:set -y search_api.server.default_solr_server backend_config.connector_config.host solr
 
 exit
