@@ -22,23 +22,31 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 
 ## TO DO - Test if Solr is indexing? What is content / search setup aka block? (MVP 2?)
 
-## Settings
+### Database settings
+
+Change settings in the `php.env` and/or `.env` files
 
 * MySQL root password: `root_pw`
-* Drupal 8 installation profile: `Standard`
-* Language: English `en`
-* Database type: `MySQL, MariaDB, Percona Server, or equivalnet`
 * Database name: `drupal`
 * Database user: `drupal_user`
 * Database user password: `drupal_user_pw`
 * Database host: `mariadb`
 * Database Port number: `3306`
 * Table name prefix: `left empty / blank`
+* Database type: `MySQL, MariaDB, Percona Server, or equivalent`
+
+### Drupal settings
+
+Change settings in the `php.env` and/or `.env` files
+
+* Site url: http://idcp.localhost
 * Drupal site name: `ISLE 8 Local`
-* Drupal site email address: `admin@example.com`
 * Drupal user: `islandora`
 * Drupal user password: `islandora`
+* Drupal site email address: `admin@example.com`
 * Drupal user email address: `islandora@example.com`
+* Drupal 8 installation profile: `Standard`
+* Drupal Language: English `en`
 * Drupal Locale: `US`
 
 ---

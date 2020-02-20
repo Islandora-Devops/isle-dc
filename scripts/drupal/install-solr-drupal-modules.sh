@@ -44,11 +44,16 @@ drupal site:install "$DRUPAL_INSTALL_TYPE"  \
 echo "Fixing perms on web/sites/default"
 chmod u+w web/sites/default
 
+echo "Enable Solr modules"
+drush en -y search_api search_api_solr
+
+echo "Enabling Drupal modules - search_api_solr_defaults search_api_solr_admin"
+drush en -y search_api_solr_defaults search_api_solr_admin
+
 echo "Disabling & removing Drupal module - search"
-drupal module:uninstall -y search
-composer remove drupal/search
+drush pm-uninstall -y search
 
 echo "Set Solr server config"
-drupal settings:set -y search_api.server.default_solr_server backend_config.connector_config.host solr
+drush cset search_api.server.default_solr_server backend_config.connector_config.host solr
 
 exit
