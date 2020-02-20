@@ -43,6 +43,12 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
   * Click Edit within the first line below (most likely red)
   * Change `Solr host` to `solr` and click save at bottom.
 
+* To shut down the containers but persist data
+  * `docker-compose -f docker-compose.mvp1.woodby.yml down`
+
+* To **destroy** containers and data
+  * `docker-compose -f docker-compose.mvp1.woodby.yml down -v`
+
 ## TO DO - Test if Solr is indexing? What is content / search setup aka block? (MVP 2?)
 
 ---
