@@ -7,6 +7,7 @@
 echo "Copying composer files to /var/www/html"
 cp composer.json /var/www/html/
 cp composer.lock /var/www/html/
+chmod -v wodby:wodby /var/www/html/composer.*
 
 cd /var/www/html || exit
 
