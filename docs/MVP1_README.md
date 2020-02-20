@@ -2,12 +2,6 @@
 
 Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 
-* `mkdir codebase` in this project root
-  * _`.gitignored` currently_
-
-* `cp -Rv scripts/drupal/* codebase/`
-  * _this will be the composer.json & .lock files_
-
 * Add this to `/etc/hosts`
   * `127.0.0.1 idcp.localhost`
 
@@ -15,41 +9,37 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 
 * `docker-compose -f docker-compose.mvp1.woodby.yml up -d`
 
-* `docker exec -it isle_dc_proto_php bash -c "composer install"`
+* `docker exec -it isle_dc_proto_php bash -c "sh /scripts/drupal/install-solr-drupal-modules.sh"`
 
 * Access site at: http://idcp.localhost
-
-* Follow instructions for Drupal 8 site setup
-  * Choose language, click blue `Save and continue`button
-  * Select `Standard` for the installation profile
-  * Database type: `MySQL, MariaDB, Percona Server, or equivalnet`
-    * Database name: `drupal`
-    * Database user: `drupal_user`
-    * Database user password: `drupal_user_pw`
-    * Advanced options > Host: `mariadb` (_change from localhost_)
-      * Port number: `3306`
-      * Table name prefix: `leave blank`
-    * Click the blue `Save and continue` button
-* Configure site:
-  * Site name: `ISLE 8 Local`
-  * Enter the `Site email address, Username, password, email address, default country and default time zone` settings of your choice.
-  * Click the blue `Save and continue` button
-
-* `chmod +x scripts/drupal/install-solr-drupal-modules.sh && scripts/drupal/./install-solr-drupal-modules.sh`
-
-## TO DO - Make Drupal vset for this (What is Drupal 8 equivalent?)
-
-* Navigate to `idcp.localhost:/admin/config/search/search-api`
-  * Click Edit within the first line below (most likely red)
-  * Change `Solr host` to `solr` and click save at bottom.
 
 * To shut down the containers but persist data
   * `docker-compose -f docker-compose.mvp1.woodby.yml down`
 
 * To **destroy** containers and data
   * `docker-compose -f docker-compose.mvp1.woodby.yml down -v`
+  * `rm -rf codebase`
 
 ## TO DO - Test if Solr is indexing? What is content / search setup aka block? (MVP 2?)
+
+## Settings
+
+* MySQL root password: `root_pw`
+* Drupal 8 installation profile: `Standard`
+* Language: English `en`
+* Database type: `MySQL, MariaDB, Percona Server, or equivalnet`
+* Database name: `drupal`
+* Database user: `drupal_user`
+* Database user password: `drupal_user_pw`
+* Database host: `mariadb`
+* Database Port number: `3306`
+* Table name prefix: `left empty / blank`
+* Drupal site name: `ISLE 8 Local`
+* Drupal site email address: `admin@example.com`
+* Drupal user: `islandora`
+* Drupal user password: `islandora`
+* Drupal user email address: `islandora@example.com`
+* Drupal Locale: `US`
 
 ---
 
