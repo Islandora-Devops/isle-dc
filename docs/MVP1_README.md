@@ -5,9 +5,9 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 * Add this to `/etc/hosts`
   * `127.0.0.1 idcp.localhost`
 
-* `docker-compose -f docker-compose.mvp1.woodby.yml pull`
+* `docker-compose pull`
 
-* `docker-compose -f docker-compose.mvp1.woodby.yml up -d`
+* `docker-compose up -d`
 
 * Create a new Solr core called "islandora"
   * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
@@ -23,10 +23,10 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 * The directory `/var/www/html` is bind mounted in both the Apache and PHP services / containers to the local directory `isle-dc/codebase`. This directory is in the .gitignore file to ignore the contents of this data directory.
 
 * To shut down the containers but persist data
-  * `docker-compose -f docker-compose.mvp1.woodby.yml down`
+  * `docker-compose down`
 
 * To **destroy** containers and data
-  * `docker-compose -f docker-compose.mvp1.woodby.yml down -v`
+  * `docker-compose down -v`
   * `sudo rm -rf codebase`
 
 **TO DO** - Test if Solr is indexing? (MVP 2)
@@ -77,7 +77,7 @@ First step: basic http port 80 Traefik route to the Drupal container
 To test:
 
 * clone repo
-* `docker-compose -f docker-compose.mvp1.woodby.yml pull`
+* `docker-compose pull`
 * `docker-compose -f docker-compose.mvp1.yml up -d`
 * on linux, add `idcp.localdomain` to `/etc/hosts` as an alias for localhost
 * `lynx http://idcp.localdomain:80/`
