@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [[ -n "${DEBUG}" ]]; then
+  set -x
+fi
+
+if [[ "${APP_ENV}" == "dev" && ! -f "${APP_DOCROOT}/index.php" ]]; then
+  cd ${APP_ROOT}
+  composer install --classmap-authoritative
+fi;
+
+# Ensure we are in the app web.
+cd ${APP_DOCROOT}
+
+# Determine if site already installed
+site_installed=$(${APP_ROOT}/vendor/bin/drush status bootstrap | grep -q Successful; echo "$?")
+
+if [[ -n "${site_installed}" && "${site_installed}" -eq 0 ]]; then
+  echo >&2
+  echo >&2 '[INFO] Site already installed'
+  echo >&2 '       You might need to run ../vendor/bin/drush config-import if'
+  echo >&2 '       the database configurations are out of sync.'
+  echo >&2
+else
+  site_install_options=(
+    --yes
+    --verbose
+    --account-name=${APP_ACCOUNT_NAME}
+    --account-mail=${APP_ACCOUNT_MAIL}
+    --account-pass=${APP_ACCOUNT_PASS}
+  )
+  if [[ "$(ls -A ${APP_ROOT}/config/sync)"  && -f ${APP_ROOT}/config/sync/core.extension.yml ]]; then
+    echo >&2
+    echo >&2 '[INFO] Installing site using existing configurations'
+    echo >&2 '[INFO] Switching to minimal profile to allow existing config to install.'
+    echo >&2 '       See https://www.drupal.org/node/2897299 for more information.'
+    echo >&2
+    sed -i 's/standard:/minimal:/g' ${APP_ROOT}/config/sync/core.extension.yml
+    sed -i 's/profile: standard/profile: minimal/g' ${APP_ROOT}/config/sync/core.extension.yml
+    site_install_options+=(
+        --existing-config
+        minimal
+      )
+  else
+    echo >&2
+    echo >&2 '[INFO] Installing site from scratch'
+    echo >&2
+    site_install_options+=(
+      --site-name=${APP_NAME}
+      --site-mail=${APP_ACCOUNT_MAIL}
+      standard
+    )
+  fi
+
+  if [[ -n "${DEBUG}" ]]; then
+    site_install_options+=( --debug )
+  fi
+
+  # Installing drupal
+  ${APP_ROOT}/vendor/bin/drush site:install "${site_install_options[@]}"
+fi
