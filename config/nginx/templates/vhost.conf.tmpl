@@ -1,0 +1,78 @@
+server {
+    listen       {{ getenv "NGINX_LISTEN_PORT" "80" }} default_server{{ if getenv "NGINX_HTTP2" }} http2{{ end }};
+    server_name  {{ getenv "NGINX_SERVER_NAME" "default" }};
+
+    root {{ getenv "NGINX_SERVER_ROOT" "/var/www/app/web" }};
+    index index.php index.html;
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log {{ getenv "NGINX_STATIC_ACCESS_LOG" "off" }};
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log {{ getenv "NGINX_STATIC_ACCESS_LOG" "off" }};
+    }
+
+    location ~ \..*/.*\.php$ {
+        return 403;
+    }
+
+    location ~ ^/sites/.*/private/ {
+        return 403;
+    }
+
+    # Block access to scripts in site files directory
+    location ~ ^/sites/[^/]+/files/.*\.php$ {
+        deny all;
+    }
+
+    # Allow "Well-Known URIs" as per RFC 5785
+    location ~* ^/.well-known/ {
+        allow all;
+    }
+
+    # Block access to "hidden" files and directories whose names begin with a
+    # period. This includes directories used by version control systems such
+    # as Subversion or Git to store control files.
+    location ~ (^|/)\. {
+        return 403;
+    }
+
+    location / {
+        try_files $uri /index.php?$query_string;
+    }
+
+    location @rewrite {
+        rewrite ^/(.*)$ /index.php?q=$1;
+    }
+
+    location ~ '\.php$|^/update.php' {
+      fastcgi_split_path_info ^(.+?\.php)(|/.*)$;
+      include fastcgi_params;
+      # Block httpoxy attacks. See https://httpoxy.org/.
+      fastcgi_param HTTP_PROXY "";
+      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+      fastcgi_param PATH_INFO $fastcgi_path_info;
+      fastcgi_param QUERY_STRING $query_string;
+      fastcgi_intercept_errors {{ getenv "NGINX_FASTCGI_INTERCEPT_ERRORS" "on" }};
+      fastcgi_pass unix:/var/run/php-fpm.sock;
+    }
+
+    # Fighting with Styles? This little gem is amazing.
+    location ~ ^/sites/.*/files/styles/ {
+        try_files $uri @rewrite;
+    }
+
+    # Handle private files through Drupal. Private file's path can come
+    # with a language prefix.
+    location ~ ^(/[a-z\-]+)?/system/files/ {
+        try_files $uri /index.php?$query_string;
+    }
+
+    location ~* ^(?:.+\.(?:htaccess|make|txt|engine|inc|info|install|module|profile|po|pot|sh|.*sql|test|theme|tpl(?:\.php)?|xtmpl)|code-style\.pl|/Entries.*|/Repository|/Root|/Tag|/Template)$ {
+        return 404;
+    }
+}

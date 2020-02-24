@@ -1,0 +1,26 @@
+{{ if getenv "PHP_XDEBUG" }}
+[xdebug]
+zend_extension = xdebug.so
+
+xdebug.coverage_enable = {{ getenv "PHP_XDEBUG_COVERAGE_ENABLE" "On" }}
+xdebug.default_enable = {{ getenv "PHP_XDEBUG_DEFAULT_ENABLE" "On" }}
+
+xdebug.remote_enable = {{ getenv "PHP_XDEBUG_REMOTE_ENABLE" "On" }}
+xdebug.remote_handler = {{ getenv "PHP_XDEBUG_REMOTE_HANDLER" "dbgp" }}
+xdebug.remote_connect_back = {{ getenv "PHP_XDEBUG_REMOTE_CONNECT_BACK" "On" }}
+xdebug.remote_host = {{ getenv "PHP_XDEBUG_REMOTE_HOST" "localhost" }}
+xdebug.remote_port = {{ getenv "PHP_XDEBUG_REMOTE_PORT" "9000" }}
+xdebug.remote_log = "{{ getenv "PHP_XDEBUG_REMOTE_LOG" "" }}"
+xdebug.remote_autostart = {{ getenv "PHP_XDEBUG_REMOTE_AUTOSTART" "On" }}
+
+xdebug.profiler_enable = {{ getenv "PHP_XDEBUG_PROFILER_ENABLE" "Off" }}
+xdebug.profiler_enable_trigger = {{ getenv "PHP_XDEBUG_PROFILER_ENABLE_TRIGGER" "On" }}
+xdebug.profiler_enable_trigger_value = "{{ getenv "PHP_XDEBUG_PROFILER_ENABLE_TRIGGER_VALUE" "XDEBUG_PROFILE" }}"
+xdebug.profiler_output_dir = {{ getenv "FILES_DIR" }}/xdebug/profiler
+xdebug.profiler_output_name = {{ getenv "PHP_XDEBUG_PROFILER_OUTPUT_NAME" "cachegrind.out.%p" }}
+
+xdebug.idekey = {{ getenv "PHP_XDEBUG_IDEKEY" "PHPSTORM"}}
+
+xdebug.max_nesting_level = {{ getenv "PHP_XDEBUG_MAX_NESTING_LEVEL" "256" }}
+
+{{ end }}

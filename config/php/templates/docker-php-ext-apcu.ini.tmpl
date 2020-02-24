@@ -1,0 +1,4 @@
+[apcu]
+extension=apcu.so
+apc.shm_size = {{ getenv "PHP_APCU_SHM_SIZE" "128M" }}
+apc.enable_cli = {{ getenv "PHP_APCU_ENABLE_CLI" "Off" }}
