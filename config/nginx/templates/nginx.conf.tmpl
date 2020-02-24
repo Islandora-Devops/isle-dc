@@ -1,0 +1,44 @@
+user                            {{ getenv "NGINX_USER" "www-data" }};
+
+worker_processes                {{ getenv "NGINX_WORKER_PROCESSES" "auto" }};
+error_log                       /var/log/nginx/error.log warn;
+pid                             /var/run/nginx.pid;
+
+events {
+    worker_connections          {{ getenv "NGINX_WORKER_CONNECTIONS" "1024" }};
+    multi_accept                {{ getenv "NGINX_MULTI_ACCEPT" "on" }};
+}
+
+http {
+    include                     /etc/nginx/mime.types;
+    default_type                application/octet-stream;
+
+    proxy_temp_path        /tmp/proxy_temp;
+    client_body_temp_path  /tmp/client_temp;
+    fastcgi_temp_path      /tmp/fastcgi_temp;
+    uwsgi_temp_path        /tmp/uwsgi_temp;
+    scgi_temp_path         /tmp/scgi_temp;
+
+    server_names_hash_bucket_size {{ getenv "NGINX_SERVER_NAMES_HASH_BUCKET_SIZE" "64" }};
+
+    client_max_body_size        {{ getenv "NGINX_CLIENT_MAX_BODY_SIZE" "64m" }};
+    log_format                  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                                      '$status $body_bytes_sent "$http_referer" '
+                                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log                  /var/log/nginx/access.log  main;
+
+    sendfile                    {{ getenv "NGINX_SENDFILE" "on" }};
+    tcp_nopush                  {{ getenv "NGINX_TCP_NOPUSH" "on" }};
+    tcp_nodelay                 {{ getenv "NGINX_TCP_NODELAY" "on" }};
+    types_hash_max_size         {{ getenv "NGINX_TYPES_HASH_MAX_SIZE" "2048" }};
+
+    keepalive_timeout           {{ getenv "NGINX_KEEPALIVE_TIMEOUT" "75s" }};
+    keepalive_requests          {{ getenv "NGINX_KEEPALIVE_REQUESTS" "100" }};
+
+    server_tokens               {{ getenv "NGINX_SERVER_TOKENS" "off" }};
+
+    gzip                        {{ getenv "NGINX_GZIP" "on" }};
+
+    include /etc/nginx/conf.d/*.conf;
+}
