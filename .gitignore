@@ -69,5 +69,9 @@ site
 config/proxy/acme.json
 
 #===================
+# Drupal and Mariadb files persistant storage
+*_files
+
+#===================
 ## Wodby proto specific
 codebase

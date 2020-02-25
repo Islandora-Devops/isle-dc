@@ -1,5 +1,5 @@
 ARG build_environment=prod
-ARG code_dir=./code
+ARG code_dir=./codebase
 ARG base_image_tag=latest
 ARG composer_version=1.9.3
 ARG templates_dir=./config
@@ -68,12 +68,14 @@ ARG app_runner_user_id=1000
 ARG app_runner_group=drupal
 ARG app_runner_group_id=1000
 ARG app_bin_dir=./scripts/app_bin
+ARG NGINX_LISTEN_PORT=8080
+ARG NGINX_SERVER_ROOT
 
 ENV PATH=${PATH}:${APP_ROOT}/vendor/bin \
   PHP_EXPOSE_PHP=Off \
   PHP_FPM_USER=${app_runner_user} \
   PHP_FPM_GROUP=${app_runner_group} \
-  NGINX_LISTEN_PORT=8080 \
+  NGINX_LISTEN_PORT=${NGINX_LISTEN_PORT} \
   DEFAULT_USER=${app_runner_user} \
   APP_NAME=drupal \
   AUTO_INSTALL=${auto_install:-false} \
