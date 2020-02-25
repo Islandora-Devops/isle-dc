@@ -59,8 +59,8 @@ services:
       DB_HOST: "mariadb"
       DB_PORT: ${DB_PORT:-3306}
       DB_DRIVER: ${DB_DRIVER:-mysql}
-      DRUSH_OPTIONS_URI: ${DRUSH_OPTIONS_URI}
-      NGINX_LISTEN_PORT: 8080
+      DRUSH_OPTIONS_URI: ${PROJECT_BASE_URL:-islandora.localhost}
+      NGINX_LISTEN_PORT: "8080"
     volumes:
       # set delegated mode here on docker for mac for faster disk I/O
       - ./codebase:${APP_ROOT:-/var/www/app}:delegated
@@ -96,7 +96,7 @@ services:
     image: traefik:2.1.3
     command: --api.insecure=true --providers.docker
     ports:
-      - '80:80'
+      - '8000:80'
       #- "443:443"
       #- "8080:8080"
     volumes:
@@ -126,6 +126,6 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./mariadb_files
+      device: ${PWD}/mariadb_files
   # solr-data:
   # isle-dc-postgres-data # Added to prototype but not currently used
