@@ -25,7 +25,6 @@ services:
       target: dev
       args:
         - code_dir=./codebase
-        - auto_install=true
         - templates_dir=./config
         - app_bin_dir=./scripts/app_bin
         - base_image_tag=latest
@@ -59,8 +58,9 @@ services:
       DB_HOST: "mariadb"
       DB_PORT: ${DB_PORT:-3306}
       DB_DRIVER: ${DB_DRIVER:-mysql}
-      DRUSH_OPTIONS_URI: ${PROJECT_BASE_URL:-islandora.localhost}
+      DRUSH_OPTIONS_URI: ${DRUPAL_LOCAL_URL:-islandora.localhost}
       NGINX_LISTEN_PORT: "8080"
+      AUTO_INSTALL: "true"
     volumes:
       # set delegated mode here on docker for mac for faster disk I/O
       - ./codebase:${APP_ROOT:-/var/www/app}:delegated
@@ -74,7 +74,7 @@ services:
       - ${APP_DOCROOT:-/var/www/app/web}/profiles/contrib
       - ${APP_DOCROOT:-/var/www/app/web}/libraries
     labels:
-      - "traefik.http.routers.${APP_NAME:-islandora}.rule=Host(`${PROJECT_BASE_URL:-islandora.localhost}`)"
+      - "traefik.http.routers.${APP_NAME:-islandora}.rule=Host(`${DRUPAL_LOCAL_URL:-islandora.localhost}`)"
       - "traefik.http.services.${APP_NAME:-islandora}.loadbalancer.server.port=8080"
 
   # solr:
