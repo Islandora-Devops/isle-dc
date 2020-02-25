@@ -3,7 +3,6 @@ ARG code_dir=./codebase
 ARG base_image_tag=latest
 ARG composer_version=1.9.3
 ARG templates_dir=./config
-ARG auto_install
 
 #
 # Stage 1: PHP Dependencies
@@ -61,7 +60,6 @@ RUN set -eux; \
 #
 FROM registry.gitlab.com/nikathone/drupal-docker-good-defaults/php-nginx:${base_image_tag} as base
 ARG code_dir
-ARG auto_intall
 ARG templates_dir
 ARG app_runner_user=drupal
 ARG app_runner_user_id=1000
@@ -78,7 +76,7 @@ ENV PATH=${PATH}:${APP_ROOT}/vendor/bin \
   NGINX_LISTEN_PORT=${NGINX_LISTEN_PORT} \
   DEFAULT_USER=${app_runner_user} \
   APP_NAME=drupal \
-  AUTO_INSTALL=${auto_install:-false} \
+  AUTO_INSTALL=${AUTO_INSTALL:-false} \
   APP_RUNNER_USER=${app_runner_user} \
   APP_RUNNER_USER_ID=${app_runner_user_id:-1000} \
   APP_RUNNER_GROUP=${app_runner_group} \
