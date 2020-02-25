@@ -3,7 +3,7 @@ ARG code_dir=./codebase
 ARG base_image_tag=latest
 ARG composer_version=1.9.3
 ARG templates_dir=./config
-ARG auto_install=false
+ARG auto_install
 
 #
 # Stage 1: PHP Dependencies
