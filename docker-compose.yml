@@ -60,7 +60,7 @@ services:
       DB_DRIVER: ${DB_DRIVER:-mysql}
       DRUSH_OPTIONS_URI: ${DRUPAL_LOCAL_URL:-islandora.localhost}
       NGINX_LISTEN_PORT: "8080"
-      AUTO_INSTALL: "true"
+      AUTO_INSTALL: "false"
     volumes:
       # set delegated mode here on docker for mac for faster disk I/O
       - ./codebase:${APP_ROOT:-/var/www/app}:delegated
