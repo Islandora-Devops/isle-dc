@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [[ -n "${DEBUG}" ]]; then
+  set -x
+fi
+
+# Adjust permission so that the regular user own the default home dir
+chown ${APP_RUNNER_USER}:${APP_RUNNER_GROUP} /home
+# Make sure that app runner user can add supervisord and php-fpm sockets into /var/run folder
+chown ${APP_RUNNER_USER}:${APP_RUNNER_GROUP} /var/run && chmod g+w /var/run
+
+if [[ "${DEFAULT_USER}" == "${APP_RUNNER_USER}" ]]; then
+  echo "[info] The \"user\" directive makes sense only if the master process runs with super-user privileges"
+  sed -i -e '/user/!b' -e '/'${NGINX_USER}'/!b' -e '/'${NGINX_USER}'/d' /etc/nginx/nginx.conf
+
+  # Make sure that every php-fpm conf file in /usr/local/etc/php-fpm.d/ doesn't have user or group directive enabled
+  for php_fpm_conf in /usr/local/etc/php-fpm.d/*.conf; do
+    sed -i 's/^user = /;&/' ${php_fpm_conf}
+    sed -i 's/^group = /;&/' ${php_fpm_conf}
+  done
+fi
+
+# Allow app runner user to write into nginx logs
+chown -R root:${APP_RUNNER_GROUP} /var/log/nginx
+chmod -R g+w /var/log/nginx
+
+# Override native user and use the "_www" one created in the image
+uid=$(stat -c %u /srv)
+gid=$(stat -c %g /srv)
+sed -i -r "s/${APP_RUNNER_USER}:x:\d+:\d+:/${APP_RUNNER_GROUP}:x:$uid:$gid:/g" /etc/passwd
+sed -i -r "s/${APP_RUNNER_GROUP}:x:\d+:/${APP_RUNNER_GROUP}:x:$gid:/g" /etc/group
