@@ -128,6 +128,18 @@ services:
       # https://docs.traefik.io/getting-started/configuration-overview
       # Obsolete - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
 
+  alpaca-connector:
+    container_name: "${PROJECT_NAME}_alpaca"
+    image: birkland/isle-alpaca@sha256:9fdf260df79b38fd240192ec618e4eec74cca2b6157b4e59f7d4792295cfe210
+    env_file: .env
+
+  activemq:
+    image: oapass/activemq:20200219
+    container_name: "${PROJECT_NAME}_activemq"
+    env_file: .env
+    ports:
+      - "8161:8161"  # To make mgmt console available for dev purposes.  use admin:admin to log in
+
 
 networks:
   internal:
