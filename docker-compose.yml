@@ -3,6 +3,7 @@ version: '3.7'
 ## ISLE 8 Draft Prototype
 ## Feb, 2020
 ## MVP 1 - Traefik, Solr, MySQL & Drupal (using Woodby images for Apache, Drupal and Solr)
+## MVP 2 - Microservices & Connectors (Houdini, Homarus, Hypercube, FITS, ActiveMQ and Cantaloupe)
 
 services:
 
@@ -100,6 +101,7 @@ services:
     labels:
       - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"    
 
+### MVP2 - Microservices - Start
 
   houdini:
     image: borndigital/isle-houdini:latest
@@ -121,6 +123,19 @@ services:
     #volumes:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"     
+
+
+  hypercube:
+    image: borndigital/isle-hypercube:latest
+    container_name: "${PROJECT_NAME}_hypercube"
+    networks:
+      - internal
+    # TO DO: Determine what type of container handling is needed
+    #volumes:
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
+
+### MVP2 - Microservices - End
 
 
   traefik:
