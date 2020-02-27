@@ -111,6 +111,18 @@ services:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)" 
 
+
+  homarus:
+    image: borndigital/isle-homarus:latest
+    container_name: "${PROJECT_NAME}_homarus"
+    networks:
+      - internal
+    # TO DO: Determine what type of container handling is needed
+    #volumes:
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"     
+
+
   traefik:
     # review https://hub.docker.com/_/traefik
     image: traefik:2.1.3
