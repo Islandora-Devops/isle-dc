@@ -104,7 +104,7 @@ services:
 ### MVP2 - Microservices - Start
 
   houdini:
-    image: borndigital/isle-houdini:latest
+    image: borndigital/isle-houdini:mvp2-alpha
     container_name: "${PROJECT_NAME}_houdini"
     networks:
       - internal
