@@ -28,7 +28,7 @@ file_env() {
   unset "$fileVar"
 }
 
-if [[ -f "${APP_DOCROOT}/sites/default/settings.${APP_NAME}.php" ]]; then
+if [[ -f "${APP_DOCROOT}/sites/default/settings.isle.php" ]]; then
   file_env "APP_NAME"
   file_env "APP_ACCOUNT_PASS"
   file_env "DB_NAME"
