@@ -61,11 +61,11 @@ services:
       DB_DRIVER: ${DB_DRIVER:-mysql}
       DRUSH_OPTIONS_URI: ${DRUPAL_LOCAL_URL:-islandora.localhost}
       NGINX_LISTEN_PORT: "8080"
-      AUTO_INSTALL: "false"
+      AUTO_INSTALL: "true"
     volumes:
       # set delegated mode here on docker for mac for faster disk I/O
       - ./codebase:${APP_ROOT:-/var/www/app}:delegated
-      - ./drupal_files:${FILES_DIR:-/mnt/files}
+      - ./data/drupal/files:${FILES_DIR:-/mnt/files}
       # Anonymous volumes as a workaround to prevent empty or non existent host
       # folders from accidentally getting mounted in container and overwrite the
       # composer build stage files.
@@ -251,7 +251,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${PWD}/mariadb_files
+      device: ${PWD}/data/drupal/database
   solr-data:
   activemq-data:
   # solr-data:
