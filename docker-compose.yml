@@ -115,7 +115,7 @@ services:
 
 
   homarus:
-    image: borndigital/isle-homarus:latest
+    image: borndigital/isle-homarus:mvp2-alpha
     container_name: "${PROJECT_NAME}_homarus"
     networks:
       - internal
@@ -126,7 +126,7 @@ services:
 
 
   hypercube:
-    image: borndigital/isle-hypercube:latest
+    image: borndigital/isle-hypercube:mvp2-alpha
     container_name: "${PROJECT_NAME}_hypercube"
     networks:
       - internal
