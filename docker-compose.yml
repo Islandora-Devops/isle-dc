@@ -91,7 +91,7 @@ services:
     image: wodby/solr:$SOLR_TAG
     container_name: "${PROJECT_NAME}_solr"
     networks:
-      - internal    
+      - internal
     environment:
       SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
       SOLR_HEAP: 1024m
@@ -100,6 +100,20 @@ services:
     # TO DO: Determine what type of container handling is needed, exposed ports etc?
     labels:
       - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"    
+
+
+  cantaloupe:
+    image: lyrasis/cantaloupe:latest # should this be 4.0-1 instead?
+    container_name: "${PROJECT_NAME}_cantaloupe"
+    networks:
+      - internal
+    env_file:
+      - cantaloupe.env
+    ports:
+      - "8182:8182"
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_cantaloupe.rule=Host(`cantaloupe.${PROJECT_BASE_URL}`)"
 
 ### MVP2 - Microservices - Start
 
