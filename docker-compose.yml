@@ -97,18 +97,20 @@ services:
       SOLR_HEAP: 1024m
     volumes:
       - solr-data:/opt/solr/server/solr
-    # TO DO: Determine what type of container handling is needed
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
     labels:
       - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"    
 
 ### MVP2 - Microservices - Start
+
+## TO DO: Determine where poppler-utils for generating PDFs is to be located?
 
   houdini:
     image: borndigital/isle-houdini:mvp2-alpha
     container_name: "${PROJECT_NAME}_houdini"
     networks:
       - internal
-    # TO DO: Determine what type of container handling is needed
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
     #volumes:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)" 
@@ -119,7 +121,7 @@ services:
     container_name: "${PROJECT_NAME}_homarus"
     networks:
       - internal
-    # TO DO: Determine what type of container handling is needed
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
     #volumes:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"     
@@ -130,10 +132,23 @@ services:
     container_name: "${PROJECT_NAME}_hypercube"
     networks:
       - internal
-    # TO DO: Determine what type of container handling is needed
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
     #volumes:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
+
+
+  fits:
+    image: harvardlts/fitsservlet_container:1.5.0
+    container_name: "${PROJECT_NAME}_fits"
+    networks:
+      - internal
+    #ports:
+    #  - '8085:8080'
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
+    #volumes:
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_fits.rule=Host(`fits.${PROJECT_BASE_URL}`)"
 
 ### MVP2 - Microservices - End
 
