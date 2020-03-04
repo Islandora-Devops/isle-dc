@@ -112,8 +112,9 @@ services:
     ports:
       - "8182:8182"
     # TO DO: Determine what type of container handling is needed, exposed ports etc?
-    volumes:
-      - ./config/cantaloupe/cantaloupe.properties:/cantaloupe/cantaloupe.properties
+    #volumes:
+    # (optional) bind-mount this file as a template for changes to the cantaloupe container. Currently the cantaloupe.env handles this.
+    #  - ./config/cantaloupe/cantaloupe.properties:/cantaloupe/cantaloupe.properties
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_cantaloupe.rule=Host(`cantaloupe.${PROJECT_BASE_URL}`)"
 
