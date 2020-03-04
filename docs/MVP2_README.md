@@ -62,7 +62,35 @@ Change settings in the `php.env` and/or `.env` files
 
 ---
 
-## Previous Instructions for docker-compose.yml
+# MVP 2 - Alpaca connectors and activemq
+
+* Aaron Birkland's https://github.com/Islandora-Devops/isle-dc/pull/7
+
+Adds a single Karaf instance containing all connectors, config to run them, and an activemq instance
+
+## To Test
+
+* `docker-compose up -d`
+  * This should pull in all images, if not do a `docker-compose pull` first
+* Go to http://localhost:8161, which is the ActiveMQ admin console.
+  * Click on "Manage ActiveMQ broker"
+  * Enter in username `admin`, pass `admin`
+* Click on the `queues` tab. You should see all the queues the connectors listen to.
+* Now, pick a service (maybe fits) and remember it.
+  * Shut everything down `docker-compose down -v`
+* Within the `.env` file, comment out the env vars for that service. This will disable it.
+* Start up again `docker-compose up -d`
+* Log into ActiveMQ.
+  * Look at the queues, and observe the one that corresponds to your service doesn't exist. 
+  * This proves you can shut them off at will
+
+There isn't much more to test, since services aren't connected.
+
+This PR just verifies that camel routes start successfully, connect to the messaging bus and eagerly await messages that never come.
+
+---
+
+## Previous Instructions for MVP 1 docker-compose.yml (_this might get pulled out soon_)
 
 * TO DO: Review again and/or port. Traefik labels may need changes.
 
