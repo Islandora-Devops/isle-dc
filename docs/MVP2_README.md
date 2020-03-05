@@ -15,7 +15,7 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 **TO DO:** Fix in MVP2 the `improper schema.xml` complaint that is fixed in these steps http://idcp.localhost/modules/contrib/search_api_solr/INSTALL.md
 
 * Run the Drupal site installation script
-  * `docker exec -it isle_dc_proto_php bash -c "sh /scripts/drupal/install-solr-drupal-modules.sh"`
+  * `docker exec -it isle_dc_proto_php bash -c "sh /scripts/islandora/install-islandora.sh"`
   * This script will take at least 5-10 mins depending on the speed of your internet connection and/or local environment.
 
 * Access site at: http://idcp.localhost

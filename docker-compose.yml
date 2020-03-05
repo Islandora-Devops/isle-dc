@@ -78,7 +78,7 @@ services:
 #      PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
 #      PHP_XDEBUG_REMOTE_LOG: /tmp/php-xdebug.log
     volumes:
-      - ./scripts/drupal:/scripts/drupal
+      - ./scripts:/scripts
       - ./codebase:/var/www/html
 ## For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
 #      - ./codebase:/var/www/html:cached # User-guided caching
