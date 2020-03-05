@@ -43,11 +43,33 @@ drupal site:install "$DRUPAL_INSTALL_TYPE"  \
 echo "Fixing perms on web/sites/default"
 chmod u+w web/sites/default
 
-echo "Enable Solr modules"
-drush en -y search_api search_api_solr
+echo "Enable Drupal & Solr modules"
+drush en -y rdf \
+  responsive_image \
+  devel \
+  syslog \
+  serialization \
+  basic_auth \
+  rest restui \
+  search_api \
+  search_api_solr \
+  search_api_solr_defaults \
+  search_api_solr_admin \
+  facets \
+  content_browser \
+  pdf \
+  admin_toolbar \
+  islandora_defaults \
+  controlled_access_terms_defaults \
+  islandora_breadcrumbs \
+  islandora_iiif \
+  islandora_oaipmh
 
-echo "Enabling Drupal modules - search_api_solr_defaults search_api_solr_admin"
-drush en -y search_api_solr_defaults search_api_solr_admin
+echo "Enable and set Carapace theme"
+drush -y theme:enable carapace
+drush -y config-set system.theme default carapace
+# After all of this, rebuild the cache.
+drush -y cr
 
 echo "Disabling & removing Drupal module - search"
 drush pm-uninstall -y search
