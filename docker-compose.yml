@@ -3,6 +3,7 @@ version: '3.7'
 ## ISLE 8 Draft Prototype
 ## Feb, 2020
 ## MVP 1 - Traefik, Solr, MySQL & Drupal (using Woodby images for Apache, Drupal and Solr)
+## MVP 2 - Microservices & Connectors (Houdini, Homarus, Hypercube, FITS, ActiveMQ and Cantaloupe)
 
 services:
 
@@ -77,7 +78,7 @@ services:
 #      PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
 #      PHP_XDEBUG_REMOTE_LOG: /tmp/php-xdebug.log
     volumes:
-      - ./scripts/drupal:/scripts/drupal
+      - ./scripts:/scripts
       - ./codebase:/var/www/html
 ## For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
 #      - ./codebase:/var/www/html:cached # User-guided caching
@@ -90,15 +91,83 @@ services:
     image: wodby/solr:$SOLR_TAG
     container_name: "${PROJECT_NAME}_solr"
     networks:
-      - internal    
+      - internal
     environment:
       SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
       SOLR_HEAP: 1024m
     volumes:
       - solr-data:/opt/solr/server/solr
-    # TO DO: Determine what type of container handling is needed
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
     labels:
       - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"    
+
+
+  cantaloupe:
+    image: lyrasis/cantaloupe:latest # should this be 4.0-1 instead?
+    container_name: "${PROJECT_NAME}_cantaloupe"
+    networks:
+      - internal
+    env_file:
+      - cantaloupe.env
+    ports:
+      - "8182:8182"
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
+    #volumes:
+    # (optional) bind-mount this file as a template for changes to the cantaloupe container. Currently the cantaloupe.env handles this.
+    #  - ./config/cantaloupe/cantaloupe.properties:/cantaloupe/cantaloupe.properties
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_cantaloupe.rule=Host(`cantaloupe.${PROJECT_BASE_URL}`)"
+
+### MVP2 - Microservices - Start
+
+## TO DO: Determine where poppler-utils for generating PDFs is to be located?
+
+  houdini:
+    image: borndigital/isle-houdini:mvp2-alpha
+    container_name: "${PROJECT_NAME}_houdini"
+    networks:
+      - internal
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
+    #volumes:
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)" 
+
+
+  homarus:
+    image: borndigital/isle-homarus:mvp2-alpha
+    container_name: "${PROJECT_NAME}_homarus"
+    networks:
+      - internal
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
+    #volumes:
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"     
+
+
+  hypercube:
+    image: borndigital/isle-hypercube:mvp2-alpha
+    container_name: "${PROJECT_NAME}_hypercube"
+    networks:
+      - internal
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
+    #volumes:
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
+
+
+  fits:
+    image: harvardlts/fitsservlet_container:1.5.0
+    container_name: "${PROJECT_NAME}_fits"
+    networks:
+      - internal
+    #ports:
+    #  - '8085:8080'
+    # TO DO: Determine what type of container handling is needed, exposed ports etc?
+    #volumes:
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_fits.rule=Host(`fits.${PROJECT_BASE_URL}`)"
+
+### MVP2 - Microservices - End
 
 
   traefik:
