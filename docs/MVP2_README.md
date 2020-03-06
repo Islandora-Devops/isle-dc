@@ -79,6 +79,16 @@ Change settings in the `php.env` and/or `.env` files
 * Drupal Language: English `en`
 * Drupal Locale: `US`
 
+### Ports / services / dashboards
+
+* ActiveMQ
+  * Port `8161`
+  * http://idcp.localhost:8161
+
+* Solr
+  * Port: **To do:** _expose port for admin access and document_
+  * http://idcp.localhost
+
 ### Followup To DOs
 
 **TO DO:** Fix in MVP2 the `improper schema.xml` complaint that is fixed in these steps http://idcp.localhost/modules/contrib/search_api_solr/INSTALL.md
