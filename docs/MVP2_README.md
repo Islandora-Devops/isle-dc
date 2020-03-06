@@ -1,18 +1,39 @@
-# USE updated March 2020 README for wodby ported MVP 2
+# MVP 2 - Install instructions
 
-Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
+## Notes
 
-* Add this to `/etc/hosts`
-  * `127.0.0.1 idcp.localhost`
+_As of March 2020_, ISLE 8 prototype using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 
-* `docker-compose pull`
+* The `composer.json` used to install is from the following source(s)
+  * _currently_ https://github.com/Born-Digital-US/drupal-project/tree/isle8-dev
+    * which is a fork of https://github.com/Islandora/drupal-project
+  * on the `isle8-dev` branch there is a new `composer.json` file which was the resulting file from running https://github.com/Islandora-Devops/islandora-playbook
+  * Ultimately https://github.com/Islandora/drupal-project will become the canonical source.
 
-* `docker-compose up -d`
+## Install instructions
+
+Launch a terminal and follow these steps below:
+
+* On your local, add the local domain/site to `/etc/hosts`
+  * `sudo nano /etc/hosts`
+  * add `127.0.0.1   idcp.localhost` as a seperate line underneath `127.0.0.1       localhost`
+  * save and exit the hosts file
+
+* Within the terminal, navigate to a directory of your choice that you can start working
+
+* Clone the ISLE 8 project (isle-dc)
+* `git clone https://github.com/Islandora-Devops/isle-dc.git`
+
+* `cd isle-dc`
+
+* Pull down Docker images
+  * `docker-compose pull`
+
+* Start up the Docker containers
+  * `docker-compose up -d`
 
 * Create a new Solr core called "islandora"
   * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
-
-**TO DO:** Fix in MVP2 the `improper schema.xml` complaint that is fixed in these steps http://idcp.localhost/modules/contrib/search_api_solr/INSTALL.md
 
 * Run the Drupal site installation script
   * `docker exec -it isle_dc_proto_php bash -c "sh /scripts/islandora/install-islandora.sh"`
@@ -25,13 +46,11 @@ Prototype for ISLE using only wodby images e.g. Drupal, PHP, Solr and Mariadb
 * To shut down the containers but persist data
   * `docker-compose down`
 
-* To **destroy** containers and data
+* To **destroy** containers and data including the Drupal site and all content. This is essential when re-testing or re-installing.
   * `docker-compose down -v`
   * `sudo rm -rf codebase`
 
-**TO DO** - Test if Solr is indexing? (MVP 2)
-**TO DO** - Sample items with metadata (MVP 2)
-**TO DO** - What is content / search setup aka block? (MVP 2)
+---
 
 ### Database settings
 
@@ -59,6 +78,13 @@ Change settings in the `php.env` and/or `.env` files
 * Drupal 8 installation profile: `Standard`
 * Drupal Language: English `en`
 * Drupal Locale: `US`
+
+### Followup To DOs
+
+**TO DO:** Fix in MVP2 the `improper schema.xml` complaint that is fixed in these steps http://idcp.localhost/modules/contrib/search_api_solr/INSTALL.md
+**TO DO** - Test if Solr is indexing? (MVP 2)
+**TO DO** - Sample items with metadata (MVP 2)
+**TO DO** - What is content / search setup aka block? (MVP 2)
 
 ---
 
