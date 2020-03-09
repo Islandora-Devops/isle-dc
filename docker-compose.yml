@@ -205,21 +205,24 @@ services:
       - internal
 
   activemq:
-    image: oapass/activemq:20200219
+    image: rmohr/activemq
     container_name: "${PROJECT_NAME}_activemq"
     env_file: .env
     ports:
-      - "8161:8161"  # To make mgmt console available for dev purposes.  use admin:admin to log in
+      - "8161:8161"    # To make mgmt console available for dev purposes.  use admin:admin to log in
+      - "61613:61613"  # STOMP port
     networks:
       - internal
+    volumes:
+      - activemq-data:/opt/activemq/data
 
 
 networks:
   internal:
   external:
 
-
 volumes:
   mariadb-data:
   solr-data:
+  activemq-data:
   # isle-dc-postgres-data # Added to prototype but not currently used    
