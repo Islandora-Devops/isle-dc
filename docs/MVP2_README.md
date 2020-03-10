@@ -26,11 +26,17 @@ Launch a terminal and follow these steps below:
 
 * `cd isle-dc`
 
+* Generate public/private key pair for JWTs (only has to be done once)
+  * `(cd scripts; ./generate_keys.sh)`
+
 * Pull down Docker images
   * `docker-compose pull`
 
 * Start up the Docker containers
   * `docker-compose up -d`
+
+* Generate public/private key pair for JWTs
+  * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
 
 * Create a new Solr core called "islandora"
   * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
