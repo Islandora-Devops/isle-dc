@@ -23,11 +23,11 @@ Currently there are blank `.keep` files in most of the `config/service` director
 
 ## Installation
 
-* `git clone git@github.com:Born-Digital-US/isle-dc.git`
+* For stable working use the `master` branch
+* For bleeding edge, potentially not working, use the `development` branch
 
-* `cd isle-dc`
+* use `docs/MVP2_README.md` for current installation steps.
 
-* `docker-compose up -d`
 
 ## Configuration
 
