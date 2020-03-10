@@ -139,6 +139,7 @@ services:
       - "8000:8000"    # To make mgmt console available for dev purposes.  use admin:admin to log in
     volumes:
       - ./jwt:/opt/jwt
+      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)" 
 
