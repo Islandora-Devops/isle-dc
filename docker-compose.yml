@@ -21,6 +21,7 @@ services:
       APACHE_DOCUMENT_ROOT: /var/www/html/web
     volumes:
       - ./codebase:/var/www/html
+      - ./jwt:/opt/jwt
 ## For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
 ##      - ./codebase:/var/www/html:cached # User-guided caching
 ##      - docker-sync:/var/www/html # Docker-sync
@@ -80,6 +81,8 @@ services:
     volumes:
       - ./scripts:/scripts
       - ./codebase:/var/www/html
+      - ./config/drupal:/opt/drupal_config
+      - ./jwt:/opt/jwt
 ## For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
 #      - ./codebase:/var/www/html:cached # User-guided caching
 #      - docker-sync:/var/www/html # Docker-sync
@@ -123,12 +126,14 @@ services:
 ## TO DO: Determine where poppler-utils for generating PDFs is to be located?
 
   houdini:
-    image: borndigital/isle-houdini:mvp2-alpha
+    build: /home/daniel/Code/Environments/isle-houdini
+    image: dannylamb/isle-houdini:mvp2-alpha
     container_name: "${PROJECT_NAME}_houdini"
     networks:
       - internal
     # TO DO: Determine what type of container handling is needed, exposed ports etc?
-    #volumes:
+    volumes:
+      - ./jwt:/opt/keys
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)" 
 
@@ -139,7 +144,8 @@ services:
     networks:
       - internal
     # TO DO: Determine what type of container handling is needed, exposed ports etc?
-    #volumes:
+    volumes:
+      - ./jwt:/opt/keys
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"     
 
@@ -150,7 +156,8 @@ services:
     networks:
       - internal
     # TO DO: Determine what type of container handling is needed, exposed ports etc?
-    #volumes:
+    volumes:
+      - ./jwt:/opt/keys
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
 
@@ -211,6 +218,7 @@ services:
     ports:
       - "8161:8161"    # To make mgmt console available for dev purposes.  use admin:admin to log in
       - "61613:61613"  # STOMP port
+      - "61616:61616"  # JMS port
     networks:
       - internal
     volumes:
