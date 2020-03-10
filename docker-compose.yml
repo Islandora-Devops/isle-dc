@@ -126,14 +126,19 @@ services:
 ## TO DO: Determine where poppler-utils for generating PDFs is to be located?
 
   houdini:
-    build: /home/daniel/Code/Environments/isle-houdini
+    build:
+      context: /home/daniel/Code/Environments/isle-houdini
+      args:
+        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
+        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
     image: dannylamb/isle-houdini:mvp2-alpha
     container_name: "${PROJECT_NAME}_houdini"
     networks:
       - internal
-    # TO DO: Determine what type of container handling is needed, exposed ports etc?
+    ports:
+      - "8000:8000"    # To make mgmt console available for dev purposes.  use admin:admin to log in
     volumes:
-      - ./jwt:/opt/keys
+      - ./jwt:/opt/jwt
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)" 
 
@@ -145,7 +150,7 @@ services:
       - internal
     # TO DO: Determine what type of container handling is needed, exposed ports etc?
     volumes:
-      - ./jwt:/opt/keys
+      - ./jwt:/opt/jwt
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"     
 
@@ -157,7 +162,7 @@ services:
       - internal
     # TO DO: Determine what type of container handling is needed, exposed ports etc?
     volumes:
-      - ./jwt:/opt/keys
+      - ./jwt:/opt/jwt
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
 
