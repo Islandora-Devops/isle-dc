@@ -26,11 +26,17 @@ Launch a terminal and follow these steps below:
 
 * `cd isle-dc`
 
+* Generate public/private key pair for JWTs (only has to be done once)
+  * `(cd scripts; ./generate_keys.sh)`
+
 * Pull down Docker images
   * `docker-compose pull`
 
 * Start up the Docker containers
   * `docker-compose up -d`
+
+* Generate public/private key pair for JWTs
+  * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
 
 * Create a new Solr core called "islandora"
   * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
@@ -40,6 +46,9 @@ Launch a terminal and follow these steps below:
   * This script will take at least 5-10 mins depending on the speed of your internet connection and/or local environment.
 
 * Access site at: http://idcp.localhost
+
+* Test Houdini with by running `identify` on the Islandora logo:
+  * `curl -H "Authorization: Bearer islandora" -H "Apix-Ldp-Resource: https://islandora.ca/sites/default/files/Islandora.png" idcp.localhost:8000/identify`
 
 * The directory `/var/www/html` is bind mounted in both the Apache and PHP services / containers to the local directory `isle-dc/codebase`. This directory is in the .gitignore file to ignore the contents of this data directory.
 

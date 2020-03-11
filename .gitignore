@@ -71,3 +71,4 @@ config/proxy/acme.json
 #===================
 ## Wodby proto specific
 codebase
+jwt
