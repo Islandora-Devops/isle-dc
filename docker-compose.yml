@@ -126,14 +126,17 @@ services:
 ## TO DO: Determine where poppler-utils for generating PDFs is to be located?
 
   houdini:
-    build:
-      context: https://github.com/Islandora-Devops/isle-houdini.git
-      args:
-        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
-        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
+    image: borndigital/isle-houdini:mvp2-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-houdini.git
+#      args:
+#        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
+#        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
     container_name: "${PROJECT_NAME}_houdini"
     networks:
       - internal
+    env_file:
+      - houdini.env
     ports:
       - "8000:8000"    # To make mgmt console available for dev purposes.  use admin:admin to log in
     volumes:
