@@ -127,11 +127,10 @@ services:
 
   houdini:
     build:
-      context: /home/daniel/Code/Environments/isle-houdini
+      context: https://github.com/Islandora-Devops/isle-houdini.git
       args:
         HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
         HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
-    image: dannylamb/isle-houdini:mvp2-alpha
     container_name: "${PROJECT_NAME}_houdini"
     networks:
       - internal

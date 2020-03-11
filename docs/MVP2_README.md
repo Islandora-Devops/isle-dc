@@ -47,6 +47,9 @@ Launch a terminal and follow these steps below:
 
 * Access site at: http://idcp.localhost
 
+* Test Houdini with by running `identify` on the Islandora logo:
+  * `curl -H "Authorization: Bearer islandora" -H "Apix-Ldp-Resource: https://islandora.ca/sites/default/files/Islandora.png" idcp.localhost:8000/identify`
+
 * The directory `/var/www/html` is bind mounted in both the Apache and PHP services / containers to the local directory `isle-dc/codebase`. This directory is in the .gitignore file to ignore the contents of this data directory.
 
 * To shut down the containers but persist data
