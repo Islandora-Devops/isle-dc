@@ -183,7 +183,6 @@ services:
     image: borndigital/isle-hypercube:mvp2-alpha
 #    build:
 #      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
-#      context: ../isle-crayfits
 #      args:
 #        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
     container_name: "${PROJECT_NAME}_crayfits"
