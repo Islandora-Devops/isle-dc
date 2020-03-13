@@ -126,12 +126,12 @@ services:
 ## TO DO: Determine where poppler-utils for generating PDFs is to be located?
 
   houdini:
-#    image: borndigital/isle-houdini:mvp2-alpha
-    build:
-      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
-      args:
-        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
-        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
+    image: borndigital/isle-houdini:mvp2-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
+#      args:
+#        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
+#        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
     container_name: "${PROJECT_NAME}_houdini"
     networks:
       - internal
@@ -145,12 +145,12 @@ services:
 
 
   homarus:
-#    image: borndigital/isle-homarus:mvp2-alpha
-    build:
-      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
-      args:
-        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
-        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
+    image: borndigital/isle-homarus:mvp2-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
+#      args:
+#        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
+#        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
     container_name: "${PROJECT_NAME}_homarus"
 #    ports:
 #      - "8001:8000"
@@ -162,12 +162,12 @@ services:
 
 
   hypercube:
-#    image: borndigital/isle-hypercube:mvp2-alpha
-    build:
-      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
-      args:
-        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
-        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
+    image: borndigital/isle-hypercube:mvp2-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
+#      args:
+#        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
+#        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
     container_name: "${PROJECT_NAME}_hypercube"
     networks:
       - internal
