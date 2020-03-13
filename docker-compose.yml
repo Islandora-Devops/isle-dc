@@ -180,7 +180,7 @@ services:
     #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
 
   crayfits:
-    image: borndigital/isle-hypercube:mvp2-alpha
+    image: borndigital/isle-crayfits:mvp2-alpha
 #    build:
 #      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
 #      args:
