@@ -126,12 +126,12 @@ services:
 ## TO DO: Determine where poppler-utils for generating PDFs is to be located?
 
   houdini:
-    image: borndigital/isle-houdini:mvp2-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
-#      args:
-#        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
-#        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
+#    image: borndigital/isle-houdini:mvp2-alpha
+    build:
+      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
+      args:
+        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
+        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
     container_name: "${PROJECT_NAME}_houdini"
     networks:
       - internal
@@ -145,12 +145,12 @@ services:
 
 
   homarus:
-    image: borndigital/isle-homarus:mvp2-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
-#      args:
-#        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
-#        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
+#    image: borndigital/isle-homarus:mvp2-alpha
+    build:
+      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
+      args:
+        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
+        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
     container_name: "${PROJECT_NAME}_homarus"
 #    ports:
 #      - "8001:8000"
@@ -162,12 +162,12 @@ services:
 
 
   hypercube:
-    image: borndigital/isle-hypercube:mvp2-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
-#      args:
-#        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
-#        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
+#    image: borndigital/isle-hypercube:mvp2-alpha
+    build:
+      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
+      args:
+        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
+        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
     container_name: "${PROJECT_NAME}_hypercube"
     networks:
       - internal
@@ -179,13 +179,30 @@ services:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
 
+  crayfits:
+    image: borndigital/isle-hypercube:mvp2-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
+#      context: ../isle-crayfits
+#      args:
+#        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
+    container_name: "${PROJECT_NAME}_crayfits"
+    networks:
+      - internal
+#    ports:
+#      - "8003:8000"
+    volumes:
+      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
+
   fits:
     image: harvardlts/fitsservlet_container:1.5.0
     container_name: "${PROJECT_NAME}_fits"
     networks:
       - internal
-    #ports:
-    #  - '8085:8080'
+#    ports:
+#      - '8085:8080'
     # TO DO: Determine what type of container handling is needed, exposed ports etc?
     #volumes:
     #labels:
