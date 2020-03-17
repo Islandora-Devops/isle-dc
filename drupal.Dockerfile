@@ -2,7 +2,6 @@ ARG build_environment=prod
 ARG code_dir=./codebase
 ARG base_image_tag=7.2.28-1.17.8-0ceedc1b
 ARG composer_version=1.9.3
-ARG templates_dir=./config
 
 #
 # Stage 1: PHP Dependencies
@@ -62,12 +61,10 @@ RUN set -eux; \
 #
 FROM registry.gitlab.com/nikathone/drupal-docker-good-defaults/php-nginx:${base_image_tag} as base
 ARG code_dir
-ARG templates_dir
 ARG app_runner_user=drupal
 ARG app_runner_user_id=1000
 ARG app_runner_group=drupal
 ARG app_runner_group_id=1000
-ARG app_bin_dir=./scripts/app_bin
 ARG NGINX_LISTEN_PORT=8080
 ARG NGINX_SERVER_ROOT
 
@@ -161,7 +158,6 @@ USER ${APP_RUNNER_USER}
 #
 FROM base AS dev
 ARG composer_version
-ARG templates_dir
 ARG PHP_XDEBUG
 ARG PHP_XDEBUG_DEFAULT_ENABLE
 ARG PHP_XDEBUG_REMOTE_CONNECT_BACK
