@@ -1,0 +1,14 @@
+.git
+.idea
+.gitlab
+.vscode
+.gitlab-ci.yml
+*/mysql
+/mysql
+*/files
+/files
+vendor/
+node_modules/
+*.sql
+*.tmp
+/data
