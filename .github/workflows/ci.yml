@@ -1,0 +1,20 @@
+---
+name: CI
+"on":
+  push:
+    branches:
+      - master
+      - development
+  pull_request:
+
+jobs:
+  test:
+    name: Test the main docker-compose.yml default usage.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Checking docker version
+        run: docker --version
