@@ -22,10 +22,11 @@ jobs:
       - name: Checking docker version.
         run: docker --version && docker-compose --version
 
-      - name: Configure and run docker-compose with make.
-        run: |
-          mv .github/docker-compose.override.yml docker-compose.override.yml
-          make
+      - name: Initialize the codebase.
+        run: ./scripts/drupal/init.sh --codebase islandora
+
+      - name: Run docker-compose up.
+        run: docker-compose -p islandora up --remove-orphans --detach
 
       - name: Wait for Drupal to install.
         run: |
