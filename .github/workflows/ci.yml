@@ -37,8 +37,6 @@ jobs:
           --tag $IMAGE_NAME_LATEST
           --target dev
           --build-arg code_dir=./codebase
-          --build-arg templates_dir=./config
-          --build-arg app_bin_dir=./scripts/app_bin
           --build-arg base_image_tag=7.2.28-1.17.8-0ceedc1b
           --build-arg build_environment=dev
           --build-arg NGINX_LISTEN_PORT=8080
