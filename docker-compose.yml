@@ -1,4 +1,4 @@
-version: '2.4'
+version: "2.4"
 
 ## ISLE 8 Draft Prototype
 ## Feb, 2020
@@ -28,7 +28,7 @@ services:
         - code_dir=./codebase
         - templates_dir=./config
         - app_bin_dir=./scripts/app_bin
-        - base_image_tag=latest
+        - base_image_tag=7.2.28-1.17.8-0ceedc1b
         - build_environment=dev
         # XDEBUG confd build time args - you can set it to 0 turn it off.
         - PHP_XDEBUG=${PHP_XDEBUG:-1}
@@ -60,6 +60,7 @@ services:
       DB_PORT: ${DB_PORT:-3306}
       DB_DRIVER: ${DB_DRIVER:-mysql}
       DRUSH_OPTIONS_URI: ${DRUPAL_LOCAL_URL:-islandora.localhost}
+      DRUPAL_HASH_SALT: ${DRUPAL_HASH_SALT:-tfvQNpDFG2CjY9WHGNgFqC3eoMjyg5pZdGMQ74zjmnIoe0bi8F3hUvBWnGFIAM3nnj2iWA}
       NGINX_LISTEN_PORT: "8080"
       AUTO_INSTALL: "true"
     volumes:
@@ -202,7 +203,7 @@ services:
     image: traefik:2.1.3
     command: --api.insecure=true --providers.docker
     ports:
-      - '8000:80'
+      - "8000:80"
       #- "443:443"
       #- "8080:8080"
     volumes:
@@ -212,7 +213,6 @@ services:
       # - ./config/traefik/acme.json:/acme.json
       # SSL Choice 2: To use commercial SSLs - uncomment ONLY the line below. Add your SSL certs (.cert, .pem, .key) files to config/traefik/ssl-certs
       # - ./config/traefik/ssl-certs:/certs:ro
-
       # Use Environment variables to pass in Traefik config; no traefik.yml required
       # by providers
       # Alternative to a static configureation /etc/traefik/traefik.yml"
