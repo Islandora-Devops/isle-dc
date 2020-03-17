@@ -4,7 +4,7 @@
 
 /**
  * @file
- * Islandora settings override for drupal 8.
+ * Isle settings override for drupal 8.
  */
 
  /**
@@ -39,4 +39,4 @@ if (empty($settings['hash_salt'])) {
 /**
  * Config directory setting.
  */
-$settings['config_sync_directory'] = '../config/sync';
+// $settings['config_sync_directory'] = '../config/sync';

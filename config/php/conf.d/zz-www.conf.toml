@@ -1,3 +1,0 @@
-[template]
-src = "zz-www.conf.tmpl"
-dest = "/usr/local/etc/php-fpm.d/zz-www.conf"

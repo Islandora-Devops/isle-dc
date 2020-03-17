@@ -1,3 +1,0 @@
-[template]
-src = "docker-php.ini.tmpl"
-dest = "/usr/local/etc/php/conf.d/docker-php.ini"
