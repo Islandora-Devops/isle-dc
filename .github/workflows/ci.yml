@@ -31,10 +31,7 @@ jobs:
       - name: Build app image
         run: >
           docker image build
-          --pull
-          --cache-from $IMAGE_NAME_LATEST
-          --tag $IMAGE_NAME_TAG
-          --tag $IMAGE_NAME_LATEST
+          --tag app-image-test:latest
           --target dev
           --build-arg code_dir=./codebase
           --build-arg base_image_tag=7.2.28-1.17.8-0ceedc1b
