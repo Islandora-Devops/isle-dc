@@ -13,8 +13,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
 
     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
       - name: Checking docker version
-        run: docker --version
+        run: docker --version && docker-compose --version
