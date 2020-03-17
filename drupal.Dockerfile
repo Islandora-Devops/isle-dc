@@ -36,6 +36,9 @@ RUN chmod 0600 /root/.ssh \
 WORKDIR /app
 
 COPY ${code_dir}/composer.json ${code_dir}/composer.lock ./
+# This only work when the codebase is islandora. It should probably be commented out if installing
+# the drupal/recommended-project.
+COPY ${code_dir}/scripts/composer/ScriptHandler.php ./scripts/composer/ScriptHandler.php
 
 RUN set -eux; \
   flags="${COMPOSER_INSTALL_FLAGS}"; \
