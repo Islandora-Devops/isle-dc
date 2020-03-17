@@ -123,15 +123,14 @@ function create_required_files() {
     fi
   fi
 
-  echo -e "\033[1m[INFO]\033[0m Setting up settings.isle.php to be included in settings.php"
-  echo " "
-
   # Insert settings.isle.php snippet into the settings.php file
   if [[ ! -f "${default_dir}/${settings_isle}" ]]; then
+    echo -e "\033[1m[INFO]\033[0m Setting up settings.isle.php to be included in settings.php"
+    echo " "
     if $is_darwin; then
       sed -i '' -e "/${insert_after}/r ${snippet}" ${settings}
     else
-      sed -i '' -e "/${insert_after}/r ${snippet}" ${settings}
+      sed -i -e "/${insert_after}/r ${snippet}" ${settings}
     fi
     cp "${config_dir}/${settings_isle}" "${default_dir}/${settings_isle}"
     echo "       settings.isle.php was successfully setup."
