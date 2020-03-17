@@ -1,6 +1,6 @@
 ARG build_environment=prod
 ARG code_dir=./codebase
-ARG base_image_tag=latest
+ARG base_image_tag=7.2.28-1.17.8-0ceedc1b
 ARG composer_version=1.9.3
 ARG templates_dir=./config
 
@@ -40,20 +40,19 @@ COPY ${code_dir}/composer.json ${code_dir}/composer.lock ./
 RUN set -eux; \
   flags="${COMPOSER_INSTALL_FLAGS}"; \
   if [ "$build_environment" == "prod" ]; then \
-    flags="${COMPOSER_INSTALL_FLAGS} --no-dev"; \
+  flags="${COMPOSER_INSTALL_FLAGS} --no-dev"; \
   fi; \
   composer install $flags \
   # make dummy directory just in case no drupal contrib related dependencies was created.
   && for dir in $DRUPAL_COMPOSER_DIRECTORIES; do \
-    if [ ! -d $dir ]; then \
-      mkdir -p $dir; \
-    fi; \
+  if [ ! -d $dir ]; then \
+  mkdir -p $dir; \
+  fi; \
   done;
 
 #
 # Stage 2: Any node related dependencies can be build here. e.g. compile scss to css
 #
-# Example coming soon
 
 #
 # Stage 3: The base app/drupal
@@ -82,42 +81,44 @@ ENV PATH=${PATH}:${APP_ROOT}/vendor/bin \
   APP_RUNNER_GROUP=${app_runner_group} \
   APP_RUNNER_GROUP_ID=${app_runner_group_id:-1000}
 
-# Copy custom excutable scripts
-COPY ${app_bin_dir} /usr/local/bin/
+RUN ls -all /confd_templates/; \
+  ls -all /drupal/; \
+  ls -all /drupal/confd/
 
-# Copy custom configuration files for PHP and NGINX
-COPY ${templates_dir}/php/conf.d /etc/confd/conf.d
-COPY ${templates_dir}/nginx/conf.d /etc/confd/conf.d
-COPY ${templates_dir}/php/templates /etc/confd/templates
-COPY ${templates_dir}/nginx/templates /etc/confd/templates
-
-# Make sure docker-webserver-entrypoint and other scripts are executable
-RUN chmod -R +x /usr/local/bin/; \
+# Copy custom configuration template files for PHP and NGINX
+RUN mkdir -p /etc/confd && cp -R /confd_templates/* /etc/confd/; \
+  # Copy custom excutable scripts for drupal including the default entrypoint.
+  mv /drupal/bin/* /usr/local/bin/; \
+  # Make sure docker-webserver-entrypoint and other scripts are executable
+  chmod -R +x /usr/local/bin/; \
   # apply custom configurations based on confd templates
   /usr/local/bin/confd -onetime -backend env \
   # clean the content of confd so that the app can add it's templates later in the process
-  && rm -rf /etc/confd/*
+  && rm -rf /etc/confd/* \
+  # Move the .env template file for the drupal app. We then run confd in the docker
+  # entrypoint to place it under <codebase>/.env.
+  && cp -R /drupal/confd/* /etc/confd/ && rm -rf /drupal/confd
 
 # Add and configure app runner user
 RUN set -xe; \
   # Delete existing user/group if uid/gid occupied.
   existing_group=$(getent group "${APP_RUNNER_GROUP_ID}" | cut -d: -f1); \
   if [ -n "${existing_group}" ]; then delgroup "${existing_group}"; fi; \
-    existing_user=$(getent passwd "${APP_RUNNER_USER_ID}" | cut -d: -f1); \
+  existing_user=$(getent passwd "${APP_RUNNER_USER_ID}" | cut -d: -f1); \
   if [ -n "${existing_user}" ]; then deluser "${existing_user}"; fi; \
   \
   # Ensure app runner user/group exists
-    addgroup --system --gid ${APP_RUNNER_GROUP_ID} ${APP_RUNNER_GROUP}; \
-    adduser --system --disabled-password --ingroup ${APP_RUNNER_GROUP} --shell /bin/bash --uid ${APP_RUNNER_USER_ID} ${APP_RUNNER_USER}; \
-    usermod --append --groups ${NGINX_USER_GROUP} ${APP_RUNNER_USER} \
+  addgroup --system --gid ${APP_RUNNER_GROUP_ID} ${APP_RUNNER_GROUP}; \
+  adduser --system --disabled-password --ingroup ${APP_RUNNER_GROUP} --shell /bin/bash --uid ${APP_RUNNER_USER_ID} ${APP_RUNNER_USER}; \
+  usermod --append --groups ${NGINX_USER_GROUP} ${APP_RUNNER_USER} \
   # Other app runner user related configurations. See bin/config_app_runner_user
   && config_app_runner_user \
   \
   # Make sure that files dir have proper permissions.
   && mkdir -p ${FILES_DIR}/public; \
-     mkdir -p ${FILES_DIR}/private; \
-     # Ensure the files dir is owned by nginx user
-     chown -R ${NGINX_USER}:${NGINX_USER_GROUP} ${FILES_DIR}
+  mkdir -p ${FILES_DIR}/private; \
+  # Ensure the files dir is owned by nginx user
+  chown -R ${NGINX_USER}:${NGINX_USER_GROUP} ${FILES_DIR}
 
 EXPOSE $NGINX_LISTEN_PORT
 ENTRYPOINT [ "docker-webserver-entrypoint" ]
@@ -137,10 +138,7 @@ COPY --from=composer-build --chown=${APP_RUNNER_USER}:${APP_RUNNER_GROUP} /app/w
 COPY --from=composer-build --chown=${APP_RUNNER_USER}:${APP_RUNNER_GROUP} /app/web/profiles/contrib ./web/profiles/contrib
 COPY --from=composer-build --chown=${APP_RUNNER_USER}:${APP_RUNNER_GROUP} /app/web/libraries ./web/libraries
 COPY --from=composer-build --chown=${APP_RUNNER_USER}:${APP_RUNNER_GROUP} /app/drush/contrib ./drush/contrib
-# If stage 2 available genrated front end css and css artifacts files can be copied
-
-# Copy custom configuration files for the app/drupal. We run confd in the docker entrypoint for this.
-COPY ${templates_dir}/drupal/confd /etc/confd
+# If stage 2 available and generated js and css artifacts files, they can also be copied inside this folder.
 
 #
 # Stage 4: The production setup
@@ -149,7 +147,9 @@ FROM base AS prod
 ENV APP_ENV=prod
 
 # Using the production php.ini
-RUN mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini
+RUN mv ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini; \
+  # Remove the confd templates altogether.
+  rm -rf /confd_templates
 
 USER ${APP_RUNNER_USER}
 
@@ -172,15 +172,16 @@ ENV APP_ENV=dev \
 RUN pecl install xdebug-2.7.1; \
   docker-php-ext-enable xdebug; \
   # Adding the dev php.ini
-  mv ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php.ini
-
-COPY ${templates_dir}/php/conf.d/docker-php-ext-xdebug.ini.toml /etc/confd/conf.d/docker-php-ext-xdebug.ini.toml
-COPY ${templates_dir}/php/templates/docker-php-ext-xdebug.ini.tmpl /etc/confd/templates/docker-php-ext-xdebug.ini.tmpl
-
-# Apply xdebug configurations
-RUN /usr/local/bin/confd -onetime -backend env \
-  # Delete xdebug configuration template files
-  && rm /etc/confd/conf.d/docker-php-ext-xdebug.ini.toml /etc/confd/templates/docker-php-ext-xdebug.ini.tmpl
+  mv ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php.ini; \
+  # Copy xdebug configurations templates.
+  cp /confd_templates/conf.d/docker-php-ext-xdebug.ini.toml /etc/confd/conf.d/docker-php-ext-xdebug.ini.toml; \
+  cp /confd_templates/templates/docker-php-ext-xdebug.ini.tmpl /etc/confd/templates/docker-php-ext-xdebug.ini.tmpl; \
+  # Apply xdebug configurations.
+  /usr/local/bin/confd -onetime -backend env \
+  # Delete xdebug configuration template files.
+  && rm /etc/confd/conf.d/docker-php-ext-xdebug.ini.toml /etc/confd/templates/docker-php-ext-xdebug.ini.tmpl \
+  # Remove the confd templates altogether.
+  && rm -rf /confd_templates
 
 # Copy composer binary from official Composer image. Notice we didn't need composer for prod stage.
 # @TODO try to use composer_version here
