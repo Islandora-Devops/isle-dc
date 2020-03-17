@@ -23,17 +23,35 @@ jobs:
         run: docker --version && docker-compose --version
 
       - name: Initialize the codebase.
-        run: ./scripts/drupal/init.sh --codebase islandora
-
-      - name: Run docker-compose up.
-        run: docker-compose -p islandora up --remove-orphans --detach
-
-      - name: Wait for Drupal to install.
         run: |
-          while ! docker container logs islandora_drupal_1 | grep "nginx entered RUNNING state"; do
-            sleep 1
-          done
+          mv .github/docker-compose.override.yml docker-compose.override.yml
+          mv .github/.dockerignore .dockerignore
+          ./scripts/drupal/init.sh --codebase islandora
 
-      - name: Test loading the home page.
+      - name: Build app image
         run: >
-          curl -s http://localhost | grep "<h1 class="title page-title">Welcome to islandora</h1>"
+          docker image build
+          --pull
+          --cache-from $IMAGE_NAME_LATEST
+          --tag $IMAGE_NAME_TAG
+          --tag $IMAGE_NAME_LATEST
+          --target dev
+          --build-arg code_dir=./codebase
+          --build-arg templates_dir=./config
+          --build-arg app_bin_dir=./scripts/app_bin
+          --build-arg base_image_tag=7.2.28-1.17.8-0ceedc1b
+          --build-arg build_environment=dev
+          --build-arg NGINX_LISTEN_PORT=8080
+          --build-arg NGINX_SERVER_ROOT=/var/www/app/web
+          --file drupal.Dockerfile
+          .
+      # - name: Run docker-compose up.
+      #   run: docker-compose -p islandora up --remove-orphans --detach
+      # - name: Wait for Drupal to install.
+      #   run: |
+      #     while ! docker container logs islandora_drupal_1 | grep "nginx entered RUNNING state"; do
+      #       sleep 1
+      #     done
+      # - name: Test loading the home page.
+      #   run: >
+      #     curl -s http://localhost | grep "<h1 class="title page-title">Welcome to islandora</h1>"
