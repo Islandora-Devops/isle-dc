@@ -83,9 +83,14 @@ function download_required_packages() {
     local version=${versions[$i]}
     # Only installing a package when it is not available in composer.json
     if [[ ! $(grep "${package}" composer.json) ]]; then
+      echo "       Requiring ${package}. Skipping."
       $composer require ${package}:${version} $composer_general_flags
+    else
+      echo "       ${package} was found in the composer.json. Skipping."
     fi
   done
+  echo " "
+  echo >&2
 
   # Flag that we shouldn't run composer install to initialize everything.
   composer_install_run="false"
