@@ -1,4 +1,12 @@
 version: "2.4"
 
+services:
+  drupal:
+    ports:
+      - "80:8080"
+  # Removing traefik functionality this way. https://github.com/docker/compose/issues/3729
+  traefik:
+    image: hello-world
+
 volumes:
   mariadb-data:

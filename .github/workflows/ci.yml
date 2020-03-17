@@ -16,8 +16,23 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - name: Check out code
+      - name: Check out code.
         uses: actions/checkout@v2
 
-      - name: Checking docker version
+      - name: Checking docker version.
         run: docker --version && docker-compose --version
+
+      - name: Configure and run docker-compose with make.
+        run: |
+          mv .github/docker-compose.override.yml docker-compose.override.yml
+          make
+
+      - name: Wait for Drupal to install.
+        run: |
+          while ! docker container logs islandora_drupal_1 | grep "nginx entered RUNNING state"; do
+            sleep 1
+          done
+
+      - name: Test loading the home page.
+        run: >
+          curl -s http://localhost | grep "<h1 class="title page-title">Welcome to islandora</h1>"
