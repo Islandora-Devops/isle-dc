@@ -38,8 +38,6 @@ down_rmi_local:
 		--volumes \
 		--remove-orphans
 
-# @todo we might chmod here since drupal set settings.php to readonly after
-# install
 drupal_clean:
 	chmod u+w codebase/web/sites/default && rm -rf codebase data/drupal
 
