@@ -162,7 +162,7 @@ done
 ###
 # Determine how we will be running composer.
 ###
-composer=$(command -v composer)
+composer=$(command -v composer || true)
 if [[ ! $composer ]]; then
   # We use the docker composer image to run composer related commands.
   echo >&2
