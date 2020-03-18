@@ -16,7 +16,7 @@ test:
     - mv .github/.dockerignore .dockerignore
     - ls -all scripts/drupal/
     - chmod +x scripts/drupal/init.sh
-    # - ./scripts/drupal/init.sh --codebase islandora
+    - scripts/drupal/init.sh --codebase islandora
     # - >
     #   docker image build
     #   --tag app-image-test:latest
