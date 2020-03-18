@@ -1,11 +1,14 @@
 variables:
-  DOCKER_VERSION: "19.03"
+  DOCKER_VERSION: "19.03.8"
 
 test:
   image: registry.gitlab.com/nikathone/image-utils/docker:$DOCKER_VERSION-compose
   stage: test
+  # variables:
+  #   DOCKER_DRIVER: overlay2
+  #   DOCKER_TLS_CERTDIR: "/certs"
   services:
-    - registry.gitlab.com/nikathone/image-utils/docker:$DOCKER_VERSION-dind
+    - docker:$DOCKER_VERSION-dind
   before_script:
     - docker --version && docker-compose --version
   script:
@@ -23,3 +26,7 @@ test:
       --build-arg NGINX_LISTEN_PORT=8080
       --build-arg NGINX_SERVER_ROOT=/var/www/app/web
       --file drupal.Dockerfile
+  only:
+    refs:
+      - master
+      - development
