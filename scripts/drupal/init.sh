@@ -170,7 +170,11 @@ if [[ ! $composer ]]; then
   echo " "
   echo >&2
   mkdir -p ~/.composer
-  composer="docker container run -it --rm -v ~/.composer:/tmp -v $PWD:/app composer:1.9.3"
+  if $is_darwin; then
+    composer="docker container run -it --rm -v ~/.composer:/tmp -v $PWD:/app composer:1.9.3"
+  else
+    composer="docker container run -t --rm -v ~/.composer:/tmp -v $PWD:/app composer:1.9.3"
+  fi
 fi
 
 ###
