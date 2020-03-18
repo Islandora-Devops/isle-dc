@@ -12,10 +12,9 @@ test:
   before_script:
     - docker --version && docker-compose --version
   script:
-    - |
-      mv .github/docker-compose.override.yml docker-compose.override.yml
-      mv .github/.dockerignore .dockerignore
-      ./scripts/drupal/init.sh --codebase islandora
+    - mv .github/docker-compose.override.yml docker-compose.override.yml
+    - mv .github/.dockerignore .dockerignore
+    - ./scripts/drupal/init.sh --codebase islandora
     - >
       docker image build
       --tag app-image-test:latest
