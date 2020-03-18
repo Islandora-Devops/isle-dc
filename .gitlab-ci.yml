@@ -14,9 +14,8 @@ test:
   script:
     - mv .github/docker-compose.override.yml docker-compose.override.yml
     - mv .github/.dockerignore .dockerignore
+    - ls -all scripts/drupal/
     - chmod +x scripts/drupal/init.sh
-    - echo "$(uname -s)"
-    - if [[ -f /etc/os-release ]]; then cat /etc/os-release; fi
     # - ./scripts/drupal/init.sh --codebase islandora
     # - >
     #   docker image build
@@ -28,6 +27,9 @@ test:
     #   --build-arg NGINX_LISTEN_PORT=8080
     #   --build-arg NGINX_SERVER_ROOT=/var/www/app/web
     #   --file drupal.Dockerfile
+  after_script:
+    - echo "$(uname -s)"
+    - if [[ -f /etc/os-release ]]; then cat /etc/os-release; fi
   only:
     refs:
       - master
