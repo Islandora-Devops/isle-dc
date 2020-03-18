@@ -15,6 +15,8 @@ test:
     - mv .github/docker-compose.override.yml docker-compose.override.yml
     - mv .github/.dockerignore .dockerignore
     - chmod +x scripts/drupal/init.sh
+    - echo "$(uname -s)"
+    - if [[ -f /etc/os-release ]]; then cat /etc/os-release; fi
     # - ./scripts/drupal/init.sh --codebase islandora
     # - >
     #   docker image build
