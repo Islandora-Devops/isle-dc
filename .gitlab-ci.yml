@@ -14,6 +14,7 @@ test:
   script:
     - mv .github/docker-compose.override.yml docker-compose.override.yml
     - mv .github/.dockerignore .dockerignore
+    - chmod +x scripts/drupal/init.sh
     # - ./scripts/drupal/init.sh --codebase islandora
     # - >
     #   docker image build
