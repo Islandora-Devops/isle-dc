@@ -77,25 +77,25 @@ services:
       - "traefik.http.routers.${APP_NAME:-islandora}.rule=Host(`${DRUPAL_LOCAL_URL:-islandora.localhost}`)"
       - "traefik.http.services.${APP_NAME:-islandora}.loadbalancer.server.port=8080"
 
-  # solr:
-  #   image: wodby/solr:$SOLR_TAG
-  #   container_name: "${PROJECT_NAME}_solr"
-  #   networks:
-  #     - internal
-  #   environment:
-  #     SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
-  #     SOLR_HEAP: 1024m
-  #   volumes:
-  #     - solr-data:/opt/solr/server/solr
-  #   # TO DO: Determine what type of container handling is needed
-  #   labels:
-  #     - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
+  solr:
+    image: wodby/solr:$SOLR_TAG
+    container_name: "${PROJECT_NAME}_solr"
+    # networks:
+    #   - internal
+    environment:
+      SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
+      SOLR_HEAP: 1024m
+    volumes:
+      - solr-data:/opt/solr/server/solr
+    # TO DO: Determine what type of container handling is needed
+    labels:
+      - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
 
   cantaloupe:
     image: lyrasis/cantaloupe:latest # should this be 4.0-1 instead?
     container_name: "${PROJECT_NAME}_cantaloupe"
-    networks:
-      - internal
+    # networks:
+    #   - internal
     env_file:
       - cantaloupe.env
     ports:
@@ -119,8 +119,8 @@ services:
 #        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
 #        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
     container_name: "${PROJECT_NAME}_houdini"
-    networks:
-      - internal
+    # networks:
+    #   - internal
 #    ports:
 #      - "8000:8000"
     volumes:
@@ -155,8 +155,8 @@ services:
 #        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
 #        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
     container_name: "${PROJECT_NAME}_hypercube"
-    networks:
-      - internal
+    # networks:
+    #   - internal
 #    ports:
 #      - "8002:8000"
     volumes:
@@ -172,8 +172,8 @@ services:
 #      args:
 #        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
     container_name: "${PROJECT_NAME}_crayfits"
-    networks:
-      - internal
+    # networks:
+    #   - internal
 #    ports:
 #      - "8003:8000"
     volumes:
@@ -184,8 +184,8 @@ services:
   fits:
     image: harvardlts/fitsservlet_container:1.5.0
     container_name: "${PROJECT_NAME}_fits"
-    networks:
-      - internal
+    # networks:
+    #   - internal
 #    ports:
 #      - '8085:8080'
     # TO DO: Determine what type of container handling is needed, exposed ports etc?
@@ -222,8 +222,8 @@ services:
     container_name: "${PROJECT_NAME}_alpaca"
     image: birkland/isle-alpaca@sha256:9fdf260df79b38fd240192ec618e4eec74cca2b6157b4e59f7d4792295cfe210
     env_file: .env
-    networks:
-      - internal
+    # networks:
+    #   - internal
 
   activemq:
     image: rmohr/activemq
@@ -231,8 +231,8 @@ services:
     env_file: .env
     ports:
       - "8161:8161"    # To make mgmt console available for dev purposes.  use admin:admin to log in
-    networks:
-      - internal
+    # networks:
+    #   - internal
     volumes:
       - activemq-data:/opt/activemq/data
 
@@ -252,5 +252,5 @@ volumes:
       device: ${PWD}/data/drupal/database
   solr-data:
   activemq-data:
-  # solr-data:
+  solr-data:
   # isle-dc-postgres-data # Added to prototype but not currently used
