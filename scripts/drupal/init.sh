@@ -40,7 +40,7 @@ function download_drupal() {
   fi
 
   if [[ "$codebase" == "islandora" ]]; then
-    local args="create-project islandora/drupal-project"
+    local args="create-project born-digital/drupal-project:dev-isle8-dev"
   fi
 
   echo -e "\033[1m[INFO]\033[0m Installing drupal using composer"
@@ -185,6 +185,15 @@ if [[ ! -f "$PWD/codebase/composer.json" ]]; then
   download_drupal $codebase
 else
   download_required_packages
+fi
+
+
+
+# load the config here
+if [[ "$codebase" == "islandora" ]]; then
+  if [[ ! "$(ls -A codebase/config/sync)"  && ! -f codebase/config/sync/core.extension.yml ]]; then
+    tar -xzf config/drupal/islandora-starter-config.tar.gz codebase/config/sync
+  fi
 fi
 
 ###

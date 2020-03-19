@@ -76,19 +76,19 @@ services:
       - "traefik.http.routers.${APP_NAME:-islandora}.rule=Host(`${DRUPAL_LOCAL_URL:-islandora.localhost}`)"
       - "traefik.http.services.${APP_NAME:-islandora}.loadbalancer.server.port=8080"
 
-  # solr:
-  #   image: wodby/solr:$SOLR_TAG
-  #   container_name: "${PROJECT_NAME}_solr"
-  #   networks:
-  #     - internal
-  #   environment:
-  #     SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
-  #     SOLR_HEAP: 1024m
-  #   volumes:
-  #     - solr-data:/opt/solr/server/solr
-  #   # TO DO: Determine what type of container handling is needed
-  #   labels:
-  #     - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
+  solr:
+    image: wodby/solr:$SOLR_TAG
+    container_name: "${PROJECT_NAME}_solr"
+    # networks:
+    #   - internal
+    environment:
+      SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
+      SOLR_HEAP: 1024m
+    volumes:
+      - solr-data:/opt/solr/server/solr
+    # TO DO: Determine what type of container handling is needed
+    labels:
+      - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
 
   traefik:
     # review https://hub.docker.com/_/traefik
@@ -125,5 +125,5 @@ volumes:
       type: none
       o: bind
       device: ${PWD}/data/drupal/database
-  # solr-data:
+  solr-data:
   # isle-dc-postgres-data # Added to prototype but not currently used

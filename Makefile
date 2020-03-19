@@ -6,13 +6,16 @@ docker_compose_project ?= islandora
 
 .PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean
 
-default: drupal_init up
+default: drupal_init solr_init up
 
 help:
 	./scripts/drupal/init.sh --help
 
 drupal_init:
 	./scripts/drupal/init.sh --codebase $(isle_codebase)
+
+solr_init:
+	./scripts/solr/create-core.sh
 
 up:
 	docker-compose -p $(docker_compose_project) up --remove-orphans --detach

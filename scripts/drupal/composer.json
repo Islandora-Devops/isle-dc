@@ -22,7 +22,7 @@
         "drupal/core-recommended": "8.8.1",
         "drupal/search_api": "^1.1",
         "drupal/search_api_solr": "^3",
-        "drupal/search_api_solr_defaults": "^3.9", 
+        "drupal/search_api_solr_defaults": "^3.9",
         "drupal/search_api_solr_admin": "^3.9"
     },
     "require-dev": {
