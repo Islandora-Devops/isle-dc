@@ -29,7 +29,8 @@ function help() {
 }
 
 function download_drupal() {
-  local args="create-project drupal/recommended-project:^8.8"
+  local args="create-project drupal-composer/drupal-project:8.x-dev"
+  # local args="create-project drupal/recommended-project:^8.8"
   local flags="--ignore-platform-reqs --no-interaction"
   local codebase="$1"
   local drush_require="require drush/drush $flags"
