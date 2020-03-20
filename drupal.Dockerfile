@@ -81,10 +81,6 @@ ENV PATH=${PATH}:${APP_ROOT}/vendor/bin \
   APP_RUNNER_GROUP=${app_runner_group} \
   APP_RUNNER_GROUP_ID=${app_runner_group_id:-1000}
 
-RUN ls -all /confd_templates/; \
-  ls -all /drupal/; \
-  ls -all /drupal/confd/
-
 # Copy custom configuration template files for PHP and NGINX
 RUN mkdir -p /etc/confd && cp -R /confd_templates/* /etc/confd/; \
   # Copy custom excutable scripts for drupal including the default entrypoint.
