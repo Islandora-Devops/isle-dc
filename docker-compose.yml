@@ -255,6 +255,28 @@ services:
     volumes:
       - activemq-data:/opt/activemq/data
 
+### MVP3 - Fcrepo
+
+  fcrepo:
+    image: borndigital/isle-fcrepo:mvp3-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-fcrepo.git#mvp3-dev
+#      args:
+#        ARG FCREPO_VERSION: ${FCREPO_VERSION:-5.1.0}
+#        ARG FCREPO_CONFIG_DIR: /opt/fcrepo/config
+#        ARG FCREPO_HOME: /opt/fcrepo/data
+    container_name: "${PROJECT_NAME}_fcrepo"
+    networks:
+      - internal
+#    ports:
+#      - "8005:8080"
+    volumes:
+      - ./data/fcrepo/data:/opt/fcrepo/data
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_fcrepo.rule=Host(`fcrepo.${PROJECT_BASE_URL}`)"   
+
+### MVP3 - Fcrepo - End
+
 
 networks:
   internal:
