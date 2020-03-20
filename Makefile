@@ -6,7 +6,7 @@ docker_compose_project ?= islandora
 
 .PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean
 
-default: drupal_init solr_init up
+default: drupal_init up solr_init
 
 help:
 	./scripts/drupal/init.sh --help
