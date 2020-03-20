@@ -27,9 +27,7 @@ function help() {
 function download_drupal() {
   local args="create-project drupal-composer/drupal-project:8.x-dev"
   # local args="create-project drupal/recommended-project:^8.8"
-  local flags="--ignore-platform-reqs --no-interaction"
   local codebase="$1"
-  local drush_require="require drush/drush $flags"
 
   if [[ ! $composer ]]; then
     fail "We could not download drupal. Ensure composer or docker is setup and installed properly on your local host."
