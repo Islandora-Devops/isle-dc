@@ -41,11 +41,14 @@ services:
       MYSQL_DATABASE: $DB_NAME
       MYSQL_USER: $DB_USER
       MYSQL_PASSWORD: $DB_PASSWORD
+      FCREPO_DB: fcrepo_db
     volumes:
     ## TO DO: How to allow for slow query log setup?
     ## TO DO: Customization: Allow for additional tuning of MySQL.
       - mariadb-data:/var/lib/mysql
-    # - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here. if needed e.g. fedora.
+      #- ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here. if needed e.g. fedora.
+      - ./scripts/fcrepo/sqlfiles:/docker-entrypoint-initdb.d
+      #command: bash -c "mysql -u root -p$MYSQL_ROOT_PASSWORD < /docker-entrypoint-initdb.d/fcrepo-db.sql"
 
 
   php:
@@ -272,8 +275,8 @@ services:
     container_name: "${PROJECT_NAME}_fcrepo"
     networks:
       - internal
-#    ports:
-#      - "8005:8080"
+    ports:
+      - "8006:8080"
     volumes:
       - ./data/fcrepo/data:/opt/fcrepo/data
     #labels:
