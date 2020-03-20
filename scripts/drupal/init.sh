@@ -4,7 +4,6 @@ set -e
 
 codebase="drupal"
 config_dir="$PWD/config/drupal"
-scripts_dir="$PWD/scripts/drupal"
 composer_install_run="true"
 current_folder="$PWD"
 composer_general_flags="--ignore-platform-reqs --no-interaction"
