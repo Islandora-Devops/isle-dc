@@ -2,9 +2,6 @@
 
 set -e
 
-# Print the number of arguments.
-# echo "$#"
-
 codebase="drupal"
 config_dir="$PWD/config/drupal"
 scripts_dir="$PWD/scripts/drupal"
