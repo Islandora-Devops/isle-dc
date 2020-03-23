@@ -185,7 +185,7 @@ fi
 
 # load the config here
 if [[ "$codebase" == "islandora" ]]; then
-  if [[ ! "$(ls -A codebase/config/sync)"  && ! -f codebase/config/sync/core.extension.yml ]]; then
+  if [[ ! -d codebase/config/sync  || ! -f codebase/config/sync/core.extension.yml ]]; then
     tar -xzf config/drupal/islandora-starter-config.tar.gz codebase/config/sync
   fi
 fi
