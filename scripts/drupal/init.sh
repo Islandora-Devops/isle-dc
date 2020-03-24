@@ -167,9 +167,9 @@ if [[ ! $composer ]]; then
   echo >&2
   mkdir -p "$HOME/.composer"
   if $is_darwin; then
-    composer="docker container run -it --rm -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3"
+    composer="docker container run -it --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3"
   else
-    composer="docker container run -t --rm -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3"
+    composer="docker container run -t --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3"
   fi
 fi
 
@@ -181,8 +181,6 @@ if [[ ! -f "$PWD/codebase/composer.json" ]]; then
 else
   download_required_packages
 fi
-
-
 
 # load the config here
 if [[ "$codebase" == "islandora" ]]; then
