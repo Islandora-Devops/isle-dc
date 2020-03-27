@@ -30,7 +30,7 @@
   <role rolename="fedoraAdmin"/>
 
   <!-- user manager can access only manager section -->
-  <user username="manager" password="isle8-manager" roles="manager-gui" />
+  <user username="manager" password="isle8-manager" roles="manager-gui,manager-status,manager-script,manager-jmx" />
 
   <!-- user admin can access manager and admin section both -->
   <user username="admin" password="isle8-admin" roles="admin-gui,admin-script,manager-gui,manager-status,manager-script,manager-jmx" />
