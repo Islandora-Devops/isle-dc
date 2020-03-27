@@ -279,6 +279,8 @@ services:
       - "8006:8080"
     volumes:
       - ./data/fcrepo/data:/opt/fcrepo/data
+      - ./syn-keys:/opt/keys
+     # - ./config/fcrepo/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_fcrepo.rule=Host(`fcrepo.${PROJECT_BASE_URL}`)"   
 
