@@ -25,16 +25,15 @@ function help() {
 }
 
 function download_drupal() {
-  local args="create-project drupal-composer/drupal-project:8.x-dev"
-  # local args="create-project drupal/recommended-project:^8.8"
+  local args="create-project born-digital/drupal-project:dev-isle8-dev"
   local codebase="$1"
 
   if [[ ! $composer ]]; then
     fail "We could not download drupal. Ensure composer or docker is setup and installed properly on your local host."
   fi
 
-  if [[ "$codebase" == "islandora" ]]; then
-    local args="create-project born-digital/drupal-project:dev-isle8-dev"
+  if [[ "$codebase" == "drupal" ]]; then
+    local args="create-project drupal-composer/drupal-project:8.x-dev"
   fi
 
   echo -e "\033[1m[INFO]\033[0m Installing drupal using composer"
@@ -43,6 +42,9 @@ function download_drupal() {
   echo "       Downloading the drupal codebase."
   echo >&2
   cd "$current_folder/"
+
+  # Delete codebase just in case a previous command failed to finish the installation.
+  [[ -d ./codebase ]] && rm -rf ./codebase
   $composer $args $composer_general_flags codebase
 
   download_required_packages
