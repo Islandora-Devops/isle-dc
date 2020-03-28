@@ -1,7 +1,0 @@
-
-/**
- * Load isle override configuration, if available.
- */
-if (file_exists($app_root . '/' . $site_path . '/settings.isle.php')) {
-  include $app_root . '/' . $site_path . '/settings.isle.php';
-}
