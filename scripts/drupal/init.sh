@@ -178,7 +178,7 @@ fi
 ###
 # Checking if the project code exists.
 ###
-if [[ ! -f "$PWD/codebase/composer.json" ]]; then
+if [[ ! -f "$current_folder/codebase/composer.json" ]]; then
   download_drupal $codebase
 else
   download_required_packages
@@ -186,7 +186,7 @@ fi
 
 # load the config here
 if [[ "$codebase" == "islandora" ]]; then
-  if [[ ! -d codebase/config/sync  || ! -f codebase/config/sync/core.extension.yml ]]; then
+  if [[ ! -f codebase/config/sync/core.extension.yml ]]; then
     tar -xzf config/drupal/islandora-starter-config.tar.gz codebase/config/sync
   fi
 fi
@@ -199,7 +199,7 @@ mkdir -p $PWD/data/drupal/files/public $PWD/data/drupal/files/private $PWD/data/
 ###
 # Running composer install just in case the user has an existing project.
 ###
-if [[ "$composer_install_run" == "true" ]]; then
+if [[ ! -f "$current_folder/codebase/vendor/autoload.php" ]]; then
   cd "$current_folder/codebase"
   $composer install $composer_flags
   cd ..
