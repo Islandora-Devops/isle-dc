@@ -96,40 +96,23 @@ function create_required_files() {
   local drupal_root="$current_folder/codebase/web"
   local default_dir="$drupal_root/sites/default"
   local settings="${default_dir}/settings.php"
-  local settings_default="${default_dir}/default.settings.php"
-  local settings_isle="settings.isle.php"
-  local insert_after="\$settings\[\'entity_update_backup\'\] \= TRUE\;"
-  local config_sync_pattern="\$settings\['config_sync_directory'] = '\/directory\/outside\/webroot'"
-  local snippet="${config_dir}/snippet.txt"
-
-  # Prepare the settings file for installation. In case the user has an existing
-  # one we skip overriding it.
-  if [[ ! -f "${settings}" && -f "${settings_default}" ]]; then
-    cp ${settings_default} ${settings}
-  fi
-
-  # Ensuring that settings.php is pointing to the proper config_sync_directory.
-  if [[ $(grep "^#.* ${config_sync_pattern}" ${settings} || true) ]]; then
-    local replace="\$settings\['config_sync_directory'] = '..\/config\/sync'"
-    if $is_darwin; then
-      sed -i '' -e "s/^#.* ${config_sync_pattern}/${replace}/" ${settings}
-    else
-      sed -i -e "s/^#.* ${config_sync_pattern}/${replace}/" ${settings}
-    fi
-  fi
+  local settings_project="settings.project.php"
 
   # Insert settings.isle.php snippet into the settings.php file
-  if [[ ! -f "${default_dir}/${settings_isle}" ]]; then
-    echo -e "\033[1m[INFO]\033[0m Setting up settings.isle.php to be included in settings.php"
+  if [[ ! -f "${default_dir}/${settings_project}" ]]; then
     echo " "
-    if $is_darwin; then
-      sed -i '' -e "/${insert_after}/r ${snippet}" ${settings}
-    else
-      sed -i -e "/${insert_after}/r ${snippet}" ${settings}
+    echo -e "\033[1m[INFO]\033[0m Adjusting settings.php to work with the Isle dc."
+    echo "       If there is any customization made to the current settings.php, they will need to be moved manually."
+
+    # Let make a backup of an existing settings.php if found
+    if [[ -f "${settings}" ]]; then
+      mv "${settings}" "${settings}.bak"
+      echo "       An existing settings.php was found and it was renamed to ${settings}.bak."
     fi
-    cp "${config_dir}/${settings_isle}" "${default_dir}/${settings_isle}"
-    echo "       settings.isle.php was successfully setup."
-    echo >&2
+    # Copying the settings with Isle customization in place.
+    cp "${config_dir}/settings.php" "${settings}"
+    cp "${config_dir}/${settings_project}" "${default_dir}/${settings_project}"
+    echo " "
   fi
 }
 
