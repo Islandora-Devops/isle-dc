@@ -4,7 +4,6 @@ set -e
 
 codebase="drupal"
 config_dir="$PWD/config/drupal"
-composer_install_run="true"
 current_folder="$PWD"
 composer_general_flags="--ignore-platform-reqs --no-interaction"
 OS=`uname -s`
@@ -90,8 +89,6 @@ function download_required_packages() {
   echo " "
   echo >&2
 
-  # Flag that we shouldn't run composer install to initialize everything.
-  composer_install_run="false"
   cd "$current_folder"
 }
 
@@ -185,10 +182,8 @@ else
 fi
 
 # load the config here
-if [[ "$codebase" == "islandora" ]]; then
-  if [[ ! -f codebase/config/sync/core.extension.yml ]]; then
-    tar -xzf config/drupal/islandora-starter-config.tar.gz codebase/config/sync
-  fi
+if [[ "$codebase" == "islandora" && ! -f codebase/config/sync/core.extension.yml ]]; then
+  tar -xzf config/drupal/islandora-starter-config.tar.gz codebase/config/sync
 fi
 
 ###
