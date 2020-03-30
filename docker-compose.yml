@@ -258,7 +258,7 @@ services:
     volumes:
       - activemq-data:/opt/activemq/data
 
-### MVP3 - Fcrepo
+### MVP3
 
   fcrepo:
     image: borndigital/isle-fcrepo:mvp3-alpha
@@ -284,7 +284,30 @@ services:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_fcrepo.rule=Host(`fcrepo.${PROJECT_BASE_URL}`)"   
 
-### MVP3 - Fcrepo - End
+
+  blazegraph:
+    image: lyrasis/blazegraph:2.1.5
+    environment:
+      - JAVA_MAX_MEM=4096M
+      - JAVA_MIN_MEM=1024M
+      # set uid / gid for container, not clear how to hookup to .env
+      - BLAZEGRAPH_UID=1000
+      - BLAZEGRAPH_GID=1000
+    container_name: "${PROJECT_NAME}_blazegraph"
+    networks:
+      - internal
+    ports:
+      - "8007:8080"
+    volumes:
+      # persist the bigdata.jnl file which can be large
+      - ./config/blazegraph/RWStore.properties:/RWStore.properties
+      - ./config/blazegraph/inference.nt:/inference.nt
+      - ./data/blazegraph/data:/var/lib/jetty/data
+      - ./scripts/blazegraph:/scripts
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_blazegraph.rule=Host(`blazegraph.${PROJECT_BASE_URL}`)"
+
+### MVP3
 
 
 networks:
