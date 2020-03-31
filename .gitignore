@@ -67,8 +67,6 @@ site
 *.retry
 .vscode
 config/proxy/acme.json
-
-#===================
-## Wodby proto specific
 codebase
 jwt
+syn-keys
