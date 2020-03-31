@@ -306,6 +306,25 @@ services:
     #  - "traefik.http.routers.${PROJECT_NAME}_blazegraph.rule=Host(`blazegraph.${PROJECT_BASE_URL}`)"
 
 
+  gemini:
+    image: borndigital/isle-gemini:mvp3-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-gemini.git#dev
+#      args:
+#        GEMINI_JWT_ADMIN_TOKEN: $GEMINI_JWT_ADMIN_TOKEN
+#        GEMINI_LOG_LEVEL: $GEMINI_LOG_LEVEL
+    container_name: "${PROJECT_NAME}_gemini"
+    networks:
+      - internal
+#    ports:
+#      - "8008:8000"
+    volumes:
+      - ./jwt:/opt/jwt
+      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_gemini.rule=Host(`gemini.${PROJECT_BASE_URL}`)"  
+
+
 ### MVP3
 
 
