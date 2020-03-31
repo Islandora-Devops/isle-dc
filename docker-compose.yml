@@ -342,6 +342,25 @@ services:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_milliner.rule=Host(`milliner.${PROJECT_BASE_URL}`)"  
 
+
+  recast:
+    image: borndigital/isle-recast:mvp3-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-recast.git#dev
+#      args:
+#        RECAST_JWT_ADMIN_TOKEN: $RECAST_JWT_ADMIN_TOKEN
+#        RECAST_LOG_LEVEL: $RECAST_LOG_LEVEL
+    container_name: "${PROJECT_NAME}_recast"
+    networks:
+      - internal
+#    ports:
+#      - "8009:8000"
+    volumes:
+      - ./jwt:/opt/jwt
+      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_recast.rule=Host(`recast.${PROJECT_BASE_URL}`)" 
+
 ### MVP3
 
 
