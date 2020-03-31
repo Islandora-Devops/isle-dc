@@ -284,13 +284,11 @@ services:
 
 
   blazegraph:
-    image: lyrasis/blazegraph:2.1.5
+    #image: lyrasis/blazegraph:2.1.5
+    image: borndigital/lyrasis-blazegraph:mvp3-alpha
     environment:
       - JAVA_MAX_MEM=4096M
       - JAVA_MIN_MEM=1024M
-      # set uid / gid for container, not clear how to hookup to .env
-      - BLAZEGRAPH_UID=1000
-      - BLAZEGRAPH_GID=1000
     container_name: "${PROJECT_NAME}_blazegraph"
     networks:
       - internal
@@ -300,7 +298,8 @@ services:
       # persist the bigdata.jnl file which can be large
       - ./config/blazegraph/RWStore.properties:/RWStore.properties
       - ./config/blazegraph/inference.nt:/inference.nt
-      - ./data/blazegraph/data:/var/lib/jetty/data
+      # Local volume for avoiding permissions issues
+      - blazegraph-data:/var/lib/jetty/data
       - ./scripts/blazegraph:/scripts
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_blazegraph.rule=Host(`blazegraph.${PROJECT_BASE_URL}`)"
@@ -336,4 +335,11 @@ volumes:
   mariadb-data:
   solr-data:
   activemq-data:
+  blazegraph-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/data/blazegraph/data
+
   # isle-dc-postgres-data # Added to prototype but not currently used    
