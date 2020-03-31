@@ -100,7 +100,6 @@ Change settings in the `php.env` and/or `.env` files
 
 ### Followup To DOs
 
-**TO DO:** Fix in MVP2 the `improper schema.xml` complaint that is fixed in these steps http://idcp.localhost/modules/contrib/search_api_solr/INSTALL.md
 **TO DO** - Test if Solr is indexing? (MVP 2)
 **TO DO** - Sample items with metadata (MVP 2)
 **TO DO** - What is content / search setup aka block? (MVP 2)
@@ -137,5 +136,11 @@ This PR just verifies that camel routes start successfully, connect to the messa
 
 ## MVP3 Instructions
 
-* To install run MVP2 with Fedora (MVP3), run the install script for creating the fedora database on the ISLE8 Maria Db container. This is included as a seperate script called `install-fedora.sh` in the scripts directory.
-  * Within a terminal, `bash isle-dc/scripts/install-fedora.sh`
+* To install run Fedora (MVP3), the following:
+  * the fedora sql file has been mounted into mysql `- ./scripts/fcrepo/sqlfiles:/docker-entrypoint-initdb.d` (_this should automatically create and install all fcrepo db users and perms_)
+  * This will only run if starting up for the first time, if one attempts to add fcrepo to a previously existing MVP2 it will fail due to a limitation by `wodby`
+  * Within a terminal and within the project directory run the following:
+    * `bash scripts/fcrepo/generate_syn_key.sh`
+
+* Blazegraph TO DO - Get this running with curl
+ * `docker exec -it isle_dc_proto_blazegraph bash /scripts/install_islandora_namespace.sh`
