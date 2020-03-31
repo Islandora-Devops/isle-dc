@@ -324,6 +324,24 @@ services:
     #  - "traefik.http.routers.${PROJECT_NAME}_gemini.rule=Host(`gemini.${PROJECT_BASE_URL}`)"  
 
 
+  milliner:
+    image: borndigital/isle-milliner:mvp3-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-milliner.git#dev
+#      args:
+#        MILLINER_JWT_ADMIN_TOKEN: $MILLINER_JWT_ADMIN_TOKEN
+#        MILLINER_LOG_LEVEL: $MILLINER_LOG_LEVEL
+    container_name: "${PROJECT_NAME}_milliner"
+    networks:
+      - internal
+#    ports:
+#      - "8009:8000"
+    volumes:
+      - ./jwt:/opt/jwt
+      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_milliner.rule=Host(`milliner.${PROJECT_BASE_URL}`)"  
+
 ### MVP3
 
 
