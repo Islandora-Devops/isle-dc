@@ -137,7 +137,8 @@ This PR just verifies that camel routes start successfully, connect to the messa
 ## MVP3 Instructions
 
 * To install run Fedora (MVP3), the following:
-  * the fedora sql file has been mounted into mysql `- ./scripts/fcrepo/sqlfiles:/docker-entrypoint-initdb.d` (_this should automatically create and install all fcrepo db users and perms_)
+  * the `fedora` sql file has been mounted into mysql `- ./scripts/fcrepo/sqlfiles:/docker-entrypoint-initdb.d` (_this should automatically create and install all fcrepo db users and perms_)
+  * the `gemini` sql file has been mounted into mysql `- ./scripts/fcrepo/sqlfiles:/docker-entrypoint-initdb.d` (_this should automatically create and install all gemnni db users and perms_)
   * This will only run if starting up for the first time, if one attempts to add fcrepo to a previously existing MVP2 it will fail due to a limitation by `wodby`
   * Within a terminal and within the project directory run the following:
     * `bash scripts/fcrepo/generate_syn_key.sh`

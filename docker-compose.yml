@@ -126,8 +126,6 @@ services:
 
 ### MVP2 - Microservices - Start
 
-## TO DO: Determine where poppler-utils for generating PDFs is to be located?
-
   houdini:
     image: borndigital/isle-houdini:mvp2-alpha
 #    build:
@@ -306,6 +304,7 @@ services:
       - ./scripts/blazegraph:/scripts
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_blazegraph.rule=Host(`blazegraph.${PROJECT_BASE_URL}`)"
+
 
 ### MVP3
 
