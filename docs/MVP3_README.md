@@ -143,5 +143,6 @@ This PR just verifies that camel routes start successfully, connect to the messa
   * Within a terminal and within the project directory run the following:
     * `bash scripts/fcrepo/generate_syn_key.sh`
 
-* Blazegraph TO DO - Get this running with curl
+* Blazegraph namespace setup required
  * `docker exec -it isle_dc_proto_blazegraph bash /scripts/install_islandora_namespace.sh`
+  * If this worked correctly, Blazegraph should respond with `"CREATED: islandora"` & with some XML letting us it added the 2 entries from inference.nt to the namespace.
