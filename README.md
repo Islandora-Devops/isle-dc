@@ -18,6 +18,7 @@ Currently there are blank `.keep` files in most of the `config/service` director
 
 * Desktop / laptop / VM
 * Docker-CE 19.x+
+  * If using Docker Desktop for Windows, any stable release *after* 2.2.0.4, or use a 2.2.0.4 with a [patch](https://download-stage.docker.com/win/stable/43542/Docker%20Desktop%20Installer.exe) due to a [bug](https://github.com/docker/for-win/issues/6016)
 * Docker-compose version 1.25.x+
 * Git 2.0+
 
