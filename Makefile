@@ -18,10 +18,10 @@ solr_init:
 	./scripts/solr/create-core.sh
 
 up:
-	docker-compose -p $(docker_compose_project) up --remove-orphans --detach
+	MSYS_NO_PATHCONV=1 docker-compose -p $(docker_compose_project) up --remove-orphans --detach
 
 build:
-	docker-compose -p $(docker_compose_project) up \
+	MSYS_NO_PATHCONV=1 docker-compose -p $(docker_compose_project) up \
 		--build \
 		--detach \
 		--remove-orphans
