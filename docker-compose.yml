@@ -9,8 +9,8 @@ services:
   drupal_db:
     image: mariadb:10.3.22
     environment:
-      MYSQL_DATABASE: ${DB_NAME:-drupal}
-      MYSQL_USER: ${DB_USER:-drupal}
+      MYSQL_DATABASE: ${DB_NAME:-islandora}
+      MYSQL_USER: ${DB_USER:-islandora}
       MYSQL_PASSWORD: ${DB_PASSWORD:-dbpassword}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-dbpassword}
     volumes:
@@ -28,26 +28,21 @@ services:
         - code_dir=./codebase
         - base_image_tag=7.2.28-1.17.8-0ceedc1b
         - build_environment=dev
+        - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
         # XDEBUG confd build time args - you can set it to 0 turn it off.
         - PHP_XDEBUG=${PHP_XDEBUG:-1}
-        - PHP_IDE_CONFIG="serverName=${PHP_IDE_CONFIG_SERVER_NAME:-islandora.localhost}"
+        - PHP_IDE_CONFIG="serverName=${PHP_IDE_CONFIG_SERVER_NAME:-idcp.localhost}"
         - PHP_XDEBUG_REMOTE_HOST=${PHP_XDEBUG_REMOTE_HOST:-host.docker.internal}
-        #-PHP_XDEBUG_REMOTE_HOST: host.docker.internal # Docker 18.03+ Mac/Win
-        #-PHP_XDEBUG_REMOTE_HOST: 172.17.0.1 # Linux
-        #-PHP_XDEBUG_REMOTE_HOST: 10.254.254.254 # macOS, Docker < 18.03
-        #-PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
         - PHP_XDEBUG_DEFAULT_ENABLE=${PHP_XDEBUG_DEFAULT_ENABLE:-1}
         - PHP_XDEBUG_REMOTE_CONNECT_BACK=${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}
         # NGINX confd build time args
         - NGINX_SERVER_ROOT=${APP_DOCROOT:-/var/www/app/web}
-        - NGINX_LISTEN_PORT=${NGINX_LISTEN_PORT:-8080}
+        - NGINX_LISTEN_PORT="8080"
     depends_on:
       drupal_db:
         condition: service_healthy
-    env_file:
-      - php.env
     environment:
-      APP_NAME: ${APP_NAME:-islandora}
+      APP_NAME: ${DRUPAL_SITE_NAME:-islandora}
       APP_ROOT: ${APP_ROOT:-/var/www/app}
       APP_ACCOUNT_NAME: ${DRUPAL_USER_NAME:-islandora}
       APP_ACCOUNT_MAIL: ${DRUPAL_USER_EMAIL:-islandora@example.com}
@@ -55,12 +50,12 @@ services:
       DB_USER: ${DB_USER:-drupal}
       DB_PASSWORD: ${DB_PASSWORD:-dbpassword}
       DB_HOST: "drupal_db"
-      DB_PORT: ${DB_PORT:-3306}
-      DB_DRIVER: ${DB_DRIVER:-mysql}
+      DB_PORT: "3306"
+      DB_DRIVER: "mysql"
       DRUSH_OPTIONS_URI: "${PROJECT_BASE_URL:-idcp.localhost}:8000"
       DRUPAL_HASH_SALT: ${DRUPAL_HASH_SALT:-tfvQNpDFG2CjY9WHGNgFqC3eoMjyg5pZdGMQ74zjmnIoe0bi8F3hUvBWnGFIAM3nnj2iWA}
       NGINX_LISTEN_PORT: "8080"
-      AUTO_INSTALL: "true"
+      AUTO_INSTALL: ${DRUPAL_AUTO_INSTALL:-true}
     volumes:
       # set delegated mode here on docker for mac for faster disk I/O
       - ./codebase:${APP_ROOT:-/var/www/app}:delegated
@@ -74,17 +69,15 @@ services:
       - ${APP_DOCROOT:-/var/www/app/web}/profiles/contrib
       - ${APP_DOCROOT:-/var/www/app/web}/libraries
     labels:
-      - "traefik.http.routers.${APP_NAME:-islandora}.rule=Host(`${PROJECT_BASE_URL:-idcp.localhost}`)"
-      - "traefik.http.services.${APP_NAME:-islandora}.loadbalancer.server.port=8080"
+      - "traefik.http.routers.${PROJECT_NAME:-islandora}.rule=Host(`${PROJECT_BASE_URL:-idcp.localhost}`)"
+      - "traefik.http.services.${PROJECT_NAME:-islandora}.loadbalancer.server.port=8080"
 
   solr:
     image: wodby/solr:$SOLR_TAG
     container_name: "${PROJECT_NAME}_solr"
-    # networks:
-    #   - internal
     environment:
-      SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
-      SOLR_HEAP: 1024m
+      SOLR_DEFAULT_CONFIG_SET: ${SOLR_CONFIG_SET:-search_api_solr_8.x-3.2}
+      SOLR_HEAP: ${SOLR_HEAP:-1024m}
     volumes:
       - solr-data:/opt/solr/server/solr
     # TO DO: Determine what type of container handling is needed
