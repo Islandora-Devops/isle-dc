@@ -6,7 +6,7 @@ version: "2.4"
 ## MVP 2 - Microservices & Connectors (Houdini, Homarus, Hypercube, FITS, ActiveMQ and Cantaloupe)
 
 services:
-  mariadb:
+  drupal_db:
     image: mariadb:10.3.22
     environment:
       MYSQL_DATABASE: ${DB_NAME:-drupal}
@@ -42,7 +42,7 @@ services:
         - NGINX_SERVER_ROOT=${APP_DOCROOT:-/var/www/app/web}
         - NGINX_LISTEN_PORT=${NGINX_LISTEN_PORT:-8080}
     depends_on:
-      mariadb:
+      drupal_db:
         condition: service_healthy
     env_file:
       - php.env
@@ -54,10 +54,10 @@ services:
       DB_NAME: ${DB_NAME:-drupal}
       DB_USER: ${DB_USER:-drupal}
       DB_PASSWORD: ${DB_PASSWORD:-dbpassword}
-      DB_HOST: "mariadb"
+      DB_HOST: "drupal_db"
       DB_PORT: ${DB_PORT:-3306}
       DB_DRIVER: ${DB_DRIVER:-mysql}
-      DRUSH_OPTIONS_URI: ${DRUPAL_LOCAL_URL:-islandora.localhost}
+      DRUSH_OPTIONS_URI: "${PROJECT_BASE_URL:-idcp.localhost}:8000"
       DRUPAL_HASH_SALT: ${DRUPAL_HASH_SALT:-tfvQNpDFG2CjY9WHGNgFqC3eoMjyg5pZdGMQ74zjmnIoe0bi8F3hUvBWnGFIAM3nnj2iWA}
       NGINX_LISTEN_PORT: "8080"
       AUTO_INSTALL: "true"
@@ -74,7 +74,7 @@ services:
       - ${APP_DOCROOT:-/var/www/app/web}/profiles/contrib
       - ${APP_DOCROOT:-/var/www/app/web}/libraries
     labels:
-      - "traefik.http.routers.${APP_NAME:-islandora}.rule=Host(`${DRUPAL_LOCAL_URL:-islandora.localhost}`)"
+      - "traefik.http.routers.${APP_NAME:-islandora}.rule=Host(`${PROJECT_BASE_URL:-idcp.localhost}`)"
       - "traefik.http.services.${APP_NAME:-islandora}.loadbalancer.server.port=8080"
 
   solr:
@@ -107,58 +107,56 @@ services:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_cantaloupe.rule=Host(`cantaloupe.${PROJECT_BASE_URL}`)"
 
-### MVP2 - Microservices - Start
+  ### MVP2 - Microservices - Start
 
-## TO DO: Determine where poppler-utils for generating PDFs is to be located?
+  ## TO DO: Determine where poppler-utils for generating PDFs is to be located?
 
   houdini:
     image: borndigital/isle-houdini:mvp2-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
-#      args:
-#        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
-#        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
+    #      args:
+    #        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
+    #        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
     container_name: "${PROJECT_NAME}_houdini"
     # networks:
     #   - internal
-#    ports:
-#      - "8000:8000"
+    #    ports:
+    #      - "8000:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)"
 
-
   homarus:
     image: borndigital/isle-homarus:mvp2-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
-#      args:
-#        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
-#        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
+    #      args:
+    #        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
+    #        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
     container_name: "${PROJECT_NAME}_homarus"
-#    ports:
-#      - "8001:8000"
+    #    ports:
+    #      - "8001:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"
 
-
   hypercube:
     image: borndigital/isle-hypercube:mvp2-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
-#      args:
-#        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
-#        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
+    #      args:
+    #        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
+    #        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
     container_name: "${PROJECT_NAME}_hypercube"
     # networks:
     #   - internal
-#    ports:
-#      - "8002:8000"
+    #    ports:
+    #      - "8002:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
@@ -167,15 +165,15 @@ services:
 
   crayfits:
     image: borndigital/isle-crayfits:mvp2-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
-#      args:
-#        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
+    #      args:
+    #        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
     container_name: "${PROJECT_NAME}_crayfits"
     # networks:
     #   - internal
-#    ports:
-#      - "8003:8000"
+    #    ports:
+    #      - "8003:8000"
     volumes:
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
     #labels:
@@ -186,14 +184,14 @@ services:
     container_name: "${PROJECT_NAME}_fits"
     # networks:
     #   - internal
-#    ports:
-#      - '8085:8080'
-    # TO DO: Determine what type of container handling is needed, exposed ports etc?
-    #volumes:
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_fits.rule=Host(`fits.${PROJECT_BASE_URL}`)"
+  #    ports:
+  #      - '8085:8080'
+  # TO DO: Determine what type of container handling is needed, exposed ports etc?
+  #volumes:
+  #labels:
+  #  - "traefik.http.routers.${PROJECT_NAME}_fits.rule=Host(`fits.${PROJECT_BASE_URL}`)"
 
-### MVP2 - Microservices - End
+  ### MVP2 - Microservices - End
 
   traefik:
     # review https://hub.docker.com/_/traefik
@@ -229,12 +227,11 @@ services:
     container_name: "${PROJECT_NAME}_activemq"
     env_file: .env
     ports:
-      - "8161:8161"    # To make mgmt console available for dev purposes.  use admin:admin to log in
+      - "8161:8161" # To make mgmt console available for dev purposes.  use admin:admin to log in
     # networks:
     #   - internal
     volumes:
       - activemq-data:/opt/activemq/data
-
 
 # networks:
 #   internal:

@@ -136,6 +136,7 @@ COPY --from=composer-build --chown=${APP_RUNNER_USER}:${APP_RUNNER_GROUP} /app/w
 COPY --from=composer-build --chown=${APP_RUNNER_USER}:${APP_RUNNER_GROUP} /app/drush/contrib ./drush/contrib
 # If stage 2 available and generated js and css artifacts files, they can also be copied inside this folder.
 
+WORKDIR ${APP_DOCROOT}
 #
 # Stage 4: The production setup
 #
