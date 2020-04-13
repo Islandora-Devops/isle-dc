@@ -37,7 +37,7 @@ services:
         - PHP_XDEBUG_REMOTE_CONNECT_BACK=${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}
         # NGINX confd build time args
         - NGINX_SERVER_ROOT=${APP_DOCROOT:-/var/www/app/web}
-        - NGINX_LISTEN_PORT="8080"
+        - NGINX_LISTEN_PORT=8080
     depends_on:
       drupal_db:
         condition: service_healthy
@@ -54,7 +54,7 @@ services:
       DB_DRIVER: "mysql"
       DRUSH_OPTIONS_URI: "${PROJECT_BASE_URL:-idcp.localhost}:8000"
       DRUPAL_HASH_SALT: ${DRUPAL_HASH_SALT:-tfvQNpDFG2CjY9WHGNgFqC3eoMjyg5pZdGMQ74zjmnIoe0bi8F3hUvBWnGFIAM3nnj2iWA}
-      NGINX_LISTEN_PORT: "8080"
+      NGINX_LISTEN_PORT: 8080
       AUTO_INSTALL: ${DRUPAL_AUTO_INSTALL:-true}
     volumes:
       # set delegated mode here on docker for mac for faster disk I/O
