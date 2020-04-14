@@ -170,9 +170,9 @@ if [[ "$codebase" == "islandora" && ! -f codebase/config/sync/core.extension.yml
 fi
 
 ###
-# Initialize drupal database and files persistent storage folders.
+# Initialize drupal files persistent storage folders.
 ###
-mkdir -p $PWD/data/drupal/files/public $PWD/data/drupal/files/private $PWD/data/drupal/database
+mkdir -p $PWD/data/drupal/files/public $PWD/data/drupal/files/private
 
 ###
 # Running composer install just in case the user has an existing project.

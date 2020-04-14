@@ -14,7 +14,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD:-dbpassword}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-dbpassword}
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - drupal-db-data:/var/lib/mysql
     healthcheck:
       # https://dev.mysql.com/doc/refman/8.0/en/mysqladmin.html#command_mysqladmin_ping
       test: ["CMD", "mysqladmin", "ping", "--silent"]
@@ -233,12 +233,7 @@ services:
 volumes:
   # For local database storage persistance we bind mount a local folder.
   # This folder needs to be created prior to docker-compose up or build.
-  mariadb-data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${PWD}/data/drupal/database
+  drupal-db-data:
   activemq-data:
   solr-data:
   # isle-dc-postgres-data # Added to prototype but not currently used
