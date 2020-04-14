@@ -22,7 +22,7 @@ services:
   drupal:
     build:
       context: ./
-      dockerfile: ./drupal.Dockerfile
+      dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./drupal.Dockerfile}
       target: dev
       args:
         - code_dir=./codebase
