@@ -6,7 +6,7 @@ version: "2.4"
 ## MVP 2 - Microservices & Connectors (Houdini, Homarus, Hypercube, FITS, ActiveMQ and Cantaloupe)
 
 services:
-  drupal_db:
+  mariadb:
     image: mariadb:10.3.22
     environment:
       MYSQL_DATABASE: ${DB_NAME:-islandora}
@@ -14,7 +14,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD:-dbpassword}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-dbpassword}
     volumes:
-      - drupal-db-data:/var/lib/mysql
+      - mariadb-data:/var/lib/mysql
     healthcheck:
       # https://dev.mysql.com/doc/refman/8.0/en/mysqladmin.html#command_mysqladmin_ping
       test: ["CMD", "mysqladmin", "ping", "--silent"]
@@ -49,7 +49,7 @@ services:
       DB_NAME: ${DB_NAME:-drupal}
       DB_USER: ${DB_USER:-drupal}
       DB_PASSWORD: ${DB_PASSWORD:-dbpassword}
-      DB_HOST: "drupal_db"
+      DB_HOST: "mariadb"
       DB_PORT: "3306"
       DB_DRIVER: "mysql"
       DRUSH_OPTIONS_URI: "${PROJECT_BASE_URL:-idcp.localhost}:8000"
@@ -233,7 +233,7 @@ services:
 volumes:
   # For local database storage persistance we bind mount a local folder.
   # This folder needs to be created prior to docker-compose up or build.
-  drupal-db-data:
+  mariadb-data:
   activemq-data:
   solr-data:
   # isle-dc-postgres-data # Added to prototype but not currently used
