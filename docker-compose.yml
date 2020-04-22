@@ -240,7 +240,7 @@ services:
 
   alpaca-connector:
     container_name: "${PROJECT_NAME}_alpaca"
-    image: birkland/isle-alpaca@sha256:9fdf260df79b38fd240192ec618e4eec74cca2b6157b4e59f7d4792295cfe210
+    image: islandora/isle-alpaca:sp4-alpha
     env_file: .env
     networks:
       - internal
