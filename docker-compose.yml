@@ -284,8 +284,7 @@ services:
 
 
   blazegraph:
-    #image: lyrasis/blazegraph:2.1.5
-    image: borndigital/lyrasis-blazegraph:mvp3-alpha
+    image: lyrasis/blazegraph:2.1.5
     environment:
       - JAVA_MAX_MEM=4096M
       - JAVA_MIN_MEM=1024M
