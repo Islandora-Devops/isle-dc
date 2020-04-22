@@ -261,7 +261,7 @@ services:
   fcrepo:
     image: islandora/isle-fcrepo:sp4-alpha
 #    build:
-#      context: https://github.com/Islandora-Devops/isle-fcrepo.git#development
+#      context: https://github.com/Islandora-Devops/isle-fcrepo.git#dev
 #      args:
 #        ARG FCREPO_VERSION: ${FCREPO_VERSION:-5.1.0}
 #        ARG FCREPO_CONFIG_DIR: /opt/fcrepo/config
