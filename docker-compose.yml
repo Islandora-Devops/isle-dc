@@ -127,7 +127,7 @@ services:
 ### MVP2 - Microservices - Start
 
   houdini:
-    image: borndigital/isle-houdini:mvp2-alpha
+    image: islandora/isle-houdini:sp4-alpha
 #    build:
 #      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
 #      args:
