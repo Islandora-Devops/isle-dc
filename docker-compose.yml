@@ -146,7 +146,7 @@ services:
 
 
   homarus:
-    image: borndigital/isle-homarus:mvp2-alpha
+    image: islandora/isle-homarus:sp4-alpha
 #    build:
 #      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
 #      args:
