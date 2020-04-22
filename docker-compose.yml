@@ -163,7 +163,7 @@ services:
 
 
   hypercube:
-    image: borndigital/isle-hypercube:mvp2-alpha
+    image: islandora/isle-hypercube:sp4-alpha
 #    build:
 #      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
 #      args:
