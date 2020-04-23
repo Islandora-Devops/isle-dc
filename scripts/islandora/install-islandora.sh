@@ -64,7 +64,18 @@ drush en -y rdf \
   controlled_access_terms_defaults \
   islandora_breadcrumbs \
   islandora_iiif \
-  islandora_oaipmh
+  islandora_oaipmh \
+  islandora_fits \
+  islandora_search
+
+echo "Import features"
+drush -y fim islandora_core_feature,controlled_access_terms_defaults,islandora_defaults,islandora_search
+
+echo "Set file upload destinations (temporary and will change with MVP3)"
+drush cset -y field.storage.media.field_media_file settings.uri_scheme public
+drush cset -y field.storage.media.field_media_audio_file settings.uri_scheme public
+drush cset -y field.storage.media.field_media_image settings.uri_scheme public
+drush cset -y field.storage.media.field_media_video_file settings.uri_scheme public
 
 echo "Copy openseadragon library definition"
 cp /var/www/html/web/modules/contrib/openseadragon/openseadragon.json /var/www/html/web/sites/default/files/library-definitions

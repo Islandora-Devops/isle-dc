@@ -153,6 +153,8 @@ services:
 #        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
 #        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
     container_name: "${PROJECT_NAME}_homarus"
+    networks:
+      - internal
 #    ports:
 #      - "8001:8000"
     volumes:
@@ -218,6 +220,8 @@ services:
     command: --api.insecure=true --providers.docker
     networks:
       internal:
+        aliases:
+          - idcp.localhost
       external:
     ports:
       - '80:80'
@@ -239,8 +243,10 @@ services:
       # Obsolete - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
 
   alpaca-connector:
-    container_name: "${PROJECT_NAME}_alpaca"
     image: islandora/isle-alpaca:sp4-alpha
+     # build:
+     # context: https://github.com/Islandora-Devops/isle-alpaca.git#dev
+    container_name: "${PROJECT_NAME}_alpaca"
     env_file: .env
     networks:
       - internal
