@@ -220,8 +220,6 @@ services:
     command: --api.insecure=true --providers.docker
     networks:
       internal:
-        aliases:
-          - idcp.localhost
       external:
     ports:
       - '80:80'
