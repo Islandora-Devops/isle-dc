@@ -127,7 +127,7 @@ services:
 ### MVP2 - Microservices - Start
 
   houdini:
-    image: borndigital/isle-houdini:mvp2-alpha
+    image: islandora/isle-houdini:sp4-alpha
 #    build:
 #      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
 #      args:
@@ -146,7 +146,7 @@ services:
 
 
   homarus:
-    image: borndigital/isle-homarus:mvp2-alpha
+    image: islandora/isle-homarus:sp4-alpha
 #    build:
 #      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
 #      args:
@@ -165,7 +165,7 @@ services:
 
 
   hypercube:
-    image: borndigital/isle-hypercube:mvp2-alpha
+    image: islandora/isle-hypercube:sp4-alpha
 #    build:
 #      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
 #      args:
@@ -183,7 +183,7 @@ services:
     #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
 
   crayfits:
-    image: borndigital/isle-crayfits:mvp2-alpha
+    image: islandora/isle-crayfits:sp4-alpha
 #    build:
 #      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
 #      args:
@@ -243,9 +243,10 @@ services:
       # Obsolete - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
 
   alpaca-connector:
+    image: islandora/isle-alpaca:sp4-alpha
+     # build:
+     # context: https://github.com/Islandora-Devops/isle-alpaca.git#dev
     container_name: "${PROJECT_NAME}_alpaca"
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-alpaca.git#dev
     env_file: .env
     networks:
       - internal
@@ -264,9 +265,9 @@ services:
 ### MVP3
 
   fcrepo:
-    image: borndigital/isle-fcrepo:mvp3-alpha
+    image: islandora/isle-fcrepo:sp4-alpha
 #    build:
-#      context: https://github.com/Islandora-Devops/isle-fcrepo.git#mvp3-dev
+#      context: https://github.com/Islandora-Devops/isle-fcrepo.git#dev
 #      args:
 #        ARG FCREPO_VERSION: ${FCREPO_VERSION:-5.1.0}
 #        ARG FCREPO_CONFIG_DIR: /opt/fcrepo/config
@@ -289,8 +290,7 @@ services:
 
 
   blazegraph:
-    #image: lyrasis/blazegraph:2.1.5
-    image: borndigital/lyrasis-blazegraph:mvp3-alpha
+    image: lyrasis/blazegraph:2.1.5
     environment:
       - JAVA_MAX_MEM=4096M
       - JAVA_MIN_MEM=1024M
