@@ -38,7 +38,7 @@ services:
         - NGINX_SERVER_ROOT=${APP_DOCROOT:-/var/www/app/web}
         - NGINX_LISTEN_PORT=8080
     depends_on:
-      drupal_db:
+      mariadb:
         condition: service_healthy
     environment:
       APP_NAME: ${DRUPAL_SITE_NAME:-islandora}
