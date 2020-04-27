@@ -1,118 +1,93 @@
-version: '3.7'
+version: "2.4"
 
 ## ISLE 8 Draft Prototype
-## Feb, 2020
-## MVP 1 - Traefik, Solr, MySQL & Drupal (using Woodby images for Apache, Drupal and Solr)
-## MVP 2 - Microservices & Connectors (Houdini, Homarus, Hypercube, FITS, ActiveMQ and Cantaloupe)
+## April 2020
+## Sprint 4 - All services merged
 
 services:
-
-  apache:
-    image: wodby/apache:$APACHE_TAG
-    container_name: "${PROJECT_NAME}_apache"
-    networks:
-      - internal
-    depends_on:
-      - php
-    environment:
-      APACHE_LOG_LEVEL: debug
-      APACHE_BACKEND_HOST: php
-      APACHE_VHOST_PRESET: php
-      APACHE_DOCUMENT_ROOT: /var/www/html/web
-    volumes:
-      - ./codebase:/var/www/html
-      - ./jwt:/opt/jwt
-## For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
-##      - ./codebase:/var/www/html:cached # User-guided caching
-##      - docker-sync:/var/www/html # Docker-sync
-    labels:
-      - "traefik.http.routers.${PROJECT_NAME}_apache.rule=Host(`${PROJECT_BASE_URL}`)"
-
-
   mariadb:
-    ## Using for protoype database
-    image: wodby/mariadb:$MARIADB_TAG
-    container_name: "${PROJECT_NAME}_mariadb"
-    networks:
-      - internal   
-    stop_grace_period: 30s
+    image: mariadb:10.3.22
     environment:
-      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
-      MYSQL_DATABASE: $DB_NAME
-      MYSQL_USER: $DB_USER
-      MYSQL_PASSWORD: $DB_PASSWORD
-      FCREPO_DB: fcrepo_db
+      MYSQL_DATABASE: ${DB_NAME:-islandora}
+      MYSQL_USER: ${DB_USER:-islandora}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-dbpassword}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-dbpassword}
     volumes:
-    ## TO DO: How to allow for slow query log setup?
-    ## TO DO: Customization: Allow for additional tuning of MySQL.
       - mariadb-data:/var/lib/mysql
-      #- ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here. if needed e.g. fedora.
-      - ./scripts/fcrepo/sqlfiles:/docker-entrypoint-initdb.d
-      #command: bash -c "mysql -u root -p$MYSQL_ROOT_PASSWORD < /docker-entrypoint-initdb.d/fcrepo-db.sql"
+    healthcheck:
+      # https://dev.mysql.com/doc/refman/8.0/en/mysqladmin.html#command_mysqladmin_ping
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
 
-
-  php:
-    image: wodby/drupal-php:$PHP_TAG
-    container_name: "${PROJECT_NAME}_php"
-    networks:
-      - internal
-    env_file:
-      - php.env
+  drupal:
+    build:
+      context: ./
+      dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./drupal.Dockerfile}
+      target: dev
+      args:
+        - code_dir=./codebase
+        - base_image_tag=7.2.28-1.17.8-0ceedc1b
+        - build_environment=dev
+        - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
+        # XDEBUG confd build time args - you can set it to 0 turn it off.
+        - PHP_XDEBUG=${PHP_XDEBUG:-1}
+        - PHP_IDE_CONFIG="serverName=${PHP_IDE_CONFIG_SERVER_NAME:-idcp.localhost}"
+        - PHP_XDEBUG_REMOTE_HOST=${PHP_XDEBUG_REMOTE_HOST:-host.docker.internal}
+        - PHP_XDEBUG_DEFAULT_ENABLE=${PHP_XDEBUG_DEFAULT_ENABLE:-1}
+        - PHP_XDEBUG_REMOTE_CONNECT_BACK=${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}
+        # NGINX confd build time args
+        - NGINX_SERVER_ROOT=${APP_DOCROOT:-/var/www/app/web}
+        - NGINX_LISTEN_PORT=8080
+    depends_on:
+      drupal_db:
+        condition: service_healthy
     environment:
-      # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
-      # PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S opensmtpd:25      
-      DB_HOST: $DB_HOST
-      DB_PORT: $DB_PORT
-      DB_USER: $DB_USER
-      DB_PASSWORD: $DB_PASSWORD
-      DB_NAME: $DB_NAME
-      DB_DRIVER: $DB_DRIVER
-      PHP_FPM_USER: wodby
-      PHP_FPM_GROUP: wodby
-      COLUMNS: 80 # Set 80 columns for docker exec -it.
-## Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
-#      PHP_XDEBUG: 1
-#      PHP_XDEBUG_DEFAULT_ENABLE: 1
-#      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
-#      PHP_IDE_CONFIG: serverName=my-ide
-#      PHP_XDEBUG_IDEKEY: "my-ide"
-#      PHP_XDEBUG_REMOTE_HOST: host.docker.internal # Docker 18.03+ Mac/Win
-#      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1 # Linux
-#      PHP_XDEBUG_REMOTE_HOST: 10.254.254.254 # macOS, Docker < 18.03
-#      PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
-#      PHP_XDEBUG_REMOTE_LOG: /tmp/php-xdebug.log
+      APP_NAME: ${DRUPAL_SITE_NAME:-islandora}
+      APP_ROOT: ${APP_ROOT:-/var/www/app}
+      APP_ACCOUNT_NAME: ${DRUPAL_USER_NAME:-islandora}
+      APP_ACCOUNT_MAIL: ${DRUPAL_USER_EMAIL:-islandora@example.com}
+      DB_NAME: ${DB_NAME:-drupal}
+      DB_USER: ${DB_USER:-drupal}
+      DB_PASSWORD: ${DB_PASSWORD:-dbpassword}
+      DB_HOST: "mariadb"
+      DB_PORT: "3306"
+      DB_DRIVER: "mysql"
+      DRUSH_OPTIONS_URI: "${PROJECT_BASE_URL:-idcp.localhost}:8000"
+      DRUPAL_HASH_SALT: ${DRUPAL_HASH_SALT:-tfvQNpDFG2CjY9WHGNgFqC3eoMjyg5pZdGMQ74zjmnIoe0bi8F3hUvBWnGFIAM3nnj2iWA}
+      NGINX_LISTEN_PORT: 8080
+      AUTO_INSTALL: ${DRUPAL_AUTO_INSTALL:-true}
     volumes:
-      - ./scripts:/scripts
-      - ./codebase:/var/www/html
-      - ./config/drupal:/opt/drupal_config
-      - ./jwt:/opt/jwt
-## For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
-#      - ./codebase:/var/www/html:cached # User-guided caching
-#      - docker-sync:/var/www/html # Docker-sync
-## For XHProf and Xdebug profiler traces
-#      - files:/mnt/files
-
+      # set delegated mode here on docker for mac for faster disk I/O
+      - ./codebase:${APP_ROOT:-/var/www/app}:delegated
+      - ./data/drupal/files:${FILES_DIR:-/mnt/files}
+      # Anonymous volumes as a workaround to prevent empty or non existent host
+      # folders from accidentally getting mounted in container and overwrite the
+      # composer build stage files.
+      - ${APP_ROOT:-/var/www/app}/vendor
+      - ${APP_DOCROOT:-/var/www/app/web}/modules/contrib
+      - ${APP_DOCROOT:-/var/www/app/web}/themes/contrib
+      - ${APP_DOCROOT:-/var/www/app/web}/profiles/contrib
+      - ${APP_DOCROOT:-/var/www/app/web}/libraries
+    labels:
+      - "traefik.http.routers.${PROJECT_NAME:-islandora}.rule=Host(`${PROJECT_BASE_URL:-idcp.localhost}`)"
+      - "traefik.http.services.${PROJECT_NAME:-islandora}.loadbalancer.server.port=8080"
 
   solr:
     image: wodby/solr:$SOLR_TAG
     container_name: "${PROJECT_NAME}_solr"
-    networks:
-      - internal
     environment:
-      SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
-      SOLR_HEAP: 1024m
+      SOLR_DEFAULT_CONFIG_SET: ${SOLR_CONFIG_SET:-search_api_solr_8.x-3.2}
+      SOLR_HEAP: ${SOLR_HEAP:-1024m}
     volumes:
       - solr-data:/opt/solr/server/solr
-    # TO DO: Determine what type of container handling is needed, exposed ports etc?
+    # TO DO: Determine what type of container handling is needed
     labels:
-      - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"    
-
+      - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
 
   cantaloupe:
     image: lyrasis/cantaloupe:latest # should this be 4.0-1 instead?
     container_name: "${PROJECT_NAME}_cantaloupe"
-    networks:
-      - internal
+    # networks:
+    #   - internal
     env_file:
       - cantaloupe.env
     ports:
@@ -124,7 +99,7 @@ services:
     #labels:
     #  - "traefik.http.routers.${PROJECT_NAME}_cantaloupe.rule=Host(`cantaloupe.${PROJECT_BASE_URL}`)"
 
-### MVP2 - Microservices - Start
+  ### MVP2 - Microservices - Start
 
   houdini:
     image: islandora/isle-houdini:sp4-alpha
@@ -134,16 +109,15 @@ services:
 #        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
 #        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
     container_name: "${PROJECT_NAME}_houdini"
-    networks:
-      - internal
-#    ports:
-#      - "8000:8000"
+    # networks:
+    #   - internal
+    #    ports:
+    #      - "8000:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
     #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)" 
-
+    #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)"
 
   homarus:
     image: islandora/isle-homarus:sp4-alpha
@@ -153,16 +127,13 @@ services:
 #        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
 #        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
     container_name: "${PROJECT_NAME}_homarus"
-    networks:
-      - internal
 #    ports:
 #      - "8001:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
     #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"     
-
+    #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"
 
   hypercube:
     image: islandora/isle-hypercube:sp4-alpha
@@ -172,15 +143,15 @@ services:
 #        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
 #        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
     container_name: "${PROJECT_NAME}_hypercube"
-    networks:
-      - internal
-#    ports:
-#      - "8002:8000"
+    # networks:
+    #   - internal
+    #    ports:
+    #      - "8002:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
     #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
+    #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"
 
   crayfits:
     image: islandora/isle-crayfits:sp4-alpha
@@ -189,40 +160,35 @@ services:
 #      args:
 #        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
     container_name: "${PROJECT_NAME}_crayfits"
-    networks:
-      - internal
-#    ports:
-#      - "8003:8000"
+    # networks:
+    #   - internal
+    #    ports:
+    #      - "8003:8000"
     volumes:
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
     #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"    
+    #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"
 
   fits:
     image: harvardlts/fitsservlet_container:1.5.0
     container_name: "${PROJECT_NAME}_fits"
-    networks:
-      - internal
-#    ports:
-#      - '8085:8080'
-    # TO DO: Determine what type of container handling is needed, exposed ports etc?
-    #volumes:
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_fits.rule=Host(`fits.${PROJECT_BASE_URL}`)"
+    # networks:
+    #   - internal
+  #    ports:
+  #      - '8085:8080'
+  # TO DO: Determine what type of container handling is needed, exposed ports etc?
+  #volumes:
+  #labels:
+  #  - "traefik.http.routers.${PROJECT_NAME}_fits.rule=Host(`fits.${PROJECT_BASE_URL}`)"
 
-### MVP2 - Microservices - End
-
+  ### MVP2 - Microservices - End
 
   traefik:
     # review https://hub.docker.com/_/traefik
     image: traefik:2.1.3
-    container_name: "${PROJECT_NAME}_traefik"
     command: --api.insecure=true --providers.docker
-    networks:
-      internal:
-      external:
     ports:
-      - '80:80'
+      - "8000:80"
       #- "443:443"
       #- "8080:8080"
     volumes:
@@ -232,8 +198,7 @@ services:
       # - ./config/traefik/acme.json:/acme.json
       # SSL Choice 2: To use commercial SSLs - uncomment ONLY the line below. Add your SSL certs (.cert, .pem, .key) files to config/traefik/ssl-certs
       # - ./config/traefik/ssl-certs:/certs:ro
-
-      # Use Environment vaiables to pass in Traefik config; no traefik.yml required
+      # Use Environment variables to pass in Traefik config; no traefik.yml required
       # by providers
       # Alternative to a static configureation /etc/traefik/traefik.yml"
       # Pass in config via flags or environment variables
@@ -246,17 +211,17 @@ services:
      # context: https://github.com/Islandora-Devops/isle-alpaca.git#dev
     container_name: "${PROJECT_NAME}_alpaca"
     env_file: .env
-    networks:
-      - internal
+    # networks:
+    #   - internal
 
   activemq:
     image: rmohr/activemq
     container_name: "${PROJECT_NAME}_activemq"
     env_file: .env
     ports:
-      - "8161:8161"    # To make mgmt console available for dev purposes.  use admin:admin to log in
-    networks:
-      - internal
+      - "8161:8161" # To make mgmt console available for dev purposes.  use admin:admin to log in
+    # networks:
+    #   - internal
     volumes:
       - activemq-data:/opt/activemq/data
 
@@ -372,9 +337,11 @@ networks:
   external:
 
 volumes:
+  # For local database storage persistance we bind mount a local folder.
+  # This folder needs to be created prior to docker-compose up or build.
   mariadb-data:
-  solr-data:
   activemq-data:
+  solr-data:
   blazegraph-data:
     driver: local
     driver_opts:
