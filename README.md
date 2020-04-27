@@ -27,7 +27,7 @@ Currently there are blank `.keep` files in most of the `config/service` director
 * For stable working use the `master` branch
 * For bleeding edge, potentially not working, use the `development` branch
 
-* use `docs/MVP2_README.md` for current installation steps.
+* use `docs/MVP3_README.md` for current installation steps.
 
 
 ## Configuration
@@ -66,6 +66,7 @@ If you would like to contribute to this project, please check out [CONTRIBUTING.
 ### Architecture Team
 
 * [Jeffery Antoniuk](https://github.com/jefferya), Canadian Writing Research Collaboratory
+* [Nia Kathoni](https://github.com/nikathone), Canadian Writing Research Collaboratory
 * [Aaron Birkland](https://github.com/birkland), Johns Hopkins University
 * [Jonathan Green](https://github.com/jonathangreen), LYRASIS
 * [Danny Lamb](https://github.com/dannylamb), Islandora Foundation

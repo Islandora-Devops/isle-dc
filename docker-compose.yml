@@ -1,9 +1,8 @@
 version: "2.4"
 
 ## ISLE 8 Draft Prototype
-## Feb, 2020
-## MVP 1 - Traefik, Solr, MySQL & Drupal (using Woodby images for Apache, Drupal and Solr)
-## MVP 2 - Microservices & Connectors (Houdini, Homarus, Hypercube, FITS, ActiveMQ and Cantaloupe)
+## April 2020
+## Sprint 4 - All services merged
 
 services:
   mariadb:
@@ -102,15 +101,13 @@ services:
 
   ### MVP2 - Microservices - Start
 
-  ## TO DO: Determine where poppler-utils for generating PDFs is to be located?
-
   houdini:
-    image: borndigital/isle-houdini:mvp2-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
-    #      args:
-    #        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
-    #        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
+    image: islandora/isle-houdini:sp4-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
+#      args:
+#        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
+#        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
     container_name: "${PROJECT_NAME}_houdini"
     # networks:
     #   - internal
@@ -123,15 +120,15 @@ services:
     #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)"
 
   homarus:
-    image: borndigital/isle-homarus:mvp2-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
-    #      args:
-    #        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
-    #        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
+    image: islandora/isle-homarus:sp4-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
+#      args:
+#        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
+#        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
     container_name: "${PROJECT_NAME}_homarus"
-    #    ports:
-    #      - "8001:8000"
+#    ports:
+#      - "8001:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
@@ -139,12 +136,12 @@ services:
     #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"
 
   hypercube:
-    image: borndigital/isle-hypercube:mvp2-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
-    #      args:
-    #        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
-    #        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
+    image: islandora/isle-hypercube:sp4-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
+#      args:
+#        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
+#        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
     container_name: "${PROJECT_NAME}_hypercube"
     # networks:
     #   - internal
@@ -157,11 +154,11 @@ services:
     #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"
 
   crayfits:
-    image: borndigital/isle-crayfits:mvp2-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
-    #      args:
-    #        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
+    image: islandora/isle-crayfits:sp4-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
+#      args:
+#        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
     container_name: "${PROJECT_NAME}_crayfits"
     # networks:
     #   - internal
@@ -209,8 +206,10 @@ services:
       # Obsolete - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
 
   alpaca-connector:
+    image: islandora/isle-alpaca:sp4-alpha
+     # build:
+     # context: https://github.com/Islandora-Devops/isle-alpaca.git#dev
     container_name: "${PROJECT_NAME}_alpaca"
-    image: birkland/isle-alpaca@sha256:9fdf260df79b38fd240192ec618e4eec74cca2b6157b4e59f7d4792295cfe210
     env_file: .env
     # networks:
     #   - internal
@@ -226,9 +225,116 @@ services:
     volumes:
       - activemq-data:/opt/activemq/data
 
-# networks:
-#   internal:
-#   external:
+### MVP3
+
+  fcrepo:
+    image: islandora/isle-fcrepo:sp4-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-fcrepo.git#dev
+#      args:
+#        ARG FCREPO_VERSION: ${FCREPO_VERSION:-5.1.0}
+#        ARG FCREPO_CONFIG_DIR: /opt/fcrepo/config
+#        ARG FCREPO_HOME: /opt/fcrepo/data
+    env_file: fcrepo.env
+    environment:
+      - JAVA_MAX_MEM=4096M
+      - JAVA_MIN_MEM=1024M
+    container_name: "${PROJECT_NAME}_fcrepo"
+    networks:
+      - internal
+    ports:
+      - "8006:8080"
+    volumes:
+      - ./data/fcrepo/data:/opt/fcrepo/data
+      - ./syn-keys:/opt/keys
+      - ./config/fcrepo/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_fcrepo.rule=Host(`fcrepo.${PROJECT_BASE_URL}`)"   
+
+
+  blazegraph:
+    image: lyrasis/blazegraph:2.1.5
+    environment:
+      - JAVA_MAX_MEM=4096M
+      - JAVA_MIN_MEM=1024M
+    container_name: "${PROJECT_NAME}_blazegraph"
+    networks:
+      - internal
+    ports:
+      - "8007:8080"
+    volumes:
+      # persist the bigdata.jnl file which can be large
+      - ./config/blazegraph/RWStore.properties:/RWStore.properties
+      - ./config/blazegraph/inference.nt:/inference.nt
+      # Local volume for avoiding permissions issues
+      - blazegraph-data:/var/lib/jetty/data
+      - ./scripts/blazegraph:/scripts
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_blazegraph.rule=Host(`blazegraph.${PROJECT_BASE_URL}`)"
+
+
+  gemini:
+    image: borndigital/isle-gemini:mvp3-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-gemini.git#dev
+#      args:
+#        GEMINI_JWT_ADMIN_TOKEN: $GEMINI_JWT_ADMIN_TOKEN
+#        GEMINI_LOG_LEVEL: $GEMINI_LOG_LEVEL
+    container_name: "${PROJECT_NAME}_gemini"
+    networks:
+      - internal
+#    ports:
+#      - "8008:8000"
+    volumes:
+      - ./jwt:/opt/jwt
+      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_gemini.rule=Host(`gemini.${PROJECT_BASE_URL}`)"  
+
+
+  milliner:
+    image: borndigital/isle-milliner:mvp3-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-milliner.git#dev
+#      args:
+#        MILLINER_JWT_ADMIN_TOKEN: $MILLINER_JWT_ADMIN_TOKEN
+#        MILLINER_LOG_LEVEL: $MILLINER_LOG_LEVEL
+    container_name: "${PROJECT_NAME}_milliner"
+    networks:
+      - internal
+#    ports:
+#      - "8009:8000"
+    volumes:
+      - ./jwt:/opt/jwt
+      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_milliner.rule=Host(`milliner.${PROJECT_BASE_URL}`)"  
+
+
+  recast:
+    image: borndigital/isle-recast:mvp3-alpha
+#    build:
+#      context: https://github.com/Islandora-Devops/isle-recast.git#dev
+#      args:
+#        RECAST_JWT_ADMIN_TOKEN: $RECAST_JWT_ADMIN_TOKEN
+#        RECAST_LOG_LEVEL: $RECAST_LOG_LEVEL
+    container_name: "${PROJECT_NAME}_recast"
+    networks:
+      - internal
+#    ports:
+#      - "8009:8000"
+    volumes:
+      - ./jwt:/opt/jwt
+      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
+    #labels:
+    #  - "traefik.http.routers.${PROJECT_NAME}_recast.rule=Host(`recast.${PROJECT_BASE_URL}`)" 
+
+### MVP3
+
+
+networks:
+  internal:
+  external:
 
 volumes:
   # For local database storage persistance we bind mount a local folder.
@@ -236,4 +342,11 @@ volumes:
   mariadb-data:
   activemq-data:
   solr-data:
-  # isle-dc-postgres-data # Added to prototype but not currently used
+  blazegraph-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/data/blazegraph/data
+
+  # isle-dc-postgres-data # Added to prototype but not currently used    
