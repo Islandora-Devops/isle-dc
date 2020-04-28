@@ -343,10 +343,5 @@ volumes:
   activemq-data:
   solr-data:
   blazegraph-data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${PWD}/data/blazegraph/data
 
   # isle-dc-postgres-data # Added to prototype but not currently used    
