@@ -44,7 +44,7 @@ function download_drupal() {
 
   # Delete codebase just in case a previous command failed to finish the installation.
   [[ -d ./codebase ]] && rm -rf ./codebase
-  $composer $args $composer_general_flags codebase
+  $composer $args $composer_general_flags .
 
   download_required_packages
 }
@@ -149,9 +149,9 @@ if [[ ! $composer ]]; then
   echo >&2
   mkdir -p "$HOME/.composer"
   if $is_darwin; then
-    composer="docker container run -it --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3"
+    composer="docker container run -it --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD/codebase:/app composer:1.9.3"
   else
-    composer="env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3"
+    composer="env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD/codebase:/app composer:1.9.3"
   fi
 fi
 
@@ -179,7 +179,7 @@ mkdir -p $PWD/data/drupal/files/public $PWD/data/drupal/files/private
 ###
 if [[ ! -f "$current_folder/codebase/vendor/autoload.php" ]]; then
   cd "$current_folder/codebase"
-  $composer install $composer_flags
+  $composer install $composer_general_flags
   cd ..
 fi
 
