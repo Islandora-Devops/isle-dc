@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 codebase="drupal"
 config_dir="$PWD/config/drupal"
