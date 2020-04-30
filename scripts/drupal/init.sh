@@ -128,16 +128,19 @@ function composer_cmd() {
     echo >&2
     mkdir -p "$HOME"/.composer
     if $is_darwin; then
-      docker container run -it --rm --user $UID:"$GUID" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 "$@"
+      # shellcheck disable=SC2068
+      docker container run -it --rm --user $UID:"$GUID" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 $@
     else
-      env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:"$GUID" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 "$@"
+      # shellcheck disable=SC2068
+      env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:"$GUID" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 $@
     fi
   else
     echo >&2
     echo -e "\033[1m[INFO]\033[0m Using local composer to run the commands"
     echo " "
     echo >&2
-    composer "$@"
+    # shellcheck disable=SC2068
+    composer $@
   fi
 }
 
