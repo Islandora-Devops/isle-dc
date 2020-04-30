@@ -27,9 +27,9 @@ function download_drupal() {
   local args="create-project born-digital/drupal-project:dev-isle8-dev"
   local codebase="$1"
 
-  if [[ ! $composer ]]; then
-    fail "We could not download drupal. Ensure composer or docker is setup and installed properly on your local host."
-  fi
+  # if [[ ! $composer ]]; then
+  #   fail "We could not download drupal. Ensure composer or docker is setup and installed properly on your local host."
+  # fi
 
   if [[ "$codebase" == "drupal" ]]; then
     local args="create-project drupal-composer/drupal-project:8.x-dev"
@@ -44,7 +44,7 @@ function download_drupal() {
 
   # Delete codebase just in case a previous command failed to finish the installation.
   [[ -d ./codebase ]] && rm -rf ./codebase
-  $composer $args $composer_general_flags codebase
+  composer_cmd $args $composer_general_flags codebase
 
   download_required_packages
 }
@@ -81,7 +81,7 @@ function download_required_packages() {
     if [[ ! $(grep "${package}" composer.json) ]]; then
       echo "       Requiring ${package}. Downloading."
       echo " "
-      $composer require ${package}:${version} $composer_general_flags
+      composer_cmd require ${package}:${version} $composer_general_flags
     else
       echo "       ${package} was found in the composer.json. Skipping."
     fi
@@ -116,6 +116,32 @@ function create_required_files() {
   fi
 }
 
+function composer_cmd() {
+  ###
+  # Determine how we will be running composer.
+  ###
+  local composer=$(command -v composer || true)
+  if [[ ! $composer ]]; then
+    # We use the docker composer image to run composer related commands.
+    echo >&2
+    echo -e "\033[1m[INFO]\033[0m Using the official composer docker image to run composer commands"
+    echo " "
+    echo >&2
+    mkdir -p "$HOME/.composer"
+    if $is_darwin; then
+      docker container run -it --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3 $@
+    else
+      env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3 $@
+    fi
+  else
+    echo >&2
+    echo -e "\033[1m[INFO]\033[0m Using local composer to run the commands"
+    echo " "
+    echo >&2
+    composer $@
+  fi
+}
+
 while [ ! $# -eq 0 ]
 do
   case "$1" in
@@ -136,24 +162,6 @@ do
   esac
   shift
 done
-
-###
-# Determine how we will be running composer.
-###
-composer=$(command -v composer || true)
-if [[ ! $composer ]]; then
-  # We use the docker composer image to run composer related commands.
-  echo >&2
-  echo -e "\033[1m[INFO]\033[0m Using the official composer docker image to run composer commands"
-  echo " "
-  echo >&2
-  mkdir -p "$HOME/.composer"
-  if $is_darwin; then
-    composer="docker container run -it --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3"
-  else
-    composer="env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3"
-  fi
-fi
 
 ###
 # Checking if the project code exists.
@@ -179,7 +187,12 @@ mkdir -p $PWD/data/drupal/files/public $PWD/data/drupal/files/private
 ###
 if [[ ! -f "$current_folder/codebase/vendor/autoload.php" ]]; then
   cd "$current_folder/codebase"
-  $composer install $composer_flags
+  echo >&2
+  echo -e "\033[1m[INFO]\033[0m Running composer install just in case the user has an existing project"
+  echo " "
+  echo >&2
+
+  composer_cmd install $composer_general_flags
   cd ..
 fi
 
