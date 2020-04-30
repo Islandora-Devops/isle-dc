@@ -176,6 +176,10 @@ fi
 
 # load the config here
 if [[ "$codebase" == "islandora" && ! -f codebase/config/sync/core.extension.yml ]]; then
+  echo >&2
+  echo -e "\033[1m[INFO]\033[0m Extracting default drupal islandora configurations in codebase"
+  echo " "
+  echo >&2
   tar -xzf config/drupal/islandora-starter-config.tar.gz codebase/config/sync
 fi
 
