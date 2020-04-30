@@ -6,7 +6,7 @@ codebase="drupal"
 config_dir="$PWD/config/drupal"
 current_folder="$PWD"
 composer_general_flags="--ignore-platform-reqs --no-interaction"
-OS=`uname -s`
+OS=$(uname -s)
 [[ "$OS" == "Darwin" ]] && is_darwin=true || is_darwin=false
 
 function fail {
@@ -44,7 +44,7 @@ function download_drupal() {
 
   # Delete codebase just in case a previous command failed to finish the installation.
   [[ -d ./codebase ]] && rm -rf ./codebase
-  composer_cmd $args $composer_general_flags codebase
+  composer_cmd "$args" "$composer_general_flags" codebase
 
   download_required_packages
 }
@@ -67,7 +67,7 @@ function download_required_packages() {
     local pattern="    \"extra\""
     if $is_darwin; then
       local snippet=$'\    "autoload": {"files": ["load.environment.php"]},\n'
-      sed -i '' -e '\|^'"$pattern"'|i\'$'\n'"$snippet" composer.json
+      sed -i '' -e '\|^'"$pattern"'|i'\'''$'\n'"$snippet" composer.json
     else
       local snippet="\    \"autoload\": {\n       \"files\": [\"load\.environment\.php\"]\n    },\n"
       sed -i -e "/^${pattern}/i ${snippet}" composer.json
@@ -78,10 +78,10 @@ function download_required_packages() {
     local package=${packages[$i]}
     local version=${versions[$i]}
     # Only installing a package when it is not available in composer.json
-    if [[ ! $(grep "${package}" composer.json) ]]; then
+    if ! grep -q "${package}" composer.json; then
       echo "       Requiring ${package}. Downloading."
       echo " "
-      composer_cmd require ${package}:${version} $composer_general_flags
+      composer_cmd require "${package}":"${version}" "$composer_general_flags"
     else
       echo "       ${package} was found in the composer.json. Skipping."
     fi
@@ -120,25 +120,24 @@ function composer_cmd() {
   ###
   # Determine how we will be running composer.
   ###
-  local composer=$(command -v composer || true)
-  if [[ ! $composer ]]; then
+  if [[ ! $(command -v composer || true) ]]; then
     # We use the docker composer image to run composer related commands.
     echo >&2
     echo -e "\033[1m[INFO]\033[0m Using the official composer docker image to run composer commands"
     echo " "
     echo >&2
-    mkdir -p "$HOME/.composer"
+    mkdir -p "$HOME"/.composer
     if $is_darwin; then
-      docker container run -it --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3 $@
+      docker container run -it --rm --user $UID:"$GUID" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 "$@"
     else
-      env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:$GUID -v $HOME/.composer:/tmp -v $PWD:/app composer:1.9.3 $@
+      env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:"$GUID" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 "$@"
     fi
   else
     echo >&2
     echo -e "\033[1m[INFO]\033[0m Using local composer to run the commands"
     echo " "
     echo >&2
-    composer $@
+    composer "$@"
   fi
 }
 
@@ -167,7 +166,7 @@ done
 # Checking if the project code exists.
 ###
 if [[ ! -f "$current_folder/codebase/composer.json" ]]; then
-  download_drupal $codebase
+  download_drupal "$codebase"
 else
   download_required_packages
 fi
@@ -180,7 +179,7 @@ fi
 ###
 # Initialize drupal files persistent storage folders.
 ###
-mkdir -p $PWD/data/drupal/files/public $PWD/data/drupal/files/private
+mkdir -p "$PWD"/data/drupal/files/public "$PWD"/data/drupal/files/private
 
 ###
 # Running composer install just in case the user has an existing project.
@@ -192,7 +191,7 @@ if [[ ! -f "$current_folder/codebase/vendor/autoload.php" ]]; then
   echo " "
   echo >&2
 
-  composer_cmd install $composer_general_flags
+  composer_cmd install "$composer_general_flags"
   cd ..
 fi
 
