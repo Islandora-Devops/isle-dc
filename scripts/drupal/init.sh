@@ -129,10 +129,10 @@ function composer_cmd() {
     mkdir -p "$HOME"/.composer
     if $is_darwin; then
       # shellcheck disable=SC2068
-      docker container run -it --rm --user $UID:"$GUID" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 $@
+      docker container run -it --rm --user $UID:"$(id -g)" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 $@
     else
       # shellcheck disable=SC2068
-      env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:"$GUID" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 $@
+      env MSYS_NO_PATHCONV=1 docker container run -t --rm --user $UID:"$(id -g)" -v "$HOME"/.composer:/tmp -v "$PWD":/app composer:1.9.3 $@
     fi
   else
     echo >&2
