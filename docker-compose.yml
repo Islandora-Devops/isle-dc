@@ -1,7 +1,7 @@
 version: "2.4"
 
-## ISLE 8 Draft Prototype
-## April 2020
+## ISLE 8 Prototype
+## May 2020
 ## Sprint 4 - All services merged
 
 services:
@@ -17,6 +17,7 @@ services:
     healthcheck:
       # https://dev.mysql.com/doc/refman/8.0/en/mysqladmin.html#command_mysqladmin_ping
       test: ["CMD", "mysqladmin", "ping", "--silent"]
+
 
   drupal:
     build:
@@ -71,117 +72,88 @@ services:
       - "traefik.http.routers.${PROJECT_NAME:-islandora}.rule=Host(`${PROJECT_BASE_URL:-idcp.localhost}`)"
       - "traefik.http.services.${PROJECT_NAME:-islandora}.loadbalancer.server.port=8080"
 
+
   solr:
     image: wodby/solr:$SOLR_TAG
-    container_name: "${PROJECT_NAME}_solr"
     environment:
       SOLR_DEFAULT_CONFIG_SET: ${SOLR_CONFIG_SET:-search_api_solr_8.x-3.2}
       SOLR_HEAP: ${SOLR_HEAP:-1024m}
     volumes:
       - solr-data:/opt/solr/server/solr
-    # TO DO: Determine what type of container handling is needed
     labels:
       - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
 
+
   cantaloupe:
     image: lyrasis/cantaloupe:latest # should this be 4.0-1 instead?
-    container_name: "${PROJECT_NAME}_cantaloupe"
-    # networks:
-    #   - internal
     env_file:
       - cantaloupe.env
     ports:
       - "8182:8182"
-    # TO DO: Determine what type of container handling is needed, exposed ports etc?
-    #volumes:
+    # volumes:
     # (optional) bind-mount this file as a template for changes to the cantaloupe container. Currently the cantaloupe.env handles this.
-    #  - ./config/cantaloupe/cantaloupe.properties:/cantaloupe/cantaloupe.properties
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_cantaloupe.rule=Host(`cantaloupe.${PROJECT_BASE_URL}`)"
+    #   - ./config/cantaloupe/cantaloupe.properties:/cantaloupe/cantaloupe.properties
 
-  ### MVP2 - Microservices - Start
 
   houdini:
     image: islandora/isle-houdini:sp4-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
-#      args:
-#        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
-#        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
-    container_name: "${PROJECT_NAME}_houdini"
-    # networks:
-    #   - internal
-    #    ports:
-    #      - "8000:8000"
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
+    #      args:
+    #        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
+    #        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
+    # ports:
+    #   - "8000:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_houdini.rule=Host(`houdini.${PROJECT_BASE_URL}`)"
+
 
   homarus:
     image: islandora/isle-homarus:sp4-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
-#      args:
-#        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
-#        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
-    container_name: "${PROJECT_NAME}_homarus"
-#    ports:
-#      - "8001:8000"
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
+    #      args:
+    #        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
+    #        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
+    #    ports:
+    #      - "8001:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_homarus.rule=Host(`homarus.${PROJECT_BASE_URL}`)"
+
 
   hypercube:
     image: islandora/isle-hypercube:sp4-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
-#      args:
-#        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
-#        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
-    container_name: "${PROJECT_NAME}_hypercube"
-    # networks:
-    #   - internal
-    #    ports:
-    #      - "8002:8000"
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
+    #      args:
+    #        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
+    #        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
+    # ports:
+    #   - "8002:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"
+
 
   crayfits:
     image: islandora/isle-crayfits:sp4-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
-#      args:
-#        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
-    container_name: "${PROJECT_NAME}_crayfits"
-    # networks:
-    #   - internal
-    #    ports:
-    #      - "8003:8000"
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
+    #      args:
+    #        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
+    # ports:
+    #   - "8003:8000"
     volumes:
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_hypercube.rule=Host(`hypercube.${PROJECT_BASE_URL}`)"
+
 
   fits:
     image: harvardlts/fitsservlet_container:1.5.0
-    container_name: "${PROJECT_NAME}_fits"
-    # networks:
-    #   - internal
-  #    ports:
-  #      - '8085:8080'
-  # TO DO: Determine what type of container handling is needed, exposed ports etc?
-  #volumes:
-  #labels:
-  #  - "traefik.http.routers.${PROJECT_NAME}_fits.rule=Host(`fits.${PROJECT_BASE_URL}`)"
+    # ports:
+    #   - '8085:8080'
 
-  ### MVP2 - Microservices - End
 
   traefik:
     # review https://hub.docker.com/_/traefik
@@ -192,7 +164,6 @@ services:
       #- "443:443"
       #- "8080:8080"
     volumes:
-      # TO DO: Update according to new Traefik 2.0 conventions (values below based on 1.7.9, are incomplete & wrong due to missing "routing" labels)
       - /var/run/docker.sock:/var/run/docker.sock
       # SSL Choice 1: To use Let's Encrypt for SSL- uncomment ONLY the line below and then create an empty config/traefik/acme.json file
       # - ./config/traefik/acme.json:/acme.json
@@ -205,51 +176,41 @@ services:
       # https://docs.traefik.io/getting-started/configuration-overview
       # Obsolete - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
 
+
   alpaca-connector:
     image: islandora/isle-alpaca:sp4-alpha
-     # build:
-     # context: https://github.com/Islandora-Devops/isle-alpaca.git#dev
-    container_name: "${PROJECT_NAME}_alpaca"
+    # build:
+    # context: https://github.com/Islandora-Devops/isle-alpaca.git#dev
     env_file: .env
-    # networks:
-    #   - internal
+
 
   activemq:
     image: rmohr/activemq
-    container_name: "${PROJECT_NAME}_activemq"
     env_file: .env
     ports:
       - "8161:8161" # To make mgmt console available for dev purposes.  use admin:admin to log in
-    # networks:
-    #   - internal
     volumes:
       - activemq-data:/opt/activemq/data
 
-### MVP3
 
   fcrepo:
     image: islandora/isle-fcrepo:sp4-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-fcrepo.git#dev
-#      args:
-#        ARG FCREPO_VERSION: ${FCREPO_VERSION:-5.1.0}
-#        ARG FCREPO_CONFIG_DIR: /opt/fcrepo/config
-#        ARG FCREPO_HOME: /opt/fcrepo/data
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-fcrepo.git#dev
+    #      args:
+    #        ARG FCREPO_VERSION: ${FCREPO_VERSION:-5.1.0}
+    #        ARG FCREPO_CONFIG_DIR: /opt/fcrepo/config
+    #        ARG FCREPO_HOME: /opt/fcrepo/data
     env_file: fcrepo.env
     environment:
       - JAVA_MAX_MEM=4096M
       - JAVA_MIN_MEM=1024M
-    container_name: "${PROJECT_NAME}_fcrepo"
-    networks:
-      - internal
     ports:
       - "8006:8080"
     volumes:
       - ./data/fcrepo/data:/opt/fcrepo/data
       - ./syn-keys:/opt/keys
       - ./config/fcrepo/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_fcrepo.rule=Host(`fcrepo.${PROJECT_BASE_URL}`)"   
 
 
   blazegraph:
@@ -257,9 +218,6 @@ services:
     environment:
       - JAVA_MAX_MEM=4096M
       - JAVA_MIN_MEM=1024M
-    container_name: "${PROJECT_NAME}_blazegraph"
-    networks:
-      - internal
     ports:
       - "8007:8080"
     volumes:
@@ -269,72 +227,49 @@ services:
       # Local volume for avoiding permissions issues
       - blazegraph-data:/var/lib/jetty/data
       - ./scripts/blazegraph:/scripts
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_blazegraph.rule=Host(`blazegraph.${PROJECT_BASE_URL}`)"
 
 
   gemini:
     image: borndigital/isle-gemini:mvp3-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-gemini.git#dev
-#      args:
-#        GEMINI_JWT_ADMIN_TOKEN: $GEMINI_JWT_ADMIN_TOKEN
-#        GEMINI_LOG_LEVEL: $GEMINI_LOG_LEVEL
-    container_name: "${PROJECT_NAME}_gemini"
-    networks:
-      - internal
-#    ports:
-#      - "8008:8000"
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-gemini.git#dev
+    #      args:
+    #        GEMINI_JWT_ADMIN_TOKEN: $GEMINI_JWT_ADMIN_TOKEN
+    #        GEMINI_LOG_LEVEL: $GEMINI_LOG_LEVEL
+    #    ports:
+    #      - "8008:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_gemini.rule=Host(`gemini.${PROJECT_BASE_URL}`)"  
 
 
   milliner:
     image: borndigital/isle-milliner:mvp3-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-milliner.git#dev
-#      args:
-#        MILLINER_JWT_ADMIN_TOKEN: $MILLINER_JWT_ADMIN_TOKEN
-#        MILLINER_LOG_LEVEL: $MILLINER_LOG_LEVEL
-    container_name: "${PROJECT_NAME}_milliner"
-    networks:
-      - internal
-#    ports:
-#      - "8009:8000"
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-milliner.git#dev
+    #      args:
+    #        MILLINER_JWT_ADMIN_TOKEN: $MILLINER_JWT_ADMIN_TOKEN
+    #        MILLINER_LOG_LEVEL: $MILLINER_LOG_LEVEL
+    #    ports:
+    #      - "8009:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_milliner.rule=Host(`milliner.${PROJECT_BASE_URL}`)"  
 
 
   recast:
     image: borndigital/isle-recast:mvp3-alpha
-#    build:
-#      context: https://github.com/Islandora-Devops/isle-recast.git#dev
-#      args:
-#        RECAST_JWT_ADMIN_TOKEN: $RECAST_JWT_ADMIN_TOKEN
-#        RECAST_LOG_LEVEL: $RECAST_LOG_LEVEL
-    container_name: "${PROJECT_NAME}_recast"
-    networks:
-      - internal
-#    ports:
-#      - "8009:8000"
+    #    build:
+    #      context: https://github.com/Islandora-Devops/isle-recast.git#dev
+    #      args:
+    #        RECAST_JWT_ADMIN_TOKEN: $RECAST_JWT_ADMIN_TOKEN
+    #        RECAST_LOG_LEVEL: $RECAST_LOG_LEVEL
+    #    ports:
+    #      - "8009:8000"
     volumes:
       - ./jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-    #labels:
-    #  - "traefik.http.routers.${PROJECT_NAME}_recast.rule=Host(`recast.${PROJECT_BASE_URL}`)" 
 
-### MVP3
-
-
-networks:
-  internal:
-  external:
 
 volumes:
   # For local database storage persistance we bind mount a local folder.
