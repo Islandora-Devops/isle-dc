@@ -75,14 +75,19 @@ services:
 
 
   solr:
-    image: wodby/solr:$SOLR_TAG
-    environment:
-      SOLR_DEFAULT_CONFIG_SET: ${SOLR_CONFIG_SET:-search_api_solr_8.x-3.2}
-      SOLR_HEAP: ${SOLR_HEAP:-1024m}
+    image: solr:8.4.1
+    ports:
+      - "8983:8983"
     volumes:
-      - solr-data:/opt/solr/server/solr
-    labels:
-      - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
+      - solr-data:/var/solr/data
+      - ./config/solr/islandora_solr_conf:/islandora_solr_conf
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-create
+      - -c
+      - islandora
+      - -d
+      - /islandora_solr_conf
 
 
   cantaloupe:
