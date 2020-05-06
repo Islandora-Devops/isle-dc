@@ -4,7 +4,7 @@ isle_codebase ?= islandora
 
 docker_compose_project ?= islandora
 
-.PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean
+.PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean solr_init
 
 default: drupal_init up solr_init
 
@@ -15,7 +15,7 @@ drupal_init:
 	./scripts/drupal/init.sh --codebase $(isle_codebase)
 
 solr_init:
-	./scripts/solr/create-core.sh
+    chown -Rv 8983:8983 config/solr/islandora_solr_conf
 
 up:
 	MSYS_NO_PATHCONV=1 docker-compose -p $(docker_compose_project) up --remove-orphans --detach
