@@ -6,13 +6,16 @@ docker_compose_project ?= islandora
 
 .PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean
 
-default: drupal_init up solr_init
+default: drupal_init generate_keys up solr_init
 
 help:
 	./scripts/drupal/init.sh --help
 
 drupal_init:
 	./scripts/drupal/init.sh --codebase $(isle_codebase)
+
+generate_keys:
+	./scripts/generate_jwt_keys.sh
 
 solr_init:
 	./scripts/solr/create-core.sh

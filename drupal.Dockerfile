@@ -1,6 +1,6 @@
 ARG build_environment=prod
 ARG code_dir=./codebase
-ARG base_image_tag=7.2.28-1.17.8-0ceedc1b
+ARG base_image_tag=latest
 ARG composer_version=1.9.3
 
 #
@@ -59,7 +59,7 @@ RUN set -eux; \
 #
 # Stage 3: The base app/drupal
 #
-FROM registry.gitlab.com/nikathone/drupal-docker-good-defaults/php-nginx:${base_image_tag} as base
+FROM islandora/isle-nginx-php-base:${base_image_tag} as base
 ARG code_dir
 ARG app_runner_user=drupal
 ARG app_runner_user_id=1000
