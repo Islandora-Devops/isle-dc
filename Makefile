@@ -6,7 +6,7 @@ docker_compose_project ?= islandora
 
 .PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean
 
-default: drupal_init up solr_init
+default: drupal_init up solr_init blazegraph_init
 
 help:
 	./scripts/drupal/init.sh --help
@@ -16,6 +16,9 @@ drupal_init:
 
 solr_init:
 	./scripts/solr/create-core.sh
+
+blazegraph_init:
+	./scripts/blazegraph/install_islandora_namespace.sh
 
 up:
 	MSYS_NO_PATHCONV=1 docker-compose -p $(docker_compose_project) up --remove-orphans --detach
