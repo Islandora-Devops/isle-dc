@@ -194,17 +194,22 @@ services:
 
 
   fcrepo:
-    image: islandora/isle-fcrepo:sp4-alpha
+    image: islandora/isle-fcrepo:latest
     #    build:
     #      context: https://github.com/Islandora-Devops/isle-fcrepo.git#dev
     #      args:
     #        ARG FCREPO_VERSION: ${FCREPO_VERSION:-5.1.0}
     #        ARG FCREPO_CONFIG_DIR: /opt/fcrepo/config
     #        ARG FCREPO_HOME: /opt/fcrepo/data
-    env_file: fcrepo.env
+    env_file:
+      - .env
+      - fcrepo.env
     environment:
       - JAVA_MAX_MEM=4096M
       - JAVA_MIN_MEM=1024M
+    depends_on:
+      mariadb:
+        condition: service_healthy
     ports:
       - "8006:8080"
     volumes:
