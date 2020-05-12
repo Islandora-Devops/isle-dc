@@ -18,7 +18,7 @@ generate_keys:
 	./scripts/generate_jwt_keys.sh
 
 solr_init:
-    chown -Rv 8983:8983 config/solr/islandora_solr_conf
+	chown -Rv 8983:8983 config/solr/islandora_solr_conf
 
 up:
 	MSYS_NO_PATHCONV=1 docker-compose -p $(docker_compose_project) up --remove-orphans --detach

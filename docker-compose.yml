@@ -102,9 +102,7 @@ services:
 
 
   houdini:
-    #image: islandora/isle-houdini:sp4-alpha
-    build:
-      context: ../isle-houdini
+    image: islandora/isle-houdini:latest
     env_file:
       - .env
     # ports:
@@ -115,12 +113,9 @@ services:
 
 
   homarus:
-    image: islandora/isle-homarus:sp4-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
-    #      args:
-    #        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
-    #        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
+    image: islandora/isle-homarus:latest
+    env_file:
+      - .env
     #    ports:
     #      - "8001:8000"
     volumes:
@@ -129,12 +124,7 @@ services:
 
 
   hypercube:
-    image: islandora/isle-hypercube:sp4-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
-    #      args:
-    #        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
-    #        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
+    image: islandora/isle-hypercube:latest
     # ports:
     #   - "8002:8000"
     volumes:
@@ -143,11 +133,9 @@ services:
 
 
   crayfits:
-    image: islandora/isle-crayfits:sp4-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
-    #      args:
-    #        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
+    image: islandora/isle-crayfits:latest
+    env_file:
+      - .env
     # ports:
     #   - "8003:8000"
     volumes:
@@ -240,14 +228,12 @@ services:
 
 
   gemini:
-    image: borndigital/isle-gemini:mvp3-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-gemini.git#dev
-    #      args:
-    #        GEMINI_JWT_ADMIN_TOKEN: $GEMINI_JWT_ADMIN_TOKEN
-    #        GEMINI_LOG_LEVEL: $GEMINI_LOG_LEVEL
-    #    ports:
-    #      - "8008:8000"
+    image: islandora/isle-gemini:latest
+    env_file:
+      - .env
+    depends_on:
+      mariadb:
+        condition: service_healthy
     volumes:
       - ./config/jwt:/opt/jwt
       - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
