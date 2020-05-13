@@ -40,3 +40,15 @@ if (empty($settings['hash_salt'])) {
  * Config directory setting.
  */
 // $settings['config_sync_directory'] = '../config/sync';
+
+/**
+ * Flysystem
+ */
+$settings['flysystem'] = [
+  'fedora' => [
+    'driver' => 'fedora',
+    'config' => [
+      'root' => 'http://fedora:8080/fcrepo/rest/',
+    ],
+  ],
+];

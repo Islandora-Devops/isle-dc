@@ -2,7 +2,7 @@
 
 set -e
 
-keys_dir="$PWD/config/jwt"
+keys_dir="$PWD/data/jwt"
 
 if [[ ! -d $keys_dir ]]; then
   echo "Creating $keys_dir"
