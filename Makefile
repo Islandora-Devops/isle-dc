@@ -29,6 +29,13 @@ build:
 		--detach \
 		--remove-orphans
 
+jwt_keys:
+	(cd scripts; ./generate_jwt_keys.sh)
+
+# use like this: drupal_exec command="drush st"
+drupal_exec:
+	docker-compose exec -T -p islandora -w /var/www/html/web drupal bash -c "$(command)"
+
 down:
 	docker-compose -p $(docker_compose_project) down --remove-orphans
 
