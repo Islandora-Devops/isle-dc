@@ -1,24 +1,150 @@
-version: "2.4"
-
-## ISLE 8 Prototype
-## May 2020
-## Sprint 4 - All services merged
-
+# file: docker-compose.yml
+# DO NOT USE IN PRODUCTION
+#
+# Development docker-compose for testing locally:
+# - All users are 'admin'
+# - All passwords are 'password'
+# 
+# With the exception of the database where the user is 
+# 'root' rather than admin. And the database users for 
+# each service are named after their respective service 
+# to avoid conflict.
+#
+# The Traefik image acts as Reverse Proxy to the services,
+# assuming you can map to port 80 on your machine. The 
+# loop back for localhost should make the following urls 
+# accessible in your browser:
+#
+# - activemq.localhost/admin
+# - blazegraph.localhost/bigdata
+# - drupal.localhost
+# - fcrepo.localhost/fcrepo/reset
+# - matomo.localhost
+#
+# For other images you can use the command:
+#
+# ./commands/open-in-browser SERVICE
+version: "3.7"
+networks:
+  external:
+    internal: false
+  default:
+    internal: true
+volumes:
+  activemq-data:
+  blazegraph-data:
+  drupal-config-data:
+  drupal-sites-data:
+  cantaloupe-data:
+  etcd-data:
+  fcrepo-data:
+  jwt-data:
+  jwt-public-data:
+  karaf-data:
+  matomo-config-data:
+  mysql-data:
+  mysql-files:
+  solr-data:
 services:
-  mariadb:
-    image: mariadb:10.3.22
+  # Single node cluster.
+  # 
+  #  If disabled the system will fall back on Environment Variables.
+  #  To set key/value pairs use the following:
+  #
+  #  ./commands/etcdctl.sh put /drupal/site/default/name "default"
+  #
+  etcd:
+    image: gcr.io/etcd-development/etcd:v3.4.7
     environment:
-      MYSQL_DATABASE: ${DB_NAME:-islandora}
-      MYSQL_USER: ${DB_USER:-islandora}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-dbpassword}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-dbpassword}
+      ETCD_ADVERTISE_CLIENT_URLS: "http://0.0.0.0:2379"
+      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
     volumes:
-      - mariadb-data:/var/lib/mysql
-    healthcheck:
-      # https://dev.mysql.com/doc/refman/8.0/en/mysqladmin.html#command_mysqladmin_ping
-      test: ["CMD", "mysqladmin", "ping", "--silent"]
-
-
+      - etcd-data:/data
+    ports:
+      - 2379
+      - 2380
+      - 4001
+    command: >
+      etcd
+      --data-dir=/data
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 1 --no-pull
+  activemq:
+    image:  ${REPOSITORY:-local}/activemq:latest
+    volumes:
+      - activemq-data:/opt/activemq/data
+    labels:
+      # Do not expose in production.
+      - traefik.http.services.activemq.loadbalancer.server.port=8161
+      - traefik.http.routers.activemq_http.service=activemq
+      - traefik.http.routers.activemq_http.entrypoints=http
+  alpaca:
+    image:  ${REPOSITORY:-local}/alpaca:latest
+    volumes:
+      - karaf-data:/opt/karaf/data
+    depends_on:
+      - activemq
+  blazegraph:
+    image:  ${REPOSITORY:-local}/blazegraph:latest
+    volumes:
+      - blazegraph-data:/data
+    networks:
+      default:
+        aliases:
+          - blazegraph.localhost
+    labels:
+      - traefik.http.services.blazegraph.loadbalancer.server.port=80
+      - traefik.http.routers.blazegraph_http.service=blazegraph
+      - traefik.http.routers.blazegraph_http.entrypoints=http
+  cantaloupe:
+    image:  ${REPOSITORY:-local}/cantaloupe:latest
+    volumes:
+      - cantaloupe-data:/data
+    networks:
+      default:
+        aliases:
+          - cantaloupe.localhost
+    labels:
+      - traefik.http.services.cantaloupe.loadbalancer.server.port=80
+      - traefik.http.routers.cantaloupe_http.service=cantaloupe
+      - traefik.http.routers.cantaloupe_http.entrypoints=http
+  crayfits:
+    image:  ${REPOSITORY:-local}/crayfits:latest
+    depends_on:
+      - fits
+  # Database is chosen as the service name rather than mariadb,
+  # as institutions may want to swap out back-ends later and
+  # database is a more sensible default.
+  database:
+    image:  ${REPOSITORY:-local}/mariadb:latest
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - mysql-files:/var/lib/mysql-files
+  #drupal:
+  #  image:  ${REPOSITORY:-local}/sandbox:latest
+  #  restart: unless-stopped
+  #  volumes:
+  #    - drupal-config-data:/var/www/drupal/config
+  #    - drupal-sites-data:/var/www/drupal/web/sites
+  #    - solr-data:/opt/solr/server/solr
+  #    - jwt-data:/opt/keys/claw/
+  #  depends_on:
+  #    - solr
+  #    - fcrepo
+  #    - database
+  #    - activemq
+  #  networks:
+  #    default:
+  #      aliases:
+  #        - drupal.localhost
+  #  labels:
+  #    - traefik.http.services.drupal.loadbalancer.server.port=80
+  #    - traefik.http.routers.drupal_http.service=drupal
+  #    - traefik.http.routers.drupal_http.entrypoints=http
+      
   drupal:
     build:
       context: ./
@@ -38,9 +164,16 @@ services:
         # NGINX confd build time args
         - NGINX_SERVER_ROOT=${APP_DOCROOT:-/var/www/app/web}
         - NGINX_LISTEN_PORT=8080
+    restart: unless-stopped
     depends_on:
-      mariadb:
-        condition: service_healthy
+      - solr
+      - fcrepo
+      - database
+      - activemq
+    networks:
+      default:
+        aliases:
+          - drupal.localhost
     environment:
       APP_NAME: ${DRUPAL_SITE_NAME:-islandora}
       APP_ROOT: ${APP_ROOT:-/var/www/app}
@@ -69,219 +202,95 @@ services:
       - ${APP_DOCROOT:-/var/www/app/web}/profiles/contrib
       - ${APP_DOCROOT:-/var/www/app/web}/libraries
     labels:
-      - "traefik.http.routers.${PROJECT_NAME:-islandora}.rule=Host(`${PROJECT_BASE_URL:-idcp.localhost}`)"
-      - "traefik.http.services.${PROJECT_NAME:-islandora}.loadbalancer.server.port=8080"
-
-
+      #- "traefik.http.routers.${PROJECT_NAME:-islandora}.rule=Host(`${PROJECT_BASE_URL:-idcp.localhost}`)"
+      #- "traefik.http.services.${PROJECT_NAME:-islandora}.loadbalancer.server.port=8080"
+      - traefik.http.services.drupal.loadbalancer.server.port=80
+      - traefik.http.routers.drupal_http.service=drupal
+      - traefik.http.routers.drupal_http.entrypoints=http
+      
+  fcrepo:
+    image:  ${REPOSITORY:-local}/fcrepo:latest
+    volumes:
+      - fcrepo-data:/data
+      - jwt-data:/opt/keys/claw/
+    depends_on: 
+      - activemq
+      - database
+    networks:
+      default:
+        aliases:
+          - fcrepo.localhost
+    labels:
+      # Do not expose in production.
+      - traefik.http.services.fcrepo.loadbalancer.server.port=80
+      - traefik.http.routers.fcrepo_http.service=fcrepo
+      - traefik.http.routers.fcrepo_http.entrypoints=http
+  fits:
+    image:  ${REPOSITORY:-local}/fits
+  gemini:
+    image:  ${REPOSITORY:-local}/gemini:latest
+    volumes:
+      - jwt-data:/opt/keys/claw/
+    depends_on: 
+      - database
+  homarus:
+    image:  ${REPOSITORY:-local}/homarus:latest
+    volumes:
+      - jwt-data:/opt/keys/claw/
+  houdini:
+    image:  ${REPOSITORY:-local}/houdini:latest
+    volumes:
+      - jwt-data:/opt/keys/claw/
+  hypercube:
+    image:  ${REPOSITORY:-local}/hypercube:latest
+    volumes:
+      - jwt-data:/opt/keys/claw/
+  matomo:
+    image:  ${REPOSITORY:-local}/matomo
+    volumes:
+      - matomo-config-data:/opt/matomo/config
+    depends_on: 
+      - database
+    networks:
+      default:
+      external: # Needs external access to request plugins, etc.
+    labels:
+      # Do not expose in production over http, setup https.
+      - traefik.http.services.matomo.loadbalancer.server.port=80
+      - traefik.http.routers.matomo_http.service=matomo
+      - traefik.http.routers.matomo_http.entrypoints=http
+  milliner:
+    image:  ${REPOSITORY:-local}/milliner:latest
+    volumes:
+      - jwt-data:/opt/keys/claw/
+  recast:
+    image:  ${REPOSITORY:-local}/recast:latest
+    volumes:
+      - jwt-data:/opt/keys/claw/
   solr:
-    image: wodby/solr:$SOLR_TAG
-    environment:
-      SOLR_DEFAULT_CONFIG_SET: ${SOLR_CONFIG_SET:-search_api_solr_8.x-3.2}
-      SOLR_HEAP: ${SOLR_HEAP:-1024m}
+    image:  ${REPOSITORY:-local}/solr:latest
     volumes:
       - solr-data:/opt/solr/server/solr
     labels:
-      - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
-
-
-  cantaloupe:
-    image: lyrasis/cantaloupe:latest # should this be 4.0-1 instead?
-    env_file:
-      - cantaloupe.env
-    ports:
-      - "8182:8182"
-    # volumes:
-    # (optional) bind-mount this file as a template for changes to the cantaloupe container. Currently the cantaloupe.env handles this.
-    #   - ./config/cantaloupe/cantaloupe.properties:/cantaloupe/cantaloupe.properties
-
-
-  houdini:
-    image: islandora/isle-houdini:sp4-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-houdini.git#dev
-    #      args:
-    #        HOUDINI_JWT_ADMIN_TOKEN: $HOUDINI_JWT_ADMIN_TOKEN
-    #        HOUDINI_LOG_LEVEL: $HOUDINI_LOG_LEVEL
-    # ports:
-    #   - "8000:8000"
-    volumes:
-      - ./jwt:/opt/jwt
-      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-
-
-  homarus:
-    image: islandora/isle-homarus:sp4-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-homarus.git#dev
-    #      args:
-    #        HOMARUS_JWT_ADMIN_TOKEN: $HOMARUS_JWT_ADMIN_TOKEN
-    #        HOMARUS_LOG_LEVEL: $HOMARUS_LOG_LEVEL
-    #    ports:
-    #      - "8001:8000"
-    volumes:
-      - ./jwt:/opt/jwt
-      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-
-
-  hypercube:
-    image: islandora/isle-hypercube:sp4-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-hypercube.git#dev
-    #      args:
-    #        HYPERCUBE_JWT_ADMIN_TOKEN: $HYPERCUBE_JWT_ADMIN_TOKEN
-    #        HYPERCUBE_LOG_LEVEL: $HYPERCUBE_LOG_LEVEL
-    # ports:
-    #   - "8002:8000"
-    volumes:
-      - ./jwt:/opt/jwt
-      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-
-
-  crayfits:
-    image: islandora/isle-crayfits:sp4-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-crayfits.git#dev
-    #      args:
-    #        FITS_WEBSERVICE_URI: http://fits:8080/fits/examine
-    # ports:
-    #   - "8003:8000"
-    volumes:
-      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-
-
-  fits:
-    image: harvardlts/fitsservlet_container:1.5.0
-    # ports:
-    #   - '8085:8080'
-
-
+      # Do not expose in production.
+      - traefik.http.services.solr.loadbalancer.server.port=8983
+      - traefik.http.routers.solr_http.service=solr
+      - traefik.http.routers.solr_http.entrypoints=http
   traefik:
-    # review https://hub.docker.com/_/traefik
-    image: traefik:2.1.3
-    command: --api.insecure=true --providers.docker
+    image: traefik:2.2.1
+    command: >
+      --api.insecure=true 
+      --entryPoints.http.address=:80
+      --entryPoints.https.address=:443
+      --providers.docker 
+      --providers.docker.network=external
+      '--providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.localhost`)'
     ports:
-      - "8000:80"
-      #- "443:443"
-      #- "8080:8080"
+      - 80:80
+      - 443:443
+      - 8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      # SSL Choice 1: To use Let's Encrypt for SSL- uncomment ONLY the line below and then create an empty config/traefik/acme.json file
-      # - ./config/traefik/acme.json:/acme.json
-      # SSL Choice 2: To use commercial SSLs - uncomment ONLY the line below. Add your SSL certs (.cert, .pem, .key) files to config/traefik/ssl-certs
-      # - ./config/traefik/ssl-certs:/certs:ro
-      # Use Environment variables to pass in Traefik config; no traefik.yml required
-      # by providers
-      # Alternative to a static configureation /etc/traefik/traefik.yml"
-      # Pass in config via flags or environment variables
-      # https://docs.traefik.io/getting-started/configuration-overview
-      # Obsolete - "./config/traefik/traefik.local.yml:/etc/traefik/traefik.yml"
-
-
-  alpaca-connector:
-    image: islandora/isle-alpaca:sp4-alpha
-    # build:
-    # context: https://github.com/Islandora-Devops/isle-alpaca.git#dev
-    env_file: .env
-
-
-  activemq:
-    image: rmohr/activemq
-    env_file: .env
-    ports:
-      - "8161:8161" # To make mgmt console available for dev purposes.  use admin:admin to log in
-    volumes:
-      - activemq-data:/opt/activemq/data
-
-
-  fcrepo:
-    image: islandora/isle-fcrepo:latest
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-fcrepo.git#dev
-    #      args:
-    #        ARG FCREPO_VERSION: ${FCREPO_VERSION:-5.1.0}
-    #        ARG FCREPO_CONFIG_DIR: /opt/fcrepo/config
-    #        ARG FCREPO_HOME: /opt/fcrepo/data
-    env_file:
-      - .env
-      - fcrepo.env
-    environment:
-      - JAVA_MAX_MEM=4096M
-      - JAVA_MIN_MEM=1024M
-    depends_on:
-      mariadb:
-        condition: service_healthy
-    ports:
-      - "8006:8080"
-    volumes:
-      - ./data/fcrepo/data:/opt/fcrepo/data
-      - ./syn-keys:/opt/keys
-      - ./config/fcrepo/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-
-
-  blazegraph:
-    image: lyrasis/blazegraph:2.1.5
-    environment:
-      - JAVA_MAX_MEM=4096M
-      - JAVA_MIN_MEM=1024M
-    ports:
-      - "8007:8080"
-    volumes:
-      # persist the bigdata.jnl file which can be large
-      - ./config/blazegraph/RWStore.properties:/RWStore.properties
-      - ./config/blazegraph/inference.nt:/inference.nt
-      # Local volume for avoiding permissions issues
-      - blazegraph-data:/var/lib/jetty/data
-      - ./scripts/blazegraph:/scripts
-
-
-  gemini:
-    image: borndigital/isle-gemini:mvp3-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-gemini.git#dev
-    #      args:
-    #        GEMINI_JWT_ADMIN_TOKEN: $GEMINI_JWT_ADMIN_TOKEN
-    #        GEMINI_LOG_LEVEL: $GEMINI_LOG_LEVEL
-    #    ports:
-    #      - "8008:8000"
-    volumes:
-      - ./jwt:/opt/jwt
-      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-
-
-  milliner:
-    image: borndigital/isle-milliner:mvp3-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-milliner.git#dev
-    #      args:
-    #        MILLINER_JWT_ADMIN_TOKEN: $MILLINER_JWT_ADMIN_TOKEN
-    #        MILLINER_LOG_LEVEL: $MILLINER_LOG_LEVEL
-    #    ports:
-    #      - "8009:8000"
-    volumes:
-      - ./jwt:/opt/jwt
-      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-
-
-  recast:
-    image: borndigital/isle-recast:mvp3-alpha
-    #    build:
-    #      context: https://github.com/Islandora-Devops/isle-recast.git#dev
-    #      args:
-    #        RECAST_JWT_ADMIN_TOKEN: $RECAST_JWT_ADMIN_TOKEN
-    #        RECAST_LOG_LEVEL: $RECAST_LOG_LEVEL
-    #    ports:
-    #      - "8009:8000"
-    volumes:
-      - ./jwt:/opt/jwt
-      - ./config/crayfish/php.ini:/usr/local/etc/php/php.ini
-
-
-volumes:
-  # For local database storage persistance we bind mount a local folder.
-  # This folder needs to be created prior to docker-compose up or build.
-  mariadb-data:
-  activemq-data:
-  solr-data:
-  blazegraph-data:
-
-  # isle-dc-postgres-data # Added to prototype but not currently used    
+    networks:
+      - external
+      - default
