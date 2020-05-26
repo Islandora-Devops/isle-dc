@@ -73,7 +73,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 1 --no-pull
   activemq:
-    image:  ${REPOSITORY:-local}/activemq:latest
+    image:  ${REPOSITORY:-islandora}/activemq:latest
     volumes:
       - activemq-data:/opt/activemq/data
     labels:
@@ -82,13 +82,13 @@ services:
       - traefik.http.routers.activemq_http.service=activemq
       - traefik.http.routers.activemq_http.entrypoints=http
   alpaca:
-    image:  ${REPOSITORY:-local}/alpaca:latest
+    image:  ${REPOSITORY:-islandora}/alpaca:latest
     volumes:
       - karaf-data:/opt/karaf/data
     depends_on:
       - activemq
   blazegraph:
-    image:  ${REPOSITORY:-local}/blazegraph:latest
+    image:  ${REPOSITORY:-islandora}/blazegraph:latest
     volumes:
       - blazegraph-data:/data
     networks:
@@ -100,7 +100,7 @@ services:
       - traefik.http.routers.blazegraph_http.service=blazegraph
       - traefik.http.routers.blazegraph_http.entrypoints=http
   cantaloupe:
-    image:  ${REPOSITORY:-local}/cantaloupe:latest
+    image:  ${REPOSITORY:-islandora}/cantaloupe:latest
     volumes:
       - cantaloupe-data:/data
     networks:
@@ -112,19 +112,19 @@ services:
       - traefik.http.routers.cantaloupe_http.service=cantaloupe
       - traefik.http.routers.cantaloupe_http.entrypoints=http
   crayfits:
-    image:  ${REPOSITORY:-local}/crayfits:latest
+    image:  ${REPOSITORY:-islandora}/crayfits:latest
     depends_on:
       - fits
   # Database is chosen as the service name rather than mariadb,
   # as institutions may want to swap out back-ends later and
   # database is a more sensible default.
   database:
-    image:  ${REPOSITORY:-local}/mariadb:latest
+    image:  ${REPOSITORY:-islandora}/mariadb:latest
     volumes:
       - mysql-data:/var/lib/mysql
       - mysql-files:/var/lib/mysql-files
   #drupal:
-  #  image:  ${REPOSITORY:-local}/sandbox:latest
+  #  image:  ${REPOSITORY:-islandora}/sandbox:latest
   #  restart: unless-stopped
   #  volumes:
   #    - drupal-config-data:/var/www/drupal/config
@@ -209,7 +209,7 @@ services:
       - traefik.http.routers.drupal_http.entrypoints=http
       
   fcrepo:
-    image:  ${REPOSITORY:-local}/fcrepo:latest
+    image:  ${REPOSITORY:-islandora}/fcrepo:latest
     volumes:
       - fcrepo-data:/data
       - jwt-data:/opt/keys/claw/
@@ -226,27 +226,27 @@ services:
       - traefik.http.routers.fcrepo_http.service=fcrepo
       - traefik.http.routers.fcrepo_http.entrypoints=http
   fits:
-    image:  ${REPOSITORY:-local}/fits
+    image:  ${REPOSITORY:-islandora}/fits
   gemini:
-    image:  ${REPOSITORY:-local}/gemini:latest
+    image:  ${REPOSITORY:-islandora}/gemini:latest
     volumes:
       - jwt-data:/opt/keys/claw/
     depends_on: 
       - database
   homarus:
-    image:  ${REPOSITORY:-local}/homarus:latest
+    image:  ${REPOSITORY:-islandora}/homarus:latest
     volumes:
       - jwt-data:/opt/keys/claw/
   houdini:
-    image:  ${REPOSITORY:-local}/houdini:latest
+    image:  ${REPOSITORY:-islandora}/houdini:latest
     volumes:
       - jwt-data:/opt/keys/claw/
   hypercube:
-    image:  ${REPOSITORY:-local}/hypercube:latest
+    image:  ${REPOSITORY:-islandora}/hypercube:latest
     volumes:
       - jwt-data:/opt/keys/claw/
   matomo:
-    image:  ${REPOSITORY:-local}/matomo
+    image:  ${REPOSITORY:-islandora}/matomo
     volumes:
       - matomo-config-data:/opt/matomo/config
     depends_on: 
@@ -260,15 +260,15 @@ services:
       - traefik.http.routers.matomo_http.service=matomo
       - traefik.http.routers.matomo_http.entrypoints=http
   milliner:
-    image:  ${REPOSITORY:-local}/milliner:latest
+    image:  ${REPOSITORY:-islandora}/milliner:latest
     volumes:
       - jwt-data:/opt/keys/claw/
   recast:
-    image:  ${REPOSITORY:-local}/recast:latest
+    image:  ${REPOSITORY:-islandora}/recast:latest
     volumes:
       - jwt-data:/opt/keys/claw/
   solr:
-    image:  ${REPOSITORY:-local}/solr:latest
+    image:  ${REPOSITORY:-islandora}/solr:latest
     volumes:
       - solr-data:/opt/solr/server/solr
     labels:
