@@ -6,16 +6,13 @@ docker_compose_project ?= islandora
 
 .PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean
 
-default: drupal_init up solr_init blazegraph_init
+default: drupal_init up blazegraph_init
 
 help:
 	./scripts/drupal/init.sh --help
 
 drupal_init:
 	./scripts/drupal/init.sh --codebase $(isle_codebase)
-
-solr_init:
-	./scripts/solr/create-core.sh
 
 blazegraph_init:
 	./scripts/blazegraph/install_islandora_namespace.sh

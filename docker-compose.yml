@@ -157,7 +157,7 @@ services:
         - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
         # XDEBUG confd build time args - you can set it to 0 turn it off.
         - PHP_XDEBUG=${PHP_XDEBUG:-1}
-        - PHP_IDE_CONFIG="serverName=${PHP_IDE_CONFIG_SERVER_NAME:-idcp.localhost}"
+        - PHP_IDE_CONFIG="serverName=${PHP_IDE_CONFIG_SERVER_NAME:-drupal.localhost}"
         - PHP_XDEBUG_REMOTE_HOST=${PHP_XDEBUG_REMOTE_HOST:-host.docker.internal}
         - PHP_XDEBUG_DEFAULT_ENABLE=${PHP_XDEBUG_DEFAULT_ENABLE:-1}
         - PHP_XDEBUG_REMOTE_CONNECT_BACK=${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}
@@ -179,13 +179,13 @@ services:
       APP_ROOT: ${APP_ROOT:-/var/www/app}
       APP_ACCOUNT_NAME: ${DRUPAL_USER_NAME:-islandora}
       APP_ACCOUNT_MAIL: ${DRUPAL_USER_EMAIL:-islandora@example.com}
-      DB_NAME: ${DB_NAME:-drupal}
-      DB_USER: ${DB_USER:-drupal}
-      DB_PASSWORD: ${DB_PASSWORD:-dbpassword}
-      DB_HOST: "mariadb"
+      DB_NAME: ${DB_NAME:-drupal_default}
+      DB_USER: ${DB_USER:-drupal_default}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      DB_HOST: "database"
       DB_PORT: "3306"
       DB_DRIVER: "mysql"
-      DRUSH_OPTIONS_URI: "${PROJECT_BASE_URL:-idcp.localhost}:8000"
+      DRUSH_OPTIONS_URI: "${PROJECT_BASE_URL:-drupal.localhost}:8000"
       DRUPAL_HASH_SALT: ${DRUPAL_HASH_SALT:-tfvQNpDFG2CjY9WHGNgFqC3eoMjyg5pZdGMQ74zjmnIoe0bi8F3hUvBWnGFIAM3nnj2iWA}
       NGINX_LISTEN_PORT: 8080
       AUTO_INSTALL: ${DRUPAL_AUTO_INSTALL:-true}
