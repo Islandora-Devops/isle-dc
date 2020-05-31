@@ -27,7 +27,10 @@ Launch a terminal and follow these steps below:
 * `cd isle-dc`
 
 * Generate public/private key pair for JWTs (only has to be done once)
-  * `(cd scripts; ./generate_keys.sh)`
+  * `make jwt_keys`
+
+* Generate a Drupal codebase
+  * `COMPOSER_MEMORY_LIMIT=-1 make isle_codebase=islandora`
 
 * Pull down Docker images
   * `docker-compose pull`
@@ -36,16 +39,13 @@ Launch a terminal and follow these steps below:
   * `docker-compose up -d`
 
 * Generate public/private key pair for JWTs
-  * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
-
-* Create a new Solr core called "islandora"
-  * `docker exec -it isle_dc_proto_solr bash -c "solr create_core -c islandora"`
+  * `docker-compose exec -T -u islandora solr bash -c "solr create_core -c islandora"`
 
 * Run the Drupal site installation script
-  * `docker exec -it isle_dc_proto_php bash -c "sh /scripts/islandora/install-islandora.sh"`
+  * `docker-compose exec -T -u islandora php bash -c "sh /scripts/islandora/install-islandora.sh"`
   * This script will take at least 5-10 mins depending on the speed of your internet connection and/or local environment.
 
-* Access site at: http://idcp.localhost
+* Access site at: http://idcp.localhost:8000
 
 * Test Houdini with by running `identify` on the Islandora logo:
   * `curl -H "Authorization: Bearer islandora" -H "Apix-Ldp-Resource: https://islandora.ca/sites/default/files/Islandora.png" idcp.localhost:8000/identify`
