@@ -147,7 +147,7 @@ services:
       #- drupal-config-data:/var/www/drupal/config
       #- drupal-sites-data:/var/www/drupal/web/sites
       #- ./config/drupal/settings.php:/var/www/drupal/web/sites/default/settings.php
-      - ./codebase-lyrasis:/var/www/drupal    
+      - ./codebase:/var/www/drupal    
       - solr-data:/opt/solr/server/solr
       - jwt-data:/opt/keys/claw/
     depends_on:
