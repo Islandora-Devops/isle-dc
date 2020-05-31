@@ -33,8 +33,6 @@ networks:
 volumes:
   activemq-data:
   blazegraph-data:
-  drupal-config-data:
-  drupal-sites-data:
   cantaloupe-data:
   etcd-data:
   fcrepo-data:
@@ -123,48 +121,35 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - mysql-files:/var/lib/mysql-files
-  #drupal:
-  #  image:  ${REPOSITORY:-islandora}/sandbox:latest
-  #  restart: unless-stopped
-  #  volumes:
-  #    - drupal-config-data:/var/www/drupal/config
-  #    - drupal-sites-data:/var/www/drupal/web/sites
-  #    - solr-data:/opt/solr/server/solr
-  #    - jwt-data:/opt/keys/claw/
-  #  depends_on:
-  #    - solr
-  #    - fcrepo
-  #    - database
-  #    - activemq
-  #  networks:
-  #    default:
-  #      aliases:
-  #        - drupal.localhost
-  #  labels:
-  #    - traefik.http.services.drupal.loadbalancer.server.port=80
-  #    - traefik.http.routers.drupal_http.service=drupal
-  #    - traefik.http.routers.drupal_http.entrypoints=http
-      
   drupal:
+    # image:  ${REPOSITORY:-islandora}/composer:latest
     build:
       context: ./
       dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./drupal.Dockerfile}
-      target: dev
+      # target: dev # this will come back in for multi-stage
       args:
-        - code_dir=./codebase
-        - base_image_tag=7.2.28-1.17.8-0ceedc1b
-        - build_environment=dev
-        - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
-        # XDEBUG confd build time args - you can set it to 0 turn it off.
-        - PHP_XDEBUG=${PHP_XDEBUG:-1}
-        - PHP_IDE_CONFIG="serverName=${PHP_IDE_CONFIG_SERVER_NAME:-drupal.localhost}"
-        - PHP_XDEBUG_REMOTE_HOST=${PHP_XDEBUG_REMOTE_HOST:-host.docker.internal}
-        - PHP_XDEBUG_DEFAULT_ENABLE=${PHP_XDEBUG_DEFAULT_ENABLE:-1}
-        - PHP_XDEBUG_REMOTE_CONNECT_BACK=${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}
-        # NGINX confd build time args
-        - NGINX_SERVER_ROOT=${APP_DOCROOT:-/var/www/app/web}
-        - NGINX_LISTEN_PORT=8080
+        - composer_project="drupal/recommended-project"
+      #   - code_dir=./codebase
+      #   - base_image_tag=latest
+      #   - build_environment=dev
+      #   - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
+      #   # XDEBUG confd build time args - you can set it to 0 turn it off.
+      #   - PHP_XDEBUG=${PHP_XDEBUG:-1}
+      #   - PHP_IDE_CONFIG="serverName=${PHP_IDE_CONFIG_SERVER_NAME:-drupal.localhost}"
+      #   - PHP_XDEBUG_REMOTE_HOST=${PHP_XDEBUG_REMOTE_HOST:-host.docker.internal}
+      #   - PHP_XDEBUG_DEFAULT_ENABLE=${PHP_XDEBUG_DEFAULT_ENABLE:-1}
+      #   - PHP_XDEBUG_REMOTE_CONNECT_BACK=${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}
+      #   # NGINX confd build time args
+      #   - NGINX_SERVER_ROOT=${APP_DOCROOT:-/var/www/app/web}
+      #   - NGINX_LISTEN_PORT=8080
     restart: unless-stopped
+    volumes:
+      #- drupal-config-data:/var/www/drupal/config
+      #- drupal-sites-data:/var/www/drupal/web/sites
+      #- ./config/drupal/settings.php:/var/www/drupal/web/sites/default/settings.php
+      - ./codebase-lyrasis:/var/www/drupal    
+      - solr-data:/opt/solr/server/solr
+      - jwt-data:/opt/keys/claw/
     depends_on:
       - solr
       - fcrepo
@@ -174,36 +159,8 @@ services:
       default:
         aliases:
           - drupal.localhost
-    environment:
-      APP_NAME: ${DRUPAL_SITE_NAME:-islandora}
-      APP_ROOT: ${APP_ROOT:-/var/www/app}
-      APP_ACCOUNT_NAME: ${DRUPAL_USER_NAME:-islandora}
-      APP_ACCOUNT_MAIL: ${DRUPAL_USER_EMAIL:-islandora@example.com}
-      DB_NAME: ${DB_NAME:-drupal_default}
-      DB_USER: ${DB_USER:-drupal_default}
-      DB_PASSWORD: ${DB_PASSWORD:-password}
-      DB_HOST: "database"
-      DB_PORT: "3306"
-      DB_DRIVER: "mysql"
-      DRUSH_OPTIONS_URI: "${PROJECT_BASE_URL:-drupal.localhost}:8000"
-      DRUPAL_HASH_SALT: ${DRUPAL_HASH_SALT:-tfvQNpDFG2CjY9WHGNgFqC3eoMjyg5pZdGMQ74zjmnIoe0bi8F3hUvBWnGFIAM3nnj2iWA}
-      NGINX_LISTEN_PORT: 8080
-      AUTO_INSTALL: ${DRUPAL_AUTO_INSTALL:-true}
-    volumes:
-      # set delegated mode here on docker for mac for faster disk I/O
-      - ./codebase:${APP_ROOT:-/var/www/app}:delegated
-      - ./data/drupal/files:${FILES_DIR:-/mnt/files}
-      # Anonymous volumes as a workaround to prevent empty or non existent host
-      # folders from accidentally getting mounted in container and overwrite the
-      # composer build stage files.
-      - ${APP_ROOT:-/var/www/app}/vendor
-      - ${APP_DOCROOT:-/var/www/app/web}/modules/contrib
-      - ${APP_DOCROOT:-/var/www/app/web}/themes/contrib
-      - ${APP_DOCROOT:-/var/www/app/web}/profiles/contrib
-      - ${APP_DOCROOT:-/var/www/app/web}/libraries
+      external: # needed to run composer update
     labels:
-      #- "traefik.http.routers.${PROJECT_NAME:-islandora}.rule=Host(`${PROJECT_BASE_URL:-idcp.localhost}`)"
-      #- "traefik.http.services.${PROJECT_NAME:-islandora}.loadbalancer.server.port=8080"
       - traefik.http.services.drupal.loadbalancer.server.port=80
       - traefik.http.routers.drupal_http.service=drupal
       - traefik.http.routers.drupal_http.entrypoints=http

@@ -26,20 +26,15 @@ Launch a terminal and follow these steps below:
 
 * `cd isle-dc`
 
-* Generate public/private key pair for JWTs (only has to be done once)
-  * `make jwt_keys`
-
-* Generate a Drupal codebase
-  * `COMPOSER_MEMORY_LIMIT=-1 make isle_codebase=islandora`
+* Now you need a Drupal codebase in a 'codebase' folder. You can either
+  * Generate a Drupal codebase via `COMPOSER_MEMORY_LIMIT=-1 make isle_codebase=islandora` which will go build out an appropriate codebase for you to start with
+  * Or clone your existing Composer app into a new directory called 'codebase' in the root level of this project
 
 * Pull down Docker images
   * `docker-compose pull`
 
 * Start up the Docker containers
   * `docker-compose up -d`
-
-* Generate public/private key pair for JWTs
-  * `docker-compose exec -T -u islandora solr bash -c "solr create_core -c islandora"`
 
 * Run the Drupal site installation script
   * `docker-compose exec -T -u islandora php bash -c "sh /scripts/islandora/install-islandora.sh"`
