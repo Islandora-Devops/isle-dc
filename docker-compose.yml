@@ -128,7 +128,7 @@ services:
       dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./drupal.Dockerfile}
       # target: dev # this will come back in for multi-stage
       # args:
-      #  - composer_project="drupal/recommended-project"
+      #   - composer_project="drupal/recommended-project"
       #   - code_dir=./codebase
       #   - base_image_tag=latest
       #   - build_environment=dev
