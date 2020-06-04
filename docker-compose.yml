@@ -148,6 +148,7 @@ services:
       #- drupal-sites-data:/var/www/drupal/web/sites
       #- ./config/drupal/settings.php:/var/www/drupal/web/sites/default/settings.php
       - ./codebase:/var/www/drupal
+      - ./config/drupal/settings.php.local:/var/www/drupal/web/sites/default/settings.php
       - ./config/drupal:/opt/drupal_config
       - solr-data:/opt/solr/server/solr
       - jwt-data:/opt/keys/claw/
@@ -227,6 +228,8 @@ services:
       - jwt-data:/opt/keys/claw/
   solr:
     image:  ${REPOSITORY:-islandora}/solr:latest
+    ports:
+      - 8983:8983
     volumes:
       - solr-data:/opt/solr/server/solr
     labels:
