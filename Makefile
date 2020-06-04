@@ -27,7 +27,7 @@ jwt_keys:
 	(cd scripts; ./generate_jwt_keys.sh)
 	#copy keys to the appropriate location within the container
 
-# use like this: drupal_exec command="drush st"
+# use like this: make drupal_exec command="drush st"
 drupal_exec:
 	docker-compose exec -T -p islandora -w /var/www/html/web drupal bash -c "$(command)"
 
@@ -48,6 +48,11 @@ down_rmi_local:
 
 drupal_clean:
 	chmod u+w codebase/web/sites/default && rm -rf codebase data/drupal
+
+# use like this: make drupal_db_load dbfilepath=data/misc dbfilename=latest.sql
+drupal_db_load:
+	docker cp $(dbfilepath)/$(dbfilename) $(docker_compose_project)_database_1:/tmp/$(dbfilename) && \
+	docker exec $(docker_compose_project)_database_1 bash -c "mysql -u root -ppassword drupal_default < /tmp/$(dbfilename)"
 
 clean_local: down_rmi_local drupal_clean
 
