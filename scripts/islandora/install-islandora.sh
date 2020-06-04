@@ -68,6 +68,9 @@ drush en -y rdf \
   islandora_fits \
   islandora_search
 
+echo "Import JWT config"
+sudo drush config-import -y --partial --source=/opt/drupal_config
+
 echo "Import features"
 drush -y fim islandora_core_feature,controlled_access_terms_defaults,islandora_defaults,islandora_search
 
@@ -119,8 +122,7 @@ drush cset -y --input-format=yaml islandora_iiif.settings iiif_server http://can
 echo "Set iiif manifest view"
 drush cset -y --input-format=yaml openseadragon.settings manifest_view iiif_manifest
 
-echo "Import JWT config"
-sudo drush config-import -y --partial --source=/opt/drupal_config
+
 
 echo "Run migrations"
 drush -y -l idcp.localhost --userid=1 mim --group=islandora

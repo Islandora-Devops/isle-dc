@@ -127,8 +127,8 @@ services:
       context: ./
       dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./drupal.Dockerfile}
       # target: dev # this will come back in for multi-stage
-      args:
-        - composer_project="drupal/recommended-project"
+      # args:
+      #  - composer_project="drupal/recommended-project"
       #   - code_dir=./codebase
       #   - base_image_tag=latest
       #   - build_environment=dev
@@ -147,7 +147,8 @@ services:
       #- drupal-config-data:/var/www/drupal/config
       #- drupal-sites-data:/var/www/drupal/web/sites
       #- ./config/drupal/settings.php:/var/www/drupal/web/sites/default/settings.php
-      - ./codebase:/var/www/drupal    
+      - ./codebase:/var/www/drupal
+      - ./config/drupal:/opt/drupal_config
       - solr-data:/opt/solr/server/solr
       - jwt-data:/opt/keys/claw/
     depends_on:
@@ -251,3 +252,4 @@ services:
     networks:
       - external
       - default
+
