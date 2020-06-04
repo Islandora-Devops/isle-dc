@@ -25,6 +25,7 @@ build:
 
 jwt_keys:
 	(cd scripts; ./generate_jwt_keys.sh)
+	#copy keys to the appropriate location within the container
 
 # use like this: drupal_exec command="drush st"
 drupal_exec:
