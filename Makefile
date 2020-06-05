@@ -6,13 +6,17 @@ docker_compose_project ?= islandora
 
 .PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean
 
-default: drupal_init up
+default: drupal_init up solr_init
 
 help:
 	./scripts/drupal/init.sh --help
 
 drupal_init:
 	./scripts/drupal/init.sh --codebase $(isle_codebase)
+
+solr_init:
+	docker cp scripts/solr/create-core.sh $(docker_compose_project)_drupal_1:/tmp/create-core.sh && \
+	docker-compose exec -T -w /tmp/ drupal bash -c "chmod 755 create-core.sh && ./create-core.sh"
 
 up:
 	MSYS_NO_PATHCONV=1 docker-compose -p $(docker_compose_project) up --remove-orphans --detach
