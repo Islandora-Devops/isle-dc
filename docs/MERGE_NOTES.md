@@ -15,10 +15,3 @@
 * reset the admin user password
   * `docker exec -it islandora_drupal_1 bash -c "drush uli"`
 * `make down` will shut things off. `make clean` will clean it all up. If you want to run dc commands manually, just remember to use `-p islandora` (see Makefile for examples).
-
-### To clear cache
-
-* `docker exec -it islandora_drupal_1 bash -c "drush cr"`
-
-
-curl "http://solr:8983/solr/select?indent=on&q=*:*"
