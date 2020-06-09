@@ -31,6 +31,9 @@ build:
 		--detach \
 		--remove-orphans
 
+install_islandora:
+	docker-compose exec -T drupal bash -c "chmod +x /opt/scripts/islandora/*.sh && /opt/scripts/islandora/simplified_islandora_install.sh"
+
 jwt_keys:
 	(cd scripts; ./generate_jwt_keys.sh)
 	#copy keys to the appropriate location within the container

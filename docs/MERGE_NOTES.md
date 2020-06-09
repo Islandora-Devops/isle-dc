@@ -8,8 +8,8 @@
 * `make drupal_db_load dbfilepath=data/misc dbfilename=latest.sql`
 * Hopefully composer will do a good job on your build. If not, run `COMPOSER_MEMORY_LIMIT=-1 composer install` on the drupal service.
   * `docker exec -it islandora_drupal_1 bash -c "cd /var/www/drupal/ && COMPOSER_MEMORY_LIMIT=-1 composer install"`
-* Create the Solr core
-  * `make solr_init`
+* Install and configure Islandora
+  * `make install_islandora`
 * Clear the drupal cache
   * `docker exec -it islandora_drupal_1 bash -c "drush cr"`
 * reset the admin user password
