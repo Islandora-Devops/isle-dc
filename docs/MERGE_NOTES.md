@@ -4,7 +4,7 @@
 * git clone your site into it
 * `mkdir -p data/misc`
   * `mv latest.sql data/misc/`
-* boot the system up with `make up`, and don't care that drupal keeps crashing. when we have the database in place it will stop. Notice that the "drupal" container is baked by the drupal.Dockerfile in this project, so you can edit that if you need to install other dependencies/etc.
+* boot the system up with `make build` (to force a rebuild of the drupal image), and don't care that drupal keeps crashing. when we have the database in place it will stop. Notice that the "drupal" container is baked by the drupal.Dockerfile in this project, so you can edit that if you need to install other dependencies/etc.
 * `make drupal_db_load dbfilepath=data/misc dbfilename=latest.sql`
 * Hopefully composer will do a good job on your build. If not, run `COMPOSER_MEMORY_LIMIT=-1 composer install` on the drupal service.
   * `docker exec -it islandora_drupal_1 bash -c "cd /var/www/drupal/ && COMPOSER_MEMORY_LIMIT=-1 composer install"`

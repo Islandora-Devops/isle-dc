@@ -1,8 +1,10 @@
 # The variable used to determine which composer create project to use.
 # Run make drupal_init_help for more information
+include .env
+
 isle_codebase ?= islandora
 
-docker_compose_project ?= islandora
+docker_compose_project ?= ${COMPOSE_PROJECT_NAME}
 
 .PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean
 
@@ -16,7 +18,9 @@ drupal_init:
 
 solr_init:
 	docker cp scripts/solr/create-core.sh $(docker_compose_project)_drupal_1:/tmp/create-core.sh && \
-	docker-compose exec -T -w /tmp/ drupal bash -c "chmod 755 create-core.sh && ./create-core.sh"
+	docker-compose exec -T -w /tmp/ drupal bash -c "chmod 755 create-core.sh && ./create-core.sh" && \
+	docker-compose exec -T drupal bash -c "drush cset -y search_api.server.default_solr_server backend_config.connector_config.host solr" && \
+	docker-compose exec -T drupal bash -c "drush cset -y search_api.server.default_solr_server backend_config.connector_config.core ISLANDORA"
 
 up:
 	MSYS_NO_PATHCONV=1 docker-compose -p $(docker_compose_project) up --remove-orphans --detach
@@ -33,7 +37,7 @@ jwt_keys:
 
 # use like this: make drupal_exec command="drush st"
 drupal_exec:
-	docker-compose exec -T -p islandora -w /var/www/html/web drupal bash -c "$(command)"
+	docker-compose -p $(docker_compose_project) exec -T -w /var/www/drupal drupal bash -c "$(command)"
 
 down:
 	docker-compose -p $(docker_compose_project) down --remove-orphans
@@ -56,7 +60,7 @@ drupal_clean:
 # use like this: make drupal_db_load dbfilepath=data/misc dbfilename=latest.sql
 drupal_db_load:
 	docker cp $(dbfilepath)/$(dbfilename) $(docker_compose_project)_database_1:/tmp/$(dbfilename) && \
-	docker exec $(docker_compose_project)_database_1 bash -c "mysql -u root -ppassword drupal_default < /tmp/$(dbfilename)"
+	docker-compose -p $(docker_compose_project) exec -T database bash -c "mysql -u root -ppassword drupal_default < /tmp/$(dbfilename)"
 
 clean_local: down_rmi_local drupal_clean
 
