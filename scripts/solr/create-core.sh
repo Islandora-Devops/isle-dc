@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Changing to /var/www/drupal/"
+echo "Changing to /var/www/drupal/web"
 cd /var/www/drupal/ || exit
 
 drush -y solr-gsc default_solr_server /tmp/solr_config.zip 7.1

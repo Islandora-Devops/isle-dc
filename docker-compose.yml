@@ -150,6 +150,7 @@ services:
       - ./codebase:/var/www/drupal
       - ./config/drupal/settings.php.local:/var/www/drupal/web/sites/default/settings.php
       - ./config/drupal:/opt/drupal_config
+      - ./scripts:/opt/scripts
       - solr-data:/opt/solr/server/solr
       - jwt-data:/opt/keys/claw/
     depends_on:
