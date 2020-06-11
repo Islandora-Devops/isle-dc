@@ -39,4 +39,4 @@ if (empty($settings['hash_salt'])) {
 /**
  * Config directory setting.
  */
-// $settings['config_sync_directory'] = '../config/sync';
+// $settings['config_sync_directory'] = '/var/www/drupal/config/sync';
