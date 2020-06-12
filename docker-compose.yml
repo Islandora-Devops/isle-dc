@@ -15,9 +15,9 @@
 # loop back for localhost should make the following urls 
 # accessible in your browser:
 #
+# - islandora.localhost
 # - activemq.localhost/admin
 # - blazegraph.localhost/bigdata
-# - drupal.localhost
 # - fcrepo.localhost/fcrepo/reset
 # - matomo.localhost
 #
@@ -109,6 +109,7 @@ services:
       - traefik.http.services.cantaloupe.loadbalancer.server.port=80
       - traefik.http.routers.cantaloupe_http.service=cantaloupe
       - traefik.http.routers.cantaloupe_http.entrypoints=http
+      - traefik.http.routers.cantaloupe_http.rule=Host(`islandora.localhost`) && PathPrefix(`/cantaloupe`)
   crayfits:
     image:  ${REPOSITORY:-islandora}/crayfits:latest
     depends_on:
@@ -167,6 +168,7 @@ services:
       - traefik.http.services.drupal.loadbalancer.server.port=80
       - traefik.http.routers.drupal_http.service=drupal
       - traefik.http.routers.drupal_http.entrypoints=http
+      - traefik.http.routers.drupal_http.rule=Host(`islandora.localhost`)
       
   fcrepo:
     image:  ${REPOSITORY:-islandora}/fcrepo:latest
@@ -219,6 +221,12 @@ services:
       - traefik.http.services.matomo.loadbalancer.server.port=80
       - traefik.http.routers.matomo_http.service=matomo
       - traefik.http.routers.matomo_http.entrypoints=http
+      - traefik.http.routers.matomo_http.rule=Host(`islandora.localhost`) && PathPrefix(`/matomo`)
+      - traefik.http.middlewares.matomo-stripprefix.stripprefix.prefixes=/matomo
+      - traefik.http.middlewares.matomo-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri=/matomo
+      - traefik.http.middlewares.matomo.chain.middlewares=matomo-stripprefix,matomo-customrequestheaders
+      - traefik.http.routers.matomo_http.middlewares=matomo
+      #matomo-stripprefix@docker
   milliner:
     image:  ${REPOSITORY:-islandora}/milliner:latest
     volumes:
@@ -242,6 +250,8 @@ services:
     image: traefik:2.2.1
     command: >
       --api.insecure=true 
+      --api.dashboard=true 
+      --api.debug=true 
       --entryPoints.http.address=:80
       --entryPoints.https.address=:443
       --providers.docker 
@@ -253,7 +263,12 @@ services:
       - 8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      # Do not expose in production.
+      - traefik.http.routers.api.service=api@internal
     networks:
-      - external
-      - default
+      external:
+      default:
+        aliases:
+          - islandora.localhost
 

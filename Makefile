@@ -22,6 +22,12 @@ solr_init:
 	docker-compose exec -T drupal bash -c "drush cset -y search_api.server.default_solr_server backend_config.connector_config.host solr" && \
 	docker-compose exec -T drupal bash -c "drush cset -y search_api.server.default_solr_server backend_config.connector_config.core ISLANDORA"
 
+demo_up:
+	MSYS_NO_PATHCONV=1 docker-compose -f docker-compose.yml -f docker-compose.demo.yml -p $(docker_compose_project) up --remove-orphans
+
+demo_up_detach:
+	MSYS_NO_PATHCONV=1 docker-compose -f docker-compose.yml -f docker-compose.demo.yml -p $(docker_compose_project) up --remove-orphans --detach
+
 up:
 	MSYS_NO_PATHCONV=1 docker-compose -p $(docker_compose_project) up --remove-orphans --detach
 
@@ -42,6 +48,11 @@ jwt_keys:
 drupal_exec:
 	docker-compose -p $(docker_compose_project) exec -T -w /var/www/drupal drupal bash -c "$(command)"
 
+# use like this: make drupal_db_load dbfilepath=data/misc dbfilename=latest.sql
+drupal_db_load:
+	docker cp $(dbfilepath)/$(dbfilename) $(docker_compose_project)_database_1:/tmp/$(dbfilename) && \
+	docker-compose -p $(docker_compose_project) exec -T database bash -c "mysql -u root -ppassword drupal_default < /tmp/$(dbfilename)"
+
 down:
 	docker-compose -p $(docker_compose_project) down --remove-orphans
 
@@ -59,11 +70,6 @@ down_rmi_local:
 
 drupal_clean:
 	chmod u+w codebase/web/sites/default && rm -rf codebase data/drupal
-
-# use like this: make drupal_db_load dbfilepath=data/misc dbfilename=latest.sql
-drupal_db_load:
-	docker cp $(dbfilepath)/$(dbfilename) $(docker_compose_project)_database_1:/tmp/$(dbfilename) && \
-	docker-compose -p $(docker_compose_project) exec -T database bash -c "mysql -u root -ppassword drupal_default < /tmp/$(dbfilename)"
 
 clean_local: down_rmi_local drupal_clean
 
