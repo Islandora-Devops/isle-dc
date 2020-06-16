@@ -8,6 +8,7 @@
     * `mkdir -p data/misc`
     * `mv latest.sql data/misc/`
     * `make drupal_db_load dbfilepath=data/misc dbfilename=latest.sql`
+    * You may have to wait a few minutes til the Drupal container tries to restart again, hopefully sees your database, and stays up. Running `make logs` will let you see what's going on under the hood. When you can see the `drupal` service stays up, you can move on to running Composer install and initializing Solr (below).
     * Composer probably needs to compile your Drupal app. Run `make drupal_exec command="COMPOSER_MEMORY_LIMIT=-1 composer install"` to run Composer
     * `make solr_init` - this will create a Solr core and tell the Drupal db where to find it
 * NO - Install and configure Islandora if you didn't already load a database

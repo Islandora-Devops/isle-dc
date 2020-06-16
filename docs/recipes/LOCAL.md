@@ -26,26 +26,29 @@ Launch a terminal and follow these steps below:
   * `cp sample.env .env`
   * Modify the appropriate line to read `ENVIRONMENT=local` so the project will assumue you want to build a full app inside a `codebase` folder.
 
+* Pull down the Docker images
+  * `make pull`
+
 * Now you need a Drupal codebase in a 'codebase' folder. You can either
   * Generate a Drupal codebase via `COMPOSER_MEMORY_LIMIT=-1 make drupal_init isle_codebase=islandora` which will go build out an appropriate codebase for you to start with
+    * Now boot up the system: `make up` and run `make install_islandora` to enable all the Islandora modules and config.
+    * This script will take at least 5-10 mins depending on the speed of your internet connection and/or local environment.
   * Or clone your existing Composer app into a new directory called 'codebase' in the root level of this project. 
     * `mkdir codebase && git clone <url> codebase`
-    * Note you'll still need to create a database or import an existing one below. Then you'll need to run `make drupal_exec command="COMPOSER_MEMORY_LIMIT=-1 composer install"` to actually build your Composer app.
+    * Now boot up the system: `make up`
+    * And load your database --here's an example of how, using the makefile helper script:
+      * `mkdir -p data/misc`
+      * `mv latest.sql data/misc/`
+      * `make drupal_db_load dbfilepath=data/misc dbfilename=latest.sql`
+      * Run `make solr_init` to initalize your Solr core
+  * Note you'll still need to create a database or import an existing one below. Then you'll need to run `make drupal_exec command="COMPOSER_MEMORY_LIMIT=-1 composer install"` to actually build your Composer app.
 
-* Pull down and start the Docker images
-  * `make pull`
-  * `make up`
-
-* Run the Drupal site installation script
-  * `docker-compose exec -T -u islandora php bash -c "sh /scripts/islandora/install-islandora.sh"`
-  * This script will take at least 5-10 mins depending on the speed of your internet connection and/or local environment.
+* Clear the drupal cache
+  * `make drupal_exec command="drush cr"`
+* reset/claim the admin user password
+  * `make drupal_exec command="drush uli"` (edit the base domain to match the URL below before you try to use the one-time link this provides)
 
 * Access site at: http://islandora.localhost
-
-* Test Houdini with by running `identify` on the Islandora logo:
-  * `curl -H "Authorization: Bearer islandora" -H "Apix-Ldp-Resource: https://islandora.ca/sites/default/files/Islandora.png" islandora.localhost/identify`
-
-* The directory `/var/www/html` is bind mounted in both the Apache and PHP services / containers to the local directory `codebase`. This directory is in the .gitignore file to ignore the contents of this data directory.
 
 * To shut down the containers but persist data
   * `make down`
