@@ -8,11 +8,7 @@ Docker-Compose project facilitating creation and management of Islandora 8 Infra
 
 ## Developer Notes
 
-This is a pseudo code draft of the `docker-compose` file, Docker service and image configuration structure for the ISLE Phase III - ISLE / Islandora 8 Prototype (isle-dc) project.
-
-Due to the current **DRAFT** status, any software contained within this repo will **not work** and should not be used in any environment yet. Updates to follow when the project shifts to the build phase (Februrary 2020).
-
-Currently there are blank `.keep` files in most of the `config/service` directories. They should be removed as services are defined and created. If a service doesn't require a config to bind mounted then please remove the appropriate service directory from the `config` directory as needed.
+This is a prototype of the `docker-compose` file, Docker service and image configuration structure for the ISLE Phase III - ISLE / Islandora 8 Prototype (isle-dc) project.
 
 ## Requirements
 
@@ -27,7 +23,7 @@ Currently there are blank `.keep` files in most of the `config/service` director
 * For stable working use the `master` branch
 * For bleeding edge, potentially not working, use the `development` branch
 
-* use `docs/MVP3_README.md` for current installation steps.
+* use `docs/recipes/*` for current installation steps, depending on if you want to run a demo or a local dev environment.
 
 
 ## Configuration

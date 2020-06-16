@@ -24,7 +24,7 @@ Launch a terminal and follow these steps below:
 
 * Copy the sample.env file to `.env` 
   * `cp sample.env .env`
-  * Modify the appropriate line to read `ENVIRONMENT=local` so the project will assumue you want to build a full app inside a `codebase` folder.
+  * Modify the appropriate line to read `ENVIRONMENT=local` so the project will assumue you want to build a full app inside a `codebase` folder. If you want to customize the Drupal image further, switch to `ENVIRONMENT=local_custom` to use the Dockerfile in the root of this project as your starting point.
 
 * Pull down the Docker images
   * `make pull`
