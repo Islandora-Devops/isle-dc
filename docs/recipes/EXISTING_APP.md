@@ -12,7 +12,7 @@ Launch a terminal and follow these steps below:
 
 * On your local, add the local domain/site to `/etc/hosts` if it isn't there already
   * `sudo nano /etc/hosts`
-  * add `127.0.0.1   islandora.localdomain` as a seperate line underneath `127.0.0.1       localhost`
+  * add `127.0.0.1   islandora.localhost` as a seperate line underneath `127.0.0.1       localhost`
   * save and exit the hosts file
 
 * Within the terminal, navigate to a directory of your choice that you can start working
