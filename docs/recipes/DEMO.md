@@ -24,7 +24,7 @@ Launch a terminal and follow these steps below:
 
 * Copy the sample.env file to `.env` 
   * `cp sample.env .env`
-  * The default `environment=demo` is correct for this tutorial. You'll switch this to "local" and rebuild if you want to do actual local development (see other related recipes).
+  * The default `ENVIRONMENT=demo` is correct for this tutorial. You'll switch this to "local" and rebuild if you want to do actual local development (see other related recipes).
 
 * Pull down latest Docker images
   * `docker-compose pull`

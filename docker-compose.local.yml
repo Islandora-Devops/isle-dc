@@ -23,15 +23,11 @@ services:
           #   - NGINX_LISTEN_PORT=8080
         restart: unless-stopped
         volumes:
-          #- drupal-config-data:/var/www/drupal/config
-          #- drupal-sites-data:/var/www/drupal/web/sites
-          #- ./config/drupal/settings.php:/var/www/drupal/web/sites/default/settings.php
           - ./codebase:/var/www/drupal
           - ./config/drupal/settings.php.local:/var/www/drupal/web/sites/default/settings.php
           - ./config/drupal:/opt/drupal_config
           - ./scripts:/opt/scripts
           - solr-data:/opt/solr/server/solr
-          - jwt-data:/opt/keys/claw/
         depends_on:
           - solr
           - fcrepo
@@ -48,6 +44,6 @@ services:
           - traefik.http.routers.drupal_http.entrypoints=http
           - traefik.http.routers.drupal_http.rule=Host(`islandora.localhost`)
 
-volumes:
-  drupal-config-data:
-  drupal-sites-data:
+# volumes:
+#   drupal-config-data:
+#   drupal-sites-data:
