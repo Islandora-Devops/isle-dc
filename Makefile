@@ -5,7 +5,7 @@ include .env
 isle_codebase ?= islandora
 
 docker_compose_project ?= ${COMPOSE_PROJECT_NAME}
-environment ?= demo
+environment ?= ${ENVIRONMENT}
 dc_flags ?= -f docker-compose.yml -f docker-compose.$(environment).yml -p $(docker_compose_project)
 
 .PHONY: help drupal_init up build down down_rmi_all down_rmi_local drupal_clean clean_local clean
@@ -24,6 +24,9 @@ solr_init:
 	docker-compose $(dc_flags) exec -T drupal bash -c "drush cset -y search_api.server.default_solr_server backend_config.connector_config.host solr" && \
 	docker-compose $(dc_flags) exec -T drupal bash -c "drush cset -y search_api.server.default_solr_server backend_config.connector_config.core ISLANDORA"
 
+pull:
+	MSYS_NO_PATHCONV=1 docker-compose $(dc_flags) pull
+
 up:
 	MSYS_NO_PATHCONV=1 docker-compose $(dc_flags) up --remove-orphans --detach
 
@@ -35,6 +38,9 @@ build:
 
 logs:
 	MSYS_NO_PATHCONV=1 docker-compose $(dc_flags) logs -f
+
+ps:
+	MSYS_NO_PATHCONV=1 docker-compose $(dc_flags) ps
 
 install_islandora:
 	docker-compose $(dc_flags) exec -T drupal bash -c "chmod +x /opt/scripts/islandora/*.sh && /opt/scripts/islandora/simplified_islandora_install.sh"
