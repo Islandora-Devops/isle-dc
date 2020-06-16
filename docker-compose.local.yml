@@ -1,26 +1,7 @@
 version: "3.7"
 services:
     drupal:
-        # image:  ${REPOSITORY:-islandora}/composer:latest
-        build:
-          context: ./
-          dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./drupal.Dockerfile}
-          # target: dev # this will come back in for multi-stage
-          # args:
-          #   - composer_project="drupal/recommended-project"
-          #   - code_dir=./codebase
-          #   - base_image_tag=latest
-          #   - build_environment=dev
-          #   - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
-          #   # XDEBUG confd build time args - you can set it to 0 turn it off.
-          #   - PHP_XDEBUG=${PHP_XDEBUG:-1}
-          #   - PHP_IDE_CONFIG="serverName=${PHP_IDE_CONFIG_SERVER_NAME:-drupal.localhost}"
-          #   - PHP_XDEBUG_REMOTE_HOST=${PHP_XDEBUG_REMOTE_HOST:-host.docker.internal}
-          #   - PHP_XDEBUG_DEFAULT_ENABLE=${PHP_XDEBUG_DEFAULT_ENABLE:-1}
-          #   - PHP_XDEBUG_REMOTE_CONNECT_BACK=${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}
-          #   # NGINX confd build time args
-          #   - NGINX_SERVER_ROOT=${APP_DOCROOT:-/var/www/app/web}
-          #   - NGINX_LISTEN_PORT=8080
+        image:  ${REPOSITORY:-islandora}/composer:latest
         restart: unless-stopped
         volumes:
           - ./codebase:/var/www/drupal
