@@ -7,7 +7,6 @@ services:
       - drupal-config-data:/var/www/drupal/config
       - drupal-sites-data:/var/www/drupal/web/sites
       - solr-data:/opt/solr/server/solr
-      - jwt-data:/opt/keys/claw/
     depends_on:
       - solr
       - fcrepo
