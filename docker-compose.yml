@@ -36,13 +36,11 @@ volumes:
   cantaloupe-data:
   etcd-data:
   fcrepo-data:
-  jwt-data:
-  jwt-public-data:
-  karaf-data:
   matomo-config-data:
   mysql-data:
   mysql-files:
   solr-data:
+
 services:
   # Single node cluster.
   # 
@@ -81,10 +79,6 @@ services:
       - traefik.http.routers.activemq_http.entrypoints=http
   alpaca:
     image:  ${REPOSITORY:-islandora}/alpaca:latest
-    volumes:
-      - karaf-data:/opt/karaf/data
-    depends_on:
-      - activemq
   blazegraph:
     image:  ${REPOSITORY:-islandora}/blazegraph:latest
     volumes:
@@ -101,10 +95,6 @@ services:
     image:  ${REPOSITORY:-islandora}/cantaloupe:latest
     volumes:
       - cantaloupe-data:/data
-    networks:
-      default:
-        aliases:
-          - cantaloupe.localhost
     labels:
       - traefik.http.services.cantaloupe.loadbalancer.server.port=80
       - traefik.http.routers.cantaloupe_http.service=cantaloupe
@@ -122,14 +112,11 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - mysql-files:/var/lib/mysql-files
-
-  # for DRUPAL service, see associated docker-compose.env.yml files (demo, local)
-      
+  # DRUPAL service defined in override files (docker-compose.env.yml)
   fcrepo:
     image:  ${REPOSITORY:-islandora}/fcrepo:latest
     volumes:
       - fcrepo-data:/data
-      - jwt-data:/opt/keys/claw/
     depends_on: 
       - activemq
       - database
@@ -146,26 +133,18 @@ services:
     image:  ${REPOSITORY:-islandora}/fits
   gemini:
     image:  ${REPOSITORY:-islandora}/gemini:latest
-    volumes:
-      - jwt-data:/opt/keys/claw/
     depends_on: 
       - database
   homarus:
     image:  ${REPOSITORY:-islandora}/homarus:latest
-    volumes:
-      - jwt-data:/opt/keys/claw/
   houdini:
     image:  ${REPOSITORY:-islandora}/houdini:latest
-    volumes:
-      - jwt-data:/opt/keys/claw/
   hypercube:
     image:  ${REPOSITORY:-islandora}/hypercube:latest
-    volumes:
-      - jwt-data:/opt/keys/claw/
   matomo:
     image:  ${REPOSITORY:-islandora}/matomo
     volumes:
-      - matomo-config-data:/opt/matomo/config
+      - matomo-config-data:/var/www/matomo
     depends_on: 
       - database
     networks:
@@ -181,19 +160,12 @@ services:
       - traefik.http.middlewares.matomo-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri=/matomo
       - traefik.http.middlewares.matomo.chain.middlewares=matomo-stripprefix,matomo-customrequestheaders
       - traefik.http.routers.matomo_http.middlewares=matomo
-      #matomo-stripprefix@docker
   milliner:
     image:  ${REPOSITORY:-islandora}/milliner:latest
-    volumes:
-      - jwt-data:/opt/keys/claw/
   recast:
     image:  ${REPOSITORY:-islandora}/recast:latest
-    volumes:
-      - jwt-data:/opt/keys/claw/
   solr:
     image:  ${REPOSITORY:-islandora}/solr:latest
-    ports:
-      - 8983:8983
     volumes:
       - solr-data:/opt/solr/server/solr
     labels:
@@ -226,4 +198,3 @@ services:
       default:
         aliases:
           - islandora.localhost
-
