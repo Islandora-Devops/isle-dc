@@ -1,9 +1,7 @@
 ## How to run your own app
 
-* make folder 'codebase`
-* git clone your site into it
-* `mkdir -p data/misc`
-  * `mv latest.sql data/misc/`
+* make folder `codebase` in the root of this project and git clone your site into it
+  * `mkdir codebase && git clone <url> codebase`
 * boot the system up with `make build` (to force a rebuild of the drupal image), and don't care that drupal keeps crashing. when we have the database in place it will stop. Notice that the "drupal" container is baked by the drupal.Dockerfile in this project, so you can edit that if you need to install other dependencies/etc. If this build keeps crashing, you can switch to using the prebuilt 'islandora/composer' image without customization.
 * Do you already have a database from another app?
   * YES - then we need to load it. Here's an example of how, using the makefile helper script:
