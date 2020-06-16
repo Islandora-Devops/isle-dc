@@ -66,6 +66,7 @@ site
 *.retry
 .vscode
 config/proxy/acme.json
+.env 
 
 #===================
 # Drupal and Mariadb files persistant storage
