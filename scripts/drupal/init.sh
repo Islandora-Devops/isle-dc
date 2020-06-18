@@ -92,29 +92,29 @@ function download_required_packages() {
   cd "$current_folder"
 }
 
-function create_required_files() {
-  local drupal_root="$current_folder/codebase/web"
-  local default_dir="$drupal_root/sites/default"
-  local settings="${default_dir}/settings.php"
-  local settings_project="settings.project.php"
+# function create_required_files() {
+#   local drupal_root="$current_folder/codebase/web"
+#   local default_dir="$drupal_root/sites/default"
+#   local settings="${default_dir}/settings.php"
+#   local settings_project="settings.project.php"
 
-  # Insert settings.isle.php snippet into the settings.php file
-  if [[ ! -f "${default_dir}/${settings_project}" ]]; then
-    echo " "
-    echo -e "\033[1m[INFO]\033[0m Adjusting settings.php to work with the Isle dc."
-    echo "       If there is any customization made to the current settings.php, they will need to be moved manually."
+#   # Insert settings.isle.php snippet into the settings.php file
+#   if [[ ! -f "${default_dir}/${settings_project}" ]]; then
+#     echo " "
+#     echo -e "\033[1m[INFO]\033[0m Adjusting settings.php to work with the Isle dc."
+#     echo "       If there is any customization made to the current settings.php, they will need to be moved manually."
 
-    # Let make a backup of an existing settings.php if found
-    if [[ -f "${settings}" ]]; then
-      mv "${settings}" "${settings}.bak"
-      echo "       An existing settings.php was found and it was renamed to ${settings}.bak."
-    fi
-    # Copying the settings with Isle customization in place.
-    cp "${config_dir}/settings.php" "${settings}"
-    cp "${config_dir}/${settings_project}" "${default_dir}/${settings_project}"
-    echo " "
-  fi
-}
+#     # Let make a backup of an existing settings.php if found
+#     if [[ -f "${settings}" ]]; then
+#       mv "${settings}" "${settings}.bak"
+#       echo "       An existing settings.php was found and it was renamed to ${settings}.bak."
+#     fi
+#     # Copying the settings with Isle customization in place.
+#     cp "${config_dir}/settings.php" "${settings}"
+#     cp "${config_dir}/${settings_project}" "${default_dir}/${settings_project}"
+#     echo " "
+#   fi
+# }
 
 function composer_cmd() {
   ###
@@ -202,9 +202,9 @@ if [[ ! -f "$current_folder/codebase/vendor/autoload.php" ]]; then
   cd ..
 fi
 
-###
-# Create required files if this init was called for an existing project/codebase.
-###
-if [[ ! -f "$current_folder/codebase/web/sites/default/settings.isle.php" ]]; then
-  create_required_files
-fi
+# ###
+# # Create required files if this init was called for an existing project/codebase.
+# ###
+# if [[ ! -f "$current_folder/codebase/web/sites/default/settings.isle.php" ]]; then
+#   create_required_files
+# fi

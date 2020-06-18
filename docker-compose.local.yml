@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+    drupal:
+        image:  ${REPOSITORY:-islandora}/composer:latest
+        restart: unless-stopped
+        volumes:
+          - ./codebase:/var/www/drupal
+          - ./config/drupal/settings.php.local:/var/www/drupal/web/sites/default/settings.php
+          - ./config/drupal:/opt/drupal_config
+          - ./scripts:/opt/scripts
+          - solr-data:/opt/solr/server/solr
+        depends_on:
+          - solr
+          - fcrepo
+          - database
+          - activemq
+        networks:
+          default:
+            aliases:
+              - drupal.localhost
+          external: # needed to run composer update
+        labels:
+          - traefik.http.services.drupal.loadbalancer.server.port=80
+          - traefik.http.routers.drupal_http.service=drupal
+          - traefik.http.routers.drupal_http.entrypoints=http
+          - traefik.http.routers.drupal_http.rule=Host(`islandora.localhost`)
+
+# volumes:
+#   drupal-config-data:
+#   drupal-sites-data:

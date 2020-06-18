@@ -16,7 +16,6 @@ temp
 .htpasswd
 tests/TestNarrowSuite.php
 
-
 # =========================
 # Packages
 # =========================
@@ -67,10 +66,11 @@ site
 *.retry
 .vscode
 config/proxy/acme.json
+.env 
 
 #===================
 # Drupal and Mariadb files persistant storage
 *_files
-codebase
+codebase*
 jwt
 syn-keys
