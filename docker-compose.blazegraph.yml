@@ -1,0 +1,25 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external:
+      name: gateway
+volumes:
+  blazegraph-data:
+services:
+  blazegraph:
+    image: ${REPOSITORY:-islandora}/blazegraph:${TAG:-latest}
+    volumes:
+      - blazegraph-data:/data
+    networks:
+      default:
+        # Allow services to use the edge name to reference this service.
+        aliases:
+          - blazegraph.${COMPOSE_PROJECT_NAME-isle-dc}.localhost
+      gateway: # Do not expose in production.
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph.loadbalancer.server.port=80
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph_http.entrypoints=http

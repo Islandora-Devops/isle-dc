@@ -1,0 +1,47 @@
+# Allows traefik to work as the edge router for multiple projects.
+#
+# By default the rules will redirect to ${SERVICE}.${COMPOSE_PROJECT_NAME}.localhost
+#
+# For a traefik to be able to route traffic to a given container, that
+# container needs to be on the `gateway` network, otherwise traefik will
+# discover it via Docker but will not be able to redirect traffic to it.
+version: "3.7"
+networks:
+  gateway:
+    name: gateway
+    driver: bridge
+    internal: false
+services:
+  traefik:
+    image: traefik:2.2.1
+    container_name: traefik
+    # Do not set `api.insecure`, `api.dashboard`, `api.debug` to `true` in production.
+    # Also do not expose database 3306, as an entry point.
+    command: >
+      --api.insecure=true
+      --api.dashboard=true
+      --api.debug=true
+      --entryPoints.http.address=:80
+      --entryPoints.https.address=:443
+      --entryPoints.database.address=:3306
+      --providers.docker
+      --providers.docker.network=gateway
+      --providers.docker.exposedByDefault=false
+      '--providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.{{ index .Labels "com.docker.compose.project" }}.localhost`)'
+    ports:
+      # Has to be bind mounted to 80/443 for assumptions
+      # around internal network alias to work as intended.
+      - 80:80
+      - 443:443
+      # Allows direct connection to the database for using
+      # drush on the host machine. Do not do in production.
+      - 3306:3306
+      # The Web UI (enabled by --api.insecure=true)
+      - ${TRAEFIK_WEB_UI_PORT-8080}:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      # Do not expose in production.
+      - traefik.http.routers.api.service=api@internal
+    networks:
+      - gateway

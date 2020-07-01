@@ -74,3 +74,15 @@ config/proxy/acme.json
 codebase*
 jwt
 syn-keys
+
+#===================
+# User can combined serveral docker-compose.yml files using the `config` command.
+docker-compose.yml
+
+#===================
+# User overrides for environment variables.
+docker-compose.env.yml
+
+#===================
+# User overrides for building custom image from the codebase directory.
+Dockerfile

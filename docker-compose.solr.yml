@@ -1,0 +1,27 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external:
+      name: gateway
+services:
+  solr:
+    image: ${REPOSITORY:-islandora}/solr:${TAG:-latest}
+    # No volumes are defined here, other docker-compose.yml files such as
+    # docker-compose.demo.yml are expected to extend this definition based
+    # on their workflow.
+    networks:
+      default:
+        # Allow services to use the edge name to reference this service.
+        # This allows links from the Drupal administration page to lead
+        # to the appropriate solr server.
+        aliases:
+          - solr.${COMPOSE_PROJECT_NAME-isle-dc}.localhost
+      gateway: # Do not expose in production.
+    labels:
+      # Do not expose in production.
+      - traefik.enable=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-solr.loadbalancer.server.port=8983
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-solr_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-solr
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-solr_http.entrypoints=http

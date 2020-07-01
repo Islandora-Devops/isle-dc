@@ -1,30 +1,56 @@
+# Container does not perform any initialization aside from importing env-vars from `confd`.
+# Users are expected to manually set up their site using a combination of the following:
+# - Makefile targets
+# - composer requires / install
+# - Drush commands
+# - Manual changes to the codebase directory
 version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external:
+      name: gateway
+volumes:
+  drupal-sites-data:
+  solr-data:
 services:
-    drupal:
-        image:  ${REPOSITORY:-islandora}/composer:latest
-        restart: unless-stopped
-        volumes:
-          - ./codebase:/var/www/drupal
-          - ./config/drupal/settings.php.local:/var/www/drupal/web/sites/default/settings.php
-          - ./config/drupal:/opt/drupal_config
-          - ./scripts:/opt/scripts
-          - solr-data:/opt/solr/server/solr
-        depends_on:
-          - solr
-          - fcrepo
-          - database
-          - activemq
-        networks:
-          default:
-            aliases:
-              - drupal.localhost
-          external: # needed to run composer update
-        labels:
-          - traefik.http.services.drupal.loadbalancer.server.port=80
-          - traefik.http.routers.drupal_http.service=drupal
-          - traefik.http.routers.drupal_http.entrypoints=http
-          - traefik.http.routers.drupal_http.rule=Host(`islandora.localhost`)
-
-# volumes:
-#   drupal-config-data:
-#   drupal-sites-data:
+  drupal:
+    image: ${REPOSITORY:-islandora}/drupal:${TAG:-latest}
+    environment:
+      # Use the edge name so the Drush on the host machine can access it.
+      DRUPAL_DEFAULT_DB_HOST: database.${COMPOSE_PROJECT_NAME-isle-dc}.localhost
+    volumes:
+      - ./codebase:/var/www/drupal
+      - drupal-sites-data:/var/www/drupal/web/sites/default/files
+      - solr-data:/opt/solr/server/solr
+    depends_on:
+      # Requires a the very minimum a database.
+      - database
+  # Extends docker-compose.solr.yml
+  solr:
+    volumes:
+      # On a production site you may not want to take this approach but instead refer to each of the cores
+      # data directories specifically and maintain the configuration as part of a customized image, where 
+      # in your configuration is Solr managed under source control somewhere.
+      - solr-data:/opt/solr/server/solr
+  # Extends docker-compose.database.yml
+  # Allows for access to the database through traefik to support using Drush locally.
+  database:
+    # Since this is not http, but tcp traffic it does does not understand the concept of a "host".
+    # so we must dedicate a port to it in traefik, and direct all traffic to this router: HostSNI(`*`).
+    labels:
+      - traefik.enable=true
+      - traefik.tcp.services.${COMPOSE_PROJECT_NAME-isle-dc}-database.loadbalancer.server.port=3306
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-database_tcp.service=${COMPOSE_PROJECT_NAME-isle-dc}-database
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-database_tcp.entrypoints=database
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-database_tcp.rule=HostSNI(`*`)
+    networks:
+      default:
+        # Allow drupal to access the database with it's edge name to reference
+        # this service in addition to `database`. This allows us to use the edge
+        # name in settings.php so Drush on the host machine can be used in the
+        # codebase folder.
+        aliases:
+            - database.${COMPOSE_PROJECT_NAME-isle-dc}.localhost
+      gateway:
