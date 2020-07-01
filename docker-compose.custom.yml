@@ -1,10 +1,4 @@
-# This is just an example of of creating a Drupal 8 site with Islandora from
-# scratch as a series of startup scripts before the nginx server starts.
-#
-# Its primary use is for testing changes to the containers.
-#
-# Organizations should not use this as their base instead they should refer
-# to the documentation in this project for the correct approach.
+# This file builds a local image from the codebase folder
 version: "3.7"
 networks:
   default:
@@ -18,18 +12,23 @@ volumes:
 services:
   # The service name is drupal that is the default host name used by micro-services etc.
   drupal:
-    image: ${REPOSITORY:-islandora}/demo:${TAG:-latest}
+    build:
+      context: ./
+      dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./Dockerfile}
+    environment:
+      #
+      # Set environment variables that allow use to install from an existing configuration.
+      #
+      DRUPAL_DEFAULT_CONFIGDIR: /var/www/drupal/config/sync
+      DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"
+      DRUPAL_DEFAULT_PROFILE: minimal
     volumes:
       - drupal-sites-data:/var/www/drupal/web/sites/default/files
       # Used to dump solr configuration directly into solr instance via the search_api_solr module.
       - solr-data:/opt/solr/server/solr
     depends_on:
-      # Demo cannot start unless these services are running.
-      - solr
-      - fcrepo
+      # Requires a the very minimum a database.
       - database
-      - activemq
-      - blazegraph
   # Extends docker-compose.solr.yml so that they share a volume.
   solr:
     volumes:

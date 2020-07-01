@@ -1,0 +1,11 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+services:
+  crayfits:
+    image: ${REPOSITORY:-islandora}/crayfits:${TAG:-latest}
+    depends_on:
+      - fits
+  fits:
+    image: ${REPOSITORY:-islandora}/fits:${TAG:-latest}

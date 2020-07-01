@@ -1,0 +1,17 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+services:
+  gemini:
+    image: ${REPOSITORY:-islandora}/gemini:${TAG:-latest}
+  homarus:
+    image: ${REPOSITORY:-islandora}/homarus:${TAG:-latest}
+  houdini:
+    image: ${REPOSITORY:-islandora}/houdini:${TAG:-latest}
+  hypercube:
+    image: ${REPOSITORY:-islandora}/hypercube:${TAG:-latest}
+  milliner:
+    image: ${REPOSITORY:-islandora}/milliner:${TAG:-latest}
+  recast:
+    image: ${REPOSITORY:-islandora}/recast:${TAG:-latest}

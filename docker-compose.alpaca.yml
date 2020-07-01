@@ -1,0 +1,7 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+services:
+  alpaca:
+    image: ${REPOSITORY:-islandora}/alpaca:${TAG:-latest}

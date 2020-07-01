@@ -12,7 +12,7 @@ Launch a terminal and follow these steps below:
 
 * On your local, add the local domain/site to `/etc/hosts` if it isn't there already
   * `sudo nano /etc/hosts`
-  * add `127.0.0.1   islandora.localhost` as a seperate line underneath `127.0.0.1       localhost`
+  * add `127.0.0.1   islandora.isle-dc.localhost` as a seperate line underneath `127.0.0.1       localhost`
   * save and exit the hosts file
 
 * Within the terminal, navigate to a directory of your choice that you can start working
@@ -48,7 +48,7 @@ Launch a terminal and follow these steps below:
 * reset/claim the admin user password
   * `make drupal_exec command="drush uli"` (edit the base domain to match the URL below before you try to use the one-time link this provides)
 
-* Access site at: http://islandora.localhost
+* Access site at: http://islandora.isle-dc.localhost
 
 * To shut down the containers but persist data
   * `make down`

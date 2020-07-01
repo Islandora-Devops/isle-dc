@@ -1,0 +1,28 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external:
+      name: gateway
+volumes:
+  matomo-config-data:
+services:
+  matomo:
+    image: ${REPOSITORY:-islandora}/matomo:${TAG:-latest}
+    volumes:
+      - matomo-config-data:/var/www/matomo
+    networks:
+      default:
+      gateway: # Needs external access to request plugins, etc.
+    labels:
+      # Do not expose in production over http, setup https.
+      - traefik.enable=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-matomo.loadbalancer.server.port=80
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-matomo
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.entrypoints=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.rule=Host(`islandora.${COMPOSE_PROJECT_NAME-isle-dc}.localhost`) && PathPrefix(`/matomo`)
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME-isle-dc}-matomo-stripprefix.stripprefix.prefixes=/matomo
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME-isle-dc}-matomo-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri=/matomo
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME-isle-dc}-matomo.chain.middlewares=${COMPOSE_PROJECT_NAME-isle-dc}-matomo-stripprefix,${COMPOSE_PROJECT_NAME-isle-dc}-matomo-customrequestheaders
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.middlewares=${COMPOSE_PROJECT_NAME-isle-dc}-matomo

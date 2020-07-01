@@ -1,0 +1,24 @@
+# These are the common settings for any drupal when used with any of the environment types.
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external:
+      name: gateway
+services:
+  # The service name is drupal that is the default host name used by micro-services etc.
+  # Needs to match against demo, custom, and local.
+  drupal:
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-drupal
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.entrypoints=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.rule=Host(`islandora.${COMPOSE_PROJECT_NAME-isle-dc}.localhost`)
+    networks:
+      default:
+        # Allow services (like Matomo) to use the edge name to reference this service in addition to `drupal`.
+        aliases:
+            - islandora.${COMPOSE_PROJECT_NAME-isle-dc}.localhost
+      gateway:
