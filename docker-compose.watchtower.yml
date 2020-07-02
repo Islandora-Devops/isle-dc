@@ -1,0 +1,10 @@
+# This service will automatically restart a service if a newer image is
+# available on the system, useful for local development but should not
+# be used in production.
+version: "3.7"
+services:
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 1 --no-pull

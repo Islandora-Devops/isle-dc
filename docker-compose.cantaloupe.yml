@@ -1,0 +1,23 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external:
+      name: gateway
+volumes:
+  cantaloupe-data:
+services:
+  cantaloupe:
+    image: ${REPOSITORY:-islandora}/cantaloupe:${TAG:-latest}
+    volumes:
+      - cantaloupe-data:/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe.loadbalancer.server.port=80
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.entrypoints=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.rule=Host(`islandora.${COMPOSE_PROJECT_NAME-isle-dc}.localhost`) && PathPrefix(`/cantaloupe`)
+    networks:
+      default:
+      gateway:

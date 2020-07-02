@@ -1,0 +1,18 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+volumes:
+  mariadb-data:
+  mariadb-files:
+services:
+  # Database is chosen as the service name rather than mariadb,
+  # as institutions may want to swap out back-ends later and
+  # database is a more sensible default. When we have other
+  # databases the user can choose the appropriate docker-compose.yml
+  # file to use or none at all if using some database as a service.
+  database:
+    image: ${REPOSITORY:-islandora}/mariadb:${TAG:-latest}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+      - mariadb-files:/var/lib/mysql-files

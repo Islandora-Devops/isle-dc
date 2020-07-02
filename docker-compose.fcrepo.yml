@@ -1,0 +1,31 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external:
+      name: gateway
+volumes:
+  fcrepo-data:
+services:
+  fcrepo:
+    image: ${REPOSITORY:-islandora}/fcrepo:${TAG:-latest}
+    volumes:
+      - fcrepo-data:/data
+    depends_on:
+      - activemq
+    networks:
+      default:
+        aliases:
+          # Flysystem allows us to specify a single URL for Fedora, which is
+          # used for display as well. This means this service edge name must
+          # also be used in the default network for access by the `drupal`
+          # service.
+          - fcrepo.${COMPOSE_PROJECT_NAME-isle-dc}.localhost
+      gateway: # May want to disable in production if you wish to hide Fedora REST API from the internet.
+    labels:
+      # Do not expose in production.
+      - traefik.enable=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo.loadbalancer.server.port=80
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo_http.entrypoints=http
