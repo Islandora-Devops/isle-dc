@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  # Override defaults so Mariadb is used as the database for this service.
+  gemini:
+    environment:
+      GEMINI_DB_DRIVER: pdo_mysql
+      GEMINI_DB_HOST: mariadb
+      GEMINI_DB_PORT: 3306

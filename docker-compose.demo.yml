@@ -27,7 +27,7 @@ services:
       # Demo cannot start unless these services are running.
       - solr
       - fcrepo
-      - database
+      - ${DRUPAL_DATABASE_SERVICE}
       - activemq
       - blazegraph
   # Extends docker-compose.solr.yml so that they share a volume.

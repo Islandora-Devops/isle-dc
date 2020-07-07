@@ -12,6 +12,8 @@ services:
     image: ${REPOSITORY:-islandora}/matomo:${TAG:-latest}
     volumes:
       - matomo-config-data:/var/www/matomo
+    depends_on:
+      - mariadb
     networks:
       default:
       gateway: # Needs external access to request plugins, etc.

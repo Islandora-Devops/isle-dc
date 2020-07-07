@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  # Override defaults so PostgreSQL is used as the database for this service.
+  gemini:
+    environment:
+      GEMINI_DB_DRIVER: pdo_pgsql
+      GEMINI_DB_HOST: postgresql
+      GEMINI_DB_PORT: 5432
