@@ -17,10 +17,10 @@ services:
       - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.permanent=true
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-drupal
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.entrypoints=http
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.rule=Host(`islandora.${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.rule=Host(`islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`)
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.middlewares=drupal-redirectscheme
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.entrypoints=https
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.rule=Host(`islandora.${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.rule=Host(`islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`)
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls=true
     networks:
       default:

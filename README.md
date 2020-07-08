@@ -5,7 +5,6 @@
 - [Introduction](#introduction)
 - [Requirements](#requirements)
 - [Installation](#installation)
-  - [Configuring the Domain(s)](#configuring-the-domains)
   - [Configuring the Environment](#configuring-the-environment)
 - [Demo Environment](#demo-environment)
 - [Local Environment](#local-environment)
@@ -69,36 +68,6 @@ first after you have completed the [Installation](#-installation).
 - For stable working use the `master` branch
 - For bleeding edge, potentially not working, use the `development` branch
 
-### Configuring the Domain(s)
-
-If you are not using Linux as your operating system you will need to modify your
-`hosts` file such that you can access Islandora via its domain name.
-
-| Operating System | Host File location                      |
-| :--------------- | :-------------------------------------- |
-| Windows          | `C:\Windows\System32\drivers\etc\hosts` |
-| Linux / OSX      | `/etc/hosts`                            |
-
-The domains used will depend on two things, the name of the composer project
-`COMPOSE_PROJECT_NAME` which defaults to `isle-dc`.
-
-Ensure the following lines are written to your respective `host` file. If you
-have altered the value of `COMPOSE_PROJECT_NAME` in `.env` replace `isle-dc`
-with the same value you have chosen for `COMPOSE_PROJECT_NAME`:
-
-```bash
-127.0.0.1 activemq.isle-dc.localhost
-127.0.0.1 blazegraph.isle-dc.localhost
-127.0.0.1 database.isle-dc.localhost
-127.0.0.1 fcrepo.isle-dc.localhost
-127.0.0.1 islandora.isle-dc.localhost
-127.0.0.1 solr.isle-dc.localhost
-```
-
-Also if you intended to develop remotely using a server in AWS for example you
-would change the IP address from `127.0.0.1` to a publicly accessible IP address
-for your server.
-
 ### Configuring the Environment
 
 To run the containers you must first generate a `docker-compose.yml` file. It is
@@ -118,8 +87,31 @@ This will create the following files which you can **customize**:
 | `.env`                   | Responsible for setting variables used in `docker-compose.*.yml` files </br> Determines which `docker-compose.*.yml` are included in `docker-compose.yml` |
 | `docker-compose.env.yml` | Allows the user to set environment settings inside  of containers and override any services configuration                                                 |
 
-You can set the environment in the `.env` file, using the `ENVIRONMENT`
-variable.
+At a minimum, you'll want to consider setting `ENVIRONMENT` in the `.env` file to either `demo`, `local`, or `custom`. The default is `demo`.
+
+If you are deploying somewhere other than `localhost` and you own a domain, you can change it by setting `DRUPAL_SITE_HOST` in the .env file.  That is,
+for `example.org`:
+
+```
+DRUPAL_SITE_HOST=example.org
+``` 
+
+If you have an IP address but no domain, you can set the value to `X-X-X-X.traefik.me`, where X-X-X-X is your IP address, but with hyphens
+instead of dots.  For example, if your IP address is `123.45.67.89`:
+
+```
+DRUPAL_SITE_HOST=123-45-67-89.traefik.me
+``` 
+
+There are also a handful of variables in `docker-compose.env.yml` you'll want to adjust if using an IP address with traefik.me.  For each of these,
+change the dot between COMPOSE_PROJECT_NAME and DRUPAL_SITE_HOST to a hyphen (i.e. ${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+becomes ${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
+
+- DRUPAL_DEFAULT_CANTALOUPE_URL
+- DRUPAL_DEFAULT_FCREPO_HOST
+- DRUPAL_DEFAULT_MATOMO_URL
+- DRUPAL_DEFAULT_SITE_URL
+- MATOMO_SITE_HOST
 
 Once you are happy with your changes to the above files you can regenerate the
 `docker-compose.yml`, and pull the required images using the
@@ -407,37 +399,23 @@ INCLUDE_WATCHTOWER_SERVICE=true
 ### Traefik
 
 The [traefik](https://containo.us/traefik/) container acts as a reverse proxy,
-and exposes some containers through port ``80``/``443``/``3306`` on the localhost via the
-[loopback](https://www.tldp.org/LDP/nag/node66.html). This allows access to the
-following urls.
+and exposes some containers through port ``80``/``443``/``3306``. This allows access to the
+following urls by default.
 
-- <http://activemq.isle-dc.localhost/admin>
-- <http://blazegraph.isle-dc.localhost/bigdata>
-- <mysql://database.isle-dc.localhost:3306>
-- <http://islandora.isle-dc.localhost>
-- <http://fcrepo.isle-dc.localhost/fcrepo/reset>
-- <http://matomo.isle-dc.localhost>
+- <http://activemq-isle-dc.traefik.me/admin>
+- <http://blazegraph-isle-dc.traefik.me/bigdata>
+- <mysql://database-isle-dc.traefik.me:3306>
+- <https://islandora-isle-dc.traefik.me>
+- <https://islandora-isle-dc.traefik.me/matomo/>
+- <https://islandora-isle-dc.traefik.me/cantaloue>
+- <http://fcrepo-isle-dc.traefik.me/fcrepo/reset>
 
-Note if you cannot map ``traefik`` to the hosts port 80, you will need to
-manually modify your ``/etc/hosts`` file and add entries for each of the urls
-above like so, assuming the IP of ``traefik`` container is ``x.x.x.x`` on its
-virtual network, and you can access that address from your machine.
+Since Drupal passes links to itself in the messages it passes to the microservices,
+and occassionally other urls need to be resolved on containers that do not have 
+external access, we define aliases for most services on the internal network.
 
-```properties
-x.x.x.x     activemq.isle-dc.localhost
-x.x.x.x     blazegraph.isle-dc.localhost
-x.x.x.x     islandora.isle-dc.localhost
-x.x.x.x     fcrepo.isle-dc.localhost
-x.x.x.x     matomo.isle-dc.localhost
-```
-
-Since Drupal passes its ``Base URL`` along to other services in AS2 as a means
-of allowing them to find their way back. As well as having services like Fedora
-exposed at the same URL they are accessed by the micro-services to end users. We
-need to allow containers within the network to be accessible via the same URL,
-though not by routing through ``traefik`` since it is and edge router.
-
-So alias like the following are defined:
+Aliases like so are defined on most services to mimic their routing rules in 
+Traefik:
 
 ```yaml
 drupal:
@@ -446,11 +424,8 @@ drupal:
     networks:
       default:
         aliases:
-          - islandora.isle-dc.localhost
+          - islandora-isle-dc.traefik.me
 ```
-
-These are set on the ``default`` network as that is the internal network (no
-access to the outside) on which all containers reside.
 
 The `traefik` service can be disabled/enabled via the `INCLUDE_TRAEFIK_SERVICE`
 variable in your `.env` file.

@@ -30,7 +30,7 @@ services:
       --providers.docker.network=gateway
       --providers.docker.exposedByDefault=false
       --providers.file.filename=/etc/traefik/tls.yml
-      '--providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.{{ index .Labels "com.docker.compose.project" }}.${DRUPAL_SITE_HOST:-traefik.me}`,`{{ index .Labels "com.docker.compose.service" }}-{{ index .Labels "com.docker.compose.project" }}-${DRUPAL_SITE_HOST:-traefik.me}`)'
+      '--providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}-{{ index .Labels "com.docker.compose.project" }}.${DRUPAL_SITE_HOST:-traefik.me}`,`{{ index .Labels "com.docker.compose.service" }}-{{ index .Labels "com.docker.compose.project" }}-${DRUPAL_SITE_HOST:-traefik.me}`)'
     ports:
       # Has to be bind mounted to 80/443 for assumptions
       # around internal network alias to work as intended.
