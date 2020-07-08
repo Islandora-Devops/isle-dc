@@ -86,3 +86,7 @@ docker-compose.env.yml
 #===================
 # User overrides for building custom image from the codebase directory.
 Dockerfile
+
+#===================
+# User provided certs for TLS.
+certs

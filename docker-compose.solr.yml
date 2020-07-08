@@ -17,7 +17,8 @@ services:
         # This allows links from the Drupal administration page to lead
         # to the appropriate solr server.
         aliases:
-          - solr.${COMPOSE_PROJECT_NAME-isle-dc}.localhost
+          - solr.${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+          - solr-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
       gateway: # Do not expose in production.
     labels:
       # Do not expose in production.

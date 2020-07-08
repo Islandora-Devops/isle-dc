@@ -243,6 +243,16 @@ endif
 		$(REPOSITORY)/drupal:$(TAG) -r \
 		'echo password_hash(md5("$(MATOMO_USER_PASS)"), PASSWORD_DEFAULT) . "\n";'
 
+# Helper function to generate keys for the user to use in their docker-compose.env.yml
+.PHONY: download-default-certs
+.SILENT: download-default-certs
+download-default-certs:
+	mkdir -p certs
+	curl http://traefik.me/cert.pem -o certs/cert.pem
+	curl http://traefik.me/chain.pem -o certs/chain.pem
+	curl http://traefik.me/fullchain.pem -o certs/fullchain.pem
+	curl http://traefik.me/privkey.pem -o certs/privkey.pem
+
 # Destroys everything beware!
 .PHONY: clean
 .SILENT: clean
