@@ -118,6 +118,7 @@ directly into place in your `docker-compose.env.yml` file.
 | Variable                      | Value                                                                                              |
 | :-----------------------------| :--------------------------------------------------------------------------------------------------|
 | DRUPAL_DEFAULT_CANTALOUPE_URL | https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/cantaloupe/iiif/2 |
+| DRUPAL_DEFAULT_DB_HOST        | database-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                            |
 | DRUPAL_DEFAULT_FCREPO_HOST    | fcrepo-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                              |
 | DRUPAL_DEFAULT_MATOMO_URL     | https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/matomo/           |
 | DRUPAL_DEFAULT_SITE_URL       | https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}                   |

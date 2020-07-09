@@ -49,10 +49,4 @@ services:
       # Do not expose in production.
       - traefik.http.routers.api.service=api@internal
     networks:
-      default:
-        # Easy to construct aliases the Drupal service needs to occassionally kick
-        # internal requests back through traefik.
-        aliases:
-            - traefik.islandora.${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
-            - traefik-islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
-      gateway: null
+      - gateway

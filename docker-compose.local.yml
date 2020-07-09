@@ -17,14 +17,10 @@ volumes:
 services:
   drupal:
     image: ${REPOSITORY:-islandora}/drupal:${TAG:-latest}
-    environment:
-      # Use the edge name so the Drush on the host machine can access it.
-      DRUPAL_DEFAULT_DB_HOST: database.${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
     volumes:
       - ./codebase:/var/www/drupal
       - drupal-sites-data:/var/www/drupal/web/sites/default/files
       - solr-data:/opt/solr/server/solr
-      - ./certs/fullchain.pem:/usr/local/share/ca-certificates/fullchain.pem
     depends_on:
       # Requires a the very minimum a database.
       - database
@@ -53,6 +49,6 @@ services:
         # name in settings.php so Drush on the host machine can be used in the
         # codebase folder.
         aliases:
-            - database.${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+            - database-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
             - database-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
       gateway:

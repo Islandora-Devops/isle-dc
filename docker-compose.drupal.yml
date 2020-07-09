@@ -26,6 +26,6 @@ services:
       default:
         # Allow services (like Matomo) to use the edge name to reference this service in addition to `drupal`.
         aliases:
-            - islandora.${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+            - islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
             - islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
       gateway:
