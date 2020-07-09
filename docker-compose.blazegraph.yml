@@ -16,7 +16,8 @@ services:
       default:
         # Allow services to use the edge name to reference this service.
         aliases:
-          - blazegraph.${COMPOSE_PROJECT_NAME-isle-dc}.localhost
+          - blazegraph-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+          - blazegraph-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
       gateway: # Do not expose in production.
     labels:
       - traefik.enable=true

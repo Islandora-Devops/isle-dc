@@ -19,10 +19,16 @@ services:
       # Do not expose in production over http, setup https.
       - traefik.enable=true
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-matomo.loadbalancer.server.port=80
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME-isle-dc}-matomo-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME-isle-dc}-matomo-redirectscheme.redirectscheme.permanent=true
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-matomo
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.entrypoints=http
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.rule=Host(`islandora.${COMPOSE_PROJECT_NAME-isle-dc}.localhost`) && PathPrefix(`/matomo`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.rule=Host(`islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`) && PathPrefix(`/matomo`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.middlewares=${COMPOSE_PROJECT_NAME-isle-dc}-matomo-redirectscheme
       - traefik.http.middlewares.${COMPOSE_PROJECT_NAME-isle-dc}-matomo-stripprefix.stripprefix.prefixes=/matomo
       - traefik.http.middlewares.${COMPOSE_PROJECT_NAME-isle-dc}-matomo-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri=/matomo
       - traefik.http.middlewares.${COMPOSE_PROJECT_NAME-isle-dc}-matomo.chain.middlewares=${COMPOSE_PROJECT_NAME-isle-dc}-matomo-stripprefix,${COMPOSE_PROJECT_NAME-isle-dc}-matomo-customrequestheaders
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_http.middlewares=${COMPOSE_PROJECT_NAME-isle-dc}-matomo
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.entrypoints=https
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.rule=Host(`islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`) && PathPrefix(`/matomo`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.tls=true
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.middlewares=${COMPOSE_PROJECT_NAME-isle-dc}-matomo

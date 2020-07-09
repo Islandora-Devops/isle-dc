@@ -1,6 +1,8 @@
 # Allows traefik to work as the edge router for multiple projects.
 #
-# By default the rules will redirect to ${SERVICE}.${COMPOSE_PROJECT_NAME}.localhost
+# By default the rules will redirect to ${SERVICE}.${COMPOSE_PROJECT_NAME}.traefik.me
+# if working on localhost and ${SERVICE}-${COMPOSE_PROJECT_NAME}-XX-XX-XX-XX.traefik.me
+# if working remotely, where XX-XX-XX-XX is the dashed version of your IP address.
 #
 # For a traefik to be able to route traffic to a given container, that
 # container needs to be on the `gateway` network, otherwise traefik will
@@ -27,7 +29,8 @@ services:
       --providers.docker
       --providers.docker.network=gateway
       --providers.docker.exposedByDefault=false
-      '--providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.{{ index .Labels "com.docker.compose.project" }}.localhost`)'
+      --providers.file.filename=/etc/traefik/tls.yml
+      '--providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}-{{ index .Labels "com.docker.compose.project" }}.${DRUPAL_SITE_HOST:-traefik.me}`,`{{ index .Labels "com.docker.compose.service" }}-{{ index .Labels "com.docker.compose.project" }}-${DRUPAL_SITE_HOST:-traefik.me}`)'
     ports:
       # Has to be bind mounted to 80/443 for assumptions
       # around internal network alias to work as intended.
@@ -40,6 +43,8 @@ services:
       - ${TRAEFIK_WEB_UI_PORT-8080}:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./tls.yml:/etc/traefik/tls.yml
+      - ./certs:/etc/ssl/traefik
     labels:
       # Do not expose in production.
       - traefik.http.routers.api.service=api@internal

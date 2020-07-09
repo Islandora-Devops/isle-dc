@@ -16,3 +16,19 @@ services:
     volumes:
       - mariadb-data:/var/lib/mysql
       - mariadb-files:/var/lib/mysql-files
+    labels:
+      - traefik.enable=true
+      - traefik.tcp.services.${COMPOSE_PROJECT_NAME-isle-dc}-database.loadbalancer.server.port=3306
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-database_tcp.service=${COMPOSE_PROJECT_NAME-isle-dc}-database
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-database_tcp.entrypoints=database
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-database_tcp.rule=HostSNI(`*`)
+    networks:
+      default:
+        # Allow drupal to access the database with it's edge name to reference
+        # this service in addition to `database`. This allows us to use the edge
+        # name in settings.php so Drush on the host machine can be used in the
+        # codebase folder.
+        aliases:
+            - database-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+            - database-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
+      gateway:

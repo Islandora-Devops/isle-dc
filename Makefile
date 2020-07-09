@@ -48,7 +48,7 @@ OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES=$(shell \
 # definition for `gateway` will be overriden.
 SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES)
 
-default: docker-compose.yml pull
+default: download-default-certs docker-compose.yml pull
 
 .SILENT: docker-compose.yml
 docker-compose.yml: $(SERVICES:%=docker-compose.%.yml) .env
@@ -243,10 +243,22 @@ endif
 		$(REPOSITORY)/drupal:$(TAG) -r \
 		'echo password_hash(md5("$(MATOMO_USER_PASS)"), PASSWORD_DEFAULT) . "\n";'
 
+# Helper function to generate keys for the user to use in their docker-compose.env.yml
+.PHONY: download-default-certs
+.SILENT: download-default-certs
+download-default-certs:
+	mkdir -p certs
+	if [ ! -f certs/cert.pem ]; then \
+		curl http://traefik.me/cert.pem -o certs/cert.pem; \
+	fi
+	if [ ! -f certs/privkey.pem ]; then \
+		curl http://traefik.me/privkey.pem -o certs/privkey.pem; \
+	fi
+
 # Destroys everything beware!
 .PHONY: clean
 .SILENT: clean
 clean:
 	-docker-compose down -v
-	sudo rm -fr codebase
+	sudo rm -fr codebase certs
 	git clean -xffd .

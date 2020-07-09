@@ -21,7 +21,8 @@ services:
           # used for display as well. This means this service edge name must
           # also be used in the default network for access by the `drupal`
           # service.
-          - fcrepo.${COMPOSE_PROJECT_NAME-isle-dc}.localhost
+          - fcrepo-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+          - fcrepo-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
       gateway: # May want to disable in production if you wish to hide Fedora REST API from the internet.
     labels:
       # Do not expose in production.
