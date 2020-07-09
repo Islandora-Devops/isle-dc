@@ -48,7 +48,7 @@ OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES=$(shell \
 # definition for `gateway` will be overriden.
 SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES)
 
-default: docker-compose.yml pull
+default: download-default-certs docker-compose.yml pull
 
 .SILENT: docker-compose.yml
 docker-compose.yml: $(SERVICES:%=docker-compose.%.yml) .env
@@ -248,15 +248,17 @@ endif
 .SILENT: download-default-certs
 download-default-certs:
 	mkdir -p certs
-	curl http://traefik.me/cert.pem -o certs/cert.pem
-	curl http://traefik.me/chain.pem -o certs/chain.pem
-	curl http://traefik.me/fullchain.pem -o certs/fullchain.pem
-	curl http://traefik.me/privkey.pem -o certs/privkey.pem
+	if [ ! -f certs/cert.pem ]; then \
+		curl http://traefik.me/cert.pem -o certs/cert.pem; \
+	fi
+	if [ ! -f certs/privkey.pem ]; then \
+		curl http://traefik.me/privkey.pem -o certs/privkey.pem; \
+	fi
 
 # Destroys everything beware!
 .PHONY: clean
 .SILENT: clean
 clean:
 	-docker-compose down -v
-	sudo rm -fr codebase
+	sudo rm -fr codebase certs
 	git clean -xffd .
