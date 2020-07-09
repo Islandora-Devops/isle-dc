@@ -18,7 +18,7 @@ export
 EXTERNAL_SERVICES := etcd watchtower traefik
 
 # The minimal set of docker-compose files required to be able to run anything.
-REQUIRED_SERIVCES := activemq alpaca blazegraph cantaloupe crayfish crayfits drupal fcrepo mariadb matomo solr
+REQUIRED_SERIVCES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal fcrepo mariadb matomo solr
 
 # Watchtower is an optional dependency, defaults to not being included.
 ifeq ($(INCLUDE_WATCHTOWER_SERVICE), true)
