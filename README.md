@@ -6,6 +6,9 @@
 - [Requirements](#requirements)
 - [Installation](#installation)
   - [Configuring the Environment](#configuring-the-environment)
+    - [Changing the host name](#changing-the-host-name)
+    - [Using an IP address](#using-an-ip-address)
+  - [Applying changes](#applying-changes)
 - [Demo Environment](#demo-environment)
 - [Local Environment](#local-environment)
   - [Create Local Environment from islandora/demo Image](#create-local-environment-from-islandorademo-image)
@@ -89,12 +92,16 @@ This will create the following files which you can **customize**:
 
 At a minimum, you'll want to consider setting `ENVIRONMENT` in the `.env` file to either `demo`, `local`, or `custom`. The default is `demo`.
 
+#### Changing the host name
+
 If you are deploying somewhere other than `localhost` and you own a domain, you can change it by setting `DRUPAL_SITE_HOST` in the .env file.  That is,
 for `example.org`:
 
 ```
 DRUPAL_SITE_HOST=example.org
 ``` 
+
+#### Using an IP address
 
 If you have an IP address but no domain, you can set the value to `X-X-X-X.traefik.me`, where X-X-X-X is your IP address, but with hyphens
 instead of dots.  For example, if your IP address is `123.45.67.89`:
@@ -105,13 +112,18 @@ DRUPAL_SITE_HOST=123-45-67-89.traefik.me
 
 There are also a handful of variables in `docker-compose.env.yml` you'll want to adjust if using an IP address with traefik.me.  For each of these,
 change the dot between COMPOSE_PROJECT_NAME and DRUPAL_SITE_HOST to a hyphen (i.e. ${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
-becomes ${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
+becomes ${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}).  If you have any doubts about what you're doing, just copy/paste these values
+directly into place in your `docker-compose.env.yml` file.
 
-- DRUPAL_DEFAULT_CANTALOUPE_URL
-- DRUPAL_DEFAULT_FCREPO_HOST
-- DRUPAL_DEFAULT_MATOMO_URL
-- DRUPAL_DEFAULT_SITE_URL
-- MATOMO_SITE_HOST
+| Variable                      | Value                                                                                              |
+| :-----------------------------| :--------------------------------------------------------------------------------------------------|
+| DRUPAL_DEFAULT_CANTALOUPE_URL | https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/cantaloupe/iiif/2 |
+| DRUPAL_DEFAULT_FCREPO_HOST    | fcrepo-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                              |
+| DRUPAL_DEFAULT_MATOMO_URL     | https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/matomo/           |
+| DRUPAL_DEFAULT_SITE_URL       | https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}                   |
+| MATOMO_SITE_HOST              | islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                           |
+
+### Applying changes
 
 Once you are happy with your changes to the above files you can regenerate the
 `docker-compose.yml`, and pull the required images using the
