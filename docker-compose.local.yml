@@ -23,7 +23,7 @@ services:
       - solr-data:/opt/solr/server/solr
     depends_on:
       # Requires a the very minimum a database.
-      - database
+      - ${DRUPAL_DATABASE_SERVICE}
   # Extends docker-compose.solr.yml
   solr:
     volumes:

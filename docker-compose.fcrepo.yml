@@ -10,6 +10,8 @@ volumes:
 services:
   fcrepo:
     image: ${REPOSITORY:-islandora}/fcrepo:${TAG:-latest}
+    environment:
+      FCREPO_ALLOW_EXTERNAL_DRUPAL: http://islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}/
     volumes:
       - fcrepo-data:/data
     depends_on:

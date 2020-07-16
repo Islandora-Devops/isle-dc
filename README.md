@@ -97,32 +97,32 @@ At a minimum, you'll want to consider setting `ENVIRONMENT` in the `.env` file t
 If you are deploying somewhere other than `localhost` and you own a domain, you can change it by setting `DRUPAL_SITE_HOST` in the .env file.  That is,
 for `example.org`:
 
-```
+```bash
 DRUPAL_SITE_HOST=example.org
-``` 
+```
 
 #### Using an IP address
 
 If you have an IP address but no domain, you can set the value to `X-X-X-X.traefik.me`, where X-X-X-X is your IP address, but with hyphens
 instead of dots.  For example, if your IP address is `123.45.67.89`:
 
-```
+```bash
 DRUPAL_SITE_HOST=123-45-67-89.traefik.me
-``` 
+```
 
 There are also a handful of variables in `docker-compose.env.yml` you'll want to adjust if using an IP address with traefik.me.  For each of these,
 change the dot between COMPOSE_PROJECT_NAME and DRUPAL_SITE_HOST to a hyphen (i.e. ${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
 becomes ${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}).  If you have any doubts about what you're doing, just copy/paste these values
 directly into place in your `docker-compose.env.yml` file.
 
-| Variable                      | Value                                                                                              |
-| :-----------------------------| :--------------------------------------------------------------------------------------------------|
-| DRUPAL_DEFAULT_CANTALOUPE_URL | https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/cantaloupe/iiif/2 |
-| DRUPAL_DEFAULT_DB_HOST        | database-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                            |
-| DRUPAL_DEFAULT_FCREPO_HOST    | fcrepo-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                              |
-| DRUPAL_DEFAULT_MATOMO_URL     | https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/matomo/           |
-| DRUPAL_DEFAULT_SITE_URL       | https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                   |
-| MATOMO_SITE_HOST              | islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                           |
+| Variable                      | Value                                                                                                |
+| :---------------------------- | :--------------------------------------------------------------------------------------------------- |
+| DRUPAL_DEFAULT_CANTALOUPE_URL | <https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/cantaloupe/iiif/2> |
+| DRUPAL_DEFAULT_DB_HOST        | ${DRUPAL_DATABASE_SERVICE}-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}            |
+| DRUPAL_DEFAULT_FCREPO_HOST    | fcrepo-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                                |
+| DRUPAL_DEFAULT_MATOMO_URL     | <https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/matomo/>           |
+| DRUPAL_DEFAULT_SITE_URL       | <https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}>                   |
+| MATOMO_SITE_HOST              | islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                             |
 
 ### Applying changes
 
@@ -327,7 +327,9 @@ Some popular examples:
 - born-digital/drupal-project:dev-isle8-dev
 
 ```bash
-composer create-project --ignore-platform-reqs --no-interaction --no-install drupal/recommended-project ./codebase
+mkdir ./codebase
+cd ./codebase
+composer create-project --ignore-platform-reqs --no-interaction --no-install drupal/recommended-project .
 composer require -- drush/drush
 composer install
 make
@@ -396,7 +398,7 @@ stopped, add ``restart: unless-stopped`` property to the container in the
 [docker-compose.yml] file. For example:
 
 ```yaml
-database:
+mariadb:
     image: islandora/mariadb:latest
     restart: unless-stopped
 ```
@@ -424,10 +426,10 @@ following urls by default.
 - <http://fcrepo-isle-dc.traefik.me/fcrepo/reset>
 
 Since Drupal passes links to itself in the messages it passes to the microservices,
-and occassionally other urls need to be resolved on containers that do not have 
+and occassionally other urls need to be resolved on containers that do not have
 external access, we define aliases for most services on the internal network.
 
-Aliases like so are defined on most services to mimic their routing rules in 
+Aliases like so are defined on most services to mimic their routing rules in
 Traefik:
 
 ```yaml

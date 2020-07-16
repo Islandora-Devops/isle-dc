@@ -6,22 +6,24 @@ volumes:
   mariadb-data:
   mariadb-files:
 services:
-  # Database is chosen as the service name rather than mariadb,
-  # as institutions may want to swap out back-ends later and
-  # database is a more sensible default. When we have other
-  # databases the user can choose the appropriate docker-compose.yml
-  # file to use or none at all if using some database as a service.
-  database:
+  # Always included even if PostgreSQL is included as Matomo only works with MySQL.
+  # https://github.com/matomo-org/matomo/issues/500
+  mariadb:
     image: ${REPOSITORY:-islandora}/mariadb:${TAG:-latest}
     volumes:
       - mariadb-data:/var/lib/mysql
       - mariadb-files:/var/lib/mysql-files
+    # Allows for access to the database through traefik to support using Drush locally.
+    # This should not be used in production.
+    #
+    # Since this is not http, but tcp traffic it does does not understand the concept of a "host".
+    # so we must dedicate a port to it in traefik, and direct all traffic to this router: HostSNI(`*`).
     labels:
       - traefik.enable=true
-      - traefik.tcp.services.${COMPOSE_PROJECT_NAME-isle-dc}-database.loadbalancer.server.port=3306
-      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-database_tcp.service=${COMPOSE_PROJECT_NAME-isle-dc}-database
-      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-database_tcp.entrypoints=database
-      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-database_tcp.rule=HostSNI(`*`)
+      - traefik.tcp.services.${COMPOSE_PROJECT_NAME-isle-dc}-mysql.loadbalancer.server.port=3306
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-mysql_tcp.service=${COMPOSE_PROJECT_NAME-isle-dc}-mysql
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-mysql_tcp.entrypoints=mysql
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-mysql_tcp.rule=HostSNI(`*`)
     networks:
       default:
         # Allow drupal to access the database with it's edge name to reference
@@ -29,6 +31,6 @@ services:
         # name in settings.php so Drush on the host machine can be used in the
         # codebase folder.
         aliases:
-            - database-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
-            - database-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
+          - mariadb-${compose_project_name-isle-dc}.${drupal_site_host-traefik.me}
+          - mariadb-${compose_project_name-isle-dc}-${drupal_site_host-traefik.me}
       gateway:

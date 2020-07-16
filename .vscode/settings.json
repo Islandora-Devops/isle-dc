@@ -14,5 +14,8 @@
         "*.sh.tmpl": "shellscript",
         "*.sql.tmpl": "sql",
         "*.xml.tmpl": "xml"
-    }
+    },
+    "cSpell.words": [
+        "postgresql"
+    ]
 }
