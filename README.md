@@ -68,9 +68,6 @@ first after you have completed the [Installation](#-installation).
 
 ## Installation
 
-- For stable working use the `master` branch
-- For bleeding edge, potentially not working, use the `development` branch
-
 ### Configuring the Environment
 
 To run the containers you must first generate a `docker-compose.yml` file. It is
