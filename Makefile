@@ -286,6 +286,32 @@ download-default-certs:
 		curl http://traefik.me/privkey.pem -o certs/privkey.pem; \
 	fi
 
+.PHONY: dev
+.SILENT: dev
+dev:
+	$(MAKE) download-default-certs
+	$(MAKE) create-codebase-from-demo
+	if grep -q DRUPAL_DEFAULT_CONFIGDIR docker-compose.env.yml; then \
+		sed -i 's/DRUPAL_DEFAULT_CONFIGDIR:.*/DRUPAL_DEFAULT_CONFIGDIR: \/var\/www\/drupal\/config\/sync/g' docker-compose.env.yml; \
+	else \
+		sed -i '/DRUPAL_DEFAULT_SALT/a \ \ \ \ \ \ DRUPAL_DEFAULT_CONFIGDIR: \/var\/www\/drupal\/config\/sync' docker-compose.env.yml; \
+	fi
+	if grep -q  DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG docker-compose.env.yml; then \
+		sed -i 's/DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG:.*/DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"/g' docker-compose.env.yml; \
+	else \
+		sed -i '/DRUPAL_DEFAULT_SALT/a \ \ \ \ \ \ DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"' docker-compose.env.yml; \
+	fi
+	if grep -q  DRUPAL_DEFAULT_PROFILE docker-compose.env.yml; then \
+		sed -i 's/DRUPAL_DEFAULT_PROFILE:.*/DRUPAL_DEFAULT_PROFILE: minimal/g' docker-compose.env.yml; \
+	else \
+		sed -i '/DRUPAL_DEFAULT_SALT/a \ \ \ \ \ \ DRUPAL_DEFAULT_PROFILE: minimal' docker-compose.env.yml; \
+	fi
+	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
+	docker-compose up -d
+	$(MAKE) remove_standard_profile_references_from_config
+	$(MAKE) install ENVIRONMENT=local
+	$(MAKE) hydrate ENVIRONMENT=local
+
 # Destroys everything beware!
 .PHONY: clean
 .SILENT: clean
