@@ -296,7 +296,7 @@ make hydrate
 
 ### Create Local Environment from Existing Site
 
-Copy or clone your existing site into the [codebase](./codebase) folder.
+Copy or clone your existing site into the [codebase](./codebase) folder. Start the system with `docker-compose up -d`, then run composer install via `docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 composer install'` and make sure your database and user are created with `make databases`, and that your settings.php file is correct with `make update-settings-php`.
 
 Then you have a number of options you can:
 
@@ -552,6 +552,7 @@ drush --debug sql:dump --extra-dump="--column-statistics=0" > /tmp/dump.sql^C
 
 ### Architecture Team
 
+- [Nigel Banks](https://github.com/nigelbanks)
 - [Jeffery Antoniuk](https://github.com/jefferya), Canadian Writing Research Collaboratory
 - [Nia Kathoni](https://github.com/nikathone), Canadian Writing Research Collaboratory
 - [Aaron Birkland](https://github.com/birkland), Johns Hopkins University
