@@ -68,9 +68,6 @@ first after you have completed the [Installation](#-installation).
 
 ## Installation
 
-- For stable working use the `master` branch
-- For bleeding edge, potentially not working, use the `development` branch
-
 ### Configuring the Environment
 
 To run the containers you must first generate a `docker-compose.yml` file. It is
@@ -94,7 +91,9 @@ At a minimum, you'll want to consider setting `ENVIRONMENT` in the `.env` file t
 
 #### Changing the host name
 
-If you are deploying somewhere other than `localhost` and you own a domain, you can change it by setting `DRUPAL_SITE_HOST` in the .env file.  That is,
+By default, the domain `traefik.me` is used, which resolves to `localhost`, but allows us to treat things as if there were a fully qualified domain name.  Namely, we can have https in development and staging scenarios, even when all you have is an IP address.
+
+However, if you are deploying somewhere other than `localhost` and you own a domain, you can change it by setting `DRUPAL_SITE_HOST` in the .env file.  That is,
 for `example.org`:
 
 ```bash
@@ -158,7 +157,7 @@ docker-compose up -d
 
 This environment is just meant as a show case of the basic `islandora` site.
 
-You should be able to reach it in your browser at `islandora.isle-dc.localhost`
+You should be able to reach it in your browser at `islandora-isle-dc.traefik.me`
 if you followed the instructions under the [Installation](#-installation)
 section.
 
@@ -249,7 +248,7 @@ make hydrate
 **N.B.:** There is a
 [bug](https://www.drupal.org/project/drupal/issues/2914213) which affects
 `islandora_fits`. For now you must manually set a value. Visit
-<http://islandora.isle-dc.localhost/taxonomy/term/1/edit> and set the value
+<http://islandora-isle-dc.traefik.me/taxonomy/term/1/edit> and set the value
 `URL` to <https://projects.iq.harvard.edu/fits>.
 
 #### Manually
@@ -291,7 +290,7 @@ make hydrate
 **N.B.:** There is a
 [bug](https://www.drupal.org/project/drupal/issues/2914213) which affects
 `islandora_fits`. For now you must manually set a value. Visit
-<http://islandora.isle-dc.localhost/taxonomy/term/1/edit> and set the value
+<http://islandora-isle-dc.traefik.me/taxonomy/term/1/edit> and set the value
 `URL` to <https://projects.iq.harvard.edu/fits>.
 
 ### Create Local Environment from Existing Site
