@@ -93,6 +93,11 @@
             "web/profiles/contrib/{$name}": ["type:drupal-profile"],
             "web/themes/contrib/{$name}": ["type:drupal-theme"],
             "drush/Commands/contrib/{$name}": ["type:drupal-drush"]
+        },
+        "patches": {
+            "simplesamlphp/simplesamlphp": {
+                "SimpleSAMLphp config": "patches/simplesaml_config.patch"
+            }
         }
     }
 }
