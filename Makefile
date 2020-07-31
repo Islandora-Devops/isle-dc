@@ -40,10 +40,17 @@ ifeq ($(INCLUDE_ETCD_SERVICE), true)
 	ETCD_SERVICE := etcd
 endif
 
+# Include SAML services by default
+ifeq ($(INCLUDE_SAML_SERVICE), false)
+	SAML_SERVICE :=
+else
+	SAML_SERVICE := saml
+endif
+
 # Some services can optionally depend on PostgreSQL.
 # Either way their environment variables get customized
 # depending on the database service they have choosen.
-DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) 
+DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE)
 
 ifneq (,$(findstring fcrepo,$(REQUIRED_SERVICES)))
 	DATABASE_SERVICES += fcrepo.$(FCREPO_DATABASE_SERVICE)
@@ -77,9 +84,9 @@ OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES=$(shell \
 	echo env)
 
 # The services to be run (order is important), as services can override one
-# another. Traefik must be last if included as otherwise its network 
+# another. Traefik must be last if included as otherwise its network
 # definition for `gateway` will be overriden.
-SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES)
+SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(SAML_SERVICE) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES)
 
 default: download-default-certs docker-compose.yml pull
 
@@ -172,14 +179,14 @@ hydrate: update-settings-php update-config-from-environment solr-cores namespace
 delete-shortcut-entities:
 	docker-compose exec drupal drush -l $(SITE) entity:delete shortcut_set
 
-# Forces the site uuid to match that in the config_sync_directory so that 
+# Forces the site uuid to match that in the config_sync_directory so that
 # configuration can be imported.
 .PHONY: set-site-uuid
 .SILENT: set-site-uuid
 set-site-uuid:
 	docker-compose exec drupal with-contenv bash -lc "set_site_uuid"
 
-# RemovesForces the site uuid to match that in the config_sync_directory so that 
+# RemovesForces the site uuid to match that in the config_sync_directory so that
 # configuration can be imported.
 .PHONY: remove_standard_profile_references_from_config
 .SILENT: remove_standard_profile_references_from_config
