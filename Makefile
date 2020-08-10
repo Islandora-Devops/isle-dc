@@ -42,7 +42,7 @@ endif
 # Some services can optionally depend on PostgreSQL.
 # Either way their environment variables get customized
 # depending on the database service they have choosen.
-DATABASE_SERVICES := drupal.$(DRUPAL_DATABASE_SERVICE) fcrepo.$(FCREPO_DATABASE_SERVICE) crayfish.$(GEMINI_DATABASE_SERVICE)
+DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) fcrepo.$(FCREPO_DATABASE_SERVICE) crayfish.$(GEMINI_DATABASE_SERVICE)
 
 ifeq ($(DRUPAL_DATABASE_SERVICE), postgresql)
 	DATABASE_SERVICES += postgresql
