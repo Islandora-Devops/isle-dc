@@ -31,6 +31,6 @@ services:
         # name in settings.php so Drush on the host machine can be used in the
         # codebase folder.
         aliases:
-          - mariadb-${compose_project_name-isle-dc}.${drupal_site_host-traefik.me}
-          - mariadb-${compose_project_name-isle-dc}-${drupal_site_host-traefik.me}
+          - mariadb-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+          - mariadb-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
       gateway:
