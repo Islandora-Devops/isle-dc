@@ -123,6 +123,8 @@ directly into place in your `docker-compose.env.yml` file.
 | DRUPAL_DEFAULT_SITE_URL       | <https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}>                   |
 | MATOMO_SITE_HOST              | islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                             |
 
+When using an IP address, your site will be available at https://islandora-isle-dc-X-X-X-X.traefik.me/, where X-X-X-X is your IP address. For example, https://islandora-isle-dc-123-45-67-89.traefik.me/
+
 ### Applying changes
 
 Once you are happy with your changes to the above files you can regenerate the
