@@ -191,7 +191,7 @@ get a site up using the `islandora/demo` image as base.
 make create-codebase-from-demo
 ```
 
-It will take a few minutes to spin up a the demo instance, export its
+It will take a few minutes to spin up the demo instance, export its
 configuration and copy the site into the [codebase](./codebase) folder.
 
 Once this is done you can bring up your local site using `docker-compose`.
@@ -423,11 +423,11 @@ following urls by default.
 - <mysql://database-isle-dc.traefik.me:3306>
 - <https://islandora-isle-dc.traefik.me>
 - <https://islandora-isle-dc.traefik.me/matomo/>
-- <https://islandora-isle-dc.traefik.me/cantaloue>
-- <http://fcrepo-isle-dc.traefik.me/fcrepo/reset>
+- <https://islandora-isle-dc.traefik.me/cantaloupe>
+- <http://fcrepo-isle-dc.traefik.me/fcrepo/rest>
 
 Since Drupal passes links to itself in the messages it passes to the microservices,
-and occassionally other urls need to be resolved on containers that do not have
+and occasionally other urls need to be resolved on containers that do not have
 external access, we define aliases for most services on the internal network.
 
 Aliases like so are defined on most services to mimic their routing rules in
