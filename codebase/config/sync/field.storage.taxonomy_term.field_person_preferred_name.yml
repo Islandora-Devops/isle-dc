@@ -1,0 +1,21 @@
+uuid: c227f06b-1a5a-4766-bc53-9e3c02a34f37
+langcode: en
+status: true
+dependencies:
+  module:
+    - name
+    - taxonomy
+_core:
+  default_config_hash: jv_g81fNOX-xGJTgrGVdEBUHPQq1ZBcfeey6D_GZjxw
+id: taxonomy_term.field_person_preferred_name
+field_name: field_person_preferred_name
+entity_type: taxonomy_term
+type: name
+settings: {  }
+module: name
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

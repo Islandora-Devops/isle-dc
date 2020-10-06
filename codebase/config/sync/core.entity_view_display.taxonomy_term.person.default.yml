@@ -1,0 +1,107 @@
+uuid: 67ab1376-895a-424b-9526-db4c5712a6f7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.person.field_authority_link
+    - field.field.taxonomy_term.person.field_cat_date_begin
+    - field.field.taxonomy_term.person.field_cat_date_end
+    - field.field.taxonomy_term.person.field_person_alternate_names
+    - field.field.taxonomy_term.person.field_person_preferred_name
+    - field.field.taxonomy_term.person.field_relationships
+    - taxonomy.vocabulary.person
+  module:
+    - controlled_access_terms
+    - name
+    - text
+_core:
+  default_config_hash: d1WYYSrPyj65a3bdcgSOPjGGaLdNjISkMjC0gY_1fME
+id: taxonomy_term.person.default
+targetEntityType: taxonomy_term
+bundle: person
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_authority_link:
+    weight: 2
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
+    third_party_settings: {  }
+    type: authority_formatter_default
+    region: content
+  field_cat_date_begin:
+    weight: 6
+    label: above
+    settings:
+      date_separator: space
+      date_order: little_endian
+      month_format: mmm
+      day_format: dd
+    third_party_settings: {  }
+    type: edtf_default
+    region: content
+  field_cat_date_end:
+    weight: 7
+    label: above
+    settings:
+      date_separator: space
+      date_order: little_endian
+      month_format: mmm
+      day_format: dd
+    third_party_settings: {  }
+    type: edtf_default
+    region: content
+  field_person_alternate_names:
+    weight: 3
+    label: above
+    settings:
+      format: default
+      markup: ''
+      output: default
+      multiple: default
+      multiple_delimiter: ', '
+      multiple_and: text
+      multiple_delimiter_precedes_last: never
+      multiple_el_al_min: '3'
+      multiple_el_al_first: '1'
+    third_party_settings: {  }
+    type: name_default
+    region: content
+  field_person_preferred_name:
+    weight: 1
+    label: above
+    settings:
+      format: default
+      markup: ''
+      output: default
+      multiple: default
+      multiple_delimiter: ', '
+      multiple_and: text
+      multiple_delimiter_precedes_last: never
+      multiple_el_al_min: '3'
+      multiple_el_al_first: '1'
+    third_party_settings: {  }
+    type: name_default
+    region: content
+  field_relationships:
+    weight: 9
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: typed_relation_default
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

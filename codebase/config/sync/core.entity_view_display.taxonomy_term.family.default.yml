@@ -1,0 +1,72 @@
+uuid: 89b8e70a-420c-44b8-918d-4a38818a49a2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.family.field_authority_link
+    - field.field.taxonomy_term.family.field_cat_date_begin
+    - field.field.taxonomy_term.family.field_cat_date_end
+    - field.field.taxonomy_term.family.field_relationships
+    - taxonomy.vocabulary.family
+  module:
+    - controlled_access_terms
+    - text
+_core:
+  default_config_hash: 4NbQYruYFUapF4M8iOlQBaNczr0hr6KhxR-PhRQxjZs
+id: taxonomy_term.family.default
+targetEntityType: taxonomy_term
+bundle: family
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_authority_link:
+    weight: 10
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
+    third_party_settings: {  }
+    type: authority_formatter_default
+    region: content
+  field_cat_date_begin:
+    weight: 8
+    label: above
+    settings:
+      date_separator: dash
+      date_order: big_endian
+      month_format: mm
+      day_format: dd
+    third_party_settings: {  }
+    type: edtf_default
+    region: content
+  field_cat_date_end:
+    weight: 9
+    label: above
+    settings:
+      date_separator: dash
+      date_order: big_endian
+      month_format: mm
+      day_format: dd
+    third_party_settings: {  }
+    type: edtf_default
+    region: content
+  field_relationships:
+    weight: 11
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: typed_relation_default
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

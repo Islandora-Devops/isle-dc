@@ -1,0 +1,31 @@
+uuid: 5aa1dcd3-40c8-477e-ae56-3e071f073b39
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_resource_type
+    - node.type.islandora_object
+    - taxonomy.vocabulary.resource_types
+_core:
+  default_config_hash: FsQFpgp2cpLBMyOnHmUA5xlWA9HiAC4qPUkcK2O2jzc
+id: node.islandora_object.field_resource_type
+field_name: field_resource_type
+entity_type: node
+bundle: islandora_object
+label: 'Resource Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      resource_types: resource_types
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

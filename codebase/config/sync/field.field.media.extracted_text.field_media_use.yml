@@ -1,0 +1,31 @@
+uuid: 7396a5d0-f915-4a65-9fd6-5d2587d0210a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_use
+    - media.type.extracted_text
+    - taxonomy.vocabulary.islandora_media_use
+_core:
+  default_config_hash: 0c2ZdJwKpk-6OU5QP48sRuCJoe90GTP-sFXYgSMD9Hc
+id: media.extracted_text.field_media_use
+field_name: field_media_use
+entity_type: media
+bundle: extracted_text
+label: 'Media Use'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      islandora_media_use: islandora_media_use
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

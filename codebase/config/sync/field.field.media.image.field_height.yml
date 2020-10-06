@@ -1,0 +1,28 @@
+uuid: 4b77141b-b5b9-4b0d-93bf-6228314225d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_height
+    - media.type.image
+  enforced:
+    module:
+      - islandora_core_feature
+_core:
+  default_config_hash: 4LhgCjcEdM8QcjuC0rtzHHhL34Dn_VZ_kfPT3Hf_ttk
+id: media.image.field_height
+field_name: field_height
+entity_type: media
+bundle: image
+label: Height
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

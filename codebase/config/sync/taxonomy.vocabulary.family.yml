@@ -1,0 +1,10 @@
+uuid: 3de7add9-4c86-47fe-babf-d0dd0303fb57
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: qvIxu5RfXdaq6t-KKeKlEKj18LAQCISdXIBGhJfs8sI
+name: Family
+vid: family
+description: 'Two or more people related through marriage, birth, adoption, or other legal manner, or who present themselves as a family.'
+weight: 0

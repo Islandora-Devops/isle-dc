@@ -1,0 +1,47 @@
+uuid: 96394d07-ce6c-4b5b-85a1-8cd969ad9673
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.open_seadragon
+    - field.field.media.file.field_access_terms
+    - field.field.media.file.field_file_size
+    - field.field.media.file.field_media_file
+    - field.field.media.file.field_media_of
+    - field.field.media.file.field_media_use
+    - field.field.media.file.field_mime_type
+    - field.field.media.file.field_original_name
+    - media.type.file
+  enforced:
+    module:
+      - islandora_defaults
+  module:
+    - openseadragon
+_core:
+  default_config_hash: '-78UGWpsfXyTMx1xpGjziIAWC8LsIDT5K0-OJygDyPg'
+id: media.file.open_seadragon
+targetEntityType: media
+bundle: file
+mode: open_seadragon
+content:
+  field_media_file:
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: openseadragon_image
+    weight: 0
+    region: content
+hidden:
+  created: true
+  field_access_terms: true
+  field_file_size: true
+  field_gemini_uri: true
+  field_media_of: true
+  field_media_use: true
+  field_mime_type: true
+  field_original_name: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

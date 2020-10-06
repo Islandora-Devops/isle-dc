@@ -1,0 +1,35 @@
+uuid: a3a5f8d1-a2af-4d3a-83a0-0701e448acb7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_subjects_name
+    - node.type.islandora_object
+    - taxonomy.vocabulary.corporate_body
+    - taxonomy.vocabulary.family
+    - taxonomy.vocabulary.person
+_core:
+  default_config_hash: VNEOqBOLLLUyJME7-x9pP631BEnMnZwsRKSylvV0618
+id: node.islandora_object.field_subjects_name
+field_name: field_subjects_name
+entity_type: node
+bundle: islandora_object
+label: 'Subjects (name)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      corporate_body: corporate_body
+      family: family
+      person: person
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: corporate_body
+field_type: entity_reference

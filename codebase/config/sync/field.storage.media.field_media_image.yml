@@ -1,0 +1,36 @@
+uuid: d1636fe5-b0fd-44c4-81f1-054a03e11a67
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - media
+      - islandora_core_feature
+  module:
+    - file
+    - image
+    - media
+_core:
+  default_config_hash: NslRY6r63iEhkDXbs8n7v_iOBxPqaKhstX1Sb0HA7x0
+id: media.field_media_image
+field_name: field_media_image
+entity_type: media
+type: image
+settings:
+  uri_scheme: public
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  target_type: file
+  display_field: false
+  display_default: false
+module: image
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,39 @@
+uuid: bca3ab42-530e-4cb3-8ef2-e4eea375f076
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.person
+  module:
+    - taxonomy
+_core:
+  default_config_hash: KX0pFKkMx4ZAGouXVz0cnSj-IsU7az9RIVLFOvHdwBE
+id: taxonomy_term.person
+targetEntityType: taxonomy_term
+bundle: person
+types:
+  - 'schema:Person'
+fieldMappings:
+  name:
+    properties:
+      - 'schema:name'
+  description:
+    properties:
+      - 'schema:description'
+  field_person_alternate_names:
+    properties:
+      - 'schema:alternateName'
+  field_authority_link:
+    properties:
+      - 'schema:sameAs'
+  field_cat_date_begin:
+    properties:
+      - 'schema:birthDate'
+  field_cat_date_end:
+    properties:
+      - 'schema:deathDate'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'

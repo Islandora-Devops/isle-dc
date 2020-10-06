@@ -1,0 +1,21 @@
+uuid: cfe69592-3545-45d1-aaea-2fe91c258d89
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_embed
+    - node
+_core:
+  default_config_hash: to3kd6LhYnjmaFpFDLFAAvUp87Bsw20TGDUXWNRqMQ8
+label: 'Content Browser'
+id: content_browser
+type_id: entity
+type_settings:
+  entity_type: node
+  bundles: {  }
+  display_plugins: {  }
+  entity_browser: browse_content_iframe
+  entity_browser_settings:
+    display_review: false
+icon: {  }
+icon_uuid: db2cad05-1e3b-4b35-b163-99d7d036130d

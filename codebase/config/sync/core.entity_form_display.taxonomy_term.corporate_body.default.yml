@@ -1,0 +1,113 @@
+uuid: b5135068-21e1-427c-9d4a-5161e96173af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.corporate_body.field_authority_link
+    - field.field.taxonomy_term.corporate_body.field_cat_date_begin
+    - field.field.taxonomy_term.corporate_body.field_cat_date_end
+    - field.field.taxonomy_term.corporate_body.field_corp_alt_name
+    - field.field.taxonomy_term.corporate_body.field_relationships
+    - field.field.taxonomy_term.corporate_body.field_type
+    - taxonomy.vocabulary.corporate_body
+  module:
+    - controlled_access_terms
+    - path
+    - text
+_core:
+  default_config_hash: Z26S89S-0cqYggliefiijqELUP7YKg5MMaf5abqH1Dg
+id: taxonomy_term.corporate_body.default
+targetEntityType: taxonomy_term
+bundle: corporate_body
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 7
+    settings:
+      rows: 9
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+  field_authority_link:
+    weight: 3
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: authority_link_default
+    region: content
+  field_cat_date_begin:
+    weight: 4
+    settings:
+      strict_dates: false
+      intervals: false
+    third_party_settings: {  }
+    type: edtf_default
+    region: content
+  field_cat_date_end:
+    weight: 5
+    settings:
+      strict_dates: false
+      intervals: false
+    third_party_settings: {  }
+    type: edtf_default
+    region: content
+  field_corp_alt_name:
+    weight: 6
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_relationships:
+    weight: 10
+    settings:
+      match_operator: CONTAINS
+      size: '60'
+      placeholder: ''
+      match_limit: 10
+    third_party_settings: {  }
+    type: typed_relation_default
+    region: content
+  field_type:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 100
+    region: content
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

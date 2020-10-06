@@ -1,0 +1,20 @@
+uuid: b0139723-983c-4839-b58a-c688713b7d5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.islandora_object
+_core:
+  default_config_hash: goFbXmRwXz8Ka0Vyu-jFOIqF6x7T5I8a7Eby6kfDKzQ
+id: node.islandora_object.title
+field_name: title
+entity_type: node
+bundle: islandora_object
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

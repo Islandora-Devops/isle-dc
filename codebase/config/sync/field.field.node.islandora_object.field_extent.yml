@@ -1,0 +1,23 @@
+uuid: 2ab69395-ddf8-45db-ba37-69ee6c0acdce
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_extent
+    - node.type.islandora_object
+_core:
+  default_config_hash: KgpvifI5hb9dSZJwo58EG3T1R4c8fZu6paUqJedq9zk
+id: node.islandora_object.field_extent
+field_name: field_extent
+entity_type: node
+bundle: islandora_object
+label: Extent
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: '1 item'
+default_value_callback: ''
+settings: {  }
+field_type: string

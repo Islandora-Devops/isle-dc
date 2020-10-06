@@ -1,0 +1,28 @@
+uuid: 285a7255-1457-4f40-b945-7e1b88f3d22f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_authority_link
+    - taxonomy.vocabulary.geo_location
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: XUFzv8sw4FtTc9aJ-fqQkCkZdD0vbQwg6tu5b30sPZI
+id: taxonomy_term.geo_location.field_authority_link
+field_name: field_authority_link
+entity_type: taxonomy_term
+bundle: geo_location
+label: 'Authority Link'
+description: 'A universal resource identifier representing a known place in a geographical database. For example, "http://www.geonames.org/5506956/" for "Las Vegas, Nevada".'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  authority_sources:
+    geonames: GeoNames
+    other: Other
+  title: 1
+  link_type: 16
+field_type: authority_link

@@ -1,0 +1,31 @@
+uuid: f7697467-4db0-425b-9616-0badf92e056c
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.subject_name
+  module:
+    - facets
+    - system
+  theme:
+    - carapace
+_core:
+  default_config_hash: lcyzN16FB7zsD7io9W4Nxm8rsQARaJkWveqn2gNyNlU
+id: subjectname
+theme: carapace
+region: sidebar_second
+weight: 0
+provider: null
+plugin: 'facet_block:subject_name'
+settings:
+  id: 'facet_block:subject_name'
+  label: 'Subject (name)'
+  provider: facets
+  label_display: visible
+  block_id: subjectname
+visibility:
+  request_path:
+    id: request_path
+    pages: /solr-search/content
+    negate: false
+    context_mapping: {  }

@@ -1,0 +1,15 @@
+uuid: 1bf8f76b-3923-422e-b3c8-cf14b989b9e9
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_fits
+  module:
+    - media
+_core:
+  default_config_hash: iSghNI9O-6dPp9cMQTGYgytj7Wb3c-PR9eUCvJcEMhk
+id: media.fits_technical_metadata
+label: 'FITS Technical Metadata'
+targetEntityType: media
+cache: true

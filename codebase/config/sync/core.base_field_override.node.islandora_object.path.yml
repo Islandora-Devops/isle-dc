@@ -1,0 +1,22 @@
+uuid: 5f2b28a7-50e3-4ff5-ad39-9d9469b03275
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.islandora_object
+  module:
+    - path
+_core:
+  default_config_hash: VeoPdiMPVN49mrAAx_WFyeS16ZhYEM7GH8zZ96ZWPuE
+id: node.islandora_object.path
+field_name: path
+entity_type: node
+bundle: islandora_object
+label: 'URL alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

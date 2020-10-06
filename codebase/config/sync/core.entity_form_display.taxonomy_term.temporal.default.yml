@@ -1,0 +1,68 @@
+uuid: d191555b-cc68-4bf3-b22e-98d86204dc9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.temporal.field_authority_link
+    - taxonomy.vocabulary.temporal
+  module:
+    - controlled_access_terms
+    - path
+    - text
+_core:
+  default_config_hash: C67wfU4HFzvx0281djCqggWa83n-gAp6o0yE3JWEmXw
+id: taxonomy_term.temporal.default
+targetEntityType: taxonomy_term
+bundle: temporal
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+      rows: 5
+    third_party_settings: {  }
+  field_authority_link:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: authority_link_default
+    region: content
+  langcode:
+    type: language_select
+    weight: 3
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 100
+    region: content
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

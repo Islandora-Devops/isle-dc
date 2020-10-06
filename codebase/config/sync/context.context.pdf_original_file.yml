@@ -1,0 +1,37 @@
+uuid: d1133c5f-da31-4d22-996d-a9a256878f5a
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+_core:
+  default_config_hash: c7_MtAQ35bFVk9PanoKR52wijgATcHFDBpFQ7MB7NPQ
+name: pdf_original_file
+label: 'PDF Derivatives'
+group: Derivatives
+description: 'Derivatives for PDF documents'
+requireAllConditions: true
+disabled: false
+conditions:
+  media_has_term:
+    id: media_has_term
+    negate: 0
+    uri: 'http://pcdm.org/use#OriginalFile'
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+    logic: and
+  parent_node_has_term:
+    id: parent_node_has_term
+    negate: 0
+    uri: 'https://schema.org/DigitalDocument'
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+    logic: and
+reactions:
+  derivative:
+    id: derivative
+    actions:
+      get_ocr_from_image: get_ocr_from_image
+      image_generate_a_thumbnail_from_an_original_file: digital_document_generate_a_thumbnail_from_an_original_file
+    saved: false
+weight: -6

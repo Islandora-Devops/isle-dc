@@ -1,0 +1,10 @@
+uuid: d0665369-a982-4a3f-9b85-eb9c848efbff
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: JnLuasMMjQLVW639703WjVKY46ruA1KQDKfAwAITysg
+name: 'Physical Form'
+vid: physical_form
+description: 'A designation of a particular physical presentation of a resource, including the physical form or medium of material for a resou'
+weight: 0

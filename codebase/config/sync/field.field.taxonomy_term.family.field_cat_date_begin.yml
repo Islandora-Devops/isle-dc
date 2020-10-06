@@ -1,0 +1,23 @@
+uuid: 547bf343-11c2-48fc-9f0f-d854cde7eec9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_cat_date_begin
+    - taxonomy.vocabulary.family
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: sZSkxS0pRICKTTxdP1K76igEoRk0jSE2TzOTUvkT-RA
+id: taxonomy_term.family.field_cat_date_begin
+field_name: field_cat_date_begin
+entity_type: taxonomy_term
+bundle: family
+label: 'Founding Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: edtf

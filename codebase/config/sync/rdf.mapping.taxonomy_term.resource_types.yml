@@ -1,0 +1,30 @@
+uuid: 32ebdd19-9b0d-44da-9314-28dd86b40719
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.resource_types
+  module:
+    - taxonomy
+_core:
+  default_config_hash: 9YdFrLtrIqqP52kDzBPtdXh3GBmKZUo1ZkATqePeAzU
+id: taxonomy_term.resource_types
+targetEntityType: taxonomy_term
+bundle: resource_types
+types:
+  - 'schema:Thing'
+fieldMappings:
+  name:
+    properties:
+      - 'schema:name'
+  description:
+    properties:
+      - 'schema:description'
+  field_authority_link:
+    properties:
+      - 'schema:sameAs'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'

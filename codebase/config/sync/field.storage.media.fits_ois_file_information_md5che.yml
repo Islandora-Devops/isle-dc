@@ -1,0 +1,22 @@
+uuid: 98f673a9-d609-4a1f-b77e-514b4c1027b5
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - text
+_core:
+  default_config_hash: ePdyTTrNGO3ZBZm4nG5bUXgaCnkSkCYFbxbri6MbU78
+id: media.fits_ois_file_information_md5che
+field_name: fits_ois_file_information_md5che
+entity_type: media
+type: text
+settings:
+  max_length: 255
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

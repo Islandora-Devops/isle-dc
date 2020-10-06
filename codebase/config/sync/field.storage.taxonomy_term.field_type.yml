@@ -1,0 +1,56 @@
+uuid: b0178d4e-811e-45df-9eba-00e4c4118ccc
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - taxonomy
+_core:
+  default_config_hash: ArPIwR6VUNGAq52_61ggns1NWlrPWPTK1DIdIP_2HOI
+id: taxonomy_term.field_type
+field_name: field_type
+entity_type: taxonomy_term
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'org:OrganizationalUnit'
+      label: 'Organizational Unit'
+    -
+      value: 'schema:Airline'
+      label: Airline
+    -
+      value: 'schema:Corporation'
+      label: Corporation
+    -
+      value: 'schema:EducationalOrganization'
+      label: 'Educational Organization'
+    -
+      value: 'schema:GovernmentOrganization'
+      label: 'Government Organization'
+    -
+      value: 'schema:LocalBusiness'
+      label: 'Local Business'
+    -
+      value: 'schema:MedicalOrganization'
+      label: 'Medical Organization'
+    -
+      value: 'schema:NGO'
+      label: 'Non-Governmental Organization'
+    -
+      value: 'schema:PerformingGroup'
+      label: 'Performing Group'
+    -
+      value: 'schema:SportsOrganization'
+      label: 'Sports Organization'
+    -
+      value: 'schema:SportsTeam'
+      label: 'Sports Team'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

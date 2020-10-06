@@ -1,0 +1,43 @@
+uuid: 8daf570a-48c9-4dba-9b45-cca757a57515
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_relationships
+    - taxonomy.vocabulary.corporate_body
+    - taxonomy.vocabulary.family
+    - taxonomy.vocabulary.person
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: Hu2_dsbomzLoXnDloOO3Z4bwP-aFae4x470IVH5kefM
+id: taxonomy_term.family.field_relationships
+field_name: field_relationships
+entity_type: taxonomy_term
+bundle: family
+label: 'Related Entities'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      corporate_body: corporate_body
+      family: family
+      person: person
+    sort:
+      field: name
+      direction: asc
+    auto_create: 0
+    auto_create_bundle: corporate_body
+  rel_types:
+    'schema:member': Member
+    'schema:founder': Founder
+    'schema:funder': Funder
+    'schema:knowsAbout': 'Knows about'
+    'schema:memberOf': 'Member of'
+    'schema:sponsor': Sponsor
+field_type: typed_relation

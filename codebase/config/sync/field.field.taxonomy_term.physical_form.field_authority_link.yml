@@ -1,0 +1,28 @@
+uuid: 90e9bce6-b6b9-4e98-9b75-467817b90488
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_authority_link
+    - taxonomy.vocabulary.physical_form
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: KVn0hSQgc6sXdaoN5jgjmPsOXcO7qINHsOBOeqHoXV0
+id: taxonomy_term.physical_form.field_authority_link
+field_name: field_authority_link
+entity_type: taxonomy_term
+bundle: physical_form
+label: 'Authority Sources'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  authority_sources:
+    marcform: 'MARC form of item term list'
+    other: Other
+  title: 1
+  link_type: 16
+field_type: authority_link

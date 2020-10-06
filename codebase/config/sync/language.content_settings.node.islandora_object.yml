@@ -1,0 +1,20 @@
+uuid: 08f859d4-daef-450b-ab38-1ab23ebd8ab3
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.islandora_object
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+_core:
+  default_config_hash: dlth0MnoDnOdmWSYGWXu2SO1wC_-JryE3tUYpw5TrWA
+id: node.islandora_object
+target_entity_type_id: node
+target_bundle: islandora_object
+default_langcode: site_default
+language_alterable: true

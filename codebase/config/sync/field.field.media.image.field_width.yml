@@ -1,0 +1,28 @@
+uuid: 4e405ee2-104e-430e-ae1f-ca43fab059ea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_width
+    - media.type.image
+  enforced:
+    module:
+      - islandora_core_feature
+_core:
+  default_config_hash: Hn6FngV0d-St8D7Czxlzb-O-IOTL9u-BNDoaMZAOiu0
+id: media.image.field_width
+field_name: field_width
+entity_type: media
+bundle: image
+label: Width
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

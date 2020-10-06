@@ -1,0 +1,24 @@
+uuid: 8cb8c599-368f-4472-b2e7-be0e23311f38
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.audio
+_core:
+  default_config_hash: n2G2117mFQVI2O2jhXUDB0Ojgy9QqS5EXq_CqbEq-lo
+id: media.audio.status
+field_name: status
+entity_type: media
+bundle: audio
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

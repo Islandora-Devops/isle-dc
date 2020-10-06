@@ -1,0 +1,23 @@
+uuid: 70c111de-8757-49e9-a573-d59dfa8b870f
+langcode: en
+status: true
+dependencies:
+  module:
+    - controlled_access_terms
+    - node
+    - taxonomy
+_core:
+  default_config_hash: MZEefPoBKkFfc6HueKsNBCOAt_-ECzdCP32NNW7oc5Y
+id: node.field_linked_agent
+field_name: field_linked_agent
+entity_type: node
+type: typed_relation
+settings:
+  target_type: taxonomy_term
+module: controlled_access_terms
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

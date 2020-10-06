@@ -1,0 +1,20 @@
+uuid: 7fde1c3e-d87a-4c9a-bdcd-6b35382b5a30
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.physical_form
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+_core:
+  default_config_hash: 0RHeG2Cn7KEJ6VRp4qz7A5gTLvPYOTMIHCeZXwZSpPM
+id: taxonomy_term.physical_form
+target_entity_type_id: taxonomy_term
+target_bundle: physical_form
+default_langcode: site_default
+language_alterable: true

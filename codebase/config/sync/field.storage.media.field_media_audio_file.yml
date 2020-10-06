@@ -1,0 +1,28 @@
+uuid: b7b396dd-dae7-4ed8-8cd9-7982881cb992
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
+  module:
+    - file
+    - media
+_core:
+  default_config_hash: iTxgIfCzyDceYyI-KMmq2OFKyXpu6jVPZ_KCEykhHY4
+id: media.field_media_audio_file
+field_name: field_media_audio_file
+entity_type: media
+type: file
+settings:
+  display_field: false
+  display_default: false
+  uri_scheme: public
+  target_type: file
+module: file
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

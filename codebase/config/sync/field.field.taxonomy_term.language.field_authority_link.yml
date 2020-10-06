@@ -1,0 +1,28 @@
+uuid: a4b4ef9f-2cf5-4a17-8ccb-844785615516
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_authority_link
+    - taxonomy.vocabulary.language
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: _z4B5DdaU2DxF3hM6oEpw3Or-j9C0A4l_UEQNO0XGSM
+id: taxonomy_term.language.field_authority_link
+field_name: field_authority_link
+entity_type: taxonomy_term
+bundle: language
+label: 'Authority Sources'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  authority_sources:
+    iso639-2b: 'Library of Congress MARC List for Languages'
+    other: Other
+  title: 1
+  link_type: 16
+field_type: authority_link

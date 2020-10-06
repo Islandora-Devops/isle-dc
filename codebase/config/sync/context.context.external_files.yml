@@ -1,0 +1,24 @@
+uuid: 8652187d-40ad-417f-838d-d4013de0202b
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+_core:
+  default_config_hash: 5SUy4U9p47y_Ke10LfvsOR2RVkjpRjPQ5tgAG4Fs1wk
+name: external_files
+label: 'External Files'
+group: Indexing
+description: 'Files not in Fedora'
+requireAllConditions: false
+disabled: false
+conditions:
+  file_uses_filesystem:
+    id: file_uses_filesystem
+    filesystems:
+      public: public
+    negate: 0
+    context_mapping:
+      file: '@islandora.file_route_context_provider:file'
+reactions: {  }
+weight: -7

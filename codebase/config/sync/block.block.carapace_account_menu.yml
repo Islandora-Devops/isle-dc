@@ -1,0 +1,27 @@
+uuid: 6da9de4f-5f9b-4e61-b217-f2497e686ebf
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+  theme:
+    - carapace
+_core:
+  default_config_hash: fVKxOLJ47NOS1vOaxYmeFPm6nR8PrKbV9qTMUFQDQzk
+id: carapace_account_menu
+theme: carapace
+region: leaderboard
+weight: -10
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User menu'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 1
+  expand_all_items: false
+visibility: {  }

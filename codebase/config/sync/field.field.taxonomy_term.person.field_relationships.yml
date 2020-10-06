@@ -1,0 +1,51 @@
+uuid: 1b38a5c2-06bd-41f1-961e-178546ae2855
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_relationships
+    - taxonomy.vocabulary.corporate_body
+    - taxonomy.vocabulary.family
+    - taxonomy.vocabulary.person
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: q68XTBiPrVV-NgiYkNEKC_3jTjPzmGkqUQzzIsWQLfc
+id: taxonomy_term.person.field_relationships
+field_name: field_relationships
+entity_type: taxonomy_term
+bundle: person
+label: Relationships
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      corporate_body: corporate_body
+      family: family
+      person: person
+    sort:
+      field: name
+      direction: asc
+    auto_create: 0
+    auto_create_bundle: corporate_body
+  rel_types:
+    'schema:knows': Knows
+    'schema:alumniOf': 'Alumni of'
+    'schema:children': Children
+    'schema:colleague': Colleague
+    'schema:follows': Follows
+    'schema:funder': Funder
+    'schema:knowsAbout': 'Knows about'
+    'schema:memberOf': 'Member of'
+    'schema:parent': Parent
+    'schema:relatedTo': 'Related to'
+    'schema:sibling': Sibling
+    'schema:sponsor': Sponsor
+    'schema:spouse': Spouse
+    'schema:worksFor': 'Works for'
+field_type: typed_relation

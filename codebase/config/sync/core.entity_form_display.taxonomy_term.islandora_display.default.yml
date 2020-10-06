@@ -1,0 +1,66 @@
+uuid: d0e2464c-dc9c-4f10-b92b-44d84b5f120b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.islandora_display.field_external_uri
+    - taxonomy.vocabulary.islandora_display
+  module:
+    - link
+    - path
+    - text
+_core:
+  default_config_hash: BKrU19uYOV9lkGmYByQBzELCBoSQpme1Xg9bgdNUdNM
+id: taxonomy_term.islandora_display.default
+targetEntityType: taxonomy_term
+bundle: islandora_display
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+      rows: 5
+    third_party_settings: {  }
+  field_external_uri:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  langcode:
+    type: language_select
+    weight: 3
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 100
+    region: content
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+hidden: {  }

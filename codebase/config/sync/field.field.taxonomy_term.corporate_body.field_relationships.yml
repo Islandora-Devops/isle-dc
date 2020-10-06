@@ -1,0 +1,48 @@
+uuid: 9938e507-d019-4c5d-8d38-605a9f1df43f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_relationships
+    - taxonomy.vocabulary.corporate_body
+    - taxonomy.vocabulary.family
+    - taxonomy.vocabulary.person
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: P747iMcB3of4ZQOlVFRwhID75h70ffJxI_sj5ii_9Pw
+id: taxonomy_term.corporate_body.field_relationships
+field_name: field_relationships
+entity_type: taxonomy_term
+bundle: corporate_body
+label: 'Related Entities'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      corporate_body: corporate_body
+      family: family
+      person: person
+    sort:
+      field: name
+      direction: asc
+    auto_create: 0
+    auto_create_bundle: corporate_body
+  rel_types:
+    'schema:alumni': Alumni
+    'schema:department': Department
+    'schema:employee': Employee
+    'schema:founder': Founder
+    'schema:funder': Funder
+    'schema:knowsAbout': 'Knows about'
+    'schema:member': Member
+    'schema:memberOf': 'Member of'
+    'schema:parentOrganization': 'Parent Organization'
+    'schema:sponsor': Sponsor
+    'schema:subOrganization': Sub-organization
+field_type: typed_relation

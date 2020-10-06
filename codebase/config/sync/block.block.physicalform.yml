@@ -1,0 +1,31 @@
+uuid: 8437629a-5251-497e-a248-258805050bb5
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.physical_form
+  module:
+    - facets
+    - system
+  theme:
+    - carapace
+_core:
+  default_config_hash: l72xnM2aFst41m2y6J1M1rsf25u1F7ohF4-w6FQms4A
+id: physicalform
+theme: carapace
+region: sidebar_second
+weight: 0
+provider: null
+plugin: 'facet_block:physical_form'
+settings:
+  id: 'facet_block:physical_form'
+  label: 'Physical Form'
+  provider: facets
+  label_display: visible
+  block_id: physicalform
+visibility:
+  request_path:
+    id: request_path
+    pages: /solr-search/content
+    negate: false
+    context_mapping: {  }

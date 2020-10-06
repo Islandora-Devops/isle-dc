@@ -1,0 +1,23 @@
+uuid: 5a8b87f9-fbf4-4dc4-a2d3-ab3d5b24374c
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+_core:
+  default_config_hash: WLcVET6eoKzETqgr8XoCY3WP6Jjb6sJECX_uV7Z12DQ
+id: taxonomy_term.field_geo_alt_name
+field_name: field_geo_alt_name
+entity_type: taxonomy_term
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

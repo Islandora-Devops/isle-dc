@@ -1,0 +1,21 @@
+uuid: 90cbc6d7-b786-49c0-bf6f-dd5954ec1bb8
+langcode: en
+status: true
+dependencies:
+  module:
+    - controlled_access_terms
+    - taxonomy
+_core:
+  default_config_hash: nH5f6yNsGrvFxsGMbUje8suSzqppfVjgm9UlxdXKt7o
+id: taxonomy_term.field_authority_link
+field_name: field_authority_link
+entity_type: taxonomy_term
+type: authority_link
+settings: {  }
+module: controlled_access_terms
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

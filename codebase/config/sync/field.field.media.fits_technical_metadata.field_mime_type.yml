@@ -1,0 +1,24 @@
+uuid: 3e9f18c2-893a-432c-a8b5-dd0256a1a488
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_mime_type
+    - media.type.fits_technical_metadata
+  enforced:
+    module:
+      - islandora_fits
+_core:
+  default_config_hash: w2bEZIfJyXhaB6fHHX9tUep2dbQxQebfqunqm0_lDMI
+id: media.fits_technical_metadata.field_mime_type
+field_name: field_mime_type
+entity_type: media
+bundle: fits_technical_metadata
+label: 'MIME type'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

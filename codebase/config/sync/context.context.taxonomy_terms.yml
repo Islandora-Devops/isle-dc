@@ -1,0 +1,27 @@
+uuid: 444cf400-d262-45d5-a2b8-991e5d7deb78
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_defaults
+  module:
+    - islandora
+_core:
+  default_config_hash: 6RXlwQmbN073bHOiyMIfbdyUvCyjEXjfxpr65b_1ssg
+name: taxonomy_terms
+label: 'Taxonomy Terms'
+group: Indexing
+description: 'All taxonomy terms'
+requireAllConditions: false
+disabled: false
+conditions:
+  content_entity_type:
+    id: content_entity_type
+    types:
+      taxonomy_term: taxonomy_term
+    negate: 0
+    context_mapping:
+      taxonomy_term: '@islandora.taxonomy_term_route_context_provider:taxonomy_term'
+reactions: {  }
+weight: -4

@@ -1,0 +1,37 @@
+uuid: 0b8fd31d-c156-4189-ab70-69445964b3bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.geo_location
+  module:
+    - taxonomy
+_core:
+  default_config_hash: h5TsW1n-2MIijEHXZ8K8Zz2YocfcFQh4z1xTOKZc66M
+id: taxonomy_term.geo_location
+targetEntityType: taxonomy_term
+bundle: geo_location
+types:
+  - 'dc:Location'
+  - 'schema:Place'
+fieldMappings:
+  name:
+    properties:
+      - 'schema:name'
+  description:
+    properties:
+      - 'schema:description'
+  field_authority_link:
+    properties:
+      - 'schema:sameAs'
+  field_geo_geolocation:
+    properties:
+      - 'wgs84_pos:lat_long'
+  field_geo_broader:
+    properties:
+      - 'schema:containedInPlace'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'

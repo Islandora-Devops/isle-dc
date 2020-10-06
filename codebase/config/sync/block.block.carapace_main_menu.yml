@@ -1,0 +1,27 @@
+uuid: 2239d33b-2161-4961-a8bc-15c2ff379e7f
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - carapace
+_core:
+  default_config_hash: s2wQ3IpHygDpuXkwUxa0Spc4X2nr4QhoFG40T6ZIzkc
+id: carapace_main_menu
+theme: carapace
+region: navbar
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main menu'
+  provider: system
+  label_display: '1'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

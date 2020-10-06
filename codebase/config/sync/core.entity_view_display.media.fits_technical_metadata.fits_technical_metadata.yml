@@ -1,0 +1,72 @@
+uuid: 20c082e6-b1a6-44df-b474-37807c9fd8ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.fits_technical_metadata
+    - field.field.media.fits_technical_metadata.field_complete
+    - field.field.media.fits_technical_metadata.field_file_size
+    - field.field.media.fits_technical_metadata.field_media_file
+    - field.field.media.fits_technical_metadata.field_media_of
+    - field.field.media.fits_technical_metadata.field_media_use
+    - field.field.media.fits_technical_metadata.field_mime_type
+    - field.field.media.fits_technical_metadata.fits_ois_file_information_md5che
+    - image.style.thumbnail
+    - media.type.fits_technical_metadata
+  enforced:
+    module:
+      - islandora_fits
+  module:
+    - image
+    - islandora_fits
+    - user
+_core:
+  default_config_hash: 26WttTG6uQXIDjcL50RF8WEpTDsIDtDaUjZDd0AwBAg
+id: media.fits_technical_metadata.fits_technical_metadata
+targetEntityType: media
+bundle: fits_technical_metadata
+mode: fits_technical_metadata
+content:
+  created:
+    label: hidden
+    type: timestamp
+    weight: 0
+    region: content
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  field_media_file:
+    weight: 6
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: fits_formatter
+    region: content
+  thumbnail:
+    type: image
+    weight: 5
+    label: hidden
+    settings:
+      image_style: thumbnail
+      image_link: ''
+    region: content
+    third_party_settings: {  }
+  uid:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_complete: true
+  field_file_size: true
+  field_media_of: true
+  field_media_use: true
+  field_mime_type: true
+  fits_ois_file_information_md5che: true
+  langcode: true
+  name: true
+  search_api_excerpt: true

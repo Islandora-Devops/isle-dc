@@ -1,0 +1,29 @@
+uuid: f2bde897-be54-48b1-9433-859cd124f7e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_authority_link
+    - taxonomy.vocabulary.family
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: AklN9ESCoxU6aDQgaMMhKCsAsVr78Caj-yUXW5UJlAI
+id: taxonomy_term.family.field_authority_link
+field_name: field_authority_link
+entity_type: taxonomy_term
+bundle: family
+label: 'Authority Sources'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  authority_sources:
+    naf: 'NACO Authority File'
+    viaf: 'Virtual International Authority File'
+    other: Other
+  title: 1
+  link_type: 16
+field_type: authority_link

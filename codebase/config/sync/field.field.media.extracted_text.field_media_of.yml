@@ -1,0 +1,27 @@
+uuid: 2851a2f7-01b8-48ab-98ed-078e33f1bf38
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_of
+    - media.type.extracted_text
+_core:
+  default_config_hash: y9R5H1jor6fE99GN9mvpbOkNiq3_xWCt-ROho5REz2U
+id: media.extracted_text.field_media_of
+field_name: field_media_of
+entity_type: media
+bundle: extracted_text
+label: 'Media of'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

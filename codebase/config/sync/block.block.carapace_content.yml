@@ -1,0 +1,22 @@
+uuid: 011139b5-1cf3-4826-a38a-3efd6f34a2c0
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - carapace
+_core:
+  default_config_hash: ivS9cR4eHBrjV3CJXXft8-CGeAOrtytjBLXy6qxR5UE
+id: carapace_content
+theme: carapace
+region: content
+weight: 7
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

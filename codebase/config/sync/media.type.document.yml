@@ -1,0 +1,21 @@
+uuid: 766ee2a3-dec1-4776-b173-f806ac3446bd
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
+_core:
+  default_config_hash: 3QytZNbvUS1JV7lOInHSXfQwfwU3RKjqxTuzRRxcjNY
+id: document
+label: Document
+description: 'An uploaded file or document, such as a PDF.'
+source: file
+queue_thumbnail_downloads: false
+new_revision: true
+source_configuration:
+  source_field: field_media_document
+field_map:
+  name: name
+  mimetype: field_mime_type
+  filesize: field_file_size

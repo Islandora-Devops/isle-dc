@@ -1,0 +1,24 @@
+uuid: 2e0ac059-8818-42b5-b2c4-ee882a6cbd0c
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
+  module:
+    - media
+_core:
+  default_config_hash: j2VwM0pUj3LsFNENCXHYIx6IGP_63v8l9eUoz62m_yc
+id: media.field_original_name
+field_name: field_original_name
+entity_type: media
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

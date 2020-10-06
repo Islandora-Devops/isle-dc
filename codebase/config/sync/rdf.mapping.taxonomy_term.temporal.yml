@@ -1,0 +1,30 @@
+uuid: 0843677a-cfd2-451e-b703-7c14b2d7ddd9
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.temporal
+  module:
+    - taxonomy
+_core:
+  default_config_hash: hPf4dibTNkSsavCploKRunMdEwybgrl83W7ON66Wxro
+id: taxonomy_term.temporal
+targetEntityType: taxonomy_term
+bundle: temporal
+types:
+  - 'schema:Thing'
+fieldMappings:
+  name:
+    properties:
+      - 'schema:name'
+  description:
+    properties:
+      - 'schema:description'
+  field_authority_link:
+    properties:
+      - 'schema:sameAs'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'

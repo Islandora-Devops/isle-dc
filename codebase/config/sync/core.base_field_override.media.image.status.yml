@@ -1,0 +1,24 @@
+uuid: ef887aa6-e8bf-41ac-af91-aee1c72ead9f
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.image
+_core:
+  default_config_hash: zTh6FRayjF4sB7x52aahw1pif31JH25YQtPmfQKYoSo
+id: media.image.status
+field_name: status
+entity_type: media
+bundle: image
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

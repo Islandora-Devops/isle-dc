@@ -1,0 +1,22 @@
+uuid: 10257b64-c394-44ca-8213-5abe59a31253
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora_video
+_core:
+  default_config_hash: fdxzPkMjk-KBCT4JczgzrEvCLzpApnpqGvAS4GSjPXA
+id: video_generate_a_service_file_from_an_original_file
+label: 'Video - Generate a service file from an original file'
+type: node
+plugin: generate_video_derivative
+configuration:
+  queue: islandora-connector-homarus
+  event: 'Generate Derivative'
+  source_term_uri: 'http://pcdm.org/use#OriginalFile'
+  derivative_term_uri: 'http://pcdm.org/use#ServiceFile'
+  mimetype: video/mp4
+  args: ''
+  destination_media_type: video
+  scheme: public
+  path: '[date:custom:Y]-[date:custom:m]/[node:nid]-[term:name].mp4'

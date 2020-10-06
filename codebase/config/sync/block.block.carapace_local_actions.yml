@@ -1,0 +1,20 @@
+uuid: 0f2f4228-ee38-4cf2-abd7-b38f707e5ee3
+langcode: en
+status: true
+dependencies:
+  theme:
+    - carapace
+_core:
+  default_config_hash: HPN_mevAQQQXcr_LGq9GwCtYBfgdT959_wlVo8rpKAQ
+id: carapace_local_actions
+theme: carapace
+region: content
+weight: -4
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

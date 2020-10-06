@@ -1,0 +1,3 @@
+iiif_server: 'https://islandora-idc.traefik.me/cantaloupe/iiif/2'
+_core:
+  default_config_hash: NCzOnzkSw_H5SbPJb-EOzzJby1pQ8JI6IzZJckM7WOU

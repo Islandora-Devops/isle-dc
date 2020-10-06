@@ -1,0 +1,22 @@
+uuid: c1c1da71-ba41-4a7f-a34f-4a00a07dad22
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora_image
+_core:
+  default_config_hash: _EcQ_pl-QIvf-gmsbgT1FovXKS2r42fVF5-II8MIUlM
+id: digital_document_generate_a_thumbnail_from_an_original_file
+label: 'Digital Document - Generate a thumbnail from an original file'
+type: node
+plugin: generate_image_derivative
+configuration:
+  queue: islandora-connector-houdini
+  event: 'Generate Derivative'
+  source_term_uri: 'http://pcdm.org/use#OriginalFile'
+  derivative_term_uri: 'http://pcdm.org/use#ThumbnailImage'
+  mimetype: image/png
+  args: '-thumbnail 100x100'
+  destination_media_type: image
+  scheme: public
+  path: '[date:custom:Y]-[date:custom:m]/[node:nid]-[term:name].png'

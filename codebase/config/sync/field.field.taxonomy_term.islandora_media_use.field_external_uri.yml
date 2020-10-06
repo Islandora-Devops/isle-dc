@@ -1,0 +1,25 @@
+uuid: 13af4fd3-3b8a-4ac3-a7ec-65af16c94573
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_external_uri
+    - taxonomy.vocabulary.islandora_media_use
+  module:
+    - link
+_core:
+  default_config_hash: XzaVfBT5KKoeDT6qPnge848IcM1VBjH_BlXcPhnS2fU
+id: taxonomy_term.islandora_media_use.field_external_uri
+field_name: field_external_uri
+entity_type: taxonomy_term
+bundle: islandora_media_use
+label: 'External URI'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

@@ -1,0 +1,10 @@
+uuid: 6412fd08-1adc-46e1-85d6-b9048805d47f
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: oZpIVf9joDsh79SE19vhkXbQfifQfaQB0xXT6ERj-IM
+name: 'Islandora Display'
+vid: islandora_display
+description: 'Terms used to alter how a repository item is viewed. ie. basic image vs large image'
+weight: 0

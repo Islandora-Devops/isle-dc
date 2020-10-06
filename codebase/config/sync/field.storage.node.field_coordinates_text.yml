@@ -1,0 +1,27 @@
+uuid: fb77e0f8-e918-4bb7-b07b-242b26391855
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+third_party_settings:
+  field_permissions:
+    permission_type: public
+_core:
+  default_config_hash: GsxzRK62rW0v4QyzC_X8b0j9HSDelKaW5kvH9rk2eA0
+id: node.field_coordinates_text
+field_name: field_coordinates_text
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

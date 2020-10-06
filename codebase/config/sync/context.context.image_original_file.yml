@@ -1,0 +1,37 @@
+uuid: e708ca79-3da4-4a63-bf3d-7cb8c436aa34
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+_core:
+  default_config_hash: _w1tI4doB71OVhr9ylF4DCZRMGXy8Mtjcuk-8iAOz7Y
+name: image_original_file
+label: 'Image Derivatives'
+group: Derivatives
+description: 'Derivatives for Images'
+requireAllConditions: true
+disabled: false
+conditions:
+  media_has_term:
+    id: media_has_term
+    negate: 0
+    uri: 'http://pcdm.org/use#OriginalFile'
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+    logic: and
+  parent_node_has_term:
+    id: parent_node_has_term
+    negate: 0
+    uri: 'http://purl.org/coar/resource_type/c_c513'
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+    logic: and
+reactions:
+  derivative:
+    id: derivative
+    actions:
+      image_generate_a_service_file_from_an_original_file: image_generate_a_service_file_from_an_original_file
+      image_generate_a_thumbnail_from_an_original_file: image_generate_a_thumbnail_from_an_original_file
+    saved: false
+weight: -3

@@ -1,0 +1,39 @@
+uuid: 0f79c611-5415-4593-a345-97955f9e099e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.genre.field_authority_link
+    - taxonomy.vocabulary.genre
+  module:
+    - controlled_access_terms
+    - text
+_core:
+  default_config_hash: dqReSRpiwgsw70IML1yD4yHdffSWD3G7wWNSEycgDz8
+id: taxonomy_term.genre.default
+targetEntityType: taxonomy_term
+bundle: genre
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_authority_link:
+    weight: 1
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
+    third_party_settings: {  }
+    type: authority_formatter_default
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

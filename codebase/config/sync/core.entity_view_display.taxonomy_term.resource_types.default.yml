@@ -1,0 +1,39 @@
+uuid: a42b912d-449e-4cdf-9c2f-87a07fa853b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.resource_types.field_authority_link
+    - taxonomy.vocabulary.resource_types
+  module:
+    - link
+    - text
+_core:
+  default_config_hash: W82-1KTjwwd5e98Euc8TFmDyiBrEnKMhpUlbDE_lFJc
+id: taxonomy_term.resource_types.default
+targetEntityType: taxonomy_term
+bundle: resource_types
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_authority_link:
+    weight: 1
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

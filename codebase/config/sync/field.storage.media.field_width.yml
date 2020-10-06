@@ -1,0 +1,25 @@
+uuid: e5606495-ec25-4ad7-a4ff-54e61def856c
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
+  module:
+    - media
+_core:
+  default_config_hash: zL-l_IiMrXgUkI928ssjw2n77FjbeVqehzdJ9_koIYk
+id: media.field_width
+field_name: field_width
+entity_type: media
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

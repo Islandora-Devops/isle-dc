@@ -1,0 +1,48 @@
+uuid: 994ebf35-24a8-4996-adc3-f7c5f5051170
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.source
+    - field.field.media.file.field_access_terms
+    - field.field.media.file.field_file_size
+    - field.field.media.file.field_media_file
+    - field.field.media.file.field_media_of
+    - field.field.media.file.field_media_use
+    - field.field.media.file.field_mime_type
+    - field.field.media.file.field_original_name
+    - media.type.file
+  enforced:
+    module:
+      - islandora_core_feature
+  module:
+    - file
+_core:
+  default_config_hash: z2VqdgGMguFn_u-N2KgXxb67fxyEjesU-Yn7nyLFG9E
+id: media.file.source
+targetEntityType: media
+bundle: file
+mode: source
+content:
+  field_media_file:
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    weight: 0
+    region: content
+hidden:
+  created: true
+  field_access_terms: true
+  field_file_size: true
+  field_gemini_uri: true
+  field_media_of: true
+  field_media_use: true
+  field_mime_type: true
+  field_original_name: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

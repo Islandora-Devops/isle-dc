@@ -1,0 +1,22 @@
+uuid: 66b4429f-a716-4342-b294-90fceefe7abf
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.file
+  module:
+    - path
+_core:
+  default_config_hash: LBphK6UZJLRYa91yT7zVe8-_yqboNVXTdOzItPbiu0M
+id: media.file.path
+field_name: path
+entity_type: media
+bundle: file
+label: 'URL alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

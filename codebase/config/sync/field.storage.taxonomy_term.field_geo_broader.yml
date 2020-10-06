@@ -1,0 +1,21 @@
+uuid: 87cd6ba9-bca1-4137-9f72-63c72bfa6358
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+_core:
+  default_config_hash: MrAiX3F1Fu1mzxhmcPjbHZ0QWAwgU4RP28_eAq8zHXs
+id: taxonomy_term.field_geo_broader
+field_name: field_geo_broader
+entity_type: taxonomy_term
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,60 @@
+uuid: 7fdf1102-1e71-428c-befc-ca9f872db365
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.image
+  enforced:
+    module:
+      - islandora_core_feature
+  module:
+    - media
+_core:
+  default_config_hash: 4Tl_qytyaduLYtyvEHMOnnJG-dVhdMUzkjiFFWrXnnA
+id: media.image
+targetEntityType: media
+bundle: image
+types:
+  - 'pcdm:File'
+fieldMappings:
+  name:
+    properties:
+      - 'dcterms:title'
+      - 'rdf:label'
+  created:
+    properties:
+      - 'schema:dateCreated'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  uid:
+    properties:
+      - 'schema:author'
+    mapping_type: rel
+  field_mime_type:
+    properties:
+      - 'ebucore:hasMimeType'
+  field_media_of:
+    properties:
+      - 'pcdm:fileOf'
+    mapping_type: rel
+  field_original_name:
+    properties:
+      - 'premis3:originalName'
+  field_tags:
+    properties:
+      - 'schema:additionalType'
+    mapping_type: rel
+  field_width:
+    properties:
+      - 'ebucore:width'
+  field_height:
+    properties:
+      - 'ebucore:height'
+  field_file_size:
+    properties:
+      - 'premis:hasSize'
