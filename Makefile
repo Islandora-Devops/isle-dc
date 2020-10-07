@@ -228,8 +228,8 @@ endif
 	docker-compose up -d
 	# Give an extra few seconds for the containers to become responsive.
 	sleep 5
-	# Wait for Drupal to become responsive (up to 5 minutes).
-	docker-compose exec drupal timeout 300 wait-for-open-port.sh localhost 80
+	# Wait for Drupal to become responsive (up to 20 minutes - should be less than 5 except on Macs).
+	docker-compose exec drupal timeout 1200 wait-for-open-port.sh localhost 80
 	# Export the site configuration.
 	docker-compose exec drupal drush config:export
 	# Need `default` folder to be writeable to copy it down to host.
