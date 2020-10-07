@@ -65,6 +65,7 @@ first after you have completed the [Installation](#-installation).
 - Git 2.0+
 - GNU Make 4.0+
 - PHP 7.2+ (*Also requires the same ext packages you intend to use in your site.*)
+- Perl (if you want to run `make dev` which does find-and-replace in some files with Perl)
 
 ## Installation
 
