@@ -5,7 +5,7 @@
 # otherwise we could of simply done 'hydrate' instead of update-settings-php, update-config... etc)
 .PHONY: bootstrap
 .SILENT: bootstrap
-bootstrap: default destroy-state composer-install install \
+bootstrap: snapshot-empty destroy-state default composer-install install \
 		update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
 		cache-rebuild snapshot-image
 
@@ -13,7 +13,7 @@ bootstrap: default destroy-state composer-install install \
 .PHONY: cache-rebuild
 .SILENT: cache-rebuild
 cache-rebuild:
-	echo "irebuilding Drupal cache..."
+	echo "rebuilding Drupal cache..."
 	docker-compose exec drupal drush cr -y
 
 .PHONY: destroy-state
@@ -43,3 +43,11 @@ snapshot-image:
 	rm docker-compose.yml
 	$(MAKE) docker-compose.yml
 	docker-compose up -d
+
+.PHONY: snapshot-empty
+.SILENT: snapshot-empty
+snapshot-empty:
+	rm docker-compose.yml
+	sed -i s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=empty/ .env
+	$(MAKE) docker-compose.yml
+	docker-compose build snapshot
