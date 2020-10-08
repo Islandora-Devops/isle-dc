@@ -8,7 +8,7 @@
 .SILENT: bootstrap
 bootstrap: default destroy-state composer-install install \
 		update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
-		cache-rebuild
+		cache-rebuild snapshot-image
 
 # Rebuilds the Drupal cache
 .PHONY: cache-rebuild
