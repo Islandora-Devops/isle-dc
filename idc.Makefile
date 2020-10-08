@@ -7,8 +7,14 @@
 .PHONY: bootstrap
 .SILENT: bootstrap
 bootstrap: default destroy-state composer-install install \
-		update-settings-php update-config-from-environment solr-cores run-islandora-migrations 
-	echo "ebuilding Drupal cache..."
+		update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
+		cache-rebuild
+
+# Rebuilds the Drupal cache
+.PHONY: cache-rebuild
+.SILENT: cache-rebuild
+cache-rebuild:
+	echo "irebuilding Drupal cache..."
 	docker-compose exec drupal drush cr -y
 
 .PHONY: destroy-state
