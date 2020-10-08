@@ -10,6 +10,7 @@ ENV_FILE=$(shell \
 # users to regenerate their .env files losing their changes.
 include sample.env
 include $(ENV_FILE)
+include idc.Makefile
 
 # The site to operate on when using drush -l $(SITE) commands
 SITE?=default
