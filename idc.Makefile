@@ -53,3 +53,13 @@ snapshot-empty:
 	sed -i s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=empty/ .env
 	$(MAKE) docker-compose.yml
 	docker-compose build snapshot
+
+.PHONY: up
+.SILENT: up
+up: default start composer-install
+
+
+.PHONY: start
+.SILENT: start
+start:
+	docker-compose up -d
