@@ -23,3 +23,14 @@ destroy-state:
 composer-install:
 	echo "Installing via composer"
 	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 composer install'
+
+.PHONY: snapshot-image
+.SILENT: snapshot-image
+snapshot-image:
+	docker-compose stop
+	docker run --rm --volumes-from snapshot \
+		-v ${PWD}/snapshot:/dump \
+		alpine:latest \
+		/bin/tar cvf /dump/data.tar /data
+	docker build -f snapshot/snapshot.Dockerfile -t local/idc-snapshot:latest ./snapshot
+	docker-compose up -d

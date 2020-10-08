@@ -21,6 +21,7 @@ codebase/.gitattributes
 codebase/web/core/
 codebase/web/modules/contrib/
 codebase/web/themes/contrib/
+snapshot/data.tar
 
 # =========================
 # Packages
