@@ -1,0 +1,10 @@
+uuid: b5556f57-c9dd-4e7d-a8d4-e7bee05548ed
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: k1ERXjJ6apGni8WN3t4q7WC7MEt74jxWUb-wu3QRVi0
+name: Temporal
+vid: temporal
+description: 'Used for chronological subject terms or temporal coverage.'
+weight: 0

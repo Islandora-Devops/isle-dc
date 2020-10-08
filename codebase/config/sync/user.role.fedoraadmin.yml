@@ -1,0 +1,11 @@
+uuid: fb5e3195-f9a1-4601-a59a-0b2fc9899085
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: e6W733rBSNmewsIQsvWQ-8mIE5H-CIeArLBwIbN5vVQ
+id: fedoraadmin
+label: fedoraAdmin
+weight: 3
+is_admin: null
+permissions: {  }

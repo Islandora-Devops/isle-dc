@@ -1,0 +1,25 @@
+uuid: ae050107-3c61-4029-b674-f49fe4f7a6cc
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - carapace
+_core:
+  default_config_hash: pXTMmY3T3W2t5JfxrB5UEmrwCFKWQZ5u_rnz1CfcfnQ
+id: carapace_branding
+theme: carapace
+region: header_first
+weight: 0
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  provider: system
+  label_display: '0'
+  use_site_logo: false
+  use_site_name: true
+  use_site_slogan: true
+visibility: {  }

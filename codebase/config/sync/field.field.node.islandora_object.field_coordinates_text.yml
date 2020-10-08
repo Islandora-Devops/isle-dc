@@ -1,0 +1,21 @@
+uuid: a126205a-f78e-4adc-89e8-02304cb82912
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_coordinates_text
+    - node.type.islandora_object
+_core:
+  default_config_hash: mKgSwGZaa_U9LzzPRT1De3Qsvv-uTlz9e32lk31xAac
+id: node.islandora_object.field_coordinates_text
+field_name: field_coordinates_text
+entity_type: node
+bundle: islandora_object
+label: 'Coordinates (Text)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

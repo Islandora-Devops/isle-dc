@@ -1,0 +1,18 @@
+uuid: f09b2e22-ccd9-488d-9ccb-916d6cb42b26
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
+  module:
+    - islandora
+_core:
+  default_config_hash: 3iOScA6ELGfyWJpJC7azgVMRKwJKvusVoz5fGtbNuRA
+id: delete_file_from_fedora
+label: 'Delete Fedora File from Gemini'
+type: file
+plugin: emit_file_event
+configuration:
+  queue: islandora-indexing-fcrepo-file-delete
+  event: Delete

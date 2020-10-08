@@ -1,0 +1,23 @@
+uuid: bfd15186-d520-434c-be8b-9d73605cd300
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_coordinates
+    - node.type.islandora_object
+  module:
+    - geolocation
+_core:
+  default_config_hash: 3LJiS71wStGgGqLOAspiDwwhKqHn5EbM8qOFW0u2JxQ
+id: node.islandora_object.field_coordinates
+field_name: field_coordinates
+entity_type: node
+bundle: islandora_object
+label: Coordinates
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: geolocation

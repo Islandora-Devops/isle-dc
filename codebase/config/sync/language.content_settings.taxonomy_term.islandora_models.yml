@@ -1,0 +1,18 @@
+uuid: 6c08ff43-ceb1-48ec-82d6-140cc9f6dd5f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.islandora_models
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+_core:
+  default_config_hash: YcNy7Z5RBapXnKgiaqJ7xiBiTJghE8ygbn1VpF2ywQE
+id: taxonomy_term.islandora_models
+target_entity_type_id: taxonomy_term
+target_bundle: islandora_models
+default_langcode: site_default
+language_alterable: false

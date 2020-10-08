@@ -1,0 +1,36 @@
+uuid: a18fce8d-40a4-4470-9258-41684b48638d
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+_core:
+  default_config_hash: LF_53zO22iJb5lGnTEum37B_719Nz_EM5iG-fOKt3-I
+name: audio_original_file
+label: 'Audio Derivatives'
+group: Derivatives
+description: 'Derivatives for Audio'
+requireAllConditions: true
+disabled: false
+conditions:
+  media_has_term:
+    id: media_has_term
+    negate: 0
+    uri: 'http://pcdm.org/use#OriginalFile'
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+    logic: and
+  parent_node_has_term:
+    id: parent_node_has_term
+    negate: 0
+    uri: 'http://purl.org/coar/resource_type/c_18cc'
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+    logic: and
+reactions:
+  derivative:
+    id: derivative
+    actions:
+      audio_generate_a_service_file_from_an_original_file: audio_generate_a_service_file_from_an_original_file
+    saved: false
+weight: -8

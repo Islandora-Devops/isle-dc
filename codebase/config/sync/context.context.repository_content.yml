@@ -1,0 +1,36 @@
+uuid: dbdb3c43-0beb-4793-9082-70d7397d5c22
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_defaults
+  module:
+    - islandora
+    - node
+_core:
+  default_config_hash: o5KHcnyibXt-7SXqNpNyHTd8qYFOrDh1bk5I4aQo91Y
+name: repository_content
+label: Content
+group: Indexing
+description: 'All repository content'
+requireAllConditions: false
+disabled: false
+conditions:
+  node_type:
+    id: node_type
+    bundles:
+      islandora_object: islandora_object
+    negate: 0
+    context_mapping:
+      node: '@node.node_route_context:node'
+reactions:
+  islandora_map_uri_predicate:
+    id: islandora_map_uri_predicate
+    drupal_uri_predicate: 'schema:sameAs'
+    saved: false
+  alter_jsonld_type:
+    id: alter_jsonld_type
+    source_field: field_model
+    saved: false
+weight: -5

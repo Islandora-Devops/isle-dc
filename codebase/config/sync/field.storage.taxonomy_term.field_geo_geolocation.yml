@@ -1,0 +1,21 @@
+uuid: c9c91aa3-90da-4db0-8a15-86b6779794dd
+langcode: en
+status: true
+dependencies:
+  module:
+    - geolocation
+    - taxonomy
+_core:
+  default_config_hash: 80nHZBgTwoDoX755-SW5qmg4fkeDa1QTpayKXQ4U02g
+id: taxonomy_term.field_geo_geolocation
+field_name: field_geo_geolocation
+entity_type: taxonomy_term
+type: geolocation
+settings: {  }
+module: geolocation
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

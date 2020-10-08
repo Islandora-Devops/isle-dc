@@ -1,0 +1,27 @@
+uuid: 722ea2f9-9deb-42cc-aca3-436e3d046d17
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+third_party_settings:
+  field_permissions:
+    permission_type: public
+_core:
+  default_config_hash: EdVCIhx8A7wmq4e8K7cyN8ZHI5Sf4Q6giIDR96wa9h4
+id: node.field_pid
+field_name: field_pid
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

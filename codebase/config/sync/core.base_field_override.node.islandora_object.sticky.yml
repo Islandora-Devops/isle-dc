@@ -1,0 +1,24 @@
+uuid: 0c94143c-27b3-4697-9e9b-5188143feb4e
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.islandora_object
+_core:
+  default_config_hash: sq8ComJdVg-Bahy1MsEgWSe7LOpJjWM4sry56pvnBmI
+id: node.islandora_object.sticky
+field_name: sticky
+entity_type: node
+bundle: islandora_object
+label: 'Sticky at top of lists'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

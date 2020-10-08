@@ -1,0 +1,20 @@
+uuid: ab8b94cf-96f1-40d3-a634-0a80b7a26a3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.islandora_object
+_core:
+  default_config_hash: LLL4Ifzyon9Q1aapBWH8t3OeF7_DmDSzAL2gj8KCg3I
+id: node.islandora_object.changed
+field_name: changed
+entity_type: node
+bundle: islandora_object
+label: Changed
+description: 'The time that the node was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

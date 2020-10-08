@@ -1,0 +1,31 @@
+uuid: e64d4264-a381-43ee-8a4a-b40a56fc93fc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_use
+    - media.type.audio
+    - taxonomy.vocabulary.islandora_media_use
+_core:
+  default_config_hash: C5NjuB4IRbBnEpI-vmqLBitkXyR5GqMMjt-Zn39VGyk
+id: media.audio.field_media_use
+field_name: field_media_use
+entity_type: media
+bundle: audio
+label: 'Media Use'
+description: 'Defined by Portland Common Data Model: Use Extension https://pcdm.org/2015/05/12/use. ''Original File'' will trigger creation of derivatives.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      islandora_media_use: islandora_media_use
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

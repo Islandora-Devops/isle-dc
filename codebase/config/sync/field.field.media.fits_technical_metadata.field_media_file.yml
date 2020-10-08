@@ -1,0 +1,32 @@
+uuid: 10e6e90e-6b6d-4414-b1a5-f40d553c63a2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_file
+    - media.type.fits_technical_metadata
+  enforced:
+    module:
+      - islandora_fits
+  module:
+    - file
+_core:
+  default_config_hash: lJ6fDNUm7Radgk9UXOvc_GlwItQQN4SM6D78lzYG_XE
+id: media.fits_technical_metadata.field_media_file
+field_name: field_media_file
+entity_type: media
+bundle: fits_technical_metadata
+label: File
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: xml
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

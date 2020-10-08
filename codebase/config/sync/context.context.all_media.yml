@@ -1,0 +1,37 @@
+uuid: 681bcb8a-fcd7-43cf-9cb7-7631d1c040c2
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+_core:
+  default_config_hash: 0ipt7H647M0BLxXJETg1ktGLwD1IsWRJvjveTP-PCKA
+name: all_media
+label: 'All Media'
+group: Indexing
+description: 'All media, regardless of where it lives'
+requireAllConditions: false
+disabled: false
+conditions:
+  islandora_entity_bundle:
+    id: islandora_entity_bundle
+    bundles:
+      audio: audio
+      document: document
+      extracted_text: extracted_text
+      file: file
+      image: image
+      video: video
+    negate: 0
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+reactions:
+  alter_jsonld_type:
+    id: alter_jsonld_type
+    source_field: field_media_use
+    saved: false
+  islandora_map_uri_predicate:
+    id: islandora_map_uri_predicate
+    drupal_uri_predicate: 'iana:describedby'
+    saved: false
+weight: -8

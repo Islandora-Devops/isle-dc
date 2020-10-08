@@ -1,0 +1,21 @@
+uuid: e6401945-f7cf-4be4-aa83-525da03df262
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dewey_classification
+    - node.type.islandora_object
+_core:
+  default_config_hash: Ftlt8RnvkLCbQs8VnyGf29AVc7tAow-i-UtKcEnbb9k
+id: node.islandora_object.field_dewey_classification
+field_name: field_dewey_classification
+entity_type: node
+bundle: islandora_object
+label: 'Dewey Classification'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

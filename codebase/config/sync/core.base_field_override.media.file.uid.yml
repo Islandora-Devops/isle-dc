@@ -1,0 +1,22 @@
+uuid: 1a928958-de99-443b-9e0e-7a89e0dc8ce6
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.file
+_core:
+  default_config_hash: 7fgBvb71kk8VN4bXnPCiRi16V22V919smJNVyY_sxwg
+id: media.file.uid
+field_name: uid
+entity_type: media
+bundle: file
+label: 'Authored by'
+description: 'The user ID of the author.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\media\Entity\Media::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

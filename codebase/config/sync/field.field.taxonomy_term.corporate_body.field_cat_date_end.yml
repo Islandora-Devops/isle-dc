@@ -1,0 +1,23 @@
+uuid: c92556b2-183f-4eff-b45e-ca972dff6a4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_cat_date_end
+    - taxonomy.vocabulary.corporate_body
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: 0it-3tma5jMJ9Xrj2pNeqCBkcy3pwDPsLI5bvba5-h0
+id: taxonomy_term.corporate_body.field_cat_date_end
+field_name: field_cat_date_end
+entity_type: taxonomy_term
+bundle: corporate_body
+label: 'Dissolution Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: edtf

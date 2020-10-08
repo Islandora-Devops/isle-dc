@@ -1,0 +1,21 @@
+uuid: 4a62e3d0-d02a-4ed9-ad59-618c948a7d02
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_classification
+    - node.type.islandora_object
+_core:
+  default_config_hash: 4aPfOdRzuDzm8K6hW7hGrxNvcEw3etALvK-r3Pa6tDk
+id: node.islandora_object.field_classification
+field_name: field_classification
+entity_type: node
+bundle: islandora_object
+label: 'Classification (Text)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

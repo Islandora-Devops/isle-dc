@@ -1,0 +1,21 @@
+uuid: de3485ab-688d-46f8-a3da-0c23992cb6d9
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
+_core:
+  default_config_hash: Bbqs548topJBjmN7VGStPCuGeZesU--oawavZgrYd90
+id: file
+label: File
+description: 'Use local files for reusable media.'
+source: file
+queue_thumbnail_downloads: false
+new_revision: true
+source_configuration:
+  source_field: field_media_file
+field_map:
+  name: name
+  mimetype: field_mime_type
+  filesize: field_file_size

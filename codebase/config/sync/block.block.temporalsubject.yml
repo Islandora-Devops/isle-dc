@@ -1,0 +1,31 @@
+uuid: fbbb09df-73e2-4659-a43f-f6f7dfaf7b6f
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.temporal_subject
+  module:
+    - facets
+    - system
+  theme:
+    - carapace
+_core:
+  default_config_hash: HOx2N4bmWF2TjLMpteh-HHrSPQC4T7ftkGl_9B07u78
+id: temporalsubject
+theme: carapace
+region: sidebar_second
+weight: 0
+provider: null
+plugin: 'facet_block:temporal_subject'
+settings:
+  id: 'facet_block:temporal_subject'
+  label: 'Temporal Subject'
+  provider: facets
+  label_display: visible
+  block_id: temporalsubject
+visibility:
+  request_path:
+    id: request_path
+    pages: /solr-search/content
+    negate: false
+    context_mapping: {  }

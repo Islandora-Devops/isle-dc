@@ -1,0 +1,126 @@
+uuid: d3ae2a08-6542-4754-91fd-98682d8a6a67
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.islandora_object
+  enforced:
+    module:
+      - islandora_defaults
+  module:
+    - node
+_core:
+  default_config_hash: asapUUZJQOe3DytSlzwIjRbhy5n03D7UD7Sq22fogZY
+id: node.islandora_object
+targetEntityType: node
+bundle: islandora_object
+types:
+  - 'pcdm:Object'
+fieldMappings:
+  field_alternative_title:
+    properties:
+      - 'dcterms:alternative'
+  field_edtf_date:
+    properties:
+      - 'dcterms:date'
+    datatype_callback:
+      callable: 'Drupal\controlled_access_terms\EDTFConverter::dateIso8601Value'
+  field_edtf_date_created:
+    properties:
+      - 'dcterms:created'
+    datatype_callback:
+      callable: 'Drupal\controlled_access_terms\EDTFConverter::dateIso8601Value'
+  field_edtf_date_issued:
+    properties:
+      - 'dcterms:issued'
+    datatype_callback:
+      callable: 'Drupal\controlled_access_terms\EDTFConverter::dateIso8601Value'
+  field_description:
+    properties:
+      - 'dcterms:description'
+  field_extent:
+    properties:
+      - 'dcterms:extent'
+  field_identifier:
+    properties:
+      - 'dcterms:identifier'
+  field_member_of:
+    properties:
+      - 'pcdm:memberOf'
+    mapping_type: rel
+  field_resource_type:
+    properties:
+      - 'dcterms:type'
+    mapping_type: rel
+  field_rights:
+    properties:
+      - 'dcterms:rights'
+  field_subject:
+    properties:
+      - 'dcterms:subject'
+    mapping_type: rel
+  field_language:
+    properties:
+      - 'dcterms:language'
+  field_genre:
+    properties:
+      - 'dcterms:type'
+  field_physical_form:
+    properties:
+      - 'dcterms:format'
+  field_edition:
+    properties:
+      - 'rdau:P60329'
+  field_place_published:
+    properties:
+      - 'relators:pup'
+  field_table_of_contents:
+    properties:
+      - 'dcterms:tableOfContents'
+  field_dewey_classification:
+    properties:
+      - 'dcterms:subject'
+  field_lcc_classification:
+    properties:
+      - 'dcterms:subject'
+  field_subjects_name:
+    properties:
+      - 'dcterms:subject'
+  field_temporal_subject:
+    properties:
+      - 'dcterms:temporal'
+  field_geographic_subject:
+    properties:
+      - 'dcterms:spatial'
+  field_isbn:
+    properties:
+      - 'dbpedia:isbn'
+  field_oclc_number:
+    properties:
+      - 'dbpedia:oclc'
+  field_local_identifier:
+    properties:
+      - 'dcterms:identifier'
+  field_note:
+    properties:
+      - 'skos:note'
+  field_weight:
+    properties:
+      - 'co:index'
+  title:
+    properties:
+      - 'dcterms:title'
+  created:
+    properties:
+      - 'schema:dateCreated'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  uid:
+    properties:
+      - 'schema:author'
+    mapping_type: rel

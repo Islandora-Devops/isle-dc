@@ -1,0 +1,30 @@
+uuid: 0c61e0dd-72d4-47b8-b08c-d6c59135067b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_geo_broader
+    - taxonomy.vocabulary.geo_location
+_core:
+  default_config_hash: OuZUfTGVgZkChu7PTyGwgrGH419YKUvnR5d1-WpZIvo
+id: taxonomy_term.geo_location.field_geo_broader
+field_name: field_geo_broader
+entity_type: taxonomy_term
+bundle: geo_location
+label: Broader
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      geo_location: geo_location
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

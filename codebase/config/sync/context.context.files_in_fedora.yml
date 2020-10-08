@@ -1,0 +1,24 @@
+uuid: 7af47dea-74d7-4016-81c5-c918c8289439
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+_core:
+  default_config_hash: AVsC4Zx1ZCS4mZosj5AqRYXQiAtj8fS8hzMMmGNHWPM
+name: files_in_fedora
+label: 'Fedora Files'
+group: Indexing
+description: 'Files in Fedora'
+requireAllConditions: false
+disabled: false
+conditions:
+  file_uses_filesystem:
+    id: file_uses_filesystem
+    filesystems:
+      fedora: fedora
+    negate: 0
+    context_mapping:
+      file: '@islandora.file_route_context_provider:file'
+reactions: {  }
+weight: -6

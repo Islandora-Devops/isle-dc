@@ -1,0 +1,97 @@
+uuid: ccf53251-dd04-4e79-8fe2-a4b2e42985e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.family.field_authority_link
+    - field.field.taxonomy_term.family.field_cat_date_begin
+    - field.field.taxonomy_term.family.field_cat_date_end
+    - field.field.taxonomy_term.family.field_relationships
+    - taxonomy.vocabulary.family
+  module:
+    - controlled_access_terms
+    - path
+    - text
+_core:
+  default_config_hash: BjyADh-LMRM2m1r1SnzCIMX7METfRii5LLfuf8vGb-o
+id: taxonomy_term.family.default
+targetEntityType: taxonomy_term
+bundle: family
+mode: default
+content:
+  description:
+    type: text_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_authority_link:
+    weight: 122
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: authority_link_default
+    region: content
+  field_cat_date_begin:
+    weight: 8
+    settings:
+      strict_dates: false
+      intervals: false
+    third_party_settings: {  }
+    type: edtf_default
+    region: content
+  field_cat_date_end:
+    weight: 9
+    settings:
+      strict_dates: false
+      intervals: false
+    third_party_settings: {  }
+    type: edtf_default
+    region: content
+  field_relationships:
+    weight: 123
+    settings:
+      match_operator: CONTAINS
+      size: '60'
+      placeholder: ''
+      match_limit: 10
+    third_party_settings: {  }
+    type: typed_relation_default
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 100
+    region: content
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

@@ -1,0 +1,24 @@
+uuid: f57e678a-611a-4e4c-8bdf-fdbd93cfd68c
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.islandora_object
+_core:
+  default_config_hash: nYdar2D6NOkEngbyKDhFTj1idPQqtP0U3ReJK2u-59s
+id: node.islandora_object.promote
+field_name: promote
+entity_type: node
+bundle: islandora_object
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,28 @@
+uuid: d30dba13-8d01-4ede-aa57-74626faf154c
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
+  module:
+    - file
+    - media
+_core:
+  default_config_hash: yR_E-Jhw3fMBrZ0CUXvQs-SO-wzQGFtpa0ELtS3J_U0
+id: media.field_media_video_file
+field_name: field_media_video_file
+entity_type: media
+type: file
+settings:
+  display_field: false
+  display_default: false
+  uri_scheme: public
+  target_type: file
+module: file
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

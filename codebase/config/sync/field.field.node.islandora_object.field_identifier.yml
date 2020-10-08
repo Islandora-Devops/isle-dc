@@ -1,0 +1,21 @@
+uuid: 6806dfcc-ff34-4d43-9eb8-8ef053e73151
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_identifier
+    - node.type.islandora_object
+_core:
+  default_config_hash: dxi9NM-C39djxUptg_qVZLiAYIAo-yS7KVL85GACi80
+id: node.islandora_object.field_identifier
+field_name: field_identifier
+entity_type: node
+bundle: islandora_object
+label: Identifier
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

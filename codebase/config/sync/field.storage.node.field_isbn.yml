@@ -1,0 +1,27 @@
+uuid: f2a852a2-314b-40bb-a6a8-61faab582321
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+third_party_settings:
+  field_permissions:
+    permission_type: public
+_core:
+  default_config_hash: wmC83HoUyi_ISeigy9ee_Jy0I6vVJj0jW-J3ntXc2dU
+id: node.field_isbn
+field_name: field_isbn
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

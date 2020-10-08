@@ -1,0 +1,23 @@
+uuid: 3426a635-1ae6-495a-91b2-337f6da2feaf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_cat_date_begin
+    - taxonomy.vocabulary.person
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: NSffS6bRr3LMgZZa6iioJC6VJ5rR8bPqJDAh7qBGFmM
+id: taxonomy_term.person.field_cat_date_begin
+field_name: field_cat_date_begin
+entity_type: taxonomy_term
+bundle: person
+label: 'Birth Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: edtf

@@ -1,0 +1,66 @@
+uuid: 165473c2-3495-4291-921b-d2d5e449b8b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.geo_location.field_authority_link
+    - field.field.taxonomy_term.geo_location.field_geo_alt_name
+    - field.field.taxonomy_term.geo_location.field_geo_broader
+    - field.field.taxonomy_term.geo_location.field_geo_geolocation
+    - taxonomy.vocabulary.geo_location
+  module:
+    - controlled_access_terms
+    - geolocation
+    - text
+_core:
+  default_config_hash: 2IWu7AK6BJrbzWfbJyQntIT3yljHO6KDqltuhjUMQQU
+id: taxonomy_term.geo_location.default
+targetEntityType: taxonomy_term
+bundle: geo_location
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 6
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_authority_link:
+    weight: 1
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
+    third_party_settings: {  }
+    type: authority_formatter_default
+    region: content
+  field_geo_alt_name:
+    weight: 4
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_geo_broader:
+    weight: 5
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_geo_geolocation:
+    weight: 2
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    type: geolocation_latlng
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

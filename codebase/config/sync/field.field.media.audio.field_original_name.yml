@@ -1,0 +1,21 @@
+uuid: 307eb183-9699-4fac-bab5-c5e196c6464d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_original_name
+    - media.type.audio
+_core:
+  default_config_hash: N-iyRU1YnBUbRUTfNbSrr0uDrUirRqaAD2aBnPEyIEo
+id: media.audio.field_original_name
+field_name: field_original_name
+entity_type: media
+bundle: audio
+label: 'Original Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

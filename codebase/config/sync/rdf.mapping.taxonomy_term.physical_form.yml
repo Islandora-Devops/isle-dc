@@ -1,0 +1,30 @@
+uuid: 8b219b71-8104-491b-9924-9bfa4fa355ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.physical_form
+  module:
+    - taxonomy
+_core:
+  default_config_hash: g3SOISIg_JWU_C6n93IJOq4y1b4s_v0SfEAPIQjip_0
+id: taxonomy_term.physical_form
+targetEntityType: taxonomy_term
+bundle: physical_form
+types:
+  - 'schema:Thing'
+fieldMappings:
+  name:
+    properties:
+      - 'schema:name'
+  description:
+    properties:
+      - 'schema:description'
+  field_authority_link:
+    properties:
+      - 'schema:sameAs'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'

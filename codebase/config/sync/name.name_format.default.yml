@@ -1,0 +1,10 @@
+uuid: 11560dc2-6ec7-468c-a95d-9332591198b9
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: FExsg-rEGNOSixy05paE8tRjfy45Kz_bIy1x8JbEe4o
+id: default
+label: Default
+locked: true
+pattern: ((((t+ig)+im)+if)+is)+jc

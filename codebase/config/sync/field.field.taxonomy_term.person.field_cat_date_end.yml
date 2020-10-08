@@ -1,0 +1,23 @@
+uuid: 5960a3e2-677e-4ccb-aae4-d626366f0af6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_cat_date_end
+    - taxonomy.vocabulary.person
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: b33BuU6CdmwtK4RXbC_3lgQ0_xE8ig5F0shW_Hn1xos
+id: taxonomy_term.person.field_cat_date_end
+field_name: field_cat_date_end
+entity_type: taxonomy_term
+bundle: person
+label: 'Death Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: edtf

@@ -1,0 +1,10 @@
+uuid: d2375a34-d1c4-4985-874c-5e8f22bc43de
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: yJCIaRn817xheJ5ZxlH81SsHrBpPBYZVVPUUV5Haza8
+name: 'Corporate Body'
+vid: corporate_body
+description: 'An organization or group of persons that is identified by a particular name and that acts, or may act, as an entity. Also includes an individual acting in a corporate capacity.'
+weight: 0

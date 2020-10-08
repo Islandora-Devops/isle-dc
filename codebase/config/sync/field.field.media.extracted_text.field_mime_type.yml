@@ -1,0 +1,23 @@
+uuid: 1fd0c10e-e064-46d2-917b-e1d380b04f05
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_mime_type
+    - media.type.extracted_text
+_core:
+  default_config_hash: A-J-N_Qq9nk6RLP4YyDM04XGAoi3soR-On_D9qJPrsQ
+id: media.extracted_text.field_mime_type
+field_name: field_mime_type
+entity_type: media
+bundle: extracted_text
+label: 'MIME type'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: text/plain
+default_value_callback: ''
+settings: {  }
+field_type: string

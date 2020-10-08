@@ -1,0 +1,127 @@
+uuid: d797c8e2-b167-44bc-83ab-c29692fa7269
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_person_alternate_names
+    - taxonomy.vocabulary.person
+  module:
+    - name
+_core:
+  default_config_hash: Ch8qvfwQR5V1S5auo8t8uwR57rGW4zoMhPoHxkjfvbo
+id: taxonomy_term.person.field_person_alternate_names
+field_name: field_person_alternate_names
+entity_type: taxonomy_term
+bundle: person
+label: 'Person Alternate Names'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  component_layout: default
+  show_component_required_marker: false
+  credentials_inline: false
+  override_format: default
+  field_type:
+    name: select
+    given: text
+    middle: text
+    family: text
+    generational: select
+    credentials: text
+  size:
+    name: 6
+    given: 20
+    middle: 20
+    family: 20
+    generational: 5
+    credentials: 35
+  title_display:
+    name: description
+    given: description
+    middle: description
+    family: description
+    generational: description
+    credentials: description
+  components:
+    title: true
+    given: true
+    middle: true
+    family: true
+    generational: true
+    credentials: true
+  minimum_components:
+    title: false
+    given: true
+    middle: false
+    family: true
+    generational: false
+    credentials: false
+  allow_family_or_given: false
+  max_length:
+    title: 31
+    given: 63
+    middle: 127
+    family: 63
+    generational: 15
+    credentials: 255
+  autocomplete_source:
+    title:
+      - title
+    given: {  }
+    middle: {  }
+    family: {  }
+    generational:
+      - generation
+    credentials: {  }
+  autocomplete_separator:
+    title: ' '
+    given: ' -'
+    middle: ' -'
+    family: ' -'
+    generational: ' '
+    credentials: ', '
+  title_options:
+    - '-- --'
+    - Mr.
+    - Mrs.
+    - Miss
+    - Ms.
+    - Dr.
+    - Prof.
+  generational_options:
+    - '-- --'
+    - Jr.
+    - Sr.
+    - I
+    - II
+    - III
+    - IV
+    - V
+    - VI
+    - VII
+    - VIII
+    - IX
+    - X
+  sort_options:
+    title: false
+    given: false
+    middle: false
+    family: false
+    generational: false
+    credentials: false
+  labels:
+    title: Title
+    given: Given
+    middle: 'Middle name(s)'
+    family: Family
+    generational: Generational
+    credentials: Credentials
+  widget_layout: stacked
+  preferred_field_reference: ''
+  preferred_field_reference_separator: ', '
+  alternative_field_reference: ''
+  alternative_field_reference_separator: ', '
+field_type: name

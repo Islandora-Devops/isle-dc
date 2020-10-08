@@ -1,0 +1,20 @@
+uuid: 61e4d327-ef95-4606-a94c-a1b953ae3c9a
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.audio
+_core:
+  default_config_hash: qTIW8jApL5XMixeqe9-LeOkaRUKR1GfCQ-BAsz0rzvk
+id: media.audio.changed
+field_name: changed
+entity_type: media
+bundle: audio
+label: Changed
+description: 'The time the media item was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

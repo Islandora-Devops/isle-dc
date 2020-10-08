@@ -1,0 +1,19 @@
+uuid: b13733c4-696c-47a7-99e0-d7808f64a26d
+langcode: en
+status: true
+dependencies:
+  module:
+    - rest_oai_pmh
+    - user
+_core:
+  default_config_hash: 1werNsZvmZFdkHbTR_WjYMnPvjKwv1ICU8acCpWURO0
+id: oai_pmh
+plugin_id: oai_pmh
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - oai_dc
+  authentication:
+    - cookie

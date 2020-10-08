@@ -1,0 +1,23 @@
+uuid: 63bbdc4d-89ce-4e1c-8546-f6abd1216924
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_edited_text
+    - media.type.extracted_text
+  module:
+    - text
+_core:
+  default_config_hash: PFEjmDTu5NiDBpIWn3uT7EbTugdW8f1WbzN5ND7k_PQ
+id: media.extracted_text.field_edited_text
+field_name: field_edited_text
+entity_type: media
+bundle: extracted_text
+label: 'Edited Text'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

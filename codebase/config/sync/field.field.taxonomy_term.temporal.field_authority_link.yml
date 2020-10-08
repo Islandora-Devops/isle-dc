@@ -1,0 +1,28 @@
+uuid: 175ef2c6-079c-45db-aa2d-6a57dc8042bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_authority_link
+    - taxonomy.vocabulary.temporal
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: tl0RLY2aFbzBtUm2ExuIhZvqkHMk2H6l03VR4RANaVM
+id: taxonomy_term.temporal.field_authority_link
+field_name: field_authority_link
+entity_type: taxonomy_term
+bundle: temporal
+label: 'Authority Sources'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  authority_sources:
+    lgcft: 'Library of Congress Temporal Terms'
+    other: Other
+  title: 1
+  link_type: 16
+field_type: authority_link

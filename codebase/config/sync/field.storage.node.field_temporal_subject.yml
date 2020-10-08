@@ -1,0 +1,26 @@
+uuid: 6cf678c6-c5cf-494f-879d-d53fc3a7db9c
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+    - taxonomy
+third_party_settings:
+  field_permissions:
+    permission_type: public
+_core:
+  default_config_hash: h2m1cqQHw-9OlCv82C9YDT0FAip41uDNgQ9iVPbv5wQ
+id: node.field_temporal_subject
+field_name: field_temporal_subject
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

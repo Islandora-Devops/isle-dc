@@ -1,0 +1,27 @@
+uuid: 25413012-5372-48d7-b334-8e2cabc111e6
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - carapace
+_core:
+  default_config_hash: 6rcz_yGFLgo_lZvnRlBgwBAIeej_i2WaVixQIyWdfhI
+id: carapace_breadcrumbs
+theme: carapace
+region: content_prefix
+weight: -1
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: true
+    context_mapping: {  }

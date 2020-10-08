@@ -1,0 +1,33 @@
+uuid: 9054cd53-7877-4494-a908-4d3a40f28dc0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_file
+    - media.type.file
+  enforced:
+    module:
+      - media
+      - islandora_core_feature
+  module:
+    - file
+_core:
+  default_config_hash: nvfDHoMQmVfRuyJ3o-0vnC0FIqJAvzYgtteAXWxKkp0
+id: media.file.field_media_file
+field_name: field_media_file
+entity_type: media
+bundle: file
+label: File
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt rtf doc docx ppt pptx xls xlsx pdf odf odg odp ods odt fodt fods fodp fodg key numbers pages tiff tif jp2'
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

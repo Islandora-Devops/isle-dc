@@ -1,0 +1,24 @@
+uuid: 7bd115c0-dc4c-4cfc-90dd-d025f2471f71
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+third_party_settings:
+  field_permissions:
+    permission_type: public
+_core:
+  default_config_hash: hoClwTpH3aU9_p2qxDhuWZzVsKfDGpetedmTF74jC88
+id: node.field_table_of_contents
+field_name: field_table_of_contents
+entity_type: node
+type: text_long
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

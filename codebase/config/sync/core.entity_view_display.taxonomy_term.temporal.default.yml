@@ -1,0 +1,39 @@
+uuid: a401dc0f-c819-4804-9caa-9775cdb04c31
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.temporal.field_authority_link
+    - taxonomy.vocabulary.temporal
+  module:
+    - controlled_access_terms
+    - text
+_core:
+  default_config_hash: 4xg3_o5L6v4utcicE4y_WDQnD0EIaINpxpReOdHkuwI
+id: taxonomy_term.temporal.default
+targetEntityType: taxonomy_term
+bundle: temporal
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_authority_link:
+    weight: 1
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
+    third_party_settings: {  }
+    type: authority_formatter_default
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

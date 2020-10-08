@@ -1,0 +1,18 @@
+uuid: d68f3461-9f29-40d5-850e-015bc0d39053
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
+  module:
+    - islandora
+_core:
+  default_config_hash: 5BLRdR-RanhNKAu8gdFGrgqjy3etFaQ1xMXYKH05W38
+id: delete_node_from_triplestore
+label: 'Delete Node from Triplestore'
+type: node
+plugin: emit_node_event
+configuration:
+  queue: islandora-indexing-triplestore-delete
+  event: Delete

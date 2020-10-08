@@ -1,0 +1,21 @@
+uuid: 7d5f4853-bd36-4304-a8f7-5320d67a638f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_original_name
+    - media.type.file
+_core:
+  default_config_hash: 2EG6bBoWagYUlv5daiSJg7Y_SgpM5yyxZmrFevg2qmk
+id: media.file.field_original_name
+field_name: field_original_name
+entity_type: media
+bundle: file
+label: 'Original Name'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

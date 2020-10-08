@@ -1,0 +1,49 @@
+uuid: 3c2561ad-61d5-4d61-9cbe-61b42716ec9e
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
+  module:
+    - basic_auth
+    - file
+    - jsonld
+    - jwt
+    - serialization
+    - user
+_core:
+  default_config_hash: adSrXptX_NpPQC5cFGgYUjjSDncSDxha3towAq-mVzU
+id: entity.file
+plugin_id: 'entity:file'
+granularity: method
+configuration:
+  GET:
+    supported_formats:
+      - jsonld
+      - json
+    supported_auth:
+      - basic_auth
+      - jwt_auth
+      - cookie
+  POST:
+    supported_formats:
+      - json
+    supported_auth:
+      - basic_auth
+      - jwt_auth
+      - cookie
+  DELETE:
+    supported_formats:
+      - json
+    supported_auth:
+      - basic_auth
+      - jwt_auth
+      - cookie
+  PATCH:
+    supported_formats:
+      - json
+    supported_auth:
+      - basic_auth
+      - jwt_auth
+      - cookie

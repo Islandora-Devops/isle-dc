@@ -1,0 +1,476 @@
+uuid: 613242bb-243f-493d-9ad3-b1628800a99b
+langcode: en
+status: true
+dependencies:
+  module:
+    - search_api_solr
+    - node
+    - user
+    - taxonomy
+    - search_api
+  config:
+    - field.storage.taxonomy_term.field_person_alternate_names
+    - field.storage.taxonomy_term.field_cat_date_begin
+    - field.storage.taxonomy_term.field_cat_date_end
+    - field.storage.taxonomy_term.field_corp_alt_name
+    - field.storage.node.field_description
+    - field.storage.node.field_edtf_date
+    - field.storage.node.field_edtf_date_created
+    - field.storage.node.field_edtf_date_issued
+    - field.storage.taxonomy_term.field_geo_alt_name
+    - field.storage.node.field_identifier
+    - field.storage.node.field_linked_agent
+    - field.storage.node.field_local_identifier
+    - field.storage.node.field_member_of
+    - field.storage.node.field_note
+    - field.storage.node.field_physical_form
+    - field.storage.node.field_subject
+    - field.storage.node.field_subjects_name
+    - field.storage.node.field_table_of_contents
+    - field.storage.node.field_tags
+    - field.storage.node.field_temporal_subject
+    - field.storage.taxonomy_term.field_person_preferred_name
+    - search_api.server.default_solr_server
+    - core.entity_view_mode.node.search_index
+third_party_settings:
+  search_api_solr:
+    finalize: false
+    commit_before_finalize: false
+    commit_after_finalize: false
+    highlighter:
+      maxAnalyzedChars: 51200
+      fragmenter: regex
+      regex:
+        slop: 0.5
+        pattern: blank
+        maxAnalyzedChars: 10000
+      usePhraseHighlighter: true
+      highlightMultiTerm: true
+      preserveMulti: false
+      highlight:
+        mergeContiguous: false
+        requireFieldMatch: false
+        snippets: 3
+        fragsize: 0
+    advanced:
+      index_prefix: ''
+_core:
+  default_config_hash: ymGYEJfAffwWmbrV-ChJjZaxRN4NWqrNojMQa8vss4Y
+id: default_solr_index
+name: 'Default Solr content index'
+description: 'Default content index created by the Solr Search Defaults module'
+read_only: false
+field_settings:
+  alternate_family_name:
+    label: 'Person Alternate Family Name'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: 'field_person_alternate_names:family'
+    type: string
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_person_alternate_names
+  alternate_given_name:
+    label: 'Person Alternate Given Name'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: 'field_person_alternate_names:given'
+    type: string
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_person_alternate_names
+  alternate_middle_name:
+    label: 'Person Alternate Middle Names'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: 'field_person_alternate_names:middle'
+    type: string
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_person_alternate_names
+  author:
+    label: 'Author name'
+    datasource_id: 'entity:node'
+    property_path: 'uid:entity:name'
+    type: string
+    dependencies:
+      module:
+        - node
+        - user
+  changed:
+    label: Changed
+    datasource_id: 'entity:node'
+    property_path: changed
+    type: date
+    dependencies:
+      module:
+        - node
+  created:
+    label: 'Authored on'
+    datasource_id: 'entity:node'
+    property_path: created
+    type: date
+    dependencies:
+      module:
+        - node
+  description:
+    label: Description
+    datasource_id: 'entity:taxonomy_term'
+    property_path: description
+    type: text
+    dependencies:
+      module:
+        - taxonomy
+  field_cat_date_begin:
+    label: 'Founding Date'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: field_cat_date_begin
+    type: string
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_cat_date_begin
+  field_cat_date_end:
+    label: 'Dissolution Date'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: field_cat_date_end
+    type: string
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_cat_date_end
+  field_corp_alt_name:
+    label: 'Corporate Body Alternate Name'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: field_corp_alt_name
+    type: text
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_corp_alt_name
+  field_description:
+    label: Description
+    datasource_id: 'entity:node'
+    property_path: field_description
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_description
+  field_edited_text:
+    label: 'Edited Text'
+    datasource_id: 'entity:node'
+    property_path: 'search_api_reverse_entity_references_media__field_media_of:field_edited_text'
+    type: text
+  field_edtf_date:
+    label: Date
+    datasource_id: 'entity:node'
+    property_path: field_edtf_date
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_edtf_date
+  field_edtf_date_created:
+    label: 'Date Created'
+    datasource_id: 'entity:node'
+    property_path: field_edtf_date_created
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_edtf_date_created
+  field_edtf_date_issued:
+    label: 'Date Issued'
+    datasource_id: 'entity:node'
+    property_path: field_edtf_date_issued
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_edtf_date_issued
+  field_geo_alt_name:
+    label: 'Alternate Name'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: field_geo_alt_name
+    type: text
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_geo_alt_name
+  field_identifier:
+    label: Identifier
+    datasource_id: 'entity:node'
+    property_path: field_identifier
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_identifier
+  field_linked_agent:
+    label: 'Linked Agent'
+    datasource_id: 'entity:node'
+    property_path: 'field_linked_agent:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_linked_agent
+      module:
+        - taxonomy
+  field_local_identifier:
+    label: 'Local Identifier'
+    datasource_id: 'entity:node'
+    property_path: field_local_identifier
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_local_identifier
+  field_member_of:
+    label: 'Member of'
+    datasource_id: 'entity:node'
+    property_path: field_member_of
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_member_of
+  field_note:
+    label: Note
+    datasource_id: 'entity:node'
+    property_path: field_note
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_note
+  field_physical_form:
+    label: 'Physical Form'
+    datasource_id: 'entity:node'
+    property_path: 'field_physical_form:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_physical_form
+      module:
+        - taxonomy
+  field_subject:
+    label: Subject
+    datasource_id: 'entity:node'
+    property_path: 'field_subject:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_subject
+      module:
+        - taxonomy
+  field_subjects_name:
+    label: 'Subject (name)'
+    datasource_id: 'entity:node'
+    property_path: 'field_subjects_name:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_subjects_name
+      module:
+        - taxonomy
+  field_table_of_contents:
+    label: 'Table of Contents'
+    datasource_id: 'entity:node'
+    property_path: field_table_of_contents
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_table_of_contents
+  field_tags:
+    label: Tags
+    datasource_id: 'entity:node'
+    property_path: field_tags
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_tags
+  field_temporal_subject:
+    label: 'Temporal Subject'
+    datasource_id: 'entity:node'
+    property_path: 'field_temporal_subject:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_temporal_subject
+      module:
+        - taxonomy
+  name:
+    label: Name
+    datasource_id: 'entity:taxonomy_term'
+    property_path: name
+    type: text
+    boost: !!float 8
+    dependencies:
+      module:
+        - taxonomy
+  node_grants:
+    label: 'Node access information'
+    property_path: search_api_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
+  preferred_family_name:
+    label: 'Person Preferred Family Name'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: 'field_person_preferred_name:family'
+    type: string
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_person_preferred_name
+  preferred_given_name:
+    label: 'Person Preferred Given Name'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: 'field_person_preferred_name:given'
+    type: string
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_person_preferred_name
+  preferred_middle_name:
+    label: 'Person Preferred Middle Names'
+    datasource_id: 'entity:taxonomy_term'
+    property_path: 'field_person_preferred_name:middle'
+    type: string
+    dependencies:
+      config:
+        - field.storage.taxonomy_term.field_person_preferred_name
+  rendered_item:
+    label: 'Rendered item'
+    property_path: rendered_item
+    type: text
+    configuration:
+      roles:
+        anonymous: anonymous
+      view_mode:
+        'entity:node':
+          article: search_index
+          islandora_object: search_index
+          page: search_index
+        'entity:taxonomy_term':
+          corporate_body: default
+          family: default
+          genre: default
+          geo_location: default
+          language: default
+          person: default
+          physical_form: default
+          resource_types: default
+          subject: default
+          tags: default
+          temporal: default
+  status:
+    label: 'Publishing status'
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+  sticky:
+    label: 'Sticky at top of lists'
+    datasource_id: 'entity:node'
+    property_path: sticky
+    type: boolean
+    dependencies:
+      module:
+        - node
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    boost: !!float 8
+    dependencies:
+      module:
+        - node
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  uid:
+    label: 'Author ID'
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: true
+      selected: {  }
+    languages:
+      default: true
+      selected: {  }
+  'entity:taxonomy_term':
+    bundles:
+      default: true
+      selected:
+        - islandora_access
+        - islandora_display
+        - islandora_media_use
+        - islandora_models
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url:
+    weights:
+      preprocess_index: -30
+  aggregated_field:
+    weights:
+      add_properties: 20
+  content_access:
+    weights:
+      preprocess_index: -6
+      preprocess_query: -4
+  entity_status:
+    weights:
+      preprocess_index: -10
+  hierarchy:
+    fields:
+      field_member_of: node-field_member_of
+    weights:
+      preprocess_index: -45
+  highlight:
+    highlight: always
+    highlight_partial: true
+    excerpt: true
+    excerpt_length: 256
+    exclude_fields:
+      - rendered_item
+    prefix: '<strong>'
+    suffix: '</strong>'
+    weights:
+      postprocess_query: 0
+  html_filter:
+    all_fields: false
+    fields:
+      - rendered_item
+    title: true
+    alt: true
+    tags:
+      b: 2
+      h1: 5
+      h2: 3
+      h3: 2
+      string: 2
+    weights:
+      preprocess_index: -3
+      preprocess_query: -6
+  language_with_fallback: {  }
+  rendered_item:
+    weights:
+      add_properties: 0
+      pre_index_save: -10
+  reverse_entity_references: {  }
+  solr_date_range:
+    weights:
+      preprocess_index: 0
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: default_solr_server

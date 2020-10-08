@@ -1,0 +1,21 @@
+uuid: 69afbf34-7ecd-4bf0-aebc-2ce9cf772a93
+langcode: en
+status: true
+dependencies:
+  module:
+    - name
+    - taxonomy
+_core:
+  default_config_hash: lyPuGcGc1mZJpfe0Ok4kFMj07wucrT1EIE1P__k9n88
+id: taxonomy_term.field_person_alternate_names
+field_name: field_person_alternate_names
+entity_type: taxonomy_term
+type: name
+settings: {  }
+module: name
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

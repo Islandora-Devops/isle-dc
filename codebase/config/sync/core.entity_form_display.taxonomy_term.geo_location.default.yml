@@ -1,0 +1,101 @@
+uuid: 01cca34e-c7bb-47f8-a3ac-0467190e5d59
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.geo_location.field_authority_link
+    - field.field.taxonomy_term.geo_location.field_geo_alt_name
+    - field.field.taxonomy_term.geo_location.field_geo_broader
+    - field.field.taxonomy_term.geo_location.field_geo_geolocation
+    - taxonomy.vocabulary.geo_location
+  module:
+    - controlled_access_terms
+    - geolocation
+    - path
+    - text
+_core:
+  default_config_hash: i7uRsqg6AGmJND-V2OR0NAM8KUwrvk4Nbt2DYNEhnlI
+id: taxonomy_term.geo_location.default
+targetEntityType: taxonomy_term
+bundle: geo_location
+mode: default
+content:
+  description:
+    type: text_textfield
+    weight: 5
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+  field_authority_link:
+    weight: 3
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: authority_link_default
+    region: content
+  field_geo_alt_name:
+    weight: 26
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_geo_broader:
+    weight: 27
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_geo_geolocation:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    type: geolocation_latlng
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 2
+    region: content
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  promote: true
+  sticky: true
+  uid: true

@@ -1,0 +1,30 @@
+uuid: 9f738827-02aa-4b84-86f7-e13564a44a2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.language
+  module:
+    - taxonomy
+_core:
+  default_config_hash: zwm58nuhsLT1dzytsxnFEl94rzfxfvf0jW_1F5HYNio
+id: taxonomy_term.language
+targetEntityType: taxonomy_term
+bundle: language
+types:
+  - 'schema:Language'
+fieldMappings:
+  name:
+    properties:
+      - 'schema:name'
+  description:
+    properties:
+      - 'schema:description'
+  field_authority_link:
+    properties:
+      - 'schema:sameAs'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'

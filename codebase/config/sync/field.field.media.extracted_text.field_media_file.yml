@@ -1,0 +1,29 @@
+uuid: 8125853e-7b7d-44f2-8516-52689188bb4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_file
+    - media.type.extracted_text
+  module:
+    - file
+_core:
+  default_config_hash: QYFdk6Ti48HSzotIjNbsg1nR4vsqGrwZLc6hlm2Odi0
+id: media.extracted_text.field_media_file
+field_name: field_media_file
+entity_type: media
+bundle: extracted_text
+label: File
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_extensions: 'txt doc docx pdf'
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

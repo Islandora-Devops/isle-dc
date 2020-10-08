@@ -1,0 +1,20 @@
+uuid: 40256f8d-6497-48ca-befc-b1969230bc62
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.file
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+_core:
+  default_config_hash: aCkQI8ssVei8iyMPbCTGJPnZ2UgNS_xEFqH8VZaooXM
+id: media.file
+target_entity_type_id: media
+target_bundle: file
+default_langcode: site_default
+language_alterable: true

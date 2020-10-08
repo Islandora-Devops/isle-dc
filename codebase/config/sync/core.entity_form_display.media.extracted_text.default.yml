@@ -1,0 +1,85 @@
+uuid: 25c86f29-783f-4de1-b03c-09c424551898
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.extracted_text.field_edited_text
+    - field.field.media.extracted_text.field_media_file
+    - field.field.media.extracted_text.field_media_of
+    - field.field.media.extracted_text.field_media_use
+    - field.field.media.extracted_text.field_mime_type
+    - media.type.extracted_text
+  module:
+    - file
+    - path
+    - text
+_core:
+  default_config_hash: 0Zeu8012np-BZS2tUHhI5CnSeZbuJD7pUtXGIsgDUdk
+id: media.extracted_text.default
+targetEntityType: media
+bundle: extracted_text
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_edited_text:
+    type: text_textarea
+    weight: 7
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_media_file:
+    type: file_generic
+    weight: 6
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 5
+    region: content
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+hidden:
+  field_media_of: true
+  field_media_use: true
+  field_mime_type: true

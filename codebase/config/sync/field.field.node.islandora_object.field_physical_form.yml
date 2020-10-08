@@ -1,0 +1,31 @@
+uuid: e12199a5-3f76-4db7-af6d-4fcbaf3afd57
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_physical_form
+    - node.type.islandora_object
+    - taxonomy.vocabulary.physical_form
+_core:
+  default_config_hash: x5gwAhLmbaxEUV1ywDrWpCEX5FnabCjq-krkoSiQXkg
+id: node.islandora_object.field_physical_form
+field_name: field_physical_form
+entity_type: node
+bundle: islandora_object
+label: 'Physical Form'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      physical_form: physical_form
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

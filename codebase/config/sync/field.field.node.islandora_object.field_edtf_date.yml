@@ -1,0 +1,23 @@
+uuid: 209b2aa5-d26f-4954-913e-a7415c8f55bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_edtf_date
+    - node.type.islandora_object
+  module:
+    - controlled_access_terms
+_core:
+  default_config_hash: aJcL858bpIF_4wmpUOjA_q6X3v8G4A0yQ21jXHgBPak
+id: node.islandora_object.field_edtf_date
+field_name: field_edtf_date
+entity_type: node
+bundle: islandora_object
+label: Date
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: edtf

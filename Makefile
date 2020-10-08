@@ -10,6 +10,7 @@ ENV_FILE=$(shell \
 # users to regenerate their .env files losing their changes.
 include sample.env
 include $(ENV_FILE)
+include idc.Makefile
 
 # The site to operate on when using drush -l $(SITE) commands
 SITE?=default
@@ -42,7 +43,15 @@ endif
 # Some services can optionally depend on PostgreSQL.
 # Either way their environment variables get customized
 # depending on the database service they have choosen.
-DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) fcrepo.$(FCREPO_DATABASE_SERVICE) crayfish.$(GEMINI_DATABASE_SERVICE)
+DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) 
+
+ifneq (,$(findstring fcrepo,$(REQUIRED_SERVICES)))
+	DATABASE_SERVICES += fcrepo.$(FCREPO_DATABASE_SERVICE)
+endif
+
+ifneq (,$(findstring crayfish,$(REQUIRED_SERVICES)))
+	DATABASE_SERVICES += crayfish.$(FCREPO_DATABASE_SERVICE)
+endif
 
 ifeq ($(DRUPAL_DATABASE_SERVICE), postgresql)
 	DATABASE_SERVICES += postgresql

@@ -1,0 +1,31 @@
+uuid: 2e872fdd-563b-4c53-94d4-8f84292c09e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_access_terms
+    - media.type.document
+    - taxonomy.vocabulary.islandora_access
+_core:
+  default_config_hash: 7iLOcVFpCq9jtezHP8AeS8EG-Yk5EHQ0wsV7ygNYxeI
+id: media.document.field_access_terms
+field_name: field_access_terms
+entity_type: media
+bundle: document
+label: 'Access terms'
+description: 'Terms that define who has access to view/edit this resource.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      islandora_access: islandora_access
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

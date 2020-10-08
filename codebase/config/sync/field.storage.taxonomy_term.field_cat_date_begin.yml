@@ -1,0 +1,23 @@
+uuid: 70129191-9d6f-40da-a060-17c1772dbe97
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+_core:
+  default_config_hash: QCGvpHzgk8O9UZewTv1kU8_rU3eSsvL9HiRzgL4t6zc
+id: taxonomy_term.field_cat_date_begin
+field_name: field_cat_date_begin
+entity_type: taxonomy_term
+type: edtf
+settings:
+  max_length: 60
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
