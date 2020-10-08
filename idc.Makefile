@@ -1,4 +1,3 @@
-
 # Bootstrap a new instance without Fedora.  Assumes there is a Drupal site in ./codebase.
 # Will do a clean Drupal install and initialization
 #
@@ -38,5 +37,9 @@ snapshot-image:
 		-v ${PWD}/snapshot:/dump \
 		alpine:latest \
 		/bin/tar cvf /dump/data.tar /data
-	docker build -f snapshot/snapshot.Dockerfile -t local/idc-snapshot:latest ./snapshot
+	TAG=`git describe --tags`.`date +%s` && \
+		docker build -f snapshot/snapshot.Dockerfile -t ${SNAPSHOT_IMAGE}:$$TAG ./snapshot && \
+		sed -i s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=$$TAG/ .env
+	rm docker-compose.yml
+	$(MAKE) docker-compose.yml
 	docker-compose up -d
