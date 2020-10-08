@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := default
+
 # Bootstrap a new instance without Fedora.  Assumes there is a Drupal site in ./codebase.
 # Will do a clean Drupal install and initialization
 #
