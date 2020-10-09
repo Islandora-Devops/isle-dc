@@ -7,7 +7,7 @@
 # otherwise we could of simply done 'hydrate' instead of update-settings-php, update-config... etc)
 .PHONY: bootstrap
 .SILENT: bootstrap
-bootstrap: snapshot-empty destroy-state default composer-install install \
+bootstrap: snapshot-empty destroy-state up install \
 		update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
 		cache-rebuild snapshot-image
 
@@ -56,7 +56,7 @@ snapshot-empty:
 
 .PHONY: up
 .SILENT: up
-up: default start composer-install
+up:  download-default-certs docker-compose.yml start composer-install
 
 
 .PHONY: start
