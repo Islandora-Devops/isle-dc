@@ -66,7 +66,6 @@ Thumbs.db
 
 #===================
 # ISLE specific
-data
 logs
 site
 .vagrant
