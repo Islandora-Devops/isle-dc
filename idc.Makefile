@@ -41,7 +41,9 @@ snapshot-image:
 		/bin/tar cvf /dump/data.tar /data
 	TAG=`git describe --tags`.`date +%s` && \
 		docker build -f snapshot/snapshot.Dockerfile -t ${SNAPSHOT_IMAGE}:$$TAG ./snapshot && \
-		sed -i s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=$$TAG/ .env
+		cat .env | sed s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=$$TAG/ > /tmp/.env && \
+	  cp /tmp/.env .env && \
+	  rm /tmp/.env
 	rm docker-compose.yml
 	$(MAKE) docker-compose.yml
 	docker-compose up -d
@@ -49,8 +51,10 @@ snapshot-image:
 .PHONY: snapshot-empty
 .SILENT: snapshot-empty
 snapshot-empty:
-	rm docker-compose.yml
-	sed -i s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=empty/ .env
+	-rm docker-compose.yml
+	sed s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=empty/ .env > /tmp/.env && \
+      cp /tmp/.env .env && \
+	    rm /tmp/.env
 	$(MAKE) docker-compose.yml
 	docker-compose build snapshot
 
