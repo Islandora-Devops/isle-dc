@@ -1,6 +1,6 @@
 # IDC development platform
 
-Leverages ISLE to provide a local development environment for the IDC stack, with particular focus on development/testing of 
+Leverages ISLE to provide a local development environment for the IDC stack, with particular focus on development/testing of
 the Drupal site.
 
 ## Contents
@@ -13,13 +13,13 @@ the Drupal site.
 
 ## Quick Start
 
-To start the IDC development environment, run 
+To start the IDC development environment, run
 
     make up
 
-This will build a `docker-compose` file, run `composer install` to locally install all dependencies for our site (which will 
+This will build a `docker-compose` file, run `composer install` to locally install all dependencies for our site (which will
 take a few minutes when done the first time, but will be much quicker subsequent times), and start the stack.  The stack will
-start from a known snapshot state, which currently is an entirely empty (but initialized) Drupal. 
+start from a known snapshot state, which currently is an entirely empty (but initialized) Drupal.
 
 To reset to a known Drupal state, run
 
@@ -38,6 +38,18 @@ To take a snapshot of Drupal's current content, do
 
 See [snapshots](#snapshots) for more information on how to make and publish snapshots
 
+## Make targets
+
+There are several Make targets in the `Makefile`, and its idc-specific companion `idc.Makefile` (which are included by default,
+so no need to do anything special other than `make` to invoke them).  A few useful targets are as follows:
+
+* **make bootstrap** Burn everything down and create a fresh installation from scratch, deleting any pre-existing data, and starting from a completely empty state.  Only the list of modules in `composer.json` (and dependencies in `composer.lock`) survives the process.
+* **make composer-install**  Use the Drupal container to run a `composer install`.  This avoids having to install composer on your local system.
+* **make cache-rebuild** Uses Drush inside the Drupal container to rebuild Drupal's cache.
+* **make config-export** Exports all current active Drupal config to the `codebase/config/sync` directory, so that it can be committed to git.
+* **make snapshot** Create a snapshot of the current Drupal state (db, content files, etc), so that you can reset to this state at will, or push it so that others can.
+* **make up** Brings up the development environment, including running `composer install`.
+
 ## Snapshots
 
 Snapshots are Docker images that contain Drupal state (content files, database, SOLR indexes, Fedora files, etc).  When Docker starts,
@@ -52,6 +64,7 @@ When docker subsequently starts, it will start from the known snapshot state.  Y
 whenever you want a checkpoint you can reliably reset Drupal to.  
 
 ### Images
+
 The image used for the snapshot is specified via environment variables in `.env`.  For example:
 
     # Docker image and tag for snapshot image
@@ -62,11 +75,13 @@ When the `docker-compose.yml` make target is run, that image and tag will be spe
 copied to Docker volumes upon initial startup of the stack (i.e. snapshots are deployed only once, until all volumes are wiped out via `docker-compose down -v`).  Because they are just regular docker images, they can be pushed and puled from container registry as usual.
 
 ### Taking and publishing snapshots
-To take a snapshot, run 
+
+To take a snapshot, run
 
     make snapshot
 
 This will do the following:
+
 * stop the docker-compose stack
 * dump the contents of the volumes
 * create a new image from the contents of the volume
