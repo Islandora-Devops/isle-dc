@@ -9,7 +9,7 @@
 .SILENT: bootstrap
 bootstrap: default snapshot-empty destroy-state up install \
 		update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
-		cache-rebuild \
+		cache-rebuild 
 		git checkout -- .env
 
 # Rebuilds the Drupal cache
