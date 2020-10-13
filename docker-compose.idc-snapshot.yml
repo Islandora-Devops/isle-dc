@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  drupal:
+    depends_on:
+    - snapshot
+  mariadb:
+    depends_on:
+    - snapshot
+  matomo:
+    depends_on:
+    - snapshot
+  solr:
+    depends_on:
+    - snapshot
+  snapshot:
+    container_name: snapshot
+    build: ./snapshot
+    image: ${SNAPSHOT_IMAGE}:${SNAPSHOT_TAG}
+    volumes:
+    - drupal-sites-data:/data/drupal
+    - mariadb-data:/data/mariadb-data
+    - mariadb-files:/data/mariadb-files
+    - matomo-config-data:/data/matomo-config
+    - solr-data:/data/solr
