@@ -24,7 +24,6 @@ cache-rebuild:
 destroy-state:
 	echo "Destroying docker-compose volume state"
 	docker-compose down -v
-	docker-compose up -d
 
 .PHONY: composer-install
 .SILENT: composer-install
@@ -68,3 +67,5 @@ up:  download-default-certs docker-compose.yml start composer-install
 .SILENT: start
 start:
 	docker-compose up -d
+	sleep 5
+	docker-compose exec drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to start ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
