@@ -21,6 +21,7 @@ services:
     # Mostly helpful in cases where it's necessary to run an old-style 
     # snapshot image that has binary mysql db, but no sql dump
     # - mariadb-data:/data/mariadb-data
+    - minio-data:/data/minio
     - solr-data:/data/solr
 volumes:
   mariadb-dump:
