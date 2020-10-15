@@ -60,7 +60,7 @@ snapshot-empty:
 
 .PHONY: up
 .SILENT: up
-up:  download-default-certs docker-compose.yml start composer-install
+up:  download-default-certs docker-compose.yml start
 
 
 .PHONY: start
