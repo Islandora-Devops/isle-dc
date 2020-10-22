@@ -10,6 +10,8 @@ volumes:
 services:
   matomo:
     image: ${REPOSITORY:-islandora}/matomo:${TAG:-latest}
+    environment:
+      MATOMO_SITE_HOST: islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
     volumes:
       - matomo-config-data:/var/www/matomo
     depends_on:

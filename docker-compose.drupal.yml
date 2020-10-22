@@ -10,6 +10,12 @@ services:
   # The service name is drupal that is the default host name used by micro-services etc.
   # Needs to match against demo, custom, and local.
   drupal:
+    environment:
+      DRUPAL_DEFAULT_CANTALOUPE_URL: https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}/cantaloupe/iiif/2
+      DRUPAL_DEFAULT_FCREPO_HOST: fcrepo-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+      DRUPAL_DEFAULT_DB_HOST: ${DRUPAL_DATABASE_SERVICE}-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+      DRUPAL_DEFAULT_MATOMO_URL: https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}/matomo/
+      DRUPAL_DEFAULT_SITE_URL: http://islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me} # Make sure this is just http and not https!
     labels:
       - traefik.enable=true
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80

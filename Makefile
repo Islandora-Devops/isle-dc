@@ -63,18 +63,10 @@ endif
 # Sorts and removes duplicates.
 DATABASE_SERVICES := $(sort $(DATABASE_SERVICES))
 
-# Allows for customization of the environment variables inside of the containers.
-# If it does not exist create it from docker-compose.sample.env.yml.
-OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES=$(shell \
-	if [ ! -f docker-compose.env.yml ]; then \
-		cp docker-compose.sample.env.yml docker-compose.env.yml; \
-	fi; \
-	echo env)
-
 # The services to be run (order is important), as services can override one
 # another. Traefik must be last if included as otherwise its network 
 # definition for `gateway` will be overriden.
-SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES) $(SECRETS) 
+SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(SECRETS)
 
 default: download-default-certs docker-compose.yml pull
 
