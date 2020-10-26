@@ -53,6 +53,9 @@ snapshot-image:
 reset: warning-destroy-state destroy-state
 	@echo "Removing vendored modules"
 	-rm -rf codebase/vendor
+	-rm -rf codebase/web/core
+	-rm -rf codebase/web/modules/contrib
+	-rm -rf codebase/web/themes/contrib
 	@echo "Re-generating docker-compose.yml"
 	$(MAKE) docker-compose.yml
 	@echo "Pulling images"
@@ -65,7 +68,11 @@ reset: warning-destroy-state destroy-state
 .SILENT: warning-destroy-state
 warning-destroy-state:
 	@echo "WARNING: Resetting state to ${SNAPSHOT_IMAGE}/${SNAPSHOT_TAG}.  This will:"
-	@echo "1. Remove all modules under codebase/vendor"
+	@echo "1. Remove all modules and dependencies under:"
+	@echo "  codebase/vendor"
+	@echo "  codebase/web/core"
+	@echo "  codebase/modules/contrib"
+	@echo "  codebase/themes/contrib"
 	@echo "2. Re-generate docker-compose.yml"
 	@echo "3. Pull the latest images"
 	@echo "4. Re-install modules from composer.json"
