@@ -5,7 +5,7 @@ the Drupal site.
 
 ## Contents
 
-* Our Drupal site is in `codebase`.  
+* Our Drupal site is in `codebase`.
   * Use `composer` to add, remove, or update dependencies in `codebase/composer.json` and `codebase/composer.lock` when developing
   * Dependencies are not vendored, so you need to do a composer install.  This is included in `make bootstrap`
 * IDC development-specific environment variables are in `.env` and `docker-compose.env.yml`
@@ -44,6 +44,7 @@ There are several Make targets in the `Makefile`, and its idc-specific companion
 so no need to do anything special other than `make` to invoke them).  A few useful targets are as follows:
 
 * **make bootstrap** Burn everything down and create a fresh installation from scratch, deleting any pre-existing data, and starting from a completely empty state.  Only the list of modules in `composer.json` (and dependencies in `composer.lock`) survives the process.
+* **make reset** Burn everything down and create a fresh installation _from the snapshot image_.  Unlike `make bootstrap`, modules and dependencies **do not** survive; they will be installed when the drupal container starts.
 * **make composer-install**  Use the Drupal container to run a `composer install`.  This avoids having to install composer on your local system.
 * **make cache-rebuild** Uses Drush inside the Drupal container to rebuild Drupal's cache.
 * **make config-export** Exports all current active Drupal config to the `codebase/config/sync` directory, so that it can be committed to git.
@@ -61,7 +62,7 @@ After Docker starts from a snapshot, data subsequent in Docker's volumes is ephe
     docker-compose down -v
 
 When docker subsequently starts, it will start from the known snapshot state.  You are free to [take a snapshot](#taking-and-publishing-snapshots)
-whenever you want a checkpoint you can reliably reset Drupal to.  
+whenever you want a checkpoint you can reliably reset Drupal to.
 
 ### Images
 
