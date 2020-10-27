@@ -14,8 +14,7 @@ services:
     - snapshot
   snapshot:
     container_name: snapshot
-    build: ./snapshot
-    image: ${REPOSITORY}/${SNAPSHOT_IMAGE}:${SNAPSHOT_TAG}
+    image: ${REPOSITORY}/snapshot:${SNAPSHOT_TAG}
     volumes:
     - drupal-sites-data:/data/drupal
     - mariadb-data:/data/mariadb-data

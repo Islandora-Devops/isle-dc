@@ -7,7 +7,7 @@
 # otherwise we could of simply done 'hydrate' instead of update-settings-php, update-config... etc)
 .PHONY: bootstrap
 .SILENT: bootstrap
-bootstrap: default snapshot-empty destroy-state up install \
+bootstrap: snapshot-empty default destroy-state up install \
 		update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
 		cache-rebuild 
 		git checkout -- .env
@@ -40,7 +40,7 @@ snapshot-image:
 		alpine:latest \
 		/bin/tar cvf /dump/data.tar /data
 	TAG=`git describe --tags`.`date +%s` && \
-		docker build -f snapshot/snapshot.Dockerfile -t ${SNAPSHOT_IMAGE}:$$TAG ./snapshot && \
+		docker build -t ${REPOSITORY}/snapshot:$$TAG ./snapshot && \
 		cat .env | sed s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=$$TAG/ > /tmp/.env && \
 	  cp /tmp/.env .env && \
 	  rm /tmp/.env
@@ -56,7 +56,7 @@ snapshot-empty:
       cp /tmp/.env .env && \
 	    rm /tmp/.env
 	$(MAKE) docker-compose.yml
-	docker-compose build snapshot
+	docker build -f snapshot/empty.Dockerfile -t ${REPOSITORY}/snapshot:empty ./snapshot
 
 .PHONY: up
 .SILENT: up
