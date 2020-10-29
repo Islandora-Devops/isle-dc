@@ -67,7 +67,7 @@ reset: warning-destroy-state destroy-state
 .PHONY: warning-destroy-state
 .SILENT: warning-destroy-state
 warning-destroy-state:
-	@echo "WARNING: Resetting state to ${SNAPSHOT_IMAGE}/${SNAPSHOT_TAG}.  This will:"
+	@echo "WARNING: Resetting state to snapshot ${SNAPSHOT_TAG}.  This will:"
 	@echo "1. Remove all modules and dependencies under:"
 	@echo "  codebase/vendor"
 	@echo "  codebase/web/core"
