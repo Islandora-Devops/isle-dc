@@ -44,7 +44,7 @@ There are several Make targets in the `Makefile`, and its idc-specific companion
 so no need to do anything special other than `make` to invoke them).  A few useful targets are as follows:
 
 * **make bootstrap** Burn everything down and create a fresh installation from scratch, deleting any pre-existing data, and starting from a completely empty state.  Only the list of modules in `composer.json` (and dependencies in `composer.lock`) survives the process.
-* **make reset** Burn everything down and create a fresh installation _from the snapshot image_.  Unlike `make bootstrap`, modules and dependencies **do not** survive; they will be installed when the drupal container starts.
+* **make reset** Burn everything down and create a fresh installation _from the snapshot image_.  Unlike `make bootstrap`, modules and dependencies **do not** survive; they will be installed when the drupal container starts.  Does not pull in configuration from config/sync, will use the active configuration present in the snapshot.
 * **make composer-install**  Use the Drupal container to run a `composer install`.  This avoids having to install composer on your local system.
 * **make cache-rebuild** Uses Drush inside the Drupal container to rebuild Drupal's cache.
 * **make config-export** Exports all current active Drupal config to the `codebase/config/sync` directory, so that it can be committed to git.
