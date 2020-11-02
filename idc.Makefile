@@ -9,7 +9,7 @@
 .SILENT: bootstrap
 bootstrap: snapshot-empty default destroy-state up install \
 		update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
-		cache-rebuild 
+		cache-rebuild
 		git checkout -- .env
 
 # Rebuilds the Drupal cache
@@ -47,6 +47,35 @@ snapshot-image:
 	rm docker-compose.yml
 	$(MAKE) docker-compose.yml
 	docker-compose up -d
+
+.PHONY: reset
+.SILENT: reset
+reset: warning-destroy-state destroy-state
+	@echo "Removing vendored modules"
+	-rm -rf codebase/vendor
+	-rm -rf codebase/web/core
+	-rm -rf codebase/web/modules/contrib
+	-rm -rf codebase/web/themes/contrib
+	@echo "Re-generating docker-compose.yml"
+	$(MAKE) docker-compose.yml
+	@echo "Starting ..."
+	@echo "Invoke 'docker-compose logs -f drupal' in another terminal to monitor startup progress"
+	$(MAKE) start
+
+.PHONY: warning-destroy-state
+.SILENT: warning-destroy-state
+warning-destroy-state:
+	@echo "WARNING: Resetting state to snapshot ${SNAPSHOT_TAG}.  This will:"
+	@echo "1. Remove all modules and dependencies under:"
+	@echo "  codebase/vendor"
+	@echo "  codebase/web/core"
+	@echo "  codebase/modules/contrib"
+	@echo "  codebase/themes/contrib"
+	@echo "2. Re-generate docker-compose.yml"
+	@echo "3. Pull the latest images"
+	@echo "4. Re-install modules from composer.json"
+	@echo "WARNING: continue? [Y/n]"
+	@read line; if [ $$line != "Y" ]; then echo aborting; exit 1 ; fi
 
 .PHONY: snapshot-empty
 .SILENT: snapshot-empty
