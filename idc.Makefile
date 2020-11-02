@@ -58,8 +58,6 @@ reset: warning-destroy-state destroy-state
 	-rm -rf codebase/web/themes/contrib
 	@echo "Re-generating docker-compose.yml"
 	$(MAKE) docker-compose.yml
-	@echo "Pulling images"
-	$(MAKE) pull
 	@echo "Starting ..."
 	@echo "Invoke 'docker-compose logs -f drupal' in another terminal to monitor startup progress"
 	$(MAKE) start
