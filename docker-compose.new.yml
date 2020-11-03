@@ -1,0 +1,507 @@
+version: '3.7'
+
+services:
+
+
+  activemq:
+    image: islandora/activemq:latest
+    # container_name: activemq
+    environment:
+      ACTIVEMQ_PASSWORD: password
+      ACTIVEMQ_WEB_ADMIN_PASSWORD: password
+    volumes:
+      - activemq-data:/opt/activemq/data:rw
+    networks:
+      default: {}
+      gateway: {}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-activemq_http.entrypoints: http
+      traefik.http.routers.isle-dc-activemq_http.service: isle-dc-activemq
+      traefik.http.services.isle-dc-activemq.loadbalancer.server.port: '8161'
+
+
+  alpaca:
+    image: islandora/alpaca:latest  
+     # container_name: alpaca
+    environment:
+      ALPACA_ACTIVEMQ_PASSWORD: password
+      ALPACA_KARAF_ADMIN_PASSWORD: password
+
+
+  blazegraph:
+    image: islandora/blazegraph:latest
+    # container_name: blazegraph
+    volumes:
+      - blazegraph-data:/data:rw
+    networks:
+      default:
+        aliases:
+        - blazegraph-isle-dc-traefik.me
+        - blazegraph-isle-dc.traefik.me
+      gateway: {}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-blazegraph_http.entrypoints: http
+      traefik.http.routers.isle-dc-blazegraph_http.service: isle-dc-blazegraph
+      traefik.http.services.isle-dc-blazegraph.loadbalancer.server.port: '80'
+
+
+  cantaloupe:
+    image: islandora/cantaloupe:latest
+    # container_name: cantaloupe
+    volumes:
+      - cantaloupe-data:/data:rw
+    networks:
+      default: {}
+      gateway: {}
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.permanent: "true"
+      traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.scheme: https
+      traefik.http.routers.isle-dc-cantaloupe_http.entrypoints: http
+      traefik.http.routers.isle-dc-cantaloupe_http.middlewares: cantaloupe-redirectscheme
+      traefik.http.routers.isle-dc-cantaloupe_http.rule: Host(`islandora-isle-dc.traefik.me`,`islandora-isle-dc-traefik.me`) && PathPrefix(`/cantaloupe`)
+      traefik.http.routers.isle-dc-cantaloupe_http.service: isle-dc-cantaloupe
+      traefik.http.routers.isle-dc-cantaloupe_https.entrypoints: https
+      traefik.http.routers.isle-dc-cantaloupe_https.rule: Host(`islandora-isle-dc.traefik.me`,`islandora-isle-dc-traefik.me`) && PathPrefix(`/cantaloupe`)
+      traefik.http.routers.isle-dc-cantaloupe_https.tls: "true"
+      traefik.http.services.isle-dc-cantaloupe.loadbalancer.server.port: '80'
+
+
+  crayfits:
+    image: islandora/crayfits:latest
+    # container_name: crayfits
+    depends_on:
+    - fits
+
+
+  drupal:
+    image: islandora/demo:latest
+    # container_name: drupal    
+    environment:
+      DRUPAL_DEFAULT_ACCOUNT_EMAIL: admin@example.org
+      DRUPAL_DEFAULT_ACCOUNT_PASSWORD: password
+      DRUPAL_DEFAULT_CANTALOUPE_URL: https://islandora-isle-dc.traefik.me/cantaloupe/iiif/2
+      DRUPAL_DEFAULT_DB_DRIVER: mysql
+      DRUPAL_DEFAULT_DB_HOST: mariadb-isle-dc.traefik.me
+      DRUPAL_DEFAULT_DB_PASSWORD: password
+      DRUPAL_DEFAULT_DB_PORT: 3306
+      DRUPAL_DEFAULT_DB_ROOT_PASSWORD: password
+      DRUPAL_DEFAULT_FCREPO_HOST: fcrepo-isle-dc.traefik.me
+      DRUPAL_DEFAULT_MATOMO_URL: https://islandora-isle-dc.traefik.me/matomo/
+      DRUPAL_DEFAULT_SALT: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
+      DRUPAL_DEFAULT_SITE_URL: http://islandora-isle-dc.traefik.me
+      DRUPAL_JWT_PRIVATE_KEY: '-----BEGIN RSA PRIVATE KEY-----
+
+        MIIEpAIBAAKCAQEA6uK3nozywVaRCAB3FHdRZNHunSZvN/c31QimZAqQMGxj7JrG
+
+        h1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2wARr/9abIwG5QeNsrJ8GMt3Z/WICn
+
+        NeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRKsk0BfFSMh+4u3JAdD9tUxUx6AAUX
+
+        UCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80Xrrsu1PYATgrsy69stzCln3KlO5O
+
+        xc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9Pa3SNje4UXN+/1xUfQskxafP8CKVS
+
+        r8xxtwzSureiskb5/98moAiutpUtp15yyAm0rwIDAQABAoIBAA0PZh5OwAC4C4Bi
+
+        ZjyhFcmBUr8yL+Twvg3+WSIe5D2NCVFSmc9UbuUdmnaoIIlrf61p6Vo88VCMVfWR
+
+        Z3iFj0/AbJMAHxF0EM1nglLHlEdvM018ec+pbaPeq4LTeA/dfGgDmcyQ53b1lO30
+
+        KMt5st2PIpIDMX0tZTWmXbdP/rqplqiQmdwH0gv8PzEG6Y2ZVLBf5viH5IvVRpg7
+
+        9nDqLfe2W2ylFib+CtleX626xTUzGcJ0aqTRP1UkY4Jj5PI2/yVqttYPkvJtxZco
+
+        5/14AEMcu9FMBhADCSk/0y1TkKCGsi6/VNd78AB/RrZK32HfHCwTwxoXHQoaVKq6
+
+        hNQfokECgYEA+keGdVJrXMDylamARQdDe/nNgljqZZhfkKKYCGeckNqjp3iqfmld
+
+        /tqCPVxAO2mIo8dNNfM2MMv6loEPx9F2REe8k9NbWFrUZ486fMHPeO7WnHt92JyU
+
+        DtfJJSZ1GdCki1PthmpmP8WdoF6VpLvr5AgwuYKAzkMNth+OV/dvgqkCgYEA8EEe
+
+        E3mKvePHV/PVsLt6TaqJcZEKKu6L9EgeDyzv3zz4+2zG8MVctyUFyfSl4EIC/oJy
+
+        X0T5Tj1l4A3mPwZOJfQOkXnr9TaPNff1zjNx12RhUZjFtJU5V+Wn1ldtzs+XwCFc
+
+        x5O/B8LWYgV4bOixNlc6tTRq/m8Txvtde9vPa5cCgYEA3OOdnxRD31QHheFYbRPx
+
+        Eo0xPNae4VWvGmb2SYywmQPuplMQHot+Qvy1L9SoeAc3alzvHytta3nLy2NS+yc5
+
+        +x9ZJxrGJt/bUR8PHqarJu+ch/VR54ih/8uhImGjvknvv2wuWZC0d5pA+RYheofE
+
+        tLgp0MCGUATMKC4HokmmqCkCgYBEjoBTlFIn33CJw3WNyeGbefdgZb/eAlYDbfTN
+
+        5cfJDvAJZr/aAqdzR2hAecQ/mvaZw4V5dAgj8Fc6uRyjjVwNbngdwQm43km9X7VP
+
+        ktSAXw96Jjr8TbygPVNIUYhvBEPMOnjsJlfTkiB0thToFvpChF+nR37kfbPKCv5h
+
+        Epc8nwKBgQCdKyLi54Fm24nqEuZYbAxxGI9TVT7wJjoKGn64JWrXtX7xRltmJC3t
+
+        nLwNCojcbyG4kVB+Myzr2OEtFkO45j83GjrZ4O+jCuSj+AmCxEcc7xNA9cgu9usG
+
+        sQXdGmIIB0Cbk54OyHNdsZgZCXi9GTRF9uvYZKL9qktS+UZMJ1Xz/g==
+
+        -----END RSA PRIVATE KEY-----'
+      DRUPAL_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
+
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+
+        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+
+        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+
+        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+
+        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+
+        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+
+        rwIDAQAB
+
+        -----END PUBLIC KEY-----'
+    depends_on:
+      - activemq
+      - blazegraph
+      - fcrepo
+      - mariadb
+      - solr
+    volumes:
+      - solr-data:/opt/solr/server/solr:rw
+      - drupal-sites-data:/var/www/drupal/web/sites/default/files:rw
+    networks:
+      default:
+        aliases:
+        - islandora-isle-dc-traefik.me
+        - islandora-isle-dc.traefik.me
+      gateway: {}
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.drupal-redirectscheme.redirectscheme.permanent: "true"
+      traefik.http.middlewares.drupal-redirectscheme.redirectscheme.scheme: https
+      traefik.http.routers.isle-dc-drupal_http.entrypoints: http
+      traefik.http.routers.isle-dc-drupal_http.middlewares: drupal-redirectscheme
+      traefik.http.routers.isle-dc-drupal_http.rule: Host(`islandora-isle-dc.traefik.me`,`islandora-isle-dc-traefik.me`)
+      traefik.http.routers.isle-dc-drupal_http.service: isle-dc-drupal
+      traefik.http.routers.isle-dc-drupal_https.entrypoints: https
+      traefik.http.routers.isle-dc-drupal_https.rule: Host(`islandora-isle-dc.traefik.me`,`islandora-isle-dc-traefik.me`)
+      traefik.http.routers.isle-dc-drupal_https.tls: "true"
+      traefik.http.services.isle-dc-drupal.loadbalancer.server.port: '80'
+
+
+  fcrepo:
+    image: islandora/fcrepo:latest
+    # container_name: fcrepo    
+    environment:
+      FCREPO_ALLOW_EXTERNAL_DRUPAL: http://islandora-isle-dc.traefik.me/
+      FCREPO_DB_HOST: mariadb
+      FCREPO_DB_PASSWORD: password
+      FCREPO_DB_PORT: 3306
+      FCREPO_DB_ROOT_PASSWORD: password
+      FCREPO_JWT_ADMIN_TOKEN: islandora
+      FCREPO_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
+
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+
+        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+
+        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+
+        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+
+        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+
+        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+
+        rwIDAQAB
+
+        -----END PUBLIC KEY-----'
+      FCREPO_PERSISTENCE_TYPE: mysql
+    depends_on:
+      - activemq      
+    volumes:
+      - fcrepo-data:/data:rw
+    networks:
+      default:
+        aliases:
+        - fcrepo-isle-dc-traefik.me
+        - fcrepo-isle-dc.traefik.me
+      gateway: {}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-fcrepo_http.entrypoints: http
+      traefik.http.routers.isle-dc-fcrepo_http.service: isle-dc-fcrepo
+      traefik.http.services.isle-dc-fcrepo.loadbalancer.server.port: '80'
+
+
+  fits:
+    image: islandora/fits:latest
+    # container_name: fits    
+
+
+  gemini:
+    image: islandora/gemini:latest
+    # container_name: gemini
+    environment:
+      GEMINI_DB_DRIVER: pdo_mysql
+      GEMINI_DB_HOST: mariadb
+      GEMINI_DB_PASSWORD: password
+      GEMINI_DB_PORT: 3306
+      GEMINI_DB_ROOT_PASSWORD: password
+      GEMINI_JWT_ADMIN_TOKEN: islandora
+      GEMINI_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
+
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+
+        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+
+        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+
+        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+
+        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+
+        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+
+        rwIDAQAB
+
+        -----END PUBLIC KEY-----'
+
+
+  homarus:
+    image: islandora/homarus:latest
+    # container_name: homarus
+    environment:
+      HOMARUS_JWT_ADMIN_TOKEN: islandora
+      HOMARUS_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
+
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+
+        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+
+        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+
+        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+
+        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+
+        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+
+        rwIDAQAB
+
+        -----END PUBLIC KEY-----'
+
+
+  houdini:
+    image: islandora/houdini:latest
+    # container_name: houdini
+    environment:
+      HOUDINI_JWT_ADMIN_TOKEN: islandora
+      HOUDINI_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
+
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+
+        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+
+        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+
+        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+
+        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+
+        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+
+        rwIDAQAB
+
+        -----END PUBLIC KEY-----'
+
+
+  hypercube:
+    image: islandora/hypercube:latest
+    # container_name: hypercube
+    environment:
+      HYPERCUBE_JWT_ADMIN_TOKEN: islandora
+      HYPERCUBE_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
+
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+
+        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+
+        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+
+        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+
+        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+
+        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+
+        rwIDAQAB
+
+        -----END PUBLIC KEY-----'
+
+
+  mariadb:
+    image: islandora/mariadb:latest
+    # container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      default:
+        aliases:
+        - mariadb-isle-dc-traefik.me
+        - mariadb-isle-dc.traefik.me
+      gateway: {}
+    volumes:
+      - mariadb-data:/var/lib/mysql:rw
+      - mariadb-files:/var/lib/mysql-files:rw
+    labels:
+      traefik.enable: "true"
+      traefik.tcp.routers.isle-dc-mysql_tcp.entrypoints: mysql
+      traefik.tcp.routers.isle-dc-mysql_tcp.rule: HostSNI(`*`)
+      traefik.tcp.routers.isle-dc-mysql_tcp.service: isle-dc-mysql
+      traefik.tcp.services.isle-dc-mysql.loadbalancer.server.port: '3306'
+
+
+  matomo:
+    image: islandora/matomo:latest
+    # container_name: matomo
+    environment:
+      MATOMO_DB_PASSWORD: password
+      MATOMO_DB_ROOT_PASSWORD: password
+      MATOMO_SITE_HOST: islandora-isle-dc.traefik.me
+      MATOMO_SITE_TIMEZONE: America/Halifax
+      MATOMO_USER_EMAIL: admin@example.org
+      MATOMO_USER_PASS: $$2y$$10$$S38e7HPM9LI3aOIvcnRsfuMCm4ipNP572QsvbCK60upoHVJ61hMrS
+    networks:
+      default: {}
+      gateway: {}  
+    depends_on:
+      - mariadb
+    volumes:
+      - matomo-config-data:/var/www/matomo:rw  
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.isle-dc-matomo-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri: /matomo
+      traefik.http.middlewares.isle-dc-matomo-redirectscheme.redirectscheme.permanent: "true"
+      traefik.http.middlewares.isle-dc-matomo-redirectscheme.redirectscheme.scheme: https
+      traefik.http.middlewares.isle-dc-matomo-stripprefix.stripprefix.prefixes: /matomo
+      traefik.http.middlewares.isle-dc-matomo.chain.middlewares: isle-dc-matomo-stripprefix,isle-dc-matomo-customrequestheaders
+      traefik.http.routers.isle-dc-matomo_http.entrypoints: http
+      traefik.http.routers.isle-dc-matomo_http.middlewares: isle-dc-matomo-redirectscheme
+      traefik.http.routers.isle-dc-matomo_http.rule: Host(`islandora-isle-dc.traefik.me`,`islandora-isle-dc-traefik.me`) && PathPrefix(`/matomo`)
+      traefik.http.routers.isle-dc-matomo_http.service: isle-dc-matomo
+      traefik.http.routers.isle-dc-matomo_https.entrypoints: https
+      traefik.http.routers.isle-dc-matomo_https.middlewares: isle-dc-matomo
+      traefik.http.routers.isle-dc-matomo_https.rule: Host(`islandora-isle-dc.traefik.me`,`islandora-isle-dc-traefik.me`) && PathPrefix(`/matomo`)
+      traefik.http.routers.isle-dc-matomo_https.tls: "true"
+      traefik.http.services.isle-dc-matomo.loadbalancer.server.port: '80'
+
+
+  milliner:
+    image: islandora/milliner:latest
+    # container_name: milliner
+
+
+  recast:
+    image: islandora/recast:latest
+    # container_name: recast
+    environment:
+      RECAST_JWT_ADMIN_TOKEN: islandora
+      RECAST_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
+
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
+
+        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
+
+        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
+
+        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
+
+        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
+
+        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
+
+        rwIDAQAB
+
+        -----END PUBLIC KEY-----'
+
+
+  solr:
+    image: islandora/solr:latest
+    # container_name: solr
+    networks:
+      default:
+        aliases:
+        - solr-isle-dc-traefik.me
+        - solr-isle-dc.traefik.me
+      gateway: {}
+    volumes:
+      - solr-data:/opt/solr/server/solr:rw
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-solr_http.entrypoints: http
+      traefik.http.routers.isle-dc-solr_http.service: isle-dc-solr
+      traefik.http.services.isle-dc-solr.loadbalancer.server.port: '8983'
+
+
+  traefik:
+    image: traefik:2.2.1
+    container_name: traefik
+    command: 
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--api.debug=true"
+      - "--entryPoints.http.address=:80"
+      - "--entryPoints.https.address=:443"
+      - "--entryPoints.mysql.address=:3306"
+      - "--entryPoints.postgresql.address=:5432"
+      - "--providers.docker"
+      - "--providers.docker.network=gateway"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.filename=/etc/traefik/tls.yml"
+      - "--providers.docker.defaultRule=Host(`{{ index .Labels \"com.docker.compose.service\" }}-{{ index .Labels \"com.docker.compose.project\"}}.traefik.me`,`{{ index .Labels \"com.docker.compose.service\" }}-{{ index .Labels \"com.docker.compose.project\" }}-traefik.me`)"
+    networks:
+      gateway: {}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "3306:3306"
+      - "5432:5432"
+      - "8080:8080"
+    volumes:
+      - /home/gavin/Projects/Born-Digital/i8/isle-dc/certs:/etc/ssl/traefik:rw
+      - /home/gavin/Projects/Born-Digital/i8/isle-dc/tls.yml:/etc/traefik/tls.yml:rw
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    labels:
+      traefik.http.routers.api.service: api@internal
+
+
+  watchtower:
+    image: v2tec/watchtower
+    command: 
+      - "--interval 1 --no-pull"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+
+
+networks:
+  default:
+    internal: true
+  gateway:
+    driver: bridge
+    internal: false
+    name: gateway
+
+
+volumes:
+  activemq-data: {}
+  blazegraph-data: {}
+  cantaloupe-data: {}
+  drupal-sites-data: {}
+  fcrepo-data: {}
+  mariadb-data: {}
+  mariadb-files: {}
+  matomo-config-data: {}
+  solr-data: {}
