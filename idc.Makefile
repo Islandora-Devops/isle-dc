@@ -98,3 +98,11 @@ start:
 	docker-compose up -d
 	sleep 5
 	docker-compose exec drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to start ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
+
+.PHONY: drupal-image
+.SILENT: drupal-image
+drupal-image:
+	DRUPAL_TAG=`git describe --tags` && \
+	    docker build --build-arg REPOSITORY=${REPOSITORY} \
+	    --build-arg TAG=${TAG}\
+	    -t ${REPOSITORY}/drupal-static:$${DRUPAL_TAG} .
