@@ -17,13 +17,16 @@ services:
       traefik.http.middlewares.activemq-redirectscheme.redirectscheme.scheme: https
       traefik.http.routers.isle-dc-activemq_http.entrypoints: http
       traefik.http.routers.isle-dc-activemq_http.middlewares: activemq-redirectscheme
-      traefik.http.routers.isle-dc-activemq_http.rule: Host(`$DOMAIN`) && PathPrefix(`/activemq`)
+      traefik.http.routers.isle-dc-activemq_http.rule: Host(`$DOMAIN`) && PathPrefix(`/admin`)
       traefik.http.routers.isle-dc-activemq_http.service: isle-dc-activemq
       traefik.http.routers.isle-dc-activemq_https.entrypoints: https
       traefik.http.routers.isle-dc-activemq_https.middlewares: isle-dc-activemq      
-      traefik.http.routers.isle-dc-activemq_https.rule: Host(`$DOMAIN`) && PathPrefix(`/activemq`)
+      traefik.http.routers.isle-dc-activemq_https.rule: Host(`$DOMAIN`) && PathPrefix(`/admin`)
       traefik.http.routers.isle-dc-activemq_https.tls: "true"
       traefik.http.services.isle-dc-activemq.loadbalancer.server.port: '8161'
+      traefik.http.middlewares.isle-dc-activemq-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri: /admin
+      traefik.http.middlewares.isle-dc-activemq-stripprefix.stripprefix.prefixes: /admin
+      traefik.http.middlewares.isle-dc-activemq.chain.middlewares: isle-dc-activemq-stripprefix,isle-dc-activemq-customrequestheaders
 
 
   alpaca:
@@ -38,9 +41,9 @@ services:
       - blazegraph-data:/data:rw
     networks:
       default:
-      #  aliases:
-      #  - blazegraph-isle-dc-$DOMAIN
-      #  - blazegraph-isle-dc.$DOMAIN
+        aliases:
+        - blazegraph-isle-dc-$DOMAIN
+        - blazegraph-isle-dc.$DOMAIN
       gateway: {}
     labels:
       traefik.enable: "true"
@@ -142,9 +145,9 @@ services:
       - fcrepo-data:/data:rw
     networks:
       default:
-    #    aliases:
-    #    - fcrepo-isle-dc-$DOMAIN
-    #    - fcrepo-isle-dc.$DOMAIN
+        aliases:
+        - fcrepo-isle-dc-$DOMAIN
+        - fcrepo-isle-dc.$DOMAIN
       gateway: {}
     labels:
       traefik.enable: "true"
