@@ -16,6 +16,11 @@ volumes:
   solr-data:
 services:
   drupal:
+    build:
+      context: .
+      args:
+        TAG: ${TAG}
+        REPOSITORY: ${REPOSITORY}
     image: ${REPOSITORY}/drupal-static:${DRUPAL_STATIC_TAG}
     environment:
       DRUPAL_INSTANCE: static

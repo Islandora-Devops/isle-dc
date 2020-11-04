@@ -117,9 +117,7 @@ static-drupal-image:
 	EXISTING=`docker images -q $$IMAGE` ; \
 	if test -z "$$EXISTING" ; then \
 	    docker pull $${IMAGE} 2>/dev/null || \
-	    docker build --build-arg REPOSITORY=${REPOSITORY} \
-	        --build-arg TAG=${TAG} \
-	        -t ${REPOSITORY}/drupal-static:${GIT_TAG} . ; \
+	    docker-compose build drupal ; \
 	else \
 	    echo "Using existing Drupal image $${EXISTING}" ; \
 	fi
