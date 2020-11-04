@@ -51,6 +51,16 @@ so no need to do anything special other than `make` to invoke them).  A few usef
 * **make snapshot** Create a snapshot of the current Drupal state (db, content files, etc), so that you can reset to this state at will, or push it so that others can.
 * **make up** Brings up the development environment, including running `composer install`.
 
+A few specialized targets are:
+
+* **make static-docker-compose.yml** Make a docker-compose.yml based off non-development "static" environment.  Notably:
+  * A `drupal-static` image is built or pulled, which has `codebase` baked in, and is used in place of the normal `drupal` image
+  * `codebase` is no longer bind mounted
+* **make static-drupal-image** builds (or pulls, if published) a "static" drupal image suitable for deployment in the cloud.  This image:
+  * Has the contents of `codebase` baked into it, as well as all dependencies via `composer install`
+  * Will load its config from `config/sync` upon startup
+  * Is named `drupal-static` and is tagged based on `git describe --tags`.  
+
 ## Snapshots
 
 Snapshots are Docker images that contain Drupal state (content files, database, SOLR indexes, Fedora files, etc).  When Docker starts,
