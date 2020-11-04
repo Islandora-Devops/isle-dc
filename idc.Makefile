@@ -1,4 +1,5 @@
 .DEFAULT_GOAL := default
+GIT_TAG := $(shell git describe --tags)
 
 # Bootstrap a new instance without Fedora.  Assumes there is a Drupal site in ./codebase.
 # Will do a clean Drupal install and initialization
@@ -99,10 +100,41 @@ start:
 	sleep 5
 	docker-compose exec drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to start ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
 
-.PHONY: drupal-image
-.SILENT: drupal-image
-drupal-image:
-	DRUPAL_TAG=`git describe --tags` && \
+# Static drupal image, with codebase baked in.  This image
+# is tagged based on the current git hash/tag.  If the image is not present
+# locally, nor pullable, then this is built locally.  Ultimately, this image is 
+# intended be published to cloud instances of the stack
+.PHONY: static-drupal-image
+.SILENT: static-drupal-image
+static-drupal-image:
+	IMAGE=${REPOSITORY}/drupal-static:${GIT_TAG} ; \
+	EXISTING=`docker images -q $$IMAGE` ; \
+	if test -z "$$EXISTING" ; then \
+	    docker pull $${IMAGE} 2>/dev/null || \
 	    docker build --build-arg REPOSITORY=${REPOSITORY} \
-	    --build-arg TAG=${TAG}\
-	    -t ${REPOSITORY}/drupal-static:$${DRUPAL_TAG} .
+	        --build-arg TAG=${TAG} \
+	        -t ${REPOSITORY}/drupal-static:${GIT_TAG} . ; \
+	else \
+	    echo "Using existing Drupal image $${EXISTING}" ; \
+	fi
+
+
+# Build a docker-compose file that will run the whole stack, except with
+# the static drupal image rather than the dev drupal image + codebase bind mount.  
+.SILENT: static-docker-compose.yml
+.PHONY: static-docker-compose.yml 
+static-docker-compose.yml: static-drupal-image
+	-rm -f docker-compose.yml
+	echo '' > .env_static && \
+	    while read line; do \
+		if echo $$line | grep -q "ENVIRONMENT" ; then \
+			echo "ENVIRONMENT=static" >> .env_static ; \
+		else \
+			echo $$line >> .env_static ; \
+		fi \
+	    done < .env && \
+	    echo DRUPAL_STATIC_TAG=${GIT_TAG} >> .env_static
+	mv .env .env.bak
+	mv .env_static .env
+	$(MAKE) docker-compose.yml || mv .env.bak .env
+	if [ -f .env.bak ] ; then mv .env.bak .env ; fi
