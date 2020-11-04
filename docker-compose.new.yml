@@ -13,8 +13,16 @@ services:
       gateway: {}
     labels:
       traefik.enable: "true"
+      traefik.http.middlewares.activemq-redirectscheme.redirectscheme.permanent: "true"
+      traefik.http.middlewares.activemq-redirectscheme.redirectscheme.scheme: https
       traefik.http.routers.isle-dc-activemq_http.entrypoints: http
+      traefik.http.routers.isle-dc-activemq_http.middlewares: activemq-redirectscheme
+      traefik.http.routers.isle-dc-activemq_http.rule: Host(`$DOMAIN`) && PathPrefix(`/activemq`)
       traefik.http.routers.isle-dc-activemq_http.service: isle-dc-activemq
+      traefik.http.routers.isle-dc-activemq_https.entrypoints: https
+      traefik.http.routers.isle-dc-activemq_https.middlewares: isle-dc-activemq      
+      traefik.http.routers.isle-dc-activemq_https.rule: Host(`$DOMAIN`) && PathPrefix(`/activemq`)
+      traefik.http.routers.isle-dc-activemq_https.tls: "true"
       traefik.http.services.isle-dc-activemq.loadbalancer.server.port: '8161'
 
 
@@ -30,14 +38,22 @@ services:
       - blazegraph-data:/data:rw
     networks:
       default:
-        aliases:
-        - blazegraph-isle-dc-$DOMAIN
-        - blazegraph-isle-dc.$DOMAIN
+      #  aliases:
+      #  - blazegraph-isle-dc-$DOMAIN
+      #  - blazegraph-isle-dc.$DOMAIN
       gateway: {}
     labels:
       traefik.enable: "true"
+      traefik.http.middlewares.blazegraph-redirectscheme.redirectscheme.permanent: "true"
+      traefik.http.middlewares.blazegraph-redirectscheme.redirectscheme.scheme: https
       traefik.http.routers.isle-dc-blazegraph_http.entrypoints: http
+      traefik.http.routers.isle-dc-blazegraph_http.middlewares: blazegraph-redirectscheme
+      traefik.http.routers.isle-dc-blazegraph_http.rule: Host(`$DOMAIN`) && PathPrefix(`/bigdata`)
       traefik.http.routers.isle-dc-blazegraph_http.service: isle-dc-blazegraph
+      traefik.http.routers.isle-dc-blazegraph_https.entrypoints: https
+      traefik.http.routers.isle-dc-blazegraph_https.middlewares: isle-dc-blazegraph      
+      traefik.http.routers.isle-dc-blazegraph_https.rule: Host(`$DOMAIN`) && PathPrefix(`/bigdata`)
+      traefik.http.routers.isle-dc-blazegraph_https.tls: "true"
       traefik.http.services.isle-dc-blazegraph.loadbalancer.server.port: '80'
 
 
@@ -58,6 +74,7 @@ services:
       traefik.http.routers.isle-dc-cantaloupe_http.rule: Host(`$DOMAIN`) && PathPrefix(`/cantaloupe`)
       traefik.http.routers.isle-dc-cantaloupe_http.service: isle-dc-cantaloupe
       traefik.http.routers.isle-dc-cantaloupe_https.entrypoints: https
+      traefik.http.routers.isle-dc-cantaloupe_https.middlewares: isle-dc-cantaloupe    
       traefik.http.routers.isle-dc-cantaloupe_https.rule: Host(`$DOMAIN`) && PathPrefix(`/cantaloupe`)
       traefik.http.routers.isle-dc-cantaloupe_https.tls: "true"
       traefik.http.services.isle-dc-cantaloupe.loadbalancer.server.port: '80'
@@ -105,6 +122,7 @@ services:
       traefik.http.routers.isle-dc-drupal_http.rule: Host(`$DOMAIN`)
       traefik.http.routers.isle-dc-drupal_http.service: isle-dc-drupal
       traefik.http.routers.isle-dc-drupal_https.entrypoints: https
+      traefik.http.routers.isle-dc-drupal_https.middlewares: isle-dc-drupal      
       traefik.http.routers.isle-dc-drupal_https.rule: Host(`$DOMAIN`)
       traefik.http.routers.isle-dc-drupal_https.tls: "true"
       traefik.http.services.isle-dc-drupal.loadbalancer.server.port: '80'
@@ -124,14 +142,25 @@ services:
       - fcrepo-data:/data:rw
     networks:
       default:
-        aliases:
-        - fcrepo-isle-dc-$DOMAIN
-        - fcrepo-isle-dc.$DOMAIN
+    #    aliases:
+    #    - fcrepo-isle-dc-$DOMAIN
+    #    - fcrepo-isle-dc.$DOMAIN
       gateway: {}
     labels:
       traefik.enable: "true"
+      traefik.http.middlewares.fcrepo-redirectscheme.redirectscheme.permanent: "true"
+      traefik.http.middlewares.fcrepo-redirectscheme.redirectscheme.scheme: https
       traefik.http.routers.isle-dc-fcrepo_http.entrypoints: http
+      traefik.http.routers.isle-dc-fcrepo_http.middlewares: fcrepo-redirectscheme
+      traefik.http.routers.isle-dc-fcrepo_http.rule: Host(`$DOMAIN`) && PathPrefix(`/fcrepo/rest`)
       traefik.http.routers.isle-dc-fcrepo_http.service: isle-dc-fcrepo
+      traefik.http.routers.isle-dc-fcrepo_https.entrypoints: https
+      traefik.http.routers.isle-dc-fcrepo_https.middlewares: isle-dc-fcrepo
+      traefik.http.routers.isle-dc-fcrepo_https.rule: Host(`$DOMAIN`) && PathPrefix(`/fcrepo/rest`)
+      traefik.http.routers.isle-dc-fcrepo_https.tls: "true"  
+      #traefik.http.middlewares.isle-dc-fcrepo-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri: /fcrepo/rest
+      #traefik.http.middlewares.isle-dc-fcrepo-stripprefix.stripprefix.prefixes: /fcrepo/rest
+      #traefik.http.middlewares.isle-dc-fcrepo.chain.middlewares: isle-dc-fcrepo-stripprefix,isle-dc-fcrepo-customrequestheaders
       traefik.http.services.isle-dc-fcrepo.loadbalancer.server.port: '80'
 
 
@@ -231,16 +260,24 @@ services:
     # container_name: solr
     networks:
       default:
-        aliases:
-        - solr-isle-dc-$DOMAIN
-        - solr-isle-dc.$DOMAIN
+      #  aliases:
+      #  - solr-isle-dc-$DOMAIN
+      #  - solr-isle-dc.$DOMAIN
       gateway: {}
     volumes:
       - solr-data:/opt/solr/server/solr:rw
     labels:
       traefik.enable: "true"
+      traefik.http.middlewares.solr-redirectscheme.redirectscheme.permanent: "true"
+      traefik.http.middlewares.solr-redirectscheme.redirectscheme.scheme: https
       traefik.http.routers.isle-dc-solr_http.entrypoints: http
+      traefik.http.routers.isle-dc-solr_http.middlewares: solr-redirectscheme
+      traefik.http.routers.isle-dc-solr_http.rule: Host(`$DOMAIN`) && PathPrefix(`/solr`)
       traefik.http.routers.isle-dc-solr_http.service: isle-dc-solr
+      traefik.http.routers.isle-dc-solr_https.entrypoints: https
+      traefik.http.routers.isle-dc-solr_https.middlewares: isle-dc-solr      
+      traefik.http.routers.isle-dc-solr_https.rule: Host(`$DOMAIN`) && PathPrefix(`/solr`)
+      traefik.http.routers.isle-dc-solr_https.tls: "true"
       traefik.http.services.isle-dc-solr.loadbalancer.server.port: '8983'
 
 
