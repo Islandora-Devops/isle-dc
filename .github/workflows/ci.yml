@@ -28,7 +28,7 @@ jobs:
               run: docker-compose down -v && make static-docker-compose.yml up
 
             # Log in to Docker, if we have the secrets
-            - name: Login
+            - name: Docker Login
               if: ${{ env.DOCKER_USER != null }}
               uses: docker/login-action@v1
               with:
@@ -39,4 +39,4 @@ jobs:
             # Push docker images
             - name: Docker Push
               if:  ${{ env.DOCKER_USER != null }}
-              run: docker-compose push drupal-static
+              run: docker-compose push drupal
