@@ -6,9 +6,6 @@ services:
   activemq:
     image: islandora/activemq:latest
     # container_name: activemq
-    environment:
-      ACTIVEMQ_PASSWORD: password
-      ACTIVEMQ_WEB_ADMIN_PASSWORD: password
     volumes:
       - activemq-data:/opt/activemq/data:rw
     networks:
@@ -24,9 +21,6 @@ services:
   alpaca:
     image: islandora/alpaca:latest  
      # container_name: alpaca
-    environment:
-      ALPACA_ACTIVEMQ_PASSWORD: password
-      ALPACA_KARAF_ADMIN_PASSWORD: password
 
 
   blazegraph:
@@ -80,88 +74,13 @@ services:
     image: islandora/demo:latest
     # container_name: drupal    
     environment:
-      DRUPAL_DEFAULT_ACCOUNT_EMAIL: admin@example.org
-      DRUPAL_DEFAULT_ACCOUNT_PASSWORD: password
       DRUPAL_DEFAULT_CANTALOUPE_URL: https://$DOMAIN/cantaloupe/iiif/2
       DRUPAL_DEFAULT_DB_DRIVER: mysql
       DRUPAL_DEFAULT_DB_HOST: mariadb-isle-dc.traefik.me
-      DRUPAL_DEFAULT_DB_PASSWORD: password
       DRUPAL_DEFAULT_DB_PORT: 3306
-      DRUPAL_DEFAULT_DB_ROOT_PASSWORD: password
       DRUPAL_DEFAULT_FCREPO_HOST: fcrepo-isle-dc.traefik.me
       DRUPAL_DEFAULT_MATOMO_URL: https://$DOMAIN/matomo/
-      DRUPAL_DEFAULT_SALT: 9PPaL0CxZAIcq0l9wxgDGlCZrp7JdT_x7v9gVzpdbUjMt1PqDz3uD0Zy-i16DuJ1-Htuq5hqeg
       DRUPAL_DEFAULT_SITE_URL: http://$DOMAIN
-      DRUPAL_JWT_PRIVATE_KEY: '-----BEGIN RSA PRIVATE KEY-----
-
-        MIIEpAIBAAKCAQEA6uK3nozywVaRCAB3FHdRZNHunSZvN/c31QimZAqQMGxj7JrG
-
-        h1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2wARr/9abIwG5QeNsrJ8GMt3Z/WICn
-
-        NeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRKsk0BfFSMh+4u3JAdD9tUxUx6AAUX
-
-        UCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80Xrrsu1PYATgrsy69stzCln3KlO5O
-
-        xc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9Pa3SNje4UXN+/1xUfQskxafP8CKVS
-
-        r8xxtwzSureiskb5/98moAiutpUtp15yyAm0rwIDAQABAoIBAA0PZh5OwAC4C4Bi
-
-        ZjyhFcmBUr8yL+Twvg3+WSIe5D2NCVFSmc9UbuUdmnaoIIlrf61p6Vo88VCMVfWR
-
-        Z3iFj0/AbJMAHxF0EM1nglLHlEdvM018ec+pbaPeq4LTeA/dfGgDmcyQ53b1lO30
-
-        KMt5st2PIpIDMX0tZTWmXbdP/rqplqiQmdwH0gv8PzEG6Y2ZVLBf5viH5IvVRpg7
-
-        9nDqLfe2W2ylFib+CtleX626xTUzGcJ0aqTRP1UkY4Jj5PI2/yVqttYPkvJtxZco
-
-        5/14AEMcu9FMBhADCSk/0y1TkKCGsi6/VNd78AB/RrZK32HfHCwTwxoXHQoaVKq6
-
-        hNQfokECgYEA+keGdVJrXMDylamARQdDe/nNgljqZZhfkKKYCGeckNqjp3iqfmld
-
-        /tqCPVxAO2mIo8dNNfM2MMv6loEPx9F2REe8k9NbWFrUZ486fMHPeO7WnHt92JyU
-
-        DtfJJSZ1GdCki1PthmpmP8WdoF6VpLvr5AgwuYKAzkMNth+OV/dvgqkCgYEA8EEe
-
-        E3mKvePHV/PVsLt6TaqJcZEKKu6L9EgeDyzv3zz4+2zG8MVctyUFyfSl4EIC/oJy
-
-        X0T5Tj1l4A3mPwZOJfQOkXnr9TaPNff1zjNx12RhUZjFtJU5V+Wn1ldtzs+XwCFc
-
-        x5O/B8LWYgV4bOixNlc6tTRq/m8Txvtde9vPa5cCgYEA3OOdnxRD31QHheFYbRPx
-
-        Eo0xPNae4VWvGmb2SYywmQPuplMQHot+Qvy1L9SoeAc3alzvHytta3nLy2NS+yc5
-
-        +x9ZJxrGJt/bUR8PHqarJu+ch/VR54ih/8uhImGjvknvv2wuWZC0d5pA+RYheofE
-
-        tLgp0MCGUATMKC4HokmmqCkCgYBEjoBTlFIn33CJw3WNyeGbefdgZb/eAlYDbfTN
-
-        5cfJDvAJZr/aAqdzR2hAecQ/mvaZw4V5dAgj8Fc6uRyjjVwNbngdwQm43km9X7VP
-
-        ktSAXw96Jjr8TbygPVNIUYhvBEPMOnjsJlfTkiB0thToFvpChF+nR37kfbPKCv5h
-
-        Epc8nwKBgQCdKyLi54Fm24nqEuZYbAxxGI9TVT7wJjoKGn64JWrXtX7xRltmJC3t
-
-        nLwNCojcbyG4kVB+Myzr2OEtFkO45j83GjrZ4O+jCuSj+AmCxEcc7xNA9cgu9usG
-
-        sQXdGmIIB0Cbk54OyHNdsZgZCXi9GTRF9uvYZKL9qktS+UZMJ1Xz/g==
-
-        -----END RSA PRIVATE KEY-----'
-      DRUPAL_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
-
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
-
-        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
-
-        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
-
-        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
-
-        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
-
-        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
-
-        rwIDAQAB
-
-        -----END PUBLIC KEY-----'
     depends_on:
       - activemq
       - blazegraph
@@ -197,27 +116,7 @@ services:
     environment:
       FCREPO_ALLOW_EXTERNAL_DRUPAL: http://$DOMAIN/
       FCREPO_DB_HOST: mariadb
-      FCREPO_DB_PASSWORD: password
       FCREPO_DB_PORT: 3306
-      FCREPO_DB_ROOT_PASSWORD: password
-      FCREPO_JWT_ADMIN_TOKEN: islandora
-      FCREPO_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
-
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
-
-        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
-
-        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
-
-        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
-
-        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
-
-        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
-
-        rwIDAQAB
-
-        -----END PUBLIC KEY-----'
       FCREPO_PERSISTENCE_TYPE: mysql
     depends_on:
       - activemq      
@@ -247,99 +146,22 @@ services:
     environment:
       GEMINI_DB_DRIVER: pdo_mysql
       GEMINI_DB_HOST: mariadb
-      GEMINI_DB_PASSWORD: password
       GEMINI_DB_PORT: 3306
-      GEMINI_DB_ROOT_PASSWORD: password
-      GEMINI_JWT_ADMIN_TOKEN: islandora
-      GEMINI_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
-
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
-
-        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
-
-        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
-
-        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
-
-        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
-
-        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
-
-        rwIDAQAB
-
-        -----END PUBLIC KEY-----'
 
 
   homarus:
     image: islandora/homarus:latest
     # container_name: homarus
-    environment:
-      HOMARUS_JWT_ADMIN_TOKEN: islandora
-      HOMARUS_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
-
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
-
-        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
-
-        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
-
-        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
-
-        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
-
-        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
-
-        rwIDAQAB
-
-        -----END PUBLIC KEY-----'
-
+ 
 
   houdini:
     image: islandora/houdini:latest
     # container_name: houdini
-    environment:
-      HOUDINI_JWT_ADMIN_TOKEN: islandora
-      HOUDINI_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
-
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
-
-        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
-
-        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
-
-        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
-
-        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
-
-        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
-
-        rwIDAQAB
-
-        -----END PUBLIC KEY-----'
 
 
   hypercube:
     image: islandora/hypercube:latest
     # container_name: hypercube
-    environment:
-      HYPERCUBE_JWT_ADMIN_TOKEN: islandora
-      HYPERCUBE_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
-
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
-
-        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
-
-        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
-
-        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
-
-        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
-
-        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
-
-        rwIDAQAB
-
-        -----END PUBLIC KEY-----'
 
 
   mariadb:
@@ -368,12 +190,7 @@ services:
     image: islandora/matomo:latest
     # container_name: matomo
     environment:
-      MATOMO_DB_PASSWORD: password
-      MATOMO_DB_ROOT_PASSWORD: password
       MATOMO_SITE_HOST: $DOMAIN
-      MATOMO_SITE_TIMEZONE: America/Halifax
-      MATOMO_USER_EMAIL: admin@example.org
-      MATOMO_USER_PASS: $$2y$$10$$S38e7HPM9LI3aOIvcnRsfuMCm4ipNP572QsvbCK60upoHVJ61hMrS
     networks:
       default: {}
       gateway: {}  
@@ -407,25 +224,6 @@ services:
   recast:
     image: islandora/recast:latest
     # container_name: recast
-    environment:
-      RECAST_JWT_ADMIN_TOKEN: islandora
-      RECAST_JWT_PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----
-
-        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6uK3nozywVaRCAB3FHdR
-
-        ZNHunSZvN/c31QimZAqQMGxj7JrGh1LF8JRX+XAQ+CJcPD9r6xXjKSS1Gqa2Os2w
-
-        ARr/9abIwG5QeNsrJ8GMt3Z/WICnNeaFAkUVviwKWcA61iFJWvTDAuI0hCaxArRK
-
-        sk0BfFSMh+4u3JAdD9tUxUx6AAUXUCdtPyluaBd53wuB0r9xRlPnDw6I9QHfKK80
-
-        Xrrsu1PYATgrsy69stzCln3KlO5Oxc6O8OjMdjC2D2c3HmsO4CKPvvaVuaow/a9P
-
-        a3SNje4UXN+/1xUfQskxafP8CKVSr8xxtwzSureiskb5/98moAiutpUtp15yyAm0
-
-        rwIDAQAB
-
-        -----END PUBLIC KEY-----'
 
 
   solr:
@@ -480,6 +278,7 @@ services:
 
   watchtower:
     image: v2tec/watchtower
+    #container_name: watchtower
     command: 
       - "--interval 1 --no-pull"
     volumes:
