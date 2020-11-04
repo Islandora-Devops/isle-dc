@@ -58,6 +58,7 @@ reset: warning-destroy-state destroy-state
 	-rm -rf codebase/web/modules/contrib
 	-rm -rf codebase/web/themes/contrib
 	@echo "Re-generating docker-compose.yml"
+	-rm -rf docker-compose.yml
 	$(MAKE) docker-compose.yml
 	@echo "Starting ..."
 	@echo "Invoke 'docker-compose logs -f drupal' in another terminal to monitor startup progress"
@@ -97,8 +98,13 @@ up:  download-default-certs docker-compose.yml start
 .SILENT: start
 start:
 	docker-compose up -d
-	sleep 5
-	docker-compose exec drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to start ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
+	$(MAKE) wait-for-drupal
+
+.PHONY: wait-for-drupal
+.SILENT: wait-for-drupal
+wait-for-drupal:
+	while test -z `docker-compose ps -q drupal` ; do echo "Waiting for Drupal container to start"; sleep 5; done
+	docker-compose exec drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to load ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
 
 # Static drupal image, with codebase baked in.  This image
 # is tagged based on the current git hash/tag.  If the image is not present
