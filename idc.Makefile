@@ -104,7 +104,7 @@ start:
 .SILENT: wait-for-drupal
 wait-for-drupal:
 	while test -z `docker-compose ps -q drupal` ; do echo "Waiting for Drupal container to start"; sleep 5; done
-	docker-compose exec drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to load ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
+	docker-compose exec -T drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to load ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
 
 # Static drupal image, with codebase baked in.  This image
 # is tagged based on the current git hash/tag.  If the image is not present
