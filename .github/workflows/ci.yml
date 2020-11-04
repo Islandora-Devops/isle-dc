@@ -1,0 +1,42 @@
+name: CI
+on: push
+
+jobs:
+    everything:
+        name: Build, Test, or Deploy
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+        steps:
+            # Check out current commit
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            # Make sure buildkit is enabled
+            - name: Enable buildkit
+              shell: bash
+              run: |
+                  echo '{"experimental": "enabled"}' > ~/.docker/config.json
+            
+            # Initially run the development environment to make sure that succeeds
+            - name: Build Dev
+              run: make up
+    
+            # Build and run the static environment
+            - name: Build Static 
+              run: docker-compose down -v && make static-docker-compose.yml up
+
+            # Log in to Docker, if we have the secrets
+            - name: Login
+              if: ${{ env.DOCKER_USER != null }}
+              uses: docker/login-action@v1
+              with:
+                registry: ghcr.io
+                username: ${{ env.DOCKER_USER }}
+                password: ${{ secrets.DOCKER_PASS }}
+            
+            # Push docker images
+            - name: Docker Push
+              if:  ${{ env.DOCKER_USER != null }}
+              run: docker-compose push drupal-static
