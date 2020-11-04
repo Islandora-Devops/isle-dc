@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := default
-GIT_TAG := $(shell git describe --tags)
+GIT_TAG := $(shell git describe --tags --always)
 
 # Bootstrap a new instance without Fedora.  Assumes there is a Drupal site in ./codebase.
 # Will do a clean Drupal install and initialization
@@ -40,7 +40,7 @@ snapshot-image:
 		-v ${PWD}/snapshot:/dump \
 		alpine:latest \
 		/bin/tar cvf /dump/data.tar /data
-	TAG=`git describe --tags`.`date +%s` && \
+	TAG=${GIT_TAG}.`date +%s` && \
 		docker build -t ${REPOSITORY}/snapshot:$$TAG ./snapshot && \
 		cat .env | sed s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=$$TAG/ > /tmp/.env && \
 	  cp /tmp/.env .env && \
