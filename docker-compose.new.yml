@@ -31,8 +31,8 @@ services:
     networks:
       default:
         aliases:
-        - blazegraph-isle-dc-traefik.me
-        - blazegraph-isle-dc.traefik.me
+        - blazegraph-isle-dc-$DOMAIN
+        - blazegraph-isle-dc.$DOMAIN
       gateway: {}
     labels:
       traefik.enable: "true"
@@ -55,10 +55,10 @@ services:
       traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.scheme: https
       traefik.http.routers.isle-dc-cantaloupe_http.entrypoints: http
       traefik.http.routers.isle-dc-cantaloupe_http.middlewares: cantaloupe-redirectscheme
-      traefik.http.routers.isle-dc-cantaloupe_http.rule: Host(`$DOMAIN`,`islandora-isle-dc-traefik.me`) && PathPrefix(`/cantaloupe`)
+      traefik.http.routers.isle-dc-cantaloupe_http.rule: Host(`$DOMAIN`) && PathPrefix(`/cantaloupe`)
       traefik.http.routers.isle-dc-cantaloupe_http.service: isle-dc-cantaloupe
       traefik.http.routers.isle-dc-cantaloupe_https.entrypoints: https
-      traefik.http.routers.isle-dc-cantaloupe_https.rule: Host(`$DOMAIN`,`islandora-isle-dc-traefik.me`) && PathPrefix(`/cantaloupe`)
+      traefik.http.routers.isle-dc-cantaloupe_https.rule: Host(`$DOMAIN`) && PathPrefix(`/cantaloupe`)
       traefik.http.routers.isle-dc-cantaloupe_https.tls: "true"
       traefik.http.services.isle-dc-cantaloupe.loadbalancer.server.port: '80'
 
@@ -76,9 +76,9 @@ services:
     environment:
       DRUPAL_DEFAULT_CANTALOUPE_URL: https://$DOMAIN/cantaloupe/iiif/2
       DRUPAL_DEFAULT_DB_DRIVER: mysql
-      DRUPAL_DEFAULT_DB_HOST: mariadb-isle-dc.traefik.me
+      DRUPAL_DEFAULT_DB_HOST: mariadb-isle-dc.$DOMAIN
       DRUPAL_DEFAULT_DB_PORT: 3306
-      DRUPAL_DEFAULT_FCREPO_HOST: fcrepo-isle-dc.traefik.me
+      DRUPAL_DEFAULT_FCREPO_HOST: fcrepo-isle-dc.$DOMAIN
       DRUPAL_DEFAULT_MATOMO_URL: https://$DOMAIN/matomo/
       DRUPAL_DEFAULT_SITE_URL: http://$DOMAIN
     depends_on:
@@ -93,7 +93,7 @@ services:
     networks:
       default:
         aliases:
-        - islandora-isle-dc-traefik.me
+        - islandora-isle-dc-$DOMAIN
         - $DOMAIN
       gateway: {}
     labels:
@@ -102,10 +102,10 @@ services:
       traefik.http.middlewares.drupal-redirectscheme.redirectscheme.scheme: https
       traefik.http.routers.isle-dc-drupal_http.entrypoints: http
       traefik.http.routers.isle-dc-drupal_http.middlewares: drupal-redirectscheme
-      traefik.http.routers.isle-dc-drupal_http.rule: Host(`$DOMAIN`,`islandora-isle-dc-traefik.me`)
+      traefik.http.routers.isle-dc-drupal_http.rule: Host(`$DOMAIN`)
       traefik.http.routers.isle-dc-drupal_http.service: isle-dc-drupal
       traefik.http.routers.isle-dc-drupal_https.entrypoints: https
-      traefik.http.routers.isle-dc-drupal_https.rule: Host(`$DOMAIN`,`islandora-isle-dc-traefik.me`)
+      traefik.http.routers.isle-dc-drupal_https.rule: Host(`$DOMAIN`)
       traefik.http.routers.isle-dc-drupal_https.tls: "true"
       traefik.http.services.isle-dc-drupal.loadbalancer.server.port: '80'
 
@@ -125,8 +125,8 @@ services:
     networks:
       default:
         aliases:
-        - fcrepo-isle-dc-traefik.me
-        - fcrepo-isle-dc.traefik.me
+        - fcrepo-isle-dc-$DOMAIN
+        - fcrepo-isle-dc.$DOMAIN
       gateway: {}
     labels:
       traefik.enable: "true"
@@ -172,8 +172,8 @@ services:
     networks:
       default:
         aliases:
-        - mariadb-isle-dc-traefik.me
-        - mariadb-isle-dc.traefik.me
+        - mariadb-isle-dc-$DOMAIN
+        - mariadb-isle-dc.$DOMAIN
       gateway: {}
     volumes:
       - mariadb-data:/var/lib/mysql:rw
@@ -207,11 +207,11 @@ services:
       traefik.http.middlewares.isle-dc-matomo.chain.middlewares: isle-dc-matomo-stripprefix,isle-dc-matomo-customrequestheaders
       traefik.http.routers.isle-dc-matomo_http.entrypoints: http
       traefik.http.routers.isle-dc-matomo_http.middlewares: isle-dc-matomo-redirectscheme
-      traefik.http.routers.isle-dc-matomo_http.rule: Host(`$DOMAIN`,`islandora-isle-dc-traefik.me`) && PathPrefix(`/matomo`)
+      traefik.http.routers.isle-dc-matomo_http.rule: Host(`$DOMAIN`) && PathPrefix(`/matomo`)
       traefik.http.routers.isle-dc-matomo_http.service: isle-dc-matomo
       traefik.http.routers.isle-dc-matomo_https.entrypoints: https
       traefik.http.routers.isle-dc-matomo_https.middlewares: isle-dc-matomo
-      traefik.http.routers.isle-dc-matomo_https.rule: Host(`$DOMAIN`,`islandora-isle-dc-traefik.me`) && PathPrefix(`/matomo`)
+      traefik.http.routers.isle-dc-matomo_https.rule: Host(`$DOMAIN`) && PathPrefix(`/matomo`)
       traefik.http.routers.isle-dc-matomo_https.tls: "true"
       traefik.http.services.isle-dc-matomo.loadbalancer.server.port: '80'
 
@@ -232,8 +232,8 @@ services:
     networks:
       default:
         aliases:
-        - solr-isle-dc-traefik.me
-        - solr-isle-dc.traefik.me
+        - solr-isle-dc-$DOMAIN
+        - solr-isle-dc.$DOMAIN
       gateway: {}
     volumes:
       - solr-data:/opt/solr/server/solr:rw
@@ -259,7 +259,7 @@ services:
       - "--providers.docker.network=gateway"
       - "--providers.docker.exposedByDefault=false"
       - "--providers.file.filename=/etc/traefik/tls.yml"
-      - "--providers.docker.defaultRule=Host(`{{ index .Labels \"com.docker.compose.service\" }}-{{ index .Labels \"com.docker.compose.project\"}}.traefik.me`,`{{ index .Labels \"com.docker.compose.service\" }}-{{ index .Labels \"com.docker.compose.project\" }}-traefik.me`)"
+      - "--providers.docker.defaultRule=Host(`{{ index .Labels \"com.docker.compose.service\" }}-{{ index .Labels \"com.docker.compose.project\"}}.$DOMAIN`,`{{ index .Labels \"com.docker.compose.service\" }}-{{ index .Labels \"com.docker.compose.project\" }}-$DOMAIN`)"
     networks:
       gateway: {}
     ports:
