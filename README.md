@@ -201,7 +201,7 @@ Once this is done you can bring up your local site using `docker-compose`.
 docker-compose up -d
 ```
 
-At this point the site will not be installed. There are **two** was to do an
+At this point the site will not be installed. There are **two** ways to do an
 installation, from an existing configuration or in a stepwise fashion.
 
 **After** either of your chosen methods you will still need to update services
