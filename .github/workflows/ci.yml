@@ -27,6 +27,10 @@ jobs:
             - name: Build Static 
               run: docker-compose down -v && make static-docker-compose.yml up
 
+            # Run end-to-end tests
+            - name: End-To-End Tests
+              run: make test       
+
             # Log in to Docker, if we have the secrets
             - name: Docker Login
               if: ${{ env.DOCKER_USER != null }}
