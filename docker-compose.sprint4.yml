@@ -85,7 +85,6 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.isle-dc-drupal_http.entrypoints: http
-      traefik.http.routers.isle-dc-drupal_http.middlewares: drupal-redirectscheme
       traefik.http.routers.isle-dc-drupal_http.rule: Host(`$DOMAIN`)
       traefik.http.routers.isle-dc-drupal_http.service: isle-dc-drupal
       traefik.http.services.isle-dc-drupal.loadbalancer.server.port: '80'
@@ -180,7 +179,7 @@ services:
       traefik.http.middlewares.isle-dc-matomo-stripprefix.stripprefix.prefixes: /matomo
       #traefik.http.middlewares.isle-dc-matomo.chain.middlewares: isle-dc-matomo-stripprefix,isle-dc-matomo-customrequestheaders
       traefik.http.routers.isle-dc-matomo_http.entrypoints: http
-      traefik.http.routers.isle-dc-matomo_http.middlewares: isle-dc-matomo-redirectscheme
+      #traefik.http.routers.isle-dc-matomo_http.middlewares: isle-dc-matomo-redirectscheme
       traefik.http.routers.isle-dc-matomo_http.rule: Host(`$DOMAIN`) && PathPrefix(`/matomo`)
       traefik.http.routers.isle-dc-matomo_http.service: isle-dc-matomo
       #traefik.http.routers.isle-dc-matomo_https.entrypoints: https
@@ -210,7 +209,6 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.isle-dc-solr_http.entrypoints: http
-      traefik.http.routers.isle-dc-solr_http.middlewares: solr-redirectscheme
       traefik.http.routers.isle-dc-solr_http.rule: Host(`$DOMAIN`) && PathPrefix(`/solr`)
       traefik.http.routers.isle-dc-solr_http.service: isle-dc-solr
       traefik.http.services.isle-dc-solr.loadbalancer.server.port: '8983'
