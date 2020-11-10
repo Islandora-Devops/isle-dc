@@ -91,7 +91,7 @@ services:
 
   fcrepo:
     image: islandora/fcrepo:latest
-    # container_name: fcrepo    
+    #container_name: fcrepo
     environment:
       FCREPO_ALLOW_EXTERNAL_DRUPAL: http://$DOMAIN/
       FCREPO_DB_HOST: mariadb
@@ -103,7 +103,6 @@ services:
       - fcrepo-data:/data:rw
     networks:
       default:
-      gateway: {}
     labels:
       traefik.enable: "true"
       traefik.http.routers.isle-dc-fcrepo_http.entrypoints: http
