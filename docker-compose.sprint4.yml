@@ -18,9 +18,10 @@ services:
 
 
   alpaca:
-    image: islandora/alpaca:latest  
+    image: islandora/alpaca:latest
      # container_name: alpaca
-
+    networks:
+      default: {}
 
   blazegraph:
     image: islandora/blazegraph:latest
@@ -28,7 +29,7 @@ services:
     volumes:
       - blazegraph-data:/data:rw
     networks:
-      default:
+      default: {}
     labels:
       traefik.enable: "true"
       traefik.http.routers.isle-dc-blazegraph_http.entrypoints: http
@@ -55,7 +56,8 @@ services:
     # container_name: crayfits
     depends_on:
     - fits
-
+    networks:
+      default: {}
 
   drupal:
     image: islandora/demo:latest
@@ -102,7 +104,7 @@ services:
     volumes:
       - fcrepo-data:/data:rw
     networks:
-      default:
+      default: {}
     labels:
       traefik.enable: "true"
       traefik.http.routers.isle-dc-fcrepo_http.entrypoints: http
@@ -113,7 +115,8 @@ services:
   fits:
     image: islandora/fits:latest
     # container_name: fits    
-
+    networks:
+      default: {}
 
   gemini:
     image: islandora/gemini:latest
@@ -122,22 +125,26 @@ services:
       GEMINI_DB_DRIVER: pdo_mysql
       GEMINI_DB_HOST: mariadb
       GEMINI_DB_PORT: 3306
-
+    networks:
+      default: {}
 
   homarus:
     image: islandora/homarus:latest
     # container_name: homarus
- 
+    networks:
+      default: {} 
 
   houdini:
     image: islandora/houdini:latest
     # container_name: houdini
-
+    networks:
+      default: {}
 
   hypercube:
     image: islandora/hypercube:latest
     # container_name: hypercube
-
+    networks:
+      default: {}
 
   mariadb:
     image: islandora/mariadb:latest
@@ -145,7 +152,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
     networks:
-      default:
+      default: {}
     volumes:
       - mariadb-data:/var/lib/mysql:rw
       - mariadb-files:/var/lib/mysql-files:rw
@@ -189,18 +196,20 @@ services:
   milliner:
     image: islandora/milliner:latest
     # container_name: milliner
-
+    networks:
+      default: {}
 
   recast:
     image: islandora/recast:latest
     # container_name: recast
-
+    networks:
+      default: {}
 
   solr:
     image: islandora/solr:latest
     # container_name: solr
     networks:
-      default:
+      default: {}
     volumes:
       - solr-data:/opt/solr/server/solr:rw
     labels:
@@ -253,17 +262,19 @@ services:
     #container_name: watchtower
     command: 
       - "--interval 1 --no-pull"
+    networks:
+      default: {}      
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw
 
 
 networks:
   default:
-  #  internal: true
+    internal: true
   gateway:
-  #  driver: bridge
-  #  internal: false
-  #  name: gateway
+    driver: bridge
+    internal: false
+    name: gateway
 
 
 volumes:
