@@ -1,0 +1,283 @@
+version: '3.7'
+
+services:
+
+
+  activemq:
+    image: islandora/activemq:latest
+    # container_name: activemq
+    volumes:
+      - activemq-data:/opt/activemq/data:rw
+    networks:
+      default: {}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-activemq_http.entrypoints: http
+      traefik.http.routers.isle-dc-activemq_http.service: isle-dc-activemq
+      traefik.http.services.isle-dc-activemq.loadbalancer.server.port: '8161'
+
+
+  alpaca:
+    image: islandora/alpaca:latest  
+     # container_name: alpaca
+
+
+  blazegraph:
+    image: islandora/blazegraph:latest
+    # container_name: blazegraph
+    volumes:
+      - blazegraph-data:/data:rw
+    networks:
+      default:
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-blazegraph_http.entrypoints: http
+      traefik.http.routers.isle-dc-blazegraph_http.service: isle-dc-blazegraph
+      traefik.http.services.isle-dc-blazegraph.loadbalancer.server.port: '9999'
+
+
+  cantaloupe:
+    image: islandora/cantaloupe:latest
+    # container_name: cantaloupe
+    volumes:
+      - cantaloupe-data:/data:rw
+    networks:
+      default: {}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-cantaloupe_http.entrypoints: http
+      traefik.http.routers.isle-dc-cantaloupe_http.rule: Host(`$DOMAIN`) && PathPrefix(`/cantaloupe`)
+      traefik.http.routers.isle-dc-cantaloupe_http.service: isle-dc-cantaloupe
+      traefik.http.services.isle-dc-cantaloupe.loadbalancer.server.port: '8081'
+
+
+  crayfits:
+    image: islandora/crayfits:latest
+    # container_name: crayfits
+    depends_on:
+    - fits
+
+
+  drupal:
+    image: islandora/demo:latest
+    # container_name: drupal    
+    environment:
+      DRUPAL_DEFAULT_CANTALOUPE_URL: https://$DOMAIN/cantaloupe/iiif/2
+      DRUPAL_DEFAULT_DB_DRIVER: mysql
+      DRUPAL_DEFAULT_DB_HOST: mariadb-isle-dc.$DOMAIN
+      DRUPAL_DEFAULT_DB_PORT: 3306
+      DRUPAL_DEFAULT_FCREPO_HOST: fcrepo-isle-dc.$DOMAIN
+      DRUPAL_DEFAULT_MATOMO_URL: https://$DOMAIN/matomo/
+      DRUPAL_DEFAULT_SITE_URL: http://$DOMAIN
+      DRUPAL_DEFAULT_ACTIVEMQ_URL: http://$DOMAIN/admin
+    depends_on:
+      - activemq
+      - blazegraph
+      - fcrepo
+      - mariadb
+      - solr
+    volumes:
+      - solr-data:/opt/solr/server/solr:rw
+      - drupal-sites-data:/var/www/drupal/web/sites/default/files:rw
+    networks:
+      default:
+      gateway: {}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-drupal_http.entrypoints: http
+      traefik.http.routers.isle-dc-drupal_http.middlewares: drupal-redirectscheme
+      traefik.http.routers.isle-dc-drupal_http.rule: Host(`$DOMAIN`)
+      traefik.http.routers.isle-dc-drupal_http.service: isle-dc-drupal
+      traefik.http.services.isle-dc-drupal.loadbalancer.server.port: '80'
+
+
+  fcrepo:
+    image: islandora/fcrepo:latest
+    # container_name: fcrepo    
+    environment:
+      FCREPO_ALLOW_EXTERNAL_DRUPAL: http://$DOMAIN/
+      FCREPO_DB_HOST: mariadb
+      FCREPO_DB_PORT: 3306
+      FCREPO_PERSISTENCE_TYPE: mysql
+    depends_on:
+      - activemq      
+    volumes:
+      - fcrepo-data:/data:rw
+    networks:
+      default:
+      gateway: {}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-fcrepo_http.entrypoints: http
+      traefik.http.routers.isle-dc-fcrepo_http.rule: Host(`$DOMAIN`) && PathPrefix(`/fcrepo/rest`)
+      traefik.http.routers.isle-dc-fcrepo_http.service: isle-dc-fcrepo
+      traefik.http.services.isle-dc-fcrepo.loadbalancer.server.port: '80'
+
+
+  fits:
+    image: islandora/fits:latest
+    # container_name: fits    
+
+
+  gemini:
+    image: islandora/gemini:latest
+    # container_name: gemini
+    environment:
+      GEMINI_DB_DRIVER: pdo_mysql
+      GEMINI_DB_HOST: mariadb
+      GEMINI_DB_PORT: 3306
+
+
+  homarus:
+    image: islandora/homarus:latest
+    # container_name: homarus
+ 
+
+  houdini:
+    image: islandora/houdini:latest
+    # container_name: houdini
+
+
+  hypercube:
+    image: islandora/hypercube:latest
+    # container_name: hypercube
+
+
+  mariadb:
+    image: islandora/mariadb:latest
+    # container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      default:
+    volumes:
+      - mariadb-data:/var/lib/mysql:rw
+      - mariadb-files:/var/lib/mysql-files:rw
+    labels:
+      traefik.enable: "true"
+      traefik.tcp.routers.isle-dc-mysql_tcp.entrypoints: mysql
+      traefik.tcp.routers.isle-dc-mysql_tcp.rule: HostSNI(`*`)
+      traefik.tcp.routers.isle-dc-mysql_tcp.service: isle-dc-mysql
+      traefik.tcp.services.isle-dc-mysql.loadbalancer.server.port: '3306'
+
+
+  matomo:
+    image: islandora/matomo:latest
+    # container_name: matomo
+    environment:
+      MATOMO_SITE_HOST: $DOMAIN
+    networks:
+      default: {}
+    depends_on:
+      - mariadb
+    volumes:
+      - matomo-config-data:/var/www/matomo:rw  
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.isle-dc-matomo-customrequestheaders.headers.customrequestheaders.X-Forwarded-Uri: /matomo
+      #traefik.http.middlewares.isle-dc-matomo-redirectscheme.redirectscheme.permanent: "true"
+      #traefik.http.middlewares.isle-dc-matomo-redirectscheme.redirectscheme.scheme: https
+      traefik.http.middlewares.isle-dc-matomo-stripprefix.stripprefix.prefixes: /matomo
+      #traefik.http.middlewares.isle-dc-matomo.chain.middlewares: isle-dc-matomo-stripprefix,isle-dc-matomo-customrequestheaders
+      traefik.http.routers.isle-dc-matomo_http.entrypoints: http
+      traefik.http.routers.isle-dc-matomo_http.middlewares: isle-dc-matomo-redirectscheme
+      traefik.http.routers.isle-dc-matomo_http.rule: Host(`$DOMAIN`) && PathPrefix(`/matomo`)
+      traefik.http.routers.isle-dc-matomo_http.service: isle-dc-matomo
+      #traefik.http.routers.isle-dc-matomo_https.entrypoints: https
+      #traefik.http.routers.isle-dc-matomo_https.middlewares: isle-dc-matomo
+      #traefik.http.routers.isle-dc-matomo_https.rule: Host(`$DOMAIN`) && PathPrefix(`/matomo`)
+      #traefik.http.routers.isle-dc-matomo_https.tls: "true"
+      traefik.http.services.isle-dc-matomo.loadbalancer.server.port: '80'
+
+
+  milliner:
+    image: islandora/milliner:latest
+    # container_name: milliner
+
+
+  recast:
+    image: islandora/recast:latest
+    # container_name: recast
+
+
+  solr:
+    image: islandora/solr:latest
+    # container_name: solr
+    networks:
+      default:
+    volumes:
+      - solr-data:/opt/solr/server/solr:rw
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.isle-dc-solr_http.entrypoints: http
+      traefik.http.routers.isle-dc-solr_http.middlewares: solr-redirectscheme
+      traefik.http.routers.isle-dc-solr_http.rule: Host(`$DOMAIN`) && PathPrefix(`/solr`)
+      traefik.http.routers.isle-dc-solr_http.service: isle-dc-solr
+      traefik.http.services.isle-dc-solr.loadbalancer.server.port: '8983'
+
+
+  traefik:
+    image: traefik:2.2.1
+    container_name: traefik
+    command: 
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--api.debug=true"
+      - "--entryPoints.http.address=:80"
+      #- "--entryPoints.https.address=:443"
+      - "--entryPoints.mysql.address=:3306"
+      #- "--entryPoints.postgresql.address=:5432"
+      - "--providers.docker"
+      - "--providers.docker.network=gateway"
+      - "--providers.docker.exposedByDefault=false"
+      #- "--providers.file.filename=/etc/traefik/tls.yml"
+      - "--providers.docker.defaultRule=Host(`{{ index .Labels \"com.docker.compose.service\" }}-{{ index .Labels \"com.docker.compose.project\"}}.$DOMAIN`,`{{ index .Labels \"com.docker.compose.service\" }}-{{ index .Labels \"com.docker.compose.project\" }}-$DOMAIN`)"
+    networks:
+      default:
+      gateway: {}
+    ports:
+      - "80:80"       # drupal, matomo
+      #- "443:443"    # drupal, matomo
+      - "3306:3306"   # mysql
+      #- "5432:5432"  # postgres isn't used in this configuration
+      #- "8080:8080"  # typically reserved for the traefik admin this isn't used by anything yet
+      - "8081:8080"   # cantaloupe
+      - "8161:8161"   # activemq
+      - "8983:8983"   # solr
+      - "9999:9999"   # blazegraph
+    volumes:
+      #- /home/gavin/Projects/Born-Digital/i8/isle-dc/certs:/etc/ssl/traefik:rw
+      #- /home/gavin/Projects/Born-Digital/i8/isle-dc/tls.yml:/etc/traefik/tls.yml:rw
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    labels:
+      traefik.http.routers.api.service: api@internal
+
+
+  watchtower:
+    image: v2tec/watchtower
+    #container_name: watchtower
+    command: 
+      - "--interval 1 --no-pull"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+
+
+networks:
+  default:
+  #  internal: true
+  gateway:
+  #  driver: bridge
+  #  internal: false
+  #  name: gateway
+
+
+volumes:
+  activemq-data: {}
+  blazegraph-data: {}
+  cantaloupe-data: {}
+  drupal-sites-data: {}
+  fcrepo-data: {}
+  mariadb-data: {}
+  mariadb-files: {}
+  matomo-config-data: {}
+  solr-data: {}
