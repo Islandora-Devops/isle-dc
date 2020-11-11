@@ -29,7 +29,18 @@ jobs:
 
             # Run end-to-end tests
             - name: End-To-End Tests
-              run: make test       
+              run: | 
+                mkdir -p end-to-end/reports
+                chmod a+rwx end-to-end/reports
+                make test
+            
+            # Upload artifacts if tests fail
+            - name: Test Failure Forensics
+              uses: actions/upload-artifact@v2
+              if: failure()
+              with:
+                name: end-to-end-reports
+                path: end-to-end/reports         
 
             # Log in to Docker, if we have the secrets
             - name: Docker Login
