@@ -27,6 +27,8 @@ services:
     secrets:
       - source: sp_key
       - source: sp_cert
+      - source: sp_hashing_salt
+      - source: sp_admin_pw
   # Extends docker-compose.solr.yml
   solr:
     volumes:
@@ -40,3 +42,7 @@ secrets:
     file: ./secrets/sp/sp-key.pem
   sp_cert:
     file: ./secrets/sp/sp-cert.pem
+  sp_hashing_salt:
+    file: ./secrets/sp/sp-hashing-salt
+  sp_admin_pw:
+    file: ./secrets/sp/sp-admin-pw

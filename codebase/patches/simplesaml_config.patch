@@ -431,7 +431,7 @@ index 0000000..7b56d8c
 +];
 diff --git a/config/config.php b/config/config.php
 new file mode 100644
-index 0000000..49233d7
+index 00000000..ed4ee369
 --- /dev/null
 +++ b/config/config.php
 @@ -0,0 +1,1209 @@
@@ -464,7 +464,7 @@ index 0000000..49233d7
 +     * external url, no matter where you come from (direct access or via the
 +     * reverse proxy).
 +     */
-+    'baseurlpath' => 'https://islandora-idc.traefik.me/simplesaml/',//'https://islandora-idc.traefik.me/simplesaml/', //getenv('DRUPAL_DEFAULT_SITE_URL') . '/simplesaml/',
++    'baseurlpath' => str_replace('http:', 'https:', getenv('DRUPAL_DEFAULT_SITE_URL') . '/simplesaml/'),
 +
 +    /*
 +     * The 'application' configuration array groups a set configuration options
@@ -509,8 +509,8 @@ index 0000000..49233d7
 +     * The email address will be used as the recipient address for error reports, and
 +     * also as the technical contact in generated metadata.
 +     */
-+    'technicalcontact_name' => 'Administrator',
-+    'technicalcontact_email' => 'na@example.org',
++    'technicalcontact_name' => getenv('DRUPAL_SP_TECHCONTACTNAME'),
++    'technicalcontact_email' => getenv('DRUPAL_SP_TECHCONTACTEMAIL'),
 +
 +    /*
 +     * (Optional) The method by which email is delivered.  Defaults to mail which utilizes the
@@ -567,7 +567,7 @@ index 0000000..49233d7
 +     * A possible way to generate a random salt is by running the following command from a unix shell:
 +     * LC_CTYPE=C tr -c -d '0123456789abcdefghijklmnopqrstuvwxyz' </dev/urandom | dd bs=32 count=1 2>/dev/null;echo
 +     */
-+    'secretsalt' => 'somerandombytes',
++    'secretsalt' => file_get_contents('/run/secrets/sp_hashing_salt'),
 +
 +    /*
 +     * This password must be kept secret, and modified from the default value 123.
@@ -575,20 +575,20 @@ index 0000000..49233d7
 +     * metadata listing and diagnostics pages.
 +     * You can also put a hash here; run "bin/pwgen.php" to generate one.
 +     */
-+    'auth.adminpassword' => 'moo',
++    'auth.adminpassword' => file_get_contents('/run/secrets/sp_admin_pw'),
 +
 +    /*
 +     * Set this options to true if you want to require administrator password to access the web interface
 +     * or the metadata pages, respectively.
 +     */
-+    'admin.protectindexpage' => false,
-+    'admin.protectmetadata' => false,
++    'admin.protectindexpage' => getenv('DRUPAL_SP_PROTECTINDEXPAGE') == "true",
++    'admin.protectmetadata' => getenv('DRUPAL_SP_PROTECTMETADATAPAGE') == "true",
 +
 +    /*
 +     * Set this option to false if you don't want SimpleSAMLphp to check for new stable releases when
 +     * visiting the configuration tab in the web interface.
 +     */
-+    'admin.checkforupdates' => true,
++    'admin.checkforupdates' => getenv('DRUPAL_SP_CHECKFORUPDATES') == "true",
 +
 +    /*
 +     * Array of domains that are allowed when generating links or redirects
@@ -647,7 +647,7 @@ index 0000000..49233d7
 +     * Allowed range: 180 - 300
 +     * Defaults to 180.
 +     */
-+    'assertion.allowed_clock_skew' => 180,
++    'assertion.allowed_clock_skew' => intval(getenv('DRUPAL_SP_ASSERTIONALLOWEDCLOCKSKEW')),
 +
 +
 +    /************************
@@ -941,24 +941,24 @@ index 0000000..49233d7
 +     * This value is the duration of the session in seconds. Make sure that the time duration of
 +     * cookies both at the SP and the IdP exceeds this duration.
 +     */
-+    'session.duration' => 8 * (60 * 60), // 8 hours.
++    'session.duration' => intval(getenv('DRUPAL_SP_SESSION_DURATIONSECONDS')),
 +
 +    /*
 +     * Sets the duration, in seconds, data should be stored in the datastore. As the data store is used for
 +     * login and logout requests, this option will control the maximum time these operations can take.
 +     * The default is 4 hours (4*60*60) seconds, which should be more than enough for these operations.
 +     */
-+    'session.datastore.timeout' => (4 * 60 * 60), // 4 hours
++    'session.datastore.timeout' => intval(getenv('DRUPAL_SP_SESSION_DATASTORETIMEOUTSECONDS')),
 +
 +    /*
 +     * Sets the duration, in seconds, auth state should be stored.
 +     */
-+    'session.state.timeout' => (60 * 60), // 1 hour
++    'session.state.timeout' => intval(getenv('DRUPAL_SP_SESSION_STATETIMEOUTSECONDS')),
 +
 +    /*
 +     * Option to override the default settings for the session cookie name
 +     */
-+    'session.cookie.name' => 'SimpleSAMLSessionID',
++    'session.cookie.name' => getenv('DRUPAL_SP_SESSION_COOKIENAME'),
 +
 +    /*
 +     * Expiration time for the session cookie, in seconds.
@@ -968,7 +968,7 @@ index 0000000..49233d7
 +     * Example:
 +     *  'session.cookie.lifetime' => 30*60,
 +     */
-+    'session.cookie.lifetime' => 0,
++    'session.cookie.lifetime' => intval(getenv('DRUPAL_SP_SESSION_COOKIELIFETIMESECONDS')),
 +
 +    /*
 +     * Limit the path of the cookies.
@@ -978,7 +978,7 @@ index 0000000..49233d7
 +     * Example:
 +     *  'session.cookie.path' => '/simplesaml/',
 +     */
-+    'session.cookie.path' => '/',
++    'session.cookie.path' => getenv('DRUPAL_SP_SESSION_COOKIEPATH'),
 +
 +    /*
 +     * Cookie domain.
@@ -997,7 +997,7 @@ index 0000000..49233d7
 +     * through https. If the user can access the service through
 +     * both http and https, this must be set to FALSE.
 +     */
-+    'session.cookie.secure' => false,
++    'session.cookie.secure' => getenv('DRUPAL_SP_SESSION_COOKIESECURE') == "true",
 +
 +    /*
 +     * Set the SameSite attribute in the cookie.
