@@ -10,7 +10,7 @@ services:
       - gateway
 
   idp:
-    image: emetsger/simplesaml-idp:20200710
+    image: ${REPOSITORY:-islandora}/idp:${TAG:-latest}
     depends_on:
       - ldap
     environment:
