@@ -55,10 +55,6 @@ secrets:
     file: ./secrets/sp/idp-signing-cert.pem
   idp_sealer:
     file: ./secrets/idp/sealer.jks
-  sp_key:
-    file: ./secrets/sp/sp-key.pem
-  sp_cert:
-    file: ./secrets/sp/sp-cert.pem
 
 volumes:
   saml-sp-sessions:
