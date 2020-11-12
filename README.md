@@ -53,13 +53,16 @@ supports:
 To quickly get started, we recommend running the [demo](#-demo) environment
 first after you have completed the [Installation](#-installation).
 
+A walkthrough for setting up a simple local installation is available in the
+Islandora documentation: [Install Islandora on Docker (ISLE)](https://islandora.github.io/documentation/installation/docker-compose/)
+
 ## Requirements
 
 - Composer 1.10+
-- Desktop / laptop / VM (*Must be able to support running GNU Make*)
-- Docker-CE 19.x+ (If using Docker Desktop for Windows, any stable release
+- Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
+- Docker-CE 19.x+ (*If using Docker Desktop for Windows, any stable release
   *after* 2.2.0.4, or use a 2.2.0.4 with a [patch][Docker for Windows Patch] due
-  to a [bug][Docker for Windows Bug])
+  to a [bug][Docker for Windows Bug]*)
 - Docker-compose version 1.25.x+
 - Drush 9.0+
 - Git 2.0+
