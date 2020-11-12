@@ -2,10 +2,15 @@ version: '3.7'
 
 services:
 
-
   activemq:
     image: islandora/activemq:latest
     # container_name: activemq
+    environment:
+      ACTIVEMQ_PASSWORD: secret:/run/secrets/ACTIVEMQ_PASSWORD
+      ACTIVEMQ_WEB_ADMIN_PASSWORD: secret:/run/secrets/ACTIVEMQ_WEB_ADMIN_PASSWORD
+    secrets:
+      - source: ACTIVEMQ_PASSWORD
+      - source: ACTIVEMQ_WEB_ADMIN_PASSWORD     
     volumes:
       - activemq-data:/opt/activemq/data:rw
     networks:
@@ -20,8 +25,15 @@ services:
   alpaca:
     image: islandora/alpaca:latest
      # container_name: alpaca
+    environment:
+      ALPACA_ACTIVEMQ_PASSWORD: secret:/run/secrets/ALPACA_ACTIVEMQ_PASSWORD
+      ALPACA_KARAF_ADMIN_PASSWORD: secret:/run/secrets/ALPACA_KARAF_ADMIN_PASSWORD
+    secrets:
+      - source: ALPACA_ACTIVEMQ_PASSWORD
+      - source: ALPACA_KARAF_ADMIN_PASSWORD     
     networks:
       default: {}
+
 
   blazegraph:
     image: islandora/blazegraph:latest
@@ -59,18 +71,31 @@ services:
     networks:
       default: {}
 
+
   drupal:
     image: islandora/demo:latest
     # container_name: drupal    
     environment:
+      DRUPAL_DEFAULT_ACCOUNT_PASSWORD: secret:/run/secrets/DRUPAL_DEFAULT_ACCOUNT_PASSWORD
       DRUPAL_DEFAULT_CANTALOUPE_URL: https://${DOMAIN}/cantaloupe/iiif/2
       DRUPAL_DEFAULT_DB_DRIVER: mysql
       DRUPAL_DEFAULT_DB_HOST: mariadb-isle-dc.${DOMAIN}
+      DRUPAL_DEFAULT_DB_PASSWORD: secret:/run/secrets/DRUPAL_DEFAULT_DB_PASSWORD
       DRUPAL_DEFAULT_DB_PORT: 3306
+      DRUPAL_DEFAULT_DB_ROOT_PASSWORD: secret:/run/secrets/DRUPAL_DEFAULT_DB_ROOT_PASSWORD
       DRUPAL_DEFAULT_FCREPO_HOST: fcrepo-isle-dc.${DOMAIN}
       DRUPAL_DEFAULT_MATOMO_URL: https://${DOMAIN}/matomo/
+      DRUPAL_DEFAULT_SALT: secret:/run/secrets/DRUPAL_DEFAULT_SALT
       DRUPAL_DEFAULT_SITE_URL: http://${DOMAIN}
-      DRUPAL_DEFAULT_ACTIVEMQ_URL: http://${DOMAIN}/admin
+      DRUPAL_JWT_PRIVATE_KEY: secret:/run/secrets/DRUPAL_JWT_PRIVATE_KEY
+      DRUPAL_JWT_PUBLIC_KEY: secret:/run/secrets/DRUPAL_JWT_PUBLIC_KEY
+    secrets:
+      - source: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
+      - source: DRUPAL_DEFAULT_DB_PASSWORD
+      - source: DRUPAL_DEFAULT_DB_ROOT_PASSWORD
+      - source: DRUPAL_DEFAULT_SALT
+      - source: DRUPAL_JWT_PRIVATE_KEY
+      - source: DRUPAL_JWT_PUBLIC_KEY      
     depends_on:
       - activemq
       - blazegraph
@@ -97,8 +122,17 @@ services:
     environment:
       FCREPO_ALLOW_EXTERNAL_DRUPAL: http://${DOMAIN}/
       FCREPO_DB_HOST: mariadb
+      FCREPO_DB_PASSWORD: secret:/run/secrets/FCREPO_DB_PASSWORD
       FCREPO_DB_PORT: 3306
+      FCREPO_DB_ROOT_PASSWORD: secret:/run/secrets/FCREPO_DB_ROOT_PASSWORD
+      FCREPO_JWT_ADMIN_TOKEN: secret:/run/secrets/FCREPO_JWT_ADMIN_TOKEN
+      FCREPO_JWT_PUBLIC_KEY: secret:/run/secrets/FCREPO_JWT_PUBLIC_KEY
       FCREPO_PERSISTENCE_TYPE: mysql
+    secrets:
+      - source: FCREPO_DB_PASSWORD
+      - source: FCREPO_DB_ROOT_PASSWORD
+      - source: FCREPO_JWT_ADMIN_TOKEN
+      - source: FCREPO_JWT_PUBLIC_KEY      
     depends_on:
       - activemq
     volumes:
@@ -118,39 +152,73 @@ services:
     networks:
       default: {}
 
+
   gemini:
     image: islandora/gemini:latest
     # container_name: gemini
     environment:
       GEMINI_DB_DRIVER: pdo_mysql
       GEMINI_DB_HOST: mariadb
+      GEMINI_DB_PASSWORD: secret:/run/secrets/GEMINI_DB_PASSWORD
       GEMINI_DB_PORT: 3306
+      GEMINI_DB_ROOT_PASSWORD: secret:/run/secrets/GEMINI_DB_ROOT_PASSWORD
+      GEMINI_JWT_ADMIN_TOKEN: secret:/run/secrets/GEMINI_JWT_ADMIN_TOKEN
+      GEMINI_JWT_PUBLIC_KEY: secret:/run/secrets/GEMINI_JWT_PUBLIC_KEY
+    secrets:
+      - source: GEMINI_DB_PASSWORD
+      - source: GEMINI_DB_ROOT_PASSWORD
+      - source: GEMINI_JWT_ADMIN_TOKEN
+      - source: GEMINI_JWT_PUBLIC_KEY
     networks:
       default: {}
+
 
   homarus:
     image: islandora/homarus:latest
     # container_name: homarus
+    environment:
+      HOMARUS_JWT_ADMIN_TOKEN: secret:/run/secrets/HOMARUS_JWT_ADMIN_TOKEN
+      HOMARUS_JWT_PUBLIC_KEY: secret:/run/secrets/HOMARUS_JWT_PUBLIC_KEY
+    secrets:
+      - source: HOMARUS_JWT_ADMIN_TOKEN
+      - source: HOMARUS_JWT_PUBLIC_KEY    
     networks:
       default: {} 
+
 
   houdini:
     image: islandora/houdini:latest
     # container_name: houdini
+    environment:
+      HOMARUS_JWT_ADMIN_TOKEN: secret:/run/secrets/HOMARUS_JWT_ADMIN_TOKEN
+      HOMARUS_JWT_PUBLIC_KEY: secret:/run/secrets/HOMARUS_JWT_PUBLIC_KEY
+    secrets:
+      - source: HOMARUS_JWT_ADMIN_TOKEN
+      - source: HOMARUS_JWT_PUBLIC_KEY    
     networks:
       default: {}
+
 
   hypercube:
     image: islandora/hypercube:latest
     # container_name: hypercube
+    environment:
+      HOUDINI_JWT_ADMIN_TOKEN: secret:/run/secrets/HOUDINI_JWT_ADMIN_TOKEN
+      HOUDINI_JWT_PUBLIC_KEY: secret:/run/secrets/HOUDINI_JWT_PUBLIC_KEY
+    secrets:
+      - source: HOUDINI_JWT_ADMIN_TOKEN
+      - source: HOUDINI_JWT_PUBLIC_KEY
     networks:
       default: {}
+
 
   mariadb:
     image: islandora/mariadb:latest
     # container_name: mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: secret:/run/secrets/MYSQL_ROOT_PASSWORD
+    secrets:
+      - source: MYSQL_ROOT_PASSWORD      
     networks:
       default: {}
     volumes:
@@ -168,7 +236,14 @@ services:
     image: islandora/matomo:latest
     # container_name: matomo
     environment:
+      MATOMO_DB_PASSWORD: secret:/run/secrets/MATOMO_DB_PASSWORD
+      MATOMO_DB_ROOT_PASSWORD: secret:/run/secrets/MATOMO_DB_ROOT_PASSWORD
       MATOMO_SITE_HOST: ${DOMAIN}
+      MATOMO_USER_PASS: secret:/run/secrets/MATOMO_USER_PASS
+    secrets:
+      - source: MATOMO_DB_PASSWORD
+      - source: MATOMO_DB_ROOT_PASSWORD
+      - source: MATOMO_USER_PASS      
     networks:
       default: {}
     depends_on:
@@ -196,14 +271,28 @@ services:
   milliner:
     image: islandora/milliner:latest
     # container_name: milliner
+    environment:
+      MILLINER_JWT_ADMIN_TOKEN: secret:/run/secrets/MILLINER_JWT_ADMIN_TOKEN
+      MILLINER_JWT_PUBLIC_KEY: secret:/run/secrets/MILLINER_JWT_PUBLIC_KEY
+    secrets:
+      - source: MILLINER_JWT_ADMIN_TOKEN
+      - source: MILLINER_JWT_PUBLIC_KEY    
     networks:
       default: {}
+
 
   recast:
     image: islandora/recast:latest
     # container_name: recast
+    environment:
+      RECAST_JWT_ADMIN_TOKEN: secret:/run/secrets/RECAST_JWT_ADMIN_TOKEN
+      RECAST_JWT_PUBLIC_KEY: secret:/run/secrets/RECAST_JWT_PUBLIC_KEY
+    secrets:
+      - source: RECAST_JWT_ADMIN_TOKEN
+      - source: RECAST_JWT_PUBLIC_KEY    
     networks:
       default: {}
+
 
   solr:
     image: islandora/solr:latest
@@ -250,8 +339,8 @@ services:
       - "8983:8983"   # solr
       - "9999:9999"   # blazegraph
     volumes:
-      #- /home/gavin/Projects/Born-Digital/i8/isle-dc/certs:/etc/ssl/traefik:rw
-      #- /home/gavin/Projects/Born-Digital/i8/isle-dc/tls.yml:/etc/traefik/tls.yml:rw
+      #- ${PROJECT_PATH}/certs:/etc/ssl/traefik:rw
+      #- ${PROJECT_PATH}/tls.yml:/etc/traefik/tls.yml:rw
       - /var/run/docker.sock:/var/run/docker.sock:rw
     labels:
       traefik.http.routers.api.service: api@internal
@@ -287,3 +376,70 @@ volumes:
   mariadb-files: {}
   matomo-config-data: {}
   solr-data: {}
+
+
+secrets:
+  ACTIVEMQ_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/ACTIVEMQ_PASSWORD
+  ACTIVEMQ_WEB_ADMIN_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/ACTIVEMQ_WEB_ADMIN_PASSWORD
+  ALPACA_ACTIVEMQ_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/ALPACA_ACTIVEMQ_PASSWORD
+  ALPACA_KARAF_ADMIN_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/ALPACA_KARAF_ADMIN_PASSWORD
+  DRUPAL_DEFAULT_ACCOUNT_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/DRUPAL_DEFAULT_ACCOUNT_PASSWORD
+  DRUPAL_DEFAULT_DB_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/DRUPAL_DEFAULT_DB_PASSWORD
+  DRUPAL_DEFAULT_DB_ROOT_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/DRUPAL_DEFAULT_DB_ROOT_PASSWORD
+  DRUPAL_DEFAULT_SALT:
+    file: ${PROJECT_PATH}/secrets/DRUPAL_DEFAULT_SALT
+  DRUPAL_JWT_PRIVATE_KEY:
+    file: ${PROJECT_PATH}/secrets/DRUPAL_JWT_PRIVATE_KEY
+  DRUPAL_JWT_PUBLIC_KEY:
+    file: ${PROJECT_PATH}/secrets/DRUPAL_JWT_PUBLIC_KEY
+  FCREPO_DB_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/FCREPO_DB_PASSWORD
+  FCREPO_DB_ROOT_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/FCREPO_DB_ROOT_PASSWORD
+  FCREPO_JWT_ADMIN_TOKEN:
+    file: ${PROJECT_PATH}/secrets/FCREPO_JWT_ADMIN_TOKEN
+  FCREPO_JWT_PUBLIC_KEY:
+    file: ${PROJECT_PATH}/secrets/FCREPO_JWT_PUBLIC_KEY
+  GEMINI_DB_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/GEMINI_DB_PASSWORD
+  GEMINI_DB_ROOT_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/GEMINI_DB_ROOT_PASSWORD
+  GEMINI_JWT_ADMIN_TOKEN:
+    file: ${PROJECT_PATH}/secrets/GEMINI_JWT_ADMIN_TOKEN
+  GEMINI_JWT_PUBLIC_KEY:
+    file: ${PROJECT_PATH}/secrets/GEMINI_JWT_PUBLIC_KEY
+  HOMARUS_JWT_ADMIN_TOKEN:
+    file: ${PROJECT_PATH}/secrets/HOMARUS_JWT_ADMIN_TOKEN
+  HOMARUS_JWT_PUBLIC_KEY:
+    file: ${PROJECT_PATH}/secrets/HOMARUS_JWT_PUBLIC_KEY
+  HOUDINI_JWT_ADMIN_TOKEN:
+    file: ${PROJECT_PATH}/secrets/HOUDINI_JWT_ADMIN_TOKEN
+  HOUDINI_JWT_PUBLIC_KEY:
+    file: ${PROJECT_PATH}/secrets/HOUDINI_JWT_PUBLIC_KEY
+  HYPERCUBE_JWT_ADMIN_TOKEN:
+    file: ${PROJECT_PATH}/secrets/HYPERCUBE_JWT_ADMIN_TOKEN
+  HYPERCUBE_JWT_PUBLIC_KEY:
+    file: ${PROJECT_PATH}/secrets/HYPERCUBE_JWT_PUBLIC_KEY
+  MATOMO_DB_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/MATOMO_DB_PASSWORD
+  MATOMO_DB_ROOT_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/MATOMO_DB_ROOT_PASSWORD
+  MATOMO_USER_PASS:
+    file: ${PROJECT_PATH}/secrets/MATOMO_USER_PASS
+  MILLINER_JWT_ADMIN_TOKEN:
+    file: ${PROJECT_PATH}/secrets/MILLINER_JWT_ADMIN_TOKEN
+  MILLINER_JWT_PUBLIC_KEY:
+    file: ${PROJECT_PATH}/secrets/MILLINER_JWT_PUBLIC_KEY
+  MYSQL_ROOT_PASSWORD:
+    file: ${PROJECT_PATH}/secrets/MYSQL_ROOT_PASSWORD
+  RECAST_JWT_ADMIN_TOKEN:
+    file: ${PROJECT_PATH}/secrets/RECAST_JWT_ADMIN_TOKEN
+  RECAST_JWT_PUBLIC_KEY:
+    file: ${PROJECT_PATH}/secrets/RECAST_JWT_PUBLIC_KEY
