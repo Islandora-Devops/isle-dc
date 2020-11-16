@@ -1,0 +1,11 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+services:
+  homarus:
+    image: ${REPOSITORY:-islandora}/homarus:${TAG:-latest}
+  houdini:
+    image: ${REPOSITORY:-islandora}/houdini:${TAG:-latest}
+  hypercube:
+    image: ${REPOSITORY:-islandora}/hypercube:${TAG:-latest}
