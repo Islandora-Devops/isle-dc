@@ -52,7 +52,7 @@ secrets:
   idp_signing:
     file: ./secrets/idp/idp-signing.key
   idp_signing_cert:
-    file: ./secrets/sp/idp-signing-cert.pem
+    file: ./secrets/idp/idp-signing-cert.pem
   idp_sealer:
     file: ./secrets/idp/sealer.jks
 
