@@ -20,9 +20,8 @@ services:
     secrets:
       - source: idp_backchannel
       - source: idp_browser
-      - source: idp_encryption
-      - source: idp_signing
       - source: idp_sealer
+      - source: saml_secrets
     ports:
       - "4443:4443"
       - "8443:8443"
@@ -41,20 +40,12 @@ services:
 secrets:
   idp_backchannel:
     file: ./secrets/idp/idp-backchannel.p12
-  idp_backchannel_pem:
-    file: ./secrets/idp/idp-backchannel.pem
   idp_browser:
     file: ./secrets/idp/idp-browser.p12
-  idp_browser_pem:
-    file: ./secrets/idp/idp-browser.pem
-  idp_encryption:
-    file: ./secrets/idp/idp-encryption.key
-  idp_signing:
-    file: ./secrets/idp/idp-signing.key
-  idp_signing_cert:
-    file: ./secrets/idp/idp-signing-cert.pem
   idp_sealer:
     file: ./secrets/idp/sealer.jks
+  saml_secrets:
+    file: ./secrets/saml-secrets.yml
 
 volumes:
   saml-sp-sessions:

@@ -25,10 +25,7 @@ services:
       # Requires a the very minimum a database.
       - ${DRUPAL_DATABASE_SERVICE}
     secrets:
-      - source: sp_key
-      - source: sp_cert
-      - source: sp_hashing_salt
-      - source: sp_admin_pw
+      - source: saml_secrets
   # Extends docker-compose.solr.yml
   solr:
     volumes:
@@ -38,11 +35,5 @@ services:
       - solr-data:/opt/solr/server/solr
 
 secrets:
-  sp_key:
-    file: ./secrets/sp/sp-key.pem
-  sp_cert:
-    file: ./secrets/sp/sp-cert.pem
-  sp_hashing_salt:
-    file: ./secrets/sp/sp-hashing-salt
-  sp_admin_pw:
-    file: ./secrets/sp/sp-admin-pw
+  saml_secrets:
+    file: ./secrets/saml-secrets.yml
