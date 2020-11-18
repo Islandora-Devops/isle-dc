@@ -49,6 +49,7 @@ so no need to do anything special other than `make` to invoke them).  A few usef
 * **make cache-rebuild** Uses Drush inside the Drupal container to rebuild Drupal's cache.
 * **make config-export** Exports all current active Drupal config to the `codebase/config/sync` directory, so that it can be committed to git.
 * **make snapshot** Create a snapshot of the current Drupal state (db, content files, etc), so that you can reset to this state at will, or push it so that others can.
+* **make snapshot-push** Push the current snapshot image to the container registry
 * **make up** Brings up the development environment, including running `composer install`.
 
 A few specialized targets are:
@@ -104,7 +105,7 @@ This will do the following:
 If you want to commit that snapshot so that others can use it, you need to commit `.env` (which contains the tag of the snapshot image),
 and publish the snapshot image to a Docker registry via
 
-    docker-compose push snapshot
+    make snapshot-push
 
 Make sure you do both steps!  You need to push the image (so others can pull it), and push `.env` (so others can check out and run it).
 
@@ -236,3 +237,9 @@ The PHP interpreter executes under PHP-FPM, therefore environment variables must
 [confd]: http://www.confd.io/
 [file-backend]: https://github.com/kelseyhightower/confd/blob/master/docs/quick-start-guide.md#file
 [cert-primer]: https://wiki.shibboleth.net/confluence/display/CONCEPT/SAMLKeysAndCertificates
+=======
+Note:  In order for the push to be successful, you need to be "logged in" to the container registry via
+
+    docker login ghcr.io
+
+See the [guide to the github container registry](https://docs.google.com/document/d/13RQR7sKIhkUFpljkypiY5AYmMgeaM1tSYJAyt0APxgk/edit) for more information.

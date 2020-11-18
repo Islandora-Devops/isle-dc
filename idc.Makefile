@@ -89,6 +89,11 @@ snapshot-empty:
 	$(MAKE) docker-compose.yml
 	docker build -f snapshot/empty.Dockerfile -t ${REPOSITORY}/snapshot:empty ./snapshot
 
+.PHONY: snapshot-push
+.SILENT: snapshot-push
+snapshot-push:
+	docker push ${REPOSITORY}/snapshot:${SNAPSHOT_TAG}
+
 .PHONY: up
 .SILENT: up
 up:  download-default-certs docker-compose.yml start
