@@ -26,11 +26,3 @@ services:
       - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-mysql_tcp.rule=HostSNI(`*`)
     networks:
       default:
-        # Allow drupal to access the database with it's edge name to reference
-        # this service in addition to `database`. This allows us to use the edge
-        # name in settings.php so Drush on the host machine can be used in the
-        # codebase folder.
-        aliases:
-          - mariadb-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
-          - mariadb-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
-      gateway:

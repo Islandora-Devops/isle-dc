@@ -19,11 +19,10 @@ services:
       - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.permanent=true
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.entrypoints=http
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.rule=Host(`islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`) && PathPrefix(`/cantaloupe`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.rule=Host(`${DOMAIN}`) && PathPrefix(`/cantaloupe`)
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.middlewares=cantaloupe-redirectscheme
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.entrypoints=https
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.rule=Host(`islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`) && PathPrefix(`/cantaloupe`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.rule=Host(`${DOMAIN}`) && PathPrefix(`/cantaloupe`)
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.tls=true
     networks:
       default:
-      gateway:
