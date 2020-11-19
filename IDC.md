@@ -116,6 +116,24 @@ Runtime parameterization of the IdP and SP is accomplished using a mixture of en
 
 For a deeper understanding of SAML certificate roles, this [primer][cert-primer] may help.
 
+## Requested Attributes
+
+|Allocation|URN|OID|
+|---|---|---|
+|eduPersonAffiliation|urn:mace:dir:attribute-def:eduPersonAffiliation|1.3.6.1.4.1.5923.1.1.1.1|
+|eduPersonUniqueId|urn:oid:1.3.6.1.4.1.5923.1.1.1.13|1.3.6.1.4.1.5923.1.1.1.13|
+|eduPersonPrincipalName|urn:mace:dir:attribute-def:eduPersonPrincipalName|1.3.6.1.4.1.5923.1.1.1.6|
+|eduPersonScopedAffiliation|urn:mace:dir:attribute-def:eduPersonScopedAffiliation|1.3.6.1.4.1.5923.1.1.1.9|
+|eduPersonAffiliation|urn:mace:dir:attribute-def:eduPersonAffiliation|1.3.6.1.4.1.5923.1.1.1.1|
+|employeeNumber|urn:mace:dir:attribute-def:employeeNumber|2.16.840.1.113730.3.1.3|
+|displayName|urn:mace:dir:attribute-def:displayName|2.16.840.1.113730.3.1.241|
+|givenName|urn:mace:dir:attribute-def:givenName|2.5.4.42|
+|departmentNumber|urn:mace:dir:attribute-def:departmentNumber|2.16.840.1.113730.3.1.2|
+
+The `authsources.php` file contains the requested attributes.  These are hardcoded, and are _not_ parameterized.
+
+See the [SimpleSAMLphp User Sync page][simplesaml-usersync] for how these attributes may be mapped to Drupal user attributes or role selection.
+
 ## Env vars
 
 These are truly environment variables (in the sense that they are not _secrets_).  Cloud-based installations will need to update these to expected values.
@@ -178,7 +196,7 @@ There are a number of files which contribute to the SAML environment, distribute
   * multiple applications with different runtimes (java, nginx/php) consume the same SAML parameters (e.g. the cert used to sign SAML assertions is referenced by both the SP and IdP)
   * a single application will use the same parameter inline as well as consume it from a file (so if you want to change a value, and only want to change it in one place, some hoops need to be jumped through)
 
-An example may help: you wish to know how/where the IdP signing key is used.  Using the table below, a starting point would be to search the `idc-isle-buildkit` repo for occurrences of `idp/signing-key` key.  The only hits will be `confd` configuration, where you see that it is written out to `/tmp/idp_signing`.  Perform a second search for `/tmp/idp_signing`, and you'll see it used in the `idp.properties` `confd` template (which in turn writes `idp.properties` to `/opt/shibboleth-idp/conf/idp.properties`).
+An example may help: you wish to know how/where the IdP signing key is used.  Using the table above, a starting point would be to search the `idc-isle-buildkit` repo for occurrences of `idp/signing-key` key.  The only hits will be `confd` configuration, where you see that it is written out to `/tmp/idp_signing`.  Perform a second search for `/tmp/idp_signing`, and you'll see it used in the `idp.properties` `confd` template (which in turn writes `idp.properties` to `/opt/shibboleth-idp/conf/idp.properties`).
 
 A second, more complex example: you wish to know how/where the IdP signing cert is used.  Using the table, start by searching the `idc-isle-buildkit` repo for occurrences of `idp/signing-cert` key.  You'll see it referenced by a couple of `confd` templates which in turn will lead you to `idp.properties` (references the value in the file `/tmp/idp_signing.crt`) and `idp-metadata.xml` (the value is used inline).  You will also want to perform a similar search of the `idc-isle-dc` repository.  To cast a wide net, search for the string `signing-cert` (you'll get some hits from both the SP and IdP).  You'll note that the file `shib13-idp-remote.php` uses PHP to parse the value from the `saml_secrets` YAML structure (essentially inline use).  As things evolve, I do not expect the table below to be kept up-to-date, so it is worth understanding how to discover where and how various secrets are used.
 
@@ -188,7 +206,7 @@ Tips:
 * If `confd` writes the value to a file, perform a subsequent search for references to the file.
 * Having a general understanding of the SAML protocol helps:  for example, encryption or signing keys shouldn't be shared between two different containers, but public keys (i.e. those used for verifying signatures) would be.
 
-#### IdP processing
+#### IdP env and secrets processing
 
 The IdP entrypoint uses `confd` to interpolate a number of configuration files that dictate SAML request processing.  Because `saml_secrets` can use environment variables as secret values, the configuration files are subsequently processed through `envsubst`.
 
@@ -196,7 +214,7 @@ Note that the IdP configuration files may refer to any named secrets that are ex
 
 Finally, processing logic occurs in the `idp` entrypoint which resides in the `idc-isle-buildkit` repository.  Secrets are defined in the `idc-isle-dc` repository.  The names of secrets are shared between the two repositories; if the name of a secret changes, it must be changed in both.
 
-#### SP processing
+#### SP env and secrets processing
 
 The Service Provider (SimpleSAMLphp) runs in the `drupal` container, installed as a vendored `composer` dependency.  A number of PHP configuration files have been modified to reference secrets and environment variables where it makes sense.  For example, in `config.php` `'assertion.allowed_clock_skew' => 180` has been changed to `'assertion.allowed_clock_skew' => intval(getenv('DRUPAL_SP_ASSERTIONALLOWEDCLOCKSKEW'))`.  Instead of inlining certificates, `shib-13-idp-remote.php` parses `saml_secrets`.  These modifications reside in a patch file managed in the `idc-isle-dc` repository.
 
@@ -204,6 +222,7 @@ The PHP interpreter executes under PHP-FPM, therefore environment variables must
 
 [simplesaml]: https://simplesamlphp.org/docs/1.18/
 [simplesaml-webadmin]: https://islandora-idc.traefik.me/simplesaml/index.php
+[simplesaml-usersync]: https://islandora-idc.traefik.me/admin/config/people/simplesamlphp_auth/sync
 [confd]: http://www.confd.io/
 [file-backend]: https://github.com/kelseyhightower/confd/blob/master/docs/quick-start-guide.md#file
 [cert-primer]: https://wiki.shibboleth.net/confluence/display/CONCEPT/SAMLKeysAndCertificates
