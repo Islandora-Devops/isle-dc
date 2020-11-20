@@ -24,10 +24,16 @@ services:
     depends_on:
       # Requires a the very minimum a database.
       - ${DRUPAL_DATABASE_SERVICE}
+    secrets:
+      - source: saml_secrets
   # Extends docker-compose.solr.yml
   solr:
     volumes:
       # On a production site you may not want to take this approach but instead refer to each of the cores
-      # data directories specifically and maintain the configuration as part of a customized image, where 
+      # data directories specifically and maintain the configuration as part of a customized image, where
       # in your configuration is Solr managed under source control somewhere.
       - solr-data:/opt/solr/server/solr
+
+secrets:
+  saml_secrets:
+    file: ./secrets/saml-secrets.yml

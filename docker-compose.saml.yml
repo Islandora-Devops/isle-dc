@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  ldap:
+    image: ${REPOSITORY:-islandora}/ldap:${TAG:-latest}
+    ports:
+      - "389:389"
+    networks:
+      - default
+      - gateway
+
+  idp:
+    image: ${REPOSITORY:-islandora}/idp:${TAG:-latest}
+    depends_on:
+      - ldap
+    environment:
+      - JETTY_MAX_HEAP=64m
+      - JETTY_BROWSER_SSL_KEYSTORE_PASSWORD=password
+      - JETTY_BACKCHANNEL_SSL_KEYSTORE_PASSWORD=password
+    secrets:
+      - source: idp_backchannel
+      - source: idp_browser
+      - source: idp_sealer
+      - source: saml_secrets
+    ports:
+      - "4443:4443"
+      - "8443:8443"
+    networks:
+      default:
+        aliases:
+          - idp-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
+          - idp-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+      gateway:
+        aliases:
+          - idp-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
+          - idp-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+    volumes:
+      - saml-sp-sessions:/var/sqlite
+
+secrets:
+  idp_backchannel:
+    file: ./secrets/idp/idp-backchannel.p12
+  idp_browser:
+    file: ./secrets/idp/idp-browser.p12
+  idp_sealer:
+    file: ./secrets/idp/sealer.jks
+  saml_secrets:
+    file: ./secrets/saml-secrets.yml
+
+volumes:
+  saml-sp-sessions:

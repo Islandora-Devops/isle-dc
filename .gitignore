@@ -16,6 +16,7 @@ temp
 .htpasswd
 tests/TestNarrowSuite.php
 docker-compose.yml
+docker-compose.override.yml
 codebase/.editorconfig
 codebase/.gitattributes
 codebase/web/core/
