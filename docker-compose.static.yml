@@ -30,6 +30,8 @@ services:
     depends_on:
       # Requires a the very minimum a database.
       - ${DRUPAL_DATABASE_SERVICE}
+    secrets:
+      - source: saml_secrets
   # Extends docker-compose.solr.yml
   solr:
     volumes:
