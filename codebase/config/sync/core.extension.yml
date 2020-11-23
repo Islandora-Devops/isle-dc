@@ -63,7 +63,6 @@ module:
   language: 0
   libraries: 0
   link: 0
-  matomo: 0
   media: 0
   menu_link_content: 0
   menu_ui: 0
