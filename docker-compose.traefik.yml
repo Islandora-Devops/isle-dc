@@ -27,22 +27,26 @@ services:
       --entryPoints.https.address=:443
       --entryPoints.mysql.address=:3306
       --entryPoints.postgresql.address=:5432
+      --entryPoints.fcrepo.address=:8081
+      --entryPoints.blazegraph.address=:8082
+      --entryPoints.activemq.address=:8161
+      --entryPoints.solr.address=:8983
       --providers.docker
       --providers.docker.network=gateway
       --providers.docker.exposedByDefault=false
       --providers.file.filename=/etc/traefik/tls.yml
-      '--providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}-{{ index .Labels "com.docker.compose.project" }}.${DRUPAL_SITE_HOST:-traefik.me}`,`{{ index .Labels "com.docker.compose.service" }}-{{ index .Labels "com.docker.compose.project" }}-${DRUPAL_SITE_HOST:-traefik.me}`)'
+      --providers.docker.defaultRule=Host(`${DOMAIN}`)
     ports:
-      # Has to be bind mounted to 80/443 for assumptions
-      # around internal network alias to work as intended.
-      - 80:80
-      - 443:443
-      # Allows direct connection to the database for using
-      # drush on the host machine. Do not do in production.
-      - 3306:3306
-      - 5432:5432
-      # The Web UI (enabled by --api.insecure=true)
-      - ${TRAEFIK_WEB_UI_PORT-8080}:8080
+      - 80:80       # drupal, cantaloupe, matomo
+      - 443:443     # https for ^^^
+      # Don't do any of these in production
+      - 3306:3306   # mysql
+      - 5432:5432   # postgres
+      - 8080:8080   # traefik admin dashboard - helpful for debugging
+      - 8081:8081   # fedora 
+      - 8082:8082   # blazegraph      
+      - 8161:8161   # activemq
+      - 8983:8983   # solr
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./tls.yml:/etc/traefik/tls.yml
@@ -51,4 +55,10 @@ services:
       # Do not expose in production.
       - traefik.http.routers.api.service=api@internal
     networks:
-      - gateway
+      default:
+        aliases:
+          - ${DOMAIN}
+      gateway: {}
+  drupal:
+    depends_on:
+      - traefik

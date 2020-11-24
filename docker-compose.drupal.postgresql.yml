@@ -4,6 +4,4 @@ services:
   drupal:
     environment:
       DRUPAL_DEFAULT_DB_DRIVER: pgsql
-      # Use the edge name so the Drush on the host machine can access it.
-      DRUPAL_DEFAULT_DB_HOST: postgresql-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
       DRUPAL_DEFAULT_DB_PORT: 5432

@@ -17,6 +17,7 @@
   - [Create Local Environment from Existing Site](#create-local-environment-from-existing-site)
   - [Create Local Environment from Scratch](#create-local-environment-from-scratch)
 - [Custom Environment](#custom-environment)
+- [Secrets](#secrets)
 - [Services](#services)
   - [Watchtower](#watchtower)
   - [Traefik](#traefik)
@@ -377,7 +378,56 @@ following to `docker-compose.env.yml`:
 drupal:
   image: YOUR_CUSTOM_IMAGE
 ```
+## Secrets
 
+When running Islandora in the wild, you'll want to use secrets to store sensitive
+information such as credentials.  Secrets are communicated from the docker host
+to the individual containers over an encrypted channel, making it much safer
+to run in production.
+
+Some `confd` backends, such as `etcd`, can be used to serve secrets directly.
+Simply expose `etcd` over `https` and nothing else needs to be done.  But for
+other backends, particuarly environment variables, you must mount the secrets
+into containers as files using docker-compose. During startup, the files'
+contents are read into the container environment and made available to `confd`.
+
+To enable using secrets, set `USE_SECRETS=true` in your .env file. When you run
+`make docker-compose.yml`, a large block of `secrets` will be added at the top of
+your `docker-compose.yml` file.
+
+```yml
+secrets:
+  ACTIVEMQ_PASSWORD:
+    file: "./secrets/ACTIVEMQ_PASSWORD"
+  ACTIVEMQ_WEB_ADMIN_PASSWORD:
+    file: "./secrets/ACTIVEMQ_WEB_ADMIN_PASSWORD"
+  ...
+```
+
+Each secret references a file in the `secrets` directory.  Each secrets file is named
+the exact same as the environment variable it intends to replace. The contents of each
+file will be used as the value for the secret.
+
+Additionally, each service that uses secrets will declare the secrets it uses and override
+the environment variables accordingly.  For example, the activemq service will now have
+the following:
+
+```yml
+services:
+  activemq:
+    secrets:
+      - ACTIVEMQ_PASSWORD
+      - ACTIVEMQ_WEB_ADMIN_PASSWORD
+    environment:
+      ACTIVEMQ_PASSWORD: secret:/run/secrets/ACTIVEMQ_PASSWORD
+      ACTIVEMQ_WEB_ADMIN_PASSWORD: secret:/run/secrets/ACTIVEMQ_WEB_ADMIN_PASSWORD
+```     
+
+Note the pattern of the environment variables. The containers will look for
+environment variables that follow the pattern of `secret:/path/to/secret/file`
+and automatically read the files and replace the variable with the file's
+content.
+ 
 ## Services
 
 Islandora is composed of many different services, this project has split these

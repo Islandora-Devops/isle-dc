@@ -10,6 +10,13 @@ services:
   # The service name is drupal that is the default host name used by micro-services etc.
   # Needs to match against demo, custom, and local.
   drupal:
+    environment:
+      DRUPAL_DEFAULT_CANTALOUPE_URL: https://${DOMAIN}/cantaloupe/iiif/2
+      DRUPAL_DEFAULT_FCREPO_HOST: ${DOMAIN}
+      DRUPAL_DEFAULT_FCREPO_PORT: 8081
+      DRUPAL_DEFAULT_DB_HOST: ${DRUPAL_DATABASE_SERVICE}
+      DRUPAL_DEFAULT_MATOMO_URL: https://${DOMAIN}/matomo/
+      DRUPAL_DEFAULT_SITE_URL: http://${DOMAIN} # Make sure this is just http and not https!
     labels:
       - traefik.enable=true
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
@@ -17,15 +24,10 @@ services:
       - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.permanent=true
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-drupal
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.entrypoints=http
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.rule=Host(`islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.rule=Host(`${DOMAIN}`)
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.middlewares=drupal-redirectscheme
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.entrypoints=https
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.rule=Host(`islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}`,`islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.rule=Host(`${DOMAIN}`)
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls=true
     networks:
       default:
-        # Allow services (like Matomo) to use the edge name to reference this service in addition to `drupal`.
-        aliases:
-            - islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
-            - islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
-      gateway:

@@ -24,6 +24,10 @@ EXTERNAL_SERVICES := etcd watchtower traefik
 # The minimal set of docker-compose files required to be able to run anything.
 REQUIRED_SERIVCES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal fcrepo mariadb matomo solr
 
+ifeq ($(USE_SECRETS), true)
+	SECRETS := secrets
+endif
+
 # Watchtower is an optional dependency, by default it is included.
 ifeq ($(INCLUDE_WATCHTOWER_SERVICE), true)
 	WATCHTOWER_SERVICE := watchtower
@@ -59,18 +63,10 @@ endif
 # Sorts and removes duplicates.
 DATABASE_SERVICES := $(sort $(DATABASE_SERVICES))
 
-# Allows for customization of the environment variables inside of the containers.
-# If it does not exist create it from docker-compose.sample.env.yml.
-OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES=$(shell \
-	if [ ! -f docker-compose.env.yml ]; then \
-		cp docker-compose.sample.env.yml docker-compose.env.yml; \
-	fi; \
-	echo env)
-
 # The services to be run (order is important), as services can override one
 # another. Traefik must be last if included as otherwise its network 
 # definition for `gateway` will be overriden.
-SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(OVERRIDE_SERVICE_ENVIRONMENT_VARIABLES)
+SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(SECRETS)
 
 default: download-default-certs docker-compose.yml pull
 
