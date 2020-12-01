@@ -6,13 +6,10 @@ dependencies:
     - field.field.taxonomy_term.person.field_authority_link
     - field.field.taxonomy_term.person.field_cat_date_begin
     - field.field.taxonomy_term.person.field_cat_date_end
-    - field.field.taxonomy_term.person.field_person_alternate_names
-    - field.field.taxonomy_term.person.field_person_preferred_name
     - field.field.taxonomy_term.person.field_relationships
     - taxonomy.vocabulary.person
   module:
     - controlled_access_terms
-    - name
     - path
     - text
 _core:
@@ -54,18 +51,6 @@ content:
       intervals: false
     third_party_settings: {  }
     type: edtf_default
-    region: content
-  field_person_alternate_names:
-    weight: 3
-    settings: {  }
-    third_party_settings: {  }
-    type: name_default
-    region: content
-  field_person_preferred_name:
-    weight: 2
-    settings: {  }
-    third_party_settings: {  }
-    type: name_default
     region: content
   field_relationships:
     weight: 29

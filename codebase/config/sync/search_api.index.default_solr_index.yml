@@ -9,7 +9,6 @@ dependencies:
     - taxonomy
     - search_api
   config:
-    - field.storage.taxonomy_term.field_person_alternate_names
     - field.storage.taxonomy_term.field_cat_date_begin
     - field.storage.taxonomy_term.field_cat_date_end
     - field.storage.taxonomy_term.field_corp_alt_name
@@ -29,7 +28,6 @@ dependencies:
     - field.storage.node.field_table_of_contents
     - field.storage.node.field_tags
     - field.storage.node.field_temporal_subject
-    - field.storage.taxonomy_term.field_person_preferred_name
     - search_api.server.default_solr_server
     - core.entity_view_mode.node.search_index
 third_party_settings:
@@ -61,30 +59,6 @@ name: 'Default Solr content index'
 description: 'Default content index created by the Solr Search Defaults module'
 read_only: false
 field_settings:
-  alternate_family_name:
-    label: 'Person Alternate Family Name'
-    datasource_id: 'entity:taxonomy_term'
-    property_path: 'field_person_alternate_names:family'
-    type: string
-    dependencies:
-      config:
-        - field.storage.taxonomy_term.field_person_alternate_names
-  alternate_given_name:
-    label: 'Person Alternate Given Name'
-    datasource_id: 'entity:taxonomy_term'
-    property_path: 'field_person_alternate_names:given'
-    type: string
-    dependencies:
-      config:
-        - field.storage.taxonomy_term.field_person_alternate_names
-  alternate_middle_name:
-    label: 'Person Alternate Middle Names'
-    datasource_id: 'entity:taxonomy_term'
-    property_path: 'field_person_alternate_names:middle'
-    type: string
-    dependencies:
-      config:
-        - field.storage.taxonomy_term.field_person_alternate_names
   author:
     label: 'Author name'
     datasource_id: 'entity:node'
@@ -301,30 +275,6 @@ field_settings:
     indexed_locked: true
     type_locked: true
     hidden: true
-  preferred_family_name:
-    label: 'Person Preferred Family Name'
-    datasource_id: 'entity:taxonomy_term'
-    property_path: 'field_person_preferred_name:family'
-    type: string
-    dependencies:
-      config:
-        - field.storage.taxonomy_term.field_person_preferred_name
-  preferred_given_name:
-    label: 'Person Preferred Given Name'
-    datasource_id: 'entity:taxonomy_term'
-    property_path: 'field_person_preferred_name:given'
-    type: string
-    dependencies:
-      config:
-        - field.storage.taxonomy_term.field_person_preferred_name
-  preferred_middle_name:
-    label: 'Person Preferred Middle Names'
-    datasource_id: 'entity:taxonomy_term'
-    property_path: 'field_person_preferred_name:middle'
-    type: string
-    dependencies:
-      config:
-        - field.storage.taxonomy_term.field_person_preferred_name
   rendered_item:
     label: 'Rendered item'
     property_path: rendered_item

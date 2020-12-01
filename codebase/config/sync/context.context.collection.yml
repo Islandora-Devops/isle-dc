@@ -18,7 +18,7 @@ disabled: false
 conditions:
   node_has_term:
     id: node_has_term
-    negate: 0
+    negate: false
     context_mapping:
       node: '@node.node_route_context:node'
     uri: 'http://purl.org/dc/dcmitype/Collection'
@@ -40,6 +40,7 @@ reactions:
         css_class: ''
         unique: 0
         context_id: collection
+        custom_id: views_block_members_block_1
     id: blocks
     saved: false
     include_default_blocks: 1
