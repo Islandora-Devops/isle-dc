@@ -34,28 +34,15 @@
 
 ## Introduction
 
-[Docker Compose] project facilitating creation and management of Islandora 8
-Infrastructure under [Docker] using [Docker Compose].
+[Docker Compose] project for creating and managing an Islandora 8 instance
+using [Docker] containers from [isle-buildkit](https://github.com/Islandoar-Devops/isle-buildkit).
 
-This is a prototype of the `docker-compose` file, Docker service and image
-configuration structure for the ISLE Phase III - ISLE / Islandora 8 Prototype
-(isle-dc) project.
+In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on configuration
+that you supply in a `.env` file.  And there are three use cases we're trying to accomplish:
 
-The workflow for this repository centers around using the provided
-[Makefile](./Makefile) to generate an appropriate `docker-compose.yml` file.
-
-There are **three** `ENVIRONMENT`s or ways of development that this repository
-supports:
-
-- **demo** *(Example site for testing the images)*
+- **demo** *(Example site for kicking the tires and looking at Islandora)*
 - **local** *(Local development using composer/drush in the codebase folder)*
-- **custom** *(Use a custom built image or generate one from the codebase folder)*
-
-To quickly get started, we recommend running the [demo](#-demo) environment
-first after you have completed the [Installation](#-installation).
-
-A walkthrough for setting up a simple local installation is available in the
-Islandora documentation: [Install Islandora on Docker (ISLE)](https://islandora.github.io/documentation/installation/docker-compose/)
+- **production** *(An environment safe to run out the wild)*
 
 ## Requirements
 
@@ -71,26 +58,99 @@ Islandora documentation: [Install Islandora on Docker (ISLE)](https://islandora.
 - PHP 7.2+ (*Also requires the same ext packages you intend to use in your site.*)
 - Perl (if you want to run `make dev` which does find-and-replace in some files with Perl)
 
-## Installation
+## Getting Started
 
-### Configuring the Environment
-
-To run the containers you must first generate a `docker-compose.yml` file. It is
-the only orchestration mechanism provided to launch all the containers, and have
-them work as a whole.
-
-To get started generate the defaults with the following command:
+To get started with a **demo** environment, run:
 
 ```bash
-make
+make demo
 ```
 
-This will create the following files which you can **customize**:
+This will pull down images from Dockerhub and generate
 
 | File                     | Purpose                                                                                                                                                   |
 | :----------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.env`                   | Responsible for setting variables used in `docker-compose.*.yml` files </br> Determines which `docker-compose.*.yml` are included in `docker-compose.yml` |
-| `docker-compose.env.yml` | Allows the user to set environment settings inside  of containers and override any services configuration                                                 |
+| `.env`                   | A configuration file that is yours to customize. This file controls how the docker-compose.yml file gets generated to meet your use case.</br>It also allows you to set variables that make their way into the final `docker-compose.yml` file, such as your site's domain. |
+| `docker-compose.yml`     | A ready to run `docker-compose.yml` file based on your `.env` file.  This file is considered disposable. When you change your `.env` file, you will generate a new one.                                                 |
+
+Your new Islandora instance will be available at [https://islandora.traefik.me](https://islandora.traefik.me). Don't let the
+funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.  If you see `502 Bad Gateway` when visiting the link,
+just wait a moment.  Not all of the services have finished booting up.  When it's done, you can log into Drupal as `admin`
+using the default password, `password`. 
+
+Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
+the things you can do.  If you want to poke around, here's all the services that are available to visit:
+
+| Service                     | Url                                                                                                                                                   |
+| :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Drupal                   | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |
+| Traefik                  | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |
+| Fedora                   | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |
+| Blazegraph               | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |
+| Activemq                 | [https://islandora.traefik.me:8161](https://islandora.traefik.me:8161)                         |
+| Solr                     | [https://islandora.traefik.me:8983](https://islandora.traefik.me:8983)                         |
+| Cantaloupe               | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |
+| Matomo                   | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |
+
+When you're done with your demo environment, shut it down by running
+
+```bash
+docker-compose down
+```
+
+This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and 
+all ingested data, use
+
+```
+docker-compose down -v
+```
+
+## Local Development
+
+Before you go any further, make sure you've set `ENVIRONMENT=local` in  your .env file.
+
+When developing locally, your Drupal site resides in the `codebase` folder and is bind-mounted into your
+Drupal container.  This lets you update code using the IDE of your choice on your host machine, and the
+changes are automatically reflected on the Drupal container.  Simply place any exported Drupal site as
+the `codebase` folder in `isle-dc` and you're good to go.  From there, run
+
+```bash
+make local
+```
+
+If you don't provide a codebase, `isle-dc` will download the same one that's used for
+[future.islandora.ca](https://future.islandora.ca). If you already have a Drupal site but don't know how to export it,
+log into your server, navigate to the Drupal root, and run the following commands:
+
+- `drush config:export`
+- `git init`
+- `git add -A .`
+- `git commit -m "First export of site"`
+
+Then you can `git push` your site to Github and `git clone` it down whenever you want.
+
+### Local Development with Demo Content
+
+- A clone of the sandbox at [future.islandora.ca](https://future.islandora.ca), including sample content
+- Your own site
+
+
+
+
+
+
+There are **three** `ENVIRONMENT`s or ways of development that this repository
+supports:
+
+- **demo** *(Example site for testing the images)*
+- **local** *(Local development using composer/drush in the codebase folder)*
+- **custom** *(Use a custom built image or generate one from the codebase folder)*
+
+To quickly get started, we recommend running the [demo](#-demo) environment
+first after you have completed the [Installation](#-installation).
+
+A walkthrough for setting up a simple local installation is available in the
+Islandora documentation: [Install Islandora on Docker (ISLE)](https://islandora.github.io/documentation/installation/docker-compose/)
 
 At a minimum, you'll want to consider setting `ENVIRONMENT` in the `.env` file to either `demo`, `local`, or `custom`. The default is `demo`.
 

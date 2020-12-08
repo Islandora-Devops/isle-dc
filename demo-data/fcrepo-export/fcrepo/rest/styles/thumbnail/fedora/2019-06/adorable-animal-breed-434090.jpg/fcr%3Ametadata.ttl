@@ -1,0 +1,20 @@
+@prefix premis:  <http://www.loc.gov/premis/rdf/v1#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix fedora:  <http://fedora.info/definitions/v4/repository#> .
+@prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix ldp:  <http://www.w3.org/ns/ldp#> .
+@prefix iana:  <http://www.iana.org/assignments/relation/> .
+
+<http://islandora.traefik.me:8081/fcrepo/rest/styles/thumbnail/fedora/2019-06/adorable-animal-breed-434090.jpg>
+        rdf:type                 fedora:Binary ;
+        rdf:type                 fedora:Resource ;
+        fedora:lastModifiedBy    "bypassAdmin" ;
+        ebucore:hasMimeType      "image/jpeg" ;
+        fedora:createdBy         "bypassAdmin" ;
+        fedora:created           "2020-12-03T17:59:26.963Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        fedora:lastModified      "2020-12-03T17:59:26.963Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        premis:hasMessageDigest  <urn:sha1:966902f8af2cafe8527c1fbfdca2acfeccc6b4b2> ;
+        premis:hasSize           "2179"^^<http://www.w3.org/2001/XMLSchema#long> ;
+        rdf:type                 ldp:NonRDFSource ;
+        iana:describedby         <http://islandora.traefik.me:8081/fcrepo/rest/styles/thumbnail/fedora/2019-06/adorable-animal-breed-434090.jpg/fcr:metadata> ;
+        fedora:hasFixityService  <http://islandora.traefik.me:8081/fcrepo/rest/styles/thumbnail/fedora/2019-06/adorable-animal-breed-434090.jpg/fcr:fixity> .

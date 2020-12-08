@@ -93,21 +93,24 @@ build:
 
 
 # Updates codebase folder to be owned by the host user and nginx group.
-.PHONY: set-codebase-owner
-.SILENT: set-codebase-owner
-set-codebase-owner:
-	sudo find ./codebase -exec chown $(shell id -u):101 {} \;
+.PHONY: set-files-owner
+.SILENT: set-files-owner
+set-files-owner: $(SRC)
+ifndef SRC
+	$(error SRC is not set)
+endif
+	sudo find $(SRC) -exec chown $(shell id -u):101 {} \;
 
 # Creates required databases for drupal site(s) using environment variables.
-.PHONY: databases
-.SILENT: databases
-databases:
+.PHONY: drupal-database
+.SILENT: drupal-database
+drupal-database:
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_database"
 
 # Installs drupal site(s) using environment variables.
 .PHONY: install
 .SILENT: install
-install: databases
+install: drupal-database
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites install_site"
 
 # Updates settings.php according to the environment variables.
@@ -124,6 +127,7 @@ update-settings-php:
 .SILENT: update-config-from-environment
 update-config-from-environment:
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
+	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_jwt_module"
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
@@ -187,27 +191,70 @@ config-import: set-site-uuid delete-shortcut-entities
 	docker-compose exec drupal drush -l $(SITE) config:import -y
 
 # Dump database.
-database-dump:
+drupal-database-dump: $(DEST)
 ifndef DEST
 	$(error DEST is not set)
-endif
-ifeq ($(wildcard $(CURDIR)/codebase),)
-	$(error codebase folder does not exists)
 endif
 	docker-compose exec drupal drush -l $(SITE) sql:dump > /tmp/dump.sql
 	docker cp $$(docker-compose ps -q drupal):/tmp/dump.sql $(DEST)
 
 # Import database.
-database-import: $(SRC)
+drupal-database-import: $(SRC)
 ifndef SRC
 	$(error SRC is not set)
-endif
-ifeq ($(wildcard $(CURDIR)/codebase),)
-	$(error codebase folder does not exists)
 endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/dump.sql
 	# Need to specify the root user to import the database otherwise it will fail due to permissions.
 	docker-compose exec drupal with-contenv bash -lc '`drush -l $(SITE) sql:connect --extra="-u $${DRUPAL_DEFAULT_DB_ROOT_USER} --password=$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD}"` < /tmp/dump.sql'
+
+drupal-public-files-dump: $(DEST)
+ifndef DEST
+	$(error DEST is not set)
+endif
+	docker cp $$(docker-compose ps -q drupal):/var/www/drupal/web/sites/default/files $(DEST)
+
+drupal-public-files-import: $(SRC)
+ifndef SRC 
+	$(error SRC is not set)
+endif
+	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/public-files.tgz
+	docker-compose exec drupal with-contenv bash -lc 'tar zxvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files && chown -R nginx:nginx /var/www/drupal/web/sites/default/files && rm /tmp/public-files.tgz'
+
+# Dump fcrepo.
+fcrepo-export: $(DEST)
+ifndef DEST
+	$(error DEST is not set)
+endif
+	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode export -r http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-dump -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
+	docker cp $$(docker-compose ps -q fcrepo):/tmp/fcrepo-dump $(DEST)
+
+# Import fcrepo.
+fcrepo-import: $(SRC)
+ifndef SRC
+	$(error SRC is not set)
+endif
+	docker cp $(SRC) $$(docker-compose ps -q fcrepo):/tmp/fcrepo-dump
+	$(MAKE) -B docker-compose.yml DISABLE_SYN=true
+	docker-compose up -d fcrepo
+	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-dump -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
+	$(MAKE) -B docker-compose.yml
+	docker-compose up -d fcrepo
+
+# Dump Gemini
+gemini-database-dump: $(DEST)
+ifndef DEST
+	$(error DEST is not set)
+endif
+	docker-compose exec gemini with-contenv bash -lc 'mysqldump -u $${GEMINI_DB_USER} -p$${GEMINI_DB_PASSWORD} -h $${GEMINI_DB_HOST} $${GEMINI_DB_NAME} > /tmp/gemini.sql'
+	docker cp $$(docker-compose ps -q gemini):/tmp/gemini.sql $(DEST)
+
+# Import Gemini
+gemini-database-import: $(SRC)
+ifndef SRC
+	$(error SRC is not set)
+endif
+	docker cp $(SRC) $$(docker-compose ps -q gemini):/tmp/gemini.sql
+	docker-compose exec gemini with-contenv bash -lc 'mysql -u $${GEMINI_DB_USER} -p$${GEMINI_DB_PASSWORD} -h $${GEMINI_DB_HOST} $${GEMINI_DB_NAME} < /tmp/gemini.sql'
 
 # Creates the codebase folder from a running islandora/demo image.
 .PHONY: create-codebase-from-demo
@@ -282,26 +329,40 @@ download-default-certs:
 		curl http://traefik.me/privkey.pem -o certs/privkey.pem; \
 	fi
 
-.PHONY: dev
-.SILENT: dev
-dev:
+.PHONY: demo
+.SILENT: demo
+demo:
 	$(MAKE) download-default-certs
-	$(MAKE) create-codebase-from-demo
-	if grep -q DRUPAL_DEFAULT_CONFIGDIR docker-compose.env.yml; then \
-		perl -i -pe's/DRUPAL_DEFAULT_CONFIGDIR:.*/DRUPAL_DEFAULT_CONFIGDIR: \/var\/www\/drupal\/config\/sync/g'  docker-compose.env.yml; \
-	else \
-		perl -i -pe's/DRUPAL_DEFAULT_SALT/DRUPAL_DEFAULT_CONFIGDIR: \/var\/www\/drupal\/config\/sync\n\ \ \ \ \ \ DRUPAL_DEFAULT_SALT/g' docker-compose.env.yml; \
+	$(MAKE) docker-compose.yml
+	$(MAKE) pull
+	docker-compose up -d
+	$(MAKE) update-settings-php
+	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz
+	$(MAKE) drupal-database
+	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql
+	$(MAKE) hydrate
+	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export 
+	$(MAKE) gemini-database-import SRC=$(CURDIR)/demo-data/gemini.sql
+	
+
+# git clone https://github.com/dannylamb/islandora-sandbox codebase
+.PHONY: local
+.SILENT: local
+local:
+	$(MAKE) download-default-certs
+	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+	if [ `wget -q -O - https://composer.github.io/installer.sig` != `php -r "echo hash_file('sha384', 'composer-setup.php');"` ]; then \
+		>&2 echo 'ERROR: Invalid installer checksum'; \
+		rm composer-setup.php; \
+		exit 1; \
 	fi
-	if grep -q  DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG docker-compose.env.yml; then \
-		perl -i -pe's/DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG:.*/DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"/g' docker-compose.env.yml; \
-	else \
-		perl -i -pe's/DRUPAL_DEFAULT_SALT/DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"\n\ \ \ \ \ \ DRUPAL_DEFAULT_SALT/g' docker-compose.env.yml; \
+	php composer-setup.php --quiet
+	rm composer-setup.php
+	if [ ! -d ./codebase ]; then \
+		git clone https://github.com/dannylamb/islandora-sandbox.git codebase; \
 	fi
-	if grep -q  DRUPAL_DEFAULT_PROFILE docker-compose.env.yml; then \
-		perl -i -pe's/DRUPAL_DEFAULT_PROFILE:.*/DRUPAL_DEFAULT_PROFILE: minimal/g' docker-compose.env.yml; \
-	else \
-	  perl -i -pe's/DRUPAL_DEFAULT_SALT/DRUPAL_DEFAULT_PROFILE: minimal\n\ \ \ \ \ \ DRUPAL_DEFAULT_SALT/g' docker-compose.env.yml; \
-	fi
+	(cd codebase && php ../composer.phar update)
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	docker-compose up -d
 	$(MAKE) remove_standard_profile_references_from_config

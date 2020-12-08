@@ -1,0 +1,20 @@
+@prefix premis:  <http://www.loc.gov/premis/rdf/v1#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix fedora:  <http://fedora.info/definitions/v4/repository#> .
+@prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix ldp:  <http://www.w3.org/ns/ldp#> .
+@prefix iana:  <http://www.iana.org/assignments/relation/> .
+
+<http://islandora.traefik.me:8081/fcrepo/rest/2019-06/adorable-animal-animal-photography-1562983.jpg>
+        rdf:type                 fedora:Binary ;
+        rdf:type                 fedora:Resource ;
+        fedora:lastModifiedBy    "bypassAdmin" ;
+        ebucore:hasMimeType      "image/jpeg" ;
+        fedora:createdBy         "bypassAdmin" ;
+        fedora:created           "2020-12-03T17:59:28.991Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        fedora:lastModified      "2020-12-03T17:59:28.991Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        premis:hasMessageDigest  <urn:sha1:74aca01b14c58ce583aecd0ab025183d74bb154b> ;
+        premis:hasSize           "298194"^^<http://www.w3.org/2001/XMLSchema#long> ;
+        rdf:type                 ldp:NonRDFSource ;
+        iana:describedby         <http://islandora.traefik.me:8081/fcrepo/rest/2019-06/adorable-animal-animal-photography-1562983.jpg/fcr:metadata> ;
+        fedora:hasFixityService  <http://islandora.traefik.me:8081/fcrepo/rest/2019-06/adorable-animal-animal-photography-1562983.jpg/fcr:fixity> .

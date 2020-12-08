@@ -1,0 +1,20 @@
+@prefix premis:  <http://www.loc.gov/premis/rdf/v1#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix fedora:  <http://fedora.info/definitions/v4/repository#> .
+@prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix ldp:  <http://www.w3.org/ns/ldp#> .
+@prefix iana:  <http://www.iana.org/assignments/relation/> .
+
+<http://islandora.traefik.me:8081/fcrepo/rest/2020-04/page_14.jpg>
+        rdf:type                 fedora:Binary ;
+        rdf:type                 fedora:Resource ;
+        fedora:lastModifiedBy    "bypassAdmin" ;
+        ebucore:hasMimeType      "image/jpeg" ;
+        fedora:createdBy         "bypassAdmin" ;
+        fedora:created           "2020-12-03T17:59:29.968Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        fedora:lastModified      "2020-12-03T17:59:29.968Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        premis:hasMessageDigest  <urn:sha1:be71b33d8eb81f354e0e230be85ee5fc308e2eda> ;
+        premis:hasSize           "133376"^^<http://www.w3.org/2001/XMLSchema#long> ;
+        rdf:type                 ldp:NonRDFSource ;
+        iana:describedby         <http://islandora.traefik.me:8081/fcrepo/rest/2020-04/page_14.jpg/fcr:metadata> ;
+        fedora:hasFixityService  <http://islandora.traefik.me:8081/fcrepo/rest/2020-04/page_14.jpg/fcr:fixity> .
