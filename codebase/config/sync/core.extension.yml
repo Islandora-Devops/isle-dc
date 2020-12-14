@@ -70,7 +70,6 @@ module:
   migrate_plus: 0
   migrate_source_csv: 0
   migrate_tools: 0
-  name: 0
   node: 0
   openseadragon: 0
   options: 0
