@@ -1,0 +1,19 @@
+uuid: 0f6abb56-5900-4dc6-8218-85a4ff90caab
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_date
+    - taxonomy.vocabulary.person
+id: taxonomy_term.person.field_date
+field_name: field_date
+entity_type: taxonomy_term
+bundle: person
+label: Date
+description: "Dates of existence. Corresponds to the $d subfield in MARC.\r\n\r\nPlease use the format YYYY-MM-DD or  YYYY-MM or YYYY \r\n(<a href=\"https://en.wikipedia.org/wiki/ISO_8601\">ISO-8601</a>)."
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,33 @@
+uuid: 86e4cb0d-2254-4a88-8bcd-a45441dc9327
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_title_language
+    - node.type.collection_object
+    - taxonomy.vocabulary.language
+  content:
+    - 'taxonomy_term:language:7397e0c4-df0a-4800-95af-afccc6ff64a5'
+id: node.collection_object.field_title_language
+field_name: field_title_language
+entity_type: node
+bundle: collection_object
+label: 'Title Language'
+description: 'Used to indication the language of the title on this collection. '
+required: false
+translatable: true
+default_value:
+  -
+    target_uuid: 7397e0c4-df0a-4800-95af-afccc6ff64a5
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      language: language
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

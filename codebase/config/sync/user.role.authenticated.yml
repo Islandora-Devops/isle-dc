@@ -18,4 +18,6 @@ permissions:
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
+  - 'view field_citable_url'
   - 'view media'
+  - 'view own field_citable_url'

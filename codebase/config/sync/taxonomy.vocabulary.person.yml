@@ -6,5 +6,5 @@ _core:
   default_config_hash: GAHBiBARA1hdVQoJq1P1oyK47vGxwTr3vyiPsnwqD44
 name: Person
 vid: person
-description: 'An individual of the human species. '
+description: 'An individual or an identity established by an individual, either alone or in collaboration with one or more other individuals.'
 weight: 0

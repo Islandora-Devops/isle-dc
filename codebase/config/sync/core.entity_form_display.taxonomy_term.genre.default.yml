@@ -7,7 +7,6 @@ dependencies:
     - taxonomy.vocabulary.genre
   module:
     - controlled_access_terms
-    - path
     - text
 _core:
   default_config_hash: pJLsORJM1PBxpJwDH1jmPE2qHSVwWnRSG_lRdJhjYHQ
@@ -32,13 +31,6 @@ content:
     third_party_settings: {  }
     type: authority_link_default
     region: content
-  langcode:
-    type: language_select
-    weight: 3
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   name:
     type: string_textfield
     weight: 0
@@ -47,12 +39,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  path:
-    type: path
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
@@ -60,9 +46,7 @@ content:
     weight: 100
     region: content
     third_party_settings: {  }
-  translation:
-    weight: 10
-    settings: {  }
-    third_party_settings: {  }
-    region: content
-hidden: {  }
+hidden:
+  langcode: true
+  path: true
+  translation: true

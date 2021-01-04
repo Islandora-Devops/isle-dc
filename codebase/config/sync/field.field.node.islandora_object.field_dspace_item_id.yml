@@ -1,0 +1,19 @@
+uuid: 07e8e5b9-4a39-4442-a16c-41c2cc013fa6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dspace_item_id
+    - node.type.islandora_object
+id: node.islandora_object.field_dspace_item_id
+field_name: field_dspace_item_id
+entity_type: node
+bundle: islandora_object
+label: 'DSpace Item ID'
+description: 'Legacy item UUID from DSpace platform.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

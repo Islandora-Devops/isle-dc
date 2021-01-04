@@ -1,24 +1,31 @@
-uuid: eeb2ec96-3d22-4847-80c4-675f4b17d880
+uuid: ffe58242-6c39-43c4-a1b0-43154c37cd5f
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_description
     - node.type.islandora_object
-  enforced:
-    module:
-      - islandora_defaults
-_core:
-  default_config_hash: KjgbN9IzyykPa5sgXntahVuBbQceulsWih6E_hu-vxc
+    - taxonomy.vocabulary.language
+  module:
+    - reference_value_pair
 id: node.islandora_object.field_description
 field_name: field_description
 entity_type: node
 bundle: islandora_object
 label: Description
-description: ''
+description: '<b>Optional</b>. If available, record descriptive information about the resource not captured in other fields.'
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
-settings: {  }
-field_type: string_long
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      language: language
+    sort:
+      field: name
+      direction: asc
+    auto_create: 0
+    auto_create_bundle: ''
+field_type: reference_value_pair

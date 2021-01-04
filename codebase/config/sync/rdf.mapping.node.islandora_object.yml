@@ -9,28 +9,52 @@ dependencies:
       - islandora_defaults
   module:
     - node
-_core:
-  default_config_hash: asapUUZJQOe3DytSlzwIjRbhy5n03D7UD7Sq22fogZY
 id: node.islandora_object
 targetEntityType: node
 bundle: islandora_object
 types:
   - 'pcdm:Object'
 fieldMappings:
+  field_abstract:
+    properties:
+      - 'dcterms:abstract'
+  field_access_rights:
+    properties:
+      - 'dcterms:accessRights'
   field_alternative_title:
     properties:
       - 'dcterms:alternative'
-  field_edtf_date:
+  field_citable_url:
     properties:
-      - 'dcterms:date'
-    datatype_callback:
-      callable: 'Drupal\controlled_access_terms\EDTFConverter::dateIso8601Value'
-  field_edtf_date_created:
+      - 'dcterms:identifier'
+  field_collection_number:
+    properties:
+      - 'dcterms:identifier'
+  field_contributor:
+    properties:
+      - 'dcterms:contributor'
+  field_copyright_and_use:
+    properties:
+      - 'dcterms:rights'
+  field_copyright_holder:
+    properties:
+      - 'dcterms:rightsHolders'
+  field_creator:
+    properties:
+      - 'dcterms:creator'
+    mapping_type: rel
+  field_date_available:
+    properties:
+      - 'dcterms:available'
+  field_date_coprighted:
+    properties:
+      - 'dcterms:dateCopyrighted'
+  field_date_created:
     properties:
       - 'dcterms:created'
     datatype_callback:
       callable: 'Drupal\controlled_access_terms\EDTFConverter::dateIso8601Value'
-  field_edtf_date_issued:
+  field_date_published:
     properties:
       - 'dcterms:issued'
     datatype_callback:
@@ -38,72 +62,80 @@ fieldMappings:
   field_description:
     properties:
       - 'dcterms:description'
+  field_digital_identifier:
+    properties:
+      - 'dcterms:identifier'
+  field_digital_publisher:
+    properties:
+      - 'dcterms:publisher'
+  field_dspace_identifier:
+    properties:
+      - 'idloc:uri'
   field_extent:
     properties:
       - 'dcterms:extent'
-  field_identifier:
+  field_finding_aid:
+    properties:
+      - 'bibframe:findingAid'
+  field_genre:
+    properties:
+      - 'schema:genre'
+    mapping_type: rel
+  field_geoportal_link:
+    properties:
+      - 'dcterms:relation'
+  field_is_part_of:
+    properties:
+      - 'dcterms:isPartOf'
+    mapping_type: rel
+  field_issn:
+    properties:
+      - 'schema:issn'
+      - 'idloc:issn'
+  field_item_barcode:
     properties:
       - 'dcterms:identifier'
+  field_jhir:
+    properties:
+      - 'idloc:uri'
+  field_language:
+    properties:
+      - 'dcterms:language'
+    mapping_type: rel
+  field_library_catalog_link:
+    properties:
+      - 'dcterms:relation'
   field_member_of:
     properties:
       - 'pcdm:memberOf'
+    mapping_type: rel
+  field_oclc_number:
+    properties:
+      - 'bibo:oclcnum'
+  field_publisher:
+    properties:
+      - 'relators:pbl'
+      - 'dcterms:publisher'
+    mapping_type: rel
+  field_publisher_country:
+    properties:
+      - 'bibframe:place'
     mapping_type: rel
   field_resource_type:
     properties:
       - 'dcterms:type'
     mapping_type: rel
-  field_rights:
+  field_spatial_coverage:
     properties:
-      - 'dcterms:rights'
+      - 'dcterms:spatial'
+    mapping_type: rel
   field_subject:
     properties:
       - 'dcterms:subject'
     mapping_type: rel
-  field_language:
-    properties:
-      - 'dcterms:language'
-  field_genre:
-    properties:
-      - 'dcterms:type'
-  field_physical_form:
-    properties:
-      - 'dcterms:format'
-  field_edition:
-    properties:
-      - 'rdau:P60329'
-  field_place_published:
-    properties:
-      - 'relators:pup'
   field_table_of_contents:
     properties:
       - 'dcterms:tableOfContents'
-  field_dewey_classification:
-    properties:
-      - 'dcterms:subject'
-  field_lcc_classification:
-    properties:
-      - 'dcterms:subject'
-  field_subjects_name:
-    properties:
-      - 'dcterms:subject'
-  field_temporal_subject:
-    properties:
-      - 'dcterms:temporal'
-  field_geographic_subject:
-    properties:
-      - 'dcterms:spatial'
-  field_isbn:
-    properties:
-      - 'dbpedia:isbn'
-  field_oclc_number:
-    properties:
-      - 'dbpedia:oclc'
-  field_local_identifier:
-    properties:
-      - 'dcterms:identifier'
-  field_note:
-    properties:
-      - 'skos:note'
   field_weight:
     properties:
       - 'co:index'

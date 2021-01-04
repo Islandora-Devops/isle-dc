@@ -1,0 +1,23 @@
+uuid: 585a239d-2e21-41cf-a0c6-d4cb42ec754e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_featured_item
+    - node.type.islandora_object
+id: node.islandora_object.field_featured_item
+field_name: field_featured_item
+entity_type: node
+bundle: islandora_object
+label: 'Featured Item'
+description: 'Enabling this will cause this item to be displayed in the "featured item" section on the collection page. '
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Featured
+  off_label: 'Not Featured'
+field_type: boolean

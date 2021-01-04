@@ -1,0 +1,33 @@
+uuid: 6edddbf0-2696-4573-9028-f203b2527df1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_copyright_holder
+    - node.type.islandora_object
+    - taxonomy.vocabulary.corporate_body
+    - taxonomy.vocabulary.family
+    - taxonomy.vocabulary.person
+id: node.islandora_object.field_copyright_holder
+field_name: field_copyright_holder
+entity_type: node
+bundle: islandora_object
+label: 'Copyright Holder'
+description: '<b>Optional</b>.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      corporate_body: corporate_body
+      family: family
+      person: person
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: family
+field_type: entity_reference

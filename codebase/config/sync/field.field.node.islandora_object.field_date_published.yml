@@ -1,0 +1,21 @@
+uuid: abbaed8e-4ea3-4b89-8331-c73e5fb5d4f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date_published
+    - node.type.islandora_object
+  module:
+    - controlled_access_terms
+id: node.islandora_object.field_date_published
+field_name: field_date_published
+entity_type: node
+bundle: islandora_object
+label: 'Date Published'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: edtf

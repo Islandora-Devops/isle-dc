@@ -1,0 +1,19 @@
+uuid: 5eef303c-0e86-4380-9f2b-72694ee38f42
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_preferred_name_rest
+    - taxonomy.vocabulary.person
+id: taxonomy_term.person.field_preferred_name_rest
+field_name: field_preferred_name_rest
+entity_type: taxonomy_term
+bundle: person
+label: 'Person Preferred Name: Rest of Name'
+description: 'The first name element or forename and additional names, e.g, middle names, for the person named in the record. Listed second in the $a subfield in MARC.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

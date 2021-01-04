@@ -6,5 +6,5 @@ _core:
   default_config_hash: 8KAllLbSPC7wkwMZ_mtJsxrV45Gs5ojJ7tbrjZcXtZw
 name: Language
 vid: language
-description: 'Language of the work'
+description: 'The system of written, spoken, or signed communication used in a resource.'
 weight: 0

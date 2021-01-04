@@ -1,0 +1,19 @@
+uuid: 6e7baf57-2cab-4cd5-aefb-7847156513f9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_primary_name
+    - taxonomy.vocabulary.corporate_body
+id: taxonomy_term.corporate_body.field_primary_name
+field_name: field_primary_name
+entity_type: taxonomy_term
+bundle: corporate_body
+label: 'Corporate Name: Primary Corporate Name'
+description: 'The primary part of a name form. Corresponds to subfield a in MARC 110 field. Example: Johns Hopkins University'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

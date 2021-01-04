@@ -4,13 +4,13 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.family.field_authority_link
-    - field.field.taxonomy_term.family.field_cat_date_begin
-    - field.field.taxonomy_term.family.field_cat_date_end
+    - field.field.taxonomy_term.family.field_date
+    - field.field.taxonomy_term.family.field_family_name
     - field.field.taxonomy_term.family.field_relationships
+    - field.field.taxonomy_term.family.field_title_and_other_words
     - taxonomy.vocabulary.family
   module:
     - controlled_access_terms
-    - path
     - text
 _core:
   default_config_hash: BjyADh-LMRM2m1r1SnzCIMX7METfRii5LLfuf8vGb-o
@@ -20,39 +20,39 @@ bundle: family
 mode: default
 content:
   description:
-    type: text_textfield
-    weight: 0
+    type: text_textarea
+    weight: 3
     region: content
     settings:
-      size: 60
       placeholder: ''
+      rows: 5
     third_party_settings: {  }
   field_authority_link:
-    weight: 122
+    weight: 5
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
     type: authority_link_default
     region: content
-  field_cat_date_begin:
-    weight: 8
+  field_date:
+    weight: 4
     settings:
-      strict_dates: false
-      intervals: false
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: edtf_default
+    type: string_textfield
     region: content
-  field_cat_date_end:
-    weight: 9
+  field_family_name:
+    weight: 1
     settings:
-      strict_dates: false
-      intervals: false
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: edtf_default
+    type: string_textfield
     region: content
   field_relationships:
-    weight: 123
+    weight: 6
     settings:
       match_operator: CONTAINS
       size: '60'
@@ -61,13 +61,14 @@ content:
     third_party_settings: {  }
     type: typed_relation_default
     region: content
-  langcode:
-    type: language_select
+  field_title_and_other_words:
     weight: 2
-    region: content
     settings:
-      include_locked: true
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: -5
@@ -76,12 +77,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  path:
-    type: path
-    weight: 30
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
@@ -89,9 +84,7 @@ content:
     weight: 100
     region: content
     third_party_settings: {  }
-  translation:
-    weight: 10
-    settings: {  }
-    third_party_settings: {  }
-    region: content
-hidden: {  }
+hidden:
+  langcode: true
+  path: true
+  translation: true

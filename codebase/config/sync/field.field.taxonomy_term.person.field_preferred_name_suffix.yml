@@ -1,0 +1,19 @@
+uuid: dadac910-e562-46bc-b786-d3e1b7c38697
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_preferred_name_suffix
+    - taxonomy.vocabulary.person
+id: taxonomy_term.person.field_preferred_name_suffix
+field_name: field_preferred_name_suffix
+entity_type: taxonomy_term
+bundle: person
+label: 'Person Preferred Name: Suffix'
+description: 'A term following a name that qualifies the name but is not a title. Examples: "Jr.", "fils". Found in the $c subfield in MARC.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

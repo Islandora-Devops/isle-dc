@@ -24,6 +24,11 @@ content:
   language:
     weight: 0
     region: content
+  simplesamlphp_auth_user_enable:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   timezone:
     weight: 6
     region: content

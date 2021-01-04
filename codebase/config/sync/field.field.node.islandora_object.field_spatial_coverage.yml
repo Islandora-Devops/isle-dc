@@ -1,0 +1,29 @@
+uuid: be19a668-396e-416e-8126-3a59cafca368
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_spatial_coverage
+    - node.type.islandora_object
+    - taxonomy.vocabulary.geo_location
+id: node.islandora_object.field_spatial_coverage
+field_name: field_spatial_coverage
+entity_type: node
+bundle: islandora_object
+label: 'Spatial Coverage'
+description: '<b>Optional</b>. If available, record the spatial (geographic) characteristics of the resource, including the spatial topic of the resource, spatial applicability of the resource, or jurisdiction under which the resource is relevant. This <b>does not</b> include the publication location of the resource, which should go into the Publisher Country field. Please use or add terms from the <a href="admin/structure/taxonomy/manage/geo_location/overview">Geographic Location taxonomy</a>.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      geo_location: geo_location
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

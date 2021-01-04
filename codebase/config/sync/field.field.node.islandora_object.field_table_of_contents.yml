@@ -1,23 +1,31 @@
-uuid: 7399cbf3-2c0c-460f-9621-89f08cfefeec
+uuid: 9aabb34c-726e-4c92-949c-efb83d702d5a
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_table_of_contents
     - node.type.islandora_object
+    - taxonomy.vocabulary.language
   module:
-    - text
-_core:
-  default_config_hash: Vvj-VNNZnQWSDJlA3iZFGqCfrFLUnUFezM6iEvN7dZc
+    - reference_value_pair
 id: node.islandora_object.field_table_of_contents
 field_name: field_table_of_contents
 entity_type: node
 bundle: islandora_object
-label: 'Table Of Contents'
-description: ''
+label: 'Table of Contents'
+description: '<b>Optional</b>. If available, record a list of subunits of the resource.'
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
-settings: {  }
-field_type: text_long
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      language: language
+    sort:
+      field: name
+      direction: asc
+    auto_create: 0
+    auto_create_bundle: ''
+field_type: reference_value_pair

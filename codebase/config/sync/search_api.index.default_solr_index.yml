@@ -9,25 +9,10 @@ dependencies:
     - taxonomy
     - search_api
   config:
-    - field.storage.taxonomy_term.field_cat_date_begin
-    - field.storage.taxonomy_term.field_cat_date_end
-    - field.storage.taxonomy_term.field_corp_alt_name
-    - field.storage.node.field_description
-    - field.storage.node.field_edtf_date
-    - field.storage.node.field_edtf_date_created
-    - field.storage.node.field_edtf_date_issued
     - field.storage.taxonomy_term.field_geo_alt_name
-    - field.storage.node.field_identifier
-    - field.storage.node.field_linked_agent
-    - field.storage.node.field_local_identifier
     - field.storage.node.field_member_of
-    - field.storage.node.field_note
-    - field.storage.node.field_physical_form
     - field.storage.node.field_subject
-    - field.storage.node.field_subjects_name
-    - field.storage.node.field_table_of_contents
     - field.storage.node.field_tags
-    - field.storage.node.field_temporal_subject
     - search_api.server.default_solr_server
     - core.entity_view_mode.node.search_index
 third_party_settings:
@@ -92,67 +77,11 @@ field_settings:
     dependencies:
       module:
         - taxonomy
-  field_cat_date_begin:
-    label: 'Founding Date'
-    datasource_id: 'entity:taxonomy_term'
-    property_path: field_cat_date_begin
-    type: string
-    dependencies:
-      config:
-        - field.storage.taxonomy_term.field_cat_date_begin
-  field_cat_date_end:
-    label: 'Dissolution Date'
-    datasource_id: 'entity:taxonomy_term'
-    property_path: field_cat_date_end
-    type: string
-    dependencies:
-      config:
-        - field.storage.taxonomy_term.field_cat_date_end
-  field_corp_alt_name:
-    label: 'Corporate Body Alternate Name'
-    datasource_id: 'entity:taxonomy_term'
-    property_path: field_corp_alt_name
-    type: text
-    dependencies:
-      config:
-        - field.storage.taxonomy_term.field_corp_alt_name
-  field_description:
-    label: Description
-    datasource_id: 'entity:node'
-    property_path: field_description
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_description
   field_edited_text:
     label: 'Edited Text'
     datasource_id: 'entity:node'
     property_path: 'search_api_reverse_entity_references_media__field_media_of:field_edited_text'
     type: text
-  field_edtf_date:
-    label: Date
-    datasource_id: 'entity:node'
-    property_path: field_edtf_date
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_edtf_date
-  field_edtf_date_created:
-    label: 'Date Created'
-    datasource_id: 'entity:node'
-    property_path: field_edtf_date_created
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_edtf_date_created
-  field_edtf_date_issued:
-    label: 'Date Issued'
-    datasource_id: 'entity:node'
-    property_path: field_edtf_date_issued
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_edtf_date_issued
   field_geo_alt_name:
     label: 'Alternate Name'
     datasource_id: 'entity:taxonomy_term'
@@ -161,32 +90,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.taxonomy_term.field_geo_alt_name
-  field_identifier:
-    label: Identifier
-    datasource_id: 'entity:node'
-    property_path: field_identifier
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_identifier
-  field_linked_agent:
-    label: 'Linked Agent'
-    datasource_id: 'entity:node'
-    property_path: 'field_linked_agent:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_linked_agent
-      module:
-        - taxonomy
-  field_local_identifier:
-    label: 'Local Identifier'
-    datasource_id: 'entity:node'
-    property_path: field_local_identifier
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_local_identifier
   field_member_of:
     label: 'Member of'
     datasource_id: 'entity:node'
@@ -195,24 +98,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_member_of
-  field_note:
-    label: Note
-    datasource_id: 'entity:node'
-    property_path: field_note
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_note
-  field_physical_form:
-    label: 'Physical Form'
-    datasource_id: 'entity:node'
-    property_path: 'field_physical_form:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_physical_form
-      module:
-        - taxonomy
   field_subject:
     label: Subject
     datasource_id: 'entity:node'
@@ -223,24 +108,6 @@ field_settings:
         - field.storage.node.field_subject
       module:
         - taxonomy
-  field_subjects_name:
-    label: 'Subject (name)'
-    datasource_id: 'entity:node'
-    property_path: 'field_subjects_name:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_subjects_name
-      module:
-        - taxonomy
-  field_table_of_contents:
-    label: 'Table of Contents'
-    datasource_id: 'entity:node'
-    property_path: field_table_of_contents
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_table_of_contents
   field_tags:
     label: Tags
     datasource_id: 'entity:node'
@@ -249,16 +116,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_tags
-  field_temporal_subject:
-    label: 'Temporal Subject'
-    datasource_id: 'entity:node'
-    property_path: 'field_temporal_subject:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_temporal_subject
-      module:
-        - taxonomy
   name:
     label: Name
     datasource_id: 'entity:taxonomy_term'

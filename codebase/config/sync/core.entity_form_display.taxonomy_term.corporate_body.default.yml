@@ -3,17 +3,61 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.corporate_body.field_alt_date_of_meeting
+    - field.field.taxonomy_term.corporate_body.field_alt_location_of_meeting
+    - field.field.taxonomy_term.corporate_body.field_alt_num_of_section_or_meet
+    - field.field.taxonomy_term.corporate_body.field_alt_primary_name
+    - field.field.taxonomy_term.corporate_body.field_alt_subordinate_name
     - field.field.taxonomy_term.corporate_body.field_authority_link
-    - field.field.taxonomy_term.corporate_body.field_cat_date_begin
-    - field.field.taxonomy_term.corporate_body.field_cat_date_end
-    - field.field.taxonomy_term.corporate_body.field_corp_alt_name
+    - field.field.taxonomy_term.corporate_body.field_date
+    - field.field.taxonomy_term.corporate_body.field_date_of_meeting_or_treaty
+    - field.field.taxonomy_term.corporate_body.field_location_of_meeting
+    - field.field.taxonomy_term.corporate_body.field_num_of_section_or_meet
+    - field.field.taxonomy_term.corporate_body.field_primary_name
     - field.field.taxonomy_term.corporate_body.field_relationships
+    - field.field.taxonomy_term.corporate_body.field_subordinate_name
     - field.field.taxonomy_term.corporate_body.field_type
     - taxonomy.vocabulary.corporate_body
   module:
     - controlled_access_terms
-    - path
+    - field_group
     - text
+third_party_settings:
+  field_group:
+    group_corporate_name:
+      children:
+        - field_primary_name
+        - field_subordinate_name
+        - field_location_of_meeting
+        - field_date_of_meeting_or_treaty
+        - field_num_of_section_or_meet
+      parent_name: ''
+      weight: 2
+      format_type: fieldset
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Corporate Name'
+    group_alt_corporate_name:
+      children:
+        - field_alt_primary_name
+        - field_alt_subordinate_name
+        - field_alt_location_of_meeting
+        - field_alt_date_of_meeting
+        - field_alt_num_of_section_or_meet
+      parent_name: ''
+      weight: 3
+      format_type: fieldset
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Alt Corporate Name'
 _core:
   default_config_hash: Z26S89S-0cqYggliefiijqELUP7YKg5MMaf5abqH1Dg
 id: taxonomy_term.corporate_body.default
@@ -23,46 +67,102 @@ mode: default
 content:
   description:
     type: text_textarea
-    weight: 7
+    weight: 1
     settings:
       rows: 9
       placeholder: ''
     third_party_settings: {  }
     region: content
+  field_alt_date_of_meeting:
+    weight: 109
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_alt_location_of_meeting:
+    weight: 108
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_alt_num_of_section_or_meet:
+    weight: 111
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_alt_primary_name:
+    weight: 106
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_alt_subordinate_name:
+    weight: 107
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_authority_link:
-    weight: 3
+    weight: 4
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
     type: authority_link_default
     region: content
-  field_cat_date_begin:
-    weight: 4
-    settings:
-      strict_dates: false
-      intervals: false
-    third_party_settings: {  }
-    type: edtf_default
-    region: content
-  field_cat_date_end:
+  field_date:
     weight: 5
     settings:
-      strict_dates: false
-      intervals: false
-    third_party_settings: {  }
-    type: edtf_default
-    region: content
-  field_corp_alt_name:
-    weight: 6
-    settings:
-      rows: 5
+      size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textarea
+    type: string_textfield
+    region: content
+  field_date_of_meeting_or_treaty:
+    weight: 104
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_location_of_meeting:
+    weight: 103
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_num_of_section_or_meet:
+    weight: 110
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_primary_name:
+    weight: 101
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_relationships:
-    weight: 10
+    weight: 6
     settings:
       match_operator: CONTAINS
       size: '60'
@@ -71,19 +171,20 @@ content:
     third_party_settings: {  }
     type: typed_relation_default
     region: content
+  field_subordinate_name:
+    weight: 102
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_type:
-    weight: 1
+    weight: 9
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
-  langcode:
-    type: language_select
-    weight: 2
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   name:
     type: string_textfield
     weight: 0
@@ -91,12 +192,6 @@ content:
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
-  path:
-    type: path
-    weight: 2
-    region: content
-    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
@@ -107,7 +202,9 @@ content:
     third_party_settings: {  }
   translation:
     weight: 10
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
-hidden: {  }
+hidden:
+  langcode: true
+  path: true

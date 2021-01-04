@@ -3,14 +3,62 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.person.field_alt_name_fuller_form
+    - field.field.taxonomy_term.person.field_alt_name_number
+    - field.field.taxonomy_term.person.field_alt_name_prefix
+    - field.field.taxonomy_term.person.field_alt_name_suffix
+    - field.field.taxonomy_term.person.field_alt_preferred_name_rest
+    - field.field.taxonomy_term.person.field_alt_primary_part_of_name
     - field.field.taxonomy_term.person.field_authority_link
-    - field.field.taxonomy_term.person.field_cat_date_begin
-    - field.field.taxonomy_term.person.field_cat_date_end
+    - field.field.taxonomy_term.person.field_date
+    - field.field.taxonomy_term.person.field_preferred_name_fuller_form
+    - field.field.taxonomy_term.person.field_preferred_name_number
+    - field.field.taxonomy_term.person.field_preferred_name_prefix
+    - field.field.taxonomy_term.person.field_preferred_name_rest
+    - field.field.taxonomy_term.person.field_preferred_name_suffix
+    - field.field.taxonomy_term.person.field_primary_part_of_name
     - field.field.taxonomy_term.person.field_relationships
     - taxonomy.vocabulary.person
   module:
     - controlled_access_terms
+    - field_group
     - text
+third_party_settings:
+  field_group:
+    group_person_preferred_name:
+      children:
+        - field_primary_part_of_name
+        - field_preferred_name_rest
+        - field_preferred_name_prefix
+        - field_preferred_name_suffix
+        - field_preferred_name_number
+        - field_preferred_name_fuller_form
+      parent_name: ''
+      weight: 3
+      format_type: fieldset
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+      label: 'Person Preferred Name'
+    group_person_alternate_name:
+      children:
+        - field_alt_primary_part_of_name
+        - field_alt_preferred_name_rest
+        - field_alt_name_prefix
+        - field_alt_name_suffix
+        - field_alt_name_number
+        - field_alt_name_fuller_form
+      parent_name: ''
+      weight: 4
+      format_type: fieldset
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+      label: 'Person Alternate Name'
 _core:
   default_config_hash: d1WYYSrPyj65a3bdcgSOPjGGaLdNjISkMjC0gY_1fME
 id: taxonomy_term.person.default
@@ -21,12 +69,60 @@ content:
   description:
     label: hidden
     type: text_default
-    weight: 4
+    weight: 2
     settings: {  }
     third_party_settings: {  }
     region: content
+  field_alt_name_fuller_form:
+    weight: 25
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_alt_name_number:
+    weight: 24
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_alt_name_prefix:
+    weight: 22
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_alt_name_suffix:
+    weight: 23
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_alt_preferred_name_rest:
+    weight: 20
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_alt_primary_part_of_name:
+    weight: 19
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
   field_authority_link:
-    weight: 2
+    weight: 6
     label: above
     settings:
       trim_length: 80
@@ -37,30 +133,64 @@ content:
     third_party_settings: {  }
     type: authority_formatter_default
     region: content
-  field_cat_date_begin:
-    weight: 6
+  field_date:
+    weight: 5
     label: above
     settings:
-      date_separator: space
-      date_order: little_endian
-      month_format: mmm
-      day_format: dd
+      link_to_entity: false
     third_party_settings: {  }
-    type: edtf_default
+    type: string
     region: content
-  field_cat_date_end:
-    weight: 7
+  field_preferred_name_fuller_form:
+    weight: 18
     label: above
     settings:
-      date_separator: space
-      date_order: little_endian
-      month_format: mmm
-      day_format: dd
+      link_to_entity: false
     third_party_settings: {  }
-    type: edtf_default
+    type: string
+    region: content
+  field_preferred_name_number:
+    weight: 17
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_preferred_name_prefix:
+    weight: 15
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_preferred_name_rest:
+    weight: 14
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_preferred_name_suffix:
+    weight: 16
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_primary_part_of_name:
+    weight: 13
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
     region: content
   field_relationships:
-    weight: 9
+    weight: 7
     label: above
     settings:
       link: true

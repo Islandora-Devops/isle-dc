@@ -1,0 +1,21 @@
+uuid: 0680304b-b5c9-4077-8931-a3e3362fe012
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date_created
+    - node.type.islandora_object
+  module:
+    - controlled_access_terms
+id: node.islandora_object.field_date_created
+field_name: field_date_created
+entity_type: node
+bundle: islandora_object
+label: 'Date Created'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: edtf

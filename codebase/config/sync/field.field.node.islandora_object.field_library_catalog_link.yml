@@ -1,0 +1,23 @@
+uuid: aa34b7b0-40a2-496d-9677-90b5e8b1bb38
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_library_catalog_link
+    - node.type.islandora_object
+  module:
+    - link
+id: node.islandora_object.field_library_catalog_link
+field_name: field_library_catalog_link
+entity_type: node
+bundle: islandora_object
+label: 'Library Catalog Link'
+description: 'Required if known. Record the link to the resource record in <a href="https://catalyst.library.jhu.edu/">Catalyst</a>, the catalog for Johns Hopkins Libraries. '
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 1
+field_type: link

@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_resource_type
     - node.type.islandora_object
-    - taxonomy.vocabulary.resource_types
 _core:
   default_config_hash: FsQFpgp2cpLBMyOnHmUA5xlWA9HiAC4qPUkcK2O2jzc
 id: node.islandora_object.field_resource_type
@@ -13,19 +12,16 @@ field_name: field_resource_type
 entity_type: node
 bundle: islandora_object
 label: 'Resource Type'
-description: ''
-required: false
+description: '<b>Required.</b> Record the nature or genre of the resource. Please select a term from the <a href="admin/structure/taxonomy/manage/resource_types/overview">Resource Types Taxonomy</a>.'
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:taxonomy_term'
+  handler: views
   handler_settings:
-    target_bundles:
-      resource_types: resource_types
-    sort:
-      field: name
-      direction: asc
-    auto_create: false
-    auto_create_bundle: ''
+    view:
+      view_name: repository_item_resource_types
+      display_name: entity_reference_1
+      arguments: {  }
 field_type: entity_reference

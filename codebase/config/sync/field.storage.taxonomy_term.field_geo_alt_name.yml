@@ -3,7 +3,11 @@ langcode: en
 status: true
 dependencies:
   module:
+    - field_permissions
     - taxonomy
+third_party_settings:
+  field_permissions:
+    permission_type: public
 _core:
   default_config_hash: WLcVET6eoKzETqgr8XoCY3WP6Jjb6sJECX_uV7Z12DQ
 id: taxonomy_term.field_geo_alt_name

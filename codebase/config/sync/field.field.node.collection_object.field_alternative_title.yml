@@ -1,0 +1,31 @@
+uuid: e9a152e5-1745-494f-9c1b-67f54dc00e9d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_alternative_title
+    - node.type.collection_object
+    - taxonomy.vocabulary.language
+  module:
+    - reference_value_pair
+id: node.collection_object.field_alternative_title
+field_name: field_alternative_title
+entity_type: node
+bundle: collection_object
+label: 'Alternative Title'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      language: language
+    sort:
+      field: name
+      direction: asc
+    auto_create: 0
+    auto_create_bundle: ''
+field_type: reference_value_pair

@@ -6,5 +6,5 @@ _core:
   default_config_hash: tcyfAGtPfozbmd4cDt41tx83H_y01kzvHdFTD9CXHZk
 name: 'Resource Types'
 vid: resource_types
-description: 'See http://purl.org/dc/dcmitype/ and http://id.loc.gov/vocabulary/resourceTypes.html (a nested list of types).'
+description: 'Term(s) that broadly characterize(s) the content of the resource, regardless of its original or digital manifestation.'
 weight: 0

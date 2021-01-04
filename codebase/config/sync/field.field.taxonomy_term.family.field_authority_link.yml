@@ -14,7 +14,7 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: family
 label: 'Authority Sources'
-description: ''
+description: "Select the authority source that contains the selected family term.\r\n\r\nFor URL: Enter the stable URI or URL that represents the selected family."
 required: false
 translatable: true
 default_value: {  }

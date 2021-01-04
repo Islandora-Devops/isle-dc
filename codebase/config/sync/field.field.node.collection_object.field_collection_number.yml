@@ -1,0 +1,19 @@
+uuid: d303f7a0-eaf2-4f0e-8e28-2513d5f2c9cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_collection_number
+    - node.type.collection_object
+id: node.collection_object.field_collection_number
+field_name: field_collection_number
+entity_type: node
+bundle: collection_object
+label: 'Collection Number'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

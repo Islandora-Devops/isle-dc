@@ -1,0 +1,19 @@
+uuid: 2045e12d-e09e-49ae-9e9f-5558861aa51f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_alt_location_of_meeting
+    - taxonomy.vocabulary.corporate_body
+id: taxonomy_term.corporate_body.field_alt_location_of_meeting
+field_name: field_alt_location_of_meeting
+entity_type: taxonomy_term
+bundle: corporate_body
+label: 'Corporate Body Alternate Name: Location of Meeting'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -4,13 +4,12 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.geo_location.field_authority_link
+    - field.field.taxonomy_term.geo_location.field_broader
     - field.field.taxonomy_term.geo_location.field_geo_alt_name
-    - field.field.taxonomy_term.geo_location.field_geo_broader
-    - field.field.taxonomy_term.geo_location.field_geo_geolocation
     - taxonomy.vocabulary.geo_location
   module:
     - controlled_access_terms
-    - geolocation
+    - link
     - text
 _core:
   default_config_hash: 2IWu7AK6BJrbzWfbJyQntIT3yljHO6KDqltuhjUMQQU
@@ -22,12 +21,12 @@ content:
   description:
     label: hidden
     type: text_default
-    weight: 6
+    weight: 1
     settings: {  }
     third_party_settings: {  }
     region: content
   field_authority_link:
-    weight: 1
+    weight: 3
     label: inline
     settings:
       trim_length: 80
@@ -38,28 +37,25 @@ content:
     third_party_settings: {  }
     type: authority_formatter_default
     region: content
-  field_geo_alt_name:
+  field_broader:
     weight: 4
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_geo_alt_name:
+    weight: 2
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
-    region: content
-  field_geo_broader:
-    weight: 5
-    label: inline
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_geo_geolocation:
-    weight: 2
-    label: inline
-    settings: {  }
-    third_party_settings: {  }
-    type: geolocation_latlng
     region: content
 hidden:
   langcode: true

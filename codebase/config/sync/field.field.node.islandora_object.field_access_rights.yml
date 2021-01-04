@@ -1,0 +1,29 @@
+uuid: a54356b1-de48-43aa-ae78-db8852a91922
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_access_rights
+    - node.type.islandora_object
+    - taxonomy.vocabulary.access_rights
+id: node.islandora_object.field_access_rights
+field_name: field_access_rights
+entity_type: node
+bundle: islandora_object
+label: 'Access Rights'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      access_rights: access_rights
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

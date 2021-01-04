@@ -1,22 +1,27 @@
-uuid: 18a172a5-6e15-4585-9e77-8e605490f32b
+uuid: eb51eb3b-698a-49e6-8cc4-2fefe141ffec
 langcode: en
 status: true
 dependencies:
   module:
+    - field_permissions
     - node
-_core:
-  default_config_hash: 7FCYSxSFV5tDkfXYpAz_hlmXicmJLypWt050JQzbbjE
+    - reference_value_pair
+    - taxonomy
+third_party_settings:
+  field_permissions:
+    permission_type: public
 id: node.field_alternative_title
 field_name: field_alternative_title
 entity_type: node
-type: string
+type: reference_value_pair
 settings:
-  max_length: 255
+  max_length: '500'
+  target_type: taxonomy_term
   is_ascii: false
   case_sensitive: false
-module: core
+module: reference_value_pair
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

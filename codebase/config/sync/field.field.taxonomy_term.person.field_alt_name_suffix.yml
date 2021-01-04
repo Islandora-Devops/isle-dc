@@ -1,0 +1,19 @@
+uuid: 6ce83287-4e9b-4e1e-a2e9-2e6ccd609beb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_alt_name_suffix
+    - taxonomy.vocabulary.person
+id: taxonomy_term.person.field_alt_name_suffix
+field_name: field_alt_name_suffix
+entity_type: taxonomy_term
+bundle: person
+label: 'Person Alternate Name: Suffix'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

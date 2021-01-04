@@ -1,0 +1,25 @@
+uuid: 6a86a512-20a6-4dc5-8f57-a8f150f846d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_authority_link
+    - taxonomy.vocabulary.copyright_and_use
+  module:
+    - controlled_access_terms
+id: taxonomy_term.copyright_and_use.field_authority_link
+field_name: field_authority_link
+entity_type: taxonomy_term
+bundle: copyright_and_use
+label: 'Authority Sources'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  authority_sources:
+    rightsstatements: RightsStatements.org
+  title: 1
+  link_type: 16
+field_type: authority_link

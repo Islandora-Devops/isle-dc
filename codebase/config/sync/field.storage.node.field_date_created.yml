@@ -1,0 +1,26 @@
+uuid: a2682576-c2e2-4f3c-aa28-c57d24272f93
+langcode: en
+status: true
+dependencies:
+  module:
+    - controlled_access_terms
+    - field_permissions
+    - node
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: node.field_date_created
+field_name: field_date_created
+entity_type: node
+type: edtf
+settings:
+  max_length: '128'
+  is_ascii: false
+  case_sensitive: false
+module: controlled_access_terms
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

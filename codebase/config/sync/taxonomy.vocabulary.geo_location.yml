@@ -6,5 +6,5 @@ _core:
   default_config_hash: DGBtA4Guj6o9TTftr2O379-c-FNIxOtbTMKn8qQAbrI
 name: 'Geographic Location'
 vid: geo_location
-description: 'Geographic area(s) and places to which the records pertain.'
+description: 'Name(s) of a place by which a place is known.'
 weight: 0

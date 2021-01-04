@@ -1,0 +1,8 @@
+uuid: aee756c2-5fd7-493b-9fae-a77298b568e5
+langcode: en
+status: true
+dependencies: {  }
+name: 'Access Rights'
+vid: access_rights
+description: 'Access Rights describes the public access of digital items and identifies broad categories for restricted digital access.'
+weight: 0

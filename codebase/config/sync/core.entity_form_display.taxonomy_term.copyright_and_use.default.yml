@@ -1,0 +1,49 @@
+uuid: 8e492dab-1b48-4f61-9554-70bf3774450e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.copyright_and_use.field_authority_link
+    - taxonomy.vocabulary.copyright_and_use
+  module:
+    - controlled_access_terms
+    - text
+id: taxonomy_term.copyright_and_use.default
+targetEntityType: taxonomy_term
+bundle: copyright_and_use
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      placeholder: ''
+      rows: 5
+    third_party_settings: {  }
+  field_authority_link:
+    weight: 100
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: authority_link_default
+    region: content
+  name:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 101
+    region: content
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  path: true

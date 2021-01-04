@@ -1,0 +1,23 @@
+uuid: 6054d387-fc5d-438e-bebb-998b0d3c3aad
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_jhir
+    - node.type.islandora_object
+  module:
+    - link
+id: node.islandora_object.field_jhir
+field_name: field_jhir
+entity_type: node
+bundle: islandora_object
+label: JHIR
+description: 'Legacy item citable URI from DSpace.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 0
+field_type: link

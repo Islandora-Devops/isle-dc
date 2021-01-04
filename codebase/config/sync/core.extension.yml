@@ -80,6 +80,7 @@ module:
   prepopulate: 0
   quickedit: 0
   rdf: 0
+  reference_value_pair: 0
   responsive_image: 0
   rest: 0
   rest_oai_pmh: 0

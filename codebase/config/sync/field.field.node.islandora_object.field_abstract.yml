@@ -1,0 +1,31 @@
+uuid: 22c43421-dd51-4f66-95ff-73761f35d2d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_abstract
+    - node.type.islandora_object
+    - taxonomy.vocabulary.language
+  module:
+    - reference_value_pair
+id: node.islandora_object.field_abstract
+field_name: field_abstract
+entity_type: node
+bundle: islandora_object
+label: Abstract
+description: '<b>Optional.</b> If available, record a summary of the resource.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      language: language
+    sort:
+      field: name
+      direction: asc
+    auto_create: 0
+    auto_create_bundle: ''
+field_type: reference_value_pair

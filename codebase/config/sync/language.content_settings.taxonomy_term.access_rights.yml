@@ -1,0 +1,11 @@
+uuid: dc6c583d-bb23-4f0a-a525-a51d312c1fbe
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.access_rights
+id: taxonomy_term.access_rights
+target_entity_type_id: taxonomy_term
+target_bundle: access_rights
+default_langcode: site_default
+language_alterable: false

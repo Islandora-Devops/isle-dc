@@ -14,20 +14,17 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: person
 label: 'Authority Sources'
-description: ''
+description: "Select the authority source that contains the selected person.\r\n\r\nFor the URL: please enter the stable URI or URL that represents the selected person. Example: http://viaf.org/viaf/109406177"
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
   authority_sources:
-    cash: 'Canadian Subject Headings'
-    lcshac: 'Library of Congress Children''s Subject Headings'
-    naf: 'NACO Authority File'
-    nad: 'NAD / ARK II Name Authority Database'
-    nal: 'National Agricultural Library subject headings'
-    rvm: 'Répertoire de vedettes-matière'
-    ulan: 'Union List of Artist Names'
+    viaf: 'Virtual International Authority File'
+    lcnaf: 'Library of Congress Name Authority File'
+    ulan: 'Getty Union List of Artists Names'
+    orcid: ORCID
     other: Other
   title: 1
   link_type: 16

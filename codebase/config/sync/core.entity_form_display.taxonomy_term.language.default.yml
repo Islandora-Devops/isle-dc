@@ -17,12 +17,12 @@ bundle: language
 mode: default
 content:
   description:
-    type: text_textfield
+    type: text_textarea
     weight: 0
     region: content
     settings:
-      size: 60
       placeholder: ''
+      rows: 5
     third_party_settings: {  }
   field_authority_link:
     weight: 31
@@ -34,7 +34,7 @@ content:
     region: content
   langcode:
     type: language_select
-    weight: 2
+    weight: 99
     region: content
     settings:
       include_locked: true
@@ -49,7 +49,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 97
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -61,8 +61,8 @@ content:
     region: content
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 98
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden: {  }

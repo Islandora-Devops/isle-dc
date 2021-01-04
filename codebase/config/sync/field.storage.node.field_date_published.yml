@@ -1,0 +1,22 @@
+uuid: 90fab186-a903-4435-ac01-23089378b719
+langcode: en
+status: true
+dependencies:
+  module:
+    - controlled_access_terms
+    - node
+id: node.field_date_published
+field_name: field_date_published
+entity_type: node
+type: edtf
+settings:
+  max_length: '128'
+  is_ascii: false
+  case_sensitive: false
+module: controlled_access_terms
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

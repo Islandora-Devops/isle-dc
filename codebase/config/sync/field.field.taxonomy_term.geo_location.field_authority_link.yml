@@ -14,7 +14,7 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: geo_location
 label: 'Authority Link'
-description: 'A universal resource identifier representing a known place in a geographical database. For example, "http://www.geonames.org/5506956/" for "Las Vegas, Nevada".'
+description: "Select the authority source that contains the selected geographic location.\r\n\r\nFor URL: please enter the stable URI or URL that represents the selected geographic location. Examples: http://id.worldcat.org/fast/1204292, http://www.geonames.org/4347778"
 required: false
 translatable: true
 default_value: {  }
@@ -22,7 +22,7 @@ default_value_callback: ''
 settings:
   authority_sources:
     geonames: GeoNames
-    other: Other
+    fast: 'Faceted Application of Subject Terminology'
   title: 1
   link_type: 16
 field_type: authority_link

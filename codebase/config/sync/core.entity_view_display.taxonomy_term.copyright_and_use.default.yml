@@ -1,0 +1,37 @@
+uuid: 7b5fe894-46ce-4902-91e3-6c7ef2fcfd0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.copyright_and_use.field_authority_link
+    - taxonomy.vocabulary.copyright_and_use
+  module:
+    - controlled_access_terms
+    - text
+id: taxonomy_term.copyright_and_use.default
+targetEntityType: taxonomy_term
+bundle: copyright_and_use
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_authority_link:
+    weight: 1
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
+    third_party_settings: {  }
+    type: authority_formatter_default
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

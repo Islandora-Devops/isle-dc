@@ -1,0 +1,19 @@
+uuid: 7d9e79b5-13ca-49bf-9730-fa4de90d9eb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_date
+    - taxonomy.vocabulary.corporate_body
+id: taxonomy_term.corporate_body.field_date
+field_name: field_date
+entity_type: taxonomy_term
+bundle: corporate_body
+label: Date
+description: "Please use the format YYYY-MM-DD or  YYYY-MM or YYYY \r\n(<a href=\"https://en.wikipedia.org/wiki/ISO_8601\">ISO-8601</a>)."
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -4,9 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.family.field_authority_link
-    - field.field.taxonomy_term.family.field_cat_date_begin
-    - field.field.taxonomy_term.family.field_cat_date_end
+    - field.field.taxonomy_term.family.field_date
+    - field.field.taxonomy_term.family.field_family_name
     - field.field.taxonomy_term.family.field_relationships
+    - field.field.taxonomy_term.family.field_title_and_other_words
     - taxonomy.vocabulary.family
   module:
     - controlled_access_terms
@@ -37,27 +38,21 @@ content:
     third_party_settings: {  }
     type: authority_formatter_default
     region: content
-  field_cat_date_begin:
-    weight: 8
+  field_date:
+    weight: 5
     label: above
     settings:
-      date_separator: dash
-      date_order: big_endian
-      month_format: mm
-      day_format: dd
+      link_to_entity: false
     third_party_settings: {  }
-    type: edtf_default
+    type: string
     region: content
-  field_cat_date_end:
-    weight: 9
+  field_family_name:
+    weight: 1
     label: above
     settings:
-      date_separator: dash
-      date_order: big_endian
-      month_format: mm
-      day_format: dd
+      link_to_entity: false
     third_party_settings: {  }
-    type: edtf_default
+    type: string
     region: content
   field_relationships:
     weight: 11
@@ -66,6 +61,14 @@ content:
       link: true
     third_party_settings: {  }
     type: typed_relation_default
+    region: content
+  field_title_and_other_words:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
     region: content
 hidden:
   langcode: true

@@ -14,7 +14,7 @@ field_name: field_type
 entity_type: taxonomy_term
 bundle: corporate_body
 label: Type
-description: ''
+description: 'Select "Johns Hopkins Organization" if the corporate body is part of Johns Hopkins University and Medicine. Otherwise, select "None."'
 required: false
 translatable: true
 default_value: {  }

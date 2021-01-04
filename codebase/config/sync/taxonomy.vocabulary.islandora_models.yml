@@ -7,4 +7,4 @@ _core:
 name: 'Islandora Models'
 vid: islandora_models
 description: 'Types of repository objects'
-weight: 0
+weight: 4

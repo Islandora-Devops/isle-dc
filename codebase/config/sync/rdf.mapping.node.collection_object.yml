@@ -1,0 +1,56 @@
+uuid: 1f10f40a-837c-46d5-af35-50c34f737733
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.collection_object
+  enforced:
+    module:
+      - islandora_defaults
+  module:
+    - node
+id: node.collection_object
+targetEntityType: node
+bundle: collection_object
+types:
+  - 'pcdm:Object'
+fieldMappings:
+  field_alternative_title:
+    properties:
+      - 'dcterms:alternative'
+  field_citable_url:
+    properties:
+      - 'dcterms:identifier'
+  field_collection_number:
+    properties:
+      - 'dcterms:identifier'
+  field_description:
+    properties:
+      - 'dcterms:description'
+  field_finding_aid:
+    properties:
+      - 'bibframe:findingAid'
+  field_member_of:
+    properties:
+      - 'pcdm:memberOf'
+    mapping_type: rel
+  field_weight:
+    properties:
+      - 'co:index'
+  title:
+    properties:
+      - 'dcterms:title'
+  created:
+    properties:
+      - 'schema:dateCreated'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  changed:
+    properties:
+      - 'schema:dateModified'
+    datatype_callback:
+      callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+  uid:
+    properties:
+      - 'schema:author'
+    mapping_type: rel

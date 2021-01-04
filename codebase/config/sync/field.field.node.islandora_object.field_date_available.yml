@@ -1,0 +1,19 @@
+uuid: 22a3b9fd-2206-4cb4-afb3-27af3230238c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date_available
+    - node.type.islandora_object
+id: node.islandora_object.field_date_available
+field_name: field_date_available
+entity_type: node
+bundle: islandora_object
+label: 'Date Available'
+description: "<b>Required.</b>Record date that the resource became or will become digitally available for public-viewing.\r\n\r\nPlease use the format YYYY-MM-DD or  YYYY-MM or YYYY \r\n(<a href=\"https://en.wikipedia.org/wiki/ISO_8601\">ISO-8601</a>)."
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

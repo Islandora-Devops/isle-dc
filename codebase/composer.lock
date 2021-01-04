@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fde92635b5d5b9182a6a7daa303c638c",
+    "content-hash": "ede6465a454b50d8a1bcf063bda85c97",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3933,54 +3933,6 @@
             }
         },
         {
-            "name": "drupal/hook_post_action",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/hook_post_action.git",
-                "reference": "8.x-1.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/hook_post_action-8.x-1.0.zip",
-                "reference": "8.x-1.0",
-                "shasum": "be3caa9444ff5b2a34af583dba3d7020661d2fdc"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0",
-                    "datestamp": "1540978980",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "id.tarzanych",
-                    "homepage": "https://www.drupal.org/user/2776543"
-                },
-                {
-                    "name": "sinasalek",
-                    "homepage": "https://www.drupal.org/user/52244"
-                }
-            ],
-            "description": "Introduces new Drupal hooks, hook_entity_postsave, hook_entity_postinsert, hook_entity_postupdate, hook_entity_postdelete, hook_node_postsave, hook_node_postinsert, hook_node_postupdate, hook_node_postdelete",
-            "homepage": "https://www.drupal.org/project/hook_post_action",
-            "support": {
-                "source": "https://git.drupalcode.org/project/hook_post_action"
-            }
-        },
-        {
             "name": "drupal/jwt",
             "version": "1.0.0-beta5",
             "source": {
@@ -4716,7 +4668,7 @@
             "extra": {
                 "drupal": {
                     "version": "8.x-1.18",
-                    "datestamp": "1603359374",
+                    "datestamp": "1605204423",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4921,26 +4873,26 @@
         },
         {
             "name": "drupal/token",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/token.git",
-                "reference": "8.x-1.7"
+                "reference": "8.x-1.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/token-8.x-1.7.zip",
-                "reference": "8.x-1.7",
-                "shasum": "c7e3a3757282e4c94e3c1fff08d01e22155cb853"
+                "url": "https://ftp.drupal.org/files/projects/token-8.x-1.8.zip",
+                "reference": "8.x-1.8",
+                "shasum": "f8e3b8f897817969324d88019438066b533bfe42"
             },
             "require": {
-                "drupal/core": "^8.7.7 || ^9"
+                "drupal/core": "^8.8 || ^9"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.7",
-                    "datestamp": "1589314266",
+                    "version": "8.x-1.8",
+                    "datestamp": "1607552423",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4954,7 +4906,7 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -5900,25 +5852,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/chullo.git",
-                "reference": "bf14eca89552701e37fb7460d4eaad6f4dd3fecc"
+                "reference": "6a5454e2bcdb2b24bf481b842692d4d1de6a0287"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/chullo/zipball/bf14eca89552701e37fb7460d4eaad6f4dd3fecc",
-                "reference": "bf14eca89552701e37fb7460d4eaad6f4dd3fecc",
+                "url": "https://api.github.com/repos/Islandora/chullo/zipball/6a5454e2bcdb2b24bf481b842692d4d1de6a0287",
+                "reference": "6a5454e2bcdb2b24bf481b842692d4d1de6a0287",
                 "shasum": ""
             },
             "require": {
-                "easyrdf/easyrdf": "^0.9.1",
+                "easyrdf/easyrdf": "^0.9 || ^1",
                 "guzzlehttp/guzzle": "^6.1.0",
                 "ml/json-ld": "^1.0.4",
-                "php": ">=5.6.0"
+                "php": "^7.3 || ^7.4"
             },
             "require-dev": {
                 "mockery/mockery": "^0.9",
-                "phpunit/phpunit": "^5.0",
-                "sebastian/phpcpd": "^3.0",
-                "squizlabs/php_codesniffer": "^2.0"
+                "phpunit/phpunit": "^9.0",
+                "sebastian/phpcpd": "^6.0",
+                "squizlabs/php_codesniffer": "^3.0"
             },
             "type": "library",
             "autoload": {
@@ -5949,59 +5901,7 @@
             ],
             "description": "A PHP client for interacting with a Fedora 4 server.",
             "homepage": "https://github.com/Islandora/chullo",
-            "time": "2020-11-12T23:34:34+00:00"
-        },
-        {
-            "name": "islandora/controlled_access_terms",
-            "version": "dev-8.x-1.x",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Islandora/controlled_access_terms.git",
-                "reference": "f08a373d4e79241ddf250d3e648f9e06ced85abe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/controlled_access_terms/zipball/f08a373d4e79241ddf250d3e648f9e06ced85abe",
-                "reference": "f08a373d4e79241ddf250d3e648f9e06ced85abe",
-                "shasum": ""
-            },
-            "require": {
-                "drupal/geolocation": "^3.2",
-                "drupal/token": "^1.7"
-            },
-            "require-dev": {
-                "drupal/coder": "*",
-                "phpunit/phpunit": "^6",
-                "sebastian/phpcpd": "*",
-                "squizlabs/php_codesniffer": "2.7.1"
-            },
-            "suggest": {
-                "drupal/name": "Provides western-centric structured names."
-            },
-            "type": "drupal-module",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Islandora Foundation",
-                    "email": "community@islandora.ca",
-                    "role": "Owner"
-                },
-                {
-                    "name": "Seth Shaw",
-                    "email": "seth.shaw@unlv.edu",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "Drupal module for subjects and agents",
-            "homepage": "https://github.com/Islandora/controlled_access_terms",
-            "keywords": [
-                "Islandora",
-                "drupal"
-            ],
-            "time": "2020-11-18T18:31:35+00:00"
+            "time": "2020-12-11T21:38:08+00:00"
         },
         {
             "name": "islandora/crayfish-commons",
@@ -6009,12 +5909,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/Crayfish-Commons.git",
-                "reference": "d7c0044723c2089f7757fb5c9dd523397938a8e9"
+                "reference": "f53e8da757c1632dc7fcdd392d8896dc7bcfb2b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/Crayfish-Commons/zipball/d7c0044723c2089f7757fb5c9dd523397938a8e9",
-                "reference": "d7c0044723c2089f7757fb5c9dd523397938a8e9",
+                "url": "https://api.github.com/repos/Islandora/Crayfish-Commons/zipball/f53e8da757c1632dc7fcdd392d8896dc7bcfb2b9",
+                "reference": "f53e8da757c1632dc7fcdd392d8896dc7bcfb2b9",
                 "shasum": ""
             },
             "require": {
@@ -6059,7 +5959,7 @@
             ],
             "description": "Shared code amongst Islandora Crayfish microservices",
             "homepage": "https://github.com/Islandora/Crayfish-Commons",
-            "time": "2020-11-12T23:33:17+00:00"
+            "time": "2020-12-14T22:30:29+00:00"
         },
         {
             "name": "islandora/islandora",
@@ -6067,12 +5967,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/islandora.git",
-                "reference": "836d521273df45f375c89785c2b2635a94bea7ea"
+                "reference": "792b3d3ae28a2d1bdb94f114192fda9ef531481a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/islandora/zipball/836d521273df45f375c89785c2b2635a94bea7ea",
-                "reference": "836d521273df45f375c89785c2b2635a94bea7ea",
+                "url": "https://api.github.com/repos/Islandora/islandora/zipball/792b3d3ae28a2d1bdb94f114192fda9ef531481a",
+                "reference": "792b3d3ae28a2d1bdb94f114192fda9ef531481a",
                 "shasum": ""
             },
             "require": {
@@ -6082,7 +5982,6 @@
                 "drupal/file_replace": "^1.1",
                 "drupal/filehash": "^1.1",
                 "drupal/flysystem": "^1.0",
-                "drupal/hook_post_action": "^1.0",
                 "drupal/jwt": "^1.0.0-beta5",
                 "drupal/migrate_plus": "^5.1",
                 "drupal/migrate_source_csv": "^2.1",
@@ -6129,42 +6028,7 @@
                 "issues": "https://github.com/Islandora/documentation/issues",
                 "source": "https://github.com/Islandora/islandora/tree/8.x-1.x"
             },
-            "time": "2020-11-13T19:54:13+00:00"
-        },
-        {
-            "name": "islandora/islandora_defaults",
-            "version": "dev-8.x-1.x",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Islandora/islandora_defaults.git",
-                "reference": "68ebbfd2143e79b01d759ad8bbf8234f3cd420ad"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/islandora_defaults/zipball/68ebbfd2143e79b01d759ad8bbf8234f3cd420ad",
-                "reference": "68ebbfd2143e79b01d759ad8bbf8234f3cd420ad",
-                "shasum": ""
-            },
-            "require": {
-                "drupal/field_group": "^3.0",
-                "drupal/field_permissions": "^1.0",
-                "drupal/permissions_by_term": "^1.51",
-                "islandora/controlled_access_terms": "dev-8.x-1.x",
-                "islandora/islandora": "dev-8.x-1.x",
-                "islandora/openseadragon": "dev-8.x-1.x"
-            },
-            "type": "drupal-module",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "description": "Islandora Defaults",
-            "homepage": "https://github.com/Islandora/islandora_defaults",
-            "keywords": [
-                "Islandora",
-                "drupal"
-            ],
-            "time": "2020-11-13T20:34:43+00:00"
+            "time": "2020-12-11T14:23:02+00:00"
         },
         {
             "name": "islandora/jsonld",
@@ -6172,12 +6036,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/jsonld.git",
-                "reference": "976cfb923377131b6202dc2eaaa606bb4a91f134"
+                "reference": "36f6ca8c037cd381a05602a62b0d5d64af53318e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/jsonld/zipball/976cfb923377131b6202dc2eaaa606bb4a91f134",
-                "reference": "976cfb923377131b6202dc2eaaa606bb4a91f134",
+                "url": "https://api.github.com/repos/Islandora/jsonld/zipball/36f6ca8c037cd381a05602a62b0d5d64af53318e",
+                "reference": "36f6ca8c037cd381a05602a62b0d5d64af53318e",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -6199,7 +6063,7 @@
             ],
             "description": "JSON-LD serializer for Drupal 8",
             "homepage": "https://github.com/Islandora/jsonld",
-            "time": "2020-08-31T13:23:21+00:00"
+            "time": "2020-12-10T20:28:35+00:00"
         },
         {
             "name": "islandora/openseadragon",
@@ -6207,16 +6071,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/openseadragon.git",
-                "reference": "6c9ae44af1b54f5acf9f8cb87a588b9f65ba91c7"
+                "reference": "1401a03bb689aa7a223e4431efde8af01c0a83d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/openseadragon/zipball/6c9ae44af1b54f5acf9f8cb87a588b9f65ba91c7",
-                "reference": "6c9ae44af1b54f5acf9f8cb87a588b9f65ba91c7",
+                "url": "https://api.github.com/repos/Islandora/openseadragon/zipball/1401a03bb689aa7a223e4431efde8af01c0a83d4",
+                "reference": "1401a03bb689aa7a223e4431efde8af01c0a83d4",
                 "shasum": ""
             },
             "require": {
-                "drupal/libraries": "dev-3.x",
                 "drupal/token": "^1.3"
             },
             "type": "drupal-module",
@@ -6248,7 +6111,130 @@
                 "drupal",
                 "openseadragon"
             ],
-            "time": "2020-11-20T20:45:27+00:00"
+            "time": "2020-12-10T14:46:02+00:00"
+        },
+        {
+            "name": "jhu-idc/controlled_access_terms",
+            "version": "dev-8.x-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhu-idc/controlled_access_terms.git",
+                "reference": "0fc1713f2ba544ad38118067dea12367bf02e512"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhu-idc/controlled_access_terms/zipball/0fc1713f2ba544ad38118067dea12367bf02e512",
+                "reference": "0fc1713f2ba544ad38118067dea12367bf02e512",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/geolocation": "^3.2",
+                "drupal/token": "^1.7"
+            },
+            "require-dev": {
+                "drupal/coder": "*",
+                "phpunit/phpunit": "^6",
+                "sebastian/phpcpd": "*",
+                "squizlabs/php_codesniffer": "2.7.1"
+            },
+            "suggest": {
+                "drupal/name": "Provides western-centric structured names."
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Islandora Foundation",
+                    "email": "community@islandora.ca",
+                    "role": "Owner"
+                },
+                {
+                    "name": "Seth Shaw",
+                    "email": "seth.shaw@unlv.edu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Drupal module for subjects and agents",
+            "homepage": "https://github.com/jhu-idc/controlled_access_terms",
+            "keywords": [
+                "Drupal",
+                "Islandora"
+            ],
+            "support": {
+                "issues": "https://github.com/jhu-idc/controlled_access_terms/issues",
+                "source": "https://github.com/jhu-idc/controlled_access_terms/tree/8.x-1.x"
+            },
+            "time": "2020-12-21T19:28:44+00:00"
+        },
+        {
+            "name": "jhu-idc/islandora_defaults",
+            "version": "dev-8.x-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhu-idc/islandora_defaults.git",
+                "reference": "7c99a94ff4867008e3dde1cb5df1fcaff1179a24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/7c99a94ff4867008e3dde1cb5df1fcaff1179a24",
+                "reference": "7c99a94ff4867008e3dde1cb5df1fcaff1179a24",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/field_group": "^3.0",
+                "drupal/field_permissions": "^1.0",
+                "drupal/permissions_by_term": "^1.51",
+                "islandora/islandora": "dev-8.x-1.x",
+                "islandora/openseadragon": "dev-8.x-1.x",
+                "jhu-idc/controlled_access_terms": "dev-8.x-1.x",
+                "jhu-idc/reference_value_pair": "dev-main"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Islandora Defaults",
+            "homepage": "https://github.com/jhu-idc/islandora_defaults",
+            "keywords": [
+                "Drupal",
+                "Islandora"
+            ],
+            "support": {
+                "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
+                "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
+            },
+            "time": "2020-12-21T19:30:44+00:00"
+        },
+        {
+            "name": "jhu-idc/reference_value_pair",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhu-idc/reference_value_pair.git",
+                "reference": "0a75d201b6d512672e7a0466f4e8cd3111f3d24d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhu-idc/reference_value_pair/zipball/0a75d201b6d512672e7a0466f4e8cd3111f3d24d",
+                "reference": "0a75d201b6d512672e7a0466f4e8cd3111f3d24d",
+                "shasum": ""
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Defines a field type to store a pair of an entity reference and a value.",
+            "homepage": "https://www.github.com/jhu-idc/reference_value_pair",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "issues": "http://github.com/jhu-idc/reference_value_pair",
+                "source": "http://github.com/jhu-idc/reference_value_pair"
+            },
+            "time": "2020-12-07T17:45:39+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -7006,16 +6992,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.25.5",
+            "version": "1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0"
+                "reference": "2209ddd84e7ef1256b7af205d0717fb62cfc9c33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1817faadd1846cd08be9a49e905dc68823bc38c0",
-                "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/2209ddd84e7ef1256b7af205d0717fb62cfc9c33",
+                "reference": "2209ddd84e7ef1256b7af205d0717fb62cfc9c33",
                 "shasum": ""
             },
             "require": {
@@ -7031,7 +7017,7 @@
                 "graylog2/gelf-php": "~1.0",
                 "php-amqplib/php-amqplib": "~2.4",
                 "php-console/php-console": "^3.1.3",
-                "php-parallel-lint/php-parallel-lint": "^1.0",
+                "phpstan/phpstan": "^0.12.59",
                 "phpunit/phpunit": "~4.5",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "sentry/sentry": "^0.13",
@@ -7051,11 +7037,6 @@
                 "sentry/sentry": "Allow sending log messages to a Sentry server"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Monolog\\": "src/Monolog"
@@ -7079,7 +7060,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2020-07-23T08:35:51+00:00"
+            "time": "2020-12-14T12:56:38+00:00"
         },
         {
             "name": "myclabs/php-enum",
@@ -7645,24 +7626,24 @@
         },
         {
             "name": "pimple/pimple",
-            "version": "v3.3.0",
+            "version": "v3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Pimple.git",
-                "reference": "e55d12f9d6a0e7f9c85992b73df1267f46279930"
+                "reference": "21e45061c3429b1e06233475cc0e1f6fc774d5b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/e55d12f9d6a0e7f9c85992b73df1267f46279930",
-                "reference": "e55d12f9d6a0e7f9c85992b73df1267f46279930",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/21e45061c3429b1e06233475cc0e1f6fc774d5b0",
+                "reference": "21e45061c3429b1e06233475cc0e1f6fc774d5b0",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5",
+                "php": ">=7.2.5",
                 "psr/container": "^1.0"
             },
             "require-dev": {
-                "symfony/phpunit-bridge": "^3.4|^4.4|^5.0"
+                "symfony/phpunit-bridge": "^5.0"
             },
             "type": "library",
             "extra": {
@@ -7691,7 +7672,7 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2020-03-03T09:12:48+00:00"
+            "time": "2020-11-24T20:35:42+00:00"
         },
         {
             "name": "psr/cache",
@@ -8184,21 +8165,23 @@
         },
         {
             "name": "sibyx/phpgpx",
-            "version": "1.0-RC5",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sibyx/phpGPX.git",
-                "reference": "0bb616dda0b6ff3e78c72167087c8ffe8b1cbf2e"
+                "reference": "9568c3679e4937b18d91a9e41923daa56c694b9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sibyx/phpGPX/zipball/0bb616dda0b6ff3e78c72167087c8ffe8b1cbf2e",
-                "reference": "0bb616dda0b6ff3e78c72167087c8ffe8b1cbf2e",
+                "url": "https://api.github.com/repos/Sibyx/phpGPX/zipball/9568c3679e4937b18d91a9e41923daa56c694b9a",
+                "reference": "9568c3679e4937b18d91a9e41923daa56c694b9a",
                 "shasum": ""
             },
             "require": {
+                "ext-dom": "*",
+                "ext-simplexml": "*",
                 "lib-libxml": "*",
-                "php": ">=5.4"
+                "php": ">=5.5"
             },
             "require-dev": {
                 "evert/phpdoc-md": "~0.2.0",
@@ -8222,7 +8205,7 @@
                 }
             ],
             "description": "A simple PHP library for GPX import/export",
-            "time": "2018-01-25T12:25:51+00:00"
+            "time": "2020-12-03T18:35:03+00:00"
         },
         {
             "name": "silex/silex",
@@ -10372,27 +10355,26 @@
         },
         {
             "name": "symfony/contracts",
-            "version": "v2.3.1",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/contracts.git",
-                "reference": "f7783bdec14b06c323d30a5f74ba70a17ec0ce81"
+                "reference": "b3b9b70bfacfd204d352e7e7350e02c02c0fff78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/contracts/zipball/f7783bdec14b06c323d30a5f74ba70a17ec0ce81",
-                "reference": "f7783bdec14b06c323d30a5f74ba70a17ec0ce81",
+                "url": "https://api.github.com/repos/symfony/contracts/zipball/b3b9b70bfacfd204d352e7e7350e02c02c0fff78",
+                "reference": "b3b9b70bfacfd204d352e7e7350e02c02c0fff78",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2.5",
+                "php": "^7.2.5",
                 "psr/cache": "^1.0",
                 "psr/container": "^1.0",
                 "psr/event-dispatcher": "^1.0"
             },
             "replace": {
                 "symfony/cache-contracts": "self.version",
-                "symfony/deprecation-contracts": "self.version",
                 "symfony/event-dispatcher-contracts": "self.version",
                 "symfony/http-client-contracts": "self.version",
                 "symfony/service-contracts": "self.version",
@@ -10410,18 +10392,14 @@
             },
             "type": "library",
             "extra": {
-                "branch-version": "2.3",
                 "branch-alias": {
-                    "dev-main": "2.3-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Contracts\\": ""
                 },
-                "files": [
-                    "Deprecation/function.php"
-                ],
                 "exclude-from-classmap": [
                     "**/Tests/"
                 ]
@@ -10450,7 +10428,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2020-10-14T17:08:19+00:00"
+            "time": "2019-11-26T23:25:11+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -10507,7 +10485,7 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.4.46",
+            "version": "v3.4.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -10628,6 +10606,56 @@
             "time": "2020-07-23T09:37:51+00:00"
         },
         {
+            "name": "symfony/deprecation-contracts",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/deprecation-contracts.git",
+                "reference": "5fa56b4074d1ae755beb55617ddafe6f5d78f665"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5fa56b4074d1ae755beb55617ddafe6f5d78f665",
+                "reference": "5fa56b4074d1ae755beb55617ddafe6f5d78f665",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                },
+                "thanks": {
+                    "name": "symfony/contracts",
+                    "url": "https://github.com/symfony/contracts"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "function.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "A generic function and convention to trigger deprecation notices",
+            "homepage": "https://symfony.com",
+            "time": "2020-09-07T11:33:47+00:00"
+        },
+        {
             "name": "symfony/dom-crawler",
             "version": "v3.4.43",
             "source": {
@@ -10686,7 +10714,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.46",
+            "version": "v3.4.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -10844,7 +10872,7 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v3.4.46",
+            "version": "v3.4.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
@@ -10893,16 +10921,16 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v3.4.46",
+            "version": "v3.4.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "09f8e3f9eb6d1c0e08abb0c9ad7d02f93b1d633d"
+                "reference": "a98a4c30089e6a2d52a9fa236f718159b539f6f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/09f8e3f9eb6d1c0e08abb0c9ad7d02f93b1d633d",
-                "reference": "09f8e3f9eb6d1c0e08abb0c9ad7d02f93b1d633d",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/a98a4c30089e6a2d52a9fa236f718159b539f6f5",
+                "reference": "a98a4c30089e6a2d52a9fa236f718159b539f6f5",
                 "shasum": ""
             },
             "require": {
@@ -10974,11 +11002,11 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2020-10-28T05:40:17+00:00"
+            "time": "2020-11-27T08:42:42+00:00"
         },
         {
             "name": "symfony/inflector",
-            "version": "v5.1.8",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",
@@ -11697,16 +11725,16 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v4.4.16",
+            "version": "v4.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-                "reference": "3d97341e820c248f8dc0b6b5bf991964bda5a3ac"
+                "reference": "ab8184f093095b40c3e7688bc4eb1d0484da327c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/3d97341e820c248f8dc0b6b5bf991964bda5a3ac",
-                "reference": "3d97341e820c248f8dc0b6b5bf991964bda5a3ac",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/ab8184f093095b40c3e7688bc4eb1d0484da327c",
+                "reference": "ab8184f093095b40c3e7688bc4eb1d0484da327c",
                 "shasum": ""
             },
             "require": {
@@ -11755,7 +11783,7 @@
                 "property path",
                 "reflection"
             ],
-            "time": "2020-10-24T11:50:19+00:00"
+            "time": "2020-10-31T22:44:29+00:00"
         },
         {
             "name": "symfony/psr-http-message-bridge",
@@ -11824,7 +11852,7 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v3.4.46",
+            "version": "v3.4.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
@@ -11895,7 +11923,7 @@
         },
         {
             "name": "symfony/security",
-            "version": "v3.4.46",
+            "version": "v3.4.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security.git",
@@ -12052,16 +12080,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.1.8",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "a97573e960303db71be0dd8fda9be3bca5e0feea"
+                "reference": "40e975edadd4e32cd16f3753b3bad65d9ac48242"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/a97573e960303db71be0dd8fda9be3bca5e0feea",
-                "reference": "a97573e960303db71be0dd8fda9be3bca5e0feea",
+                "url": "https://api.github.com/repos/symfony/string/zipball/40e975edadd4e32cd16f3753b3bad65d9ac48242",
+                "reference": "40e975edadd4e32cd16f3753b3bad65d9ac48242",
                 "shasum": ""
             },
             "require": {
@@ -12114,7 +12142,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2020-10-24T12:01:57+00:00"
+            "time": "2020-10-24T12:08:07+00:00"
         },
         {
             "name": "symfony/translation",
@@ -12351,7 +12379,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.46",
+            "version": "v3.4.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -15532,10 +15560,11 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/content_browser": 15,
+        "drupal/libraries": 20,
         "drupal/pdf": 20,
         "islandora-rdm/islandora_fits": 20,
         "islandora/carapace": 20,
-        "islandora/islandora_defaults": 20
+        "jhu-idc/islandora_defaults": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

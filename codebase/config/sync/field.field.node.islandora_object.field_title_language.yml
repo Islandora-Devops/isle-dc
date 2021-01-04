@@ -1,0 +1,33 @@
+uuid: 25d41194-dc42-49cf-b0d6-6a2405c3577a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_title_language
+    - node.type.islandora_object
+    - taxonomy.vocabulary.language
+  content:
+    - 'taxonomy_term:language:7397e0c4-df0a-4800-95af-afccc6ff64a5'
+id: node.islandora_object.field_title_language
+field_name: field_title_language
+entity_type: node
+bundle: islandora_object
+label: 'Title Language'
+description: 'Indication the language the title field is in. '
+required: false
+translatable: false
+default_value:
+  -
+    target_uuid: 7397e0c4-df0a-4800-95af-afccc6ff64a5
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      language: language
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

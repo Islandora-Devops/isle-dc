@@ -1,11 +1,13 @@
-uuid: 0b18c505-6c60-4aa9-87a8-f30b06d7d9a4
+uuid: bc5ecaaf-2add-48ff-97b7-fc6a170bfb91
 langcode: en
 status: true
 dependencies:
   module:
+    - field_permissions
     - node
-_core:
-  default_config_hash: noZJ0WqBZpCIy5pez4AWHq-V3VIUIqpIkMcKghZk_Nc
+third_party_settings:
+  field_permissions:
+    permission_type: public
 id: node.field_extent
 field_name: field_extent
 entity_type: node

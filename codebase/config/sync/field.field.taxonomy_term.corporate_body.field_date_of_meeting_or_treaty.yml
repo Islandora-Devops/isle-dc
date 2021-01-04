@@ -1,0 +1,19 @@
+uuid: 4f5b7288-d9a0-4def-8ed6-0addbc6356d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_date_of_meeting_or_treaty
+    - taxonomy.vocabulary.corporate_body
+id: taxonomy_term.corporate_body.field_date_of_meeting_or_treaty
+field_name: field_date_of_meeting_or_treaty
+entity_type: taxonomy_term
+bundle: corporate_body
+label: 'Corporate Name: Date of meeting or treaty signing'
+description: 'The date of the meeting or treaty typically given as a year. Corresponds to subfield d in MARC 110 field. Example: 1981'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

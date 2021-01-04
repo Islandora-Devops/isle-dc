@@ -14,4 +14,6 @@ permissions:
   - 'access site-wide contact form'
   - 'search content'
   - 'use text format restricted_html'
+  - 'view field_citable_url'
   - 'view media'
+  - 'view own field_citable_url'

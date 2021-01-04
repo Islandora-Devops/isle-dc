@@ -1,0 +1,33 @@
+uuid: af1992c8-7dc2-4e21-99b3-a286014b071d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_digital_publisher
+    - node.type.islandora_object
+    - taxonomy.vocabulary.corporate_body
+    - taxonomy.vocabulary.family
+    - taxonomy.vocabulary.person
+id: node.islandora_object.field_digital_publisher
+field_name: field_digital_publisher
+entity_type: node
+bundle: islandora_object
+label: 'Digital Publisher'
+description: '<b>Required if known</b>. Record the agent responsible for publishing, releasing, or issuing a digital version of the resource. Please add or use terms from Person, Corporate Body, or Family taxonomies. If digitized by the library, please select "Johns Hopkins Sheridan Libraries" as the digital publisher.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      corporate_body: corporate_body
+      family: family
+      person: person
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: corporate_body
+field_type: entity_reference

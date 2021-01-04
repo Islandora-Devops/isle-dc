@@ -1,0 +1,23 @@
+uuid: a86dbe5b-6eed-4409-8e34-a96fcb9123c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_finding_aid
+    - node.type.islandora_object
+  module:
+    - link
+id: node.islandora_object.field_finding_aid
+field_name: field_finding_aid
+entity_type: node
+bundle: islandora_object
+label: 'Finding Aid'
+description: '<b>Optional</b>. If available, record a link to the relevant finding aid record in Johns Hopkins Libraries'' instance of <a href="https://aspace.library.jhu.edu/">ArchivesSpace</a>.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

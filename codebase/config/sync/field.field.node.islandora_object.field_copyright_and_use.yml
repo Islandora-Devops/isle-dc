@@ -1,0 +1,29 @@
+uuid: 265af2d8-0534-43fd-9da7-5f891485d174
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_copyright_and_use
+    - node.type.islandora_object
+    - taxonomy.vocabulary.copyright_and_use
+id: node.islandora_object.field_copyright_and_use
+field_name: field_copyright_and_use
+entity_type: node
+bundle: islandora_object
+label: 'Copyright and Use'
+description: '<b>Required.</b>'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      copyright_and_use: copyright_and_use
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

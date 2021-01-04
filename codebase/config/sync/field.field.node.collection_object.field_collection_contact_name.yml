@@ -1,0 +1,19 @@
+uuid: 4432a83c-be50-4051-82fe-83527f444d48
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_collection_contact_name
+    - node.type.collection_object
+id: node.collection_object.field_collection_contact_name
+field_name: field_collection_contact_name
+entity_type: node
+bundle: collection_object
+label: 'Collection Contact Name'
+description: 'Name of person that can be contacted to ask questions to about the collection and its items. '
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

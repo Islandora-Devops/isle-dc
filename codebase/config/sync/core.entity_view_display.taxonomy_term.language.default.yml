@@ -6,6 +6,7 @@ dependencies:
     - field.field.taxonomy_term.language.field_authority_link
     - taxonomy.vocabulary.language
   module:
+    - controlled_access_terms
     - text
 _core:
   default_config_hash: Xw8AzsLqoqKzBBPcxUQaM73ycgnDOUMGwjATsch7Xx4
@@ -21,6 +22,18 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_authority_link:
+    type: authority_formatter_default
+    weight: 0
+    region: content
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
+    third_party_settings: {  }
   field_authority_sources:
     weight: 1
     label: above
@@ -34,6 +47,5 @@ content:
     type: authority_formatter_default
     region: content
 hidden:
-  field_authority_link: true
   langcode: true
   search_api_excerpt: true

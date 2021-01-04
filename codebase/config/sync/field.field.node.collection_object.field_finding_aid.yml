@@ -1,0 +1,23 @@
+uuid: aea10e43-da2b-4a7c-9658-47d9a0aef933
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_finding_aid
+    - node.type.collection_object
+  module:
+    - link
+id: node.collection_object.field_finding_aid
+field_name: field_finding_aid
+entity_type: node
+bundle: collection_object
+label: 'Finding Aid'
+description: 'A link to the relevant finding aid record in Johns Hopkins Libraries'' instance of <a href="https://aspace.library.jhu.edu/">ArchivesSpace</a>.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 1
+field_type: link

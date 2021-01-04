@@ -1,0 +1,19 @@
+uuid: c6b8eed6-7733-484e-a9dd-e0aec44b4c69
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_collection_contact_email
+    - node.type.collection_object
+id: node.collection_object.field_collection_contact_email
+field_name: field_collection_contact_email
+entity_type: node
+bundle: collection_object
+label: 'Collection Contact email'
+description: 'Email address of person one can contact to ask questions to about the collection and its items.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

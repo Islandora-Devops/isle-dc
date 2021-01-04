@@ -14,26 +14,16 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: subject
 label: 'Authority Sources'
-description: ''
+description: 'Select the authority source that contains the selected subject term.'
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
   authority_sources:
-    aat: 'Art & Architecture Thesaurus'
-    cash: 'Canadian Subject Headings'
+    iso19115: 'ISO 19115 Topic Category'
     fast: 'FAST (Faceted Application of Subject Terminology)'
-    gmgpc: 'TGM II, Genre and physical characteristic terms'
-    lcsh: 'Library of Congress Subject Headings'
-    lcshac: 'Library of Congress Children''s Subject Headings'
     mesh: 'Medical Subject Headings'
-    nal: 'National Agricultural Library subject headings'
-    rbgenr: 'Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing'
-    rvm: 'Répertoire de vedettes-matière'
-    tgn: 'Getty Thesaurus of Geographic Names'
-    tgm: 'Thesaurus for Graphic Materials'
-    lcgft: 'Library of Congress Genre/Form Terms'
     other: Other
   title: 1
   link_type: 16

@@ -6,8 +6,7 @@ dependencies:
     - field.field.taxonomy_term.resource_types.field_authority_link
     - taxonomy.vocabulary.resource_types
   module:
-    - link
-    - path
+    - controlled_access_terms
     - text
 _core:
   default_config_hash: Osl9c_Yf9MjIGTvFaf1MgaLn7-g6shLhCPymeG2iKt8
@@ -30,15 +29,8 @@ content:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
-    type: link_default
+    type: authority_link_default
     region: content
-  langcode:
-    type: language_select
-    weight: 3
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   name:
     type: string_textfield
     weight: 0
@@ -47,12 +39,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  path:
-    type: path
-    weight: 5
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
@@ -60,9 +46,7 @@ content:
     weight: 100
     region: content
     third_party_settings: {  }
-  translation:
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  langcode: true
+  path: true
+  translation: true

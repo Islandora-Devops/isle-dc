@@ -1,0 +1,19 @@
+uuid: 12acec0e-305e-46b3-9219-f22e9d7a52d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_preferred_name_fuller_form
+    - taxonomy.vocabulary.person
+id: taxonomy_term.person.field_preferred_name_fuller_form
+field_name: field_preferred_name_fuller_form
+entity_type: taxonomy_term
+bundle: person
+label: 'Person Preferred Name: Fuller Form'
+description: 'The fuller form of first and middle names, when abbreviated in the Rest of Name field. Corresponds to the $q subfield in MARC.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

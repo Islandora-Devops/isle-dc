@@ -4,7 +4,7 @@ status: true
 dependencies: {  }
 _core:
   default_config_hash: GtwZmHfoUe9zdJe_uX6oD5CU40m-0jfjiDk5USbdHMc
-name: Genre
+name: Genre/Form
 vid: genre
-description: 'A term or terms that designate a category characterizing a particular style, form, or content, such as artistic, musical, literary composition, etc.'
+description: 'Genre/form terms describe the format or artistic category of the resource, not the subject of its contents.'
 weight: 0

@@ -1,0 +1,11 @@
+uuid: 9e93c7ae-db18-4ed6-9e1f-eb5b6b03f013
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.copyright_and_use
+id: taxonomy_term.copyright_and_use
+target_entity_type_id: taxonomy_term
+target_bundle: copyright_and_use
+default_langcode: site_default
+language_alterable: false

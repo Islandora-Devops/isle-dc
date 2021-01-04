@@ -1,0 +1,27 @@
+uuid: 3f7b1981-c662-4b55-a270-d998cdb59bdb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_member_of
+    - node.type.collection_object
+id: node.collection_object.field_member_of
+field_name: field_member_of
+entity_type: node
+bundle: collection_object
+label: 'Parent Collection (member of)'
+description: 'Please enter the name of the Collection that this Collection is a sub collection of.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      collection_object: collection_object
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

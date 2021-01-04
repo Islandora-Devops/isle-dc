@@ -1,0 +1,19 @@
+uuid: b9572236-71b0-423d-9ec1-a4a08f6c6f58
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_alt_subordinate_name
+    - taxonomy.vocabulary.corporate_body
+id: taxonomy_term.corporate_body.field_alt_subordinate_name
+field_name: field_alt_subordinate_name
+entity_type: taxonomy_term
+bundle: corporate_body
+label: 'Corporate Body Alternate Name: Subordinate Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

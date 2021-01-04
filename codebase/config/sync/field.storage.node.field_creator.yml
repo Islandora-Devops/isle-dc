@@ -1,0 +1,25 @@
+uuid: c4618b4f-2a7f-4d48-b89a-9a593b6e52c6
+langcode: en
+status: true
+dependencies:
+  module:
+    - controlled_access_terms
+    - field_permissions
+    - node
+    - taxonomy
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: node.field_creator
+field_name: field_creator
+entity_type: node
+type: typed_relation
+settings:
+  target_type: taxonomy_term
+module: controlled_access_terms
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

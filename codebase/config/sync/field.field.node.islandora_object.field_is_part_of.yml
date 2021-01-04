@@ -1,0 +1,23 @@
+uuid: 1b8c7553-ab63-4d31-aadb-6833ae3dccac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_part_of
+    - node.type.islandora_object
+  module:
+    - link
+id: node.islandora_object.field_is_part_of
+field_name: field_is_part_of
+entity_type: node
+bundle: islandora_object
+label: 'Is Part Of'
+description: '<b>Optional</b>. If applicable, record a related resource in which the described resource is physically or logically included.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

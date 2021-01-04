@@ -3,8 +3,12 @@ langcode: en
 status: true
 dependencies:
   module:
+    - field_permissions
     - options
     - taxonomy
+third_party_settings:
+  field_permissions:
+    permission_type: public
 _core:
   default_config_hash: ArPIwR6VUNGAq52_61ggns1NWlrPWPTK1DIdIP_2HOI
 id: taxonomy_term.field_type
@@ -14,38 +18,8 @@ type: list_string
 settings:
   allowed_values:
     -
-      value: 'org:OrganizationalUnit'
-      label: 'Organizational Unit'
-    -
-      value: 'schema:Airline'
-      label: Airline
-    -
-      value: 'schema:Corporation'
-      label: Corporation
-    -
-      value: 'schema:EducationalOrganization'
-      label: 'Educational Organization'
-    -
-      value: 'schema:GovernmentOrganization'
-      label: 'Government Organization'
-    -
-      value: 'schema:LocalBusiness'
-      label: 'Local Business'
-    -
-      value: 'schema:MedicalOrganization'
-      label: 'Medical Organization'
-    -
-      value: 'schema:NGO'
-      label: 'Non-Governmental Organization'
-    -
-      value: 'schema:PerformingGroup'
-      label: 'Performing Group'
-    -
-      value: 'schema:SportsOrganization'
-      label: 'Sports Organization'
-    -
-      value: 'schema:SportsTeam'
-      label: 'Sports Team'
+      value: jhu
+      label: 'Johns Hopkins University'
   allowed_values_function: ''
 module: options
 locked: false

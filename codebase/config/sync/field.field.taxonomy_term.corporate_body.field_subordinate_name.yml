@@ -1,0 +1,19 @@
+uuid: 2fa6122c-7d5c-4549-9336-daa382354210
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_subordinate_name
+    - taxonomy.vocabulary.corporate_body
+id: taxonomy_term.corporate_body.field_subordinate_name
+field_name: field_subordinate_name
+entity_type: taxonomy_term
+bundle: corporate_body
+label: 'Corporate Name: Subordinate Name'
+description: 'A hierarchical unit within the corporate entity named in the Primary Corporate Name field. Corresponds to subfield b in MARC 110 field. Example: School of Medicine.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

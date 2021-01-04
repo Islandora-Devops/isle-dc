@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_model
     - node.type.islandora_object
-    - taxonomy.vocabulary.islandora_models
   enforced:
     module:
       - islandora_defaults
@@ -22,13 +21,10 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:taxonomy_term'
+  handler: views
   handler_settings:
-    target_bundles:
-      islandora_models: islandora_models
-    sort:
-      field: name
-      direction: asc
-    auto_create: false
-    auto_create_bundle: ''
+    view:
+      view_name: repository_item_models
+      display_name: entity_reference_1
+      arguments: {  }
 field_type: entity_reference

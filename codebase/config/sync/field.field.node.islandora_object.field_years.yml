@@ -1,0 +1,21 @@
+uuid: af8a3738-b3b5-4664-ac9d-374eda504bcd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_years
+    - node.type.islandora_object
+  module:
+    - controlled_access_terms
+id: node.islandora_object.field_years
+field_name: field_years
+entity_type: node
+bundle: islandora_object
+label: Years
+description: "This field is only used for Solr indexing and will not show up on the end-users view. \r\nEnter one year only: YYYY"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: edtf

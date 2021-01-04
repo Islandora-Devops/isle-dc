@@ -1,0 +1,23 @@
+uuid: 17f73197-27bd-4547-a04a-9ecbe9e4ded0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_broader
+    - taxonomy.vocabulary.geo_location
+  module:
+    - link
+id: taxonomy_term.geo_location.field_broader
+field_name: field_broader
+entity_type: taxonomy_term
+bundle: geo_location
+label: Broader
+description: 'Enter the stable URI or URL of the geographic place that contains your location. This should be a single administrative unit higher as indicated on <a href="GeoNames.org">GeoNames.org</a>.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link
