@@ -146,5 +146,5 @@ static-docker-compose.yml: static-drupal-image
 .SILENT: test
 .PHONY: test
 test:
-	docker-compose exec -T testcafe npm test
+	./run-tests.sh
 
