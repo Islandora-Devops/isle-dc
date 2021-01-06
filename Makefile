@@ -46,17 +46,13 @@ endif
 # Some services can optionally depend on PostgreSQL.
 # Either way their environment variables get customized
 # depending on the database service they have choosen.
-DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) fcrepo.$(FCREPO_DATABASE_SERVICE) crayfish.$(GEMINI_DATABASE_SERVICE)
+DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) fcrepo.$(FCREPO_DATABASE_SERVICE)
 
 ifeq ($(DRUPAL_DATABASE_SERVICE), postgresql)
 	DATABASE_SERVICES += postgresql
 endif
 
 ifeq ($(FCREPO_DATABASE_SERVICE), postgresql)
-	DATABASE_SERVICES += postgresql
-endif
-
-ifeq ($(GEMINI_DATABASE_SERVICE), postgresql)
 	DATABASE_SERVICES += postgresql
 endif
 
@@ -195,7 +191,7 @@ drupal-database-dump: $(DEST)
 ifndef DEST
 	$(error DEST is not set)
 endif
-	docker-compose exec drupal drush -l $(SITE) sql:dump > /tmp/dump.sql
+	docker-compose exec drupal with-contenv bash -lc 'mysqldump -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} > /tmp/dump.sql'
 	docker cp $$(docker-compose ps -q drupal):/tmp/dump.sql $(DEST)
 
 # Import database.
@@ -205,13 +201,14 @@ ifndef SRC
 endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/dump.sql
 	# Need to specify the root user to import the database otherwise it will fail due to permissions.
-	docker-compose exec drupal with-contenv bash -lc '`drush -l $(SITE) sql:connect --extra="-u $${DRUPAL_DEFAULT_DB_ROOT_USER} --password=$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD}"` < /tmp/dump.sql'
+	docker-compose exec drupal with-contenv bash -lc 'mysql -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} < /tmp/dump.sql'
 
 drupal-public-files-dump: $(DEST)
 ifndef DEST
 	$(error DEST is not set)
 endif
-	docker cp $$(docker-compose ps -q drupal):/var/www/drupal/web/sites/default/files $(DEST)
+	docker-compose exec drupal with-contenv bash -lc 'tar zcvf /tmp/public-files.tgz /var/www/drupal/web/sites/default/files'
+	docker cp $$(docker-compose ps -q drupal):/tmp/public-files.tgz $(DEST)
 
 drupal-public-files-import: $(SRC)
 ifndef SRC 
@@ -233,9 +230,9 @@ fcrepo-import: $(SRC)
 ifndef SRC
 	$(error SRC is not set)
 endif
-	docker cp $(SRC) $$(docker-compose ps -q fcrepo):/tmp/fcrepo-dump
 	$(MAKE) -B docker-compose.yml DISABLE_SYN=true
 	docker-compose up -d fcrepo
+	docker cp $(SRC) $$(docker-compose ps -q fcrepo):/tmp/fcrepo-dump
 	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-dump -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
 	$(MAKE) -B docker-compose.yml
 	docker-compose up -d fcrepo
@@ -255,6 +252,13 @@ ifndef SRC
 endif
 	docker cp $(SRC) $$(docker-compose ps -q gemini):/tmp/gemini.sql
 	docker-compose exec gemini with-contenv bash -lc 'mysql -u $${GEMINI_DB_USER} -p$${GEMINI_DB_PASSWORD} -h $${GEMINI_DB_HOST} $${GEMINI_DB_NAME} < /tmp/gemini.sql'
+
+reindex-fcrepo-metadata:
+	# Re-index RDF in Fedora
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec non_fedora_files emit_file_event --configuration="queue=islandora-indexing-fcrepo-file-external&event=Update"'
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec all_taxonomy_terms emit_term_event --configuration="queue=islandora-indexing-fcrepo-content&event=Update"'
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-fcrepo-content&event=Update"'
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-fcrepo-media&event=Update"'
 
 # Creates the codebase folder from a running islandora/demo image.
 .PHONY: create-codebase-from-demo
@@ -342,7 +346,7 @@ demo:
 	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql
 	$(MAKE) hydrate
 	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export 
-	$(MAKE) gemini-database-import SRC=$(CURDIR)/demo-data/gemini.sql
+	$(MAKE) reindex-fcrepo-metadata
 	
 
 # git clone https://github.com/dannylamb/islandora-sandbox codebase
