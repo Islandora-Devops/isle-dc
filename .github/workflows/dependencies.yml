@@ -1,0 +1,92 @@
+name: Dependency Diff
+on:
+  pull_request:
+    branches: [development]
+jobs:
+  base:
+    name: Calculate and Upload Base Dependencies
+    # This should always be true for pull request events
+    if: ${{ github.base_ref != null }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DEP_FILENAME: deps.${{ github.event.pull_request.base.sha }}
+    outputs:
+      dep-filename: ${{ steps.base-dep-filename.outputs.dep_filename }}
+    steps:
+      - name: Checkout Base Branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.base_ref }}
+      - name: Start IDC
+        run: make up
+      - name: Capture Dependencies
+        run: docker-compose exec -T drupal composer show > ${{ env.DEP_FILENAME }}
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: base-dependencies
+          path: ${{ env.DEP_FILENAME }}
+      - name: Set Outputs
+        id: base-dep-filename
+        run: echo "::set-output name=dep_filename::${{ env.DEP_FILENAME }}"
+  pr:
+    name: Calculate and Upload PR Dependencies
+    # This should always be true for pull request events
+    if: ${{ github.head_ref != null }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DEP_FILENAME: deps.pr-${{ github.event.number }}.${{ github.event.pull_request.head.sha }}
+    outputs:
+      dep-filename: ${{ steps.pr-dep-filename.outputs.dep_filename }}
+    steps:
+      - name: Checkout PR Branch
+        uses: actions/checkout@v2
+      - name: Start IDC
+        run: make up
+      - name: Capture Dependencies
+        run: docker-compose exec -T drupal composer show > ${{ env.DEP_FILENAME }}
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: pr-dependencies
+          path: ${{ env.DEP_FILENAME }}
+      - name: Set Outputs
+        id: pr-dep-filename
+        run: echo "::set-output name=dep_filename::${{ env.DEP_FILENAME }}"
+  diff:
+    name: Create and Upload Diff
+    needs: [base, pr]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DIFF_FILENAME: out.diff
+    steps:
+      - name: Download Base Deps
+        uses: actions/download-artifact@v2
+        with:
+          name: base-dependencies
+      - name: Download PR Deps
+        uses: actions/download-artifact@v2
+        with:
+          name: pr-dependencies
+      - name: Calculate diff
+        # ignore exit code from git diff
+        shell: bash {0}
+        run: |
+          echo "Generating diff between ${{ needs.base.outputs.dep-filename }} and ${{ needs.pr.outputs.dep-filename }} to ${DIFF_FILENAME}"
+          echo "Dependency diff between development base branch ${{ github.base_ref }} (${{ github.event.pull_request.base.sha }}) and PR branch ${{ github.head_ref }} (${{ github.event.pull_request.head.sha }}):" >> ${DIFF_FILENAME}
+          echo '```diff' >> ${DIFF_FILENAME}
+          git diff --no-index -w ${{ needs.base.outputs.dep-filename }} ${{ needs.pr.outputs.dep-filename }} >> ${DIFF_FILENAME}
+          if [ $? -gt 0 ] ; then \
+            echo '```' >> ${DIFF_FILENAME} ; \
+          else \
+            echo "> This PR has no dependency differences with the base branch" > ${DIFF_FILENAME} ; \
+          fi
+      - name: Comment on PR
+        uses: machine-learning-apps/pr-comment@1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          path: ${{ env.DIFF_FILENAME }}
