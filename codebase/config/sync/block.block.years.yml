@@ -1,0 +1,40 @@
+uuid: bfe5207d-5568-4184-82fe-63343bb2c66c
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.years
+  module:
+    - context
+    - facets
+    - islandora
+  theme:
+    - carapace
+id: years
+theme: carapace
+region: sidebar_second
+weight: -5
+provider: null
+plugin: 'facet_block:years'
+settings:
+  id: 'facet_block:years'
+  label: Years
+  provider: facets
+  label_display: visible
+  block_id: years
+visibility:
+  request_path_exclusion:
+    id: request_path_exclusion
+    pages: ''
+    negate: null
+    context_mapping: {  }
+  view_inclusion:
+    id: view_inclusion
+    negate: null
+    view_inclusion: {  }
+    context_mapping: {  }
+  media_source_mimetype:
+    id: media_source_mimetype
+    mimetype: ''
+    negate: false
+    context_mapping: {  }

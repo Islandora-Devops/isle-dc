@@ -1,4 +1,4 @@
-uuid: f2ba97ef-231a-4231-ad9d-5a4b2394bc9f
+uuid: 2f3314ec-7bba-461d-8992-9ec4e01cc1ac
 langcode: en
 status: true
 dependencies:
@@ -8,26 +8,26 @@ dependencies:
   module:
     - search_api
 _core:
-  default_config_hash: Wxc2yil1VcERajtx-Nvi5mpPhZozSf3stwzwzqu0f1U
-id: physical_form
-name: 'Physical Form'
-url_alias: physical_form
-weight: 1
+  default_config_hash: dMN5WpPPKoWAenqVLJW8dUMrHoVXLE_eVewFvMBVg6o
+id: contributors
+name: Contributors
+url_alias: contributors
+weight: 0
 min_count: 1
 show_only_one_result: false
-field_identifier: field_physical_form
+field_identifier: aggregated_field
 facet_source_id: 'search_api:views_page__solr_search_content__page_1'
 widget:
   type: links
   config:
-    show_numbers: true
-    soft_limit: 10
+    show_numbers: false
+    soft_limit: 0
     soft_limit_settings:
       show_less_label: 'Show less'
       show_more_label: 'Show more'
-    show_reset_link: true
+    show_reset_link: false
     reset_text: 'Show all'
-    hide_reset_when_no_selection: true
+    hide_reset_when_no_selection: false
 query_operator: or
 use_hierarchy: false
 expand_hierarchy: false
@@ -54,10 +54,10 @@ processor_configs:
       sort: 40
     settings:
       sort: ASC
-  hide_non_narrowing_result_processor:
-    processor_id: hide_non_narrowing_result_processor
+  translate_entity_aggregated_fields:
+    processor_id: translate_entity_aggregated_fields
     weights:
-      build: 40
+      build: 5
     settings: {  }
   url_processor_handler:
     processor_id: url_processor_handler
@@ -66,5 +66,7 @@ processor_configs:
       build: 15
     settings: {  }
 empty_behavior:
-  behavior: none
+  behavior: text
+  text_format: plain_text
+  text: '-empty-'
 show_title: false

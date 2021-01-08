@@ -6,13 +6,55 @@ dependencies:
     - search_api_solr
     - node
     - user
+    - content_translation
     - taxonomy
+    - token
     - search_api
   config:
+    - field.storage.node.body
+    - field.storage.node.field_abstract
+    - field.storage.node.field_access_rights
+    - field.storage.node.field_access_terms
+    - field.storage.node.field_alternative_title
+    - field.storage.node.field_citable_url
+    - field.storage.node.field_collection_contact_name
+    - field.storage.node.field_collection_number
+    - field.storage.node.field_contributor
+    - field.storage.node.field_copyright_and_use
+    - field.storage.node.field_copyright_holder
+    - field.storage.node.field_creator
+    - field.storage.node.field_date_available
+    - field.storage.node.field_date_copyrighted
+    - field.storage.node.field_date_created
+    - field.storage.node.field_description
+    - field.storage.node.field_digital_publisher
+    - field.storage.node.field_display_hints
+    - field.storage.node.field_dspace_identifier
+    - field.storage.node.field_dspace_item_id
+    - field.storage.node.field_extent
+    - field.storage.node.field_featured_item
+    - field.storage.node.field_finding_aid
+    - field.storage.node.field_genre
     - field.storage.taxonomy_term.field_geo_alt_name
+    - field.storage.node.field_geoportal_link
+    - field.storage.node.field_image
+    - field.storage.node.field_is_part_of
+    - field.storage.node.field_issn
+    - field.storage.node.field_item_barcode
+    - field.storage.node.field_jhir
+    - field.storage.node.field_language
+    - field.storage.node.field_library_catalog_link
     - field.storage.node.field_member_of
+    - field.storage.node.field_model
+    - field.storage.node.field_oclc_number
+    - field.storage.node.field_publisher
+    - field.storage.node.field_publisher_country
+    - field.storage.node.field_resource_type
+    - field.storage.node.field_spatial_coverage
     - field.storage.node.field_subject
+    - field.storage.node.field_table_of_contents
     - field.storage.node.field_tags
+    - field.storage.node.field_years
     - search_api.server.default_solr_server
     - core.entity_view_mode.node.search_index
 third_party_settings:
@@ -20,6 +62,9 @@ third_party_settings:
     finalize: false
     commit_before_finalize: false
     commit_after_finalize: false
+    multilingual:
+      limit_to_content_language: false
+      include_language_independent: true
     highlighter:
       maxAnalyzedChars: 51200
       fragmenter: regex
@@ -35,15 +80,38 @@ third_party_settings:
         requireFieldMatch: false
         snippets: 3
         fragsize: 0
+    mlt:
+      mintf: 1
+      mindf: 1
+      maxdf: 0
+      maxdfpct: 0
+      minwl: 0
+      maxwl: 0
+      maxqt: 100
+      maxntp: 2000
+      boost: false
+      interestingTerms: none
     advanced:
       index_prefix: ''
+      collection: ''
+      timezone: ''
 _core:
-  default_config_hash: ymGYEJfAffwWmbrV-ChJjZaxRN4NWqrNojMQa8vss4Y
+  default_config_hash: 9NS32xEWLmE2eVbgkqP-GrftHgq2tD-y6sFz_vWCQkc
 id: default_solr_index
 name: 'Default Solr content index'
 description: 'Default content index created by the Solr Search Defaults module'
 read_only: false
 field_settings:
+  aggregated_field:
+    label: 'Aggregated field'
+    property_path: aggregated_field
+    type: string
+    configuration:
+      type: union
+      fields:
+        - 'entity:node/field_contributor'
+        - 'entity:node/field_creator'
+        - 'entity:taxonomy_term/name'
   author:
     label: 'Author name'
     datasource_id: 'entity:node'
@@ -53,6 +121,14 @@ field_settings:
       module:
         - node
         - user
+  body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
   changed:
     label: Changed
     datasource_id: 'entity:node'
@@ -61,11 +137,27 @@ field_settings:
     dependencies:
       module:
         - node
+  content_translation_source:
+    label: 'Translation source'
+    datasource_id: 'entity:node'
+    property_path: content_translation_source
+    type: string
+    dependencies:
+      module:
+        - content_translation
   created:
     label: 'Authored on'
     datasource_id: 'entity:node'
     property_path: created
     type: date
+    dependencies:
+      module:
+        - node
+  default_langcode:
+    label: 'Default translation'
+    datasource_id: 'entity:node'
+    property_path: default_langcode
+    type: boolean
     dependencies:
       module:
         - node
@@ -77,11 +169,195 @@ field_settings:
     dependencies:
       module:
         - taxonomy
+  field_abstract:
+    label: Abstract
+    datasource_id: 'entity:node'
+    property_path: field_abstract
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_abstract
+  field_access_rights:
+    label: 'Access Rights'
+    datasource_id: 'entity:node'
+    property_path: field_access_rights
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_access_rights
+  field_access_terms:
+    label: 'Access Control'
+    datasource_id: 'entity:node'
+    property_path: field_access_terms
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_access_terms
+  field_alternative_title:
+    label: 'Alternative Title'
+    datasource_id: 'entity:node'
+    property_path: field_alternative_title
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_alternative_title
+  field_citable_url:
+    label: 'Citable URL'
+    datasource_id: 'entity:node'
+    property_path: field_citable_url
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_citable_url
+  field_collection_contact_name:
+    label: 'Collection Contact Name'
+    datasource_id: 'entity:node'
+    property_path: field_collection_contact_name
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_collection_contact_name
+  field_collection_number:
+    label: 'Collection Number'
+    datasource_id: 'entity:node'
+    property_path: field_collection_number
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_collection_number
+  field_contributor:
+    label: Contributor
+    datasource_id: 'entity:node'
+    property_path: field_contributor
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+  field_copyright_and_use:
+    label: 'Copyright and Use'
+    datasource_id: 'entity:node'
+    property_path: field_copyright_and_use
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_copyright_and_use
+  field_copyright_holder:
+    label: 'Copyright Holder'
+    datasource_id: 'entity:node'
+    property_path: field_copyright_holder
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_copyright_holder
+  field_creator:
+    label: Creator
+    datasource_id: 'entity:node'
+    property_path: field_creator
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_creator
+  field_date_available:
+    label: 'Date Available'
+    datasource_id: 'entity:node'
+    property_path: field_date_available
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_date_available
+  field_date_copyrighted:
+    label: 'Date Copyrighted'
+    datasource_id: 'entity:node'
+    property_path: field_date_copyrighted
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_date_copyrighted
+  field_date_created:
+    label: 'Date Created'
+    datasource_id: 'entity:node'
+    property_path: field_date_created
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_date_created
+  field_description:
+    label: Description
+    datasource_id: 'entity:node'
+    property_path: field_description
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_description
+  field_digital_publisher:
+    label: 'Digital Publisher'
+    datasource_id: 'entity:node'
+    property_path: field_digital_publisher
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_digital_publisher
+  field_display_hints:
+    label: 'Display hints'
+    datasource_id: 'entity:node'
+    property_path: field_display_hints
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_display_hints
+  field_dspace_identifier:
+    label: 'DSpace Identifier'
+    datasource_id: 'entity:node'
+    property_path: field_dspace_identifier
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_dspace_identifier
+  field_dspace_item_id:
+    label: 'DSpace Item ID'
+    datasource_id: 'entity:node'
+    property_path: field_dspace_item_id
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_dspace_item_id
   field_edited_text:
     label: 'Edited Text'
     datasource_id: 'entity:node'
     property_path: 'search_api_reverse_entity_references_media__field_media_of:field_edited_text'
     type: text
+  field_extent:
+    label: Extent
+    datasource_id: 'entity:node'
+    property_path: field_extent
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_extent
+  field_featured_item:
+    label: 'Featured Item'
+    datasource_id: 'entity:node'
+    property_path: field_featured_item
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_featured_item
+  field_finding_aid:
+    label: 'Finding Aid'
+    datasource_id: 'entity:node'
+    property_path: field_finding_aid
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_finding_aid
+  field_genre:
+    label: Genre/Form
+    datasource_id: 'entity:node'
+    property_path: field_genre
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_genre
   field_geo_alt_name:
     label: 'Alternate Name'
     datasource_id: 'entity:taxonomy_term'
@@ -90,6 +366,70 @@ field_settings:
     dependencies:
       config:
         - field.storage.taxonomy_term.field_geo_alt_name
+  field_geoportal_link:
+    label: 'Geoportal Link'
+    datasource_id: 'entity:node'
+    property_path: field_geoportal_link
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_geoportal_link
+  field_image:
+    label: Image
+    datasource_id: 'entity:node'
+    property_path: field_image
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_image
+  field_is_part_of:
+    label: 'Is Part Of'
+    datasource_id: 'entity:node'
+    property_path: field_is_part_of
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_is_part_of
+  field_issn:
+    label: ISSN
+    datasource_id: 'entity:node'
+    property_path: field_issn
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_issn
+  field_item_barcode:
+    label: 'Item Barcode'
+    datasource_id: 'entity:node'
+    property_path: field_item_barcode
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_item_barcode
+  field_jhir:
+    label: JHIR
+    datasource_id: 'entity:node'
+    property_path: field_jhir
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_jhir
+  field_language:
+    label: Language
+    datasource_id: 'entity:node'
+    property_path: field_language
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_language
+  field_library_catalog_link:
+    label: 'Library Catalog Link'
+    datasource_id: 'entity:node'
+    property_path: field_library_catalog_link
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_library_catalog_link
   field_member_of:
     label: 'Member of'
     datasource_id: 'entity:node'
@@ -98,6 +438,54 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_member_of
+  field_model:
+    label: Model
+    datasource_id: 'entity:node'
+    property_path: field_model
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_model
+  field_oclc_number:
+    label: OCLC
+    datasource_id: 'entity:node'
+    property_path: field_oclc_number
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_oclc_number
+  field_publisher:
+    label: Publisher
+    datasource_id: 'entity:node'
+    property_path: field_publisher
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_publisher
+  field_publisher_country:
+    label: 'Publisher Country'
+    datasource_id: 'entity:node'
+    property_path: field_publisher_country
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_publisher_country
+  field_resource_type:
+    label: 'Resource Type'
+    datasource_id: 'entity:node'
+    property_path: field_resource_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_resource_type
+  field_spatial_coverage:
+    label: 'Spatial Coverage'
+    datasource_id: 'entity:node'
+    property_path: field_spatial_coverage
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_spatial_coverage
   field_subject:
     label: Subject
     datasource_id: 'entity:node'
@@ -108,6 +496,14 @@ field_settings:
         - field.storage.node.field_subject
       module:
         - taxonomy
+  field_table_of_contents:
+    label: 'Table of Contents'
+    datasource_id: 'entity:node'
+    property_path: field_table_of_contents
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_table_of_contents
   field_tags:
     label: Tags
     datasource_id: 'entity:node'
@@ -116,6 +512,30 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_tags
+  field_years:
+    label: Years
+    datasource_id: 'entity:node'
+    property_path: field_years
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_years
+  langcode:
+    label: Language
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: string
+    dependencies:
+      module:
+        - node
+  menu_link:
+    label: 'Menu link'
+    datasource_id: 'entity:node'
+    property_path: menu_link
+    type: integer
+    dependencies:
+      module:
+        - token
   name:
     label: Name
     datasource_id: 'entity:taxonomy_term'
@@ -125,6 +545,14 @@ field_settings:
     dependencies:
       module:
         - taxonomy
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
   node_grants:
     label: 'Node access information'
     property_path: search_api_node_grants
@@ -142,20 +570,60 @@ field_settings:
       view_mode:
         'entity:node':
           article: search_index
+          collection_object: search_index
           islandora_object: search_index
           page: search_index
         'entity:taxonomy_term':
+          access_rights: ''
+          copyright_and_use: ''
           corporate_body: default
           family: default
           genre: default
           geo_location: default
           language: default
           person: default
-          physical_form: default
           resource_types: default
           subject: default
-          tags: default
-          temporal: default
+  revision_default:
+    label: 'Default revision'
+    datasource_id: 'entity:node'
+    property_path: revision_default
+    type: boolean
+    dependencies:
+      module:
+        - node
+  revision_log:
+    label: 'Revision log message'
+    datasource_id: 'entity:node'
+    property_path: revision_log
+    type: text
+    dependencies:
+      module:
+        - node
+  revision_timestamp:
+    label: 'Revision create time'
+    datasource_id: 'entity:node'
+    property_path: revision_timestamp
+    type: date
+    dependencies:
+      module:
+        - node
+  revision_translation_affected:
+    label: 'Revision translation affected'
+    datasource_id: 'entity:node'
+    property_path: revision_translation_affected
+    type: boolean
+    dependencies:
+      module:
+        - node
+  revision_uid:
+    label: 'Revision user'
+    datasource_id: 'entity:node'
+    property_path: revision_uid
+    type: integer
+    dependencies:
+      module:
+        - node
   status:
     label: 'Publishing status'
     datasource_id: 'entity:node'
@@ -201,6 +669,22 @@ field_settings:
     dependencies:
       module:
         - node
+  uuid:
+    label: UUID
+    datasource_id: 'entity:node'
+    property_path: uuid
+    type: string
+    dependencies:
+      module:
+        - node
+  vid:
+    label: 'Revision ID'
+    datasource_id: 'entity:node'
+    property_path: vid
+    type: integer
+    dependencies:
+      module:
+        - node
 datasource_settings:
   'entity:node':
     bundles:
@@ -221,6 +705,11 @@ datasource_settings:
       default: true
       selected: {  }
 processor_settings:
+  hierarchy:
+    fields:
+      field_member_of: node-field_member_of
+    weights:
+      preprocess_index: -45
   add_url:
     weights:
       preprocess_index: -30
@@ -234,11 +723,6 @@ processor_settings:
   entity_status:
     weights:
       preprocess_index: -10
-  hierarchy:
-    fields:
-      field_member_of: node-field_member_of
-    weights:
-      preprocess_index: -45
   highlight:
     highlight: always
     highlight_partial: true
