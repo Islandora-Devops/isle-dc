@@ -6119,12 +6119,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/controlled_access_terms.git",
-                "reference": "0fc1713f2ba544ad38118067dea12367bf02e512"
+                "reference": "b2c3e6c56b00a68f0e13f6717788710bb2329ab0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/controlled_access_terms/zipball/0fc1713f2ba544ad38118067dea12367bf02e512",
-                "reference": "0fc1713f2ba544ad38118067dea12367bf02e512",
+                "url": "https://api.github.com/repos/jhu-idc/controlled_access_terms/zipball/b2c3e6c56b00a68f0e13f6717788710bb2329ab0",
+                "reference": "b2c3e6c56b00a68f0e13f6717788710bb2329ab0",
                 "shasum": ""
             },
             "require": {
@@ -6166,7 +6166,7 @@
                 "issues": "https://github.com/jhu-idc/controlled_access_terms/issues",
                 "source": "https://github.com/jhu-idc/controlled_access_terms/tree/8.x-1.x"
             },
-            "time": "2020-12-21T19:28:44+00:00"
+            "time": "2021-01-08T21:57:04+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",
@@ -6174,12 +6174,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/islandora_defaults.git",
-                "reference": "5618d8b38199829e81b07dc301967577430260d6"
+                "reference": "c8d4bab574688d9626144b2bcc3b4753ee6eb8e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/5618d8b38199829e81b07dc301967577430260d6",
-                "reference": "5618d8b38199829e81b07dc301967577430260d6",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/c8d4bab574688d9626144b2bcc3b4753ee6eb8e3",
+                "reference": "c8d4bab574688d9626144b2bcc3b4753ee6eb8e3",
                 "shasum": ""
             },
             "require": {
@@ -6205,7 +6205,7 @@
                 "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
                 "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
             },
-            "time": "2021-01-04T21:31:49+00:00"
+            "time": "2021-01-08T18:46:01+00:00"
         },
         {
             "name": "jhu-idc/reference_value_pair",
@@ -6213,12 +6213,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/reference_value_pair.git",
-                "reference": "0a75d201b6d512672e7a0466f4e8cd3111f3d24d"
+                "reference": "50bf98c092133d70e9261cd2ab4717f1dd75f453"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/reference_value_pair/zipball/0a75d201b6d512672e7a0466f4e8cd3111f3d24d",
-                "reference": "0a75d201b6d512672e7a0466f4e8cd3111f3d24d",
+                "url": "https://api.github.com/repos/jhu-idc/reference_value_pair/zipball/50bf98c092133d70e9261cd2ab4717f1dd75f453",
+                "reference": "50bf98c092133d70e9261cd2ab4717f1dd75f453",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -6234,7 +6234,7 @@
                 "issues": "http://github.com/jhu-idc/reference_value_pair",
                 "source": "http://github.com/jhu-idc/reference_value_pair"
             },
-            "time": "2020-12-07T17:45:39+00:00"
+            "time": "2021-01-08T22:06:46+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
