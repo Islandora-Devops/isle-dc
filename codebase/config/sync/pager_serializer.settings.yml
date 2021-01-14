@@ -1,0 +1,13 @@
+rows_label: rows
+pager_label: pager
+pager_object_enabled: true
+current_page_enabled: true
+current_page_label: current_page
+total_items_enabled: true
+total_items_label: total_items
+total_pages_enabled: true
+total_pages_label: total_pages
+items_per_page_enabled: true
+items_per_page_label: items_per_page
+_core:
+  default_config_hash: _3XV4bwJBgyjhkVJFHCdxQUsR38pECDeoJ10p-AKW10

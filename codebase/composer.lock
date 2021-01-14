@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ede6465a454b50d8a1bcf063bda85c97",
+    "content-hash": "c32419f1d71dc9e83e17b5b16e9f7b4f",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4305,6 +4305,54 @@
                 "source": "https://git.drupalcode.org/project/migrate_tools",
                 "issues": "https://www.drupal.org/project/issues/migrate_tools",
                 "slack": "#migrate"
+            }
+        },
+        {
+            "name": "drupal/pager_serializer",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/pager_serializer.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/pager_serializer-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "f82ccedc188ebd43e74c4e2cfaea2c79191c5fee"
+            },
+            "require": {
+                "drupal/core": "^8.7.7 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1595546563",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "bluegeek9",
+                    "homepage": "https://www.drupal.org/user/1286304"
+                }
+            ],
+            "description": "This module is intended to be used with rest and the Rest export View with a decoupled UI.",
+            "homepage": "https://www.drupal.org/project/pager_serializer",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/pager_serializer",
+                "issues": "https://www.drupal.org/project/issues/pager_serializer"
             }
         },
         {
