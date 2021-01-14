@@ -103,20 +103,23 @@ up:  download-default-certs docker-compose.yml start
 .SILENT: start
 start:
 	docker-compose up -d mariadb snapshot;
-	# Try connecting to mysql, and get a valid (a number, greater than zero) count of the number of databases.
-	# Then, once we're confident that mysql up and validly query able, see if the Drupal db is in place.  
-	# If not, then load it from snapshot before starting the stack.  Otherwise, if the Drupal db is already
-	# present, just start.
+	# Try connecting to mariadb, and get a valid (a number, greater than zero) count of the number of databases.
+	# Then, once we're "confident" that mariadb is up and validly query able, see if the Drupal db is in place.
+	# This is a tricky process, as the mariadb client can succeed once, then fail on a subsequent invocation.
+	# Once we've finally determined if mariadb is running, and have found a valid answer for whether the Drupal DB is present,
+	# then we can proceed.  If the Drupal DB is not present, then load it from snapshot before starting the stack.  
+	# Otherwise, if the Drupal db is already present, just start.
 	for i in $$(seq 5) ; do \
 		echo "waiting for mysql to start..."; \
 		sleep 5; \
 		BASIC_DBS_PRESENT=$$(docker-compose exec -T mariadb mysql mysql -N -e "SELECT count(*) from information_schema.SCHEMATA;"); \
 		if [  "$$?" -gt "0" ]; then continue; fi; \
 		if [ ! -n "$$BASIC_DBS_PRESENT" ]; then continue; fi; \
-		if [ "$$BASIC_DBS_PRESENT" -gt "0" ]; then echo "Connection established!" && break; fi; \
+		if [ ! "$$BASIC_DBS_PRESENT" -gt "0" ]; then continue; fi; \
+		DRUPAL_STATE_EXISTS=$$(docker-compose exec -T mariadb mysql mysql -N -e "SELECT count(*) from information_schema.SCHEMATA WHERE schema_name = 'drupal_default';"); \
+		if [ "$$?" -eq "0" -a -n "$${DRUPAL_STATE_EXISTS}" ]; then break; fi; \
 	done; \
-	DRUPAL_STATE_EXISTS=$$(docker-compose exec -T mariadb mysql mysql -N -e "SELECT count(*) from information_schema.SCHEMATA WHERE schema_name = 'drupal_default';"); \
-	if [ $${DRUPAL_STATE_EXISTS} != "1" ] ; then \
+	if [ "$${DRUPAL_STATE_EXISTS}" != "1" ] ; then \
 		echo "No Drupal state found"; \
 		${MAKE} db_restore; \
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
