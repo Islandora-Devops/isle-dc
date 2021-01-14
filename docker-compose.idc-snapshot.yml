@@ -16,8 +16,6 @@ services:
     image: ${REPOSITORY}/snapshot:${SNAPSHOT_TAG}
     volumes:
     - drupal-sites-data:/data/drupal
-    - mariadb-data:/data/mariadb-data
-    - mariadb-files:/data/mariadb-files
     - mariadb-dump:/data/mariadb-dump
     - solr-data:/data/solr
 volumes:

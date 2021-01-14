@@ -115,19 +115,12 @@ start:
 		if [ ! -n "$$BASIC_DBS_PRESENT" ]; then continue; fi; \
 		if [ "$$BASIC_DBS_PRESENT" -gt "0" ]; then echo "Connection established!" && break; fi; \
 	done; \
-	echo "foo"; \
 	DRUPAL_STATE_EXISTS=$$(docker-compose exec -T mariadb mysql mysql -N -e "SELECT count(*) from information_schema.SCHEMATA WHERE schema_name = 'drupal_default';"); \
-	DUMP_FILES_FOUND=$$(docker-compose exec -T mariadb bash -c 'ls -l /mariadb-dump/*.sql | wc -l'); \
 	if [ $${DRUPAL_STATE_EXISTS} != "1" ] ; then \
 		echo "No Drupal state found"; \
 		${MAKE} db_restore; \
-	else  \
-		if [ $${DUMP_FILES_FOUND} = "0" ] ; then \ 
-			echo "WARNING:  this is an old-style snapshot, using direct mysql data image"; \
-		else \
-			echo "Pre-existing Drupal state found, not loading db from snapshot"; \
-		fi; \
-	fi
+	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
+	fi;
 	docker-compose up -d
 	sleep 5
 	docker-compose exec -T drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to start ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
