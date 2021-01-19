@@ -17,9 +17,6 @@ volumes:
 services:
   drupal:
     environment:
-      DRUPAL_DEFAULT_CONFIGDIR: /var/www/drupal/config/sync
-      DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"
-      DRUPAL_DEFAULT_PROFILE: minimal
     image: ${REPOSITORY:-islandora}/drupal:${TAG:-latest}
     volumes:
       - ./codebase:/var/www/drupal:delegated
