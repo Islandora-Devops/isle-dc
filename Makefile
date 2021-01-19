@@ -201,7 +201,7 @@ ifndef SRC
 endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/dump.sql
 	# Need to specify the root user to import the database otherwise it will fail due to permissions.
-	docker-compose exec drupal with-contenv bash -lc 'mysql -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} < /tmp/dump.sql'
+	docker-compose exec drupal with-contenv bash -lc 'chown root:root /tmp/dump.sql && mysql -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} < /tmp/dump.sql'
 
 drupal-public-files-dump: $(DEST)
 ifndef DEST
@@ -222,8 +222,9 @@ fcrepo-export: $(DEST)
 ifndef DEST
 	$(error DEST is not set)
 endif
-	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode export -r http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-dump -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
-	docker cp $$(docker-compose ps -q fcrepo):/tmp/fcrepo-dump $(DEST)
+	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode export -r http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
+	docker-compose exec fcrepo with-contenv bash -lc 'tar zcvf /tmp/fcrepo-export.tgz /tmp/fcrepo-export'
+	docker cp $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz $(DEST)
 
 # Import fcrepo.
 fcrepo-import: $(SRC)
@@ -232,26 +233,11 @@ ifndef SRC
 endif
 	$(MAKE) -B docker-compose.yml DISABLE_SYN=true
 	docker-compose up -d fcrepo
-	docker cp $(SRC) $$(docker-compose ps -q fcrepo):/tmp/fcrepo-dump
-	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-dump -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
+	docker cp $(SRC) $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz
+	docker-compose exec fcrepo with-contenv bash -lc 'cd /tmp && tar zxvf fcrepo-export.tgz && chown -R nginx:nginx ./fcrepo-export && rm ./fcrepo-export.tgz'
+	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
 	$(MAKE) -B docker-compose.yml
 	docker-compose up -d fcrepo
-
-# Dump Gemini
-gemini-database-dump: $(DEST)
-ifndef DEST
-	$(error DEST is not set)
-endif
-	docker-compose exec gemini with-contenv bash -lc 'mysqldump -u $${GEMINI_DB_USER} -p$${GEMINI_DB_PASSWORD} -h $${GEMINI_DB_HOST} $${GEMINI_DB_NAME} > /tmp/gemini.sql'
-	docker cp $$(docker-compose ps -q gemini):/tmp/gemini.sql $(DEST)
-
-# Import Gemini
-gemini-database-import: $(SRC)
-ifndef SRC
-	$(error SRC is not set)
-endif
-	docker cp $(SRC) $$(docker-compose ps -q gemini):/tmp/gemini.sql
-	docker-compose exec gemini with-contenv bash -lc 'mysql -u $${GEMINI_DB_USER} -p$${GEMINI_DB_PASSWORD} -h $${GEMINI_DB_HOST} $${GEMINI_DB_NAME} < /tmp/gemini.sql'
 
 reindex-fcrepo-metadata:
 	# Re-index RDF in Fedora
@@ -260,38 +246,14 @@ reindex-fcrepo-metadata:
 	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-fcrepo-content&event=Update"'
 	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-fcrepo-media&event=Update"'
 
-# Creates the codebase folder from a running islandora/demo image.
-.PHONY: create-codebase-from-demo
-.SILENT: create-codebase-from-demo
-create-codebase-from-demo:
-ifneq ($(wildcard $(CURDIR)/codebase),)
-	$(error codebase folder already exists)
-endif
-	# Create docker-compose.yml file for the demo environment.
-	$(MAKE) -B docker-compose.yml ENVIRONMENT=demo
-	# Ensure we have the latest images.
-	$(MAKE) pull
-	# Start the services
-	docker-compose up -d
-	# Give an extra few seconds for the containers to become responsive.
-	sleep 5
-	# Wait for Drupal to become responsive (up to 20 minutes - should be less than 5 except on Macs).
-	docker-compose exec drupal timeout 1200 wait-for-open-port.sh localhost 80
-	# Export the site configuration.
-	docker-compose exec drupal drush config:export
-	# Need `default` folder to be writeable to copy it down to host.
-	docker-compose exec drupal chmod 777 /var/www/drupal/web/sites/default
-	docker cp $$(docker-compose ps -q drupal):/var/www/drupal/ codebase
-	# Restore expected perms for `default`.
-	docker-compose exec drupal chmod 555 /var/www/drupal/web/sites/default
-	# Take down the services
-	docker-compose down -v
-	# Change ownership so the host user can work with the files.
-	sudo chown -R $(shell id -u):101 $(CURDIR)/codebase
-	# For newly added files/directories makesure they inherit the parent folders owner/group.
-	find $(CURDIR)/codebase -type d -exec chmod u+s,g+s {} \;
-	# Restore the docker-compose.yml file to what the user had before.
-	$(MAKE) -B docker-compose.yml
+reindex-solr:
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} search-api-reindex'
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} search-api-index'
+
+reindex-triplestore:
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec all_taxonomy_terms emit_term_event --configuration="queue=islandora-indexing-triplestore&event=Update"'
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-triplestore&event=Update"'
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-triplestore&event=Update"'
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: generate-jwt-keys
@@ -345,8 +307,10 @@ demo:
 	$(MAKE) drupal-database
 	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql
 	$(MAKE) hydrate
-	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export 
+	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz
 	$(MAKE) reindex-fcrepo-metadata
+	$(MAKE) reindex-solr
+	$(MAKE) reindex-triplestore
 	
 
 # git clone https://github.com/dannylamb/islandora-sandbox codebase
@@ -354,20 +318,13 @@ demo:
 .SILENT: local
 local:
 	$(MAKE) download-default-certs
-	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-	if [ `wget -q -O - https://composer.github.io/installer.sig` != `php -r "echo hash_file('sha384', 'composer-setup.php');"` ]; then \
-		>&2 echo 'ERROR: Invalid installer checksum'; \
-		rm composer-setup.php; \
-		exit 1; \
+	$(MAKE) docker-compose.yml ENVIRONMENT=local
+	$(MAKE) pull
+	if [ ! -d ./codebase || -z "$(ls -A ./codebase)" ]; then \
+		mkdir -p ./codebase; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root local/nginx with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.0 /tmp/codebase; mv /tmp/codebase/* /home/root'; \
 	fi
-	php composer-setup.php --quiet
-	rm composer-setup.php
-	if [ ! -d ./codebase ]; then \
-		git clone https://github.com/dannylamb/islandora-sandbox.git codebase; \
-	fi
-	(cd codebase && php ../composer.phar update)
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase
-	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	docker-compose up -d
 	$(MAKE) remove_standard_profile_references_from_config
 	$(MAKE) install ENVIRONMENT=local
