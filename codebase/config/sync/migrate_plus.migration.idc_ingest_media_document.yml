@@ -1,0 +1,64 @@
+uuid: 88ffc053-f82d-42bc-8a3d-766f07572c49
+langcode: en
+status: true
+dependencies: {  }
+id: idc_ingest_media_document
+class: null
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags: null
+migration_group: idc_ingest
+label: '(3c) Ingest New Document (e.g. PDF) Media'
+source:
+  plugin: csv
+  ids:
+    - local_id
+  path: 'Will be populated by the Migrate Source UI'
+  constants:
+    STATUS: true
+    DISPLAY: true
+    ADMIN: 1
+process:
+  field_media_document/target_id:
+    plugin: file_import
+    source: document_url
+    reuse: false
+    rename: true
+    id_only: true
+  field_media_document/description: name
+  field_media_document/display: constants/DISPLAY
+  field_mime_type:
+    plugin: explode
+    source: document_mime_type
+    delimiter: ;
+  name: name
+  field_media_of:
+    plugin: migration_lookup
+    migration: idc_ingest_new_items
+    source: nodeid_local
+    no_stub: true
+  field_media_use:
+    -
+      plugin: explode
+      source: use
+      delimiter: ;
+    -
+      plugin: entity_lookup
+      entity_type: taxonomy_term
+      value_key: name
+      bundle_key: vid
+      bundle: islandora_media_use
+  status: constants/STATUS
+  uid:
+    -
+      plugin: entity_lookup
+      entity_type: user
+      value_key: name
+      source: user
+    -
+      plugin: default_value
+      default_value: 1
+destination:
+  plugin: 'entity:media'
+  default_bundle: document
+migration_dependencies: null

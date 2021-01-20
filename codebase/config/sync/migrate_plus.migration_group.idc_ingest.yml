@@ -1,0 +1,10 @@
+uuid: e609a3f1-a68d-427d-af5b-1a0a249581b0
+langcode: en
+status: true
+dependencies: {  }
+id: idc_ingest
+label: 'IDC Ingest'
+description: 'A group of Drupal Migrations supporting the ingest of content for IDC from CSV sources.'
+source_type: 'CSV resource'
+module: null
+shared_configuration: null

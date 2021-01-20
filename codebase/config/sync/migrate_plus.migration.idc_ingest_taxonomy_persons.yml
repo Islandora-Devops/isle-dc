@@ -1,0 +1,111 @@
+uuid: c75abb9b-2a27-455f-802c-80271e9901c3
+langcode: en
+status: true
+dependencies: {  }
+id: idc_ingest_taxonomy_persons
+class: null
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags: null
+migration_group: idc_ingest
+label: 'Taxonomy: Persons'
+source:
+  plugin: csv
+  ids:
+    - local_id
+  path: 'Will be populated by the Migrate Source UI'
+  constants:
+    STATUS: true
+    ADMIN: 1
+    TAXONOMY_TERM: taxonomy_term
+    REL_TYPE: 'schema:knows'
+process:
+  field_preferred_name_rest:
+    -
+      plugin: concat
+      delimiter: " "
+      source:
+       - first_name
+       - middle_name
+    -
+      plugin: callback
+      callable: trim
+  field_preferred_name_prefix: title
+  field_primary_part_of_name: last_name
+  field_preferred_name_suffix: generational
+  field_date:
+    -
+      plugin: get
+      source:
+        - born
+        - died
+  field_authority_link:
+    -
+      plugin: explode
+      source: authority
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
+      process:
+        uri:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            source: value
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 0
+        title:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            source: value
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 1
+        source:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            source: value
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 2
+  description/value: description
+  description/format:
+    plugin: default_value
+    default_value: basic_html
+  field_relationships/target_id:
+    plugin: migration_lookup
+    migration: idc_ingest_taxonomy_persons
+    source: knows_local
+  field_relationships/rel_type: constants/REL_TYPE
+  name:
+    plugin: concat
+    source:
+      - first_name
+      - last_name
+    delimiter: ' '
+  status: constants/STATUS
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: person
+migration_dependencies: null

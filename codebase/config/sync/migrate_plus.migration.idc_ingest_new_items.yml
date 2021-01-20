@@ -1,0 +1,90 @@
+uuid: 2c14b68f-1c0c-446e-99cf-bc2bbd0e346c
+langcode: en
+status: true
+dependencies: {  }
+id: idc_ingest_new_items
+class: null
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags: null
+migration_group: idc_ingest
+label: '(2) Ingest New Repository Items'
+source:
+  plugin: csv
+  ids:
+    - local_id
+  path: 'Will be populated by the Migrate Source UI'
+process:
+  field_member_of:
+    plugin: migration_lookup
+    migration: idc_ingest_new_collection
+    source: collectionid_local
+    no_stub: true
+  field_model:
+    plugin: entity_lookup
+    bundle_key: vid
+    bundle: islandora_models
+    entity_type: taxonomy_term
+    value_key: name
+    source: model
+  field_display_hints:
+    plugin: entity_lookup
+    bundle_key: vid
+    bundle: islandora_display
+    entity_type: taxonomy_term
+    value_key: name
+    source: display_hint
+  field_resource_type:
+    plugin: entity_lookup
+    bundle_key: vid
+    bundle: resource_types
+    entity_type: taxonomy_term
+    value_key: name
+    source: resource_type
+  title: title
+  field_description: description
+  field_linked_agent:
+    -
+      plugin: explode
+      source: linked_agent
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+      keyname: agents
+    -
+      plugin: sub_process
+      process:
+        target_id:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: agents
+          -
+            plugin: explode
+            source: agents
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 1
+          -
+            plugin: migration_lookup
+            migration: idc_ingest_taxonomy_persons
+        rel_type:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: agents
+          -
+            plugin: explode
+            source: agents
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 0
+destination:
+  plugin: 'entity:node'
+  default_bundle: islandora_object
+migration_dependencies: null
