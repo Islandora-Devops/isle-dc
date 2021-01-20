@@ -44,6 +44,7 @@ module:
   hal: 0
   help: 0
   history: 0
+  idc_migration: 0
   image: 0
   islandora: 0
   islandora_audio: 0
@@ -68,8 +69,10 @@ module:
   menu_link_content: 0
   menu_ui: 0
   migrate: 0
+  migrate_file: 0
   migrate_plus: 0
   migrate_source_csv: 0
+  migrate_source_ui: 0
   migrate_tools: 0
   node: 0
   openseadragon: 0
@@ -83,6 +86,7 @@ module:
   quickedit: 0
   rdf: 0
   reference_value_pair: 0
+  remote_stream_wrapper: 0
   responsive_image: 0
   rest: 0
   rest_oai_pmh: 0
