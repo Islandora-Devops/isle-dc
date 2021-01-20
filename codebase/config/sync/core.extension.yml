@@ -59,6 +59,7 @@ module:
   islandora_text_extraction: 0
   islandora_text_extraction_defaults: 0
   islandora_video: 0
+  jsonapi: 0
   jsonld: 0
   jwt: 0
   key: 0
