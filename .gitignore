@@ -102,3 +102,4 @@ certs
 # Ignore node and test stuff
 *node_modules
 end-to-end/reports
+tests/10-migration-backend-tests/testcafe/screenshots

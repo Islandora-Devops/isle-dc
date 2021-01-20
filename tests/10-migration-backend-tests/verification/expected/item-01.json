@@ -1,0 +1,23 @@
+{
+  "type": "node",
+  "bundle": "islandora_object",
+  "model": "Image",
+  "resource_type": "Image",
+  "title": "Moonrise",
+  "member_of": "Collection One",
+  "extent": [
+    "1 item"
+  ],
+  "linked_agent": [
+    {
+      "rel": "relators:pht",
+      "name": "Ansel Adams"
+    },
+    {
+      "rel": "relators:aut",
+      "name": "Ansel Adams"
+    }
+  ],
+  "display_hint": "Open Seadragon",
+  "description": "Should have Ansel Adams as a photographer, and use OSD for image viewing"
+}
