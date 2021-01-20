@@ -18,7 +18,7 @@ source:
   plugin: csv
   path: modules/contrib/islandora_defaults/migrate/tags.csv
   header_row_count: 1
-  keys:
+  ids:
     - external_uri
 process:
   name: name
