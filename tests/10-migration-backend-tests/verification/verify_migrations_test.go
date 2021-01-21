@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -42,7 +43,7 @@ func Test_VerifyTaxonomyTerm(t *testing.T) {
 		drupalEntity: expectedJson.Type,
 		drupalBundle: expectedJson.Bundle,
 		filter:       "name",
-		value:        fmt.Sprintf("%s %s", expectedJson.FirstName, expectedJson.LastName),
+		value:        fmt.Sprintf("%s %s %s", expectedJson.FirstName, expectedJson.MiddleName, expectedJson.LastName),
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
@@ -57,17 +58,26 @@ func Test_VerifyTaxonomyTerm(t *testing.T) {
 	actual := data.JsonApiData[0]
 	assert.Equal(t, expectedJson.Type, actual.Type.entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
-	assert.Equal(t, expectedJson.Title, actual.JsonApiAttributes.PreferredNameTitle[0])
-	assert.Equal(t, fmt.Sprintf("%s %s", expectedJson.FirstName, expectedJson.MiddleName), actual.JsonApiAttributes.PreferredNameGiven[0])
-	assert.Equal(t, expectedJson.LastName, actual.JsonApiAttributes.PreferredNameFamily)
+	assert.Equal(t, expectedJson.Title, actual.JsonApiAttributes.PreferredNamePrefix[0])
+	assert.Equal(t, expectedJson.AltTitle, actual.JsonApiAttributes.AltNamePrefix[0])
+	assert.Equal(t, fmt.Sprintf("%s %s", expectedJson.FirstName, expectedJson.MiddleName), actual.JsonApiAttributes.PreferredNameRest[0])
+	assert.Equal(t, fmt.Sprintf("%s %s", expectedJson.AltFirstName, expectedJson.AltMiddleName), actual.JsonApiAttributes.AltPreferredNameRest[0])
+	assert.Equal(t, expectedJson.LastName, actual.JsonApiAttributes.PrimaryPartOfName)
+	assert.Equal(t, expectedJson.AltLastName, actual.JsonApiAttributes.AltPrimaryPartOfName[0])
+	assert.Equal(t, expectedJson.Suffix, actual.JsonApiAttributes.PreferredNameSuffix[0])
+	assert.Equal(t, expectedJson.AltSuffix, actual.JsonApiAttributes.AltNameSuffix[0])
+	assert.Equal(t, expectedJson.Number, actual.JsonApiAttributes.PreferredNameNumber[0])
+	assert.Equal(t, expectedJson.AltNumber, actual.JsonApiAttributes.AltNameNumber[0])
 	assert.Equal(t, expectedJson.Born, actual.JsonApiAttributes.Dates[0])
 	assert.Equal(t, expectedJson.Died, actual.JsonApiAttributes.Dates[1])
 	assert.Equal(t, expectedJson.Authority[0].Uri, actual.JsonApiAttributes.Authority[0].Uri)
 	assert.Equal(t, expectedJson.Authority[0].Type, actual.JsonApiAttributes.Authority[0].Source)
 	assert.Equal(t, expectedJson.Authority[0].Name, actual.JsonApiAttributes.Authority[0].Title)
 	assert.True(t, len(actual.JsonApiAttributes.Description.Processed) > 0)
+	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
 	assert.True(t, len(actual.JsonApiAttributes.Description.Value) > 0)
-	assert.Equal(t, "basic_html", actual.JsonApiAttributes.Description.Format)
+	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
+	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 
 	// Resolve relationship to a name
 	assert.Equal(t, 1, len(actual.JsonApiRelationships.Relationships.Data))
@@ -172,6 +182,7 @@ func unmarshalSingleResponse(t *testing.T, body []byte, res *http.Response) *Jso
 // Successfully GET the content at the URL and return the response and body.
 func getResource(t *testing.T, u string) (*http.Response, []byte) {
 	res, err := http.Get(u)
+	log.Printf("Retrieving %s", u)
 	assert.Nil(t, err, "encountered error requesting %s: %s", u, err)
 	assert.Equal(t, 200, res.StatusCode, "%d status encountered when requesting %s", res.StatusCode, u)
 	body, err := ioutil.ReadAll(res.Body)

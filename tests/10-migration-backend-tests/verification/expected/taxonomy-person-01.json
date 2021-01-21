@@ -5,8 +5,16 @@
   "first_name": "Ansel",
   "middle_name": "Easton",
   "last_name": "Adams",
+  "suffix": "1 Preferred Name Suffix",
+  "number": "1 Preferred Name Number",
   "born": "1902-02-20",
   "died": "1984-04-22",
+  "alt_title": "1 Alt Name Prefix",
+  "alt_first_name": "1 Alt Preferred",
+  "alt_middle_name": "Name Rest",
+  "alt_last_name": "1 Alt Primary Part Of Name",
+  "alt_suffix": "1 Alt Name Suffix",
+  "alt_number": "1 Alt Name Number",
   "authority": [
     {
       "uri": "https://www.wikidata.org/wiki/Q60809",
@@ -16,5 +24,10 @@
   ],
   "knows": [
     "Edward Weston"
-  ]
+  ],
+  "description": {
+    "value": "<p><strong>Ansel Easton Adams</strong>&nbsp;(February 20, 1902 – April 22, 1984) was an American landscape photographer and environmentalist known for his black-and-white images of the&nbsp;<a href=\\\"https://en.wikipedia.org/wiki/American_West\\\"\">American West</a>. He helped found&nbsp;<a href=\\\"\"https://en.wikipedia.org/wiki/Group_f/64\\\"\">Group f/64</a>",
+    "format": "basic_html",
+    "processed": "<p><strong>Ansel Easton Adams</strong>\u00a0(February 20, 1902 – April 22, 1984) was an American landscape photographer and environmentalist known for his black-and-white images of the\u00a0<a>American West</a>. He helped found\u00a0<a>Group f/64</a></p>"
+  }
 }
