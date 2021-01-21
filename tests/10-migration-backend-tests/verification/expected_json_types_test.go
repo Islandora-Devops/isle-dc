@@ -65,3 +65,20 @@ type ExpectedRepoObj struct {
 	DisplayHint string `json:"display_hint"`
 	Description string
 }
+
+// Represents the expected results of a migrated Access Rights taxonomy term
+type ExpectedAccessRights struct {
+	Type      string
+	Bundle    string
+	Name      string
+	Authority []struct {
+		Uri    string
+		Title  string
+		Source string
+	}
+	Description struct {
+		Value     string
+		Format    string
+		Processed string
+	}
+}

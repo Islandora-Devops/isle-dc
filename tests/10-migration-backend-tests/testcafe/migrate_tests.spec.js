@@ -10,6 +10,7 @@ fixture `Migration Tests`
   });
 
 const migrate_person_taxonomy = 'idc_ingest_taxonomy_persons';
+const migrate_accessrights_taxonomy = 'idc_ingest_taxonomy_accessrights';
 const migrate_new_items = 'idc_ingest_new_items';
 const migrate_new_collection = 'idc_ingest_new_collection';
 const migrate_media_images = 'idc_ingest_media_images';
@@ -38,6 +39,20 @@ test('Perform Person Taxonomy Migration', async t => {
   await t
     .setFilesToUpload('#edit-source-file', [
       './migrations/persons-02.csv'
+    ])
+    .click('#edit-import');
+
+});
+
+test('Perform Access Rights Taxonomy Migration', async t => {
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_accessrights_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/accessrights.csv'
     ])
     .click('#edit-import');
 

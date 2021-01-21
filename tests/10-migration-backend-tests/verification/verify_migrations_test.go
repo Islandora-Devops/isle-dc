@@ -27,7 +27,7 @@ const (
 
 // Verifies that the Person migrated by testcafe persons-01.csv and persons-02.csv match the expected fields and
 // values present in taxonomy-person-01.json
-func Test_VerifyTaxonomyTerm(t *testing.T) {
+func Test_VerifyTaxonomyTermPerson(t *testing.T) {
 	expectedJson := ExpectedPerson{}
 	unmarshalJson(t, "taxonomy-person-01.json", &expectedJson)
 
@@ -49,13 +49,14 @@ func Test_VerifyTaxonomyTerm(t *testing.T) {
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
 	res, body := getResource(t, u.String())
 	defer func() { _ = res.Close }()
-	data := unmarshalSingleResponse(t, body, res)
+	personRes := &JsonApiPerson{}
+	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(personRes)
 
 	// for each field in expected json,
 	//   see if the expected field matches the actual field from retrieved json
 	//   resolve relationships if required
 	//     - required for schema:knows
-	actual := data.JsonApiData[0]
+	actual := personRes.JsonApiData[0]
 	assert.Equal(t, expectedJson.Type, actual.Type.entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
 	assert.Equal(t, expectedJson.Title, actual.JsonApiAttributes.PreferredNamePrefix[0])
@@ -88,8 +89,9 @@ func Test_VerifyTaxonomyTerm(t *testing.T) {
 	// retrieve json of the resolved entity from the jsonapi
 	res, body = getResource(t, u.String())
 	defer func() { _ = res.Close }()
-	data = unmarshalSingleResponse(t, body, res)
-	relSchemaKnows := data.JsonApiData[0]
+	personRes = &JsonApiPerson{}
+	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(personRes)
+	relSchemaKnows := personRes.JsonApiData[0]
 
 	// sanity
 	assert.Equal(t, relSchemaKnows.Type.bundle(), "person")
@@ -97,6 +99,45 @@ func Test_VerifyTaxonomyTerm(t *testing.T) {
 
 	// test
 	assert.Equal(t, expectedJson.Knows[0], relSchemaKnows.JsonApiAttributes.Name)
+}
+
+func Test_VerifyTaxonomyTermAccessRights(t *testing.T) {
+	expectedJson := ExpectedAccessRights{}
+	unmarshalJson(t, "taxonomy-accessrights.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "taxonomy_term", expectedJson.Type)
+	assert.Equal(t, "access_rights", expectedJson.Bundle)
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "name",
+		value:        expectedJson.Name,
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	res, body := getResource(t, u.String())
+	defer func() { _ = res.Close }()
+	accessRightsRes := &JsonApiAccessRights{}
+	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(accessRightsRes)
+
+	actual := accessRightsRes.JsonApiData[0]
+	assert.Equal(t, expectedJson.Type, actual.Type.entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
+	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
+	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
+	assert.Equal(t, len(expectedJson.Authority), len(actual.JsonApiAttributes.Authority))
+	assert.Equal(t, 2, len(actual.JsonApiAttributes.Authority))
+	for i, v := range actual.JsonApiAttributes.Authority {
+		assert.Equal(t, expectedJson.Authority[i].Title, v.Title)
+		assert.Equal(t, expectedJson.Authority[i].Source, v.Source)
+		assert.Equal(t, expectedJson.Authority[i].Uri, v.Uri)
+	}
 }
 
 func Test_VerifyCollection(t *testing.T) {
@@ -171,12 +212,11 @@ func unmarshalJson(t *testing.T, filename string, value interface{}) {
 }
 
 // Unmarshal a JSONAPI response body and assert that exactly one data element is present
-func unmarshalSingleResponse(t *testing.T, body []byte, res *http.Response) *JsonApiPerson {
-	data := &JsonApiPerson{}
-	err := json.Unmarshal(body, data)
+func unmarshalSingleResponse(t *testing.T, body []byte, res *http.Response, value *JsonApiResponse) *JsonApiResponse {
+	err := json.Unmarshal(body, value)
 	assert.Nil(t, err, "Error unmarshaling JSONAPI response body: %s", err)
-	assert.Equal(t, 1, len(data.JsonApiData), "Exactly one JSONAPI data element is expected in the response, but found %d element(s)", len(data.JsonApiData))
-	return data
+	assert.Equal(t, 1, len(value.Data), "Exactly one JSONAPI data element is expected in the response, but found %d element(s)", len(value.Data))
+	return value
 }
 
 // Successfully GET the content at the URL and return the response and body.

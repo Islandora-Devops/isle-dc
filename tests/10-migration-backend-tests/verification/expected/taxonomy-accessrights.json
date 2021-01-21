@@ -1,0 +1,22 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "access_rights",
+  "name": "Public Domain",
+  "authority": [
+    {
+      "uri": "https://en.wikipedia.org/wiki/Public_domain_in_the_United_States",
+      "title": "Wikipedia",
+      "source": "local"
+    },
+    {
+      "uri": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "title": "CC-0",
+      "source": "local"
+    }
+  ],
+  "description": {
+    "value": "<p>Content is in the public domain.</p>",
+    "format": "basic_html",
+    "processed": "<p>Content is in the public domain.</p>"
+  }
+}
