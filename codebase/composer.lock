@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c32419f1d71dc9e83e17b5b16e9f7b4f",
+    "content-hash": "25c21ec9844323dd8502f1d48bfaa851",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3933,6 +3933,54 @@
             }
         },
         {
+            "name": "drupal/hook_post_action",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/hook_post_action.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/hook_post_action-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "be3caa9444ff5b2a34af583dba3d7020661d2fdc"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1540978980",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "id.tarzanych",
+                    "homepage": "https://www.drupal.org/user/2776543"
+                },
+                {
+                    "name": "sinasalek",
+                    "homepage": "https://www.drupal.org/user/52244"
+                }
+            ],
+            "description": "Introduces new Drupal hooks, hook_entity_postsave, hook_entity_postinsert, hook_entity_postupdate, hook_entity_postdelete, hook_node_postsave, hook_node_postinsert, hook_node_postupdate, hook_node_postdelete",
+            "homepage": "https://www.drupal.org/project/hook_post_action",
+            "support": {
+                "source": "https://git.drupalcode.org/project/hook_post_action"
+            }
+        },
+        {
             "name": "drupal/jwt",
             "version": "1.0.0-beta5",
             "source": {
@@ -4124,6 +4172,54 @@
             "time": "2019-06-25T07:35:46+00:00"
         },
         {
+            "name": "drupal/migrate_file",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/migrate_file.git",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/migrate_file-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "4a24edc577541b5aa67682a4f89c8dfd7c0788d5"
+            },
+            "require": {
+                "drupal/core": "^8"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1539064380",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "drclaw",
+                    "homepage": "https://www.drupal.org/user/823702"
+                }
+            ],
+            "description": "Additional support for migrating files including downloading remote files and using remote uris (without download)",
+            "homepage": "https://www.drupal.org/project/migrate_file",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/migrate_file",
+                "issues": "https://www.drupal.org/project/issues/migrate_file"
+            }
+        },
+        {
             "name": "drupal/migrate_plus",
             "version": "5.1.0",
             "source": {
@@ -4186,31 +4282,31 @@
         },
         {
             "name": "drupal/migrate_source_csv",
-            "version": "2.2.0",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/migrate_source_csv.git",
-                "reference": "8.x-2.2"
+                "reference": "8.x-3.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/migrate_source_csv-8.x-2.2.zip",
-                "reference": "8.x-2.2",
-                "shasum": "c5ea6fffdfcf9d000279e0524b0a6a04ae78cce4"
+                "url": "https://ftp.drupal.org/files/projects/migrate_source_csv-8.x-3.4.zip",
+                "reference": "8.x-3.4",
+                "shasum": "12990ad8c3b99e16c1b2a1be955aaa28581e5d1c"
             },
             "require": {
-                "drupal/core": "~8.1"
+                "drupal/core": "^8.7 || ^9.0",
+                "league/csv": "^9.1",
+                "php": ">=7.1"
             },
             "require-dev": {
-                "drupal/migrate_plus": "^4",
-                "mikey179/vfsstream": "~1",
-                "phpunit/phpunit": "~4"
+                "drupal/migrate_plus": "5.x-dev"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-2.2",
-                    "datestamp": "1527712680",
+                    "version": "8.x-3.4",
+                    "datestamp": "1588260548",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4219,7 +4315,7 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -4238,6 +4334,62 @@
                 "source": "https://cgit.drupalcode.org/migrate_source_csv",
                 "issues": "https://www.drupal.org/project/issues/migrate_source_csv",
                 "irc": "irc://irc.freenode.org/drupal-migrate"
+            }
+        },
+        {
+            "name": "drupal/migrate_source_ui",
+            "version": "1.0.0-rc1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/migrate_source_ui.git",
+                "reference": "8.x-1.0-rc1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/migrate_source_ui-8.x-1.0-rc1.zip",
+                "reference": "8.x-1.0-rc1",
+                "shasum": "f2bbf22bc78e6cb127c8a0570d985bf508a522d9"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "suggest": {
+                "drupal/migrate_plus": "Provides JSON and XML sources",
+                "drupal/migrate_source_csv": "Provides CSV source"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0-rc1",
+                    "datestamp": "1586234658",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "RC releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "drupalspoons",
+                    "homepage": "https://www.drupal.org/user/3647684"
+                },
+                {
+                    "name": "hl17",
+                    "homepage": "https://www.drupal.org/user/3542612"
+                }
+            ],
+            "description": "UI for  csv, xml o json sources.",
+            "homepage": "https://www.drupal.org/project/migrate_source_ui",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/migrate_source_ui",
+                "issues": "https://www.drupal.org/project/issues/migrate_source_ui"
             }
         },
         {
@@ -4576,6 +4728,58 @@
             "homepage": "https://www.drupal.org/project/rdfui",
             "support": {
                 "source": "https://git.drupalcode.org/project/rdfui"
+            }
+        },
+        {
+            "name": "drupal/remote_stream_wrapper",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/remote_stream_wrapper.git",
+                "reference": "8.x-1.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/remote_stream_wrapper-8.x-1.5.zip",
+                "reference": "8.x-1.5",
+                "shasum": "1fa53144d3b5d70efc5481f95b6ba36ce927036b"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.5",
+                    "datestamp": "1597938476",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Dave Reid",
+                    "homepage": "https://www.drupal.org/user/53892"
+                },
+                {
+                    "name": "arthurf",
+                    "homepage": "https://www.drupal.org/user/27259"
+                },
+                {
+                    "name": "becw",
+                    "homepage": "https://www.drupal.org/user/81067"
+                }
+            ],
+            "description": "Provides the ability to use external files over HTTP",
+            "homepage": "https://www.drupal.org/project/remote_stream_wrapper",
+            "support": {
+                "source": "https://git.drupalcode.org/project/remote_stream_wrapper"
             }
         },
         {
@@ -6030,9 +6234,10 @@
                 "drupal/file_replace": "^1.1",
                 "drupal/filehash": "^1.1",
                 "drupal/flysystem": "^1.0",
+                "drupal/hook_post_action": "^1.0",
                 "drupal/jwt": "^1.0.0-beta5",
                 "drupal/migrate_plus": "^5.1",
-                "drupal/migrate_source_csv": "^2.1",
+                "drupal/migrate_source_csv": "^3.4",
                 "drupal/migrate_tools": "^5.0",
                 "drupal/prepopulate": "^2.2",
                 "drupal/search_api": "~1.8",
@@ -6283,6 +6488,51 @@
                 "source": "http://github.com/jhu-idc/reference_value_pair"
             },
             "time": "2021-01-08T22:06:46+00:00"
+        },
+        {
+            "name": "jhu_idc/idc_migration",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/emetsger/idc_migration.git",
+                "reference": "f7059e32d1da7a50c09d47422eed7bc089059c7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/emetsger/idc_migration/zipball/f7059e32d1da7a50c09d47422eed7bc089059c7b",
+                "reference": "f7059e32d1da7a50c09d47422eed7bc089059c7b",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/core": "^8.8.1",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "drupal-module",
+            "autoload-dev": {
+                "classmap": [
+                    "src/",
+                    "vendor/"
+                ]
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Elliot Metsger",
+                    "role": "Developer",
+                    "email": "emetsger@jhu.edu"
+                }
+            ],
+            "description": "Custom migration plugins for IDC",
+            "support": {
+                "source": "https://github.com/emetsger/idc_migration/tree/master",
+                "issues": "https://github.com/emetsger/idc_migration/issues"
+            },
+            "time": "2020-12-10T16:08:15+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -6641,6 +6891,78 @@
                 "service"
             ],
             "time": "2017-05-10T09:20:27+00:00"
+        },
+        {
+            "name": "league/csv",
+            "version": "9.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/csv.git",
+                "reference": "634322df4aed210fdfbb7c94e434dc860da733d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/634322df4aed210fdfbb7c94e434dc860da733d9",
+                "reference": "634322df4aed210fdfbb7c94e434dc860da733d9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^7.2.5"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.0",
+                "phpstan/phpstan-phpunit": "^0.12.0",
+                "phpstan/phpstan-strict-rules": "^0.12.0",
+                "phpunit/phpunit": "^8.5"
+            },
+            "suggest": {
+                "ext-dom": "Required to use the XMLConverter and or the HTMLConverter classes",
+                "ext-iconv": "Needed to ease transcoding CSV using iconv stream filters"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CSV data manipulation made easy in PHP",
+            "homepage": "http://csv.thephpleague.com",
+            "keywords": [
+                "convert",
+                "csv",
+                "export",
+                "filter",
+                "import",
+                "read",
+                "transform",
+                "write"
+            ],
+            "time": "2020-09-05T08:40:12+00:00"
         },
         {
             "name": "league/flysystem",
@@ -10403,16 +10725,16 @@
         },
         {
             "name": "symfony/contracts",
-            "version": "v2.0.1",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/contracts.git",
-                "reference": "b3b9b70bfacfd204d352e7e7350e02c02c0fff78"
+                "reference": "f7783bdec14b06c323d30a5f74ba70a17ec0ce81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/contracts/zipball/b3b9b70bfacfd204d352e7e7350e02c02c0fff78",
-                "reference": "b3b9b70bfacfd204d352e7e7350e02c02c0fff78",
+                "url": "https://api.github.com/repos/symfony/contracts/zipball/f7783bdec14b06c323d30a5f74ba70a17ec0ce81",
+                "reference": "f7783bdec14b06c323d30a5f74ba70a17ec0ce81",
                 "shasum": ""
             },
             "require": {
@@ -10440,8 +10762,9 @@
             },
             "type": "library",
             "extra": {
+                "branch-version": "2.3",
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-main": "2.3-dev"
                 }
             },
             "autoload": {
@@ -10476,7 +10799,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2019-11-26T23:25:11+00:00"
+            "time": "2020-10-14T17:08:19+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -15564,6 +15887,62 @@
             "time": "2020-07-22T22:00:00+00:00"
         },
         {
+            "name": "symfony/polyfill-util",
+            "version": "v1.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-util.git",
+                "reference": "46b910c71e9828f8ec2aa7a0314de1130d9b295a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/46b910c71e9828f8ec2aa7a0314de1130d9b295a",
+                "reference": "46b910c71e9828f8ec2aa7a0314de1130d9b295a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.18-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Util\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony utilities for portability of PHP codes",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compat",
+                "compatibility",
+                "polyfill",
+                "shim"
+            ],
+            "time": "2020-07-14T12:35:20+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "1.2.0",
             "source": {
@@ -15609,6 +15988,7 @@
     "stability-flags": {
         "drupal/content_browser": 15,
         "drupal/libraries": 20,
+        "drupal/migrate_source_ui": 5,
         "drupal/pdf": 20,
         "islandora-rdm/islandora_fits": 20,
         "islandora/carapace": 20,
@@ -15619,6 +15999,5 @@
     "platform": {
         "php": ">=7.0.8"
     },
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-dev": []
 }

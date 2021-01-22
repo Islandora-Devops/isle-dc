@@ -16,7 +16,7 @@ reset() {
 	make -s up 2>/dev/null
 }
 
-for testscript in tests/*; do 
+for testscript in tests/*.sh; do 
 	reset
 	printf "\n\nRunning ${testscript}\n"
 	{ $testscript && echo "PASS: $testscript"; } || { FAILURES="${FAILURES} $testscript" && echo "FAIL: $testscript";}

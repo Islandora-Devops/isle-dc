@@ -1,0 +1,20 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "person",
+  "title": "Mr",
+  "first_name": "Ansel",
+  "middle_name": "Easton",
+  "last_name": "Adams",
+  "born": "1902-02-20",
+  "died": "1984-04-22",
+  "authority": [
+    {
+      "uri": "https://www.wikidata.org/wiki/Q60809",
+      "name": "Wikidata",
+      "type": "other"
+    }
+  ],
+  "knows": [
+    "Edward Weston"
+  ]
+}

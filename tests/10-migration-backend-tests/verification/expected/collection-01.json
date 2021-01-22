@@ -1,0 +1,41 @@
+{
+  "type": "Collection",
+  "title": "Collection One",
+  "description": "Photos by Ansel Adams",
+  "member_of": [
+    "<id of collection or item>"
+  ],
+  "subjects": [
+    "<string 1>",
+    "<string 2>"
+  ],
+  "authority": [
+
+  ],
+
+  "display_hint": [
+
+  ],
+
+  "name": "",
+  "use": [
+
+  ],
+  "url": "",
+  "alt_titles": [
+    {
+      "value": "alt title 1",
+      "language": "eng"
+    },
+    {
+      "value": "alt title 2",
+      "language": "ger"
+    }
+  ],
+  "linked_agents": [
+    {
+    },
+    {
+    }
+  ]
+}
