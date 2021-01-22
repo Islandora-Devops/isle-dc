@@ -1,0 +1,81 @@
+uuid: db283911-44a0-49a5-a0bb-1c15afc054fc
+langcode: en
+status: true
+dependencies: {  }
+id: idc_ingest_taxonomy_accessrights
+class: null
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags: null
+migration_group: idc_ingest
+label: 'Taxonomy: Access Rights'
+source:
+  plugin: csv
+  ids:
+    - local_id
+  path: 'Will be populated by the Migrate Source UI'
+  constants:
+    STATUS: true
+    ADMIN: 1
+    DESC_FORMAT: basic_html
+process:
+  name: name
+  field_authority_link:
+    -
+      plugin: explode
+      source: authority
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
+      process:
+        uri:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            source: value
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 0
+        title:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            source: value
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 1
+        source:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            source: value
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 2
+  description/value: description
+  description/format:
+    plugin: default_value
+    default_value: basic_html
+  status: constants/STATUS
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: access_rights
+migration_dependencies: null

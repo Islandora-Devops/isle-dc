@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"net/url"
 	"strings"
 )
@@ -35,6 +37,20 @@ func (json *JsonApiUrl) String() string {
 
 	assert.Nil(json.t, err, "error generating a JsonAPI URL from %v: %s", json, err)
 	return u.String()
+}
+
+// Encapsulates a generic JSON API response
+type JsonApiResponse struct {
+	Data []map[string]interface{}
+}
+
+// Adapts the generic JsonApiResponse to a higher-fidelity type
+func (jar *JsonApiResponse) to(v interface{}) {
+	if b, e := json.Marshal(jar); e != nil {
+		log.Fatalf("Unable to marshal %v as json: %s", jar, e)
+	} else {
+		json.Unmarshal(b, v)
+	}
 }
 
 type JsonApiData struct {
@@ -81,6 +97,27 @@ type JsonApiPerson struct {
 				}
 			} `json:"field_relationships"`
 		} `json:"relationships"`
+	} `json:"data"`
+}
+
+// Represents the results of a JSONAPI query for a single Person from the Person Taxonomy
+type JsonApiAccessRights struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name        string
+			Description struct {
+				Value     string
+				Format    string
+				Processed string
+			}
+			Authority []struct {
+				Uri    string
+				Title  string
+				Source string
+			} `json:"field_authority_link"`
+		} `json:"attributes"`
 	} `json:"data"`
 }
 
