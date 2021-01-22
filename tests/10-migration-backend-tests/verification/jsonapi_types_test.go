@@ -55,11 +55,19 @@ type JsonApiPerson struct {
 				Format    string
 				Processed string
 			}
-			PreferredNameTitle        []string `json:"field_preferred_name_prefix"`
-			PreferredNameGiven        []string `json:"field_preferred_name_rest"`
-			PreferredNameFamily       string   `json:"field_primary_part_of_name"`
-			PreferredNameGenerational []string `json:"field_preferred_name_suffix"`
-			Authority                 []struct {
+			PrimaryPartOfName       string   `json:"field_primary_part_of_name"`
+			PreferredNamePrefix     []string `json:"field_preferred_name_prefix"`
+			PreferredNameRest       []string `json:"field_preferred_name_rest"`
+			PreferredNameSuffix     []string `json:"field_preferred_name_suffix"`
+			PreferredNameFullerForm []string `json:"field_preferred_name_fuller_form"`
+			PreferredNameNumber     []string `json:"field_preferred_name_number"`
+			AltNameFullerForm       []string `json:"field_alt_name_fuller_form"`
+			AltNameNumber           []string `json:"field_alt_name_number"`
+			AltNamePrefix           []string `json:"field_alt_name_prefix"`
+			AltNameSuffix           []string `json:"field_alt_name_suffix"`
+			AltPreferredNameRest    []string `json:"field_alt_preferred_name_rest"`
+			AltPrimaryPartOfName    []string `json:"field_alt_primary_part_of_name"`
+			Authority               []struct {
 				Uri    string
 				Title  string
 				Source string

@@ -20,19 +20,28 @@ source:
     TAXONOMY_TERM: taxonomy_term
     REL_TYPE: 'schema:knows'
 process:
-  field_preferred_name_rest:
+  name:
     -
       plugin: concat
-      delimiter: " "
       source:
-       - first_name
-       - middle_name
+        - preferred_name_rest
+        - primary_part_of_name
+      delimiter: ' '
     -
       plugin: callback
       callable: trim
-  field_preferred_name_prefix: title
-  field_primary_part_of_name: last_name
-  field_preferred_name_suffix: generational
+  field_preferred_name_rest: preferred_name_rest
+  field_preferred_name_prefix: preferred_name_prefix
+  field_preferred_name_fuller_form: preferred_name_fuller_form
+  field_preferred_name_suffix: preferred_name_suffix
+  field_preferred_name_number: preferred_name_number
+  field_primary_part_of_name: primary_part_of_name
+  field_alt_name_fuller_form: alt_name_fuller_form
+  field_alt_name_number: alt_name_number
+  field_alt_name_prefix: alt_name_prefix
+  field_alt_name_suffix: alt_name_suffix
+  field_alt_preferred_name_rest: alt_preferred_name_rest
+  field_alt_primary_part_of_name: alt_primary_part_of_name
   field_date:
     -
       plugin: get
@@ -98,12 +107,6 @@ process:
     migration: idc_ingest_taxonomy_persons
     source: knows_local
   field_relationships/rel_type: constants/REL_TYPE
-  name:
-    plugin: concat
-    source:
-      - first_name
-      - last_name
-    delimiter: ' '
   status: constants/STATUS
 destination:
   plugin: 'entity:taxonomy_term'
