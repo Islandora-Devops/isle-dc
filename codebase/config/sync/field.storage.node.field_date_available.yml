@@ -1,8 +1,9 @@
-uuid: edbd0e98-1c62-481b-81c0-5b8a2f055bdd
+uuid: 94a22b19-f3b3-43d8-a466-bf9270baff17
 langcode: en
 status: true
 dependencies:
   module:
+    - controlled_access_terms
     - field_permissions
     - node
 third_party_settings:
@@ -11,12 +12,12 @@ third_party_settings:
 id: node.field_date_available
 field_name: field_date_available
 entity_type: node
-type: string
+type: edtf
 settings:
-  max_length: 128
+  max_length: '128'
   is_ascii: false
   case_sensitive: false
-module: core
+module: controlled_access_terms
 locked: false
 cardinality: 1
 translatable: true

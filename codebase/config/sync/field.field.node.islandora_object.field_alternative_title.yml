@@ -1,4 +1,4 @@
-uuid: 97752008-a268-4246-b8f3-f21b65d6e551
+uuid: f243103f-b483-4909-8c4e-2bc94c97a234
 langcode: en
 status: true
 dependencies:
@@ -13,9 +13,9 @@ field_name: field_alternative_title
 entity_type: node
 bundle: islandora_object
 label: 'Alternative Title'
-description: ''
+description: '<b>Optional</b>. If available, record an alternative name for the resource.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -26,6 +26,6 @@ settings:
     sort:
       field: name
       direction: asc
-    auto_create: 0
-    auto_create_bundle: islandora_models
-field_type: reference_value_pair
+    auto_create: false
+    auto_create_bundle: ''
+field_type: language_value_pair

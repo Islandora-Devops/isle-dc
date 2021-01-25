@@ -24,36 +24,26 @@ bundle: collection_object
 mode: default
 content:
   display_media_entity_view_1:
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  display_media_entity_view_2:
-    weight: 10
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
   display_media_service_file:
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  display_media_thumbnail:
-    weight: 10
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }
   field_alternative_title:
-    weight: 101
+    type: reference_value_formatter
+    weight: 6
+    region: content
     label: above
     settings:
       display_invalid_reference: 1
       invalid_reference_label: ''
     third_party_settings: {  }
-    type: reference_value_formatter
-    region: content
   field_citable_url:
-    weight: 107
+    weight: 12
     label: above
     settings:
       trim_length: 80
@@ -65,7 +55,7 @@ content:
     type: link
     region: content
   field_collection_contact_email:
-    weight: 104
+    weight: 9
     label: above
     settings:
       link_to_entity: false
@@ -73,7 +63,7 @@ content:
     type: string
     region: content
   field_collection_contact_name:
-    weight: 103
+    weight: 8
     label: above
     settings:
       link_to_entity: false
@@ -81,7 +71,7 @@ content:
     type: string
     region: content
   field_collection_number:
-    weight: 105
+    weight: 10
     label: above
     settings:
       link_to_entity: false
@@ -89,16 +79,16 @@ content:
     type: string
     region: content
   field_description:
-    weight: 102
+    type: reference_value_formatter
+    weight: 7
+    region: content
     label: above
     settings:
       display_invalid_reference: 1
       invalid_reference_label: ''
     third_party_settings: {  }
-    type: reference_value_formatter
-    region: content
   field_featured_item:
-    weight: 108
+    weight: 13
     label: above
     settings:
       format: default
@@ -108,7 +98,7 @@ content:
     type: boolean
     region: content
   field_finding_aid:
-    weight: 106
+    weight: 11
     label: above
     settings:
       trim_length: 80
@@ -120,7 +110,7 @@ content:
     type: link
     region: content
   field_member_of:
-    weight: 109
+    weight: 14
     label: above
     settings:
       link: true
@@ -128,7 +118,7 @@ content:
     type: entity_reference_label
     region: content
   field_title_language:
-    weight: 110
+    weight: 5
     label: above
     settings:
       link: true
@@ -136,40 +126,30 @@ content:
     type: entity_reference_label
     region: content
   links:
-    weight: 100
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
   openseadragon_media_evas_entity_view_1:
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  openseadragon_media_evas_entity_view_2:
-    weight: 10
+    weight: 15
     region: content
     settings: {  }
     third_party_settings: {  }
   openseadragon_media_evas_service_file:
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  pdfjs_media_evas_entity_view_1:
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  pdfjs_media_evas_entity_view_2:
-    weight: 10
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
   pdfjs_media_evas_service_file:
-    weight: 10
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
+  display_media_entity_view_2: true
+  display_media_thumbnail: true
   langcode: true
+  openseadragon_media_evas_entity_view_2: true
+  pdfjs_media_evas_entity_view_1: true
+  pdfjs_media_evas_entity_view_2: true
   search_api_excerpt: true

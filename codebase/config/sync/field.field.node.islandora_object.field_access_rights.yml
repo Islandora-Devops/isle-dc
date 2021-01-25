@@ -6,6 +6,8 @@ dependencies:
     - field.storage.node.field_access_rights
     - node.type.islandora_object
     - taxonomy.vocabulary.access_rights
+  content:
+    - 'taxonomy_term:access_rights:3aba0b88-dd45-4486-bc57-bef75aac4d56'
 id: node.islandora_object.field_access_rights
 field_name: field_access_rights
 entity_type: node
@@ -14,7 +16,9 @@ label: 'Access Rights'
 description: ''
 required: true
 translatable: false
-default_value: {  }
+default_value:
+  -
+    target_uuid: 3aba0b88-dd45-4486-bc57-bef75aac4d56
 default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'

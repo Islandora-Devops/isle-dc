@@ -52,7 +52,6 @@ dependencies:
     module:
       - islandora_defaults
   module:
-    - reference_value_pair
     - user
 _core:
   default_config_hash: zae03KDpB7clOXLmA52wfN-pGOrpH7xV1Y2nQcbSl-Q
@@ -65,15 +64,6 @@ content:
     weight: 0
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_description:
-    type: reference_value_formatter
-    weight: 1
-    region: content
-    label: above
-    settings:
-      display_invalid_reference: 1
-      invalid_reference_label: ''
     third_party_settings: {  }
   links:
     weight: 2
@@ -98,6 +88,7 @@ hidden:
   field_date_copyrighted: true
   field_date_created: true
   field_date_published: true
+  field_description: true
   field_digital_identifier: true
   field_digital_publisher: true
   field_display_hints: true

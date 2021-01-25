@@ -74,12 +74,13 @@ content:
     third_party_settings: {  }
     region: content
   field_alt_date_of_meeting:
-    weight: 109
+    weight: 112
     settings:
-      size: 60
-      placeholder: ''
+      strict_dates: false
+      intervals: true
+      sets: false
     third_party_settings: {  }
-    type: string_textfield
+    type: edtf_default
     region: content
   field_alt_location_of_meeting:
     weight: 108
@@ -122,20 +123,22 @@ content:
     type: authority_link_default
     region: content
   field_date:
-    weight: 5
+    weight: 114
     settings:
-      size: 60
-      placeholder: ''
+      strict_dates: false
+      intervals: true
+      sets: false
     third_party_settings: {  }
-    type: string_textfield
+    type: edtf_default
     region: content
   field_date_of_meeting_or_treaty:
-    weight: 104
+    weight: 113
     settings:
-      size: 60
-      placeholder: ''
+      strict_dates: false
+      intervals: true
+      sets: false
     third_party_settings: {  }
-    type: string_textfield
+    type: edtf_default
     region: content
   field_location_of_meeting:
     weight: 103

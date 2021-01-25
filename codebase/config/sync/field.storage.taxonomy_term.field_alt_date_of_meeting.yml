@@ -1,8 +1,9 @@
-uuid: 729328e0-195d-4a6b-b710-2c177a88db22
+uuid: 81167476-a90f-4ea0-b138-9f1abdf1cd06
 langcode: en
 status: true
 dependencies:
   module:
+    - controlled_access_terms
     - field_permissions
     - taxonomy
 third_party_settings:
@@ -11,12 +12,12 @@ third_party_settings:
 id: taxonomy_term.field_alt_date_of_meeting
 field_name: field_alt_date_of_meeting
 entity_type: taxonomy_term
-type: string
+type: edtf
 settings:
-  max_length: 255
+  max_length: '255'
   is_ascii: false
   case_sensitive: false
-module: core
+module: controlled_access_terms
 locked: false
 cardinality: 1
 translatable: true

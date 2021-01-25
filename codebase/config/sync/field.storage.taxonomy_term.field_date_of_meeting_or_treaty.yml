@@ -1,8 +1,9 @@
-uuid: fa50d1af-3a2b-43ec-9996-91d14a454b58
+uuid: 34c04766-7871-4851-be61-20f56b7cb51a
 langcode: en
 status: true
 dependencies:
   module:
+    - controlled_access_terms
     - field_permissions
     - taxonomy
 third_party_settings:
@@ -11,12 +12,12 @@ third_party_settings:
 id: taxonomy_term.field_date_of_meeting_or_treaty
 field_name: field_date_of_meeting_or_treaty
 entity_type: taxonomy_term
-type: string
+type: edtf
 settings:
-  max_length: 255
+  max_length: '255'
   is_ascii: false
   case_sensitive: false
-module: core
+module: controlled_access_terms
 locked: false
 cardinality: 1
 translatable: true

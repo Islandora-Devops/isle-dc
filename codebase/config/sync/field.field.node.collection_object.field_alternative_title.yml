@@ -1,4 +1,4 @@
-uuid: e9a152e5-1745-494f-9c1b-67f54dc00e9d
+uuid: 65d6b50f-0e35-467e-8ac7-9243e53b0583
 langcode: en
 status: true
 dependencies:
@@ -13,9 +13,9 @@ field_name: field_alternative_title
 entity_type: node
 bundle: collection_object
 label: 'Alternative Title'
-description: ''
+description: '<b>Optional</b>. If available, record an alternative name for the resource.'
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -26,6 +26,6 @@ settings:
     sort:
       field: name
       direction: asc
-    auto_create: 0
+    auto_create: false
     auto_create_bundle: ''
-field_type: reference_value_pair
+field_type: language_value_pair

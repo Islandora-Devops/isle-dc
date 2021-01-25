@@ -15,23 +15,9 @@ dependencies:
     - field.field.node.collection_object.field_title_language
     - node.type.collection_object
   module:
-    - field_group
     - link
     - path
     - reference_value_pair
-third_party_settings:
-  field_group:
-    group_collection_information:
-      children: {  }
-      parent_name: ''
-      weight: 18
-      format_type: accordion
-      region: hidden
-      format_settings:
-        id: ''
-        classes: ''
-        effect: none
-      label: 'Collection Information'
 id: node.collection_object.default
 targetEntityType: node
 bundle: collection_object
@@ -39,21 +25,21 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 5
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
   field_alternative_title:
     weight: 2
     settings:
-      size_value: 255
+      rows: 2
+      size_value: 5000
       placeholder_value: ''
-      rows: 1
     third_party_settings: {  }
     type: reference_value_select
     region: content
   field_citable_url:
-    weight: 14
+    weight: 7
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -61,7 +47,7 @@ content:
     type: link_default
     region: content
   field_collection_contact_email:
-    weight: 12
+    weight: 5
     settings:
       size: 60
       placeholder: ''
@@ -69,7 +55,7 @@ content:
     type: string_textfield
     region: content
   field_collection_contact_name:
-    weight: 11
+    weight: 4
     settings:
       size: 60
       placeholder: ''
@@ -77,7 +63,7 @@ content:
     type: string_textfield
     region: content
   field_collection_number:
-    weight: 13
+    weight: 6
     settings:
       size: 60
       placeholder: ''
@@ -85,23 +71,23 @@ content:
     type: string_textfield
     region: content
   field_description:
-    weight: 10
+    weight: 3
     settings:
+      size_value: 5000
       rows: 5
-      size_value: 255
       placeholder_value: ''
     third_party_settings: {  }
     type: reference_value_select
     region: content
   field_featured_item:
-    weight: 15
+    weight: 8
     settings:
       display_label: true
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
   field_finding_aid:
-    weight: 16
+    weight: 9
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -109,7 +95,7 @@ content:
     type: link_default
     region: content
   field_member_of:
-    weight: 17
+    weight: 10
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -124,16 +110,9 @@ content:
     third_party_settings: {  }
     type: options_select
     region: content
-  langcode:
-    type: language_select
-    weight: 3
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   path:
     type: path
-    weight: 8
+    weight: 14
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -141,21 +120,21 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 6
+    weight: 16
     region: content
     third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 9
+    weight: 13
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 15
     region: content
     third_party_settings: {  }
   title:
@@ -168,7 +147,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 4
+    weight: 11
     settings:
       match_operator: CONTAINS
       size: 60
@@ -176,4 +155,5 @@ content:
       match_limit: 10
     region: content
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  langcode: true

@@ -12,7 +12,7 @@ field_name: field_date_published
 entity_type: node
 bundle: islandora_object
 label: 'Date Published'
-description: ''
+description: "Please use the format YYYY-MM-DD or  YYYY-MM or YYYY \r\n(<a href=\"https://www.loc.gov/standards/datetime/\">EDTF</a>)."
 required: false
 translatable: false
 default_value: {  }

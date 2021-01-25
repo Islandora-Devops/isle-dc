@@ -6372,12 +6372,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/controlled_access_terms.git",
-                "reference": "b2c3e6c56b00a68f0e13f6717788710bb2329ab0"
+                "reference": "ea1d9910f093c2f8e08570ff2cfc4a97a64b7c1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/controlled_access_terms/zipball/b2c3e6c56b00a68f0e13f6717788710bb2329ab0",
-                "reference": "b2c3e6c56b00a68f0e13f6717788710bb2329ab0",
+                "url": "https://api.github.com/repos/jhu-idc/controlled_access_terms/zipball/ea1d9910f093c2f8e08570ff2cfc4a97a64b7c1f",
+                "reference": "ea1d9910f093c2f8e08570ff2cfc4a97a64b7c1f",
                 "shasum": ""
             },
             "require": {
@@ -6419,7 +6419,7 @@
                 "issues": "https://github.com/jhu-idc/controlled_access_terms/issues",
                 "source": "https://github.com/jhu-idc/controlled_access_terms/tree/8.x-1.x"
             },
-            "time": "2021-01-08T21:57:04+00:00"
+            "time": "2021-01-25T18:22:41+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",
@@ -6427,12 +6427,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/islandora_defaults.git",
-                "reference": "c8d4bab574688d9626144b2bcc3b4753ee6eb8e3"
+                "reference": "bcef380db3ca17f940530cf28eb73dc57c6a62b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/c8d4bab574688d9626144b2bcc3b4753ee6eb8e3",
-                "reference": "c8d4bab574688d9626144b2bcc3b4753ee6eb8e3",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/bcef380db3ca17f940530cf28eb73dc57c6a62b4",
+                "reference": "bcef380db3ca17f940530cf28eb73dc57c6a62b4",
                 "shasum": ""
             },
             "require": {
@@ -6458,7 +6458,7 @@
                 "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
                 "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
             },
-            "time": "2021-01-08T18:46:01+00:00"
+            "time": "2021-01-21T19:32:30+00:00"
         },
         {
             "name": "jhu-idc/reference_value_pair",
@@ -6466,12 +6466,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/reference_value_pair.git",
-                "reference": "50bf98c092133d70e9261cd2ab4717f1dd75f453"
+                "reference": "192519a0dd8597634c3bf814289592d190c006e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/reference_value_pair/zipball/50bf98c092133d70e9261cd2ab4717f1dd75f453",
-                "reference": "50bf98c092133d70e9261cd2ab4717f1dd75f453",
+                "url": "https://api.github.com/repos/jhu-idc/reference_value_pair/zipball/192519a0dd8597634c3bf814289592d190c006e7",
+                "reference": "192519a0dd8597634c3bf814289592d190c006e7",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -6487,7 +6487,7 @@
                 "issues": "http://github.com/jhu-idc/reference_value_pair",
                 "source": "http://github.com/jhu-idc/reference_value_pair"
             },
-            "time": "2021-01-08T22:06:46+00:00"
+            "time": "2021-01-20T21:54:36+00:00"
         },
         {
             "name": "jhu_idc/idc_migration",
@@ -13162,12 +13162,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
@@ -15999,5 +15999,6 @@
     "platform": {
         "php": ">=7.0.8"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

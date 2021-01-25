@@ -1,19 +1,21 @@
-uuid: 56df7c49-e794-43ba-b21f-9fa996d39a65
+uuid: 77412455-face-4ce5-8656-5aa930f60abe
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.taxonomy_term.field_date
     - taxonomy.vocabulary.family
+  module:
+    - controlled_access_terms
 id: taxonomy_term.family.field_date
 field_name: field_date
 entity_type: taxonomy_term
 bundle: family
 label: Date
-description: ''
+description: 'A date in <a href="https://www.loc.gov/standards/datetime/">EDTF format</a>.'
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string
+field_type: edtf

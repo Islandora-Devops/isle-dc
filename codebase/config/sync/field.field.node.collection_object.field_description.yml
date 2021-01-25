@@ -1,4 +1,4 @@
-uuid: cbf4ad7a-1750-417d-85c2-07762397eb3d
+uuid: 1cc52282-2327-4944-9ed6-2fca7e46c556
 langcode: en
 status: true
 dependencies:
@@ -26,6 +26,6 @@ settings:
     sort:
       field: name
       direction: asc
-    auto_create: 0
+    auto_create: false
     auto_create_bundle: ''
-field_type: reference_value_pair
+field_type: language_value_pair

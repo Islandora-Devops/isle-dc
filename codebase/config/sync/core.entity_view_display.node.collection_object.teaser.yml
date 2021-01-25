@@ -17,7 +17,6 @@ dependencies:
     - node.type.collection_object
   module:
     - link
-    - reference_value_pair
     - user
 id: node.collection_object.teaser
 targetEntityType: node
@@ -41,15 +40,6 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-  field_description:
-    type: reference_value_formatter
-    weight: 1
-    region: content
-    label: above
-    settings:
-      display_invalid_reference: 1
-      invalid_reference_label: ''
-    third_party_settings: {  }
   links:
     weight: 3
     region: content
@@ -63,6 +53,7 @@ hidden:
   field_collection_contact_email: true
   field_collection_contact_name: true
   field_collection_number: true
+  field_description: true
   field_featured_item: true
   field_finding_aid: true
   field_member_of: true

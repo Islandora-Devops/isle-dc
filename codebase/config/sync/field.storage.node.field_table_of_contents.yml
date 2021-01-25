@@ -1,4 +1,4 @@
-uuid: 8fc6bd02-eda9-4bdd-964b-0a8dfd522cc2
+uuid: 4500b988-56c1-41a0-bd4d-dfd784cf569d
 langcode: en
 status: true
 dependencies:
@@ -13,12 +13,14 @@ third_party_settings:
 id: node.field_table_of_contents
 field_name: field_table_of_contents
 entity_type: node
-type: reference_value_pair
+type: language_value_pair
 settings:
   max_length: '2000'
-  target_type: taxonomy_term
   is_ascii: false
   case_sensitive: false
+  target_type: taxonomy_term
+  target_bundles:
+    - language
 module: reference_value_pair
 locked: false
 cardinality: -1

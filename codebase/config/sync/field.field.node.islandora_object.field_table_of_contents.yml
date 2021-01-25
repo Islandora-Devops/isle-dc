@@ -1,4 +1,4 @@
-uuid: 9aabb34c-726e-4c92-949c-efb83d702d5a
+uuid: bfaf1c72-b82b-48eb-bdf9-1f822db48c4a
 langcode: en
 status: true
 dependencies:
@@ -13,7 +13,7 @@ field_name: field_table_of_contents
 entity_type: node
 bundle: islandora_object
 label: 'Table of Contents'
-description: '<b>Optional</b>. If available, record a list of subunits of the resource.'
+description: '<b>Optional</b>. If available, record a list of sub-units of the resource.'
 required: false
 translatable: false
 default_value: {  }
@@ -26,6 +26,6 @@ settings:
     sort:
       field: name
       direction: asc
-    auto_create: 0
+    auto_create: false
     auto_create_bundle: ''
-field_type: reference_value_pair
+field_type: language_value_pair

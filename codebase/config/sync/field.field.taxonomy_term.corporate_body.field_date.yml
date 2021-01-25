@@ -1,19 +1,21 @@
-uuid: 7d9e79b5-13ca-49bf-9730-fa4de90d9eb2
+uuid: d3836eb9-6c34-4f0d-9cf9-c9d9b1bd72c0
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.taxonomy_term.field_date
     - taxonomy.vocabulary.corporate_body
+  module:
+    - controlled_access_terms
 id: taxonomy_term.corporate_body.field_date
 field_name: field_date
 entity_type: taxonomy_term
 bundle: corporate_body
 label: Date
-description: "Please use the format YYYY-MM-DD or  YYYY-MM or YYYY \r\n(<a href=\"https://en.wikipedia.org/wiki/ISO_8601\">ISO-8601</a>)."
+description: 'A date in <a href="https://www.loc.gov/standards/datetime/">EDTF format</a>.'
 required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string
+field_type: edtf

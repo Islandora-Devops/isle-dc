@@ -6,6 +6,8 @@ dependencies:
     - field.storage.node.field_copyright_and_use
     - node.type.islandora_object
     - taxonomy.vocabulary.copyright_and_use
+  content:
+    - 'taxonomy_term:copyright_and_use:e6a6c853-72e2-4ba1-b3c0-7ecb6f119cad'
 id: node.islandora_object.field_copyright_and_use
 field_name: field_copyright_and_use
 entity_type: node
@@ -14,7 +16,9 @@ label: 'Copyright and Use'
 description: '<b>Required.</b>'
 required: true
 translatable: false
-default_value: {  }
+default_value:
+  -
+    target_uuid: e6a6c853-72e2-4ba1-b3c0-7ecb6f119cad
 default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'
