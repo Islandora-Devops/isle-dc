@@ -100,7 +100,7 @@ type JsonApiPerson struct {
 	} `json:"data"`
 }
 
-// Represents the results of a JSONAPI query for a single Person from the Person Taxonomy
+// Represents the results of a JSONAPI query for a single Access Rights Taxonomy Term
 type JsonApiAccessRights struct {
 	JsonApiData []struct {
 		Type              DrupalType
@@ -119,6 +119,27 @@ type JsonApiAccessRights struct {
 			} `json:"field_authority_link"`
 		} `json:"attributes"`
 	} `json:"data"`
+}
+
+// Represents the results of a JSONAPI query for a single Copyright and Use Taxonomy Term
+type JsonApiCopyrightAndUse struct {
+  JsonApiData []struct {
+    Type              DrupalType
+    Id                string
+    JsonApiAttributes struct {
+      Name        string
+      Description struct {
+        Value     string
+        Format    string
+        Processed string
+      }
+      Authority []struct {
+        Uri    string
+        Title  string
+        Source string
+      } `json:"field_authority_link"`
+    } `json:"attributes"`
+  } `json:"data"`
 }
 
 // Represents the results of a JSONAPI query for a single repository object

@@ -1,0 +1,17 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "copyright_and_use",
+  "name": "Unknowable Copyright Status",
+  "authority": [
+    {
+      "uri": "http://rightsstatements.org/vocab/UND/1.0/",
+      "title": "Copyright Unknowable",
+      "source": "rightsstatements"
+    }
+  ],
+  "description": {
+    "value": "<p>The copyright status of the resource is unknowable.</p>",
+    "format": "basic_html",
+    "processed": "<p>The copyright status of the resource is unknowable.</p>"
+  }
+}

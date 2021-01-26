@@ -82,3 +82,20 @@ type ExpectedAccessRights struct {
 		Processed string
 	}
 }
+
+// Represents the expected results of a migrated Copyright and Use taxonomy term
+type ExpectedCopyrightAndUse struct {
+	Type      string
+	Bundle    string
+	Name      string
+	Authority []struct {
+		Uri    string
+		Title  string
+		Source string
+	}
+	Description struct {
+		Value     string
+		Format    string
+		Processed string
+	}
+}
