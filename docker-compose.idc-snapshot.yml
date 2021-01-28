@@ -4,6 +4,8 @@ services:
     depends_on:
     - snapshot
   mariadb:
+    volumes:
+    - mariadb-dump:/mariadb-dump
     depends_on:
     - snapshot
   solr:
@@ -14,6 +16,11 @@ services:
     image: ${REPOSITORY}/snapshot:${SNAPSHOT_TAG}
     volumes:
     - drupal-sites-data:/data/drupal
-    - mariadb-data:/data/mariadb-data
-    - mariadb-files:/data/mariadb-files
+    - mariadb-dump:/data/mariadb-dump
+    # Uncomment to use binary mysql db in snapshot image, if needed. 
+    # Mostly helpful in cases where it's necessary to run an old-style 
+    # snapshot image that has binary mysql db, but no sql dump
+    # - mariadb-data:/data/mariadb-data
     - solr-data:/data/solr
+volumes:
+  mariadb-dump:

@@ -35,6 +35,7 @@ composer-install:
 .PHONY: snapshot-image
 .SILENT: snapshot-image
 snapshot-image:
+	${MAKE} db_dump
 	docker-compose stop
 	docker run --rm --volumes-from snapshot \
 		-v ${PWD}/snapshot:/dump \
@@ -62,7 +63,7 @@ reset: warning-destroy-state destroy-state
 	$(MAKE) docker-compose.yml
 	@echo "Starting ..."
 	@echo "Invoke 'docker-compose logs -f drupal' in another terminal to monitor startup progress"
-	$(MAKE) start
+	$(MAKE) up
 
 .PHONY: warning-destroy-state
 .SILENT: warning-destroy-state
@@ -98,10 +99,31 @@ snapshot-push:
 .SILENT: up
 up:  download-default-certs docker-compose.yml start
 
-
 .PHONY: start
 .SILENT: start
 start:
+	docker-compose up -d mariadb snapshot;
+	# Try connecting to mariadb, and get a valid (a number, greater than zero) count of the number of databases.
+	# Then, once we're "confident" that mariadb is up and validly query able, see if the Drupal db is in place.
+	# This is a tricky process, as the mariadb client can succeed once, then fail on a subsequent invocation.
+	# Once we've finally determined if mariadb is running, and have found a valid answer for whether the Drupal DB is present,
+	# then we can proceed.  If the Drupal DB is not present, then load it from snapshot before starting the stack.  
+	# Otherwise, if the Drupal db is already present, just start.
+	for i in $$(seq 5) ; do \
+		echo "waiting for mysql to start..."; \
+		sleep 5; \
+		BASIC_DBS_PRESENT=$$(docker-compose exec -T mariadb mysql mysql -N -e "SELECT count(*) from information_schema.SCHEMATA;"); \
+		if [  "$$?" -gt "0" ]; then continue; fi; \
+		if [ ! -n "$$BASIC_DBS_PRESENT" ]; then continue; fi; \
+		if [ ! "$$BASIC_DBS_PRESENT" -gt "0" ]; then continue; fi; \
+		DRUPAL_STATE_EXISTS=$$(docker-compose exec -T mariadb mysql mysql -N -e "SELECT count(*) from information_schema.SCHEMATA WHERE schema_name = 'drupal_default';"); \
+		if [ "$$?" -eq "0" -a -n "$${DRUPAL_STATE_EXISTS}" ]; then break; fi; \
+	done; \
+	if [ "$${DRUPAL_STATE_EXISTS}" != "1" ] ; then \
+		echo "No Drupal state found"; \
+		${MAKE} db_restore; \
+	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
+	fi;
 	docker-compose up -d
 	sleep 5
 	docker-compose exec -T drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to start ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
@@ -147,4 +169,21 @@ static-docker-compose.yml: static-drupal-image
 .PHONY: test
 test:
 	./run-tests.sh
+
+.PHONY: db_dump
+.SILENT: db_dump
+db_dump:
+	docker-compose exec -T mariadb bash -c "mysqldump --databases drupal_default --add-drop-database > /mariadb-dump/drupal_default.sql"
+
+.PHONY: db_restore
+.SILENT: db_restore
+db_restore:
+	if [ -z "${DRUPAL_DEFAULT_DB_USER}" ] ; then \
+		DRUPAL_DEFAULT_DB_USER=drupal_default; \
+	fi; \
+	echo "Creating mysql user $${DRUPAL_DEFAULT_DB_USER}"
+	docker-compose exec -T mariadb mysql mysql -e "CREATE USER IF NOT EXISTS '$${DRUPAL_DEFAULT_DB_USER}'@'%' IDENTIFIED BY '${DRUPAL_DEFAULT_DB_PASSWORD}'; FLUSH PRIVILEGES"; \
+	echo "Loading mysql dump"; \
+		docker-compose exec -T mariadb bash -c 'mysql mysql < /mariadb-dump/drupal_default.sql'; \
+	docker-compose exec -T mariadb mysql mysql -e "GRANT ALL PRIVILEGES ON drupal_default.* to '$${DRUPAL_DEFAULT_DB_USER}'@'%';";
 
