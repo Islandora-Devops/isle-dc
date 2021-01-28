@@ -44,6 +44,9 @@ that you supply in a `.env` file.  And there are three use cases we're trying to
 - **local** *(Local development using composer/drush in the codebase folder)*
 - **production** *(An environment safe to run out the wild)*
 
+On top of that, there's a lot of useful commands for managing an Islandora instance, such
+as database import/export and reindexing.
+
 ## Requirements
 
 - Composer 1.10+
@@ -55,8 +58,6 @@ that you supply in a `.env` file.  And there are three use cases we're trying to
 - Drush 9.0+
 - Git 2.0+
 - GNU Make 4.0+
-- PHP 7.2+ (*Also requires the same ext packages you intend to use in your site.*)
-- Perl (if you want to run `make dev` which does find-and-replace in some files with Perl)
 
 ## Getting Started
 
@@ -74,9 +75,9 @@ This will pull down images from Dockerhub and generate
 | `docker-compose.yml`     | A ready to run `docker-compose.yml` file based on your `.env` file.  This file is considered disposable. When you change your `.env` file, you will generate a new one.                                                 |
 
 Your new Islandora instance will be available at [https://islandora.traefik.me](https://islandora.traefik.me). Don't let the
-funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.  If you see `502 Bad Gateway` when visiting the link,
-just wait a moment.  Not all of the services have finished booting up.  When it's done, you can log into Drupal as `admin`
-using the default password, `password`. 
+funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.
+
+You can log into Drupal as `admin` using the default password, `password`. 
 
 Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
 the things you can do.  If you want to poke around, here's all the services that are available to visit:

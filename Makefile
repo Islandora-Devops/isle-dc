@@ -22,7 +22,7 @@ export
 EXTERNAL_SERVICES := etcd watchtower traefik
 
 # The minimal set of docker-compose files required to be able to run anything.
-REQUIRED_SERIVCES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal fcrepo mariadb matomo solr
+REQUIRED_SERIVCES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal mariadb matomo solr
 
 ifeq ($(USE_SECRETS), true)
 	SECRETS := secrets
@@ -41,6 +41,13 @@ endif
 # etcd is an optional dependency, by default it is not included.
 ifeq ($(INCLUDE_ETCD_SERVICE), true)
 	ETCD_SERVICE := etcd
+endif
+
+# etcd is an optional dependency, by default it is not included.
+ifeq ($(FEDORA_6), true)
+	FCREPO_SERVICE := fcrepo6
+else
+	FCREPO_SERVICE := fcrepo
 endif
 
 # Some services can optionally depend on PostgreSQL.
@@ -62,7 +69,7 @@ DATABASE_SERVICES := $(sort $(DATABASE_SERVICES))
 # The services to be run (order is important), as services can override one
 # another. Traefik must be last if included as otherwise its network 
 # definition for `gateway` will be overriden.
-SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(SECRETS)
+SERVICES := $(REQUIRED_SERIVCES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(SECRETS)
 
 default: download-default-certs docker-compose.yml pull
 
@@ -223,7 +230,7 @@ ifndef DEST
 	$(error DEST is not set)
 endif
 	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode export -r http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
-	docker-compose exec fcrepo with-contenv bash -lc 'tar zcvf /tmp/fcrepo-export.tgz /tmp/fcrepo-export'
+	docker-compose exec fcrepo with-contenv bash -lc 'cd /tmp && tar zcvf fcrepo-export.tgz fcrepo-export'
 	docker cp $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz $(DEST)
 
 # Import fcrepo.
@@ -234,8 +241,17 @@ endif
 	$(MAKE) -B docker-compose.yml DISABLE_SYN=true
 	docker-compose up -d fcrepo
 	docker cp $(SRC) $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz
-	docker-compose exec fcrepo with-contenv bash -lc 'cd /tmp && tar zxvf fcrepo-export.tgz && chown -R nginx:nginx ./fcrepo-export && rm ./fcrepo-export.tgz'
+	docker-compose exec fcrepo with-contenv bash -lc 'cd /tmp && tar zxvf fcrepo-export.tgz && chown -R tomcat:tomcat fcrepo-export && rm fcrepo-export.tgz'
+ifeq ($(FEDORA_6), true)
+	docker-compose exec fcrepo with-contenv bash -lc 'java -jar fcrepo-upgrade-utils-6.0.0-alpha-2.jar -i /tmp/fcrepo-export -o /data/home -s 5+ -t 6+ -u http://${DOMAIN}:8081/fcrepo/rest && chown -R tomcat:tomcat /data/home'
+ifeq ($(FCREPO_DATABASE_SERVICE), postgresql)
+	$(error Postgresql not implemented yet in fcrepo-import)
+else
+	docker-compose exec fcrepo with-contenv bash -lc 'mysql -u $${FCREPO_DB_ROOT_USER} -p$${FCREPO_DB_ROOT_PASSWORD} -h $${FCREPO_DB_HOST} -e "DROP DATABASE $${FCREPO_DB_NAME}"'
+endif
+else
 	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
+endif
 	$(MAKE) -B docker-compose.yml
 	docker-compose up -d fcrepo
 
@@ -317,18 +333,20 @@ demo:
 .PHONY: local
 .SILENT: local
 local:
-	$(MAKE) download-default-certs
+	$(MAKE) download-default-certs ENVIROMENT=local
 	$(MAKE) docker-compose.yml ENVIRONMENT=local
-	$(MAKE) pull
-	if [ ! -d ./codebase || -z "$(ls -A ./codebase)" ]; then \
-		mkdir -p ./codebase; \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root local/nginx with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.0 /tmp/codebase; mv /tmp/codebase/* /home/root'; \
+	$(MAKE) pull ENVIRONMENT=local
+	mkdir -p ./codebase
+	if [ -z "$(ls -A ./codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root local/nginx with-contenv bash -lc 'composer create-project drupal/recommended-project:^8.9 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush'; \
 	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase
 	docker-compose up -d
-	$(MAKE) remove_standard_profile_references_from_config
+	docker-compose exec drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
+	docker-compose exec drupal with-contenv bash -lc 'drush en islandora'
 	$(MAKE) hydrate ENVIRONMENT=local
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 
 # Destroys everything beware!
 .PHONY: clean
