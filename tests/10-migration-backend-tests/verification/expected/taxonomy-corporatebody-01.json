@@ -1,0 +1,15 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "corporate_body",
+  "name": "Parent Corporate Body",
+  "description": {
+    "value": "<p>This is a parent corporate body</p>",
+    "format": "basic_html",
+    "processed": "<p>This is a parent corporate body</p>"
+  },
+  "date:": [
+    "2021",
+    "2022"
+  ],
+  "primary_name": "Parent Corporate Body"
+}

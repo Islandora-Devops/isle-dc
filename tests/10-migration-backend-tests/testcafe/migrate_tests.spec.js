@@ -21,6 +21,7 @@ const migrate_new_collection = 'idc_ingest_new_collection';
 const migrate_media_images = 'idc_ingest_media_images';
 const migrate_resource_types = 'idc_ingest_taxonomy_resourcetypes';
 const migrate_subject_taxonomy = 'idc_ingest_taxonomy_subject';
+const migrate_corporatebody_taxonomy = 'idc_ingest_taxonomy_corporatebody';
 
 const selectMigration = Selector('#edit-migrations');
 const migrationOptions = selectMigration.find('option');
@@ -155,6 +156,31 @@ test('Perform Language Migration', async t => {
   await t
     .setFilesToUpload('#edit-source-file', [
       './migrations/language.csv'
+    ])
+    .click('#edit-import');
+
+});
+
+test('Perform Corporate Body Taxonomy Migration', async t => {
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_corporatebody_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/corporatebody-01.csv'
+    ])
+    .click('#edit-import');
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_corporatebody_taxonomy))
+    .expect(selectUpdateExistingRecords.checked).ok();  // n.b. checked by default
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/corporatebody-02.csv'
     ])
     .click('#edit-import');
 
