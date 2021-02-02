@@ -102,21 +102,21 @@ type ExpectedCopyrightAndUse struct {
 
 // Represents the expected results of a migrated Family taxonomy term
 type ExpectedFamily struct {
-  Type      string
-  Bundle    string
-  Name      string
-  Date      []string
-  FamilyName string `json:"family_name"`
-  Title string
-  Authority []struct {
-    Uri    string
-    Title  string
-    Source string
-  }
-  Description struct {
-    Value     string
-    Format    string
-    Processed string
-  }
-  KnowsAbout []string `json:"knowsAbout"`
+	Type       string
+	Bundle     string
+	Name       string
+	Date       []string
+	FamilyName string `json:"family_name"`
+	Title      string
+	Authority  []struct {
+		Uri    string
+		Title  string
+		Source string
+	}
+	Description struct {
+		Value     string
+		Format    string
+		Processed string
+	}
+	KnowsAbout []string `json:"knowsAbout"`
 }
