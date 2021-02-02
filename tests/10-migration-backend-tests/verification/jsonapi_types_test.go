@@ -1,12 +1,13 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"github.com/stretchr/testify/assert"
-	"log"
-	"net/url"
-	"strings"
+  "encoding/json"
+  "fmt"
+  "github.com/stretchr/testify/assert"
+  "log"
+  "net/url"
+  "strings"
+  "testing"
 )
 
 // Encapsulates the relevant components of a URL which executes a JSON API request against Drupal
@@ -38,6 +39,14 @@ func (json *JsonApiUrl) String() string {
 	assert.Nil(json.t, err, "error generating a JsonAPI URL from %v: %s", json, err)
 	return u.String()
 }
+
+func (jar *JsonApiUrl) get(v interface{}) {
+  // retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+  res, body := getResource(jar.t.(*testing.T), jar.String())
+  defer func() { _ = res.Close }()
+  unmarshalSingleResponse(jar.t.(*testing.T), body, res, &JsonApiResponse{}).to(v)
+}
+
 
 // Encapsulates a generic JSON API response
 type JsonApiResponse struct {
@@ -139,6 +148,38 @@ type JsonApiCopyrightAndUse struct {
         Source string
       } `json:"field_authority_link"`
     } `json:"attributes"`
+  } `json:"data"`
+}
+
+// Represents the results of a JSONAPI query for a single Family Taxonomy Term
+type JsonApiFamily struct {
+  JsonApiData []struct {
+    Type              DrupalType
+    Id                string
+    JsonApiAttributes struct {
+      Name        string
+      Date []string `json:"field_date"`
+      FamilyName string `json:"field_family_name"`
+      Title string `json:"field_title_and_other_words"`
+      Description struct {
+        Value     string
+        Format    string
+        Processed string
+      }
+      Authority []struct {
+        Uri    string
+        Title  string
+        Source string
+      } `json:"field_authority_link"`
+    } `json:"attributes"`
+    JsonApiRelationships struct {
+      Relationships struct {
+        Data []struct {
+          JsonApiData
+          Meta map[string]string
+        }
+      } `json:"field_relationships"`
+    } `json:"relationships"`
   } `json:"data"`
 }
 
