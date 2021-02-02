@@ -47,10 +47,8 @@ func Test_VerifyTaxonomyTermPerson(t *testing.T) {
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res, body := getResource(t, u.String())
-	defer func() { _ = res.Close }()
 	personRes := &JsonApiPerson{}
-	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(personRes)
+	u.get(personRes)
 
 	// for each field in expected json,
 	//   see if the expected field matches the actual field from retrieved json
@@ -87,10 +85,8 @@ func Test_VerifyTaxonomyTermPerson(t *testing.T) {
 	u.value = expectedJson.Knows[0]
 
 	// retrieve json of the resolved entity from the jsonapi
-	res, body = getResource(t, u.String())
-	defer func() { _ = res.Close }()
 	personRes = &JsonApiPerson{}
-	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(personRes)
+	u.get(personRes)
 	relSchemaKnows := personRes.JsonApiData[0]
 
 	// sanity
@@ -119,10 +115,8 @@ func Test_VerifyTaxonomyTermAccessRights(t *testing.T) {
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res, body := getResource(t, u.String())
-	defer func() { _ = res.Close }()
 	accessRightsRes := &JsonApiAccessRights{}
-	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(accessRightsRes)
+	u.get(accessRightsRes)
 
 	actual := accessRightsRes.JsonApiData[0]
 	assert.Equal(t, expectedJson.Type, actual.Type.entity())
