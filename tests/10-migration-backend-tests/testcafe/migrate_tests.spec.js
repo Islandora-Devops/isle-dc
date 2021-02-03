@@ -13,6 +13,7 @@ const migrate_person_taxonomy = 'idc_ingest_taxonomy_persons';
 const migrate_accessrights_taxonomy = 'idc_ingest_taxonomy_accessrights';
 const migrate_copyrightanduse_taxonomy = 'idc_ingest_taxonomy_copyrightanduse';
 const migrate_family_taxonomy = 'idc_ingest_taxonomy_family';
+const migrate_genre_taxonomy = 'idc_ingest_taxonomy_genre';
 const migrate_new_items = 'idc_ingest_new_items';
 const migrate_new_collection = 'idc_ingest_new_collection';
 const migrate_media_images = 'idc_ingest_media_images';
@@ -108,6 +109,20 @@ test('Perform Collection Migration', async t => {
   await t
     .setFilesToUpload('#edit-source-file', [
       './migrations/collection.csv'
+    ])
+    .click('#edit-import');
+
+});
+
+test('Perform Genre Taxonomy Migration', async t => {
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_genre_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/genre.csv'
     ])
     .click('#edit-import');
 

@@ -120,3 +120,20 @@ type ExpectedFamily struct {
 	}
 	KnowsAbout []string `json:"knowsAbout"`
 }
+
+// Represents the expected results of a migrated Genre taxonomy term
+type ExpectedGenre struct {
+	Type      string
+	Bundle    string
+	Name      string
+	Authority []struct {
+		Uri    string
+		Title  string
+		Source string
+	}
+	Description struct {
+		Value     string
+		Format    string
+		Processed string
+	}
+}
