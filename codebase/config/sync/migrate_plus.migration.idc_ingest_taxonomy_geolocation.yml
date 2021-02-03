@@ -18,6 +18,7 @@ source:
     STATUS: true
     ADMIN: 1
     DESC_FORMAT: basic_html
+    NODE: node
 process:
   name: name
   field_geo_alt_name:
@@ -26,6 +27,58 @@ process:
       source: geo_alt_name
       delimiter: '|'
       strict: false
+  field_broader:
+    -
+      plugin: explode
+      source: broader
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
+      process:
+        pseudo_id:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            source: value
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 0
+          -
+            plugin: migration_lookup
+            migration:
+              - idc_ingest_new_collection
+              - idc_ingest_new_items
+        uri:
+          -
+            plugin: concat
+            delimiter: 'node/'
+            source:
+              - constants/NODE
+              - '@pseudo_id'
+          -
+            plugin: link_uri
+            validate_route: false
+        title:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            source: value
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 1
   field_authority_link:
     -
       plugin: explode
