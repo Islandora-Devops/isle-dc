@@ -152,10 +152,8 @@ func Test_VerifyTaxonomyCopyrightAndUse(t *testing.T) {
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res, body := getResource(t, u.String())
-	defer func() { _ = res.Close }()
 	copyrightRes := &JsonApiCopyrightAndUse{}
-	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(copyrightRes)
+	u.get(copyrightRes)
 
 	actual := copyrightRes.JsonApiData[0]
 	assert.Equal(t, expectedJson.Type, actual.Type.entity())
