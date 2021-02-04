@@ -1,0 +1,27 @@
+uuid: 84a2a960-465c-4f84-a791-fc3ebd943cee
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - idcui
+_core:
+  default_config_hash: s2wQ3IpHygDpuXkwUxa0Spc4X2nr4QhoFG40T6ZIzkc
+id: idcui_main_menu
+theme: idcui
+region: top_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main menu'
+  provider: system
+  label_display: '1'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

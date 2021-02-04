@@ -1,0 +1,22 @@
+uuid: 4f49495d-256e-408c-b69b-74fdad30d637
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - idcui
+_core:
+  default_config_hash: ivS9cR4eHBrjV3CJXXft8-CGeAOrtytjBLXy6qxR5UE
+id: idcui_content
+theme: idcui
+region: content
+weight: 7
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

@@ -1,0 +1,22 @@
+uuid: 16d0369a-4cb0-4305-a9f1-192422edfc22
+langcode: en
+status: true
+dependencies:
+  theme:
+    - idcui
+_core:
+  default_config_hash: JNe263HPnJkhKqjmnodN6AGU7fyzJHGEJuOCU3ZO23w
+id: idcui_local_tasks
+theme: idcui
+region: content
+weight: -6
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility: {  }

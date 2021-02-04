@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25c21ec9844323dd8502f1d48bfaa851",
+    "content-hash": "431bfa25e4a64bb8b7468e4c2324c44b",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2262,6 +2262,78 @@
             }
         },
         {
+            "name": "drupal/captcha",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/captcha.git",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/captcha-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "2eaf6f00ea256652c09f785b26dc933cc5b3dd26"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1591160977",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "branch-alias": {
+                    "dev-8.x-1.x": "1.x-dev"
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "RobLoach",
+                    "homepage": "https://www.drupal.org/user/61114"
+                },
+                {
+                    "name": "elachlan",
+                    "homepage": "https://www.drupal.org/user/1021502"
+                },
+                {
+                    "name": "japerry",
+                    "homepage": "https://www.drupal.org/user/45640"
+                },
+                {
+                    "name": "naveenvalecha",
+                    "homepage": "https://www.drupal.org/user/2665733"
+                },
+                {
+                    "name": "podarok",
+                    "homepage": "https://www.drupal.org/user/116002"
+                },
+                {
+                    "name": "soxofaan",
+                    "homepage": "https://www.drupal.org/user/41478"
+                },
+                {
+                    "name": "wundo",
+                    "homepage": "https://www.drupal.org/user/25523"
+                }
+            ],
+            "description": "The CAPTCHA module provides this feature to virtually any user facing web form on a Drupal site.",
+            "homepage": "https://www.drupal.org/project/captcha",
+            "support": {
+                "source": "https://git.drupalcode.org/project/captcha",
+                "issues": "https://www.drupal.org/project/issues/captcha"
+            }
+        },
+        {
             "name": "drupal/config_update",
             "version": "1.7.0",
             "source": {
@@ -4315,7 +4387,7 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0-or-later"
+                "GPL-2.0+"
             ],
             "authors": [
                 {
@@ -6420,6 +6492,50 @@
                 "source": "https://github.com/jhu-idc/controlled_access_terms/tree/8.x-1.x"
             },
             "time": "2021-01-25T18:22:41+00:00"
+        },
+        {
+            "name": "jhu-idc/idc-ui-theme",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhu-idc/idc-ui-theme.git",
+                "reference": "bbc90d41582ed89636417179afe6127ba506c82d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/bbc90d41582ed89636417179afe6127ba506c82d",
+                "reference": "bbc90d41582ed89636417179afe6127ba506c82d",
+                "shasum": ""
+            },
+            "type": "drupal-theme",
+            "description": "Moo",
+            "support": {
+                "source": "https://github.com/jhu-idc/idc-ui-theme/tree/develop",
+                "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
+            },
+            "time": "2021-02-03T18:20:05+00:00"
+        },
+        {
+            "name": "jhu-idc/idc_ui_module",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhu-idc/idc_ui_module.git",
+                "reference": "f8c2f3b923587a13b21553131e9cb8e9d5264a7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/f8c2f3b923587a13b21553131e9cb8e9d5264a7c",
+                "reference": "f8c2f3b923587a13b21553131e9cb8e9d5264a7c",
+                "shasum": ""
+            },
+            "type": "drupal-module",
+            "description": "Moo Module",
+            "support": {
+                "source": "https://github.com/jhu-idc/idc_ui_module/tree/main",
+                "issues": "https://github.com/jhu-idc/idc_ui_module/issues"
+            },
+            "time": "2021-02-03T16:29:23+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",
@@ -15992,6 +16108,8 @@
         "drupal/pdf": 20,
         "islandora-rdm/islandora_fits": 20,
         "islandora/carapace": 20,
+        "jhu-idc/idc-ui-theme": 20,
+        "jhu-idc/idc_ui_module": 20,
         "jhu-idc/islandora_defaults": 20
     },
     "prefer-stable": true,

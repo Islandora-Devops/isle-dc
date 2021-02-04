@@ -1,0 +1,37 @@
+uuid: a09c20b1-393f-4368-827f-59c05083653d
+langcode: en
+status: true
+dependencies:
+  module:
+    - context
+    - idc_ui_module
+    - islandora
+  theme:
+    - idcui
+id: topnavblock
+theme: idcui
+region: top_nav
+weight: 0
+provider: null
+plugin: top_nav_block
+settings:
+  id: top_nav_block
+  label: 'Top nav block'
+  provider: idc_ui_module
+  label_display: '0'
+visibility:
+  view_inclusion:
+    id: view_inclusion
+    negate: null
+    view_inclusion: {  }
+    context_mapping: {  }
+  request_path_exclusion:
+    id: request_path_exclusion
+    pages: ''
+    negate: null
+    context_mapping: {  }
+  media_source_mimetype:
+    id: media_source_mimetype
+    mimetype: ''
+    negate: false
+    context_mapping: {  }

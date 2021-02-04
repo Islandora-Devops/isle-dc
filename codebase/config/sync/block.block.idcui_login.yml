@@ -1,0 +1,22 @@
+uuid: 62eeaebc-ff27-4cfb-ab42-ae76e9795256
+langcode: en
+status: false
+dependencies:
+  module:
+    - user
+  theme:
+    - idcui
+_core:
+  default_config_hash: Gq7l77jvlrU7rOGC9cKoBRQWYKF9QYM6hRMOSc_LhEU
+id: idcui_login
+theme: idcui
+region: top_menu
+weight: -6
+provider: null
+plugin: user_login_block
+settings:
+  id: user_login_block
+  label: 'User login'
+  provider: user
+  label_display: visible
+visibility: {  }

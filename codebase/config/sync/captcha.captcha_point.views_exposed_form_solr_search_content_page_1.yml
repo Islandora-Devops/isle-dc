@@ -1,0 +1,7 @@
+uuid: 504839c3-7a18-421c-884c-74ae9724f6e4
+langcode: en
+status: false
+dependencies: {  }
+formId: views_exposed_form_solr_search_content_page_1
+captchaType: image_captcha/Image
+label: views-exposed-form-solr-search-content-page-1

@@ -1,0 +1,31 @@
+uuid: 1081880b-7aad-4418-90fa-d6499d7afc48
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.subject
+  module:
+    - facets
+    - system
+  theme:
+    - idcui
+_core:
+  default_config_hash: Qy_nSE_PRV3YUVnl6KeCHqh_Ja3TtmqZD6bjj0ANEoM
+id: idcui_subject
+theme: idcui
+region: top_menu
+weight: 0
+provider: null
+plugin: 'facet_block:subject'
+settings:
+  id: 'facet_block:subject'
+  label: Subject
+  provider: facets
+  label_display: visible
+  block_id: subject
+visibility:
+  request_path:
+    id: request_path
+    pages: /solr-search/content
+    negate: false
+    context_mapping: {  }

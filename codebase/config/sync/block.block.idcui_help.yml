@@ -1,0 +1,22 @@
+uuid: d9ce733a-4543-4ae3-bd6e-883943bc9012
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - idcui
+_core:
+  default_config_hash: 8k55sFyi9PZRZy_KISBEYwkhiBDLg6nVDAdcDT7njcM
+id: idcui_help
+theme: idcui
+region: content
+weight: -5
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  provider: help
+  label_display: '0'
+visibility: {  }

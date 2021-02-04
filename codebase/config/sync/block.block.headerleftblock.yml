@@ -1,0 +1,37 @@
+uuid: cd26f35c-615a-4839-8ae2-f9ca394b9bd0
+langcode: en
+status: true
+dependencies:
+  module:
+    - context
+    - idc_ui_module
+    - islandora
+  theme:
+    - idcui
+id: headerleftblock
+theme: idcui
+region: header_1
+weight: 0
+provider: null
+plugin: header_left_block
+settings:
+  id: header_left_block
+  label: 'Header Left block'
+  provider: idc_ui_module
+  label_display: '0'
+visibility:
+  view_inclusion:
+    id: view_inclusion
+    negate: null
+    view_inclusion: {  }
+    context_mapping: {  }
+  request_path_exclusion:
+    id: request_path_exclusion
+    pages: ''
+    negate: null
+    context_mapping: {  }
+  media_source_mimetype:
+    id: media_source_mimetype
+    mimetype: ''
+    negate: false
+    context_mapping: {  }

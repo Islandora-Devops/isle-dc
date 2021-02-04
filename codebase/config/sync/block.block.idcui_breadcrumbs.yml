@@ -1,0 +1,27 @@
+uuid: 28ba1cb0-24c6-41fd-b38c-e9e1953e6c27
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - idcui
+_core:
+  default_config_hash: 6rcz_yGFLgo_lZvnRlBgwBAIeej_i2WaVixQIyWdfhI
+id: idcui_breadcrumbs
+theme: idcui
+region: top_menu
+weight: -1
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: true
+    context_mapping: {  }

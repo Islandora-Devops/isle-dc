@@ -1,0 +1,20 @@
+uuid: c9dd2922-8262-4a31-a34b-dbd33353394a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - idcui
+_core:
+  default_config_hash: HPN_mevAQQQXcr_LGq9GwCtYBfgdT959_wlVo8rpKAQ
+id: idcui_local_actions
+theme: idcui
+region: content
+weight: -4
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }
