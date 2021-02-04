@@ -47,10 +47,8 @@ func Test_VerifyTaxonomyTermPerson(t *testing.T) {
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res, body := getResource(t, u.String())
-	defer func() { _ = res.Close }()
 	personRes := &JsonApiPerson{}
-	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(personRes)
+	u.get(personRes)
 
 	// for each field in expected json,
 	//   see if the expected field matches the actual field from retrieved json
@@ -87,10 +85,8 @@ func Test_VerifyTaxonomyTermPerson(t *testing.T) {
 	u.value = expectedJson.Knows[0]
 
 	// retrieve json of the resolved entity from the jsonapi
-	res, body = getResource(t, u.String())
-	defer func() { _ = res.Close }()
 	personRes = &JsonApiPerson{}
-	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(personRes)
+	u.get(personRes)
 	relSchemaKnows := personRes.JsonApiData[0]
 
 	// sanity
@@ -119,10 +115,8 @@ func Test_VerifyTaxonomyTermAccessRights(t *testing.T) {
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res, body := getResource(t, u.String())
-	defer func() { _ = res.Close }()
 	accessRightsRes := &JsonApiAccessRights{}
-	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(accessRightsRes)
+	u.get(accessRightsRes)
 
 	actual := accessRightsRes.JsonApiData[0]
 	assert.Equal(t, expectedJson.Type, actual.Type.entity())
@@ -177,6 +171,72 @@ func Test_VerifyTaxonomyCopyrightAndUse(t *testing.T) {
 		assert.Equal(t, expectedJson.Authority[i].Source, v.Source)
 		assert.Equal(t, expectedJson.Authority[i].Uri, v.Uri)
 	}
+}
+
+func Test_VerifyTaxonomyTermFamily(t *testing.T) {
+	expectedJson := ExpectedFamily{}
+	unmarshalJson(t, "taxonomy-family-01.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "taxonomy_term", expectedJson.Type)
+	assert.Equal(t, "family", expectedJson.Bundle)
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "name",
+		value:        expectedJson.Name,
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	familyres := &JsonApiFamily{}
+	u.get(familyres)
+	sourceId := familyres.JsonApiData[0].Id
+	assert.NotEmpty(t, sourceId)
+
+	actual := familyres.JsonApiData[0]
+	assert.Equal(t, expectedJson.Type, actual.Type.entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
+	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
+	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
+	assert.Equal(t, len(expectedJson.Authority), len(actual.JsonApiAttributes.Authority))
+	assert.Equal(t, 2, len(actual.JsonApiAttributes.Authority))
+	for i, v := range actual.JsonApiAttributes.Authority {
+		assert.Equal(t, expectedJson.Authority[i].Title, v.Title)
+		assert.Equal(t, expectedJson.Authority[i].Source, v.Source)
+		assert.Equal(t, expectedJson.Authority[i].Uri, v.Uri)
+	}
+	assert.Equal(t, expectedJson.Title, actual.JsonApiAttributes.Title)
+	assert.Equal(t, expectedJson.FamilyName, actual.JsonApiAttributes.FamilyName)
+	assert.Equal(t, 2, len(actual.JsonApiAttributes.Date))
+	assert.Equal(t, 2, len(expectedJson.Date))
+	for i, v := range actual.JsonApiAttributes.Date {
+		assert.Equal(t, expectedJson.Date[i], v)
+	}
+
+	// Resolve relationship to a name
+	relData := familyres.JsonApiData[0].JsonApiRelationships.Relationships.Data[0]
+	assert.Equal(t, "schema:knowsAbout", relData.Meta["rel_type"])
+	u.value = expectedJson.KnowsAbout[0]
+
+	// retrieve json of the resolved entity from the jsonapi
+	familyres = &JsonApiFamily{}
+	u.get(familyres)
+	relSchemaKnowsAbout := familyres.JsonApiData[0]
+
+	// sanity
+	assert.Equal(t, relSchemaKnowsAbout.Type.bundle(), "family")
+	assert.Equal(t, relSchemaKnowsAbout.Type.entity(), "taxonomy_term")
+
+	// test
+	assert.Equal(t, expectedJson.KnowsAbout[0], relSchemaKnowsAbout.JsonApiAttributes.Name)
+
+	// assert the reciprocal relationship holds (e.g. the id referenced by the target is the same as the source id)
+	assert.Equal(t, sourceId, relSchemaKnowsAbout.JsonApiRelationships.Relationships.Data[0].Id)
 }
 
 func Test_VerifyCollection(t *testing.T) {

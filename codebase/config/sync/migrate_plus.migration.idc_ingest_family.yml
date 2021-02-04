@@ -1,0 +1,108 @@
+uuid: 70038cdf-4c0e-4134-896d-764c7dbd4fbc
+langcode: en
+status: true
+dependencies: {  }
+id: idc_ingest_taxonomy_family
+class: null
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags: null
+migration_group: idc_ingest
+label: 'Taxonomy: Family'
+source:
+  plugin: csv
+  ids:
+    - local_id
+  path: 'Will be populated by the Migrate Source UI'
+process:
+  name: name
+  description/value: description
+  description/format:
+    plugin: default_value
+    default_value: basic_html
+  field_family_name: family_name
+  field_title_and_other_words: title_and_other_words
+  field_date:
+    -
+      plugin: explode
+      source: date
+      delimiter: '|'
+  field_authority_link:
+    -
+      plugin: explode
+      source: authority
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
+      process:
+        uri:
+          - plugin: skip_on_empty
+            method: process
+            source: value
+          - plugin: explode
+            source: value
+            delimiter: ;
+          - plugin: extract
+            index:
+              - 0
+        title:
+          - plugin: skip_on_empty
+            method: process
+            source: value
+          - plugin: explode
+            source: value
+            delimiter: ;
+          - plugin: extract
+            index:
+              - 1
+        source:
+          - plugin: skip_on_empty
+            method: process
+            source: value
+          - plugin: explode
+            source: value
+            delimiter: ;
+          - plugin: extract
+            index:
+              - 2
+  field_relationships:
+    -
+      plugin: explode
+      source: relationships
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+      keyname: relationships
+    -
+      plugin: sub_process
+      process:
+        target_id:
+          -
+            plugin: explode
+            source: relationships
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 0
+          -
+            plugin: migration_lookup
+            migration: idc_ingest_taxonomy_family
+            no_stub: true
+        rel_type:
+          -
+            plugin: explode
+            source: relationships
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 1
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: family
+migration_dependencies: null
