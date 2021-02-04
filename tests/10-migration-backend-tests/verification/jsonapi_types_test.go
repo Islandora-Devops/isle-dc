@@ -235,3 +235,29 @@ type JsonApiGenre struct {
 		} `json:"attributes"`
 	} `json:"data"`
 }
+
+// Represents the results of a JSONAPI query for a single Geolocation Term
+type JsonApiGeolocation struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name    string
+			Broader []struct {
+				Uri   string
+				Title string
+			} `json:"field_broader"`
+			GeoAltName  []string `json:"field_geo_alt_name"`
+			Description struct {
+				Value     string
+				Format    string
+				Processed string
+			}
+			Authority []struct {
+				Uri    string
+				Title  string
+				Source string
+			} `json:"field_authority_link"`
+		} `json:"attributes"`
+	} `json:"data"`
+}
