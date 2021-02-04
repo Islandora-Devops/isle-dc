@@ -1,10 +1,10 @@
-import { Selector } from 'testcafe';
-import { adminUser } from './roles.js';
+import {Selector} from 'testcafe';
+import {adminUser} from './roles.js';
 
 
-fixture `Migration Tests`
-  .page `https://islandora-idc.traefik.me/migrate_source_ui`
-  .beforeEach( async t => {
+fixture`Migration Tests`
+  .page`https://islandora-idc.traefik.me/migrate_source_ui`
+  .beforeEach(async t => {
     await t
       .useRole(adminUser);
   });
@@ -96,6 +96,20 @@ test('Perform Copyright and Use Taxonomy Migration', async t => {
   await t
     .setFilesToUpload('#edit-source-file', [
       './migrations/copyrightanduse.csv'
+    ])
+    .click('#edit-import');
+
+});
+
+test('Perform Geolocation Taxonomy Migration', async t => {
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_geolocation_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/geolocation.csv'
     ])
     .click('#edit-import');
 
