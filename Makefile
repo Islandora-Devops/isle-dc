@@ -338,13 +338,13 @@ local:
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p ./codebase
 	if [ -z "$(ls -A ./codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root local/nginx with-contenv bash -lc 'composer create-project drupal/recommended-project:^8.9 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root local/nginx with-contenv bash -lc 'composer create-project drupal/recommended-project:^8.9 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush; composer require drupal/search_api_solr:^4.0'; \
 	fi
 	docker-compose up -d
 	docker-compose exec drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
-	docker-compose exec drupal with-contenv bash -lc 'drush en islandora'
+	docker-compose exec drupal with-contenv bash -lc 'drush en islandora search_api_solr'
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 
