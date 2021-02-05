@@ -20,7 +20,7 @@ services:
     volumes:
       - ./codebase:/var/www/drupal:delegated
       - drupal-sites-data:/var/www/drupal/web/sites/default/files
-      - solr-data:/opt/solr/server/solr
+     #- solr-data:/opt/solr/server/solr
     depends_on:
       # Requires a the very minimum a database.
       - ${DRUPAL_DATABASE_SERVICE}
