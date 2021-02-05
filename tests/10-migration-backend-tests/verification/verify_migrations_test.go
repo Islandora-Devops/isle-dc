@@ -394,6 +394,44 @@ func Test_VerifyTaxonomySubject(t *testing.T) {
 	}
 }
 
+func Test_VerifyTaxonomyTermLanguage(t *testing.T) {
+	expectedJson := ExpectedLanguage{}
+	unmarshalJson(t, "taxonomy-language.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "taxonomy_term", expectedJson.Type)
+	assert.Equal(t, "language", expectedJson.Bundle)
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "name",
+		value:        expectedJson.Name,
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	res := &JsonApiLanguage{}
+	u.get(res)
+
+	actual := res.JsonApiData[0]
+	assert.Equal(t, expectedJson.Type, actual.Type.entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
+	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
+	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
+	assert.Equal(t, len(expectedJson.Authority), len(actual.JsonApiAttributes.Authority))
+	assert.Equal(t, 2, len(actual.JsonApiAttributes.Authority))
+	for i, v := range actual.JsonApiAttributes.Authority {
+		assert.Equal(t, expectedJson.Authority[i].Title, v.Title)
+		assert.Equal(t, expectedJson.Authority[i].Source, v.Source)
+		assert.Equal(t, expectedJson.Authority[i].Uri, v.Uri)
+	}
+	assert.Equal(t, expectedJson.LanguageCode, actual.JsonApiAttributes.LanguageCode)
+}
+
 func Test_VerifyCollection(t *testing.T) {
 
 }
