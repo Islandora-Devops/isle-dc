@@ -433,7 +433,42 @@ func Test_VerifyTaxonomyTermLanguage(t *testing.T) {
 }
 
 func Test_VerifyCollection(t *testing.T) {
+  expectedJson := ExpectedCollection{}
+  unmarshalJson(t, "collection-01.json", &expectedJson)
 
+  // sanity check the expected json
+  assert.Equal(t, "node", expectedJson.Type)
+  assert.Equal(t, "collection_object", expectedJson.Bundle)
+
+  u := &JsonApiUrl{
+    t:            t,
+    baseUrl:      DrupalBaseurl,
+    drupalEntity: expectedJson.Type,
+    drupalBundle: expectedJson.Bundle,
+    filter:       "title",
+    value:        expectedJson.Title,
+  }
+
+  // retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+  res := &JsonApiCollection{}
+  u.get(res)
+  sourceId := res.JsonApiData[0].Id
+  assert.NotEmpty(t, sourceId)
+
+  actual := res.JsonApiData[0]
+  assert.Equal(t, expectedJson.Type, actual.Type.entity())
+  assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+  assert.Equal(t, expectedJson.Title, actual.JsonApiAttributes.Title)
+  assert.Equal(t, expectedJson.ContactEmail, actual.JsonApiAttributes.ContactEmail)
+  assert.Equal(t, expectedJson.ContactName, actual.JsonApiAttributes.ContactName)
+  assert.ElementsMatch(t, expectedJson.CollectionNumber, actual.JsonApiAttributes.CollectionNumber)
+
+  relData := res.JsonApiData[0].JsonApiRelationships
+
+  // Resolve and verify title language
+  assert.Equal(t, "taxonomy_term", relData.TitleLanguage.Data[0].Type.entity())
+  assert.Equal(t, "language", relData.TitleLanguage.Data[0].Type.bundle())
+  relRes, err := http.Get(relData.TitleLanguage.Links.Related.Href)
 }
 
 func Test_VerifyRepositoryItem(t *testing.T) {

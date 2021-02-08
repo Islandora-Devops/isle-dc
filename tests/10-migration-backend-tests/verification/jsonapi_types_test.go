@@ -204,6 +204,52 @@ type JsonApiLanguage struct {
 	} `json:"data"`
 }
 
+// Represents the results of a JSONAPI query for a single collection entity
+type JsonApiCollection struct {
+  JsonApiData []struct {
+    Type              DrupalType
+    Id                string
+    JsonApiAttributes struct {
+      Title        string
+      Description struct {
+        Value     string
+        LangCode string
+      }
+      ContactEmail string `json:"field_collection_contact_email"`
+      ContactName string `json:"field_collection_contact_name"`
+      CollectionNumber []string `json:"field_collection_number"`
+      FindingAid []struct {
+        Uri string
+        Title string
+      } `json:"field_finding_aid"`
+    } `json:"attributes"`
+    JsonApiRelationships struct {
+      AltTitle struct {
+        Data []struct {
+          JsonApiData
+          Meta map[string]string
+        }
+        Links struct {
+          Related struct {
+            Href string
+          }
+        }
+      } `json:"field_alternative_title"`
+      TitleLanguage struct {
+        Data []struct {
+          JsonApiData
+          Meta map[string]string
+        }
+        Links struct {
+          Related struct {
+            Href string
+          }
+        }
+      } `json:"field_title_language"`
+    } `json:"relationships"`
+  } `json:"data"`
+}
+
 // Represents the results of a JSONAPI query for a single repository object
 type JsonApiRepoObj struct {
 	JsonApiData []struct {
