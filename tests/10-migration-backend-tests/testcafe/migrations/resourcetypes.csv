@@ -1,0 +1,2 @@
+local_id,name,authority,description
+resourcetype_01,My Still Image,https://www.dublincore.org/specifications/dublin-core/dcmi-terms/dcmitype/StillImage/;Still Image;dcmi_types|http://www.google.com;Another Authority;dcmi_types,<p>My still image description.</p>
