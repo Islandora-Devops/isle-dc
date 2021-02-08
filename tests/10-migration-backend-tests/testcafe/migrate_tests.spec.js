@@ -168,7 +168,18 @@ test('Perform Collection Migration', async t => {
 
   await t
     .setFilesToUpload('#edit-source-file', [
-      './migrations/collection.csv'
+      './migrations/collection-01.csv'
+    ])
+    .click('#edit-import');
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_new_collection))
+    .expect(selectUpdateExistingRecords.checked).ok();  // n.b. checked by default
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/collection-02.csv'
     ])
     .click('#edit-import');
 
