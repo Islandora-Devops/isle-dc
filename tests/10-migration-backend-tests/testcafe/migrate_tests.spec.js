@@ -19,6 +19,7 @@ const migrate_new_items = 'idc_ingest_new_items';
 const migrate_new_collection = 'idc_ingest_new_collection';
 const migrate_media_images = 'idc_ingest_media_images';
 const migrate_resource_types = 'idc_ingest_taxonomy_resourcetypes';
+const migrate_subject_taxonomy = 'idc_ingest_taxonomy_subject';
 
 const selectMigration = Selector('#edit-migrations');
 const migrationOptions = selectMigration.find('option');
@@ -97,6 +98,20 @@ test('Perform Copyright and Use Taxonomy Migration', async t => {
   await t
     .setFilesToUpload('#edit-source-file', [
       './migrations/copyrightanduse.csv'
+    ])
+    .click('#edit-import');
+
+});
+
+test('Perform Subject Migration', async t => {
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_subject_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/subject.csv'
     ])
     .click('#edit-import');
 

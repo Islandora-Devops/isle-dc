@@ -282,3 +282,24 @@ type JsonApiResourceType struct {
 		} `json:"attributes"`
 	} `json:"data"`
 }
+
+// Represents the results of a JSONAPI query for a single Subject Term
+type JsonApiSubject struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name        string
+			Description struct {
+				Value     string
+				Format    string
+				Processed string
+			}
+			Authority []struct {
+				Uri    string
+				Title  string
+				Source string
+			} `json:"field_authority_link"`
+		} `json:"attributes"`
+	} `json:"data"`
+}
