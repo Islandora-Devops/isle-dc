@@ -469,11 +469,7 @@ func Test_VerifyCollection(t *testing.T) {
 	assert.NotNil(t, relData.TitleLanguage.Data)
 	assert.Equal(t, "taxonomy_term", relData.TitleLanguage.Data.Type.entity())
 	assert.Equal(t, "language", relData.TitleLanguage.Data.Type.bundle())
-	httpRes, body := getResource(t, relData.TitleLanguage.Links.Related.Href)
-	jsonApiRes := &JsonApiResponse{}
-	langRel := &JsonApiLanguage{}
-	unmarshalSingleResponse(t, body, httpRes, jsonApiRes).to(langRel)
-	assert.Equal(t, expectedJson.TitleLangCode, langRel.JsonApiData[0].JsonApiAttributes.LanguageCode)
+	assert.Equal(t, expectedJson.TitleLangCode, relData.TitleLanguage.Data.langCode(t))
 
 	// Resolve and verify alternate title values and languages
 	assert.NotNil(t, relData.AltTitle.Data)
@@ -482,20 +478,8 @@ func Test_VerifyCollection(t *testing.T) {
 	for i, altTitleData := range relData.AltTitle.Data {
 		assert.Equal(t, "taxonomy_term", altTitleData.Type.entity())
 		assert.Equal(t, "language", altTitleData.Type.bundle())
-		assert.Equal(t, expectedJson.AltTitle[i].Value, altTitleData.Meta["value"])
-
-		u = &JsonApiUrl{
-			t:            t,
-			baseUrl:      DrupalBaseurl,
-			drupalEntity: altTitleData.Type.entity(),
-			drupalBundle: altTitleData.Type.bundle(),
-			filter:       "id",
-			value:        altTitleData.Id,
-		}
-		lang := JsonApiLanguage{}
-		u.get(&lang)
-
-		assert.Equal(t, expectedJson.AltTitle[i].LangCode, lang.JsonApiData[0].JsonApiAttributes.LanguageCode)
+		assert.Equal(t, expectedJson.AltTitle[i].Value, altTitleData.value())
+		assert.Equal(t, expectedJson.AltTitle[i].LangCode, altTitleData.langCode(t))
 	}
 
 	// Resolve and verify description values and languages
@@ -505,20 +489,8 @@ func Test_VerifyCollection(t *testing.T) {
 	for i, descData := range relData.Description.Data {
 		assert.Equal(t, "taxonomy_term", descData.Type.entity())
 		assert.Equal(t, "language", descData.Type.bundle())
-		assert.Equal(t, expectedJson.Description[i].Value, descData.Meta["value"])
-
-		u = &JsonApiUrl{
-			t:            t,
-			baseUrl:      DrupalBaseurl,
-			drupalEntity: descData.Type.entity(),
-			drupalBundle: descData.Type.bundle(),
-			filter:       "id",
-			value:        descData.Id,
-		}
-		lang := JsonApiLanguage{}
-		u.get(&lang)
-
-		assert.Equal(t, expectedJson.Description[i].LangCode, lang.JsonApiData[0].JsonApiAttributes.LanguageCode)
+		assert.Equal(t, expectedJson.Description[i].Value, descData.value())
+		assert.Equal(t, expectedJson.Description[i].LangCode, descData.langCode(t))
 	}
 
 	// Resolve and verify member_of values

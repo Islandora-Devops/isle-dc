@@ -252,10 +252,7 @@ type JsonApiCollection struct {
 		} `json:"attributes"`
 		JsonApiRelationships struct {
 			AltTitle struct {
-				Data []struct {
-					JsonApiData
-					Meta map[string]string
-				}
+				Data  []JsonApiLanguageValue
 				Links struct {
 					Related struct {
 						Href string
@@ -263,10 +260,7 @@ type JsonApiCollection struct {
 				}
 			} `json:"field_alternative_title"`
 			TitleLanguage struct {
-				Data struct {
-					JsonApiData
-					Meta map[string]string
-				}
+				Data  JsonApiLanguageValue
 				Links struct {
 					Related struct {
 						Href string
@@ -274,10 +268,7 @@ type JsonApiCollection struct {
 				}
 			} `json:"field_title_language"`
 			Description struct {
-				Data []struct {
-					JsonApiData
-					Meta map[string]string
-				}
+				Data []JsonApiLanguageValue
 			} `json:"field_description"`
 			MemberOf struct {
 				Data []struct {
@@ -430,4 +421,64 @@ type JsonApiLanguage struct {
 			} `json:"field_authority_link"`
 		} `json:"attributes"`
 	} `json:"data"`
+}
+
+// Represents an element of a JSONAPI response that encapsulates a string value and a language taxonomy entity
+//
+// In the following example, the objects with a type `taxonomy_term--language` are represented by this struct.
+//   "field_alternative_title": {
+//    "data": [
+//      {
+//        "type": "taxonomy_term--language",
+//        "id": "7397e0c4-df0a-4800-95af-afccc6ff64a5",
+//        "meta": {
+//          "value": "Moonrise Over Hernandez"
+//        }
+//      },
+//      {
+//        "type": "taxonomy_term--language",
+//        "id": "bacfc5b6-b4b9-4239-8744-46dca6a91f0e",
+//        "meta": {
+//          "value": "Salida de la luna sobre Hernández"
+//        }
+//      }
+//    ],
+//    "links": {
+//      "related": {
+//        "href": "http://islandora-idc.traefik.me/jsonapi/node/islandora_object/815a4c04-0be5-44f1-a876-e8ddc11dcf21/field_alternative_title?resourceVersion=id%3A48"
+//      },
+//      "self": {
+//        "href": "http://islandora-idc.traefik.me/jsonapi/node/islandora_object/815a4c04-0be5-44f1-a876-e8ddc11dcf21/relationships/field_alternative_title?resourceVersion=id%3A48"
+//      }
+//    }
+//  }
+type JsonApiLanguageValue struct {
+	t    assert.TestingT
+	Type DrupalType
+	Id   string
+	Meta struct {
+		Value string
+	}
+}
+
+// Answers the language code of the value string by resolving the Language Taxonomy entity identified in the
+// JsonApiLanguageValue
+func (lv JsonApiLanguageValue) langCode(t *testing.T) string {
+	u := JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: lv.Type.entity(),
+		drupalBundle: lv.Type.bundle(),
+		filter:       "id",
+		value:        lv.Id,
+	}
+
+	jsonApiLang := JsonApiLanguage{}
+	u.get(&jsonApiLang)
+	return jsonApiLang.JsonApiData[0].JsonApiAttributes.LanguageCode
+}
+
+// Answers the value of the string, the language of which is provided by langCode(...)
+func (lv JsonApiLanguageValue) value() string {
+	return lv.Meta.Value
 }
