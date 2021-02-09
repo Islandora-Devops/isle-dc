@@ -161,3 +161,20 @@ type ExpectedGeolocation struct {
 		Processed string
 	}
 }
+
+// Represents the expected results of a migrated Resource Types taxonomy term
+type ExpectedResourceType struct {
+	Type      string
+	Bundle    string
+	Name      string
+	Authority []struct {
+		Uri    string
+		Title  string
+		Source string
+	}
+	Description struct {
+		Value     string
+		Format    string
+		Processed string
+	}
+}
