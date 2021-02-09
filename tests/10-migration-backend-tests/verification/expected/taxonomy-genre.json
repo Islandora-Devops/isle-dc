@@ -1,0 +1,22 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "genre",
+  "name": "Drama",
+  "authority": [
+    {
+      "uri": "https://www.loc.gov/aba/publications/FreeLCGFT/GENRE.pdf",
+      "title": "Action/Adventure",
+      "source": "lgcft"
+    },
+    {
+      "uri": "http://www.google.com",
+      "title": "Google Alt Link",
+      "source": "other"
+    }
+  ],
+  "description": {
+    "value": "<p>Drama Description</p>",
+    "format": "basic_html",
+    "processed": "<p>Drama Description</p>"
+  }
+}

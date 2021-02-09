@@ -152,10 +152,8 @@ func Test_VerifyTaxonomyCopyrightAndUse(t *testing.T) {
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res, body := getResource(t, u.String())
-	defer func() { _ = res.Close }()
 	copyrightRes := &JsonApiCopyrightAndUse{}
-	unmarshalSingleResponse(t, body, res, &JsonApiResponse{}).to(copyrightRes)
+	u.get(copyrightRes)
 
 	actual := copyrightRes.JsonApiData[0]
 	assert.Equal(t, expectedJson.Type, actual.Type.entity())
@@ -237,6 +235,43 @@ func Test_VerifyTaxonomyTermFamily(t *testing.T) {
 
 	// assert the reciprocal relationship holds (e.g. the id referenced by the target is the same as the source id)
 	assert.Equal(t, sourceId, relSchemaKnowsAbout.JsonApiRelationships.Relationships.Data[0].Id)
+}
+
+func Test_VerifyTaxonomyTermGenre(t *testing.T) {
+	expectedJson := ExpectedGenre{}
+	unmarshalJson(t, "taxonomy-genre.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "taxonomy_term", expectedJson.Type)
+	assert.Equal(t, "genre", expectedJson.Bundle)
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "name",
+		value:        expectedJson.Name,
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	genreRes := &JsonApiGenre{}
+	u.get(genreRes)
+
+	actual := genreRes.JsonApiData[0]
+	assert.Equal(t, expectedJson.Type, actual.Type.entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
+	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
+	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
+	assert.Equal(t, len(expectedJson.Authority), len(actual.JsonApiAttributes.Authority))
+	assert.Equal(t, 2, len(actual.JsonApiAttributes.Authority))
+	for i, v := range actual.JsonApiAttributes.Authority {
+		assert.Equal(t, expectedJson.Authority[i].Title, v.Title)
+		assert.Equal(t, expectedJson.Authority[i].Source, v.Source)
+		assert.Equal(t, expectedJson.Authority[i].Uri, v.Uri)
+	}
 }
 
 func Test_VerifyCollection(t *testing.T) {
