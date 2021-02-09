@@ -52,6 +52,33 @@ type JsonApiResponse struct {
 	Data []map[string]interface{}
 }
 
+// Handles the case where the 'data' key contains an array of objects, or a single object.
+func (jar *JsonApiResponse) UnmarshalJSON(b []byte) error {
+	fullRes := make(map[string]interface{})
+
+	if err := json.Unmarshal(b, &fullRes); err != nil {
+		return err
+	}
+
+	if e, ok := fullRes["data"]; !ok {
+		return fmt.Errorf("missing 'data' key when unmarshaling JSONAPI response: %v", e)
+	} else {
+		switch e.(type) {
+		case []interface{}:
+			jar.Data = make([]map[string]interface{}, len(e.([]interface{})))
+			for i, v := range e.([]interface{}) {
+				jar.Data[i] = v.(map[string]interface{})
+			}
+		case map[string]interface{}:
+			jar.Data = make([]map[string]interface{}, 1)
+			jar.Data[0] = e.(map[string]interface{})
+		default:
+			return fmt.Errorf("unable to determine type of JSONAPI key 'data': %v", e)
+		}
+	}
+	return nil
+}
+
 // Adapts the generic JsonApiResponse to a higher-fidelity type
 func (jar *JsonApiResponse) to(v interface{}) {
 	if b, e := json.Marshal(jar); e != nil {
@@ -206,48 +233,48 @@ type JsonApiLanguage struct {
 
 // Represents the results of a JSONAPI query for a single collection entity
 type JsonApiCollection struct {
-  JsonApiData []struct {
-    Type              DrupalType
-    Id                string
-    JsonApiAttributes struct {
-      Title        string
-      Description struct {
-        Value     string
-        LangCode string
-      }
-      ContactEmail string `json:"field_collection_contact_email"`
-      ContactName string `json:"field_collection_contact_name"`
-      CollectionNumber []string `json:"field_collection_number"`
-      FindingAid []struct {
-        Uri string
-        Title string
-      } `json:"field_finding_aid"`
-    } `json:"attributes"`
-    JsonApiRelationships struct {
-      AltTitle struct {
-        Data []struct {
-          JsonApiData
-          Meta map[string]string
-        }
-        Links struct {
-          Related struct {
-            Href string
-          }
-        }
-      } `json:"field_alternative_title"`
-      TitleLanguage struct {
-        Data []struct {
-          JsonApiData
-          Meta map[string]string
-        }
-        Links struct {
-          Related struct {
-            Href string
-          }
-        }
-      } `json:"field_title_language"`
-    } `json:"relationships"`
-  } `json:"data"`
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Title       string
+			Description struct {
+				Value    string
+				LangCode string
+			}
+			ContactEmail     string   `json:"field_collection_contact_email"`
+			ContactName      string   `json:"field_collection_contact_name"`
+			CollectionNumber []string `json:"field_collection_number"`
+			FindingAid       []struct {
+				Uri   string
+				Title string
+			} `json:"field_finding_aid"`
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			AltTitle struct {
+				Data []struct {
+					JsonApiData
+					Meta map[string]string
+				}
+				Links struct {
+					Related struct {
+						Href string
+					}
+				}
+			} `json:"field_alternative_title"`
+			TitleLanguage struct {
+				Data struct {
+					JsonApiData
+					Meta map[string]string
+				}
+				Links struct {
+					Related struct {
+						Href string
+					}
+				}
+			} `json:"field_title_language"`
+		} `json:"relationships"`
+	} `json:"data"`
 }
 
 // Represents the results of a JSONAPI query for a single repository object
@@ -374,22 +401,22 @@ type JsonApiSubject struct {
 
 // Represents the results of a JSONAPI query for a single Family Taxonomy Term
 type JsonApiLanguage struct {
-         JsonApiData []struct {
-                 Type              DrupalType
-                 Id                string
-                 JsonApiAttributes struct {
-                         Name         string
-                         LanguageCode string `json:"field_language_code"`
-                         Description  struct {
-                                 Value     string
-                                 Format    string
-                                 Processed string
-                         }
-                         Authority []struct {
-                                 Uri    string
-                                 Title  string
-                                 Source string
-                         } `json:"field_authority_link"`
-                 } `json:"attributes"`
-         } `json:"data"`
-  }
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name         string
+			LanguageCode string `json:"field_language_code"`
+			Description  struct {
+				Value     string
+				Format    string
+				Processed string
+			}
+			Authority []struct {
+				Uri    string
+				Title  string
+				Source string
+			} `json:"field_authority_link"`
+		} `json:"attributes"`
+	} `json:"data"`
+}
