@@ -1,5 +1,28 @@
 # IDC Migration Tests
 
+## Known Issues
+
+### Migrations Admin Menu
+
+The Migrations admin menu can't be used to manage migrations effectively.  This is because the Migrate Source UI plugin dynamically supplies a file source to the migration.
+
+> When a user uploads a CSV file to be migrated, it is stored as a Drupal temporary file, and the migration is dynamically updated to point to the temporary file.
+
+The Migrations admin menu/module errors out when it encounters a migration that does not have a value for the file source (which is all of the migrations supported by these tests).
+
+This does not affect management of migrations, since they are a part of the external configuration.  Unless the Migrations admin menu provides required features, it can probably be disabled for mortal use.
+
+### Problematic Fields
+
+These are fields for which there is no or incomplete migration support. Resolving these known issues may involve custom Drupal code (e.g. modifying or writing novel migration plugins), restricting the use of local identifiers in favor of URIs for field values, and/or exploring additional parameters to the `migration_lookup` plugin (e.g. supplying multiple migrations to the `migration` configuration key).
+
+|Entity|Bundle|Field (type)|Description|
+|---|---|---|---|
+|taxonomy_term|geo_location|`field_broader` (`link`)|Values for this field may contain arbitrary URLs to an external resource or internal links to a Drupal resource with the form, e.g. `entity:node/16`.  The current migration for `geo_location` cannot use local ids _and_ arbitrary URLs.|
+|taxonomy_term|corporate_body|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
+|taxonomy_term|person|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
+|taxonomy_term|family|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
+
 ## Invoking the tests
 
 Migration tests may be invoked in isolation by running the `10-migration-backend-tests.sh` script.

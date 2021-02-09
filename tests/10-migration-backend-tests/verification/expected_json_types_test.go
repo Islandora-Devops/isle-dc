@@ -1,6 +1,8 @@
 package main
 
-import "strings"
+import (
+	"strings"
+)
 
 // Encapsulates the entity type and bundle of a Drupal resource.
 //
@@ -126,6 +128,28 @@ type ExpectedGenre struct {
 	Type      string
 	Bundle    string
 	Name      string
+	Authority []struct {
+		Uri    string
+		Title  string
+		Source string
+	}
+	Description struct {
+		Value     string
+		Format    string
+		Processed string
+	}
+}
+
+// Represents the expected results of a migrated Geolocation taxonomy term
+type ExpectedGeolocation struct {
+	Type       string
+	Bundle     string
+	Name       string
+	GeoAltName []string `json:"geo_alt_name"`
+	Broader    []struct {
+		Uri   string
+		Title string
+	}
 	Authority []struct {
 		Uri    string
 		Title  string
