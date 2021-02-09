@@ -273,6 +273,17 @@ type JsonApiCollection struct {
 					}
 				}
 			} `json:"field_title_language"`
+			Description struct {
+				Data []struct {
+					JsonApiData
+					Meta map[string]string
+				}
+			} `json:"field_description"`
+			MemberOf struct {
+				Data []struct {
+					JsonApiData
+				}
+			} `json:"field_member_of"`
 		} `json:"relationships"`
 	} `json:"data"`
 }
@@ -399,7 +410,7 @@ type JsonApiSubject struct {
 	} `json:"data"`
 }
 
-// Represents the results of a JSONAPI query for a single Family Taxonomy Term
+// Represents the results of a JSONAPI query for a single Language Taxonomy Term
 type JsonApiLanguage struct {
 	JsonApiData []struct {
 		Type              DrupalType

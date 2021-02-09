@@ -28,7 +28,9 @@
   "collection_number": [
     "1", "2"
   ],
-  "member_of": "Parent Collection",
+  "member_of": [
+    "Parent Collection"
+  ],
   "finding_aid": [
     {
       "uri": "http://wikipedia.org",
