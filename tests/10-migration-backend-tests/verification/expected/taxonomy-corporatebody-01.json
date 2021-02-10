@@ -11,5 +11,11 @@
     "2021",
     "2022"
   ],
-  "primary_name": "Parent Corporate Body"
+  "primary_name": "Parent Corporate Body",
+  "relationships": [
+    {
+      "rel_type": "schema:subOrganization",
+      "name": "My Corporate Body"
+    }
+  ]
 }

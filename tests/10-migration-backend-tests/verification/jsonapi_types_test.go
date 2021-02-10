@@ -460,3 +460,43 @@ func (lv JsonApiLanguageValue) langCode(t *testing.T) string {
 func (lv JsonApiLanguageValue) value() string {
 	return lv.Meta.Value
 }
+
+// Represents the results of a JSONAPI query for a single Corporate Body Term
+type JsonApiCorporateBody struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name        string
+			Description struct {
+				Value     string
+				Format    string
+				Processed string
+			}
+			Authority []struct {
+				Uri    string
+				Title  string
+				Source string
+			} `json:"field_authority_link"`
+			AltDate            string   `json:"field_alt_date_of_meeting"`
+			AltLocation        string   `json:"field_alt_location_of_meeting"`
+			AltNumberOrSection string   `json:"field_alt_num_of_section_or_meet"`
+			AltPrimaryName     string   `json:"field_alt_primary_name"`
+			AltSubordinateName string   `json:"field_alt_subordinate_name"`
+			Date               []string `json:"field_date"`
+			DateOfMeeting      string   `json:"field_date_of_meeting_or_treaty"`
+			Location           string   `json:"field_location_of_meeting"`
+			NumberOrSection    string   `json:"field_num_of_section_or_meet"`
+			PrimaryName        string   `json:"field_primary_name"`
+			SubordinateName    string   `json:"field_subordinate_name"`
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			Relationships struct {
+				Data []struct {
+					JsonApiData
+					Meta map[string]string
+				}
+			} `json:"field_relationships"`
+		} `json:"relationships"`
+	} `json:"data"`
+}

@@ -432,6 +432,79 @@ func Test_VerifyTaxonomyTermLanguage(t *testing.T) {
 	assert.Equal(t, expectedJson.LanguageCode, actual.JsonApiAttributes.LanguageCode)
 }
 
+func Test_VerifyTaxonomyTermCorporateBody(t *testing.T) {
+	expectedJson := ExpectedCorporateBody{}
+	unmarshalJson(t, "taxonomy-corporatebody-02.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "taxonomy_term", expectedJson.Type)
+	assert.Equal(t, "corporate_body", expectedJson.Bundle)
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "name",
+		value:        expectedJson.Name,
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	res := &JsonApiCorporateBody{}
+	u.get(res)
+
+	actual := res.JsonApiData[0]
+	assert.Equal(t, expectedJson.Type, actual.Type.entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
+	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
+	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
+	assert.Equal(t, len(expectedJson.Authority), len(actual.JsonApiAttributes.Authority))
+	assert.Equal(t, 2, len(actual.JsonApiAttributes.Authority))
+	for i, v := range actual.JsonApiAttributes.Authority {
+		assert.Equal(t, expectedJson.Authority[i].Title, v.Title)
+		assert.Equal(t, expectedJson.Authority[i].Source, v.Source)
+		assert.Equal(t, expectedJson.Authority[i].Uri, v.Uri)
+	}
+	assert.Equal(t, expectedJson.DateOfMeeting, actual.JsonApiAttributes.DateOfMeeting)
+	assert.Equal(t, expectedJson.Location, actual.JsonApiAttributes.Location)
+	assert.Equal(t, expectedJson.NumberOrSection, actual.JsonApiAttributes.NumberOrSection)
+	assert.Equal(t, expectedJson.PrimaryName, actual.JsonApiAttributes.PrimaryName)
+	assert.Equal(t, expectedJson.SubordinateName, actual.JsonApiAttributes.SubordinateName)
+	assert.Equal(t, expectedJson.AltDate, actual.JsonApiAttributes.AltDate)
+	assert.Equal(t, expectedJson.AltLocation, actual.JsonApiAttributes.AltLocation)
+	assert.Equal(t, expectedJson.AltNumberOrSection, actual.JsonApiAttributes.AltNumberOrSection)
+	assert.Equal(t, expectedJson.AltPrimaryName, actual.JsonApiAttributes.AltPrimaryName)
+	assert.Equal(t, expectedJson.AltSubordinateName, actual.JsonApiAttributes.AltSubordinateName)
+	assert.ElementsMatch(t, expectedJson.Date, actual.JsonApiAttributes.Date)
+
+	// resolve and verify relationships
+
+	// "My Corporate Body" -> 'schema:parentOrganization' -> "Parent Organization"
+	relData := actual.JsonApiRelationships.Relationships.Data
+	assert.Equal(t, 1, len(relData))
+	assert.Equal(t, len(expectedJson.Relationship), len(relData))
+	assert.Equal(t, "taxonomy_term", relData[0].Type.entity())
+	assert.Equal(t, "corporate_body", relData[0].Type.bundle())
+	assert.Equal(t, expectedJson.Relationship[0].Rel, relData[0].Meta["rel_type"])
+	u = &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: relData[0].Type.entity(),
+		drupalBundle: relData[0].Type.bundle(),
+		filter:       "id",
+		value:        relData[0].Id,
+	}
+	target := &JsonApiCorporateBody{}
+	u.get(target)
+	assert.Equal(t, expectedJson.Relationship[0].Name, target.JsonApiData[0].JsonApiAttributes.Name)
+
+	//  "Parent Organization" -> 'schema:subOrganization' -> "My Corporate Body"
+	assert.Equal(t, target.JsonApiData[0].JsonApiRelationships.Relationships.Data[0].Id, actual.Id)
+	assert.Equal(t, target.JsonApiData[0].JsonApiRelationships.Relationships.Data[0].Meta["rel_type"], "schema:subOrganization")
+}
+
 func Test_VerifyCollection(t *testing.T) {
 	expectedJson := ExpectedCollection{}
 	unmarshalJson(t, "collection-01.json", &expectedJson)

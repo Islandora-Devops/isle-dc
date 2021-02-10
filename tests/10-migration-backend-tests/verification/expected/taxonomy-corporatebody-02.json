@@ -20,20 +20,23 @@
   "authority": [
     {
       "uri": "http://loc.gov",
-      "name": "LOC",
+      "title": "LOC",
       "source": "lcnaf"
     },
     {
       "uri": "http://www.google.com",
-      "name": "Google Alt Link",
+      "title": "Google Alt Link",
       "source": "other"
     }
   ],
-  "date:": [
+  "date": [
     "2021",
     "2022"
   ],
-  "parentOrganization": [
-    "Parent Corporate Body"
+  "relationships": [
+    {
+      "rel_type": "schema:parentOrganization",
+      "name": "Parent Corporate Body"
+    }
   ]
 }
