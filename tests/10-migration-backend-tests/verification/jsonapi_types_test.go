@@ -182,6 +182,28 @@ type JsonApiFamily struct {
 	} `json:"data"`
 }
 
+// Represents the results of a JSONAPI query for a single Family Taxonomy Term
+type JsonApiLanguage struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name         string
+			LanguageCode string `json:"field_language_code"`
+			Description  struct {
+				Value     string
+				Format    string
+				Processed string
+			}
+			Authority []struct {
+				Uri    string
+				Title  string
+				Source string
+			} `json:"field_authority_link"`
+		} `json:"attributes"`
+	} `json:"data"`
+}
+
 // Represents the results of a JSONAPI query for a single repository object
 type JsonApiRepoObj struct {
 	JsonApiData []struct {
