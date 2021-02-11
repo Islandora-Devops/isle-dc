@@ -1,0 +1,42 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "corporate_body",
+  "name": "My Corporate Body",
+  "description": {
+    "value": "<p>A corporate body description.</p>",
+    "format": "basic_html",
+    "processed": "<p>A corporate body description.</p>"
+  },
+  "date_of_meeting_or_treaty": "2021",
+  "location_of_meeting": "Denver, CO",
+  "num_of_section_or_meet": "1st",
+  "primary_name": "My Corporate Body",
+  "subordinate_name": "My Corporate Body Subordinate Name",
+  "alt_date_of_meeting": "2022",
+  "alt_location_of_meeting": "Alt Location Of Meeting",
+  "alt_number_of_section_or_meeting": "Alt Number of section or meeting",
+  "alt_primary_name": "Alt Primary Corporate Name",
+  "alt_subordinate_name": "Alt Subordinate Name",
+  "authority": [
+    {
+      "uri": "http://loc.gov",
+      "title": "LOC",
+      "source": "lcnaf"
+    },
+    {
+      "uri": "http://www.google.com",
+      "title": "Google Alt Link",
+      "source": "other"
+    }
+  ],
+  "date": [
+    "2021",
+    "2022"
+  ],
+  "relationships": [
+    {
+      "rel_type": "schema:parentOrganization",
+      "name": "Parent Corporate Body"
+    }
+  ]
+}

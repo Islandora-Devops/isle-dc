@@ -237,3 +237,35 @@ type ExpectedCollection struct {
 		Title string
 	}
 }
+
+// Represents the expected results of a migrated Corporate Body taxonomy term
+type ExpectedCorporateBody struct {
+	Type        string
+	Bundle      string
+	Name        string
+	Description struct {
+		Value     string
+		Format    string
+		Processed string
+	}
+	PrimaryName        string `json:"primary_name"`
+	SubordinateName    string `json:"subordinate_name"`
+	DateOfMeeting      string `json:"date_of_meeting_or_treaty"`
+	Location           string `json:"location_of_meeting"`
+	NumberOrSection    string `json:"num_of_section_or_meet"`
+	AltDate            string `json:"alt_date_of_meeting"`
+	AltLocation        string `json:"alt_location_of_meeting"`
+	AltNumberOrSection string `json:"alt_number_of_section_or_meeting"`
+	AltPrimaryName     string `json:"alt_primary_name"`
+	AltSubordinateName string `json:"alt_subordinate_name"`
+	Authority          []struct {
+		Uri    string
+		Title  string
+		Source string
+	}
+	Date         []string
+	Relationship []struct {
+		Name string
+		Rel  string `json:"rel_type"`
+	} `json:"relationships"`
+}
