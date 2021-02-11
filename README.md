@@ -408,26 +408,6 @@ Each secret references a file in the `secrets` directory.  Each secrets file is 
 the exact same as the environment variable it intends to replace. The contents of each
 file will be used as the value for the secret.
 
-Additionally, each service that uses secrets will declare the secrets it uses and override
-the environment variables accordingly.  For example, the activemq service will now have
-the following:
-
-```yml
-services:
-  activemq:
-    secrets:
-      - ACTIVEMQ_PASSWORD
-      - ACTIVEMQ_WEB_ADMIN_PASSWORD
-    environment:
-      ACTIVEMQ_PASSWORD: secret:/run/secrets/ACTIVEMQ_PASSWORD
-      ACTIVEMQ_WEB_ADMIN_PASSWORD: secret:/run/secrets/ACTIVEMQ_WEB_ADMIN_PASSWORD
-```     
-
-Note the pattern of the environment variables. The containers will look for
-environment variables that follow the pattern of `secret:/path/to/secret/file`
-and automatically read the files and replace the variable with the file's
-content.
- 
 ## Services
 
 Islandora is composed of many different services, this project has split these
