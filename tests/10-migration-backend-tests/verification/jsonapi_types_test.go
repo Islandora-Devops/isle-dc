@@ -52,6 +52,33 @@ type JsonApiResponse struct {
 	Data []map[string]interface{}
 }
 
+// Handles the case where the 'data' key contains an array of objects, or a single object.
+func (jar *JsonApiResponse) UnmarshalJSON(b []byte) error {
+	fullRes := make(map[string]interface{})
+
+	if err := json.Unmarshal(b, &fullRes); err != nil {
+		return err
+	}
+
+	if e, ok := fullRes["data"]; !ok {
+		return fmt.Errorf("missing 'data' key when unmarshaling JSONAPI response: %v", e)
+	} else {
+		switch e.(type) {
+		case []interface{}:
+			jar.Data = make([]map[string]interface{}, len(e.([]interface{})))
+			for i, v := range e.([]interface{}) {
+				jar.Data[i] = v.(map[string]interface{})
+			}
+		case map[string]interface{}:
+			jar.Data = make([]map[string]interface{}, 1)
+			jar.Data[0] = e.(map[string]interface{})
+		default:
+			return fmt.Errorf("unable to determine type of JSONAPI key 'data': %v", e)
+		}
+	}
+	return nil
+}
+
 // Adapts the generic JsonApiResponse to a higher-fidelity type
 func (jar *JsonApiResponse) to(v interface{}) {
 	if b, e := json.Marshal(jar); e != nil {
@@ -182,25 +209,51 @@ type JsonApiFamily struct {
 	} `json:"data"`
 }
 
-// Represents the results of a JSONAPI query for a single Family Taxonomy Term
-type JsonApiLanguage struct {
+// Represents the results of a JSONAPI query for a single collection entity
+type JsonApiCollection struct {
 	JsonApiData []struct {
 		Type              DrupalType
 		Id                string
 		JsonApiAttributes struct {
-			Name         string
-			LanguageCode string `json:"field_language_code"`
-			Description  struct {
-				Value     string
-				Format    string
-				Processed string
+			Title       string
+			Description struct {
+				Value    string
+				LangCode string
 			}
-			Authority []struct {
-				Uri    string
-				Title  string
-				Source string
-			} `json:"field_authority_link"`
+			ContactEmail     string   `json:"field_collection_contact_email"`
+			ContactName      string   `json:"field_collection_contact_name"`
+			CollectionNumber []string `json:"field_collection_number"`
+			FindingAid       []struct {
+				Uri   string
+				Title string
+			} `json:"field_finding_aid"`
 		} `json:"attributes"`
+		JsonApiRelationships struct {
+			AltTitle struct {
+				Data  []JsonApiLanguageValue
+				Links struct {
+					Related struct {
+						Href string
+					}
+				}
+			} `json:"field_alternative_title"`
+			TitleLanguage struct {
+				Data  JsonApiLanguageValue
+				Links struct {
+					Related struct {
+						Href string
+					}
+				}
+			} `json:"field_title_language"`
+			Description struct {
+				Data []JsonApiLanguageValue
+			} `json:"field_description"`
+			MemberOf struct {
+				Data []struct {
+					JsonApiData
+				}
+			} `json:"field_member_of"`
+		} `json:"relationships"`
 	} `json:"data"`
 }
 
@@ -324,4 +377,86 @@ type JsonApiSubject struct {
 			} `json:"field_authority_link"`
 		} `json:"attributes"`
 	} `json:"data"`
+}
+
+// Represents the results of a JSONAPI query for a single Language Taxonomy Term
+type JsonApiLanguage struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name         string
+			LanguageCode string `json:"field_language_code"`
+			Description  struct {
+				Value     string
+				Format    string
+				Processed string
+			}
+			Authority []struct {
+				Uri    string
+				Title  string
+				Source string
+			} `json:"field_authority_link"`
+		} `json:"attributes"`
+	} `json:"data"`
+}
+
+// Represents an element of a JSONAPI response that encapsulates a string value and a language taxonomy entity
+//
+// In the following example, the objects with a type `taxonomy_term--language` are represented by this struct.
+//   "field_alternative_title": {
+//    "data": [
+//      {
+//        "type": "taxonomy_term--language",
+//        "id": "7397e0c4-df0a-4800-95af-afccc6ff64a5",
+//        "meta": {
+//          "value": "Moonrise Over Hernandez"
+//        }
+//      },
+//      {
+//        "type": "taxonomy_term--language",
+//        "id": "bacfc5b6-b4b9-4239-8744-46dca6a91f0e",
+//        "meta": {
+//          "value": "Salida de la luna sobre Hernández"
+//        }
+//      }
+//    ],
+//    "links": {
+//      "related": {
+//        "href": "http://islandora-idc.traefik.me/jsonapi/node/islandora_object/815a4c04-0be5-44f1-a876-e8ddc11dcf21/field_alternative_title?resourceVersion=id%3A48"
+//      },
+//      "self": {
+//        "href": "http://islandora-idc.traefik.me/jsonapi/node/islandora_object/815a4c04-0be5-44f1-a876-e8ddc11dcf21/relationships/field_alternative_title?resourceVersion=id%3A48"
+//      }
+//    }
+//  }
+type JsonApiLanguageValue struct {
+	t    assert.TestingT
+	Type DrupalType
+	Id   string
+	Meta struct {
+		Value string
+	}
+}
+
+// Answers the language code of the value string by resolving the Language Taxonomy entity identified in the
+// JsonApiLanguageValue
+func (lv JsonApiLanguageValue) langCode(t *testing.T) string {
+	u := JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: lv.Type.entity(),
+		drupalBundle: lv.Type.bundle(),
+		filter:       "id",
+		value:        lv.Id,
+	}
+
+	jsonApiLang := JsonApiLanguage{}
+	u.get(&jsonApiLang)
+	return jsonApiLang.JsonApiData[0].JsonApiAttributes.LanguageCode
+}
+
+// Answers the value of the string, the language of which is provided by langCode(...)
+func (lv JsonApiLanguageValue) value() string {
+	return lv.Meta.Value
 }

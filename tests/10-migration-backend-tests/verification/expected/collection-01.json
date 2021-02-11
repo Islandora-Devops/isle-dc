@@ -1,41 +1,44 @@
 {
-  "type": "Collection",
-  "title": "Collection One",
-  "description": "Photos by Ansel Adams",
-  "member_of": [
-    "<id of collection or item>"
-  ],
-  "subjects": [
-    "<string 1>",
-    "<string 2>"
-  ],
-  "authority": [
-
-  ],
-
-  "display_hint": [
-
-  ],
-
-  "name": "",
-  "use": [
-
-  ],
-  "url": "",
-  "alt_titles": [
+  "type": "node",
+  "bundle": "collection_object",
+  "title": "Test Collection One",
+  "title_language": "eng",
+  "alternative_title": [
     {
-      "value": "alt title 1",
+      "value": "Titre alternatif pour Test Collection One",
+      "language": "fre"
+    },
+    {
+      "value": "Alternate Title for Test Collection One",
+      "language": "eng"
+    }
+  ],
+  "description": [
+    {
+      "value": "This is a description for Test Collection One",
       "language": "eng"
     },
     {
-      "value": "alt title 2",
-      "language": "ger"
+      "value": "Esta es una descripción de la colección de pruebas uno",
+      "language": "spa"
     }
   ],
-  "linked_agents": [
+  "contact_email": "emetsger@gmail.com",
+  "contact_name": "Elliot Metsger",
+  "collection_number": [
+    "1", "2"
+  ],
+  "member_of": [
+    "Parent Collection"
+  ],
+  "finding_aid": [
     {
+      "uri": "http://wikipedia.org",
+      "title": "Wikipedia"
     },
     {
+      "uri": "http://www.google.com",
+      "title": "Google"
     }
   ]
 }

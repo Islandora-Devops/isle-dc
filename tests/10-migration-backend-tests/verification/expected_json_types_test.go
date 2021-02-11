@@ -213,3 +213,27 @@ type ExpectedLanguage struct {
 		Processed string
 	}
 }
+
+// Represents the expected results of a migrated Collection entity
+type ExpectedCollection struct {
+	Type          string
+	Bundle        string
+	Title         string
+	TitleLangCode string `json:"title_language"`
+	AltTitle      []struct {
+		Value    string
+		LangCode string `json:"language"`
+	} `json:"alternative_title"`
+	Description []struct {
+		Value    string
+		LangCode string `json:"language"`
+	}
+	ContactEmail     string   `json:"contact_email"`
+	ContactName      string   `json:"contact_name"`
+	CollectionNumber []string `json:"collection_number"`
+	MemberOf         []string `json:"member_of"`
+	FindingAid       []struct {
+		Uri   string
+		Title string
+	}
+}

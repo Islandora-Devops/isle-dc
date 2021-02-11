@@ -14,19 +14,144 @@ source:
   ids:
     - local_id
   path: 'Will be populated by the Migrate Source UI'
-  constants:
-    COLLECTION_MODEL_NAME: Collection
 process:
-  title: name
-  field_description: description
-  field_model:
+  title: title
+  field_collection_contact_email: contact_email
+  field_collection_contact_name: contact_name
+  field_collection_number:
+    plugin: explode
+    source: collection_number
+    delimiter: '|'
+    strict: false
+  field_finding_aid:
+    -
+      plugin: explode
+      source: finding_aid
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
+      process:
+        uri:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            delimiter: ';'
+          -
+            plugin: extract
+            index:
+              - 0
+        title:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            delimiter: ';'
+          -
+            plugin: extract
+            index:
+              - 1
+  field_description:
+    -
+      plugin: explode
+      source: description
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
+      process:
+        value:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            delimiter: ';'
+          -
+            plugin: extract
+            index:
+              - 0
+        target_id:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            delimiter: ';'
+          -
+            plugin: extract
+            index:
+              - 1
+          -
+            plugin: entity_lookup
+            entity_type: taxonomy_term
+            bundle: language
+            bundle_key: vid
+            value_key: field_language_code
+  field_member_of:
+    plugin: migration_lookup
+    migration: idc_ingest_new_collection
+    source: member_of
+  field_title_language:
     plugin: entity_lookup
-    bundle_key: vid
-    bundle: islandora_models
+    source: title_language
     entity_type: taxonomy_term
-    value_key: name
-    source: constants/COLLECTION_MODEL_NAME
+    bundle: language
+    bundle_key: vid
+    value_key: field_language_code
+  field_alternative_title:
+    -
+      plugin: explode
+      source: alternative_title
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
+      process:
+        value:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            delimiter: ';'
+          -
+            plugin: extract
+            index:
+              - 0
+        target_id:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            delimiter: ';'
+          -
+            plugin: extract
+            index:
+              - 1
+          -
+            plugin: entity_lookup
+            entity_type: taxonomy_term
+            bundle: language
+            bundle_key: vid
+            value_key: field_language_code
 destination:
   plugin: 'entity:node'
-  default_bundle: islandora_object
+  default_bundle: collection_object
 migration_dependencies: null
