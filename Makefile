@@ -323,6 +323,7 @@ demo:
 	$(MAKE) drupal-database
 	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql
 	$(MAKE) hydrate
+	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
 	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz
 	$(MAKE) reindex-fcrepo-metadata
 	$(MAKE) reindex-solr
