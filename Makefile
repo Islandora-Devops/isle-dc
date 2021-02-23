@@ -108,19 +108,19 @@ endif
 .PHONY: drupal-database
 .SILENT: drupal-database
 drupal-database:
-	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_database"
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_database"
 
 # Installs drupal site(s) using environment variables.
 .PHONY: install
 .SILENT: install
 install: drupal-database
-	docker-compose exec drupal with-contenv bash -lc "for_all_sites install_site"
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites install_site"
 
 # Updates settings.php according to the environment variables.
 .PHONY: update-settings-php
 .SILENT: update-settings-php
 update-settings-php:
-	docker-compose exec drupal with-contenv bash -lc "for_all_sites update_settings_php"
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
 	# Make sure the host user can read the settings.php files after they have been updated.
 	sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;
 
@@ -129,76 +129,76 @@ update-settings-php:
 .PHONY: update-config-from-environment
 .SILENT: update-config-from-environment
 update-config-from-environment:
-	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
-	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_jwt_module"
-	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
-	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
-	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_jwt_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
 
 # Runs migrations of islandora
 .PHONY: run-islandora-migrations
 .SILENT: run-islandora-migrations
 run-islandora-migrations:
-	docker-compose exec drupal with-contenv bash -lc "for_all_sites import_islandora_migrations"
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites import_islandora_migrations"
 
 # Creates solr-cores according to the environment variables.
 .PHONY: solr-cores
 .SILENT: solr-cores
 solr-cores:
-	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
 
 # Creates namespaces in Blazegraph according to the environment variables.
 .PHONY: namespaces
 .SILENT: namespaces
 namespaces:
-	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_blazegraph_namespace_with_default_properties"
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_blazegraph_namespace_with_default_properties"
 
 # Reconstitute the site from environment variables.
 .PHONY: hydrate
 .SILENT: hydrate
 hydrate: update-settings-php update-config-from-environment solr-cores namespaces run-islandora-migrations
-	docker-compose exec drupal drush cr -y
+	docker-compose exec -T drupal drush cr -y
 
 # Created by the standard profile, need to be deleted to import a site that was
 # created with the standard profile.
 .PHONY: delete-shortcut-entities
 .SILENT: delete-shortcut-entities
 delete-shortcut-entities:
-	docker-compose exec drupal drush -l $(SITE) entity:delete shortcut_set
+	docker-compose exec -T drupal drush -l $(SITE) entity:delete shortcut_set
 
 # Forces the site uuid to match that in the config_sync_directory so that 
 # configuration can be imported.
 .PHONY: set-site-uuid
 .SILENT: set-site-uuid
 set-site-uuid:
-	docker-compose exec drupal with-contenv bash -lc "set_site_uuid"
+	docker-compose exec -T drupal with-contenv bash -lc "set_site_uuid"
 
 # RemovesForces the site uuid to match that in the config_sync_directory so that 
 # configuration can be imported.
 .PHONY: remove_standard_profile_references_from_config
 .SILENT: remove_standard_profile_references_from_config
 remove_standard_profile_references_from_config:
-	docker-compose exec drupal with-contenv bash -lc "remove_standard_profile_references_from_config"
+	docker-compose exec -T drupal with-contenv bash -lc "remove_standard_profile_references_from_config"
 
 # Exports the sites configuration.
 .PHONY: config-export
 .SILENT: config-export
 config-export:
-	docker-compose exec drupal drush -l $(SITE) config:export -y
+	docker-compose exec -T drupal drush -l $(SITE) config:export -y
 
 # Import the sites configuration.
 # N.B You may need to run this multiple times in succession due to errors in the configurations dependencies.
 .PHONY: config-import
 .SILENT: config-import
 config-import: set-site-uuid delete-shortcut-entities
-	docker-compose exec drupal drush -l $(SITE) config:import -y
+	docker-compose exec -T drupal drush -l $(SITE) config:import -y
 
 # Dump database.
 drupal-database-dump: $(DEST)
 ifndef DEST
 	$(error DEST is not set)
 endif
-	docker-compose exec drupal with-contenv bash -lc 'mysqldump -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} > /tmp/dump.sql'
+	docker-compose exec -T drupal with-contenv bash -lc 'mysqldump -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} > /tmp/dump.sql'
 	docker cp $$(docker-compose ps -q drupal):/tmp/dump.sql $(DEST)
 
 # Import database.
@@ -208,13 +208,13 @@ ifndef SRC
 endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/dump.sql
 	# Need to specify the root user to import the database otherwise it will fail due to permissions.
-	docker-compose exec drupal with-contenv bash -lc 'chown root:root /tmp/dump.sql && mysql -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} < /tmp/dump.sql'
+	docker-compose exec -T drupal with-contenv bash -lc 'chown root:root /tmp/dump.sql && mysql -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} < /tmp/dump.sql'
 
 drupal-public-files-dump: $(DEST)
 ifndef DEST
 	$(error DEST is not set)
 endif
-	docker-compose exec drupal with-contenv bash -lc 'tar zcvf /tmp/public-files.tgz /var/www/drupal/web/sites/default/files'
+	docker-compose exec -T drupal with-contenv bash -lc 'tar zcvf /tmp/public-files.tgz /var/www/drupal/web/sites/default/files'
 	docker cp $$(docker-compose ps -q drupal):/tmp/public-files.tgz $(DEST)
 
 drupal-public-files-import: $(SRC)
@@ -222,15 +222,15 @@ ifndef SRC
 	$(error SRC is not set)
 endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/public-files.tgz
-	docker-compose exec drupal with-contenv bash -lc 'tar zxvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files && chown -R nginx:nginx /var/www/drupal/web/sites/default/files && rm /tmp/public-files.tgz'
+	docker-compose exec -T drupal with-contenv bash -lc 'tar zxvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files && chown -R nginx:nginx /var/www/drupal/web/sites/default/files && rm /tmp/public-files.tgz'
 
 # Dump fcrepo.
 fcrepo-export: $(DEST)
 ifndef DEST
 	$(error DEST is not set)
 endif
-	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode export -r http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
-	docker-compose exec fcrepo with-contenv bash -lc 'cd /tmp && tar zcvf fcrepo-export.tgz fcrepo-export'
+	docker-compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode export -r http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
+	docker-compose exec -T fcrepo with-contenv bash -lc 'cd /tmp && tar zcvf fcrepo-export.tgz fcrepo-export'
 	docker cp $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz $(DEST)
 
 # Import fcrepo.
@@ -241,35 +241,35 @@ endif
 	$(MAKE) -B docker-compose.yml DISABLE_SYN=true
 	docker-compose up -d fcrepo
 	docker cp $(SRC) $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz
-	docker-compose exec fcrepo with-contenv bash -lc 'cd /tmp && tar zxvf fcrepo-export.tgz && chown -R tomcat:tomcat fcrepo-export && rm fcrepo-export.tgz'
+	docker-compose exec -T fcrepo with-contenv bash -lc 'cd /tmp && tar zxvf fcrepo-export.tgz && chown -R tomcat:tomcat fcrepo-export && rm fcrepo-export.tgz'
 ifeq ($(FEDORA_6), true)
-	docker-compose exec fcrepo with-contenv bash -lc 'java -jar fcrepo-upgrade-utils-6.0.0-alpha-2.jar -i /tmp/fcrepo-export -o /data/home -s 5+ -t 6+ -u http://${DOMAIN}:8081/fcrepo/rest && chown -R tomcat:tomcat /data/home'
+	docker-compose exec -T fcrepo with-contenv bash -lc 'java -jar fcrepo-upgrade-utils-6.0.0-alpha-2.jar -i /tmp/fcrepo-export -o /data/home -s 5+ -t 6+ -u http://${DOMAIN}:8081/fcrepo/rest && chown -R tomcat:tomcat /data/home'
 ifeq ($(FCREPO_DATABASE_SERVICE), postgresql)
 	$(error Postgresql not implemented yet in fcrepo-import)
 else
-	docker-compose exec fcrepo with-contenv bash -lc 'mysql -u $${FCREPO_DB_ROOT_USER} -p$${FCREPO_DB_ROOT_PASSWORD} -h $${FCREPO_DB_HOST} -e "DROP DATABASE $${FCREPO_DB_NAME}"'
+	docker-compose exec -T fcrepo with-contenv bash -lc 'mysql -u $${FCREPO_DB_ROOT_USER} -p$${FCREPO_DB_ROOT_PASSWORD} -h $${FCREPO_DB_HOST} -e "DROP DATABASE $${FCREPO_DB_NAME}"'
 endif
 else
-	docker-compose exec fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${TOMCAT_ADMIN_NAME}:$${TOMCAT_ADMIN_PASSWORD}'
+	docker-compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.0.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${TOMCAT_ADMIN_NAME}:$${TOMCAT_ADMIN_PASSWORD}'
 endif
 	$(MAKE) -B docker-compose.yml
 	docker-compose up -d fcrepo
 
 reindex-fcrepo-metadata:
 	# Re-index RDF in Fedora
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec non_fedora_files emit_file_event --configuration="queue=islandora-indexing-fcrepo-file-external&event=Update"'
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec all_taxonomy_terms emit_term_event --configuration="queue=islandora-indexing-fcrepo-content&event=Update"'
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-fcrepo-content&event=Update"'
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-fcrepo-media&event=Update"'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec non_fedora_files emit_file_event --configuration="queue=islandora-indexing-fcrepo-file-external&event=Update"'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec all_taxonomy_terms emit_term_event --configuration="queue=islandora-indexing-fcrepo-content&event=Update"'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-fcrepo-content&event=Update"'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-fcrepo-media&event=Update"'
 
 reindex-solr:
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} search-api-reindex'
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} search-api-index'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} search-api-reindex'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} search-api-index'
 
 reindex-triplestore:
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec all_taxonomy_terms emit_term_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec all_taxonomy_terms emit_term_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: generate-jwt-keys
@@ -323,7 +323,7 @@ demo:
 	$(MAKE) drupal-database
 	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql
 	$(MAKE) hydrate
-	docker-compose exec drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
 	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz
 	$(MAKE) reindex-fcrepo-metadata
 	$(MAKE) reindex-solr
@@ -342,10 +342,10 @@ local:
 		docker container run --rm -v $(CURDIR)/codebase:/home/root local/nginx with-contenv bash -lc 'composer create-project drupal/recommended-project:^8.9 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush; composer require drupal/search_api_solr:^4.0'; \
 	fi
 	docker-compose up -d
-	docker-compose exec drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
-	docker-compose exec drupal with-contenv bash -lc 'drush -y en islandora search_api_solr'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush -y en islandora search_api_solr'
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 
