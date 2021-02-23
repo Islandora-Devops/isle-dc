@@ -317,6 +317,7 @@ demo:
 	$(MAKE) download-default-certs
 	$(MAKE) docker-compose.yml
 	$(MAKE) pull
+	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
 	$(MAKE) update-settings-php
 	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz
@@ -337,7 +338,7 @@ local:
 	$(MAKE) download-default-certs ENVIROMENT=local
 	$(MAKE) docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
-	mkdir -p ./codebase
+	mkdir -p $(CURDIR)/codebase
 	if [ -z "$(ls -A ./codebase)" ]; then \
 		docker container run --rm -v $(CURDIR)/codebase:/home/root local/nginx with-contenv bash -lc 'composer create-project drupal/recommended-project:^8.9 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush; composer require drupal/search_api_solr:^4.0'; \
 	fi
