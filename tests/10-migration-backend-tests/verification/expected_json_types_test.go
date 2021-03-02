@@ -24,20 +24,15 @@ func (t DrupalType) bundle() string {
 type ExpectedPerson struct {
 	Type          string
 	Bundle        string
-	Title         string
-	FirstName     string `json:"first_name"`
-	MiddleName    string `json:"middle_name"`
-	LastName      string `json:"last_name"`
-	Suffix        string
-	Number        string
-	AltTitle      string `json:"alt_title"`
-	AltFirstName  string `json:"alt_first_name"`
-	AltMiddleName string `json:"alt_middle_name"`
-	AltLastName   string `json:"alt_last_name"`
-	AltSuffix     string `json:"alt_suffix"`
-	AltNumber     string `json:"alt_number"`
-	Born          string
-	Died          string
+	Name          string `json:"name"`
+	PrimaryName   string `json:"primary_name"`
+	RestOfName    []string `json:"rest_of_name"`
+	FullerForm    []string `json:"fuller_form"`
+	Prefix        []string
+	Suffix        []string
+	Number        []string
+	AltName       []string `json:"alt_name"`
+	Date          []string
 	Knows         []string
 	Authority     []struct {
 		Uri  string
@@ -232,7 +227,7 @@ type ExpectedCollection struct {
 	ContactName      string   `json:"contact_name"`
 	CollectionNumber []string `json:"collection_number"`
 	MemberOf         []string `json:"member_of"`
-	FindingAid       []struct {
+	FindingAid       struct {
 		Uri   string
 		Title string
 	}
@@ -249,15 +244,11 @@ type ExpectedCorporateBody struct {
 		Processed string
 	}
 	PrimaryName        string `json:"primary_name"`
-	SubordinateName    string `json:"subordinate_name"`
-	DateOfMeeting      string `json:"date_of_meeting_or_treaty"`
-	Location           string `json:"location_of_meeting"`
-	NumberOrSection    string `json:"num_of_section_or_meet"`
-	AltDate            string `json:"alt_date_of_meeting"`
-	AltLocation        string `json:"alt_location_of_meeting"`
-	AltNumberOrSection string `json:"alt_number_of_section_or_meeting"`
-	AltPrimaryName     string `json:"alt_primary_name"`
-	AltSubordinateName string `json:"alt_subordinate_name"`
+	SubordinateName    []string `json:"subordinate_name"`
+	DateOfMeeting      []string `json:"date_of_meeting_or_treaty"`
+	Location           []string `json:"location_of_meeting"`
+	NumberOrSection    []string `json:"num_of_section_or_meet"`
+	AltName            []string `json:"corporate_body_alternate_name"`
 	Authority          []struct {
 		Uri    string
 		Title  string

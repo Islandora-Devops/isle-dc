@@ -15,7 +15,7 @@ field_name: field_contributor
 entity_type: node
 bundle: islandora_object
 label: Contributor
-description: '<b>Optional.</b> If available, record one or more agents (people, corporate bodies, or families) responsible for making contributions to the resource. Use or add names from Person, Corporate Body, or Family taxonomies. If known, indicate a more specific role of the contributor agent for the resource. For example, an agent may be linked as a "contributor" to a resource with the more specific role of "editor."'
+description: '<b>Optional.</b> If available, record one or more agents (people, corporate bodies, or families) responsible for making contributions to the resource. Use or add names from <a href="/admin/structure/taxonomy/manage/person/overview" target="_blank">Person</a>, <a href="/admin/structure/taxonomy/manage/corporate_body/overview" target="_blank">Corporate Body</a>, or <a href="/admin/structure/taxonomy/manage/family/overview" target="_blank">Family</a> taxonomies. If known, indicate a more specific role of the contributor agent for the resource. For example, an agent may be linked as a "contributor" to a resource with the more specific role of "editor."'
 required: false
 translatable: false
 default_value: {  }

@@ -12,12 +12,12 @@ field_name: field_finding_aid
 entity_type: node
 bundle: collection_object
 label: 'Finding Aid'
-description: 'A link to the relevant finding aid record in Johns Hopkins Libraries'' instance of <a href="https://aspace.library.jhu.edu/">ArchivesSpace</a>.'
+description: 'A link to the relevant finding aid record in Johns Hopkins Libraries'' instance of <a href="https://aspace.library.jhu.edu/" target="_blank">ArchivesSpace</a>.'
 required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
   link_type: 16
-  title: 1
+  title: 0
 field_type: link

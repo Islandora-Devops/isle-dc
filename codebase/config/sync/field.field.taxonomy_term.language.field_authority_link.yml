@@ -14,7 +14,7 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: language
 label: 'Authority Sources'
-description: "Select the authority source that contains the selected language.\r\n\r\nFor URL: please enter the stable URI that represents the selected language. Example: http://id.loc.gov/vocabulary/languages/fre"
+description: "Select the authority source that contains the selected language.\r\n\r\nFor URL: please enter the stable URI that represents the selected language. Example: http://id.loc.gov/vocabulary/languages/fre\r\n\r\nSource Information: <a href=\"https://id.loc.gov/vocabulary/iso639-2.html\" target=\"_blank\">ISO-639-2b</a>"
 required: false
 translatable: false
 default_value: {  }

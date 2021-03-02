@@ -1,3 +1,3 @@
 local_id,name,family_name,title_and_other_words,date,authority,relationships,description
-family-01,Hatfields,Hatfield,Hatfield Title,1863|1891,https://en.wikipedia.org/wiki/Hatfield%E2%80%93McCoy_feud;Wikipedia;other|http://www.google.com;Google Alt Link;other,,<p>Hatfield description</p>
-family-02,McCoy,McCoy,McCoy Title,1863|1891,https://en.wikipedia.org/wiki/Hatfield%E2%80%93McCoy_feud;Wikipedia;other|http://www.google.com;Google Alt Link;other,,<p>McCoy description</p>
+family-01,Hatfields,Hatfield,Hatfield Title,1863|1891,https://en.wikipedia.org/wiki/Hatfield%E2%80%93McCoy_feud;other|http://www.google.com;other,,<p>Hatfield description</p>
+family-02,McCoy,McCoy,McCoy Title,1863|1891,https://en.wikipedia.org/wiki/Hatfield%E2%80%93McCoy_feud;other|http://www.google.com;other,,<p>McCoy description</p>

@@ -13,7 +13,7 @@ field_name: field_language
 entity_type: node
 bundle: islandora_object
 label: Language
-description: '<b>Optional</b>. If applicable, record the language(s) represented in the resource described. Please use or add terms from the <a href="/admin/structure/taxonomy/manage/language/overview">Language taxonomy)</a>.'
+description: '<b>Optional</b>. If applicable, record the language(s) represented in the resource described. Use term(s) from the <a href="/admin/structure/taxonomy/manage/language/overview" target="_blank">Language</a> taxonomy.'
 required: false
 translatable: false
 default_value: {  }

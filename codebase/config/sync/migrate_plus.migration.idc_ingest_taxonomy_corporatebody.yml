@@ -16,16 +16,47 @@ source:
   path: 'Will be populated by the Migrate Source UI'
 process:
   name: name
-  field_date_of_meeting_or_treaty: date_of_meeting_or_treaty
-  field_location_of_meeting: location_of_meeting
-  field_num_of_section_or_meet: num_of_section_or_meet
+  field_date_of_meeting_or_treaty:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: date_of_meeting_or_treaty
+    -
+      plugin: explode
+      delimiter: '|'
+  field_location_of_meeting:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: location_of_meeting
+    -
+      plugin: explode
+      delimiter: '|'
+  field_num_of_section_or_meet:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: num_of_section_or_meet
+    -
+      plugin: explode
+      delimiter: '|'
   field_primary_name: primary_name
-  field_subordinate_name: subordinate_name
-  field_alt_date_of_meeting: alt_date_of_meeting
-  field_alt_location_of_meeting: alt_location_of_meeting
-  field_alt_num_of_section_or_meet: alt_number_of_section_or_meeting
-  field_alt_primary_name: alt_primary_name
-  field_alt_subordinate_name: alt_subordinate_name
+  field_subordinate_name:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: subordinate_name
+    -
+      plugin: explode
+      delimiter: '|'
+  field_corporate_body_alt_name:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: corporate_body_alt_name
+    -
+      plugin: explode
+      delimiter: '|'
   description/value: description
   description/format:
     plugin: default_value
@@ -54,19 +85,6 @@ process:
             plugin: extract
             index:
               - 0
-        title:
-          -
-            plugin: skip_on_empty
-            method: process
-            source: value
-          -
-            plugin: explode
-            source: value
-            delimiter: ;
-          -
-            plugin: extract
-            index:
-              - 1
         source:
           -
             plugin: skip_on_empty
@@ -79,7 +97,7 @@ process:
           -
             plugin: extract
             index:
-              - 2
+              - 1
   field_date:
     -
       plugin: skip_on_empty
@@ -108,7 +126,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ';'
+            delimiter: ;
           -
             plugin: extract
             index:
@@ -124,7 +142,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ';'
+            delimiter: ;
           -
             plugin: extract
             index:

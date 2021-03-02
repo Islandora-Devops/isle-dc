@@ -1,15 +1,15 @@
-uuid: b188de0b-4de1-4bce-b86d-387b63aa273c
+uuid: 1a5f5b16-baaa-490f-a8cc-bea60d047c54
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.taxonomy_term.field_alt_preferred_name_rest
+    - field.storage.taxonomy_term.field_person_alternate_name
     - taxonomy.vocabulary.person
-id: taxonomy_term.person.field_alt_preferred_name_rest
-field_name: field_alt_preferred_name_rest
+id: taxonomy_term.person.field_person_alternate_name
+field_name: field_person_alternate_name
 entity_type: taxonomy_term
 bundle: person
-label: 'Person Alternate Name: Rest of Name'
+label: 'Person Alternate Name'
 description: ''
 required: false
 translatable: false

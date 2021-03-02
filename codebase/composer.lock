@@ -5200,17 +5200,17 @@
         },
         {
             "name": "drupal/token",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/token.git",
-                "reference": "8.x-1.8"
+                "reference": "8.x-1.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/token-8.x-1.8.zip",
-                "reference": "8.x-1.8",
-                "shasum": "f8e3b8f897817969324d88019438066b533bfe42"
+                "url": "https://ftp.drupal.org/files/projects/token-8.x-1.9.zip",
+                "reference": "8.x-1.9",
+                "shasum": "a5d234382a1a0e4ba61d4c7a2fa10671ca656be4"
             },
             "require": {
                 "drupal/core": "^8.8 || ^9"
@@ -5218,8 +5218,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.8",
-                    "datestamp": "1607552423",
+                    "version": "8.x-1.9",
+                    "datestamp": "1608284866",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6447,12 +6447,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/controlled_access_terms.git",
-                "reference": "ea1d9910f093c2f8e08570ff2cfc4a97a64b7c1f"
+                "reference": "bf962a8bbbe32ae6a1c27e9753ab9d4981042db9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/controlled_access_terms/zipball/ea1d9910f093c2f8e08570ff2cfc4a97a64b7c1f",
-                "reference": "ea1d9910f093c2f8e08570ff2cfc4a97a64b7c1f",
+                "url": "https://api.github.com/repos/jhu-idc/controlled_access_terms/zipball/bf962a8bbbe32ae6a1c27e9753ab9d4981042db9",
+                "reference": "bf962a8bbbe32ae6a1c27e9753ab9d4981042db9",
                 "shasum": ""
             },
             "require": {
@@ -6494,7 +6494,7 @@
                 "issues": "https://github.com/jhu-idc/controlled_access_terms/issues",
                 "source": "https://github.com/jhu-idc/controlled_access_terms/tree/8.x-1.x"
             },
-            "time": "2021-01-25T18:22:41+00:00"
+            "time": "2021-02-22T22:01:08+00:00"
         },
         {
             "name": "jhu-idc/idc-ui-theme",
@@ -6543,12 +6543,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/islandora_defaults.git",
-                "reference": "bcef380db3ca17f940530cf28eb73dc57c6a62b4"
+                "reference": "9e903bb14eabd7552e794114853373c8e46aff8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/bcef380db3ca17f940530cf28eb73dc57c6a62b4",
-                "reference": "bcef380db3ca17f940530cf28eb73dc57c6a62b4",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/9e903bb14eabd7552e794114853373c8e46aff8f",
+                "reference": "9e903bb14eabd7552e794114853373c8e46aff8f",
                 "shasum": ""
             },
             "require": {
@@ -6574,7 +6574,7 @@
                 "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
                 "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
             },
-            "time": "2021-01-21T19:32:30+00:00"
+            "time": "2021-02-22T20:31:02+00:00"
         },
         {
             "name": "jhu-idc/reference_value_pair",

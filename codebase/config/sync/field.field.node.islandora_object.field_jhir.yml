@@ -12,7 +12,7 @@ field_name: field_jhir
 entity_type: node
 bundle: islandora_object
 label: JHIR
-description: 'Legacy item citable URI from DSpace.'
+description: '<b>Optional.</b> Record a legacy item''s citable URI from DSpace.'
 required: false
 translatable: false
 default_value: {  }

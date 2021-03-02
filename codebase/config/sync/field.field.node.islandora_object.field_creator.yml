@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_creator
     - node.type.islandora_object
+    - taxonomy.vocabulary.corporate_body
     - taxonomy.vocabulary.family
     - taxonomy.vocabulary.person
   module:
@@ -14,7 +15,7 @@ field_name: field_creator
 entity_type: node
 bundle: islandora_object
 label: Creator
-description: '<b>Required if known.</b> Record one or more agents (people, corporate bodies, or families) responsible for making the resource. Use or add names from Person, Corporate Body, or Family taxonomies. If known, indicate a more specific role of the creator agent for the resource. For example, an agent may be linked as a "creator" to a resource with the more specific role of "illustrator."'
+description: '<b>Required if known.</b> Record one or more agents (people, corporate bodies, or families) responsible for making the resource. Use or add names from <a href="/admin/structure/taxonomy/manage/person/overview" target="_blank">Person</a>, <a href="/admin/structure/taxonomy/manage/corporate_body/overview" target="_blank">Corporate Body</a>, or <a href="/admin/structure/taxonomy/manage/family/overview" target="_blank">Family</a> taxonomies. If known, indicate a more specific role of the creator agent for the resource. For example, an agent may be linked as a "creator" to a resource with the more specific role of "illustrator."'
 required: false
 translatable: false
 default_value: {  }
@@ -23,6 +24,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
+      corporate_body: corporate_body
       family: family
       person: person
     sort:

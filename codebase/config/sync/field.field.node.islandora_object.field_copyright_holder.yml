@@ -13,7 +13,7 @@ field_name: field_copyright_holder
 entity_type: node
 bundle: islandora_object
 label: 'Copyright Holder'
-description: '<b>Optional</b>.'
+description: "<b>Optional</b>.   If applicable, record one or more agents (people, corporate bodies, or families) owning or managing rights over the resource. Use term(s) from the <a href=\"/admin/structure/taxonomy/manage/person/overview\" target=\"_blank\">Person</a>, <a href=\"/admin/structure/taxonomy/manage/corporate_body/overview\" target=\"_blank\">Corporate Body</a>, or <a href=\"/admin/structure/taxonomy/manage/family/overview\" target=\"_blank\">Family</a> taxonomies.\r\n"
 required: false
 translatable: false
 default_value: {  }

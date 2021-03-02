@@ -10,7 +10,7 @@ field_name: field_collection_number
 entity_type: node
 bundle: islandora_object
 label: 'Collection Number'
-description: '<b>Optional.</b> If available, record the relevant collection number as written in Johns Hopkins Libraries'' instance of <a href="https://aspace.library.jhu.edu/">ArchivesSpace</a>.'
+description: '<b>Optional.</b> If applicable, record the relevant collection number as written in Johns Hopkins Libraries'' instance of <a href="https://aspace.library.jhu.edu/" target="_blank">ArchivesSpace</a>. Example: RG.14.050'
 required: false
 translatable: true
 default_value: {  }

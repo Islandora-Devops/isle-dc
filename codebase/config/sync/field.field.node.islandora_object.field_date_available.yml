@@ -12,7 +12,7 @@ field_name: field_date_available
 entity_type: node
 bundle: islandora_object
 label: 'Date Available'
-description: "<b>Required.</b>Record date that the resource became or will become digitally available for public-viewing.\r\n\r\nPlease use the format YYYY-MM-DD or  YYYY-MM or YYYY \r\n(<a href=\"https://www.loc.gov/standards/datetime/\">EDTF</a>)."
+description: "<b>Required.</b>  Record date that the resource became or will become digitally available for public-viewing.\r\nUse the format YYYY-MM-DD or  YYYY-MM or YYYY  (<a href=\"https://www.loc.gov/standards/datetime/\" target=\"_blank\">EDTF</a>)."
 required: true
 translatable: false
 default_value: {  }

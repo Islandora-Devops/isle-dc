@@ -6,19 +6,15 @@ dependencies:
     - field.storage.node.field_copyright_and_use
     - node.type.islandora_object
     - taxonomy.vocabulary.copyright_and_use
-  content:
-    - 'taxonomy_term:copyright_and_use:e6a6c853-72e2-4ba1-b3c0-7ecb6f119cad'
 id: node.islandora_object.field_copyright_and_use
 field_name: field_copyright_and_use
 entity_type: node
 bundle: islandora_object
 label: 'Copyright and Use'
-description: '<b>Required.</b>'
+description: '<b>Required.</b> Select a RightsStatement.org statement about various property rights associated with the resource, including intellectual property rights. Term(s) from the <a href="/admin/structure/taxonomy/manage/copyright_and_use/overview" target="_blank">Copyright and Use</a> taxonomy.'
 required: true
 translatable: false
-default_value:
-  -
-    target_uuid: e6a6c853-72e2-4ba1-b3c0-7ecb6f119cad
+default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'

@@ -7,7 +7,7 @@ dependencies:
     - node.type.islandora_object
     - taxonomy.vocabulary.language
   content:
-    - 'taxonomy_term:language:547638db-bb79-43e2-abd5-5d601b7bc61b'
+    - 'taxonomy_term:language:7397e0c4-df0a-4800-95af-afccc6ff64a5'
 id: node.islandora_object.field_title_language
 field_name: field_title_language
 entity_type: node
@@ -18,7 +18,7 @@ required: false
 translatable: false
 default_value:
   -
-    target_uuid: 547638db-bb79-43e2-abd5-5d601b7bc61b
+    target_uuid: 7397e0c4-df0a-4800-95af-afccc6ff64a5
 default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'

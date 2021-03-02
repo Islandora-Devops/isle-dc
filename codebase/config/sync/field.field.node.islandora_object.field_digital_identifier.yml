@@ -10,7 +10,7 @@ field_name: field_digital_identifier
 entity_type: node
 bundle: islandora_object
 label: 'Digital Identifier'
-description: '<b>Optional</b>. If available, record relevant external (non-Islandora) digital identifiers.'
+description: "<b>Optional</b>.  If available, record relevant external (non-Islandora) digital identifiers. Example: jhu_coll-0002_03359\r\n"
 required: false
 translatable: false
 default_value: {  }

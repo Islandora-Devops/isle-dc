@@ -10,7 +10,7 @@ field_name: field_extent
 entity_type: node
 bundle: islandora_object
 label: Extent
-description: 'Optional. If available, record the number of units and type of unit. (eg 50 pages, 5 photographs, 1 video file)'
+description: '<b>Optional.</b> If available, record the number of units and type of unit. Examples include 50 pages, 5 photographs, 1 video file.'
 required: false
 translatable: false
 default_value: {  }

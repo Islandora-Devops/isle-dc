@@ -11,7 +11,7 @@ field_name: field_publisher_country
 entity_type: node
 bundle: islandora_object
 label: 'Publisher Country'
-description: '<b>Optional</b>. If available, record the country where the resource was published. Please use or add terms from the <a href="/admin/structure/taxonomy/manage/geo_location/overview">Geographic Location taxonomy</a>.'
+description: '<b>Optional</b>. If available, record the country where the resource was published. Please use or add terms from the <a href="/admin/structure/taxonomy/manage/geo_location/overview" target="_blank">Geographic Location</a> taxonomy.'
 required: false
 translatable: false
 default_value: {  }

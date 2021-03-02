@@ -13,7 +13,7 @@ field_name: field_genre
 entity_type: node
 bundle: islandora_object
 label: Genre/Form
-description: '<b>Optional.</b>'
+description: '<b>Optional.</b> Record 1 or more term(s) that describe what an item is, not what it is about. Use term(s) from the <a href="/admin/structure/taxonomy/manage/genre/overview" target="_blank">Genre/Form</a> taxonomy.'
 required: false
 translatable: false
 default_value: {  }

@@ -10,7 +10,7 @@ field_name: field_preferred_name_prefix
 entity_type: taxonomy_term
 bundle: person
 label: 'Person Preferred Name: Prefix'
-description: 'Any term associated with a name that in normative use would precede the entire name. Found in the $c subfield in MARC.'
+description: 'Term(s) like prefixes and honorary titles that in normative use would precede the entire name. Found in the 100 $c subfield in MARC.'
 required: false
 translatable: false
 default_value: {  }

@@ -12,8 +12,8 @@ field_name: field_years
 entity_type: node
 bundle: islandora_object
 label: Years
-description: "This field is only used for Solr indexing and will not show up on the end-users view. \r\nEnter one year only: YYYY"
-required: false
+description: "<b>Required.</b> This field is only used for Solr indexing and will not show up to end-users. Enter one year (YYYY) only per field, repeating field if necessary. See full instructions at [link].\r\n"
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

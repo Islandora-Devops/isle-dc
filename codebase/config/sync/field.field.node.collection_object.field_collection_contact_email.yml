@@ -9,7 +9,7 @@ id: node.collection_object.field_collection_contact_email
 field_name: field_collection_contact_email
 entity_type: node
 bundle: collection_object
-label: 'Collection Contact email'
+label: 'Collection Contact Email'
 description: 'Email address of person one can contact to ask questions to about the collection and its items.'
 required: false
 translatable: false

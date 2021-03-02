@@ -12,7 +12,7 @@ field_name: field_date
 entity_type: taxonomy_term
 bundle: corporate_body
 label: Date
-description: 'A date in <a href="https://www.loc.gov/standards/datetime/">EDTF format</a>.'
+description: 'A date in <a href="https://www.loc.gov/standards/datetime/" target="_blank">EDTF</a>.'
 required: false
 translatable: false
 default_value: {  }

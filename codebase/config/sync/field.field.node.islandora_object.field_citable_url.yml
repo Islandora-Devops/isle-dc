@@ -12,12 +12,12 @@ field_name: field_citable_url
 entity_type: node
 bundle: islandora_object
 label: 'Citable URL'
-description: ''
+description: 'This field is managed by the system.  '
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
-  link_type: 17
+  link_type: 16
   title: 0
 field_type: link

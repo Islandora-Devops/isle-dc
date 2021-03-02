@@ -1,8 +1,9 @@
-uuid: ccf53251-dd04-4e79-8fe2-a4b2e42985e6
+uuid: 17eaaf16-e84f-435e-abda-0d1e6179a3b6
 langcode: en
-status: true
+status: false
 dependencies:
   config:
+    - core.entity_view_mode.taxonomy_term.full
     - field.field.taxonomy_term.family.field_authority_link
     - field.field.taxonomy_term.family.field_date
     - field.field.taxonomy_term.family.field_family_name
@@ -13,79 +14,66 @@ dependencies:
     - controlled_access_terms
     - text
 _core:
-  default_config_hash: BjyADh-LMRM2m1r1SnzCIMX7METfRii5LLfuf8vGb-o
-id: taxonomy_term.family.default
+  default_config_hash: 4NbQYruYFUapF4M8iOlQBaNczr0hr6KhxR-PhRQxjZs
+id: taxonomy_term.family.full
 targetEntityType: taxonomy_term
 bundle: family
-mode: default
+mode: full
 content:
   description:
-    type: text_textarea
+    label: hidden
+    type: text_default
     weight: 4
+    settings: {  }
+    third_party_settings: {  }
     region: content
-    settings:
-      placeholder: ''
-      rows: 5
-    third_party_settings: {  }
   field_authority_link:
-    weight: 5
+    weight: 10
+    label: above
     settings:
-      placeholder_url: ''
-      placeholder_title: ''
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
     third_party_settings: {  }
-    type: authority_link_default
+    type: authority_formatter_default
     region: content
   field_date:
-    weight: 2
+    weight: 12
+    label: above
     settings:
-      strict_dates: false
-      intervals: true
-      sets: false
+      date_separator: dash
+      date_order: big_endian
+      month_format: mm
+      day_format: dd
     third_party_settings: {  }
     type: edtf_default
     region: content
   field_family_name:
     weight: 1
+    label: above
     settings:
-      size: 60
-      placeholder: ''
+      link_to_entity: false
     third_party_settings: {  }
-    type: string_textfield
+    type: string
     region: content
   field_relationships:
-    weight: 6
+    weight: 11
+    label: above
     settings:
-      match_operator: CONTAINS
-      size: '60'
-      placeholder: ''
-      match_limit: 10
+      link: true
     third_party_settings: {  }
     type: typed_relation_default
     region: content
   field_title_and_other_words:
-    weight: 3
+    weight: 2
+    label: above
     settings:
-      size: 60
-      placeholder: ''
+      link_to_entity: false
     third_party_settings: {  }
-    type: string_textfield
+    type: string
     region: content
-  name:
-    type: string_textfield
-    weight: 0
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  status:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 7
-    region: content
-    third_party_settings: {  }
 hidden:
   langcode: true
-  path: true
-  translation: true
+  search_api_excerpt: true

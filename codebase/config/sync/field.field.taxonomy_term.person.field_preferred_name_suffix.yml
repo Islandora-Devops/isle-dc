@@ -10,7 +10,7 @@ field_name: field_preferred_name_suffix
 entity_type: taxonomy_term
 bundle: person
 label: 'Person Preferred Name: Suffix'
-description: 'A term following a name that qualifies the name but is not a title. Examples: "Jr.", "fils". Found in the $c subfield in MARC.'
+description: 'A term following a name that qualifies the name but is not a title. Examples: "Jr.", "fils". Found in the 100 $c subfield in MARC.'
 required: false
 translatable: false
 default_value: {  }

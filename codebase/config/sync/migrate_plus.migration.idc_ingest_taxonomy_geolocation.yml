@@ -59,7 +59,7 @@ process:
         uri:
           -
             plugin: concat
-            delimiter: 'node/'
+            delimiter: node/
             source:
               - constants/NODE
               - '@pseudo_id'
@@ -103,19 +103,6 @@ process:
             plugin: extract
             index:
               - 0
-        title:
-          -
-            plugin: skip_on_empty
-            method: process
-            source: value
-          -
-            plugin: explode
-            source: value
-            delimiter: ;
-          -
-            plugin: extract
-            index:
-              - 1
         source:
           -
             plugin: skip_on_empty
@@ -128,7 +115,7 @@ process:
           -
             plugin: extract
             index:
-              - 2
+              - 1
   description/value: description
   description/format:
     plugin: default_value

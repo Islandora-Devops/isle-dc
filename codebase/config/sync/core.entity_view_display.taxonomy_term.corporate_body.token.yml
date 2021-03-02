@@ -1,8 +1,9 @@
-uuid: b151c7c1-67ea-40f0-9039-677f00d348a2
+uuid: d658251e-c14a-449c-9cb3-04e64960f7c3
 langcode: en
-status: true
+status: false
 dependencies:
   config:
+    - core.entity_view_mode.taxonomy_term.token
     - field.field.taxonomy_term.corporate_body.field_authority_link
     - field.field.taxonomy_term.corporate_body.field_corporate_body_alt_name
     - field.field.taxonomy_term.corporate_body.field_date
@@ -50,10 +51,10 @@ third_party_settings:
       label: 'Alt Corporate Name'
 _core:
   default_config_hash: eg7su46-dvGu8agiWB3umWh6Q43kphzdGfbB3zcmlOc
-id: taxonomy_term.corporate_body.default
+id: taxonomy_term.corporate_body.token
 targetEntityType: taxonomy_term
 bundle: corporate_body
-mode: default
+mode: token
 content:
   description:
     label: hidden
@@ -73,14 +74,6 @@ content:
       target: _blank
     third_party_settings: {  }
     type: authority_formatter_default
-    region: content
-  field_corporate_body_alt_name:
-    weight: 22
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
     region: content
   field_date:
     weight: 21
@@ -152,5 +145,6 @@ content:
     type: list_default
     region: content
 hidden:
+  field_corporate_body_alt_name: true
   langcode: true
   search_api_excerpt: true

@@ -10,7 +10,7 @@ field_name: field_item_barcode
 entity_type: node
 bundle: islandora_object
 label: 'Item Barcode'
-description: '<b>Required if known</b>. Record a Johns Hopkins Libraries item barcode for the resource. '
+description: "<b>Required if known</b>. Record a Johns Hopkins Libraries item barcode for the resource. Example: 31151027501737\r\n"
 required: false
 translatable: false
 default_value: {  }

@@ -10,7 +10,7 @@ dependencies:
 id: repository_item_models
 label: 'Repository Item Models'
 module: views
-description: 'These are the models in Islandora Models that are applicable to Repository Items.'
+description: 'These are the models in Islandora Models that are applicable to Repository Items.  View is used on the Repository Item Edit page'
 tag: ''
 base_table: taxonomy_term_field_data
 base_field: tid

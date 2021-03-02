@@ -45,8 +45,8 @@ module:
   hal: 0
   help: 0
   history: 0
-  idc_ui_module: 0
   idc_migration: 0
+  idc_ui_module: 0
   image: 0
   image_captcha: 0
   islandora: 0

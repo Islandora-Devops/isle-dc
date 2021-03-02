@@ -1,4 +1,4 @@
-uuid: ec2757fe-edc6-4dbe-8b8d-cb19e066a373
+uuid: da267444-d660-44a5-9215-1c48a9efb548
 langcode: en
 status: true
 dependencies:
@@ -8,17 +8,17 @@ dependencies:
 third_party_settings:
   field_permissions:
     permission_type: public
-id: taxonomy_term.field_alt_primary_name
-field_name: field_alt_primary_name
+id: taxonomy_term.field_person_alternate_name
+field_name: field_person_alternate_name
 entity_type: taxonomy_term
 type: string
 settings:
-  max_length: 255
+  max_length: 1024
   is_ascii: false
   case_sensitive: false
 module: core
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

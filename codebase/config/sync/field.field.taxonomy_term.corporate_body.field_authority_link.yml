@@ -14,7 +14,7 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: corporate_body
 label: 'Authority Sources'
-description: "Select the authority source that contains the selected corporate body.\r\n\r\nFor the URL, please enter the stable URI or URL that represents the selected corporate body. Example: http://viaf.org/viaf/124344829"
+description: "Select the authority source that contains the selected corporate body.\r\n\r\nFor the URL, please enter the stable URI or URL that represents the selected corporate body. Example: http://viaf.org/viaf/124344829\r\n\r\nSource information: <a href=\"https://id.loc.gov/authorities/names.html\" target=\"_blank\">Library of Congress Name Authority File (LCNAF)</a>, <a href=\"https://www.viaf.org\" target=\"_blank\"> The Virtual International Authority File (VIAF)</a>"
 required: false
 translatable: true
 default_value: {  }

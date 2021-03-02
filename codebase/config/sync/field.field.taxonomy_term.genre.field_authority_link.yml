@@ -14,7 +14,7 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: genre
 label: 'Authority Sources'
-description: ''
+description: 'Source information: <a href="https://id.loc.gov/authorities/genreForms.html" target="_blank">Library of Congress Genre/Form Terms (LCGFT)</a>, <a href="http://fast.oclc.org/searchfast/" target="_blank">Faceted Application of Subject Terminology (FAST)</a>'
 required: false
 translatable: true
 default_value: {  }
@@ -22,6 +22,7 @@ default_value_callback: ''
 settings:
   authority_sources:
     lgcft: 'Library of Congress Genre/Form Terms'
+    fast: 'Faceted Application of Subject Terminology'
     other: Other
   title: 1
   link_type: 16

@@ -11,7 +11,7 @@ field_name: field_spatial_coverage
 entity_type: node
 bundle: islandora_object
 label: 'Spatial Coverage'
-description: '<b>Optional</b>. If available, record the spatial (geographic) characteristics of the resource, including the spatial topic of the resource, spatial applicability of the resource, or jurisdiction under which the resource is relevant. This <b>does not</b> include the publication location of the resource, which should go into the Publisher Country field. Please use or add terms from the <a href="admin/structure/taxonomy/manage/geo_location/overview">Geographic Location taxonomy</a>.'
+description: '<b>Optional</b>. If available, record the spatial (geographic) characteristics of the resource, including the spatial topic of the resource, spatial applicability of the resource, or jurisdiction under which the resource is relevant. Do not include publication location of the resource, which should go into the Publisher Country field.  Use term(s) from the <a href="/admin/structure/taxonomy/manage/geo_location/overview" target="_blank">Geographic Location</a> taxonomy.'
 required: false
 translatable: false
 default_value: {  }

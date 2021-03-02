@@ -10,7 +10,7 @@ field_name: field_primary_part_of_name
 entity_type: taxonomy_term
 bundle: person
 label: 'Person Preferred Name: Primary Part of Name'
-description: 'The primary part of a name form (e.g. a last name or surname of a person). Listed first in the $a subfield in MARC.'
+description: 'The primary part of a name form (e.g. a last name or surname of a person). Listed first in the 100 $a subfield in MARC.'
 required: true
 translatable: false
 default_value: {  }

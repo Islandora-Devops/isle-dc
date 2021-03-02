@@ -20,34 +20,64 @@ source:
     TAXONOMY_TERM: taxonomy_term
     REL_TYPE: 'schema:knows'
 process:
-  name:
+  name: name
+  field_preferred_name_rest: 
     -
-      plugin: concat
-      source:
-        - preferred_name_rest
-        - primary_part_of_name
-      delimiter: ' '
+      plugin: skip_on_empty
+      method: process
+      source: preferred_name_rest
     -
-      plugin: callback
-      callable: trim
-  field_preferred_name_rest: preferred_name_rest
-  field_preferred_name_prefix: preferred_name_prefix
-  field_preferred_name_fuller_form: preferred_name_fuller_form
-  field_preferred_name_suffix: preferred_name_suffix
-  field_preferred_name_number: preferred_name_number
+      plugin: explode
+      delimiter: '|'
+  field_preferred_name_prefix:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: preferred_name_prefix
+    -
+      plugin: explode
+      delimiter: '|'
+  field_preferred_name_fuller_form:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: preferred_name_fuller_form
+    -
+      plugin: explode
+      delimiter: '|'
+  field_preferred_name_suffix:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: preferred_name_suffix
+    -
+      plugin: explode
+      delimiter: '|'
+  field_preferred_name_number:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: preferred_name_number
+    -
+      plugin: explode
+      delimiter: '|'
   field_primary_part_of_name: primary_part_of_name
-  field_alt_name_fuller_form: alt_name_fuller_form
-  field_alt_name_number: alt_name_number
-  field_alt_name_prefix: alt_name_prefix
-  field_alt_name_suffix: alt_name_suffix
-  field_alt_preferred_name_rest: alt_preferred_name_rest
-  field_alt_primary_part_of_name: alt_primary_part_of_name
+  field_person_alternate_name:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: person_alternate_name
+    -
+      plugin: explode
+      delimiter: '|'
   field_date:
     -
-      plugin: get
-      source:
-        - born
-        - died
+      plugin: skip_on_empty
+      method: process
+      source: date
+    -
+      plugin: explode
+      delimiter: '|'
   field_authority_link:
     -
       plugin: explode
@@ -72,19 +102,6 @@ process:
             plugin: extract
             index:
               - 0
-        title:
-          -
-            plugin: skip_on_empty
-            method: process
-            source: value
-          -
-            plugin: explode
-            source: value
-            delimiter: ;
-          -
-            plugin: extract
-            index:
-              - 1
         source:
           -
             plugin: skip_on_empty
@@ -97,7 +114,7 @@ process:
           -
             plugin: extract
             index:
-              - 2
+              - 1
   description/value: description
   description/format:
     plugin: default_value

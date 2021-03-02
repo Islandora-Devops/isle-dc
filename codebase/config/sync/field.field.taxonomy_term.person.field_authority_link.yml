@@ -14,7 +14,7 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: person
 label: 'Authority Sources'
-description: "Select the authority source that contains the selected person.\r\n\r\nFor the URL: please enter the stable URI or URL that represents the selected person. Example: http://viaf.org/viaf/109406177"
+description: "Select the authority source that contains the selected person.\r\n\r\nFor the URL: please enter the stable URI or URL that represents the selected person. Example: http://viaf.org/viaf/109406177. \r\n\r\nSource information: <a href=\"https://www.viaf.org\" target=\"_blank\"> The International Authority File (VIAF)</a>, <a href=\"https://id.loc.gov/authorities/names.html\" target=\"_blank\">Library of Congress Name Authority File (LCNAF)</a>, <a href=\"https://www.getty.edu/research/tools/vocabularies/ulan/\" target=\"_blank\">Getty Union List of Artist Names (ULAN)</a>,<a href=\"https://orcid.org/\" target=\"_blank\">Open Researcher and Contributor ID (ORCID)</a>\r\n"
 required: false
 translatable: true
 default_value: {  }
@@ -23,7 +23,7 @@ settings:
   authority_sources:
     viaf: 'Virtual International Authority File'
     lcnaf: 'Library of Congress Name Authority File'
-    ulan: 'Getty Union List of Artists Names'
+    ulan: 'Getty Union List of Artist Names'
     orcid: ORCID
     other: Other
   title: 1

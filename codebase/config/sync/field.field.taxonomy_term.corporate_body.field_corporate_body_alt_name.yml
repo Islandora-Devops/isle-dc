@@ -1,15 +1,15 @@
-uuid: 2045e12d-e09e-49ae-9e9f-5558861aa51f
+uuid: b2a4c200-2f92-45b1-a7cb-ece6d3722f85
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.taxonomy_term.field_alt_location_of_meeting
+    - field.storage.taxonomy_term.field_corporate_body_alt_name
     - taxonomy.vocabulary.corporate_body
-id: taxonomy_term.corporate_body.field_alt_location_of_meeting
-field_name: field_alt_location_of_meeting
+id: taxonomy_term.corporate_body.field_corporate_body_alt_name
+field_name: field_corporate_body_alt_name
 entity_type: taxonomy_term
 bundle: corporate_body
-label: 'Corporate Body Alternate Name: Location of Meeting'
+label: 'Corporate Body Alternate Name'
 description: ''
 required: false
 translatable: false

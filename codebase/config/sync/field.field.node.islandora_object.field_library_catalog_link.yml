@@ -12,12 +12,12 @@ field_name: field_library_catalog_link
 entity_type: node
 bundle: islandora_object
 label: 'Library Catalog Link'
-description: 'Required if known. Record the link to the resource record in <a href="https://catalyst.library.jhu.edu/">Catalyst</a>, the catalog for Johns Hopkins Libraries. '
+description: '<b>Required if known</b>. Record the link to the resource record in <a href="https://catalyst.library.jhu.edu/" target="_blank">Catalyst</a>, the catalog for Johns Hopkins Libraries. '
 required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
   link_type: 16
-  title: 1
+  title: 0
 field_type: link

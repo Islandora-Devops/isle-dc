@@ -14,14 +14,14 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: family
 label: 'Authority Sources'
-description: "Select the authority source that contains the selected family term.\r\n\r\nFor URL: Enter the stable URI or URL that represents the selected family."
+description: "Select the authority source that contains the selected family term.\r\n\r\nFor URL: Enter the stable URI or URL that represents the selected family.\r\n\r\nSource information: <a href=\"https://id.loc.gov/authorities/names.html\" target=\"_blank\">Library of Congress Name Authority File (LCNAF)</a>, <a href=\"https://www.viaf.org\" target=\"_blank\"> The Virtual International Authority File (VIAF)</a>"
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
   authority_sources:
-    naf: 'NACO Authority File'
+    lcnaf: 'Library of Congress Name Authority File'
     viaf: 'Virtual International Authority File'
     other: Other
   title: 1

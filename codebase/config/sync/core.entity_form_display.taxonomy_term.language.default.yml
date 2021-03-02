@@ -8,7 +8,6 @@ dependencies:
     - taxonomy.vocabulary.language
   module:
     - controlled_access_terms
-    - path
     - text
 _core:
   default_config_hash: iqAqgcX3SCxSFmYpuFfwx0EvGb1eaSWpBSKwyBBhkTU
@@ -41,13 +40,6 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  langcode:
-    type: language_select
-    weight: 6
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   name:
     type: string_textfield
     weight: 0
@@ -56,22 +48,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  path:
-    type: path
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 4
     region: content
     third_party_settings: {  }
-  translation:
-    weight: 5
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  langcode: true
+  path: true
+  translation: true

@@ -12,7 +12,7 @@ field_name: field_date_copyrighted
 entity_type: node
 bundle: islandora_object
 label: 'Date Copyrighted'
-description: "<b>Optional.</b> If available, record the date associated with a claim of protection under copyright.\r\n\r\nPlease use the format YYYY-MM-DD or  YYYY-MM or YYYY \r\n(<a href=\"https://www.loc.gov/standards/datetime/\">EDTF</a>)."
+description: "<b>Optional.</b> If available, record the date associated with a claim of protection under copyright.\r\n\r\nUse the format YYYY-MM-DD or  YYYY-MM or YYYY (<a href=\"https://www.loc.gov/standards/datetime/\" target=\"_blank\">EDTF</a>)."
 required: false
 translatable: false
 default_value: {  }

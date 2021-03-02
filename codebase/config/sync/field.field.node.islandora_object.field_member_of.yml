@@ -16,7 +16,7 @@ field_name: field_member_of
 entity_type: node
 bundle: islandora_object
 label: 'Member of'
-description: ''
+description: '<b>Optional.</b> Select collection(s) or other Islandora resource(s) that this resource is a member of.'
 required: false
 translatable: false
 default_value: {  }

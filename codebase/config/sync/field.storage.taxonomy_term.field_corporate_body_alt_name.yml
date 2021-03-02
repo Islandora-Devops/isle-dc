@@ -1,4 +1,4 @@
-uuid: 99dd1ccf-32df-451f-abce-32e7811e2b31
+uuid: e7340d2d-ebc8-43e0-91a7-6f4c8531564d
 langcode: en
 status: true
 dependencies:
@@ -8,12 +8,12 @@ dependencies:
 third_party_settings:
   field_permissions:
     permission_type: public
-id: taxonomy_term.field_alt_name_suffix
-field_name: field_alt_name_suffix
+id: taxonomy_term.field_corporate_body_alt_name
+field_name: field_corporate_body_alt_name
 entity_type: taxonomy_term
 type: string
 settings:
-  max_length: 255
+  max_length: 1024
   is_ascii: false
   case_sensitive: false
 module: core

@@ -12,7 +12,7 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: copyright_and_use
 label: 'Authority Sources'
-description: ''
+description: 'Information about sources above can be found at <a href="https://rightsstatements.org/en/" target="_blank">RightsStatements.org</a>.'
 required: false
 translatable: true
 default_value: {  }

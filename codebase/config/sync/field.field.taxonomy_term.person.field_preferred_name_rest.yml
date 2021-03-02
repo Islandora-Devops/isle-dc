@@ -10,7 +10,7 @@ field_name: field_preferred_name_rest
 entity_type: taxonomy_term
 bundle: person
 label: 'Person Preferred Name: Rest of Name'
-description: 'The first name element or forename and additional names, e.g, middle names, for the person named in the record. Listed second in the $a subfield in MARC.'
+description: 'The first name element or forename and additional names, e.g, middle names, for the person named in the record. Listed second in the 100 $a subfield in MARC.'
 required: false
 translatable: false
 default_value: {  }

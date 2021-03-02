@@ -6,19 +6,15 @@ dependencies:
     - field.storage.node.field_access_rights
     - node.type.islandora_object
     - taxonomy.vocabulary.access_rights
-  content:
-    - 'taxonomy_term:access_rights:3aba0b88-dd45-4486-bc57-bef75aac4d56'
 id: node.islandora_object.field_access_rights
 field_name: field_access_rights
 entity_type: node
 bundle: islandora_object
 label: 'Access Rights'
-description: ''
+description: "<b>Required.</b> Select conditions of digital access. Term(s) from the <a href=\"/admin/structure/taxonomy/manage/access_rights/overview\" target=\"_blank\">Access Rights</a> taxonomy.\r\n"
 required: true
 translatable: false
-default_value:
-  -
-    target_uuid: 3aba0b88-dd45-4486-bc57-bef75aac4d56
+default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'

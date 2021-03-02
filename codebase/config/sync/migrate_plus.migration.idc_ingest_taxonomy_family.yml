@@ -39,35 +39,31 @@ process:
       plugin: sub_process
       process:
         uri:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
+          -
+            plugin: explode
             source: value
             delimiter: ;
-          - plugin: extract
+          -
+            plugin: extract
             index:
               - 0
-        title:
-          - plugin: skip_on_empty
+        source:
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
+          -
+            plugin: explode
             source: value
             delimiter: ;
-          - plugin: extract
+          -
+            plugin: extract
             index:
               - 1
-        source:
-          - plugin: skip_on_empty
-            method: process
-            source: value
-          - plugin: explode
-            source: value
-            delimiter: ;
-          - plugin: extract
-            index:
-              - 2
   field_relationships:
     -
       plugin: explode

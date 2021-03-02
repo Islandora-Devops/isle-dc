@@ -12,7 +12,7 @@ field_name: field_dspace_identifier
 entity_type: node
 bundle: islandora_object
 label: 'DSpace Identifier'
-description: 'Legacy item URI from DSpace platform. '
+description: '<b>Optional.</b> Record a legacy item''s URI from DSpace platform.'
 required: false
 translatable: false
 default_value: {  }

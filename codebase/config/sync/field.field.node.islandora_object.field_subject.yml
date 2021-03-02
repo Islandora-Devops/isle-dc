@@ -17,7 +17,7 @@ field_name: field_subject
 entity_type: node
 bundle: islandora_object
 label: Subject
-description: '<b>Required</b>. Record 1 or more topic(s) of the resource or term(s) that capture what the resource is about. A play about dolphins will have the subject "Dolphins", not "Drama." Please use or add terms to the Subjects Taxonomy.'
+description: "<b>Required</b>. Record 1 or more topic(s) of the resource or term(s) that capture what the resource is about. A play about dolphins will have the subject \"Dolphins\", not \"Drama.\" Use term(s) from the <a href=\"/admin/structure/taxonomy/manage/subject/overview\" target=\"_blank\">Subject</a>, <a  href=\"/admin/structure/taxonomy/manage/geo_location/overview\" target=\"_blank\">Geographic Location</a>, <a href=\"/admin/structure/taxonomy/manage/corporate_body/overview\" target=\"_blank\">Corporate Body</a>, <a href=\"/admin/structure/taxonomy/manage/person/overview\" target=\"_blank\">Person</a>, or <a href=\"/admin/structure/taxonomy/manage/family/overview\" target=\"_blank\">Family</a> taxonomies.\r\n"
 required: true
 translatable: true
 default_value: {  }

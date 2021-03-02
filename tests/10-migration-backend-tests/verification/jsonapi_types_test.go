@@ -99,7 +99,7 @@ type JsonApiPerson struct {
 		Type              DrupalType
 		Id                string
 		JsonApiAttributes struct {
-			Name        string
+            Name        string   `json:"name"`
 			Dates       []string `json:"field_date"`
 			Description struct {
 				Value     string
@@ -112,12 +112,7 @@ type JsonApiPerson struct {
 			PreferredNameSuffix     []string `json:"field_preferred_name_suffix"`
 			PreferredNameFullerForm []string `json:"field_preferred_name_fuller_form"`
 			PreferredNameNumber     []string `json:"field_preferred_name_number"`
-			AltNameFullerForm       []string `json:"field_alt_name_fuller_form"`
-			AltNameNumber           []string `json:"field_alt_name_number"`
-			AltNamePrefix           []string `json:"field_alt_name_prefix"`
-			AltNameSuffix           []string `json:"field_alt_name_suffix"`
-			AltPreferredNameRest    []string `json:"field_alt_preferred_name_rest"`
-			AltPrimaryPartOfName    []string `json:"field_alt_primary_part_of_name"`
+			PersonAlternateName     []string `json:"field_person_alternate_name"`
 			Authority               []struct {
 				Uri    string
 				Title  string
@@ -223,7 +218,7 @@ type JsonApiCollection struct {
 			ContactEmail     string   `json:"field_collection_contact_email"`
 			ContactName      string   `json:"field_collection_contact_name"`
 			CollectionNumber []string `json:"field_collection_number"`
-			FindingAid       []struct {
+			FindingAid       struct {
 				Uri   string
 				Title string
 			} `json:"field_finding_aid"`
@@ -478,17 +473,13 @@ type JsonApiCorporateBody struct {
 				Title  string
 				Source string
 			} `json:"field_authority_link"`
-			AltDate            string   `json:"field_alt_date_of_meeting"`
-			AltLocation        string   `json:"field_alt_location_of_meeting"`
-			AltNumberOrSection string   `json:"field_alt_num_of_section_or_meet"`
-			AltPrimaryName     string   `json:"field_alt_primary_name"`
-			AltSubordinateName string   `json:"field_alt_subordinate_name"`
-			Date               []string `json:"field_date"`
-			DateOfMeeting      string   `json:"field_date_of_meeting_or_treaty"`
-			Location           string   `json:"field_location_of_meeting"`
-			NumberOrSection    string   `json:"field_num_of_section_or_meet"`
-			PrimaryName        string   `json:"field_primary_name"`
-			SubordinateName    string   `json:"field_subordinate_name"`
+			PrimaryName        string     `json:"field_primary_name"`
+			SubordinateName    []string   `json:"field_subordinate_name"`
+			Location           []string   `json:"field_location_of_meeting"`
+			NumberOrSection    []string   `json:"field_num_of_section_or_meet"`
+			DateOfMeeting      []string   `json:"field_date_of_meeting_or_treaty"`
+			AltName            []string   `json:"field_corporate_body_alt_name"`
+			Date               []string   `json:"field_date"`
 		} `json:"attributes"`
 		JsonApiRelationships struct {
 			Relationships struct {

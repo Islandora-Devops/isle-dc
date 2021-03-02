@@ -14,7 +14,7 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: resource_types
 label: 'Authority Sources'
-description: 'Select the authority source that contains the selected type.'
+description: "Select the authority source that contains the selected type.\r\n\r\nSource information: <a href=\"https://www.dublincore.org/specifications/dublin-core/dcmi-terms/\" target=\"_blank\">DCMI Type Vocabulary</a>"
 required: false
 translatable: true
 default_value: {  }

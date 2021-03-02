@@ -14,7 +14,7 @@ field_name: field_authority_link
 entity_type: taxonomy_term
 bundle: subject
 label: 'Authority Sources'
-description: 'Select the authority source that contains the selected subject term.'
+description: "Select the authority source that contains the selected subject term.\r\n\r\nSource information: <a href=\"https://airtable.com/shrAftLyILyjheDZx/tblGYdmpUTgjFWTP9\" target=\"_blank\">ISO 19115</a>, <a href=\"http://fast.oclc.org/searchfast/\" target=\"_blank\">Faceted Application of Subject Terminology (FAST)</a>, <a href=\"https://meshb.nlm.nih.gov/search\" target=\"_blank\">Medical Subject Headings (MeSH)</a>\r\n"
 required: false
 translatable: true
 default_value: {  }

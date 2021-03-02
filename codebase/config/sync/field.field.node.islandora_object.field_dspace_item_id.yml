@@ -10,7 +10,7 @@ field_name: field_dspace_item_id
 entity_type: node
 bundle: islandora_object
 label: 'DSpace Item ID'
-description: 'Legacy item UUID from DSpace platform.'
+description: '<b>Optional.</b> Record a legacy item''s UUID from DSpace platform.'
 required: false
 translatable: false
 default_value: {  }

@@ -12,7 +12,7 @@ field_name: field_date_created
 entity_type: node
 bundle: islandora_object
 label: 'Date Created'
-description: "\r\nPlease use the format YYYY-MM-DD or  YYYY-MM or YYYY \r\n(<a href=\"https://www.loc.gov/standards/datetime/\">EDTF</a>)."
+description: "<b>Required if there is no \"Date Published\" value.</b>  Record the date(s) that pertain to the creation of the resource being described.\r\n<br>\r\nIf both \"Date Created\" and \"Date Published\" of the resource are unknown, please provide an estimated date range of the resource's creation in this field. This can be as broad (1800/1900) or as specific (1800-05/1800-06) as needed. Use the format YYYY-MM-DD or YYYY-MM or YYYY (<a href=\"https://www.loc.gov/standards/datetime/\" target=\"_blank\">EDTF</a>).\r\n"
 required: false
 translatable: false
 default_value: {  }

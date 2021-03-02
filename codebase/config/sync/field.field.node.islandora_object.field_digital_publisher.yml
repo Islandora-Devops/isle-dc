@@ -13,7 +13,7 @@ field_name: field_digital_publisher
 entity_type: node
 bundle: islandora_object
 label: 'Digital Publisher'
-description: '<b>Required if known</b>. Record the agent responsible for publishing, releasing, or issuing a digital version of the resource. Please add or use terms from Person, Corporate Body, or Family taxonomies. If digitized by the library, please select "Johns Hopkins Sheridan Libraries" as the digital publisher.'
+description: '<b>Required if known</b>. Record the agent responsible for publishing, releasing, or issuing a digital version of the resource. Please add or use terms from <a href="/admin/structure/taxonomy/manage/person/overview" target="_blank">Person</a>, <a href="/admin/structure/taxonomy/manage/corporate_body/overview" target="_blank">Corporate Body</a>, or <a href="/admin/structure/taxonomy/manage/family/overview" target="_blank">Family</a> taxonomies. If digitized by the library, please select "Johns Hopkins Sheridan Libraries" as the digital publisher.'
 required: false
 translatable: false
 default_value: {  }

@@ -3,12 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.taxonomy_term.corporate_body.field_alt_date_of_meeting
-    - field.field.taxonomy_term.corporate_body.field_alt_location_of_meeting
-    - field.field.taxonomy_term.corporate_body.field_alt_num_of_section_or_meet
-    - field.field.taxonomy_term.corporate_body.field_alt_primary_name
-    - field.field.taxonomy_term.corporate_body.field_alt_subordinate_name
     - field.field.taxonomy_term.corporate_body.field_authority_link
+    - field.field.taxonomy_term.corporate_body.field_corporate_body_alt_name
     - field.field.taxonomy_term.corporate_body.field_date
     - field.field.taxonomy_term.corporate_body.field_date_of_meeting_or_treaty
     - field.field.taxonomy_term.corporate_body.field_location_of_meeting
@@ -29,8 +25,8 @@ third_party_settings:
         - field_primary_name
         - field_subordinate_name
         - field_location_of_meeting
-        - field_date_of_meeting_or_treaty
         - field_num_of_section_or_meet
+        - field_date_of_meeting_or_treaty
       parent_name: ''
       weight: 2
       format_type: fieldset
@@ -41,23 +37,6 @@ third_party_settings:
         description: ''
         required_fields: true
       label: 'Corporate Name'
-    group_alt_corporate_name:
-      children:
-        - field_alt_primary_name
-        - field_alt_subordinate_name
-        - field_alt_location_of_meeting
-        - field_alt_date_of_meeting
-        - field_alt_num_of_section_or_meet
-      parent_name: ''
-      weight: 3
-      format_type: fieldset
-      region: content
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-        required_fields: true
-      label: 'Alt Corporate Name'
 _core:
   default_config_hash: Z26S89S-0cqYggliefiijqELUP7YKg5MMaf5abqH1Dg
 id: taxonomy_term.corporate_body.default
@@ -73,57 +52,24 @@ content:
       placeholder: ''
     third_party_settings: {  }
     region: content
-  field_alt_date_of_meeting:
-    weight: 112
-    settings:
-      strict_dates: false
-      intervals: true
-      sets: false
-    third_party_settings: {  }
-    type: edtf_default
-    region: content
-  field_alt_location_of_meeting:
-    weight: 108
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_alt_num_of_section_or_meet:
-    weight: 111
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_alt_primary_name:
-    weight: 106
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_alt_subordinate_name:
-    weight: 107
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_authority_link:
-    weight: 4
+    weight: 5
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
     type: authority_link_default
     region: content
+  field_corporate_body_alt_name:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_date:
-    weight: 114
+    weight: 4
     settings:
       strict_dates: false
       intervals: true
@@ -132,7 +78,7 @@ content:
     type: edtf_default
     region: content
   field_date_of_meeting_or_treaty:
-    weight: 113
+    weight: 105
     settings:
       strict_dates: false
       intervals: true
@@ -149,7 +95,7 @@ content:
     type: string_textfield
     region: content
   field_num_of_section_or_meet:
-    weight: 110
+    weight: 104
     settings:
       size: 60
       placeholder: ''
@@ -183,7 +129,7 @@ content:
     type: string_textfield
     region: content
   field_type:
-    weight: 9
+    weight: 7
     settings: {  }
     third_party_settings: {  }
     type: options_select
@@ -200,11 +146,11 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 100
+    weight: 9
     region: content
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }

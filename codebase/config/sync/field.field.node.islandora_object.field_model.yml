@@ -15,7 +15,7 @@ field_name: field_model
 entity_type: node
 bundle: islandora_object
 label: Model
-description: 'This is the "type" of resource, this does affect how it is displayed/viewed.'
+description: "<b>Required</b>. Select the \"type\" of resource to determine how it will be displayed and viewed.\r\n"
 required: true
 translatable: false
 default_value: {  }
