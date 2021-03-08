@@ -1,5 +1,13 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+      - development
+  pull_request:
+    branches:
+      - main
+      - development
 
 jobs:
     everything:
@@ -44,14 +52,18 @@ jobs:
 
             # Log in to Docker, if we have the secrets
             - name: Docker Login
-              if: ${{ env.DOCKER_USER != null }}
+              if: contains('refs/heads/main 
+                            refs/heads/development', github.ref) &&
+                  env.DOCKER_USER != null
               uses: docker/login-action@v1
               with:
                 registry: ghcr.io
                 username: ${{ env.DOCKER_USER }}
                 password: ${{ secrets.DOCKER_PASS }}
             
-            # Push docker images
+            # Push docker images, if we are on the appropriate branch or tag
             - name: Docker Push
-              if:  ${{ env.DOCKER_USER != null }}
+              if: contains('refs/heads/main 
+                            refs/heads/development', github.ref) &&
+                  env.DOCKER_USER != null
               run: docker-compose push drupal
