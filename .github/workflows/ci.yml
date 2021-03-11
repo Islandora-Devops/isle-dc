@@ -35,6 +35,10 @@ jobs:
             - name: Build Static 
               run: docker-compose down -v && make static-docker-compose.yml up
 
+            # Drush tests
+            - name: Drush test
+              run: docker-compose exec -T drupal drush -d status
+
             # Run end-to-end tests
             - name: End-To-End Tests
               run: | 
