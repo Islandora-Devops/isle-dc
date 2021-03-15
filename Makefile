@@ -346,11 +346,7 @@ local:
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
 	docker-compose exec -T drupal with-contenv bash -lc 'drush -y en islandora search_api_solr'
-	$(MAKE) update-settings-php ENVIRONMENT=local
-	$(MAKE) update-config-from-environment ENVIRONMENT=local
-	$(MAKE) namespaces ENVIRONMENT=local
-	$(MAKE) run-islandora-migrations ENVIRONMENT=local
-	docker-compose exec -T drupal with-contenv bash -lc 'drush cr -y'
+	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 
 # Destroys everything beware!

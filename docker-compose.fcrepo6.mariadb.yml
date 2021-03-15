@@ -4,6 +4,6 @@ services:
   fcrepo:
     environment:
       FCREPO_PERSISTENCE_TYPE: mariadb
-      FCREPO_DB_HOST: mariadb
-      FCREPO_DB_PORT: 3306
+      FCREPO_DB_MYSQL_HOST: mariadb
+      FCREPO_DB_MYSQL_PORT: 3306
       FCREPO_DB_NAME: fcrepo
