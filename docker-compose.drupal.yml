@@ -31,3 +31,4 @@ services:
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls=true
     networks:
       default:
+      gateway:

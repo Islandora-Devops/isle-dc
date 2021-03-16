@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  # Override defaults so Mariadb is used as the database for this service.
+  fcrepo:
+    environment:
+      FCREPO_PERSISTENCE_TYPE: mariadb
+      FCREPO_DB_MYSQL_HOST: mariadb
+      FCREPO_DB_MYSQL_PORT: 3306
+      FCREPO_DB_NAME: fcrepo

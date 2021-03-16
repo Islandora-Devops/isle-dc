@@ -2,9 +2,10 @@ version: "3.7"
 networks:
   default:
     internal: true
+  gateway:
+    external:
+      name: gateway
 services:
-  gemini:
-    image: ${REPOSITORY:-islandora}/gemini:${TAG:-latest}
   homarus:
     image: ${REPOSITORY:-islandora}/homarus:${TAG:-latest}
   houdini:
@@ -13,5 +14,10 @@ services:
     image: ${REPOSITORY:-islandora}/hypercube:${TAG:-latest}
   milliner:
     image: ${REPOSITORY:-islandora}/milliner:${TAG:-latest}
+    environment:
+      MILLINER_FEDORA6: ${FEDORA_6}
+    networks:
+      default:
+      gateway:
   recast:
     image: ${REPOSITORY:-islandora}/recast:${TAG:-latest}

@@ -34,28 +34,18 @@
 
 ## Introduction
 
-[Docker Compose] project facilitating creation and management of Islandora 8
-Infrastructure under [Docker] using [Docker Compose].
+[Docker Compose] project for creating and managing an Islandora 8 instance
+using [Docker] containers from [isle-buildkit](https://github.com/Islandoar-Devops/isle-buildkit).
 
-This is a prototype of the `docker-compose` file, Docker service and image
-configuration structure for the ISLE Phase III - ISLE / Islandora 8 Prototype
-(isle-dc) project.
+In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on configuration
+that you supply in a `.env` file.  And there are three use cases we're trying to accomplish:
 
-The workflow for this repository centers around using the provided
-[Makefile](./Makefile) to generate an appropriate `docker-compose.yml` file.
-
-There are **three** `ENVIRONMENT`s or ways of development that this repository
-supports:
-
-- **demo** *(Example site for testing the images)*
+- **demo** *(Example site for kicking the tires and looking at Islandora)*
 - **local** *(Local development using composer/drush in the codebase folder)*
-- **custom** *(Use a custom built image or generate one from the codebase folder)*
+- **production** *(An environment safe to run out the wild)*
 
-To quickly get started, we recommend running the [demo](#-demo) environment
-first after you have completed the [Installation](#-installation).
-
-A walkthrough for setting up a simple local installation is available in the
-Islandora documentation: [Install Islandora on Docker (ISLE)](https://islandora.github.io/documentation/installation/docker-compose/)
+On top of that, there's a lot of useful commands for managing an Islandora instance, such
+as database import/export and reindexing.
 
 ## Requirements
 
@@ -68,283 +58,80 @@ Islandora documentation: [Install Islandora on Docker (ISLE)](https://islandora.
 - Drush 9.0+
 - Git 2.0+
 - GNU Make 4.0+
-- PHP 7.2+ (*Also requires the same ext packages you intend to use in your site.*)
-- Perl (if you want to run `make dev` which does find-and-replace in some files with Perl)
 
-## Installation
+## Getting Started
 
-### Configuring the Environment
-
-To run the containers you must first generate a `docker-compose.yml` file. It is
-the only orchestration mechanism provided to launch all the containers, and have
-them work as a whole.
-
-To get started generate the defaults with the following command:
+To get started with a **demo** environment, run:
 
 ```bash
-make
+make demo
 ```
 
-This will create the following files which you can **customize**:
+This will pull down images from Dockerhub and generate
 
 | File                     | Purpose                                                                                                                                                   |
 | :----------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.env`                   | Responsible for setting variables used in `docker-compose.*.yml` files </br> Determines which `docker-compose.*.yml` are included in `docker-compose.yml` |
-| `docker-compose.env.yml` | Allows the user to set environment settings inside  of containers and override any services configuration                                                 |
+| `.env`                   | A configuration file that is yours to customize. This file controls how the docker-compose.yml file gets generated to meet your use case.</br>It also allows you to set variables that make their way into the final `docker-compose.yml` file, such as your site's domain. |
+| `docker-compose.yml`     | A ready to run `docker-compose.yml` file based on your `.env` file.  This file is considered disposable. When you change your `.env` file, you will generate a new one.                                                 |
 
-At a minimum, you'll want to consider setting `ENVIRONMENT` in the `.env` file to either `demo`, `local`, or `custom`. The default is `demo`.
+Your new Islandora instance will be available at [https://islandora.traefik.me](https://islandora.traefik.me). Don't let the
+funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.
 
-#### Changing the host name
+You can log into Drupal as `admin` using the default password, `password`. 
 
-By default, the domain `traefik.me` is used, which resolves to `localhost`, but allows us to treat things as if there were a fully qualified domain name.  Namely, we can have https in development and staging scenarios, even when all you have is an IP address.
+Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
+the things you can do.  If you want to poke around, here's all the services that are available to visit:
 
-However, if you are deploying somewhere other than `localhost` and you own a domain, you can change it by setting `DRUPAL_SITE_HOST` in the .env file.  That is,
-for `example.org`:
+| Service                     | Url                                                                                                                                                   |
+| :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Drupal                   | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |
+| Traefik                  | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |
+| Fedora                   | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |
+| Blazegraph               | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |
+| Activemq                 | [https://islandora.traefik.me:8161](https://islandora.traefik.me:8161)                         |
+| Solr                     | [https://islandora.traefik.me:8983](https://islandora.traefik.me:8983)                         |
+| Cantaloupe               | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |
+| Matomo                   | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |
 
-```bash
-DRUPAL_SITE_HOST=example.org
-```
-
-#### Using an IP address
-
-If you have an IP address but no domain, you can set the value to `X-X-X-X.traefik.me`, where X-X-X-X is your IP address, but with hyphens
-instead of dots.  For example, if your IP address is `123.45.67.89`:
-
-```bash
-DRUPAL_SITE_HOST=123-45-67-89.traefik.me
-```
-
-There are also a handful of variables in `docker-compose.env.yml` you'll want to adjust if using an IP address with traefik.me.  For each of these,
-change the dot between COMPOSE_PROJECT_NAME and DRUPAL_SITE_HOST to a hyphen (i.e. ${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
-becomes ${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}).  If you have any doubts about what you're doing, just copy/paste these values
-directly into place in your `docker-compose.env.yml` file.
-
-| Variable                      | Value                                                                                                |
-| :---------------------------- | :--------------------------------------------------------------------------------------------------- |
-| DRUPAL_DEFAULT_CANTALOUPE_URL | <https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/cantaloupe/iiif/2> |
-| DRUPAL_DEFAULT_DB_HOST        | ${DRUPAL_DATABASE_SERVICE}-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}            |
-| DRUPAL_DEFAULT_FCREPO_HOST    | fcrepo-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                                |
-| DRUPAL_DEFAULT_MATOMO_URL     | <https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}/matomo/>           |
-| DRUPAL_DEFAULT_SITE_URL       | <https://islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}>                   |
-| MATOMO_SITE_HOST              | islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}                             |
-
-When using an IP address, your site will be available at https://islandora-isle-dc-X-X-X-X.traefik.me/, where X-X-X-X is your IP address. For example, https://islandora-isle-dc-123-45-67-89.traefik.me/
-
-### Applying changes
-
-Once you are happy with your changes to the above files you can regenerate the
-`docker-compose.yml`, and pull the required images using the
-[Makefile](./Makefile) like so:
+When you're done with your demo environment, shut it down by running
 
 ```bash
-make
+docker-compose down
 ```
 
-After this point you can just interact with the `docker-compose.yml` file like
-you would normally.
+This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and 
+all ingested data, use
+
+```
+docker-compose down -v
+```
+
+## Local Development
+
+Before you go any further, make sure you've set `ENVIRONMENT=local` in  your .env file.
+
+When developing locally, your Drupal site resides in the `codebase` folder and is bind-mounted into your
+Drupal container.  This lets you update code using the IDE of your choice on your host machine, and the
+changes are automatically reflected on the Drupal container.  Simply place any exported Drupal site as
+the `codebase` folder in `isle-dc` and you're good to go.  From there, run
 
 ```bash
-docker-compose up -d
+make local
 ```
 
-With [Docker Compose] there are many features such as displaying logs among
-other things for which you can find detailed descriptions in the
-[Docker Composer CLI Documentation](https://docs.docker.com/compose/reference/overview/)
+If you don't provide a codebase, you'll be given a vanilla Drupal 9 instance with the Islandora module
+installed and the bare minimum configured to run.  This is useful if you want to build your repository
+from scratch and avoid `islandora_defaults`.
 
-## Demo Environment
+If you already have a Drupal site but don't know how to export it,
+log into your server, navigate to the Drupal root, and run the following commands:
 
-To quickly get started, we recommend running the [demo](#-demo) environment first.
+- `drush config:export`
+- `git init`
+- `git add -A .`
+- `git commit -m "First export of site"`
 
-This is the default environment if you do a clean checkout of this repository and run the following:
-
-```bash
-make
-docker-compose up -d
-```
-
-This environment is just meant as a show case of the basic `islandora` site.
-
-You should be able to reach it in your browser at `islandora-isle-dc.traefik.me`
-if you followed the instructions under the [Installation](#-installation)
-section.
-
-## Local Environment
-
-This environment is intended for local development. Users will create a `Drupal`
-site in the folder [codebase](./codebase), which gets bind mounted into the
-`drupal` service container. Allowing developers to use `composer` / `drush`
-locally to work out of the [codebase](./codebase) folder.
-
-There are a three ways in which you can create a local environment.
-
-- From the `islandora/demo` image.
-- From an existing site.
-- From scratch.
-
-**N.B:** Before attempting any of these methods make sure you have set `ENVIRONMENT` to
-`local` in your `.env` file.
-
-After you have setup your local site you can then work directly out of the
-`codebase` folder, as if you had installed `Drupal` locally.
-
-### Create Local Environment from islandora/demo Image
-
-The following [Makefile](./Makefile) command is provided as method to quickly
-get a site up using the `islandora/demo` image as base.
-
-```bash
-make create-codebase-from-demo
-```
-
-It will take a few minutes to spin up the demo instance, export its
-configuration and copy the site into the [codebase](./codebase) folder.
-
-Once this is done you can bring up your local site using `docker-compose`.
-
-```bash
-docker-compose up -d
-```
-
-At this point the site will not be installed. There are **two** ways to do an
-installation, from an existing configuration or in a stepwise fashion.
-
-**After** either of your chosen methods you will still need to update services
-like `solr` and `blazegraph`, etc, these commands are combined into a single
-target for convenience.
-
-```bash
-make hydrate
-```
-
-#### From existing Configuration
-
-To be able to install from an existing configuration you must change the
-following environment variables in `docker-compose.env.yml`:
-
-| Environment Variable                   | Value                       |
-| :------------------------------------- | :-------------------------- |
-| DRUPAL_DEFAULT_CONFIGDIR               | /var/www/drupal/config/sync |
-| DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG | "true"                      |
-| DRUPAL_DEFAULT_PROFILE                 | minimal                     |
-
-Regenerate your `docker-compose.yml` file, and restart the container.
-
-```bash
-make docker-compose.yml
-docker-compose up -d
-```
-
-You also need to change the site configuration to use the minimal profile.
-
-```bash
-make remove_standard_profile_references_from_config
-```
-
-At this point you should be able to perform the installation
-
-```bash
-make install
-```
-
-Finally configure the rest of the site which depends on environment variables.
-
-```bash
-make hydrate
-```
-
-**N.B.:** There is a
-[bug](https://www.drupal.org/project/drupal/issues/2914213) which affects
-`islandora_fits`. For now you must manually set a value. Visit
-<http://islandora-isle-dc.traefik.me/taxonomy/term/1/edit> and set the value
-`URL` to <https://projects.iq.harvard.edu/fits>.
-
-#### Manually
-
- you can install it by running the
-following [Makefile](./Makefile) command:
-
-```bash
-make install
-```
-
-That will create the required database and install a bare bones site.
-
-Now that the `drupal` service is running you can update the `settings.php` with
-the appropriate settings from the environment variables defined in
-`docker-compose.env.yml`, by running the following [Makefile](./Makefile)
-command:
-
-```bash
-make update-settings-php
-```
-
-At this point the site is still bare-bones as we have not imported the site
-configuration. Or you can manually setup the site as you see fit. To import an
-existing configuration you can use the following command.
-
-```bash
-make config-import
-```
-
-*N.B:* You'll have to run this twice, due to bugs in the dependencies of configurations!
-
-Finally configure the rest of the site which depends on environment variables.
-
-```bash
-make hydrate
-```
-
-**N.B.:** There is a
-[bug](https://www.drupal.org/project/drupal/issues/2914213) which affects
-`islandora_fits`. For now you must manually set a value. Visit
-<http://islandora-isle-dc.traefik.me/taxonomy/term/1/edit> and set the value
-`URL` to <https://projects.iq.harvard.edu/fits>.
-
-### Create Local Environment from Existing Site
-
-Copy or clone your existing site into the [codebase](./codebase) folder. Start the system with `docker-compose up -d`, then run composer install via `docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 composer install'` and make sure your database and user are created with `make databases`, and that your settings.php file is correct with `make update-settings-php`.
-
-Then you have a number of options you can:
-
-- Follow the same installation procedure as the demo [from an existing configuration](#from-existing-configuration)
-- Follow the same installation procedure as the demo [manually](#manually)
-
-Or you can import an existing database if you have it.
-
-```bash
-make database-import SRC=/tmp/dump.sql
-```
-
-Finally configure the rest of the site which depends on environment variables.
-
-```bash
-make hydrate
-```
-
-### Create Local Environment from Scratch
-
-You can create a composer project for your drupal site from scratch.
-
-Some popular examples:
-
-- drupal/recommended-project
-- drupal-composer/drupal-project:8.x-dev
-- islandora/drupal-project:8.8.1
-- born-digital/drupal-project:dev-isle8-dev
-
-```bash
-mkdir ./codebase
-cd ./codebase
-composer create-project --ignore-platform-reqs --no-interaction --no-install drupal/recommended-project .
-composer require -- drush/drush
-composer install
-make
-docker-compose up -d
-make install
-```
-
-At this point you should have a functioning Drupal site that you can customize
-as you see fit using `composer` / `drush` commands in the codebase folder.
+Then you can `git push` your site to Github and `git clone` it down whenever you want.
 
 ## Custom Environment
 
@@ -449,16 +236,7 @@ INCLUDE_WATCHTOWER_SERVICE=true
 ### Traefik
 
 The [traefik](https://containo.us/traefik/) container acts as a reverse proxy,
-and exposes some containers through port ``80``/``443``/``3306``. This allows access to the
-following urls by default.
-
-- <http://activemq-isle-dc.traefik.me/admin>
-- <http://blazegraph-isle-dc.traefik.me/bigdata>
-- <mysql://database-isle-dc.traefik.me:3306>
-- <https://islandora-isle-dc.traefik.me>
-- <https://islandora-isle-dc.traefik.me/matomo/>
-- <https://islandora-isle-dc.traefik.me/cantaloupe>
-- <http://fcrepo-isle-dc.traefik.me/fcrepo/rest>
+and exposes some containers through port ``80``/``443``/``3306``. 
 
 Since Drupal passes links to itself in the messages it passes to the microservices,
 and occasionally other urls need to be resolved on containers that do not have
