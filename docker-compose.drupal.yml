@@ -14,7 +14,6 @@ services:
       DRUPAL_DEFAULT_CANTALOUPE_URL: https://${DOMAIN}/cantaloupe/iiif/2
       DRUPAL_DEFAULT_FCREPO_HOST: ${DOMAIN}
       DRUPAL_DEFAULT_FCREPO_PORT: 8081
-      DRUPAL_DEFAULT_DB_HOST: ${DRUPAL_DATABASE_SERVICE}
       DRUPAL_DEFAULT_MATOMO_URL: https://${DOMAIN}/matomo/
       DRUPAL_DEFAULT_SITE_URL: http://${DOMAIN} # Make sure this is just http and not https!
     labels:

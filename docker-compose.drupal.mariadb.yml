@@ -4,5 +4,3 @@ services:
   drupal:
     environment:
       DRUPAL_DEFAULT_DB_DRIVER: mysql
-      # Use the edge name so the Drush on the host machine can access it.
-      DRUPAL_DEFAULT_DB_PORT: 3306
