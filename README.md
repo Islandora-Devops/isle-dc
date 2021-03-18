@@ -35,7 +35,7 @@
 ## Introduction
 
 [Docker Compose] project for creating and managing an Islandora 8 instance
-using [Docker] containers from [isle-buildkit](https://github.com/Islandoar-Devops/isle-buildkit).
+using [Docker] containers from [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit).
 
 In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on configuration
 that you supply in a `.env` file.  And there are three use cases we're trying to accomplish:
