@@ -22,19 +22,19 @@ func (t DrupalType) bundle() string {
 
 // Represents the expected results of a migrated person
 type ExpectedPerson struct {
-	Type          string
-	Bundle        string
-	Name          string `json:"name"`
-	PrimaryName   string `json:"primary_name"`
-	RestOfName    []string `json:"rest_of_name"`
-	FullerForm    []string `json:"fuller_form"`
-	Prefix        []string
-	Suffix        []string
-	Number        []string
-	AltName       []string `json:"alt_name"`
-	Date          []string
-	Knows         []string
-	Authority     []struct {
+	Type        string
+	Bundle      string
+	Name        string   `json:"name"`
+	PrimaryName string   `json:"primary_name"`
+	RestOfName  []string `json:"rest_of_name"`
+	FullerForm  []string `json:"fuller_form"`
+	Prefix      []string
+	Suffix      []string
+	Number      []string
+	AltName     []string `json:"alt_name"`
+	Date        []string
+	Knows       []string
+	Authority   []struct {
 		Uri  string
 		Name string
 		Type string
@@ -48,19 +48,61 @@ type ExpectedPerson struct {
 
 // Represents the expected results of a migrated repository object
 type ExpectedRepoObj struct {
-	Type         string
-	Bundle       string
-	Model        string
-	ResourceType string `json:"resource_type"`
-	Title        string
-	MemberOf     string `json:"member_of"`
-	Extent       []string
-	LinkedAgent  []struct {
+	Type             string
+	Bundle           string
+	Abstract         []LanguageString
+	AccessRights     []string         `json:"access_rights"`
+	AltTitle         []LanguageString `json:"alt_title"`
+	CollectionNumber []string         `json:"collection_number"`
+	CopyrightAndUse  string           `json:"copyright_and_use"`
+	CopyrightHolder  []string         `json:"copyright_holder"`
+	Contributor      []struct {
+		RelType string `json:"rel_type"`
+		Name    string
+	}
+	Creator []struct {
+		RelType string `json:"rel_type"`
+		Name    string
+	}
+	DateAvailable      string   `json:"date_available"`
+	DateCopyrighted    []string `json:"date_copyrighted"`
+	DateCreated        []string `json:"date_created"`
+	DatePublished      []string `json:"date_published"`
+	DigitalIdentifier  []string `json:"digital_identifier"`
+	DigitalPublisher   []string `json:"digital_publisher"`
+	DisplayHint        string   `json:"display_hints"`
+	DspaceIdentifier   string   `json:"dspace_identifier"`
+	DspaceItemId       string   `json:"dspace_itemid"`
+	Extent             []string
+	FindingAid         string `json:"finding_aid"`
+	Genre              []string
+	GeoportalLink      string `json:"geoportal_link"`
+	Issn               string
+	IsPartOf           string `json:"is_part_of"`
+	ItemBarcode        string `json:"item_barcode"`
+	JhirUri            string `json:"jhir"`
+	LibraryCatalogLink string `json:"catalog_link"`
+	Model              struct {
+		Name        string
+		ExternalUri string `json:"external_uri"`
+	}
+	OclcNumber       []string `json:"oclc_number"`
+	Publisher        []string
+	PublisherCountry []string `json:"publisher_country"`
+	ResourceType     []string `json:"resource_type"`
+	SpatialCoverage  []string `json:"spatial_coverage"`
+	Subject          []string
+	Title            string
+	TableOfContents  []LanguageString `json:"toc"`
+	MemberOf         []string         `json:"member_of"`
+	LinkedAgent      []struct {
 		Rel  string
 		Name string
 	}
-	DisplayHint string `json:"display_hint"`
-	Description string
+	Description []struct {
+		Value    string
+		LangCode string `json:"language"`
+	}
 }
 
 // Represents the expected results of a migrated Access Rights taxonomy term
@@ -243,13 +285,13 @@ type ExpectedCorporateBody struct {
 		Format    string
 		Processed string
 	}
-	PrimaryName        string `json:"primary_name"`
-	SubordinateName    []string `json:"subordinate_name"`
-	DateOfMeeting      []string `json:"date_of_meeting_or_treaty"`
-	Location           []string `json:"location_of_meeting"`
-	NumberOrSection    []string `json:"num_of_section_or_meet"`
-	AltName            []string `json:"corporate_body_alternate_name"`
-	Authority          []struct {
+	PrimaryName     string   `json:"primary_name"`
+	SubordinateName []string `json:"subordinate_name"`
+	DateOfMeeting   []string `json:"date_of_meeting_or_treaty"`
+	Location        []string `json:"location_of_meeting"`
+	NumberOrSection []string `json:"num_of_section_or_meet"`
+	AltName         []string `json:"corporate_body_alternate_name"`
+	Authority       []struct {
 		Uri    string
 		Title  string
 		Source string
@@ -259,4 +301,9 @@ type ExpectedCorporateBody struct {
 		Name string
 		Rel  string `json:"rel_type"`
 	} `json:"relationships"`
+}
+
+type LanguageString struct {
+	Value    string
+	LangCode string `json:"language"`
 }

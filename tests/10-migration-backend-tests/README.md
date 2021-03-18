@@ -12,6 +12,14 @@ The Migrations admin menu/module errors out when it encounters a migration that 
 
 This does not affect management of migrations, since they are a part of the external configuration.  Unless the Migrations admin menu provides required features, it can probably be disabled for mortal use.
 
+### Multi-value field separators
+
+The vertical pipe `|` is used to separate multiple values, e.g. if an item has multiple alternate names, they will be represented as `Alternate Name One|Alternate Name Two`.  The semi-colon `;` is used to separate components of a value.  If a string field has an associated language (e.g. a field type of `language_value_pair`), it would be represented as `This is the string field;eng`.
+
+The problem is that `|` and `;` become _reserved_ characters and cannot be used in the value itself.  This is especially problematic for the semi-colon, since it could be reasonably used as punctuation in a description or abstract field, or within a URL.
+
+The immediate workaround is to use a different character other than `;` for separating components of a value, such as `^` or `@` that are less likely to appear in a text field.  Longer term there may need to be some mechanism of escaping these reserved characters when they are used in a value.
+
 ### Problematic Fields
 
 These are fields for which there is no or incomplete migration support. Resolving these known issues may involve custom Drupal code (e.g. modifying or writing novel migration plugins), restricting the use of local identifiers in favor of URIs for field values, and/or exploring additional parameters to the `migration_lookup` plugin (e.g. supplying multiple migrations to the `migration` configuration key).
@@ -22,6 +30,14 @@ These are fields for which there is no or incomplete migration support. Resolvin
 |taxonomy_term|corporate_body|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
 |taxonomy_term|person|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
 |taxonomy_term|family|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
+|node|islandora_object|`field_creator` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
+|node|islandora_object|`field_contributor` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
+|node|islandora_object|`field_copyright_holder` (`entity_reference`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
+|node|islandora_object|`field_digital_publisher` (`entity_reference`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
+|node|islandora_object|`field_publisher` (`entity_reference`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
+|node|islandora_object|`field_member_of` (`entity_reference`)|Values for this field may reference different bundles.  It is problematic to use local ids to reference multiple bundles.|
+|node|islandora_object|`field_publisher` (`entity_reference`)|Values for this field may reference different bundles.  It is problematic to use local ids to reference multiple bundles.|
+|node|islandora_object|`field_subject` (`entity_reference`)|Values for this field may reference different bundles.  It is problematic to use local ids to reference multiple bundles.|
 
 ## Invoking the tests
 

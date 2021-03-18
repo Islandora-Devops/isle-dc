@@ -226,14 +226,85 @@ test('Perform Genre Taxonomy Migration', async t => {
 });
 
 test('Perform Repository Object Migration', async t => {
+  // Migrate dependencies first
+
+  // persons
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_person_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/islandora_object-persons.csv'
+    ])
+    .click('#edit-import');
+
+  // subjects
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_subject_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/islandora_object-subjects.csv'
+    ])
+    .click('#edit-import');
+
+  // locations
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_geolocation_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/islandora_object-geolocations.csv'
+    ])
+    .click('#edit-import');
+
+  // genres
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_genre_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/islandora_object-genres.csv'
+    ])
+    .click('#edit-import');
+
+  // corporate bodies
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_corporatebody_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/islandora_object-corporatebodies.csv'
+    ])
+    .click('#edit-import');
+
+  // collections
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_new_collection));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/islandora_object-collections.csv'
+    ])
+    .click('#edit-import');
 
   await t
     .click(selectMigration)
     .click(migrationOptions.withAttribute('value', migrate_new_items));
 
+  // Migrate Islandora Repository Objects
+
   await t
     .setFilesToUpload('#edit-source-file', [
-      './migrations/item.csv'
+      './migrations/islandora_object.csv'
     ])
     .click('#edit-import');
 

@@ -19,15 +19,24 @@ process:
   field_collection_contact_email: contact_email
   field_collection_contact_name: contact_name
   field_collection_number:
-    plugin: explode
-    source: collection_number
-    delimiter: '|'
-    strict: false
+    -
+      plugin: skip_on_empty
+      method: process
+      source: collection_number
+      delimiter: '|'
+      strict: false
+    -
+      plugin: explode
+      delimiter: '|'
+      strict: false
   field_finding_aid/uri: finding_aid
   field_description:
     -
-      plugin: explode
+      plugin: skip_on_empty
+      method: process
       source: description
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
     -
@@ -78,8 +87,11 @@ process:
     value_key: field_language_code
   field_alternative_title:
     -
-      plugin: explode
+      plugin: skip_on_empty
+      method: process
       source: alternative_title
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
     -
