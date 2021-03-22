@@ -12,6 +12,8 @@ services:
     image: ${REPOSITORY:-islandora}/houdini:${TAG:-latest}
   hypercube:
     image: ${REPOSITORY:-islandora}/hypercube:${TAG:-latest}
+    environment:
+      HYPERCUBE_LOG_LEVEL: debug
   milliner:
     image: ${REPOSITORY:-islandora}/milliner:${TAG:-latest}
     environment:
