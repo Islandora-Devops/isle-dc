@@ -247,7 +247,7 @@ ifeq ($(FEDORA_6), true)
 ifeq ($(FCREPO_DATABASE_SERVICE), postgresql)
 	$(error Postgresql not implemented yet in fcrepo-import)
 else
-	docker-compose exec -T fcrepo with-contenv bash -lc 'mysql -u $${FCREPO_DB_ROOT_USER} -p$${FCREPO_DB_ROOT_PASSWORD} -h $${FCREPO_DB_MYSQL_HOST} -e "DROP DATABASE $${FCREPO_DB_NAME}"'
+	docker-compose exec -T fcrepo with-contenv bash -lc 'mysql -u $${DB_ROOT_USER} -p$${DB_ROOT_PASSWORD} -h $${DB_MYSQL_HOST} -e "DROP DATABASE $${FCREPO_DB_NAME}"'
 endif
 else
 	docker-compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.1.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${TOMCAT_ADMIN_NAME}:$${TOMCAT_ADMIN_PASSWORD}'

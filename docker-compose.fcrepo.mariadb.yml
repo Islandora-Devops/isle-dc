@@ -4,5 +4,3 @@ services:
   fcrepo:
     environment:
       FCREPO_PERSISTENCE_TYPE: mysql
-      FCREPO_DB_MYSQL_HOST: mariadb
-      FCREPO_DB_MYSQL_PORT: 3306

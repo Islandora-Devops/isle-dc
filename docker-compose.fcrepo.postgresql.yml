@@ -4,5 +4,3 @@ services:
   fcrepo:
     environment:
       FCREPO_PERSISTENCE_TYPE: postgresql
-      FCREPO_DB_POSTGRESQL_HOST: postgresql
-      FCREPO_DB_POSTGRESQL_PORT: 5432
