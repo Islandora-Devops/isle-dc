@@ -345,7 +345,6 @@ local:
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
-	docker-compose exec -T drupal with-contenv bash -lc 'drush -y en islandora search_api_solr'
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 
