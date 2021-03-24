@@ -1,0 +1,17 @@
+{
+  "type": "media",
+  "bundle": "document",
+  "name": "Fuji Acros Datasheet",
+  "original_name": "Fuji_acros.pdf",
+  "size": 98884,
+  "mime_type": "application/pdf",
+  "use": [
+    "Preservation Master File",
+    "Original File"
+  ],
+  "media_of": "Media Migration Repository Item One",
+  "uri": {
+    "url": "/sites/default/files/c9/a0/60/c39365820edc5d1a51f221d49e96a8a730",
+    "value": "public://c9/a0/60/c39365820edc5d1a51f221d49e96a8a730"
+  }
+}

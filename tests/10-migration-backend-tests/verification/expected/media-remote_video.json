@@ -1,0 +1,7 @@
+{
+  "type": "media",
+  "bundle": "remote_video",
+  "name": "A Tour of Go",
+  "media_of": "Media Migration Repository Item One",
+  "embed_url": "https://www.youtube.com/watch?v=ytEkHepK08c"
+}

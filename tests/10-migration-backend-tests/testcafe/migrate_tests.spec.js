@@ -18,7 +18,13 @@ const migrate_geolocation_taxonomy = 'idc_ingest_taxonomy_geolocation';
 const migrate_language_taxonomy = 'idc_ingest_taxonomy_language';
 const migrate_new_items = 'idc_ingest_new_items';
 const migrate_new_collection = 'idc_ingest_new_collection';
-const migrate_media_images = 'idc_ingest_media_images';
+const migrate_media_image = 'idc_ingest_media_image';
+const migrate_media_document = 'idc_ingest_media_document';
+const migrate_media_extracted_text = 'idc_ingest_media_extracted_text';
+const migrate_media_file = 'idc_ingest_media_file';
+const migrate_media_video = 'idc_ingest_media_video';
+const migrate_media_remote_video = 'idc_ingest_media_remote_video';
+const migrate_media_audio = 'idc_ingest_media_audio';
 const migrate_resource_types = 'idc_ingest_taxonomy_resourcetypes';
 const migrate_subject_taxonomy = 'idc_ingest_taxonomy_subject';
 const migrate_corporatebody_taxonomy = 'idc_ingest_taxonomy_corporatebody';
@@ -310,16 +316,97 @@ test('Perform Repository Object Migration', async t => {
 
 });
 
-test('Perform Image Media Migration', async t => {
+test('Perform Media Migrations', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_media_images));
+    // Migrate the Collection and Repository Object the Media will be attached to
 
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/image-media.csv'
-    ])
-    .click('#edit-import');
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_new_collection));
 
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-collection.csv'
+        ])
+        .click('#edit-import');
+
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_new_items));
+
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-islandora_object.csv'
+        ])
+        .click('#edit-import');
+
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_media_image));
+
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-image.csv'
+        ])
+        .click('#edit-import');
+
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_media_document));
+
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-document.csv'
+        ])
+        .click('#edit-import');
+
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_media_extracted_text));
+
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-extracted_text.csv'
+        ])
+        .click('#edit-import');
+
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_media_file));
+
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-file.csv'
+        ])
+        .click('#edit-import');
+
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_media_video));
+
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-video.csv'
+        ])
+        .click('#edit-import');
+
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_media_remote_video));
+
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-remote_video.csv'
+        ])
+        .click('#edit-import');
+
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_media_audio));
+
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-audio.csv'
+        ])
+        .click('#edit-import');
 });

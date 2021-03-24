@@ -1,0 +1,35 @@
+uuid: 3ed66557-28cb-46c2-96a7-92f9f6806887
+langcode: en
+status: true
+dependencies: {  }
+id: idc_ingest_media_remote_video
+class: null
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags: null
+migration_group: idc_ingest
+label: '(3f) Ingest Remote Video Media'
+source:
+  plugin: csv
+  ids:
+    - local_id
+  path: 'Will be populated by the Migrate Source UI'
+  constants:
+    STATUS: true
+    DISPLAY: true
+    ADMIN: 1
+    PUBLIC_FS: "public://"
+    TMP_FS: "/tmp/"
+process:
+  name: name
+  field_media_oembed_video: url
+  field_media_of:
+    plugin: migration_lookup
+    migration: idc_ingest_new_items
+    no_stub: true
+    source: media_of
+  status: constants/STATUS
+destination:
+  plugin: 'entity:media'
+  default_bundle: remote_video
+migration_dependencies: null

@@ -10,7 +10,7 @@ assets_repo=${MIGRATION_ASSETS_REPO:-ghcr.io/jhu-sheridan-libraries/idc-isle-dc}
 # The name of the Docker image for migration assets
 assets_image=${MIGRATION_ASSETS_IMAGE:-migration-assets}
 # The migration assets image tag
-assets_image_tag=${MIGRATION_ASSETS_IMAGE_TAG:-d44e629.1616597119}
+assets_image_tag=${MIGRATION_ASSETS_IMAGE_TAG:-9a3b4d9.1617309560}
 # The *external* port the migration assets HTTP server listens on
 ext_assets_port=${MIGRATION_ASSETS_PORT:-8081}
 # The name used by the migration assets container
