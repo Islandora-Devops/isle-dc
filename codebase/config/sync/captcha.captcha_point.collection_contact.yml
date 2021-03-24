@@ -1,0 +1,7 @@
+uuid: 856565a0-31d6-4c8a-afb1-1392d7d341db
+langcode: en
+status: true
+dependencies: {  }
+formId: collection_contact
+captchaType: default
+label: contact_message_collection_contact_form

@@ -1,0 +1,48 @@
+uuid: 0f40daca-fbc3-43c6-b97a-fb53aa010d6a
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.collection_contact
+  module:
+    - contact_block
+    - context
+    - islandora
+    - node
+  theme:
+    - idcui
+id: contactblock
+theme: idcui
+region: modal
+weight: 0
+provider: null
+plugin: contact_block
+settings:
+  id: contact_block
+  label: 'Leave Feedback or Ask a Question'
+  provider: contact_block
+  label_display: visible
+  contact_form: collection_contact
+visibility:
+  view_inclusion:
+    id: view_inclusion
+    negate: null
+    view_inclusion: {  }
+    context_mapping: {  }
+  request_path_exclusion:
+    id: request_path_exclusion
+    pages: ''
+    negate: null
+    context_mapping: {  }
+  media_source_mimetype:
+    id: media_source_mimetype
+    mimetype: ''
+    negate: false
+    context_mapping: {  }
+  node_type:
+    id: node_type
+    bundles:
+      collection_object: collection_object
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

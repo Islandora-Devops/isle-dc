@@ -1,18 +1,20 @@
-uuid: f9a1d8c1-5355-4be6-9fc2-9e17e159fac4
+uuid: e54259e3-c619-4f92-ae72-377e3c1dbb79
 langcode: en
 status: true
 dependencies:
   module:
+    - contact
     - field_permissions
     - node
 third_party_settings:
   field_permissions:
     permission_type: public
-id: node.field_collection_contact_email
-field_name: field_collection_contact_email
-entity_type: node
-type: email
-settings: {  }
+id: contact_message.field_collection
+field_name: field_collection
+entity_type: contact_message
+type: entity_reference
+settings:
+  target_type: node
 module: core
 locked: false
 cardinality: 1

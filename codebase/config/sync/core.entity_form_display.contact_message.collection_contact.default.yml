@@ -1,0 +1,62 @@
+uuid: 84c2e206-6e82-4efd-967f-24a0fc30de27
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.collection_contact
+    - field.field.contact_message.collection_contact.field_collection
+id: contact_message.collection_contact.default
+targetEntityType: contact_message
+bundle: collection_contact
+mode: default
+content:
+  copy:
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_collection:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  langcode:
+    type: language_select
+    weight: 5
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  mail:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  message:
+    type: string_textarea
+    weight: 4
+    settings:
+      rows: 12
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  name:
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  subject:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  preview: true

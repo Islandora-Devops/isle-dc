@@ -1,0 +1,53 @@
+uuid: bde264e2-9f2e-457b-ade2-0448634d644a
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.collection_contact
+    - field.field.contact_message.collection_contact.field_collection
+id: contact_message.collection_contact.default
+targetEntityType: contact_message
+bundle: collection_contact
+mode: default
+content:
+  field_collection:
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  mail:
+    weight: 2
+    region: content
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+  message:
+    type: basic_string
+    weight: 4
+    label: above
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  name:
+    weight: 1
+    region: content
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+  subject:
+    weight: 3
+    region: content
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+hidden:
+  langcode: true
+  search_api_excerpt: true

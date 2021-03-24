@@ -14,6 +14,10 @@ module:
   config: 0
   config_update: 0
   contact: 0
+  contact_ajax: 0
+  contact_block: 0
+  contact_emails: 0
+  contact_storage: 0
   content_browser: 0
   context: 0
   context_ui: 0
@@ -28,6 +32,7 @@ module:
   embed: 0
   entity_browser: 0
   entity_embed: 0
+  epp: 0
   eva: 0
   facets: 0
   features: 0

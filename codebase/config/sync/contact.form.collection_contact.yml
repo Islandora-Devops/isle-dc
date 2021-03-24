@@ -1,0 +1,28 @@
+uuid: 86328015-326b-4d21-98d5-895c6edac0ae
+langcode: en
+status: true
+dependencies:
+  module:
+    - contact_ajax
+    - contact_storage
+third_party_settings:
+  contact_storage:
+    submit_text: 'Send message'
+    show_preview: false
+    disabled_form_message: 'This contact form has been disabled.'
+    maximum_submissions_user: 0
+    page_autoreply_format: plain_text
+  contact_ajax:
+    enabled: true
+    prefix_id: ''
+    render_selector: ''
+    confirmation_type: 4
+    load_clean_form: null
+id: collection_contact
+label: 'Collection Contact'
+recipients:
+  - temp@localhost
+reply: ''
+weight: 0
+message: ''
+redirect: ''

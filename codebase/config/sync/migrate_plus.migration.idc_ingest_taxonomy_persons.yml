@@ -21,7 +21,7 @@ source:
     REL_TYPE: 'schema:knows'
 process:
   name: name
-  field_preferred_name_rest: 
+  field_preferred_name_rest:
     -
       plugin: skip_on_empty
       method: process

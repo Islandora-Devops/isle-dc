@@ -1,0 +1,34 @@
+uuid: 7989ba07-5cfd-48e2-9c2b-497e55a01009
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.collection_contact
+    - field.storage.contact_message.field_collection
+    - node.type.collection_object
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: '[current-page:url:args:value:1]'
+    on_update: 1
+id: contact_message.collection_contact.field_collection
+field_name: field_collection
+entity_type: contact_message
+bundle: collection_contact
+label: Collection
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      collection_object: collection_object
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -51,7 +51,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
+    type: email_default
     region: content
   field_collection_contact_name:
     weight: 5
