@@ -314,21 +314,21 @@ download-default-certs:
 .PHONY: demo
 .SILENT: demo
 demo:
-	$(MAKE) download-default-certs
-	$(MAKE) docker-compose.yml
-	$(MAKE) pull
+	$(MAKE) download-default-certs ENVIROMENT=demo
+	$(MAKE) docker-compose.yml ENVIROMENT=demo
+	$(MAKE) pull ENVIROMENT=demo
 	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
-	$(MAKE) update-settings-php
-	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz
-	$(MAKE) drupal-database
-	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql
-	$(MAKE) hydrate
+	$(MAKE) update-settings-php ENVIROMENT=demo
+	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIROMENT=demo
+	$(MAKE) drupal-database ENVIROMENT=demo
+	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql ENVIROMENT=demo
+	$(MAKE) hydrate ENVIROMENT=demo
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz
-	$(MAKE) reindex-fcrepo-metadata
-	$(MAKE) reindex-solr
-	$(MAKE) reindex-triplestore
+	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz ENVIROMENT=demo
+	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
+	$(MAKE) reindex-solr ENVIROMENT=demo
+	$(MAKE) reindex-triplestore ENVIROMENT=demo
 	
 
 .PHONY: local
@@ -338,7 +338,7 @@ local:
 	$(MAKE) docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p $(CURDIR)/codebase
-	if [ -z "$(ls -A ./codebase)" ]; then \
+	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
 		docker container run --rm -v $(CURDIR)/codebase:/home/root islandora/nginx with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush:^10.3'; \
 	fi
 	docker-compose up -d

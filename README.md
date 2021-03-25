@@ -4,18 +4,8 @@
 
 - [Introduction](#introduction)
 - [Requirements](#requirements)
-- [Installation](#installation)
-  - [Configuring the Environment](#configuring-the-environment)
-    - [Changing the host name](#changing-the-host-name)
-    - [Using an IP address](#using-an-ip-address)
-  - [Applying changes](#applying-changes)
-- [Demo Environment](#demo-environment)
-- [Local Environment](#local-environment)
-  - [Create Local Environment from islandora/demo Image](#create-local-environment-from-islandorademo-image)
-    - [From existing Configuration](#from-existing-configuration)
-    - [Manually](#manually)
-  - [Create Local Environment from Existing Site](#create-local-environment-from-existing-site)
-  - [Create Local Environment from Scratch](#create-local-environment-from-scratch)
+- [Getting Started](#getting-started)
+- [Local Development](#local-development)
 - [Custom Environment](#custom-environment)
 - [Secrets](#secrets)
 - [Services](#services)
@@ -42,7 +32,7 @@ that you supply in a `.env` file.  And there are three use cases we're trying to
 
 - **demo** *(Example site for kicking the tires and looking at Islandora)*
 - **local** *(Local development using composer/drush in the codebase folder)*
-- **production** *(An environment safe to run out the wild)*
+- **custom** *(A custom Dockerfile to deploy created from local)*
 
 On top of that, there's a lot of useful commands for managing an Islandora instance, such
 as database import/export and reindexing.
@@ -108,20 +98,28 @@ docker-compose down -v
 
 ## Local Development
 
-Before you go any further, make sure you've set `ENVIRONMENT=local` in  your .env file.
-
 When developing locally, your Drupal site resides in the `codebase` folder and is bind-mounted into your
 Drupal container.  This lets you update code using the IDE of your choice on your host machine, and the
 changes are automatically reflected on the Drupal container.  Simply place any exported Drupal site as
-the `codebase` folder in `isle-dc` and you're good to go.  From there, run
-
-```bash
-make local
-```
+the `codebase` folder in `isle-dc` and you're good to go.
 
 If you don't provide a codebase, you'll be given a vanilla Drupal 9 instance with the Islandora module
 installed and the bare minimum configured to run.  This is useful if you want to build your repository
 from scratch and avoid `islandora_defaults`.
+
+If you've included configuration in your exported site using `drush config:export`, then you'll need
+to set two values in your .env file:
+
+```
+INSTALL_EXISTING_CONFIG=true
+DRUPAL_INSTALL_PROFILE=minimal
+```
+
+In either case, run this command to make a local environment.
+
+```bash
+make local
+```
 
 If you already have a Drupal site but don't know how to export it,
 log into your server, navigate to the Drupal root, and run the following commands:
