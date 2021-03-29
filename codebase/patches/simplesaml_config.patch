@@ -89,11 +89,11 @@ index 00000000..64db1876
 +
 +        // The entity ID of this SP.
 +        // Can be NULL/unset, in which case an entity ID is generated based on the metadata URL.
-+        'entityID' => getenv('DRUPAL_SP_ENTITYID'),
++        'entityID' => getenv('DRUPAL_SP_ENTITYID') ?: 'https://islandora-idc.traefik.me/sp/shibboleth',
 +
 +        // The entity ID of the IdP this SP should contact.
 +        // Can be NULL/unset, in which case the user will be shown a list of available IdPs.
-+        'idp' => getenv('DRUPAL_IDP_ENTITYID'),
++        'idp' => getenv('DRUPAL_IDP_ENTITYID') ?: 'https://islandora-idp.traefik.me/idp/shibboleth',
 +
 +        'privatekey' => '/tmp/sp-signing-key.pem',
 +        'certificate' => '/tmp/sp-signing-cert.pem',
@@ -466,7 +466,7 @@ index 00000000..399dde26
 +     * external url, no matter where you come from (direct access or via the
 +     * reverse proxy).
 +     */
-+    'baseurlpath' => str_replace('http:', 'https:', getenv('DRUPAL_DEFAULT_SITE_URL') . '/simplesaml/'),
++    'baseurlpath' => str_replace('http:', 'https:', (getenv('DRUPAL_DEFAULT_SITE_URL') ?: 'https://islandora-idc.traefik.me') . '/simplesaml/'),
 +
 +    /*
 +     * The 'application' configuration array groups a set configuration options
@@ -511,8 +511,8 @@ index 00000000..399dde26
 +     * The email address will be used as the recipient address for error reports, and
 +     * also as the technical contact in generated metadata.
 +     */
-+    'technicalcontact_name' => getenv('DRUPAL_SP_TECHCONTACTNAME'),
-+    'technicalcontact_email' => getenv('DRUPAL_SP_TECHCONTACTEMAIL'),
++    'technicalcontact_name' => getenv('DRUPAL_SP_TECHCONTACTNAME') ?: "Moo Cow",
++    'technicalcontact_email' => getenv('DRUPAL_SP_TECHCONTACTEMAIL') ?: "moo@cow.org",
 +
 +    /*
 +     * (Optional) The method by which email is delivered.  Defaults to mail which utilizes the
@@ -649,7 +649,7 @@ index 00000000..399dde26
 +     * Allowed range: 180 - 300
 +     * Defaults to 180.
 +     */
-+    'assertion.allowed_clock_skew' => intval(getenv('DRUPAL_SP_ASSERTIONALLOWEDCLOCKSKEW')),
++    'assertion.allowed_clock_skew' => intval(getenv('DRUPAL_SP_ASSERTIONALLOWEDCLOCKSKEW') ?: "180"),
 +
 +
 +    /************************
@@ -943,24 +943,24 @@ index 00000000..399dde26
 +     * This value is the duration of the session in seconds. Make sure that the time duration of
 +     * cookies both at the SP and the IdP exceeds this duration.
 +     */
-+    'session.duration' => intval(getenv('DRUPAL_SP_SESSION_DURATIONSECONDS')),
++    'session.duration' => intval(getenv('DRUPAL_SP_SESSION_DURATIONSECONDS') ?: "28800"),
 +
 +    /*
 +     * Sets the duration, in seconds, data should be stored in the datastore. As the data store is used for
 +     * login and logout requests, this option will control the maximum time these operations can take.
 +     * The default is 4 hours (4*60*60) seconds, which should be more than enough for these operations.
 +     */
-+    'session.datastore.timeout' => intval(getenv('DRUPAL_SP_SESSION_DATASTORETIMEOUTSECONDS')),
++    'session.datastore.timeout' => intval(getenv('DRUPAL_SP_SESSION_DATASTORETIMEOUTSECONDS') ?: "14400"),
 +
 +    /*
 +     * Sets the duration, in seconds, auth state should be stored.
 +     */
-+    'session.state.timeout' => intval(getenv('DRUPAL_SP_SESSION_STATETIMEOUTSECONDS')),
++    'session.state.timeout' => intval(getenv('DRUPAL_SP_SESSION_STATETIMEOUTSECONDS') ?: "3600"),
 +
 +    /*
 +     * Option to override the default settings for the session cookie name
 +     */
-+    'session.cookie.name' => getenv('DRUPAL_SP_SESSION_COOKIENAME'),
++    'session.cookie.name' => getenv('DRUPAL_SP_SESSION_COOKIENAME') ?: "SimpleSAMLSessionID",
 +
 +    /*
 +     * Expiration time for the session cookie, in seconds.
@@ -970,7 +970,7 @@ index 00000000..399dde26
 +     * Example:
 +     *  'session.cookie.lifetime' => 30*60,
 +     */
-+    'session.cookie.lifetime' => intval(getenv('DRUPAL_SP_SESSION_COOKIELIFETIMESECONDS')),
++    'session.cookie.lifetime' => intval(getenv('DRUPAL_SP_SESSION_COOKIELIFETIMESECONDS') ?: "0"),
 +
 +    /*
 +     * Limit the path of the cookies.
@@ -980,7 +980,7 @@ index 00000000..399dde26
 +     * Example:
 +     *  'session.cookie.path' => '/simplesaml/',
 +     */
-+    'session.cookie.path' => getenv('DRUPAL_SP_SESSION_COOKIEPATH'),
++    'session.cookie.path' => getenv('DRUPAL_SP_SESSION_COOKIEPATH') ?: "/",
 +
 +    /*
 +     * Cookie domain.
@@ -1671,8 +1671,8 @@ index 00000000..f98e7b24
 +    ]
 +];
 +*/
-+$idp_entityid = getenv('DRUPAL_IDP_ENTITYID');
-+$idp_baseurl = getenv('DRUPAL_IDP_BASEURL');
++$idp_entityid = getenv('DRUPAL_IDP_ENTITYID') ?: 'https://islandora-idp.traefik.me/idp/shibboleth';
++$idp_baseurl = getenv('DRUPAL_IDP_BASEURL') ?: 'https://islandora-idp.traefik.me:4443';
 +$saml_secrets = yaml_parse_file('/run/secrets/saml_secrets');
 +
 +$metadata[$idp_entityid] = array (
