@@ -731,8 +731,8 @@ index 00000000..399dde26
 +     * Options: [syslog,file,errorlog,stderr]
 +     *
 +     */
-+    'logging.level' => SimpleSAML\Logger::DEBUG,
-+    'logging.handler' => 'syslog',
++    'logging.level' => intval(constant('SimpleSAML\Logger::' . (getenv('DRUPAL_SP_LOGGING_LEVEL') ?: 'INFO'))),
++    'logging.handler' => getenv('DRUPAL_SP_LOGGING_HANDLER') ?: 'errorlog',
 +
 +    /*
 +     * Specify the format of the logs. Its use varies depending on the log handler used (for instance, you cannot

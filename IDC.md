@@ -169,6 +169,8 @@ These are truly environment variables (in the sense that they are not _secrets_)
 |DRUPAL_SP_SESSION_COOKIELIFETIMESECONDS|0|`docker-compose.env.yml`|Expiration time for the session cookie, in seconds. Defaults to 0, which means that the cookie expires when the browser is closed.|
 |DRUPAL_SP_SESSION_COOKIEPATH|/|`docker-compose.env.yml`|Limit the path of the cookies. Can be used to limit the path of the cookies to a specific subdirectory.|
 |DRUPAL_SP_SESSION_COOKIESECURE|false|`docker-compose.env.yml`|Set the secure flag in the cookie. Set this to TRUE if the user only accesses your service through https. If the user can access the service through both http and https, this must be set to FALSE.|
+|DRUPAL_SP_LOGGING_LEVEL|INFO|`simplesaml_config.patch`, `<vendor dir>/simplesamlphp/simplesamlphp/config/config.php`|Set the log level used by the SimpleSAMLphp SP.  Valid values are 'ERR', 'WARNING', 'NOTICE', 'INFO', 'DEBUG'|
+|DRUPAL_SP_LOGGING_HANDLER|errorlog|`simplesaml_config.patch`, `<vendor dir>/simplesamlphp/simplesamlphp/config/config.php`|Sets the log handler used by the SimpleSAMLphp SP.  Valid values are 'syslog', 'file', 'errorlog', 'stderr'|
 
 
 ## SAML Secrets
