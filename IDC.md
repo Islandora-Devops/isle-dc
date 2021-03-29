@@ -60,7 +60,7 @@ A few specialized targets are:
 * **make static-drupal-image** builds (or pulls, if published) a "static" drupal image suitable for deployment in the cloud.  This image:
   * Has the contents of `codebase` baked into it, as well as all dependencies via `composer install`
   * Will load its config from `config/sync` upon startup
-  * Is named `drupal-static` and is tagged based on `git describe --tags`.  
+  * Is named `drupal-static` and is tagged based on `git describe --tags`.
 
 ## Snapshots
 
@@ -121,7 +121,7 @@ SimpleSAMLphp has an administrative [web interface][simplesaml-webadmin] which s
   * SP metadata generation (used to generate SP `EntityDescriptor` XML used by Shibboleth IdPs)
   * IdP XML metadata conversion (used to transform Shibboleth IdP metadata for use by SimpleSAMLphp)
 
-Testing authentication and attributes presented by the IdP is best performed using this admin interface.
+Clicking on the Federation tab, and then click on the link labeled [Show metadata][sp-gen-md] under the heading “SAML 2.0 SP Metadata” will generate the SAML metadata to provide to the IdP. Testing authentication and attributes presented by the IdP is best performed using this admin interface.
 
 Runtime parameterization of the IdP and SP is accomplished using a mixture of environment variables and secrets.  Two containers use these secrets: the `idp` and `drupal` containers.  Secrets are defined in `docker-compose.yml` from the consitutient service definitions in `docker-compose.saml.yml` and `docker-compose.local.yml`.
 
@@ -237,6 +237,8 @@ The PHP interpreter executes under PHP-FPM, therefore environment variables must
 [confd]: http://www.confd.io/
 [file-backend]: https://github.com/kelseyhightower/confd/blob/master/docs/quick-start-guide.md#file
 [cert-primer]: https://wiki.shibboleth.net/confluence/display/CONCEPT/SAMLKeysAndCertificates
+[sp-gen-md]: https://islandora-idc.traefik.me/simplesaml/module.php/saml/sp/metadata.php/default-sp?output=xhtml
+
 =======
 Note:  In order for the push to be successful, you need to be "logged in" to the container registry via
 
