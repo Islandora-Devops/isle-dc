@@ -38,6 +38,11 @@ ifeq ($(INCLUDE_TRAEFIK_SERVICE), true)
 	TRAEFIK_SERVICE := traefik
 endif
 
+# The service traefik may be optional if we are sharing one from another project.
+ifeq ($(INCLUDE_CODE_SERVER_SERVICE), true)
+	CODE_SERVER_SERVICE := code-server
+endif
+
 # etcd is an optional dependency, by default it is not included.
 ifeq ($(INCLUDE_ETCD_SERVICE), true)
 	ETCD_SERVICE := etcd
@@ -69,7 +74,7 @@ DATABASE_SERVICES := $(sort $(DATABASE_SERVICES))
 # The services to be run (order is important), as services can override one
 # another. Traefik must be last if included as otherwise its network 
 # definition for `gateway` will be overriden.
-SERVICES := $(REQUIRED_SERIVCES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(SECRETS)
+SERVICES := $(REQUIRED_SERIVCES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(SECRETS) $(CODE_SERVER_SERVICE)
 
 default: download-default-certs docker-compose.yml pull
 

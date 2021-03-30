@@ -31,6 +31,7 @@ services:
       --entryPoints.blazegraph.address=:8082
       --entryPoints.activemq.address=:8161
       --entryPoints.solr.address=:8983
+      --entryPoints.code-server.address=:8443
       --providers.docker
       --providers.docker.network=gateway
       --providers.docker.exposedByDefault=false
@@ -47,6 +48,7 @@ services:
       - 8082:8082   # blazegraph      
       - 8161:8161   # activemq
       - 8983:8983   # solr
+      - 8443:8443   # code-server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./tls.yml:/etc/traefik/tls.yml
