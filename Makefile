@@ -315,7 +315,7 @@ download-default-certs:
 .SILENT: demo
 demo:
 	$(MAKE) download-default-certs ENVIROMENT=demo
-	$(MAKE) docker-compose.yml ENVIROMENT=demo
+	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
 	$(MAKE) pull ENVIROMENT=demo
 	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
@@ -335,7 +335,7 @@ demo:
 .SILENT: local
 local:
 	$(MAKE) download-default-certs ENVIROMENT=local
-	$(MAKE) docker-compose.yml ENVIRONMENT=local
+	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p $(CURDIR)/codebase
 	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
@@ -347,6 +347,24 @@ local:
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
+
+.PHONY: local-from-demo
+.SILENT: local-from-demo
+local-from-demo:
+	$(MAKE) demo
+	docker-compose exec drupal drush -y config:export
+	# Need `default` folder to be writeable to copy it down to host.
+	docker-compose exec drupal chmod 777 /var/www/drupal/web/sites/default
+	sudo rm -rf codebase
+	docker cp $$(docker-compose ps -q drupal):/var/www/drupal/ $(CURDIR)/codebase
+	# Restore expected perms for `default`.
+	docker-compose exec drupal chmod 555 /var/www/drupal/web/sites/default
+	# Change ownership so the host user can work with the files.
+	sudo chown -R $(shell id -u):101 $(CURDIR)/codebase
+	# For newly added files/directories makesure they inherit the parent folders owner/group.
+	find $(CURDIR)/codebase -type d -exec chmod u+s,g+s {} \;
+	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
+	docker-compose up -d
 
 # Destroys everything beware!
 .PHONY: clean
