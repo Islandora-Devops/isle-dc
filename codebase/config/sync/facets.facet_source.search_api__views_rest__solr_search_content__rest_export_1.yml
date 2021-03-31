@@ -1,0 +1,9 @@
+uuid: 07f8710d-4c91-428c-8b07-0b80aaa195fe
+langcode: en
+status: true
+dependencies: {  }
+id: search_api__views_rest__solr_search_content__rest_export_1
+name: 'search_api:views_rest__solr_search_content__rest_export_1'
+filter_key: null
+url_processor: query_string
+breadcrumb: {  }

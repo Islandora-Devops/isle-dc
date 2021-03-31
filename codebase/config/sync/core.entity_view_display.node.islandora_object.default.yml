@@ -173,7 +173,7 @@ content:
     settings:
       date_separator: dash
       date_order: big_endian
-      month_format: mmmm
+      month_format: mm
       day_format: dd
     third_party_settings: {  }
     type: edtf_default

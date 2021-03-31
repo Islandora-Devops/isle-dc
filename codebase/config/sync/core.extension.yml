@@ -35,6 +35,7 @@ module:
   epp: 0
   eva: 0
   facets: 0
+  facets_rest: 0
   features: 0
   features_ui: 0
   field: 0

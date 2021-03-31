@@ -45,9 +45,8 @@ dependencies:
     - search_api.index.default_solr_index
   module:
     - controlled_access_terms
-    - hal
+    - idc_ui_module
     - link
-    - pager_serializer
     - reference_value_pair
     - rest
     - search_api
@@ -1294,10 +1293,11 @@ display:
       display_extenders: {  }
       path: search_rest_endpoint
       style:
-        type: pager_serializer
+        type: idc_serializer
         options:
           formats:
-            hal_json: hal_json
+            json: json
+          show_facets: 1
       row:
         type: data_field
         options:

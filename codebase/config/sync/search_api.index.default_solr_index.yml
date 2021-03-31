@@ -6,8 +6,8 @@ dependencies:
     - search_api_solr
     - node
     - user
-    - token
     - taxonomy
+    - token
     - content_translation
     - search_api
   config:
@@ -252,11 +252,13 @@ field_settings:
   field_creator:
     label: Creator
     datasource_id: 'entity:node'
-    property_path: field_creator
-    type: integer
+    property_path: 'field_creator:entity:name'
+    type: string
     dependencies:
       config:
         - field.storage.node.field_creator
+      module:
+        - taxonomy
   field_date_available:
     label: 'Date Available'
     datasource_id: 'entity:node'
@@ -293,7 +295,7 @@ field_settings:
     label: 'Digital Publisher'
     datasource_id: 'entity:node'
     property_path: field_digital_publisher
-    type: integer
+    type: string
     dependencies:
       config:
         - field.storage.node.field_digital_publisher
@@ -457,11 +459,13 @@ field_settings:
   field_publisher:
     label: Publisher
     datasource_id: 'entity:node'
-    property_path: field_publisher
-    type: integer
+    property_path: 'field_publisher:entity:name'
+    type: string
     dependencies:
       config:
         - field.storage.node.field_publisher
+      module:
+        - taxonomy
   field_publisher_country:
     label: 'Publisher Country'
     datasource_id: 'entity:node'
@@ -473,11 +477,13 @@ field_settings:
   field_resource_type:
     label: 'Resource Type'
     datasource_id: 'entity:node'
-    property_path: field_resource_type
-    type: integer
+    property_path: 'field_resource_type:entity:name'
+    type: string
     dependencies:
       config:
         - field.storage.node.field_resource_type
+      module:
+        - taxonomy
   field_spatial_coverage:
     label: 'Spatial Coverage'
     datasource_id: 'entity:node'
