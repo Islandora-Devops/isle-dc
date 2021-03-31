@@ -60,7 +60,7 @@ A few specialized targets are:
 * **make static-drupal-image** builds (or pulls, if published) a "static" drupal image suitable for deployment in the cloud.  This image:
   * Has the contents of `codebase` baked into it, as well as all dependencies via `composer install`
   * Will load its config from `config/sync` upon startup
-  * Is named `drupal-static` and is tagged based on `git describe --tags`.  
+  * Is named `drupal-static` and is tagged based on `git describe --tags`.
 
 ## Snapshots
 
@@ -121,7 +121,7 @@ SimpleSAMLphp has an administrative [web interface][simplesaml-webadmin] which s
   * SP metadata generation (used to generate SP `EntityDescriptor` XML used by Shibboleth IdPs)
   * IdP XML metadata conversion (used to transform Shibboleth IdP metadata for use by SimpleSAMLphp)
 
-Testing authentication and attributes presented by the IdP is best performed using this admin interface.
+Clicking on the Federation tab, and then click on the link labeled [Show metadata][sp-gen-md] under the heading “SAML 2.0 SP Metadata” will generate the SAML metadata to provide to the IdP. Testing authentication and attributes presented by the IdP is best performed using this admin interface.
 
 Runtime parameterization of the IdP and SP is accomplished using a mixture of environment variables and secrets.  Two containers use these secrets: the `idp` and `drupal` containers.  Secrets are defined in `docker-compose.yml` from the consitutient service definitions in `docker-compose.saml.yml` and `docker-compose.local.yml`.
 
@@ -169,6 +169,8 @@ These are truly environment variables (in the sense that they are not _secrets_)
 |DRUPAL_SP_SESSION_COOKIELIFETIMESECONDS|0|`docker-compose.env.yml`|Expiration time for the session cookie, in seconds. Defaults to 0, which means that the cookie expires when the browser is closed.|
 |DRUPAL_SP_SESSION_COOKIEPATH|/|`docker-compose.env.yml`|Limit the path of the cookies. Can be used to limit the path of the cookies to a specific subdirectory.|
 |DRUPAL_SP_SESSION_COOKIESECURE|false|`docker-compose.env.yml`|Set the secure flag in the cookie. Set this to TRUE if the user only accesses your service through https. If the user can access the service through both http and https, this must be set to FALSE.|
+|DRUPAL_SP_LOGGING_LEVEL|INFO|`simplesaml_config.patch`, `<vendor dir>/simplesamlphp/simplesamlphp/config/config.php`|Set the log level used by the SimpleSAMLphp SP.  Valid values are 'ERR', 'WARNING', 'NOTICE', 'INFO', 'DEBUG'|
+|DRUPAL_SP_LOGGING_HANDLER|errorlog|`simplesaml_config.patch`, `<vendor dir>/simplesamlphp/simplesamlphp/config/config.php`|Sets the log handler used by the SimpleSAMLphp SP.  Valid values are 'syslog', 'file', 'errorlog', 'stderr'|
 
 
 ## SAML Secrets
@@ -237,6 +239,8 @@ The PHP interpreter executes under PHP-FPM, therefore environment variables must
 [confd]: http://www.confd.io/
 [file-backend]: https://github.com/kelseyhightower/confd/blob/master/docs/quick-start-guide.md#file
 [cert-primer]: https://wiki.shibboleth.net/confluence/display/CONCEPT/SAMLKeysAndCertificates
+[sp-gen-md]: https://islandora-idc.traefik.me/simplesaml/module.php/saml/sp/metadata.php/default-sp?output=xhtml
+
 =======
 Note:  In order for the push to be successful, you need to be "logged in" to the container registry via
 
