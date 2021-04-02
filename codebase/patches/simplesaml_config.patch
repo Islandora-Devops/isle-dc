@@ -434,7 +434,7 @@ new file mode 100644
 index 00000000..399dde26
 --- /dev/null
 +++ b/config/config.php
-@@ -0,0 +1,1211 @@
+@@ -0,0 +1,1215 @@
 +<?php
 +/*
 + * The configuration of SimpleSAMLphp
@@ -1459,7 +1459,11 @@ index 00000000..399dde26
 +        10 => [
 +            'class' => 'core:AttributeMap', 'removeurnprefix'
 +        ],
-+
++        20 => [
++            'class' => 'core:AttributeMap',
++            'urn:oid:1.2.840.113556.1.4.656' => 'eduPersonPrincipalName',
++            'email' => 'mail'
++        ],
 +
 +        /*
 +         * Generate the 'group' attribute populated from other variables, including eduPersonAffiliation.
@@ -1646,11 +1650,11 @@ index 00000000..399dde26
 +     */
 +    'store.redis.prefix' => 'SimpleSAMLphp',
 +];
-diff --git a/metadata/shib13-idp-remote.php b/metadata/shib13-idp-remote.php
+diff --git a/metadata/saml20-idp-remote.php b/metadata/saml20-idp-remote.php
 new file mode 100644
 index 00000000..f98e7b24
 --- /dev/null
-+++ b/metadata/shib13-idp-remote.php
++++ b/metadata/saml20-idp-remote.php
 @@ -0,0 +1,124 @@
 +<?php
 +
@@ -1680,7 +1684,7 @@ index 00000000..f98e7b24
 +  'contacts' =>
 +  array (
 +  ),
-+  'metadata-set' => 'shib13-idp-remote',
++  'metadata-set' => 'shib20-idp-remote',
 +  'SingleSignOnService' =>
 +  array (
 +    0 =>
