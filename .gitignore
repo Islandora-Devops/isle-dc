@@ -104,3 +104,4 @@ certs
 end-to-end/reports
 tests/10-migration-backend-tests/testcafe/screenshots
 tests/11-file-deletion-tests/testcafe/screenshots
+tests/12-migration-derivative-tests/testcafe/screenshots
