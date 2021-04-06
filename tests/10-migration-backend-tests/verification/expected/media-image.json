@@ -1,0 +1,20 @@
+{
+  "type": "media",
+  "bundle": "image",
+  "name": "Looking For Fossils",
+  "original_name": "TRP_7767.jpg",
+  "alt_text": "Image alt text",
+  "size": 7584545,
+  "height": 2239,
+  "width": 3378,
+  "mime_type": "image/jpeg",
+  "use": [
+    "Preservation Master File",
+    "Original File"
+  ],
+  "media_of": "Media Migration Repository Item One",
+  "uri": {
+    "url": "/sites/default/files/2021-03/trp_7767.jpg",
+    "value": "public://2021-03/trp_7767.jpg"
+  }
+}

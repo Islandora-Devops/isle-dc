@@ -41,11 +41,22 @@ func (json *JsonApiUrl) String() string {
 	return u.String()
 }
 
-func (jar *JsonApiUrl) get(v interface{}) {
+// Get the JSON API content from the URL and unmarshal the response into the supplied interface (which must be a
+// pointer).  This method asserts that there is a single object in the `data` element of the JSON response.
+func (jar *JsonApiUrl) getSingle(v interface{}) {
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
 	res, body := getResource(jar.t.(*testing.T), jar.String())
 	defer func() { _ = res.Close }()
 	unmarshalSingleResponse(jar.t.(*testing.T), body, res, &JsonApiResponse{}).to(v)
+}
+
+// Get the JSON API content from the URL and unmarshal the response into the supplied interface (which must be a
+// pointer).
+func (jar *JsonApiUrl) get(v interface{}) {
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	res, body := getResource(jar.t.(*testing.T), jar.String())
+	defer func() { _ = res.Close }()
+	unmarshalResponse(jar.t.(*testing.T), body, res, &JsonApiResponse{}, nil).to(v)
 }
 
 // Encapsulates a generic JSON API response
@@ -104,7 +115,7 @@ func (jad *JsonApiData) resolve(t *testing.T, v interface{}) {
 		value:        jad.Id,
 	}
 
-	u.get(v)
+	u.getSingle(v)
 }
 
 // Represents the results of a JSONAPI query for a single Person from the Person Taxonomy
@@ -650,4 +661,185 @@ func (rd RelData) metaInt(field string) (int, error) {
 	}
 
 	return -1, fmt.Errorf("%w: %s", ErrMissing, field)
+}
+
+// https://islandora-idc.traefik.me/jsonapi/media/image?filter[id]=090690a5-4db5-4d72-a94e-3b26a90b516b
+type JsonApiImageMedia struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			JsonApiMediaAttributes
+			JsonApiImageMediaAttributes
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			JsonApiMediaRelationships
+			File struct {
+				Data RelData
+			} `json:"field_media_image"`
+		} `json:"relationships"`
+	} `json:"data"`
+}
+
+type JsonApiMediaAttributes struct {
+	FileSize     int    `json:"field_file_size"`
+	MimeType     string `json:"field_mime_type"`
+	OriginalName string `json:"field_original_name"`
+	Name         string
+}
+
+type JsonApiMediaRelationships struct {
+	MediaUse struct {
+		Data []JsonApiData
+	} `json:"field_media_use"`
+	MediaOf struct {
+		Data JsonApiData
+	} `json:"field_media_of"`
+}
+
+type JsonApiImageMediaAttributes struct {
+	Height int `json:"field_height"`
+	Width  int `json:"field_width"`
+}
+
+type JsonApiDocumentMedia struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			JsonApiMediaAttributes
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			JsonApiMediaRelationships
+			File struct {
+				Data RelData
+			} `json:"field_media_document"`
+		} `json:"relationships"`
+	} `json:"data"`
+}
+
+type JsonApiAudioMedia struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			JsonApiMediaAttributes
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			JsonApiMediaRelationships
+			File struct {
+				Data RelData
+			} `json:"field_media_audio_file"`
+		} `json:"relationships"`
+	} `json:"data"`
+}
+
+type JsonApiExtractedTextMedia struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			JsonApiMediaAttributes
+			JsonApiExtractedTextMediaAttributes
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			JsonApiMediaRelationships
+			File struct {
+				Data RelData
+			} `json:"field_media_file"`
+		} `json:"relationships"`
+	} `json:"data"`
+}
+
+type JsonApiExtractedTextMediaAttributes struct {
+	EditedText struct {
+		Value     string
+		Format    string
+		Processed string
+	} `json:"field_edited_text"`
+}
+
+type JsonApiGenericFileMedia struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			JsonApiMediaAttributes
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			JsonApiMediaRelationships
+			File struct {
+				Data RelData
+			} `json:"field_media_file"`
+		} `json:"relationships"`
+	} `json:"data"`
+}
+
+type JsonApiRemoteVideoMedia struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name     string
+			EmbedUrl string `json:"field_media_oembed_video"`
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			JsonApiMediaRelationships
+		} `json:"relationships"`
+	} `json:"data"`
+}
+
+type JsonApiVideoMedia struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			JsonApiMediaAttributes
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			JsonApiMediaRelationships
+			File struct {
+				Data RelData
+			} `json:"field_media_video_file"`
+		} `json:"relationships"`
+	} `json:"data"`
+}
+
+type JsonApiFile struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Filename string
+			Uri      struct {
+				Url   string
+				Value string
+			}
+			MimeType    string `json:"filemime"`
+			FileSize    int
+			CreatedDate string `json:"created"`
+			ChangedDate string `json:"changed"`
+		} `json:"attributes"`
+	} `json:"data"`
+}
+
+type JsonApiMediaUse struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name        string
+			Description struct {
+				Value     string
+				Format    string
+				Processed string
+			}
+			ExternalUri struct {
+				Uri   string
+				Title string
+			} `json:"field_external_uri"`
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+		} `json:"relationships"`
+	} `json:"data"`
 }

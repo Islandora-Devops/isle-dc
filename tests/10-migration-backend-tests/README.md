@@ -46,13 +46,19 @@ Migration tests may be invoked in isolation by running the `10-migration-backend
 
 The migration tests do participate in the general IDC test framework, and should run automatically when `make test` is invoked.
 
+The tests will attempt to start an HTTP server on port 8081.  If that port is already in use on your machine, test startup will fail.  Use a different port by setting `MIGRATION_ASSETS_PORT` to an open port when running tests:
+
+    MIGRATION_ASSETS_PORT=9090 ./10-migration-backend-tests.sh
+
+Migration assets can be reached at `http://localhost:${MIGRATION_ACCESS_PORT}/assets/` (note the trailing slash).
+
 ## How the tests work - an overview
 
 The `10-migration-backend-tests.sh` script is the "controller" of the tests.  It is responsible for executing the various test frameworks and controls the shell exit code.  Each test framework executes in a Docker container, so there are no dependencies or configuration required to perform the tests, except for a working Docker.
 
-The controller script invokes testcafe first, which will perform migrations that result in resources being created in Drupal.  Next, the controller will invoke Go tests which verify the resources were created correctly (e.g. that the data in the migration CSV files are present in the Drupal resources).
+The controller script invokes testcafe first, which will perform migrations that result in resources being created in Drupal.  Next, the controller will start an HTTP server which provides access to binary files used for the media tests.  Finally, the Go tests are invoked which verify the resources were created correctly (e.g. that the data in the migration CSV files are present in the Drupal resources).
 
-Because one test framework creates resources and another test framework verifies the resources, there is unfortunate coupling that may not be readily apparent.  If the CSV files in testcafe are modified, the verification code must almost certainly be updated to account for the changes in the Drupal resources.
+Because one test framework (testcafe) creates resources and another test framework (go) verifies the resources, there is unfortunate coupling that may not be readily apparent.  If the CSV files in testcafe are modified, the verification code must almost certainly be updated to account for the changes in the Drupal resources.
 
 ### Testcafe performs the migration
 

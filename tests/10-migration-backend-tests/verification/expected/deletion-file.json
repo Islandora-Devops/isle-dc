@@ -1,0 +1,17 @@
+{
+  "type": "media",
+  "bundle": "file",
+  "name": "FP4 Datasheet",
+  "original_name": "ilford_fp4.pdf",
+  "size": 413378,
+  "mime_type": "application/pdf",
+  "use": [
+    "Preservation Master File",
+    "Original File"
+  ],
+  "media_of": "File Deletion Repository Item One",
+  "uri": {
+    "url": "/sites/default/files/04/7f/86/c0c26cf42ee9c6eb17910599d3802d2f98",
+    "value": "public://04/7f/86/c0c26cf42ee9c6eb17910599d3802d2f98"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "media",
+  "bundle": "extracted_text",
+  "name": "Hello World",
+  "original_name": "hello_world.txt",
+  "size": 29,
+  "mime_type": "text/plain",
+  "use": [
+    "Preservation Master File",
+    "Original File"
+  ],
+  "media_of": "Media Migration Repository Item One",
+  "uri": {
+    "url": "/sites/default/files/53/06/43/aaed48b24d41bbe075579df620204d06d1",
+    "value": "public://53/06/43/aaed48b24d41bbe075579df620204d06d1"
+  },
+  "extracted_text": {
+    "value": "Hello, extracted text world!<br />\n",
+    "format": "basic_html",
+    "processed": "Hello, extracted text world!<br />"
+  }
+}

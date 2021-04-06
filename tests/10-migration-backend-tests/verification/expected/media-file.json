@@ -1,0 +1,17 @@
+{
+  "type": "media",
+  "bundle": "file",
+  "name": "Ilford Temperature Compensation Chart",
+  "original_name": "ilford_temperature-compensation-chart.pdf",
+  "size": 13507,
+  "mime_type": "application/pdf",
+  "use": [
+    "Preservation Master File",
+    "Original File"
+  ],
+  "media_of": "Media Migration Repository Item One",
+  "uri": {
+    "url": "/sites/default/files/cd/95/2b/54f0e4b3fea3082a3d3297c39f8052c9f7",
+    "value": "public://cd/95/2b/54f0e4b3fea3082a3d3297c39f8052c9f7"
+  }
+}

@@ -307,3 +307,42 @@ type LanguageString struct {
 	Value    string
 	LangCode string `json:"language"`
 }
+
+type ExpectedMediaGeneric struct {
+	Type         string
+	Bundle       string
+	Name         string
+	OriginalName string `json:"original_name"`
+	Size         int
+	MimeType     string   `json:"mime_type"`
+	MediaUse     []string `json:"use"`
+	MediaOf      string   `json:"media_of"`
+	Uri          struct {
+		Url   string
+		Value string
+	}
+}
+
+type ExpectedMediaImage struct {
+	ExpectedMediaGeneric
+	AltText string `json:"alt_text"`
+	Height  int
+	Width   int
+}
+
+type ExpectedMediaExtractedText struct {
+	ExpectedMediaGeneric
+	ExtractedText struct {
+		Value     string
+		Format    string
+		Processed string
+	} `json:"extracted_text"`
+}
+
+type ExpectedMediaRemoteVideo struct {
+	Type     string
+	Bundle   string
+	Name     string
+	EmbedUrl string `json:"embed_url"`
+	MediaOf  string `json:"media_of"`
+}
