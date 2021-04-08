@@ -57,6 +57,7 @@ so no need to do anything special other than `make` to invoke them).  A few usef
 
 A few specialized targets are:
 
+* **make minio-bucket** Create a new bucket in minio based on the environment variables present in `.env`
 * **make static-docker-compose.yml** Make a docker-compose.yml based off non-development "static" environment.  Notably:
   * A `drupal-static` image is built or pulled, which has `codebase` baked in, and is used in place of the normal `drupal` image
   * `codebase` is no longer bind mounted

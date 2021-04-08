@@ -207,3 +207,7 @@ db_restore:
 		docker-compose exec -T mariadb bash -c 'mysql mysql < /mariadb-dump/drupal_default.sql'; \
 	docker-compose exec -T mariadb mysql mysql -e "GRANT ALL PRIVILEGES ON drupal_default.* to '$${DRUPAL_DEFAULT_DB_USER}'@'%';";
 
+.phony: minio-bucket
+.silent: minio-bucket
+minio-bucket:
+	docker run --rm --env-file .env -v $$(pwd)/minio-init.sh:/minio-init.sh --network idc_default --entrypoint=/minio-init.sh minio/mc
