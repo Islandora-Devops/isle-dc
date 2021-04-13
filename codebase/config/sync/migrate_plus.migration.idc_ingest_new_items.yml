@@ -1,7 +1,7 @@
 uuid: 2c14b68f-1c0c-446e-99cf-bc2bbd0e346c
 langcode: en
 status: true
-dependencies: { }
+dependencies: {  }
 id: idc_ingest_new_items
 class: null
 field_plugin_method: null
@@ -17,116 +17,151 @@ source:
 process:
   title: title
   field_abstract:
-    - plugin: explode
+    -
+      plugin: explode
       source: abstract
       delimiter: '|'
       strict: false
-    - plugin: deepen
-    - plugin: sub_process
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
       process:
         value:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 0
         target_id:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 1
-          - plugin: entity_lookup
+          -
+            plugin: entity_lookup
             entity_type: taxonomy_term
             bundle: language
             bundle_key: vid
             value_key: field_language_code
   field_access_rights:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: access_rights
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       bundle_key: vid
       bundle: access_rights
       entity_type: taxonomy_term
       value_key: name
-  # TODO field_access_terms:
   field_alternative_title:
-    - plugin: explode
+    -
+      plugin: explode
       source: alt_title
       delimiter: '|'
       strict: false
-    - plugin: deepen
-    - plugin: sub_process
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
       process:
         value:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 0
         target_id:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 1
-          - plugin: entity_lookup
+          -
+            plugin: entity_lookup
             entity_type: taxonomy_term
             bundle: language
             bundle_key: vid
             value_key: field_language_code
   field_collection_number:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: collection_number
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
   field_contributor:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: contributor
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: deepen
-    - plugin: sub_process
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
       process:
         rel_type:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 0
         target_id:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 1
-          - plugin: entity_lookup
+          -
+            plugin: entity_lookup
             entity_type: taxonomy_term
             bundle: person
             bundle_key: vid
@@ -138,127 +173,161 @@ process:
     bundle: copyright_and_use
     bundle_key: vid
     value_key: name
-  # FIXME: test data references a Person and Corporate Body, only one can be resolved
   field_copyright_holder:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: copyright_holder
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       entity_type: taxonomy_term
       bundle: person
       bundle_key: vid
       value_key: name
   field_creator:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: creator
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: deepen
-    - plugin: sub_process
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
       process:
         rel_type:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 0
         target_id:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 1
-          - plugin: entity_lookup
+          -
+            plugin: entity_lookup
             entity_type: taxonomy_term
             bundle: person
             bundle_key: vid
             value_key: name
   field_date_available: date_available
   field_date_copyrighted:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: date_copyrighted
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
   field_date_created:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: date_created
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
   field_date_published:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: date_published
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
   field_description:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: description
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: deepen
-    - plugin: sub_process
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
       process:
         value:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 0
         target_id:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 1
-          - plugin: entity_lookup
+          -
+            plugin: entity_lookup
             entity_type: taxonomy_term
             bundle: language
             bundle_key: vid
             value_key: field_language_code
   field_digital_identifier:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: digital_identifier
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
   field_digital_publisher:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: digital_publisher
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       entity_type: taxonomy_term
       bundle: corporate_body
       bundle_key: vid
       value_key: name
-  # note: only available in JSON view
   field_display_hints:
     plugin: entity_lookup
     source: display_hints
@@ -266,26 +335,29 @@ process:
     bundle: islandora_display
     entity_type: taxonomy_term
     value_key: name
-  # note: only available in JSON view
   field_dspace_identifier/uri: dspace_identifier
-  # note: only available in JSON view
   field_dspace_item_id: dspace_itemid
   field_extent:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: extent
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
   field_finding_aid/uri: finding_aid
   field_genre:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: genre
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       entity_type: taxonomy_term
       bundle: genre
       bundle_key: vid
@@ -294,29 +366,34 @@ process:
   field_issn: issn
   field_is_part_of: is_part_of
   field_item_barcode: item_barcode
-  # note: only available in JSON view
   field_jhir/uri: jhir_uri
   field_language:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: language
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       entity_type: taxonomy_term
       bundle: language
       bundle_key: vid
       value_key: name
   field_library_catalog_link/uri: library_catalog_link
   field_member_of:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: member_of
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: migration_lookup
+    -
+      plugin: migration_lookup
       migration: idc_ingest_new_collection
       no_stub: true
   field_model:
@@ -327,119 +404,151 @@ process:
     value_key: name
     source: model
   field_oclc_number:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: oclc_number
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
   field_publisher:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: publisher
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       bundle_key: vid
       bundle: corporate_body
       entity_type: taxonomy_term
       value_key: name
   field_publisher_country:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: publisher_country
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       bundle_key: vid
       bundle: geo_location
       entity_type: taxonomy_term
       value_key: name
   field_resource_type:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: resource_type
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       bundle_key: vid
       bundle: resource_types
       entity_type: taxonomy_term
       value_key: name
   field_spatial_coverage:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: spatial_coverage
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       bundle_key: vid
       bundle: geo_location
       entity_type: taxonomy_term
       value_key: name
   field_subject:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: subject
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       bundle_key: vid
       bundle: subject
       entity_type: taxonomy_term
       value_key: name
   field_table_of_contents:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: table_of_contents
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
-    - plugin: deepen
-    - plugin: sub_process
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
       process:
         value:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 0
         target_id:
-          - plugin: skip_on_empty
+          -
+            plugin: skip_on_empty
             method: process
             source: value
-          - plugin: explode
-            delimiter: ';'
-          - plugin: extract
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
             index:
               - 1
-          - plugin: entity_lookup
+          -
+            plugin: entity_lookup
             entity_type: taxonomy_term
             bundle: language
             bundle_key: vid
             value_key: field_language_code
   field_title_language:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: title_language
-    - plugin: entity_lookup
+    -
+      plugin: entity_lookup
       entity_type: taxonomy_term
       bundle: language
       bundle_key: vid
       value_key: name
   field_years:
-    - plugin: skip_on_empty
+    -
+      plugin: skip_on_empty
       method: process
       source: years
-    - plugin: explode
+    -
+      plugin: explode
       delimiter: '|'
       strict: false
 destination:
