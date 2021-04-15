@@ -310,16 +310,18 @@ demo: generate-secrets
 	$(MAKE) pull ENVIROMENT=demo
 	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
+	$(MAKE) install
 	$(MAKE) update-settings-php ENVIROMENT=demo
-	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIROMENT=demo
-	$(MAKE) drupal-database ENVIROMENT=demo
-	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql ENVIROMENT=demo
+#	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIROMENT=demo
+#	$(MAKE) drupal-database ENVIROMENT=demo
+#	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql ENVIROMENT=demo
 	$(MAKE) hydrate ENVIROMENT=demo
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz ENVIROMENT=demo
-	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
-	$(MAKE) reindex-solr ENVIROMENT=demo
-	$(MAKE) reindex-triplestore ENVIROMENT=demo
+#	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz ENVIROMENT=demo
+#	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
+#	$(MAKE) reindex-solr ENVIROMENT=demo
+#	$(MAKE) reindex-triplestore ENVIROMENT=demo
+	
 
 .PHONY: local
 .SILENT: local
