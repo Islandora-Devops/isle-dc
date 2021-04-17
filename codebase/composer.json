@@ -73,7 +73,6 @@
         "drupal/pager_serializer": "^1.0",
         "drupal/pdf": "1.x-dev",
         "drupal/rdfui": "^1.0-beta1",
-        "drupal/remote_stream_wrapper": "^1.5",
         "drupal/rest_oai_pmh": "^1.0",
         "drupal/restui": "^1.16",
         "drupal/role_delegation": "^1.1",
