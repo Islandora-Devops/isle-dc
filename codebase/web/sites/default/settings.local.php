@@ -22,11 +22,16 @@ $databases['default']['default']['namespace'] .= $databases['default']['default'
 
 $settings['s3fs.access_key'] = getenv('DRUPAL_DEFAULT_S3_ACCESS_KEY');
 $settings['s3fs.secret_key'] = getenv('DRUPAL_DEFAULT_S3_SECRET_KEY');
+$settings['s3fs.use_s3_for_private'] = TRUE;
+$settings['s3fs.upload_as_private'] = TRUE;
 $config['s3fs.settings']['bucket'] = getenv('DRUPAL_DEFAULT_S3_BUCKET') ?: 'idc';
 $config['s3fs.settings']['hostname'] = getenv('DRUPAL_DEFAULT_S3_HOSTNAME');
-$config['s3fs.settings']['use_s3_for_private'] = TRUE;
-$config['s3fs.settings']['use_s3_for_public'] = FALSE;
-$config['s3fs.settings']['use_cname'] = getenv('DRUPAL_DEFAULT_S3_USE_CNAME') ?: false;
-$config['s3fs.settings']['use_customhost'] = getenv('DRUPAL_DEFAULT_S3_USE_CUSTOMHOST') ?: false;
-$config['s3fs.settings']['use_path_style_endpoint'] = getenv('DRUPAL_DEFAULT_S3_USE_PATH_STYLE_ENDPOINT') ?: false;
-$config['file_private_path'] = getenv('DRUPAL_DEFAULT_S3_PRIVATE_PATH') ?: 'pr';
+$config['s3fs.settings']['use_cname'] = (bool) getenv('DRUPAL_DEFAULT_S3_USE_CNAME') ?: false;
+$config['s3fs.settings']['use_customhost'] = (bool) getenv('DRUPAL_DEFAULT_S3_USE_CUSTOMHOST') ?: false;
+$config['s3fs.settings']['use_path_style_endpoint'] = (bool) getenv('DRUPAL_DEFAULT_S3_USE_PATH_STYLE_ENDPOINT') ?: false;
+
+# This will be overridden by s3fs, but needs a value in order to enable private FS at all. 
+$settings['file_private_path'] = '/tmp'; 
+
+# This needs to be defined in in order to avoid crashing
+$settings['flysystem']['fedora']['config']['root'] = 'http://fcrepo.isle-dc.localhost/fcrepo/rest/';
