@@ -1,0 +1,8 @@
+local_id,name,parent,description
+accesscontrol_01,Archives and Special Collections,,"<p>Collections from the archives</p>",
+accesscontrol_02,Collection A,Archives and Special Collections,"<p>For items in Collection A</p>",
+accesscontrol_03,Collection B,Collection A,,
+accesscontrol_04,Collection C,Collection A,,
+accesscontrol_05,Collection D,Archives and Special Collections,,
+accesscontrol_06,Collection E,Collection D,,
+accesscontrol_07,Parent Collection,,,

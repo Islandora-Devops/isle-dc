@@ -1,4 +1,4 @@
-uuid: 20f6e0ac-0bf1-442f-89c4-6bac50c26bc5
+uuid: 5adeb564-8f1d-486f-a890-9323e4c169da
 langcode: en
 status: true
 dependencies:
@@ -8,9 +8,7 @@ dependencies:
     - taxonomy
 third_party_settings:
   field_permissions:
-    permission_type: private
-_core:
-  default_config_hash: yf5ONBhEFtk6wecSjGIXs8lk_eatTCLSPPVBBG6pk4o
+    permission_type: custom
 id: node.field_access_terms
 field_name: field_access_terms
 entity_type: node

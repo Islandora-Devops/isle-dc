@@ -1,0 +1,8 @@
+uuid: 4557f1a2-3738-4b2a-b2ba-05c68408d95c
+langcode: en
+status: true
+dependencies: {  }
+id: collections
+label: Collections
+description: ''
+locked: false

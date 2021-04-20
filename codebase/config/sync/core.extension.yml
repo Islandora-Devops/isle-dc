@@ -1,6 +1,7 @@
 module:
   action: 0
   admin_toolbar: 0
+  admin_toolbar_links_access_filter: 0
   automated_cron: 0
   basic_auth: 0
   big_pipe: 0
@@ -32,6 +33,7 @@ module:
   embed: 0
   entity_browser: 0
   entity_embed: 0
+  entity_reference_unpublished: 0
   epp: 0
   eva: 0
   facets: 0
@@ -101,6 +103,8 @@ module:
   rest: 0
   rest_oai_pmh: 0
   restui: 0
+  role_delegation: 0
+  role_hierarchy: 0
   search_api: 0
   search_api_solr: 0
   search_api_solr_defaults: 0
@@ -119,6 +123,8 @@ module:
   update: 0
   user: 0
   views_ui: 0
+  workbench: 0
+  workbench_access: 0
   content_translation: 10
   externalauth: 10
   views: 10

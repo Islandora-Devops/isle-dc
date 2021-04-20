@@ -72,6 +72,21 @@ process:
       bundle: access_rights
       entity_type: taxonomy_term
       value_key: name
+  field_access_terms:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: access_terms
+    -
+      plugin: explode
+      delimiter: '|'
+      strict: false
+    -
+      plugin: entity_lookup
+      bundle_key: vid
+      bundle: islandora_access
+      entity_type: taxonomy_term
+      value_key: name
   field_alternative_title:
     -
       plugin: explode

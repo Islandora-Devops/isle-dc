@@ -1,0 +1,14 @@
+uuid: 592d0999-dc2d-4d96-8387-8dcf3ff9ab87
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.collection_level_admin
+  module:
+    - user
+id: user_remove_role_action.collection_level_admin
+label: 'Remove the Collection Level Admin role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: collection_level_admin

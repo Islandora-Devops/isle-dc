@@ -1,0 +1,14 @@
+uuid: 034f7b73-cc86-451b-b1b0-d18280043319
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.collection_level_admin
+  module:
+    - user
+id: user_add_role_action.collection_level_admin
+label: 'Add the Collection Level Admin role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: collection_level_admin

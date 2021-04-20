@@ -61,7 +61,7 @@ third_party_settings:
       children:
         - field_model
         - field_member_of
-        - langcode
+        - field_access_terms
         - field_display_hints
         - field_weight
       parent_name: ''
@@ -232,6 +232,12 @@ content:
     third_party_settings: {  }
     type: options_buttons
     region: content
+  field_access_terms:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_alternative_title:
     weight: 15
     settings:
@@ -358,7 +364,7 @@ content:
     region: content
   field_display_hints:
     type: options_buttons
-    weight: 13
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -475,10 +481,29 @@ content:
     region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
-    third_party_settings: {  }
+    third_party_settings:
+      conditional_fields:
+        4f370f9a-983c-415f-9f05-684f9a7369fb:
+          dependee: field_access_terms
+          settings:
+            state: '!empty'
+            condition: '!empty'
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form: {  }
+            effect: fill
+            effect_options:
+              fill:
+                value: ''
+                reset: 1
+            selector: '%val'
+          entity_type: node
+          bundle: islandora_object
   field_model:
     type: options_select
     weight: 8
@@ -555,7 +580,7 @@ content:
     type: options_select
     region: content
   field_weight:
-    weight: 15
+    weight: 12
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -570,13 +595,6 @@ content:
     third_party_settings: {  }
     type: edtf_default
     region: content
-  langcode:
-    type: language_select
-    weight: 10
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
@@ -603,7 +621,7 @@ content:
       match_limit: 10
     third_party_settings: {  }
 hidden:
-  field_access_terms: true
+  langcode: true
   path: true
   promote: true
   sticky: true

@@ -84,6 +84,22 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
+  field_access_terms:
+    weight: 42
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_access_terms:
+    weight: 42
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_alternative_title:
     weight: 3
     label: above
@@ -442,7 +458,6 @@ hidden:
   display_media_entity_view_1: true
   display_media_entity_view_2: true
   display_media_thumbnail: true
-  field_access_terms: true
   field_display_hints: true
   field_gemini_uri: true
   field_model: true

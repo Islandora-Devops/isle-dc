@@ -112,6 +112,10 @@
     "Images Collection",
     "Ansel Adams"
   ],
+  "access_terms": [
+    "Images Collection",
+    "Ansel Adams"
+  ],
   "model": {
     "name": "Image",
     "external_uri": "http://purl.org/coar/resource_type/c_c513"

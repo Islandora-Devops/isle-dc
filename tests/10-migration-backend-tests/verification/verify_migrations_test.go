@@ -167,6 +167,68 @@ func Test_VerifyTaxonomyTermAccessRights(t *testing.T) {
 	}
 }
 
+// Verifies that the Islandora Access Terms migrated by testcafe accessterms.csv
+// match the expected fields and values present in taxonomy-person-01.json
+// This is testing a term with no parent
+func Test_VerifyTaxonomyTermIslandoraAccessTerms_Term1(t *testing.T) {
+	verifyTaxonomyTermIslandoraAccessTerms(t, "taxonomy-accessterms-01.json")
+}
+
+// Verifies that the Islandora Access Terms migrated by testcafe accessterms.csv
+// match the expected fields and values present in taxonomy-person-02.json
+// This is testing a term with a parent
+func Test_VerifyTaxonomyTermIslandoraAccessTerms_Term2(t *testing.T) {
+	verifyTaxonomyTermIslandoraAccessTerms(t, "taxonomy-accessterms-02.json")
+}
+
+func verifyTaxonomyTermIslandoraAccessTerms(t *testing.T, fileName string) {
+	expectedJson := ExpectedIslandoraAccessTerms{}
+
+	unmarshalJson(t, fileName, &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "taxonomy_term", expectedJson.Type)
+	assert.Equal(t, "islandora_access", expectedJson.Bundle)
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "name",
+		value:        expectedJson.Name,
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	accessTermsRes := &JsonApiIslandoraAccessTerms{}
+	u.get(accessTermsRes)
+
+	actual := accessTermsRes.JsonApiData[0]
+	assert.Equal(t, expectedJson.Type, actual.Type.entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
+	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
+	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
+
+	// one test doesn't have a parent.
+	if len(expectedJson.Parent) != 0 {
+		u.value = expectedJson.Parent[0]
+
+		// retrieve json of the resolved entity from the jsonapi
+		accessTermsRes = &JsonApiIslandoraAccessTerms{}
+		u.get(accessTermsRes)
+		relParent := accessTermsRes.JsonApiData[0]
+
+		// sanity
+		assert.Equal(t, relParent.Type.bundle(), "islandora_access")
+		assert.Equal(t, relParent.Type.entity(), "taxonomy_term")
+
+		// test
+		assert.Equal(t, expectedJson.Parent[0], relParent.JsonApiAttributes.Name)
+	}
+}
+
 func Test_VerifyTaxonomyCopyrightAndUse(t *testing.T) {
 	expectedJson := ExpectedCopyrightAndUse{}
 	unmarshalJson(t, "taxonomy-copyrightanduse.json", &expectedJson)
@@ -189,6 +251,42 @@ func Test_VerifyTaxonomyCopyrightAndUse(t *testing.T) {
 	u.getSingle(copyrightRes)
 
 	actual := copyrightRes.JsonApiData[0]
+	assert.Equal(t, expectedJson.Type, actual.Type.entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
+	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
+	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
+	assert.Equal(t, len(expectedJson.Authority), len(actual.JsonApiAttributes.Authority))
+	assert.Equal(t, 2, len(actual.JsonApiAttributes.Authority))
+	for i, v := range actual.JsonApiAttributes.Authority {
+		assert.Equal(t, expectedJson.Authority[i].Source, v.Source)
+		assert.Equal(t, expectedJson.Authority[i].Uri, v.Uri)
+	}
+}
+
+func Test_VerifyTaxonomyTermResourceType(t *testing.T) {
+	expectedJson := ExpectedResourceType{}
+	unmarshalJson(t, "taxonomy-resourcetypes.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "taxonomy_term", expectedJson.Type)
+	assert.Equal(t, "resource_types", expectedJson.Bundle)
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "name",
+		value:        expectedJson.Name,
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	res := &JsonApiResourceType{}
+	u.getSingle(res)
+
+	actual := res.JsonApiData[0]
 	assert.Equal(t, expectedJson.Type, actual.Type.entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
@@ -346,42 +444,6 @@ func Test_VerifyTaxonomyTermGeolocation(t *testing.T) {
 	for i, v := range actual.JsonApiAttributes.Broader {
 		assert.Equal(t, expectedJson.Broader[i].Title, v.Title)
 		assert.Equal(t, expectedJson.Broader[i].Uri, v.Uri)
-	}
-}
-
-func Test_VerifyTaxonomyTermResourceType(t *testing.T) {
-	expectedJson := ExpectedAccessRights{}
-	unmarshalJson(t, "taxonomy-resourcetypes.json", &expectedJson)
-
-	// sanity check the expected json
-	assert.Equal(t, "taxonomy_term", expectedJson.Type)
-	assert.Equal(t, "resource_types", expectedJson.Bundle)
-
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
-	}
-
-	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiResourceType{}
-	u.getSingle(res)
-
-	actual := res.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
-	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
-	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
-	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
-	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
-	assert.Equal(t, len(expectedJson.Authority), len(actual.JsonApiAttributes.Authority))
-	assert.Equal(t, 2, len(actual.JsonApiAttributes.Authority))
-	for i, v := range actual.JsonApiAttributes.Authority {
-		assert.Equal(t, expectedJson.Authority[i].Source, v.Source)
-		assert.Equal(t, expectedJson.Authority[i].Uri, v.Uri)
 	}
 }
 
@@ -564,7 +626,6 @@ func Test_VerifyCollection(t *testing.T) {
 	assert.Equal(t, "taxonomy_term", relData.TitleLanguage.Data.Type.entity())
 	assert.Equal(t, "language", relData.TitleLanguage.Data.Type.bundle())
 	assert.Equal(t, expectedJson.TitleLangCode, relData.TitleLanguage.Data.langCode(t))
-
 	// Resolve and verify alternate title values and languages
 	assert.NotNil(t, relData.AltTitle.Data)
 	assert.Equal(t, 2, len(relData.AltTitle.Data))
@@ -607,7 +668,28 @@ func Test_VerifyCollection(t *testing.T) {
 		u.getSingle(&memberCol)
 
 		assert.Equal(t, expectedJson.MemberOf[i], memberCol.JsonApiData[0].JsonApiAttributes.Title)
+	}
 
+	// Resolve and verify access_terms values
+	assert.NotNil(t, relData.AccessTerms)
+	assert.Equal(t, 1, len(relData.AccessTerms.Data))
+	assert.Equal(t, len(expectedJson.AccessTerms), len(relData.AccessTerms.Data))
+	for i, accessTermsData := range relData.AccessTerms.Data {
+		assert.Equal(t, "taxonomy_term", accessTermsData.Type.entity())
+		assert.Equal(t, "islandora_access", accessTermsData.Type.bundle())
+
+		u = &JsonApiUrl{
+			t:            t,
+			baseUrl:      DrupalBaseurl,
+			drupalEntity: accessTermsData.Type.entity(),
+			drupalBundle: accessTermsData.Type.bundle(),
+			filter:       "id",
+			value:        accessTermsData.Id,
+		}
+		accessTerm := JsonApiIslandoraAccessTerms{}
+		u.get(&accessTerm)
+
+		assert.Equal(t, expectedJson.AccessTerms[i], accessTerm.JsonApiData[0].JsonApiAttributes.Name)
 	}
 }
 
@@ -718,6 +800,15 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 		expectedAccessRights := &JsonApiAccessRights{}
 		relData.AccessRights.Data[i].resolve(t, expectedAccessRights)
 		assert.Equal(t, expectedJson.AccessRights[i], expectedAccessRights.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	// Access Terms
+	assert.Equal(t, 2, len(expectedJson.AccessTerms))
+	assert.Equal(t, len(expectedJson.AccessTerms), len(relData.AccessTerms.Data))
+	for i := range relData.AccessTerms.Data {
+		expectedAccessTerms := &JsonApiIslandoraAccessTerms{}
+		relData.AccessTerms.Data[i].resolve(t, expectedAccessTerms)
+		assert.Equal(t, expectedJson.AccessTerms[i], expectedAccessTerms.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Alt title

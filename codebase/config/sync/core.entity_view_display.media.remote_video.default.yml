@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.remote_video.field_access_terms
     - field.field.media.remote_video.field_media_oembed_video
     - media.type.remote_video
   module:
@@ -14,6 +15,14 @@ targetEntityType: media
 bundle: remote_video
 mode: default
 content:
+  field_access_terms:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_media_oembed_video:
     type: oembed
     weight: 0

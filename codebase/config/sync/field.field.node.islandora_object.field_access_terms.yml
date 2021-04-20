@@ -1,4 +1,4 @@
-uuid: ed674684-92f4-478e-a7bf-6105dd0b39f1
+uuid: f8542ca6-17e6-4b23-abc0-4c92060a650b
 langcode: en
 status: true
 dependencies:
@@ -6,19 +6,20 @@ dependencies:
     - field.storage.node.field_access_terms
     - node.type.islandora_object
     - taxonomy.vocabulary.islandora_access
-  enforced:
-    module:
-      - islandora_defaults
-_core:
-  default_config_hash: bxdvVF5ex2stzftf8k4q-FcAOHcefS7mz8lKm1MitYU
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 0
 id: node.islandora_object.field_access_terms
 field_name: field_access_terms
 entity_type: node
 bundle: islandora_object
-label: 'Access Control'
-description: 'Terms that define who has access to view/edit this resource.'
+label: 'Access Terms'
+description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

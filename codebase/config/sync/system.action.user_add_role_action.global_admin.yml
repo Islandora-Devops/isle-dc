@@ -1,0 +1,14 @@
+uuid: 9525d141-a3a2-4e79-8691-e941247c5946
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.global_admin
+  module:
+    - user
+id: user_add_role_action.global_admin
+label: 'Add the Global Admin role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: global_admin

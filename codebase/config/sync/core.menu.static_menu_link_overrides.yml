@@ -5,5 +5,11 @@ definitions:
     parent: ''
     weight: 0
     expanded: false
+  workbench__create_content:
+    menu_name: workbench
+    parent: ''
+    weight: 1
+    expanded: false
+    enabled: true
 _core:
   default_config_hash: o4bYR9ZupWb3AsOIizTUG4g-nu1mdJqA59UB7QT-ifQ

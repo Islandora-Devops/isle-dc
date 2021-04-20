@@ -1,0 +1,29 @@
+uuid: fa2e8118-8d80-4a79-ba4a-6acf41055780
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_access_terms
+    - media.type.extracted_text
+    - taxonomy.vocabulary.islandora_access
+id: media.extracted_text.field_access_terms
+field_name: field_access_terms
+entity_type: media
+bundle: extracted_text
+label: 'Access terms'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      islandora_access: islandora_access
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

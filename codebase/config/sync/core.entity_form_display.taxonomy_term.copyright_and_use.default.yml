@@ -34,7 +34,7 @@ content:
     weight: -5
     region: content
     settings:
-      size: 60
+      size: 255
       placeholder: ''
     third_party_settings: {  }
   status:

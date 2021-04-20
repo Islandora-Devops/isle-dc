@@ -6,18 +6,20 @@ _core:
   default_config_hash: btW6TFHajhy7Eo6YUvdFiPh4TcPggo8GBXYctjV6zag
 id: authenticated
 label: 'Authenticated user'
-weight: 1
+weight: -6
 is_admin: false
 permissions:
-  - 'access comments'
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
   - 'opt-in or out of matomo tracking'
-  - 'post comments'
+  - 'restful get oai_pmh'
   - 'search content'
-  - 'skip comment approval'
   - 'use text format basic_html'
+  - 'view field_access_terms'
   - 'view field_citable_url'
+  - 'view field_model'
   - 'view media'
+  - 'view own field_access_terms'
   - 'view own field_citable_url'
+  - 'view own field_model'

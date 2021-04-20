@@ -224,20 +224,25 @@ display:
           group: 1
           exposed: false
           expose:
-            operator_id: ''
-            label: ''
+            operator_id: field_external_uri_uri_op
+            label: 'External URI (field_external_uri:uri)'
             description: ''
             use_operator: false
-            operator: ''
-            identifier: ''
+            operator: field_external_uri_uri_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_external_uri_uri
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              fedoraadmin: '0'
+              collection_level_admin: '0'
+              global_admin: '0'
             placeholder: ''
-            operator_limit_selection: false
-            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''

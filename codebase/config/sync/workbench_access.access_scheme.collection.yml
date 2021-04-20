@@ -1,0 +1,59 @@
+uuid: e4c9d6e9-b784-4128-bd85-c3c932dbfa31
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.audio.field_access_terms
+    - field.field.media.document.field_access_terms
+    - field.field.media.extracted_text.field_access_terms
+    - field.field.media.file.field_access_terms
+    - field.field.media.image.field_access_terms
+    - field.field.media.remote_video.field_access_terms
+    - field.field.media.video.field_access_terms
+    - field.field.node.collection_object.field_access_terms
+    - field.field.node.islandora_object.field_access_terms
+    - taxonomy.vocabulary.islandora_access
+id: collection
+label: Communities
+plural_label: Communities
+scheme: taxonomy
+scheme_settings:
+  vocabularies:
+    - islandora_access
+  fields:
+    -
+      entity_type: media
+      bundle: video
+      field: field_access_terms
+    -
+      entity_type: media
+      bundle: image
+      field: field_access_terms
+    -
+      entity_type: media
+      bundle: file
+      field: field_access_terms
+    -
+      entity_type: media
+      bundle: document
+      field: field_access_terms
+    -
+      entity_type: media
+      bundle: audio
+      field: field_access_terms
+    -
+      entity_type: media
+      bundle: remote_video
+      field: field_access_terms
+    -
+      entity_type: media
+      bundle: extracted_text
+      field: field_access_terms
+    -
+      entity_type: node
+      bundle: collection_object
+      field: field_access_terms
+    -
+      entity_type: node
+      bundle: islandora_object
+      field: field_access_terms

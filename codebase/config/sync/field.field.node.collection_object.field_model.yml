@@ -1,0 +1,35 @@
+uuid: 958f6e3b-7796-4c0f-9b1e-c73963877f30
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_model
+    - node.type.collection_object
+  content:
+    - 'taxonomy_term:islandora_models:e9ee0e3a-791b-4888-8ace-3c1529380dd1'
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
+id: node.collection_object.field_model
+field_name: field_model
+entity_type: node
+bundle: collection_object
+label: Model
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    target_uuid: e9ee0e3a-791b-4888-8ace-3c1529380dd1
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: collection_object_models
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

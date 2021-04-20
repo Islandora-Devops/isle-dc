@@ -8,6 +8,12 @@ dependencies:
   enforced:
     module:
       - islandora_defaults
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
 _core:
   default_config_hash: T8b37Vjp-fwzxYT0ebD4CZEIvVM1NmZkK2bStnHYskw
 id: node.islandora_object.field_model

@@ -8,7 +8,7 @@ dependencies:
     - taxonomy
 third_party_settings:
   field_permissions:
-    permission_type: public
+    permission_type: custom
 _core:
   default_config_hash: A_k0ZwrnLc07NfPad0ADTT6O09l691c3_s6Jztrphg0
 id: node.field_model

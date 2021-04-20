@@ -5,6 +5,12 @@ dependencies:
   config:
     - field.storage.node.field_member_of
     - node.type.collection_object
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
 id: node.collection_object.field_member_of
 field_name: field_member_of
 entity_type: node
@@ -16,12 +22,13 @@ translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
+  handler: unpublished
   handler_settings:
     target_bundles:
       collection_object: collection_object
     sort:
-      field: _none
-    auto_create: false
-    auto_create_bundle: ''
+      field: title
+      direction: ASC
+    auto_create: 0
+    auto_create_bundle: collection_object
 field_type: entity_reference

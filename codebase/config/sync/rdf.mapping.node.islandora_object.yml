@@ -46,9 +46,13 @@ fieldMappings:
   field_date_available:
     properties:
       - 'dcterms:available'
+    datatype_callback:
+      callable: 'Drupal\controlled_access_terms\EDTFConverter::dateIso8601Value'
   field_date_coprighted:
     properties:
       - 'dcterms:dateCopyrighted'
+    datatype_callback:
+      callable: 'Drupal\controlled_access_terms\EDTFConverter::dateIso8601Value'
   field_date_created:
     properties:
       - 'dcterms:created'

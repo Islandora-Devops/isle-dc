@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.collection_object.field_access_terms
     - field.field.node.collection_object.field_alternative_title
     - field.field.node.collection_object.field_citable_url
     - field.field.node.collection_object.field_collection_contact_email
@@ -13,6 +14,7 @@ dependencies:
     - field.field.node.collection_object.field_featured_item
     - field.field.node.collection_object.field_finding_aid
     - field.field.node.collection_object.field_member_of
+    - field.field.node.collection_object.field_model
     - field.field.node.collection_object.field_title_language
     - node.type.collection_object
   module:
@@ -40,6 +42,11 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
+  islandora_fits_checksum:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   links:
     weight: 3
     region: content
@@ -49,6 +56,7 @@ hidden:
   display_media_entity_view_1: true
   display_media_entity_view_2: true
   display_media_service_file: true
+  field_access_terms: true
   field_alternative_title: true
   field_collection_contact_email: true
   field_collection_contact_name: true
@@ -57,6 +65,7 @@ hidden:
   field_featured_item: true
   field_finding_aid: true
   field_member_of: true
+  field_model: true
   field_title_language: true
   langcode: true
   openseadragon_media_evas_entity_view_1: true

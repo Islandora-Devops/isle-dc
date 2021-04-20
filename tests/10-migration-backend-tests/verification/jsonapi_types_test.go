@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"log"
 	"net/url"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // Encapsulates the relevant components of a URL which executes a JSON API request against Drupal
@@ -176,6 +177,27 @@ type JsonApiAccessRights struct {
 	} `json:"data"`
 }
 
+// Represents the results of a JSONAPI query for a single Islandora Access Taxonomy Term
+type JsonApiIslandoraAccessTerms struct {
+	JsonApiData []struct {
+		Type              DrupalType
+		Id                string
+		JsonApiAttributes struct {
+			Name        string
+			Description struct {
+				Value     string
+				Format    string
+				Processed string
+			}
+		} `json:"attributes"`
+		JsonApiRelationships struct {
+			AccessTerms struct {
+				Data []JsonApiData
+			} `json:"parent"`
+		} `json:"relationships"`
+	} `json:"data"`
+}
+
 // Represents the results of a JSONAPI query for a single Copyright and Use Taxonomy Term
 type JsonApiCopyrightAndUse struct {
 	JsonApiData []struct {
@@ -268,10 +290,11 @@ type JsonApiCollection struct {
 			Description struct {
 				Data []JsonApiLanguageValue
 			} `json:"field_description"`
+			AccessTerms struct {
+				Data []JsonApiData
+			} `json:"field_access_terms"`
 			MemberOf struct {
-				Data []struct {
-					JsonApiData
-				}
+				Data []JsonApiData
 			} `json:"field_member_of"`
 		} `json:"relationships"`
 	} `json:"data"`
@@ -328,7 +351,6 @@ type JsonApiIslandoraObj struct {
 			AccessRights struct {
 				Data []JsonApiData
 			} `json:"field_access_rights"`
-			// TODO
 			AccessTerms struct {
 				Data []JsonApiData
 			} `json:"field_access_terms"`

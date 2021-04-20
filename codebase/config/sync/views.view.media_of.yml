@@ -480,7 +480,6 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.media.field_mime_type'
-        - extensions
   page_1:
     display_plugin: page
     id: page_1
@@ -928,6 +927,11 @@ display:
           plugin_id: entity_operations
       defaults:
         fields: false
+      tab_options:
+        type: none
+        title: ''
+        description: ''
+        weight: 0
     cache_metadata:
       max-age: 0
       contexts:
@@ -939,7 +943,6 @@ display:
       tags:
         - 'config:field.storage.media.field_media_use'
         - 'config:field.storage.media.field_mime_type'
-        - extensions
   rest_export_1:
     display_plugin: rest_export
     id: rest_export_1
@@ -1234,4 +1237,3 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.media.field_mime_type'
-        - extensions

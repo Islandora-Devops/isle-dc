@@ -1,5 +1,8 @@
 {
   "type": "node",
   "bundle": "collection_object",
-  "title": "Parent Collection"
+  "title": "Parent Collection",
+  "access_terms": [
+    "Parent Collection"
+  ]
 }

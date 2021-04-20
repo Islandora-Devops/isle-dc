@@ -76,7 +76,8 @@ type ExpectedRepoObj struct {
 	Extent             []string
 	FindingAid         string `json:"finding_aid"`
 	Genre              []string
-	GeoportalLink      string `json:"geoportal_link"`
+	GeoportalLink      string   `json:"geoportal_link"`
+	AccessTerms        []string `json:"access_terms"`
 	Issn               string
 	IsPartOf           string `json:"is_part_of"`
 	ItemBarcode        string `json:"item_barcode"`
@@ -115,6 +116,19 @@ type ExpectedAccessRights struct {
 		Title  string
 		Source string
 	}
+	Description struct {
+		Value     string
+		Format    string
+		Processed string
+	}
+}
+
+// Represents the expected results of a migrated Islandora Access Terms taxonomy term
+type ExpectedIslandoraAccessTerms struct {
+	Type        string
+	Bundle      string
+	Name        string
+	Parent      []string `json:"parent"`
 	Description struct {
 		Value     string
 		Format    string
@@ -269,6 +283,7 @@ type ExpectedCollection struct {
 	ContactName      string   `json:"contact_name"`
 	CollectionNumber []string `json:"collection_number"`
 	MemberOf         []string `json:"member_of"`
+	AccessTerms      []string `json:"access_terms"`
 	FindingAid       struct {
 		Uri   string
 		Title string

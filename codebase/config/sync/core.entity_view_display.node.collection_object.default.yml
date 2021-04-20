@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.collection_object.field_access_terms
     - field.field.node.collection_object.field_alternative_title
     - field.field.node.collection_object.field_citable_url
     - field.field.node.collection_object.field_collection_contact_email
@@ -12,6 +13,7 @@ dependencies:
     - field.field.node.collection_object.field_featured_item
     - field.field.node.collection_object.field_finding_aid
     - field.field.node.collection_object.field_member_of
+    - field.field.node.collection_object.field_model
     - field.field.node.collection_object.field_title_language
     - node.type.collection_object
   module:
@@ -33,6 +35,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_access_terms:
+    weight: 102
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_alternative_title:
     type: reference_value_formatter
     weight: 6
@@ -55,7 +65,7 @@ content:
     type: link
     region: content
   field_collection_contact_email:
-    weight: 9
+    weight: 17
     label: above
     settings: {  }
     third_party_settings: {  }
@@ -116,6 +126,14 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
+  field_model:
+    weight: 101
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_title_language:
     weight: 5
     label: above
@@ -123,6 +141,11 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
+  islandora_fits_checksum:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
     region: content
   links:
     weight: 4

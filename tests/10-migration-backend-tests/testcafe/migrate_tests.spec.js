@@ -15,6 +15,7 @@ const migrate_copyrightanduse_taxonomy = 'idc_ingest_taxonomy_copyrightanduse';
 const migrate_family_taxonomy = 'idc_ingest_taxonomy_family';
 const migrate_genre_taxonomy = 'idc_ingest_taxonomy_genre';
 const migrate_geolocation_taxonomy = 'idc_ingest_taxonomy_geolocation';
+const migrate_islandora_accessterms_taxonomy = 'idc_ingest_taxonomy_islandora_accessterms';
 const migrate_language_taxonomy = 'idc_ingest_taxonomy_language';
 const migrate_new_items = 'idc_ingest_new_items';
 const migrate_new_collection = 'idc_ingest_new_collection';
@@ -92,6 +93,20 @@ test('Perform Access Rights Taxonomy Migration', async t => {
   await t
     .setFilesToUpload('#edit-source-file', [
       './migrations/accessrights.csv'
+    ])
+    .click('#edit-import');
+
+});
+
+test('Perform Islandora Access Terms Taxonomy Migration', async t => {
+
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_islandora_accessterms_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/accessterms.csv'
     ])
     .click('#edit-import');
 
@@ -233,6 +248,17 @@ test('Perform Genre Taxonomy Migration', async t => {
 
 test('Perform Repository Object Migration', async t => {
   // Migrate dependencies first
+
+  // access terms
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_islandora_accessterms_taxonomy));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/islandora_object-accessterms.csv'
+    ])
+    .click('#edit-import');
 
   // persons
   await t

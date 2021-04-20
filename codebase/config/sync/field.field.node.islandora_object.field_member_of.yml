@@ -9,6 +9,12 @@ dependencies:
   enforced:
     module:
       - islandora_defaults
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
 _core:
   default_config_hash: v20YaVtVj46zHNe2jXTgkFAVVLS2UcyzL9Pw1ng9038
 id: node.islandora_object.field_member_of
@@ -22,13 +28,14 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
+  handler: unpublished
   handler_settings:
     target_bundles:
       collection_object: collection_object
       islandora_object: islandora_object
     sort:
-      field: _none
-    auto_create: false
+      field: title
+      direction: ASC
+    auto_create: 0
     auto_create_bundle: collection_object
 field_type: entity_reference

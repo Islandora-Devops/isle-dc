@@ -12,8 +12,8 @@ dependencies:
     - search_api
   config:
     - field.storage.node.field_abstract
-    - field.storage.node.field_access_terms
     - field.storage.node.field_access_rights
+    - field.storage.node.field_access_terms
     - field.storage.node.field_alternative_title
     - field.storage.node.body
     - field.storage.node.field_citable_url
@@ -186,7 +186,7 @@ field_settings:
       config:
         - field.storage.node.field_access_rights
   field_access_terms:
-    label: 'Access Control'
+    label: 'Access Terms'
     datasource_id: 'entity:node'
     property_path: field_access_terms
     type: integer

@@ -1,0 +1,13 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "islandora_access",
+  "name": "Collection A",
+  "parent": [
+    "Archives and Special Collections"
+  ],
+  "description": {
+    "value": "<p>For items in Collection A</p>",
+    "format": "basic_html",
+    "processed": "<p>For items in Collection A</p>"
+  }
+}

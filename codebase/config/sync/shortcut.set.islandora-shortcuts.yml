@@ -1,0 +1,6 @@
+uuid: d1a3d7e1-cf30-4e02-8375-ab7bb9d862cb
+langcode: en
+status: true
+dependencies: {  }
+id: islandora-shortcuts
+label: Islandora

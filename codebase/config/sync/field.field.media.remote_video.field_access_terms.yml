@@ -1,0 +1,29 @@
+uuid: b73980c8-30b8-4995-bc23-02a04547b84c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_access_terms
+    - media.type.remote_video
+    - taxonomy.vocabulary.islandora_access
+id: media.remote_video.field_access_terms
+field_name: field_access_terms
+entity_type: media
+bundle: remote_video
+label: 'Access terms'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      islandora_access: islandora_access
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

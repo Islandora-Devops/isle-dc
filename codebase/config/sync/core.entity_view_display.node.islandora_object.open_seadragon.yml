@@ -55,7 +55,6 @@ dependencies:
     - controlled_access_terms
     - link
     - reference_value_pair
-    - taxonomy
     - user
 _core:
   default_config_hash: BOKmqgfhsFt_yEb5fjCzV99sysk7G9p43DoVfTsh3OQ
@@ -85,13 +84,6 @@ content:
     label: above
     settings:
       link: true
-    third_party_settings: {  }
-  field_access_terms:
-    type: entity_reference_rss_category
-    weight: 27
-    region: content
-    label: above
-    settings: {  }
     third_party_settings: {  }
   field_alternative_title:
     type: reference_value_formatter
@@ -442,6 +434,7 @@ hidden:
   display_media_entity_view_2: true
   display_media_service_file: true
   display_media_thumbnail: true
+  field_access_terms: true
   field_display_hints: true
   field_dspace_identifier: true
   field_dspace_item_id: true

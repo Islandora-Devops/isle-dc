@@ -6,6 +6,6 @@ _core:
   default_config_hash: e6W733rBSNmewsIQsvWQ-8mIE5H-CIeArLBwIbN5vVQ
 id: fedoraadmin
 label: fedoraAdmin
-weight: 3
+weight: -7
 is_admin: null
 permissions: {  }
