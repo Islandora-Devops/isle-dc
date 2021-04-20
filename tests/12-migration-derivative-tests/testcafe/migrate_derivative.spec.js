@@ -83,11 +83,11 @@ test('Migrate Images for Derivative Generation', async t => {
     const thumb_count = await thumb_derivative.count
 
     // if a derivative isn't present yet, it may be because it hasn't been generated yet.
-    // in that case, wait 10 seconds and refresh the page, and see if it appears.
+    // in that case, wait 30 seconds and refresh the page, and see if it appears.
     if (service_count < 1 || thumb_count < 1) {
-        console.log("Derivatives haven't appeared.  Sleeping for 10 seconds, then trying again ...")
-        // sleep 10 seconds, refresh the page
-        await t.wait(10000);
+        console.log("Derivatives haven't appeared.  Sleeping for 30 seconds, then trying again ...")
+        // sleep 30 seconds, refresh the page
+        await t.wait(30000);
         await t.eval(() => location.reload(true));
     }
 

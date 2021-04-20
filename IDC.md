@@ -129,7 +129,7 @@ For a deeper understanding of SAML certificate roles, this [primer][cert-primer]
 
 ## Requested Attributes
 
-|Allocation|URN|OID|
+|Allocation<sup>1</sup>|SAML 1<sup>2</sup>|SAML 2<sup>3</sup>|
 |---|---|---|
 |eduPersonAffiliation|urn:mace:dir:attribute-def:eduPersonAffiliation|1.3.6.1.4.1.5923.1.1.1.1|
 |eduPersonUniqueId|urn:oid:1.3.6.1.4.1.5923.1.1.1.13|1.3.6.1.4.1.5923.1.1.1.13|
@@ -140,10 +140,19 @@ For a deeper understanding of SAML certificate roles, this [primer][cert-primer]
 |displayName|urn:mace:dir:attribute-def:displayName|2.16.840.1.113730.3.1.241|
 |givenName|urn:mace:dir:attribute-def:givenName|2.5.4.42|
 |departmentNumber|urn:mace:dir:attribute-def:departmentNumber|2.16.840.1.113730.3.1.2|
+|mail|urn:mace:dir:attribute-def:mail|urn:oid:0.9.2342.19200300.100.1.3|
+
+> <sup>1</sup> urn:oasis:names:tc:SAML:2.0:attrname-format:basic
+
+> <sup>2</sup> urn:mace:shibboleth:1.0:attributeNamespace:uri
+
+> <sup>3</sup> urn:oasis:names:tc:SAML:2.0:attrname-format:uri
 
 The `authsources.php` file contains the requested attributes.  These are hardcoded, and are _not_ parameterized.
 
 See the [SimpleSAMLphp User Sync page][simplesaml-usersync] for how these attributes may be mapped to Drupal user attributes or role selection.
+
+> Note: 'mail' and 'eduPersonPrincipleName' are required attributes
 
 ## Env vars
 
