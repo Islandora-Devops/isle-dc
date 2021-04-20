@@ -1,0 +1,59 @@
+# Drupal Debugging Container configuration
+#
+# Isolates development-related container modifications, including remote debugging configuration. Updates to
+# docker-compose.local.yml should be replicated here.
+#
+# This file is used when 'ENVIRONMENT' is equal to 'drupal-dev' in the .env file, otherwise it is ignored.
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external:
+      name: gateway
+volumes:
+  drupal-sites-data:
+  solr-data:
+services:
+  drupal:
+    image: ${REPOSITORY:-islandora}/drupal-dev:${TAG:-latest}
+      # Uncomment below to PHP commands executed on container start, or PHP commands (e.g. drush) run from the CLI
+      # (significantly slows down the container startup)
+      # If debugging container startup is not necessary, consider setting the environment variables within a shell via
+      # `docker-compose exec drupal-dev /bin/bash`
+      #environment:
+      # These env vars regulate command line debugging; xdebug.ini regulates web-based debugging.  Enabling CLI
+      # debugging severely impacts container startup performance.  If all you need to do is debug a single PHP command,
+      # consider `exec`ing into the container, exporting the variables you see below, and run the command.
+      # https://xdebug.org/docs/all_settings#XDEBUG_CONFIG
+      # https://xdebug.org/docs/step_debug#activate_debugger
+      #XDEBUG_CONFIG: "client_host=host.docker.internal log=/tmp/xdebug-cmdline.log"
+      #XDEBUG_SESSION: 1
+
+      # These env vars regulate web-based debugging, resulting in updates to /etc/php7/conf.d/xdebug.ini.  Default
+      # values used for xdebug.ini are below.  Uncomment and change the value to override.
+      #XDEBUG_MODE: "develop,debug,trace"
+      #XDEBUG_LOG: "/var/www/drupal/xdebug.log"
+      #XDEBUG_LOGLEVEL: "7"
+      #XDEBUG_DISCOVERCLIENTHOST: "false"
+      #XDEBUG_CLIENTHOST: "host.docker.internal"
+    volumes:
+      - ./codebase:/var/www/drupal:delegated
+      - drupal-sites-data:/var/www/drupal/web/sites/default/files
+      #- solr-data:/opt/solr/server/solr
+    depends_on:
+      # Requires a the very minimum a database.
+      - ${DRUPAL_DATABASE_SERVICE}
+    secrets:
+      - source: saml_secrets
+  # Extends docker-compose.solr.yml
+  solr:
+    volumes:
+      # On a production site you may not want to take this approach but instead refer to each of the cores
+      # data directories specifically and maintain the configuration as part of a customized image, where
+      # in your configuration is Solr managed under source control somewhere.
+      - solr-data:/opt/solr/server/solr
+
+secrets:
+  saml_secrets:
+    file: ./secrets/saml-secrets.yml

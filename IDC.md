@@ -51,6 +51,8 @@ so no need to do anything special other than `make` to invoke them).  A few usef
 * **make snapshot** Create a snapshot of the current Drupal state (db, content files, etc), so that you can reset to this state at will, or push it so that others can.
 * **make snapshot-push** Push the current snapshot image to the container registry
 * **make up** Brings up the development environment, including running `composer install`.
+* **make dev-up** Launches the stack with a Drupal image configured with XDebug for IDE-based debugging.  Updates the environment requiring `make dev-down` to be invoked at the conclusion of a development session.
+* **make dev-down** Stops the Drupal development image, and resets the environment to using production.
 
 A few specialized targets are:
 
@@ -61,6 +63,63 @@ A few specialized targets are:
   * Has the contents of `codebase` baked into it, as well as all dependencies via `composer install`
   * Will load its config from `config/sync` upon startup
   * Is named `drupal-static` and is tagged based on `git describe --tags`.
+
+## Debugging
+
+### TL;DR
+
+* Install [browser extension](https://xdebug.org/docs/step_debug#browser-extensions)
+* make dev-up
+* set breakpoint
+* load page, trip breakpoint, repeat
+* make dev-down
+
+### Supported Env Vars
+
+|Env Var|Default Value|Description|
+|-------|-------------|-----------|
+|XDEBUG_CONFIG|n/a|Allows for multiple XDebug config params to be set in a string.  Used for CLI debugging.|
+|XDEBUG_SESSION|n/a|Enables XDebug when present.  Used for CLI debugging.|
+|XDEBUG_MODE|`develop,debug,trace`|Supported XDebug modes.  Used for browser-based debugging|
+|XDEBUG_LOG|`/var/www/drupal/xdebug.log`|XDebug logfile.  Used for browser-based debugging|
+|XDEBUG_LOGLEVEL|`7`|XDebug log level. Used for browser-based debuggging.|
+|XDEBUG_DISCOVERCLIENTHOST|`false`|If XDebug should attempt to discover the debugging client host.  Used for browser-based debugging.|
+|XDEBUG_CLIENTHOST|`host.docker.internal`|The address of the debugging client host.  Used for browser-based debugging.|
+
+## About
+
+Allows a developer to launch Drupal with step-wise debugging enabled.  The three supported use cases are:
+* Debugging human-mediated interactions with Drupal (i.e. what most developers would consider to be "debugging")
+* Debugging CLI commands (e.g. `drush`) and/or PHP code executed on container startup
+* Debugging service-mediate interactions with Drupal
+
+Each use case requires setting a different combination of XDebug settings.  By default, the Drupal development image is configured to support the primary use-case, step-enabled debugging of PHP from a browser.  Enabling all the use cases at once would be counter-productive from a performance standpoint.
+
+Debugging Drupal interactively from a browser requires the installation of an XDebug helper plugin, so if you don't have one installed, you'll need to do so.
+* [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/xdebug-helper-for-firefox/)
+* [Chrome](https://chrome.google.com/extensions/detail/eadndfjplgieldjbigjakmdgkmoaaaoc)
+* [Safari](https://apps.apple.com/app/safari-xdebug-toggle/id1437227804?mt=12)
+
+To run the debugging container:
+* Determine which use case applies, and set the environment accordingly in `docker-compose.drupal-dev.yml`.  If you want to debug Drupal with your browser and an IDE, you don't need to change anything.
+* Run `make dev-up`
+
+> When your debugging session is over, it is important to remember to run `make dev-down`
+
+In your IDE, configure a PHP/XDebug development session.  Your IDE must listen for debugging requests on port `9003`.  Set a breakpoint.  In your browser, activate the XDebug helper by selecting "Debug", then make a request to Drupal which will activate your breakpoint.  Your browser should prompt you to map the file from the remote server to your local filesystem, and then you can perform step-by-step debugging.
+
+There are a few ways to determine whether you've successfully started the development environment correctly:
+* First, `docker ps` should list a running container named `<repo>/drupal-dev:<tag>`, and there should be _no_ other containers named `<repo>/drupal` running.
+* Second, create a file named `xdebug.php` in codebase root: `echo "<?php xdebug_info();" > codebase/xdebug.php`, then in your browser visit `https://islandora-idc.traefik.me/xdebug.php`.  Information about XDebug should appear, including its settings.  This is a handy way to double-check XDebug's runtime configuration, especially for more complex debugging scenarios.
+
+> .gitignore is set up to ignore any file that is prefixed with `xdebug`.  If you need to create files to support your debug session, or store output from your debug session, name them `xdebug<something>` to avoid committing debug artifacts.
+
+* A third check, which should be unnecessary, is to `exec` into the `drupal-dev` container and run `php -v`; the output should reference XDebug version 3.
+
+If first two conditions are met, you should be able to start a debug session.  If you can't, then check for the presence of `xdebug.log` in the codebase directory for clues, double check your IDE settings, and check the output of `php -v` in the `drupal-dev` container.  The IDE must accept connections on port `9003`, and XDebug must know the IP address of your machine.  By default, XDebug connects to `host.docker.internal`, which is a special DNS name for the host computer.
+
+To switch back from the debugging container:
+* Run `make dev-down`
 
 ## Snapshots
 
