@@ -99,6 +99,26 @@ snapshot-push:
 .SILENT: up
 up:  download-default-certs docker-compose.yml start
 
+.PHONY: dev-up
+.SILENT: dev-up
+dev-up:  download-default-certs
+	-docker-compose stop drupal
+	-docker-compose rm -f drupal
+	sed s/ENVIRONMENT=.*/ENVIRONMENT=drupal-dev/ .env > /tmp/.env && \
+		cp /tmp/.env .env && \
+		rm /tmp/.env
+	$(MAKE) -B docker-compose.yml start
+
+.PHONY: dev-down
+.SILENT: dev-down
+dev-down:  download-default-certs
+	sed s/ENVIRONMENT=.*/ENVIRONMENT=local/ .env > /tmp/.env && \
+		cp /tmp/.env .env && \
+		rm /tmp/.env
+	$(MAKE) -B docker-compose.yml
+	docker-compose stop drupal
+	docker-compose rm -f drupal
+
 .PHONY: start
 .SILENT: start
 start:
@@ -107,7 +127,7 @@ start:
 	# Then, once we're "confident" that mariadb is up and validly query able, see if the Drupal db is in place.
 	# This is a tricky process, as the mariadb client can succeed once, then fail on a subsequent invocation.
 	# Once we've finally determined if mariadb is running, and have found a valid answer for whether the Drupal DB is present,
-	# then we can proceed.  If the Drupal DB is not present, then load it from snapshot before starting the stack.  
+	# then we can proceed.  If the Drupal DB is not present, then load it from snapshot before starting the stack.
 	# Otherwise, if the Drupal db is already present, just start.
 	for i in $$(seq 5) ; do \
 		echo "waiting for mysql to start..."; \
@@ -130,7 +150,7 @@ start:
 
 # Static drupal image, with codebase baked in.  This image
 # is tagged based on the current git hash/tag.  If the image is not present
-# locally, nor pullable, then this is built locally.  Ultimately, this image is 
+# locally, nor pullable, then this is built locally.  Ultimately, this image is
 # intended be published to cloud instances of the stack
 .PHONY: static-drupal-image
 .SILENT: static-drupal-image
@@ -146,9 +166,9 @@ static-drupal-image:
 
 
 # Build a docker-compose file that will run the whole stack, except with
-# the static drupal image rather than the dev drupal image + codebase bind mount.  
+# the static drupal image rather than the dev drupal image + codebase bind mount.
 .SILENT: static-docker-compose.yml
-.PHONY: static-docker-compose.yml 
+.PHONY: static-docker-compose.yml
 static-docker-compose.yml: static-drupal-image
 	-rm -f docker-compose.yml
 	echo '' > .env_static && \
