@@ -127,5 +127,8 @@ test('Migrate Files to be Deleted', async t => {
     };
 
     await executeReq();
-    await t.expect(200).eql(statusCode);
+
+    // When a file is deleted on the s3fs-backed private FS, reading its
+    // bytes results in a 403, apparently
+    await t.expect(403).eql(statusCode);
 });

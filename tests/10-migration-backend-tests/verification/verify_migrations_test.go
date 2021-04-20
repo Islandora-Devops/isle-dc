@@ -1103,8 +1103,8 @@ func Test_VerifyDuplicateMediaAndFile(t *testing.T) {
 	baseUri := "https://islandora-idc.traefik.me/"
 	fileUrl := fmt.Sprintf("%s%s", baseUri, resolvedFiles[0].JsonApiData[0].JsonApiAttributes.Uri.Url)
 	// TODO: set truncate to false in migration def
-	// public://c9/a0/60/c39365820edc5d1a51f221d49e96a8a730 -> c9a060c39365820edc5d1a51f221d49e96a8a730
-	expectedChecksum := strings.ReplaceAll(strings.ReplaceAll(resolvedFiles[0].JsonApiData[0].JsonApiAttributes.Uri.Value, "/", ""), "public:", "")
+	// private://c9/a0/60/c39365820edc5d1a51f221d49e96a8a730 -> c9a060c39365820edc5d1a51f221d49e96a8a730
+	expectedChecksum := strings.ReplaceAll(strings.ReplaceAll(resolvedFiles[0].JsonApiData[0].JsonApiAttributes.Uri.Value, "/", ""), "private:", "")
 	fileRes, err = http.Get(fileUrl)
 	assert.Nil(t, err)
 	defer fileRes.Body.Close()
