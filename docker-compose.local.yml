@@ -21,6 +21,7 @@ services:
       - ./codebase:/var/www/drupal:delegated
       - drupal-sites-data:/var/www/drupal/web/sites/default/files
       - solr-data:/opt/solr/server/solr
+      - /opt/isle-data:/opt/isle-data:delegated
     environment:
       DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: ${INSTALL_EXISTING_CONFIG}
       DRUPAL_DEFAULT_PROFILE: ${DRUPAL_INSTALL_PROFILE}

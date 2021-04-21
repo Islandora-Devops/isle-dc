@@ -11,8 +11,8 @@ services:
   mariadb:
     image: ${REPOSITORY:-islandora}/mariadb:${TAG:-latest}
     volumes:
-      - mariadb-data:/var/lib/mysql
-      - mariadb-files:/var/lib/mysql-files
+      - /opt/isle-db/mysql:/var/lib/mysql:delegated
+      - /opt/isle-db/mysql-files:/var/lib/mysql-files:delegated
     # Allows for access to the database through traefik to support using Drush locally.
     # This should not be used in production.
     #
