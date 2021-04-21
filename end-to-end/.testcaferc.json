@@ -3,5 +3,6 @@
         "path": "reports/screenshots/",
         "takeOnFails": true,
         "pathPattern": "${FIXTURE}-${TEST}.${DATE}-${TIME}.png"
-      }
+      },
+    "assertionTimeout": 10000
 }

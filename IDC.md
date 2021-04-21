@@ -51,6 +51,7 @@ so no need to do anything special other than `make` to invoke them).  A few usef
 * **make snapshot** Create a snapshot of the current Drupal state (db, content files, etc), so that you can reset to this state at will, or push it so that others can.
 * **make snapshot-push** Push the current snapshot image to the container registry
 * **make up** Brings up the development environment, including running `composer install`.
+* **make test** Runs all tests.
 * **make dev-up** Launches the stack with a Drupal image configured with XDebug for IDE-based debugging.  Updates the environment requiring `make dev-down` to be invoked at the conclusion of a development session.
 * **make dev-down** Stops the Drupal development image, and resets the environment to using production.
 
@@ -63,6 +64,23 @@ A few specialized targets are:
   * Has the contents of `codebase` baked into it, as well as all dependencies via `composer install`
   * Will load its config from `config/sync` upon startup
   * Is named `drupal-static` and is tagged based on `git describe --tags`.
+  
+## Running tests
+
+To run all tests, with the environment (configuration, modules, content) reset between each test, run `make test`.  This
+is the make target used to run tests during CI.   To run an individual test, run `make test test=<name of test>`, where `<name of test>` is the name of a test script in the `tests` directory, e.g. `make test test=01-end-to-end.sh`.
+
+When a single test is specified with the `test=` argument, the environment is _not_ reset for the execution of the test.
+That is, the existing configuration, content, and modules present in the current codebase are used.  This is the recommended (and really only supported way) of running your tests while iterating.
+
+Some additional notes about the test execution environment:
+* Tests are run in a subshell given the environment from `.env` and functions from `tests/.includes.sh`.
+  * To share common test-related variables or functions between tests, add them to `tests/.includes.sh`.
+  * Variables added to `.env` are automatically available to the test script.
+* The `test=` argument to `make test` accepts the name of the test suite, minus the `.sh` ending; `make test test=01-end-to-end.sh` and `make test test=01-end-to-end` (no `.sh` extension) will both work.
+* Directly executing the test script (e.g. `cd`ing into `tests` and invoking `./01-end-to-end.sh` on its own) will _no longer work reliably_.
+  * Instead, invoke the test using `make test=<test name>`
+  * This is because test scripts are _provided_ the environment.  If their environment is not properly set up, they won't be able to execute properly.  The test controller (`run-tests.sh`) insures that the test environment is properly set up.
 
 ## Debugging
 

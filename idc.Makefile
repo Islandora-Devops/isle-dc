@@ -188,7 +188,7 @@ static-docker-compose.yml: static-drupal-image
 .SILENT: test
 .PHONY: test
 test:
-	./run-tests.sh
+	./run-tests.sh $(test)
 
 .PHONY: db_dump
 .SILENT: db_dump
