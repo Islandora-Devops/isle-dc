@@ -1,5 +1,10 @@
 <?php
 
+/* this adjusts how large the title field is on nodes and
+ * how large the name field is on all taxonomies
+ */
+$settings['node_title_length_chars'] = 500;
+$settings['taxonomy_term_title_length_chars'] = 2000;
 
 $settings['hash_salt'] = getenv('DRUPAL_DEFAULT_SALT');
 

@@ -1,0 +1,13 @@
+diff --git a/title_length.install b/title_length.install
+index 16e673ecd..83592c491 100644
+--- a/title_length.install
++++ b/title_length.install
+@@ -32,7 +32,7 @@ function title_length_install() {
+     // Update storage definition.
+     $node_type = Drupal::service('entity_type.manager')->getDefinition('node');
+     $fields    = Node::baseFieldDefinitions($node_type);
+-    $fields['title']->setSetting('max_length', 500);
++    $fields['title']->setSetting('max_length', $length);
+     Drupal::entityDefinitionUpdateManager()
+           ->installFieldStorageDefinition('title', 'node', 'node', $fields['title']);
+   }

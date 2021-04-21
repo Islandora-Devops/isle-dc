@@ -36,7 +36,6 @@
   ],
   "finding_aid":
     {
-      "uri": "http://wikipedia.org",
-      "title": "Wikipedia"
+      "uri": "http://wikipedia.org"
     }
 }

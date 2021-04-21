@@ -131,6 +131,45 @@ func verifyTaxonomyTermPerson(t *testing.T, fileName string, restOfName string) 
 	assert.Equal(t, expectedJson.Knows[0], relSchemaKnows.JsonApiAttributes.Name)
 }
 
+// Taxonomy term name lengths are now configurable in settings.local.php, currently set at 2000 for
+// a name field. This test ensures that these long names can be entered via ingest.
+func Test_VerifyTaxonomyTermLongNamePerson(t *testing.T) {
+
+	expectedJson := ExpectedPerson{}
+	unmarshalJson(t, "taxonomy-person-03.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "taxonomy_term", expectedJson.Type)
+	assert.Equal(t, "person", expectedJson.Bundle)
+	assert.Equal(t, "Lorem", expectedJson.RestOfName[0])
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "field_preferred_name_fuller_form",
+		value:        expectedJson.FullerForm[0],
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	personRes := &JsonApiPerson{}
+	u.getSingle(personRes)
+
+	// If we get this far, it means we found it by it's name, so that's a good start. Now check a few other things
+	// as a sanity test. This is not a comprehensive test of the taxonomy as we've already checked things
+	// like full terms in other tests.
+	actual := personRes.JsonApiData[0]
+	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Type, actual.Type.entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.PrimaryName, actual.JsonApiAttributes.PrimaryPartOfName)
+	assert.ElementsMatch(t, expectedJson.RestOfName, actual.JsonApiAttributes.PreferredNameRest)
+	assert.ElementsMatch(t, expectedJson.AltName, actual.JsonApiAttributes.PersonAlternateName)
+	assert.Equal(t, expectedJson.Authority[0].Uri, actual.JsonApiAttributes.Authority[0].Uri)
+	assert.Equal(t, expectedJson.Authority[0].Type, actual.JsonApiAttributes.Authority[0].Source)
+}
+
 func Test_VerifyTaxonomyTermAccessRights(t *testing.T) {
 	expectedJson := ExpectedAccessRights{}
 	unmarshalJson(t, "taxonomy-accessrights.json", &expectedJson)
@@ -691,6 +730,37 @@ func Test_VerifyCollection(t *testing.T) {
 
 		assert.Equal(t, expectedJson.AccessTerms[i], accessTerm.JsonApiData[0].JsonApiAttributes.Name)
 	}
+}
+
+// Node title lengths are now configurable in settings.local.php, currently set at 500 for a node
+// This test ensures that these long node titles can be entered via ingest.
+func Test_VerifyLongNodeTitle(t *testing.T) {
+	expectedJson := ExpectedCollection{}
+	unmarshalJson(t, "collection-03.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "node", expectedJson.Type)
+	assert.Equal(t, "collection_object", expectedJson.Bundle)
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "title",
+		value:        expectedJson.Title,
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	res := &JsonApiCollection{}
+	u.getSingle(res)
+	sourceId := res.JsonApiData[0].Id
+	assert.NotEmpty(t, sourceId)
+
+	actual := res.JsonApiData[0]
+	assert.Equal(t, expectedJson.Type, actual.Type.entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Title, actual.JsonApiAttributes.Title)
 }
 
 func Test_VerifyRepositoryItem(t *testing.T) {

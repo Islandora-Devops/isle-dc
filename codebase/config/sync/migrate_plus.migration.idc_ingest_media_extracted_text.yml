@@ -18,18 +18,21 @@ source:
     STATUS: true
     DISPLAY: true
     ADMIN: 1
-    PUBLIC_FS: "public://"
-    TMP_FS: "/tmp/"
-    FORMAT: "basic_html"
+    PUBLIC_FS: 'public://'
+    TMP_FS: /tmp/
+    FORMAT: basic_html
 process:
   _url_filename:
-    - plugin: callback
+    -
+      plugin: callback
       callable: parse_url
       source: url
-    - plugin: extract
+    -
+      plugin: extract
       index:
         - path
-    - plugin: callback
+    -
+      plugin: callback
       callable: basename
   _url_filepath:
     plugin: concat

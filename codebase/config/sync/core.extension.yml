@@ -116,6 +116,7 @@ module:
   system: 0
   taxonomy: 0
   text: 0
+  title_length: 0
   token: 0
   toolbar: 0
   tour: 0

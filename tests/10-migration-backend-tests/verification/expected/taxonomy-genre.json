@@ -5,13 +5,11 @@
   "authority": [
     {
       "uri": "https://www.loc.gov/aba/publications/FreeLCGFT/GENRE.pdf",
-      "title": "Action/Adventure",
       "source": "lgcft"
     },
     {
-      "uri": "http://www.google.com",
-      "title": "Google Alt Link",
-      "source": "other"
+      "uri": "http://vocab.getty.edu/aat/300054152",
+      "source": "aat"
     }
   ],
   "description": {

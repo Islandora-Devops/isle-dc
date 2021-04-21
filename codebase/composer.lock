@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50ead380aac04c0153faf55b1c1d46cc",
+    "content-hash": "e8f6b98d239668593d5e31bed7a1f9f8",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -5661,6 +5661,62 @@
             }
         },
         {
+            "name": "drupal/title_length",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/title_length.git",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/title_length-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "f8a961bcc4cde1bf7c0f57c0a7b6248ea9d92bd4"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1591431505",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "patches_applied": {
+                    "Node title length 1: Apply user config override": "patches/node_title_length_fix-hook-install.patch",
+                    "Node title length 2: Taxonomy name length": "patches/node_title_length_termNameCharLength-3041979-8.patch"
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "cbccharlie",
+                    "homepage": "https://www.drupal.org/user/616836"
+                },
+                {
+                    "name": "maximpodorov",
+                    "homepage": "https://www.drupal.org/user/515310"
+                }
+            ],
+            "description": "Increases maximum length of node titles.",
+            "homepage": "https://www.drupal.org/project/title_length",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/title_length",
+                "issues": "https://www.drupal.org/project/issues/title_length"
+            }
+        },
+        {
             "name": "drupal/token",
             "version": "1.9.0",
             "source": {
@@ -7141,12 +7197,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/islandora_defaults.git",
-                "reference": "ffbbe98f1202ad734ba9b0287221fe722e01c50f"
+                "reference": "6077efe28faa42b4f2244ad235228dc0f08f63f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/ffbbe98f1202ad734ba9b0287221fe722e01c50f",
-                "reference": "ffbbe98f1202ad734ba9b0287221fe722e01c50f",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/6077efe28faa42b4f2244ad235228dc0f08f63f1",
+                "reference": "6077efe28faa42b4f2244ad235228dc0f08f63f1",
                 "shasum": ""
             },
             "require": {
@@ -7172,7 +7228,7 @@
                 "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
                 "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
             },
-            "time": "2021-04-06T18:04:35+00:00"
+            "time": "2021-04-20T20:36:15+00:00"
         },
         {
             "name": "jhu-idc/migrate_file",

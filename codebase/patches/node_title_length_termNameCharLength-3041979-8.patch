@@ -1,0 +1,168 @@
+diff --git a/README.txt b/README.txt
+index 6817159..d283fdc 100644
+--- a/README.txt
++++ b/README.txt
+@@ -11,3 +11,5 @@ If you want another size, you can change this value
+ before installing the module. To do this, you need
+ to create the following variable in the settings.php file.
+ $settings['node_title_length_chars'] = WANTED_SIZE;
++Also, there is a possibility to set length for taxonomy term name field.
++$settings['taxonomy_term_title_length_chars'] = WANTED_SIZE;
+diff --git a/title_length.info.yml b/title_length.info.yml
+index 6a8905f..3e07785 100644
+--- a/title_length.info.yml
++++ b/title_length.info.yml
+@@ -1,8 +1,9 @@
+ name: Title length
+ type: module
+-description: Increases maximum length of node titles.
++description: Increases maximum length of node and taxonomy term titles.
+ core: 8.x
+ core_version_requirement: ^8 || ^9
+ package: Other
+ dependencies:
+   - drupal:node
++  - drupal:taxonomy
+diff --git a/title_length.install b/title_length.install
+index 16e673e..036b581 100644
+--- a/title_length.install
++++ b/title_length.install
+@@ -9,6 +9,7 @@ use Drupal\Core\Database\Database;
+ use Drupal\Core\Extension\ModuleUninstallValidatorException;
+ use Drupal\Core\Site\Settings;
+ use Drupal\node\Entity\Node;
++use Drupal\taxonomy\Entity\Term;
+
+ /**
+  * Implements hook_install().
+@@ -16,9 +17,13 @@ use Drupal\node\Entity\Node;
+ function title_length_install() {
+   // Get length of settings.
+   $length = Settings::get('node_title_length_chars') ?: TITLE_LENGTH_CHARS;
++  $term_length = Settings::get('taxonomy_term_title_length_chars') ?: TITLE_LENGTH_CHARS;
+
+   // Change node title length.
+   if ($schema = Database::getConnection()->schema()) {
++    $entity_type_manger = Drupal::service('entity_type.manager');
++    $update_manager = Drupal::entityDefinitionUpdateManager();
++
+     $schema->changeField('node_field_data', 'title', 'title', [
+       'length'   => $length,
+       'not null' => TRUE,
+@@ -30,11 +35,30 @@ function title_length_install() {
+       'type'    => 'varchar',
+     ]);
+     // Update storage definition.
+-    $node_type = Drupal::service('entity_type.manager')->getDefinition('node');
++    $node_type = $entity_type_manger->getDefinition('node');
+     $fields    = Node::baseFieldDefinitions($node_type);
+     $fields['title']->setSetting('max_length', $length);
+-    Drupal::entityDefinitionUpdateManager()
+-          ->installFieldStorageDefinition('title', 'node', 'node', $fields['title']);
++    $update_manager->installFieldStorageDefinition('title', 'node', 'node', $fields['title']);
++
++    // Change taxonomy term name length.
++    $schema->changeField('taxonomy_term_field_data', 'name', 'name', [
++      'length' => $term_length,
++      'not null' => TRUE,
++      'type' => 'varchar',
++    ]);
++
++    // Change taxonomy term name length (revisions table).
++    $schema->changeField('taxonomy_term_field_revision', 'name', 'name', [
++      'length' => $term_length,
++      'not null' => TRUE,
++      'type' => 'varchar',
++    ]);
++
++    // Update storage definition.
++    $term_type = $entity_type_manger->getDefinition('taxonomy_term');
++    $fields    = Term::baseFieldDefinitions($term_type);
++    $fields['name']->setSetting('max_length', $term_length);
++    $update_manager->installFieldStorageDefinition('name', 'taxonomy_term', 'taxonomy_term', $fields['name']);
+   }
+ }
+
+@@ -72,12 +96,31 @@ function title_length_uninstall() {
+     ->execute()
+     ->fetchField();
+
+-  if ($long_title_count + $long_revision_title_count > 0) {
++  /** @var \Drupal\Core\Database\Query\Select $query */
++  $query = Database::getConnection()->select('taxonomy_term_field_data', 'n');
++  $query->addField('n', 'name');
++  $query->where("$length_function(name) > 255");
++  $long_term_title_count = $query->countQuery()
++    ->execute()
++    ->fetchField();
++
++  /** @var \Drupal\Core\Database\Query\Select $query */
++  $query = Database::getConnection()->select('taxonomy_term_field_revision', 'n');
++  $query->addField('n', 'name');
++  $query->where("$length_function(name) > 255");
++  $long_term_revision_title_count = $query->countQuery()
++    ->execute()
++    ->fetchField();
++
++  if ($long_title_count + $long_revision_title_count + $long_term_title_count + $long_term_revision_title_count > 0) {
+     throw new ModuleUninstallValidatorException('Nodes or node revisions exist with long titles. Module cannot be uninstalled.');
+   }
+
+   // Change node title length.
+   if ($schema = $connection->schema()) {
++    $entity_type_manger = Drupal::service('entity_type.manager');
++    $update_manager = Drupal::entityDefinitionUpdateManager();
++
+     $schema->changeField('node_field_data', 'title', 'title', [
+       'length'   => 255,
+       'not null' => TRUE,
+@@ -89,10 +132,28 @@ function title_length_uninstall() {
+       'type'    => 'varchar',
+     ]);
+     // Update storage definition.
+-    $node_type = Drupal::service('entity_type.manager')->getDefinition('node');
++    $node_type = $entity_type_manger->getDefinition('node');
+     $fields    = Node::baseFieldDefinitions($node_type);
+-    Drupal::entityDefinitionUpdateManager()
+-          ->installFieldStorageDefinition('title', 'node', 'node', $fields['title']);
++    $update_manager->installFieldStorageDefinition('title', 'node', 'node', $fields['title']);
++
++    // Change taxonomy term name length.
++    $schema->changeField('taxonomy_term_field_data', 'name', 'name', [
++      'length' => 255,
++      'not null' => TRUE,
++      'type' => 'varchar',
++    ]);
++
++    // Change taxonomy term name length (revisions table).
++    $schema->changeField('taxonomy_term_field_revision', 'name', 'name', [
++      'length' => 255,
++      'not null' => TRUE,
++      'type' => 'varchar',
++    ]);
++
++    // Update storage definition.
++    $term_type = $entity_type_manger->getDefinition('taxonomy_term');
++    $fields    = Term::baseFieldDefinitions($term_type);
++    $update_manager->installFieldStorageDefinition('name', 'taxonomy_term', 'taxonomy_term', $fields['name']);
+   }
+
+ }
+diff --git a/title_length.module b/title_length.module
+index d48ac8e..fe92311 100644
+--- a/title_length.module
++++ b/title_length.module
+@@ -20,4 +20,13 @@ function title_length_entity_base_field_info_alter(&$fields, EntityTypeInterface
+     $length = Settings::get('node_title_length_chars') ?: TITLE_LENGTH_CHARS;
+     $fields['title']->setSetting('max_length', $length);
+   }
++  // Alter the title field of a taxonomy term to change length.
++  if ($entity_type->id() == 'taxonomy_term' && !empty($fields['name'])) {
++    // Get length of settings.
++    $length = Settings::get('taxonomy_term_title_length_chars');
++    if (empty($length)) {
++      $length = TITLE_LENGTH_CHARS;
++    }
++    $fields['name']->setSetting('max_length', $length);
++  }
+ }
