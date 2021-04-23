@@ -310,7 +310,7 @@ demo: generate-secrets
 	$(MAKE) pull ENVIROMENT=demo
 	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
-	sleep 5
+	docker-compose exec -T drupal with-contenv bash -lc 'composer update'
 	$(MAKE) install
 ##	$(MAKE) update-settings-php ENVIROMENT=demo
 #	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIROMENT=demo
