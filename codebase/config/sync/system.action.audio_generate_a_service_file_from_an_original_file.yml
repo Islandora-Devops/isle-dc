@@ -18,5 +18,5 @@ configuration:
   mimetype: audio/mpeg
   args: '-codec:a libmp3lame -q:a 5'
   destination_media_type: audio
-  scheme: public
+  scheme: private
   path: '[date:custom:Y]-[date:custom:m]/[node:nid]-[term:name].mp3'
