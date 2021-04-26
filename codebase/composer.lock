@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8f6b98d239668593d5e31bed7a1f9f8",
+    "content-hash": "8ab2da6672372c8e4753f47830716bc0",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -7290,23 +7290,24 @@
         },
         {
             "name": "jhu_idc/idc_migration",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_migration.git",
-                "reference": "e878fe4e629b0aaeee8d89548ef4f8757ab7e422"
+                "reference": "86f5ae598c1d611c16f42d4f64f89a470fc84479"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/e878fe4e629b0aaeee8d89548ef4f8757ab7e422",
-                "reference": "e878fe4e629b0aaeee8d89548ef4f8757ab7e422",
+                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/86f5ae598c1d611c16f42d4f64f89a470fc84479",
+                "reference": "86f5ae598c1d611c16f42d4f64f89a470fc84479",
                 "shasum": ""
             },
             "require": {
-                "drupal/core": "^8.8.1",
+                "drupal/core": "8.9.13",
                 "php": ">=7.3"
             },
             "require-dev": {
+                "drupal/migrate_plus": "5.1.0",
                 "phpunit/phpunit": "^7.5"
             },
             "type": "drupal-module",
@@ -7328,9 +7329,9 @@
             ],
             "description": "Custom migration plugins for IDC",
             "support": {
-                "source": "https://github.com/jhu-idc/idc_migration/tree/v1.0.2"
+                "source": "https://github.com/jhu-idc/idc_migration/tree/v1.0.3"
             },
-            "time": "2021-03-19T15:39:24+00:00"
+            "time": "2021-04-26T20:16:18+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
