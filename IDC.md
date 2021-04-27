@@ -65,6 +65,8 @@ A few specialized targets are:
   * Has the contents of `codebase` baked into it, as well as all dependencies via `composer install`
   * Will load its config from `config/sync` upon startup
   * Is named `drupal-static` and is tagged based on `git describe --tags`.
+* **make minio_bucket** Creates a new S3 bucket in minio for IDC.  The empty bucket should be part of the snapshot, so this is really only
+  useful for bootstrapping new snapshots from scratch.
   
 ## Running tests
 
