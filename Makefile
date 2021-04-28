@@ -178,14 +178,14 @@ hydrate: update-settings-php update-config-from-environment solr-cores namespace
 .PHONY: delete-shortcut-entities
 .SILENT: delete-shortcut-entities
 delete-shortcut-entities:
-	docker-compose exec drupal drush -l $(SITE) entity:delete shortcut_set
+	docker-compose exec -T drupal drush -l $(SITE) entity:delete shortcut_set
 
 # Forces the site uuid to match that in the config_sync_directory so that
 # configuration can be imported.
 .PHONY: set-site-uuid
 .SILENT: set-site-uuid
 set-site-uuid:
-	docker-compose exec drupal with-contenv bash -lc "set_site_uuid"
+	docker-compose exec -T drupal with-contenv bash -lc "set_site_uuid"
 
 # RemovesForces the site uuid to match that in the config_sync_directory so that
 # configuration can be imported.
@@ -205,7 +205,7 @@ config-export:
 .PHONY: config-import
 .SILENT: config-import
 config-import: set-site-uuid delete-shortcut-entities
-	docker-compose exec drupal drush -l $(SITE) config:import -y
+	docker-compose exec -T drupal drush -l $(SITE) config:import -y
 
 # Dump database.
 database-dump:

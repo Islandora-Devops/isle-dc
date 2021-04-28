@@ -18,7 +18,7 @@ bootstrap: snapshot-empty default destroy-state up install \
 .SILENT: cache-rebuild
 cache-rebuild:
 	echo "rebuilding Drupal cache..."
-	docker-compose exec drupal drush cr -y
+	docker-compose exec -T drupal drush cr -y
 
 .PHONY: destroy-state
 .SILENT: destroy-state
