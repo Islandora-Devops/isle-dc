@@ -951,7 +951,7 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	for i := range relData.DigitalPublisher.Data {
 		corpBod := &JsonApiCorporateBody{}
 		relData.DigitalPublisher.Data[i].resolve(t, corpBod)
-		assert.Equal(t, expectedJson.DigitalPublisher[i], corpBod.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.DigitalPublisher, corpBod.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Genre
@@ -985,7 +985,7 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	for i := range relData.Publisher.Data {
 		pub := &JsonApiCorporateBody{}
 		relData.Publisher.Data[i].resolve(t, pub)
-		assert.Equal(t, expectedJson.Publisher[i], pub.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.Publisher, pub.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Publisher Country (but really can be any geolocation)
@@ -1021,7 +1021,7 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	for i := range relData.Subject.Data {
 		subj := &JsonApiSubject{}
 		relData.Subject.Data[i].resolve(t, subj)
-		assert.Equal(t, expectedJson.Subject[i], subj.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.Subject, subj.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Table of Contents
