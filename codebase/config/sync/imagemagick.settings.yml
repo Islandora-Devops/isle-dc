@@ -20,7 +20,7 @@ image_formats:
     weight: 10
     enabled: false
   JP2:
-    mime:type: image/x-jp2
+    mime_type: image/jp2
   GIF:
     mime_type: image/gif
   GIF87:
