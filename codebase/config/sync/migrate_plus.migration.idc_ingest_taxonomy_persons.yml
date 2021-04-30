@@ -127,9 +127,13 @@ process:
     plugin: default_value
     default_value: basic_html
   field_relationships/target_id:
-    plugin: migration_lookup
-    migration: idc_ingest_taxonomy_persons
-    source: knows_local
+    source: knows
+    plugin: parse_entity_lookup
+    defaults:
+      entity_type: taxonomy_term
+      bundle_key: vid
+      bundle: person
+      value_key: name
   field_relationships/rel_type: constants/REL_TYPE
   status: constants/STATUS
 destination:

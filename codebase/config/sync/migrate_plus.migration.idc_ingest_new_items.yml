@@ -176,11 +176,12 @@ process:
             index:
               - 1
           -
-            plugin: entity_lookup
-            entity_type: taxonomy_term
-            bundle: person
-            bundle_key: vid
-            value_key: name
+            plugin: parse_entity_lookup
+            defaults:
+              entity_type: taxonomy_term
+              bundle: person
+              bundle_key: vid
+              value_key: name
   field_copyright_and_use:
     plugin: entity_lookup
     source: copyright
@@ -198,11 +199,12 @@ process:
       delimiter: '|'
       strict: false
     -
-      plugin: entity_lookup
-      entity_type: taxonomy_term
-      bundle: person
-      bundle_key: vid
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: person
+        bundle_key: vid
+        value_key: name
   field_creator:
     -
       plugin: skip_on_empty
@@ -242,11 +244,12 @@ process:
             index:
               - 1
           -
-            plugin: entity_lookup
-            entity_type: taxonomy_term
-            bundle: person
-            bundle_key: vid
-            value_key: name
+            plugin: parse_entity_lookup
+            defaults:
+              entity_type: taxonomy_term
+              bundle: person
+              bundle_key: vid
+              value_key: name
   field_date_available: date_available
   field_date_copyrighted:
     -
@@ -338,11 +341,12 @@ process:
       delimiter: '|'
       strict: false
     -
-      plugin: entity_lookup
-      entity_type: taxonomy_term
-      bundle: corporate_body
-      bundle_key: vid
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: corporate_body
+        bundle_key: vid
+        value_key: name
   field_display_hints:
     plugin: entity_lookup
     source: display_hints
@@ -408,9 +412,12 @@ process:
       delimiter: '|'
       strict: false
     -
-      plugin: migration_lookup
-      migration: idc_ingest_new_collection
-      no_stub: true
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: node
+        bundle_key: type
+        bundle: collection_object
+        value_key: title
   field_model:
     plugin: entity_lookup
     bundle_key: vid
@@ -437,11 +444,12 @@ process:
       delimiter: '|'
       strict: false
     -
-      plugin: entity_lookup
-      bundle_key: vid
-      bundle: corporate_body
-      entity_type: taxonomy_term
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        bundle_key: vid
+        bundle: corporate_body
+        entity_type: taxonomy_term
+        value_key: name
   field_publisher_country:
     -
       plugin: skip_on_empty
@@ -497,11 +505,12 @@ process:
       delimiter: '|'
       strict: false
     -
-      plugin: entity_lookup
-      bundle_key: vid
-      bundle: subject
-      entity_type: taxonomy_term
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        bundle_key: vid
+        bundle: subject
+        entity_type: taxonomy_term
+        value_key: name
   field_table_of_contents:
     -
       plugin: skip_on_empty

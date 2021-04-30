@@ -132,9 +132,12 @@ process:
             index:
               - 0
           -
-            plugin: migration_lookup
-            migration: idc_ingest_taxonomy_corporatebody
-            no_stub: true
+            plugin: parse_entity_lookup
+            defaults:
+              entity_type: taxonomy_term
+              bundle_key: vid
+              bundle: corporate_body
+              value_key: name
         rel_type:
           -
             plugin: skip_on_empty
