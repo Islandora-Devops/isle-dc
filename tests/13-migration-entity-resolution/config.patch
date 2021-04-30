@@ -1,0 +1,39 @@
+diff --git a/codebase/config/sync/migrate_plus.migration.idc_ingest_new_items.yml b/codebase/config/sync/migrate_plus.migration.idc_ingest_new_items.yml
+index 5c6d4d82..040d625d 100644
+--- a/codebase/config/sync/migrate_plus.migration.idc_ingest_new_items.yml
++++ b/codebase/config/sync/migrate_plus.migration.idc_ingest_new_items.yml
+@@ -408,9 +408,12 @@ process:
+       delimiter: '|'
+       strict: false
+     -
+-      plugin: migration_lookup
+-      migration: idc_ingest_new_collection
+-      no_stub: true
++      plugin: parse_entity_lookup
++      defaults:
++        entity_type: node
++        bundle: collection_object
++        bundle_key: type
++        value_key: title
+   field_model:
+     plugin: entity_lookup
+     bundle_key: vid
+@@ -497,11 +500,13 @@ process:
+       delimiter: '|'
+       strict: false
+     -
+-      plugin: entity_lookup
+-      bundle_key: vid
+-      bundle: subject
+-      entity_type: taxonomy_term
+-      value_key: name
++      plugin: parse_entity_lookup
++      delimiter: ':'
++      defaults:
++        entity_type: taxonomy_term
++        bundle: subject
++        bundle_key: vid
++        value_key: name
+   field_table_of_contents:
+     -
+       plugin: skip_on_empty

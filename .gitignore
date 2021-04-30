@@ -24,6 +24,8 @@ codebase/web/modules/contrib/
 codebase/web/themes/contrib/
 snapshot/data.tar
 xdebug*
+*.orig
+*.rej
 
 # =========================
 # Packages
@@ -103,6 +105,4 @@ certs
 # Ignore node and test stuff
 *node_modules
 end-to-end/reports
-tests/10-migration-backend-tests/testcafe/screenshots
-tests/11-file-deletion-tests/testcafe/screenshots
-tests/12-migration-derivative-tests/testcafe/screenshots
+screenshots/
