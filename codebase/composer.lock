@@ -7429,24 +7429,24 @@
         },
         {
             "name": "jhu_idc/idc_migration",
-            "version": "v1.0.3",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_migration.git",
-                "reference": "86f5ae598c1d611c16f42d4f64f89a470fc84479"
+                "reference": "185ee1047d659983f4d13d8f3eb6ae194a4a54d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/86f5ae598c1d611c16f42d4f64f89a470fc84479",
-                "reference": "86f5ae598c1d611c16f42d4f64f89a470fc84479",
+                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/185ee1047d659983f4d13d8f3eb6ae194a4a54d7",
+                "reference": "185ee1047d659983f4d13d8f3eb6ae194a4a54d7",
                 "shasum": ""
             },
             "require": {
-                "drupal/core": "8.9.14",
+                "drupal/core": "^8.9",
                 "php": ">=7.3"
             },
             "require-dev": {
-                "drupal/migrate_plus": "5.1.0",
+                "drupal/migrate_plus": "^5.1",
                 "phpunit/phpunit": "^7.5"
             },
             "type": "drupal-module",
@@ -7468,9 +7468,9 @@
             ],
             "description": "Custom migration plugins for IDC",
             "support": {
-                "source": "https://github.com/jhu-idc/idc_migration/tree/v1.0.3"
+                "source": "https://github.com/jhu-idc/idc_migration/tree/v1.0.5"
             },
-            "time": "2021-04-26T20:16:18+00:00"
+            "time": "2021-05-04T15:36:44+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
