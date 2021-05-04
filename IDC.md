@@ -57,6 +57,7 @@ so no need to do anything special other than `make` to invoke them).  A few usef
 
 A few specialized targets are:
 
+* **make minio-bucket** Create a new bucket in minio based on the environment variables present in `.env`
 * **make static-docker-compose.yml** Make a docker-compose.yml based off non-development "static" environment.  Notably:
   * A `drupal-static` image is built or pulled, which has `codebase` baked in, and is used in place of the normal `drupal` image
   * `codebase` is no longer bind mounted
@@ -64,6 +65,8 @@ A few specialized targets are:
   * Has the contents of `codebase` baked into it, as well as all dependencies via `composer install`
   * Will load its config from `config/sync` upon startup
   * Is named `drupal-static` and is tagged based on `git describe --tags`.
+* **make minio_bucket** Creates a new S3 bucket in minio for IDC.  The empty bucket should be part of the snapshot, so this is really only
+  useful for bootstrapping new snapshots from scratch.
   
 ## Running tests
 
@@ -81,6 +84,23 @@ Some additional notes about the test execution environment:
 * Directly executing the test script (e.g. `cd`ing into `tests` and invoking `./01-end-to-end.sh` on its own) will _no longer work reliably_.
   * Instead, invoke the test using `make test=<test name>`
   * This is because test scripts are _provided_ the environment.  If their environment is not properly set up, they won't be able to execute properly.  The test controller (`run-tests.sh`) insures that the test environment is properly set up.
+
+## S3 file storage
+
+Drupal is configured to store media on the `private://` filesystem, backed by S3.  The `s3fs` module provides this s3-backed implementation of the `private://` filesystem.  For the `idc-isle-dc` development environment, `minio` ([https://minio-idc.traefik.me][https://minio-idc.traefik.me]) provides the S3 API.  Cloud/production instances will use Amazon S3.
+
+### Configuration
+Configuration is via environment variables
+
+|Env Var|Default Value|Description|
+|-------|-------------|-----------|
+|DRUPAL_DEFAULT_S3_ACCESS_KEY|-|S3 access key|
+|DRUPAL_DEFAULT_S3_SECRET_KEY|-|S3 secret key|
+|DRUPAL_DEFAULT_S3_BUCKET|idc|S3 bucket name|
+|DRUPAL_DEFAULT_S3_USE_CUSTOMHOST|false|Connect to an S3-compatible storage service other than Amazon. |
+|DRUPAL_DEFAULT_S3_HOSTNAME|-|S3 hostname; use only if `DRUPAL_DEFAULT_USE_CUSTOMHOST` is true|
+|DRUPAL_DEFAULT_S3_USE_CNAME|false|Serve files from a custom domain by using an appropriately named bucket, e.g. "mybucket.mydomain.com".|
+|DRUPAL_DEFAULT_S3_USE_PATH_STYLE_ENDPOINT|false|Send requests to a path-style endpoint, instead of a virtual-hosted-style endpoint. For example, http://s3.amazonaws.com/bucket, insead of http://bucket.s3.amazonaws.com. |
 
 ## Debugging
 

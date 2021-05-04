@@ -11,8 +11,8 @@
   ],
   "media_of": "Media Migration Repository Item One",
   "uri": {
-    "url": "/sites/default/files/53/06/43/aaed48b24d41bbe075579df620204d06d1",
-    "value": "public://53/06/43/aaed48b24d41bbe075579df620204d06d1"
+    "url": "/system/files/53/06/43/aaed48b24d41bbe075579df620204d06d1",
+    "value": "private://53/06/43/aaed48b24d41bbe075579df620204d06d1"
   },
   "extracted_text": {
     "value": "Hello, extracted text world!<br />\n",

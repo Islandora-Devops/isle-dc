@@ -18,8 +18,8 @@ source:
     STATUS: true
     DISPLAY: true
     ADMIN: 1
-    PUBLIC_FS: 'public://'
-    TMP_FS: /tmp/
+    DRUPAL_FS: "private://"
+    TMP_FS: "/tmp/"
 process:
   name: name
   field_media_oembed_video: url

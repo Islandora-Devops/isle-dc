@@ -17,7 +17,7 @@ field_name: field_media_image
 entity_type: media
 type: image
 settings:
-  uri_scheme: public
+  uri_scheme: private
   default_image:
     uuid: ''
     alt: ''

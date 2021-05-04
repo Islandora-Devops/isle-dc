@@ -21,5 +21,5 @@ configuration:
   mimetype: application/xml
   args: null
   destination_media_type: fits_technical_metadata
-  scheme: public
+  scheme: private
   path: '[date:custom:Y]-[date:custom:m]/[node:nid]-[term:name].xml'

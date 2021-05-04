@@ -14,7 +14,7 @@
   ],
   "media_of": "Media Migration Repository Item One",
   "uri": {
-    "url": "/sites/default/files/2021-03/trp_7767.jpg",
-    "value": "public://2021-03/trp_7767.jpg"
+    "url": "/system/files/2021-03/trp_7767.jpg",
+    "value": "private://2021-03/trp_7767.jpg"
   }
 }

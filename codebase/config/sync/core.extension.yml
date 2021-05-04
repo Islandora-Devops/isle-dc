@@ -98,13 +98,13 @@ module:
   quickedit: 0
   rdf: 0
   reference_value_pair: 0
-  remote_stream_wrapper: 0
   responsive_image: 0
   rest: 0
   rest_oai_pmh: 0
   restui: 0
   role_delegation: 0
   role_hierarchy: 0
+  s3fs: 0
   search_api: 0
   search_api_solr: 0
   search_api_solr_defaults: 0

@@ -18,8 +18,8 @@ source:
     STATUS: true
     DISPLAY: true
     ADMIN: 1
-    PUBLIC_FS: 'public://'
-    TMP_FS: /tmp/
+    DRUPAL_FS: "private://"
+    TMP_FS: "/tmp/"
 process:
   _url_filename:
     -
@@ -54,7 +54,7 @@ process:
   _destination_drupalpath:
     plugin: concat
     source:
-      - constants/PUBLIC_FS
+      - constants/DRUPAL_FS
       - '@_destination_filepath'
   field_original_name: original_name
   field_media_document/target_id:
