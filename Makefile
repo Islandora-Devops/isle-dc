@@ -346,9 +346,15 @@ local: generate-secrets
 .SILENT: clean
 ## Destroys everything beware!
 clean:
+	echo "**DANGER** About to rm your SERVER data subdirs, your docker volumes and your codebase/web"
+	$(MAKE) confirm
 	-docker-compose down -v
 	sudo rm -fr codebase certs secrets/live/*
 	git clean -xffd .
+
+.phony: confirm
+confirm:
+	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
 
 .PHONY: up
 .SILENT: up
