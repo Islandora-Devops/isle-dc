@@ -311,7 +311,7 @@ demo: generate-secrets
 	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
 	docker-compose exec -T drupal with-contenv bash -lc 'composer update'
-	$(MAKE) install
+	$(MAKE) install ENVIRONMENT=demo
 	$(MAKE) update-settings-php ENVIROMENT=demo
 #	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIROMENT=demo
 #	$(MAKE) drupal-database ENVIROMENT=demo
