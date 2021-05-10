@@ -1,0 +1,5 @@
+local_id,title,abstract,access_rights,access_terms,alt_title,collection_number,contributor,copyright,copyright_holder,creator,date_available,date_copyrighted,date_created,date_published,description,digital_identifier,digital_publisher,display_hints,dspace_identifier,dspace_itemid,extent,finding_aid,genre,geoportal_link,issn,is_part_of,item_barcode,jhir_uri,language,library_catalog_link,member_of,model,oclc_number,publisher,publisher_country,resource_type,spatial_coverage,subject,table_of_contents,title_language,years
+media_format_object_01,Migrated Tiff Object,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,media-format-collection-01,Image,,,,,,,,,
+media_format_object_02,Uploaded Tiff Object,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,media-format-collection-01,Image,,,,,,,,,
+media_format_object_03,Migrated JPEG2000 Object,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,media-format-collection-01,Image,,,,,,,,,
+media_format_object_04,Uploaded JPEG2000 Object,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,media-format-collection-01,Image,,,,,,,,,

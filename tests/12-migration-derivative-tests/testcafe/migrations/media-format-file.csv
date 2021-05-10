@@ -1,0 +1,4 @@
+local_id,name,original_name,mime_type,media_of,media_use,url,alt_text
+media_format_file_tiff_01,Tiff Image,tiff.tif,image/tiff,media_format_object_01,Original File,http://migration-assets/assets/image/formats/tiff.tif,tiff
+media_format_file_tiff_02,Jpeg 2000 Image,jp2.jp2,image/jp2,media_format_object_03,Original File,http://migration-assets/assets/image/formats/jp2.jp2,jp2
+
