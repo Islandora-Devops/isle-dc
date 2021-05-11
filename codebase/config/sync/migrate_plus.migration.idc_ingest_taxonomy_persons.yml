@@ -29,6 +29,7 @@ process:
     -
       plugin: explode
       delimiter: '|'
+      strict: false
   field_preferred_name_prefix:
     -
       plugin: skip_on_empty
@@ -37,6 +38,7 @@ process:
     -
       plugin: explode
       delimiter: '|'
+      strict: false
   field_preferred_name_fuller_form:
     -
       plugin: skip_on_empty
@@ -45,6 +47,7 @@ process:
     -
       plugin: explode
       delimiter: '|'
+      strict: false
   field_preferred_name_suffix:
     -
       plugin: skip_on_empty
@@ -53,6 +56,7 @@ process:
     -
       plugin: explode
       delimiter: '|'
+      strict: false
   field_preferred_name_number:
     -
       plugin: skip_on_empty
@@ -61,6 +65,7 @@ process:
     -
       plugin: explode
       delimiter: '|'
+      strict: false
   field_primary_part_of_name: primary_part_of_name
   field_person_alternate_name:
     -
@@ -70,6 +75,7 @@ process:
     -
       plugin: explode
       delimiter: '|'
+      strict: false
   field_date:
     -
       plugin: skip_on_empty
@@ -78,6 +84,7 @@ process:
     -
       plugin: explode
       delimiter: '|'
+      strict: false
   field_authority_link:
     -
       plugin: explode
@@ -120,9 +127,13 @@ process:
     plugin: default_value
     default_value: basic_html
   field_relationships/target_id:
-    plugin: migration_lookup
-    migration: idc_ingest_taxonomy_persons
-    source: knows_local
+    source: knows
+    plugin: parse_entity_lookup
+    defaults:
+      entity_type: taxonomy_term
+      bundle_key: vid
+      bundle: person
+      value_key: name
   field_relationships/rel_type: constants/REL_TYPE
   status: constants/STATUS
 destination:
