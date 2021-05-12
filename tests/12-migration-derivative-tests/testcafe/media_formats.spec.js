@@ -21,6 +21,9 @@ test('Migrate tiff', async t => {
 
 });
 
-test('Upload tiff', async t => {
-
+test('Migrate jp2 tiff', async t => {
+    await t.expect(await tryUntilTrue(async () => {
+        const media = await findMediaOf(t, "Migrated JPEG2000 Object");
+        return media.length == 3;
+    })).eql(true, "Did not find JPEG 2000 derivatives");
 });
