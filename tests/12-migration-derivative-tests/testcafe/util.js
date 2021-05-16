@@ -1,4 +1,8 @@
 import { Selector } from 'testcafe';
+import fs from 'fs';
+import path from 'path';
+import url from 'url';
+import http from 'http';
 
 const contentList = "https://islandora-idc.traefik.me/admin/content";
 
@@ -21,13 +25,8 @@ const contentList = "https://islandora-idc.traefik.me/admin/content";
  */
 export const findMediaOf = async (t, name) => {
 
-    // verify the presence of the islandora object, searching by name
-    await t.navigateTo(contentList)
-    const item = Selector('div.view-content').find('a').withText(name)
-    await t.expect(item.count).eql(1);
+    await navigateToItemPage(t, name)
 
-    // list its media
-    await t.click(item)
     await t.click(Selector('#rid-content').find('a').withText('Media'))
 
     // assert the presence of the original media
@@ -66,6 +65,16 @@ export const findMediaOf = async (t, name) => {
     return mediaList;
 }
 
+export const navigateToItemPage = async (t, name) => {
+    // verify the presence of the islandora object, searching by name
+    await t.navigateTo(contentList)
+    const item = Selector('div.view-content').find('a').withText(name)
+    await t.expect(item.count).eql(1);
+
+    // list its media
+    await t.click(item)
+}
+
 /** Perform a migration using the given file and migration type
  * 
  * There is no specific feedback as to the success or failure of this operation, unless an exception is thrown
@@ -97,6 +106,38 @@ export const migrationType = {
     'NEW_MEDIA_FILE': 'idc_ingest_media_file',
     'NEW_MEDIA_IMAGE': 'idc_ingest_media_image'
 }
+
+export const download = async (uri) => {
+    const basedir = '/tmp/testcafe/' + process.pid;
+
+    await fs.promises.mkdir(basedir, { recursive: true})
+    const filename = path.basename(url.parse(uri).pathname)
+
+    const saveTo = basedir + "/" + filename
+    const file = fs.createWriteStream(saveTo);
+
+    await httpget(uri, file)
+    return saveTo
+}
+
+export const uploadImageInUI = async(t, name, file) => {
+    await navigateToItemPage(t, name)
+    await t.click(Selector('#rid-content').find('a').withText('Media'))
+    await t.click(Selector('.button'))
+    await t.click(Selector('.admin-list').find('a').withText('local images'))
+    await t.click(Selector('#edit-field-media-use-17'))
+    await t.expect(Selector('#edit-field-media-use-17').checked).ok()
+    await t.setFilesToUpload('#edit-field-media-image-0-upload', file)
+    await t.click('#edit-submit')
+}
+
+const httpget = (uri, file) => {
+    return new Promise(resolve => {
+        http.get(uri, response => response.pipe(file))
+        resolve()
+    })
+}
+
 /**
  * 
  * @param {function} func function to call until it returns a truthy result, or the deadline passes
