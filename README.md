@@ -9,6 +9,7 @@
 - [Custom Environment](#custom-environment)
 - [Secrets](#secrets)
 - [Services](#services)
+  - [Code Server](#code-server)
   - [Watchtower](#watchtower)
   - [Traefik](#traefik)
   - [ETCD](#etcd)
@@ -59,10 +60,10 @@ make demo
 
 This will pull down images from Dockerhub and generate
 
-| File                     | Purpose                                                                                                                                                   |
-| :----------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.env`                   | A configuration file that is yours to customize. This file controls how the docker-compose.yml file gets generated to meet your use case.</br>It also allows you to set variables that make their way into the final `docker-compose.yml` file, such as your site's domain. |
-| `docker-compose.yml`     | A ready to run `docker-compose.yml` file based on your `.env` file.  This file is considered disposable. When you change your `.env` file, you will generate a new one.                                                 |
+| File                 | Purpose                                                                                                                                                                                                                                                                     |
+| :------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.env`               | A configuration file that is yours to customize. This file controls how the docker-compose.yml file gets generated to meet your use case.</br>It also allows you to set variables that make their way into the final `docker-compose.yml` file, such as your site's domain. |
+| `docker-compose.yml` | A ready to run `docker-compose.yml` file based on your `.env` file.  This file is considered disposable. When you change your `.env` file, you will generate a new one.                                                                                                     |
 
 Your new Islandora instance will be available at [https://islandora.traefik.me](https://islandora.traefik.me). Don't let the
 funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.
@@ -72,16 +73,17 @@ You can log into Drupal as `admin` using the default password, `password`.
 Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
 the things you can do.  If you want to poke around, here's all the services that are available to visit:
 
-| Service                     | Url                                                                                                                                                   |
-| :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Drupal                   | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |
-| Traefik                  | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |
-| Fedora                   | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |
-| Blazegraph               | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |
-| Activemq                 | [https://islandora.traefik.me:8161](https://islandora.traefik.me:8161)                         |
-| Solr                     | [https://islandora.traefik.me:8983](https://islandora.traefik.me:8983)                         |
-| Cantaloupe               | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |
-| Matomo                   | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |
+| Service     | Url                                                                                            |
+| :---------- | :--------------------------------------------------------------------------------------------- |
+| Drupal      | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |
+| Traefik     | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |
+| Fedora      | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |
+| Blazegraph  | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |
+| Activemq    | [https://islandora.traefik.me:8161](https://islandora.traefik.me:8161)                         |
+| Solr        | [https://islandora.traefik.me:8983](https://islandora.traefik.me:8983)                         |
+| Cantaloupe  | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |
+| Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |
+| Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                       |
 
 When you're done with your demo environment, shut it down by running
 
@@ -203,6 +205,37 @@ For in-depth documentation of the various `islandora` images see the
 [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit) repository.
 
 Other services will be documented below:
+
+### Code Server
+
+The [code-server](https://github.com/cdr/code-server) container allows a user to
+edit / debug their Drupal site from their browser.
+
+The code-server service can be disabled/enabled via the
+`INCLUDE_CODE_SERVER_SERVICE` variable in your `.env` file.
+
+```bash
+# Includes `code-server` as a service.
+INCLUDE_CODE_SERVER_SERVICE=true
+```
+
+By default this will accessible at
+[https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/).
+
+You can login with the default password: `password`.
+
+**N.B:** Do not expose this service on the internet without setting a strong
+password via the `./secrets/CODE_SERVER_PASSWORD`, or better yet do not expose
+it at all, and instead use port forward to access it if you have the need.
+Exposing this service in an insecure way will allow root access to your server
+to the public.
+
+To enable xdebug for your request, you must also send an `XDEBUG_SESSION` cookie
+with your request, this can be toggled on and off via a browser plugin such as
+the following.
+
+- [Chrome](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en)
+- [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/xdebug-helper-for-firefox/)
 
 ### Watchtower
 
