@@ -357,6 +357,13 @@ local:
 .SILENT: local-from-demo
 local-from-demo:
 	$(MAKE) demo
+	$(MAKE) extract-codebase
+	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
+	docker-compose up -d
+
+.PHONY: extract-codebase 
+.SILENT: extract-codebase
+extract-codebase:
 	docker-compose exec drupal drush -y config:export
 	# Need `default` folder to be writeable to copy it down to host.
 	docker-compose exec drupal chmod 777 /var/www/drupal/web/sites/default
@@ -368,8 +375,6 @@ local-from-demo:
 	sudo chown -R $(shell id -u):101 $(CURDIR)/codebase
 	# For newly added files/directories makesure they inherit the parent folders owner/group.
 	find $(CURDIR)/codebase -type d -exec chmod u+s,g+s {} \;
-	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
-	docker-compose up -d
 
 # Destroys everything beware!
 .PHONY: clean
