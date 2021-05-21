@@ -38,6 +38,7 @@ execute() {
   bash -c "set -a && \
            sed -e 's/^REQUIRED_SERIVCES=\(.*\)/REQUIRED_SERIVCES="\1"/' < .env > /tmp/test-env && \
            source /tmp/test-env && \
+           export ENV_FILE=/tmp/test-env && \
            source tests/.includes.sh && \
            ${testscript}" || { FAILURES="${FAILURES} $testscript" && echo "FAIL: $testscript"; }
 }

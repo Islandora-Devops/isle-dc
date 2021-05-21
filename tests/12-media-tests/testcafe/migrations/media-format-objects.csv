@@ -1,0 +1,6 @@
+local_id,title,member_of,model
+derivative_io_01,Derivative Repository Item One,:::Derivative Collection,Image
+media_format_object_01,Migrated Tiff Object,:::Media Format Collection,Image
+media_format_object_02,Uploaded Tiff Object,:::Media Format Collection,Image
+media_format_object_03,Migrated JPEG2000 Object,:::Media Format Collection,Image
+media_format_object_04,Uploaded JPEG2000 Object,:::Media Format Collection,Image

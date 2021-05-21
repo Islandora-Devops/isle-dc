@@ -1,5 +1,8 @@
 import {Selector} from 'testcafe';
 import {adminUser} from './roles.js';
+import {doMigration} from './util.js';
+import {migrationType} from './util.js';
+import {tryUntilTrue} from './util.js';
 
 
 fixture`Migration Derivative Tests`
@@ -21,35 +24,9 @@ const contentList = "https://islandora-idc.traefik.me/admin/content";
 test('Migrate Images for Derivative Generation', async t => {
 
     // migrate the test objects into Drupal
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_new_collection));
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/derivative-collection.csv'
-        ])
-        .click('#edit-import');
-
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_new_items))
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/derivative-islandora_object.csv'
-        ])
-        .click('#edit-import');
-
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_media_file))
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/derivative-file.csv'
-        ])
-        .click('#edit-import');
+    await doMigration(t, migrationType.NEW_COLLECTION, './migrations/derivative-collection.csv');
+    await doMigration(t, migrationType.NEW_ITEM, './migrations/derivative-islandora_object.csv');
+    await doMigration(t, migrationType.NEW_MEDIA_FILE, './migrations/derivative-file.csv');
 
     // verify the presence of the islandora object
     const io_name = "Derivative Repository Item One"
@@ -79,17 +56,16 @@ test('Migrate Images for Derivative Generation', async t => {
     const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
 
     console.log("Checking for derivatives ...")
-    const service_count = await service_derivative.count
-    const thumb_count = await thumb_derivative.count
 
-    // if a derivative isn't present yet, it may be because it hasn't been generated yet.
-    // in that case, wait 30 seconds and refresh the page, and see if it appears.
-    if (service_count < 1 || thumb_count < 1) {
-        console.log("Derivatives haven't appeared.  Sleeping for 30 seconds, then trying again ...")
-        // sleep 30 seconds, refresh the page
-        await t.wait(30000);
-        await t.eval(() => location.reload(true));
-    }
+    await t.expect(await tryUntilTrue(async () => {
+        const service_count = await service_derivative.count
+        const thumb_count = await thumb_derivative.count
+        if (service_count < 1 || thumb_count < 1) {
+            await t.eval(() => location.reload(true));
+            return false;
+        }
+        return true;
+    })).eql(true, "Derivatives have not appeared");
 
     await t.expect(service_derivative.count).eql(1);
     await t.expect(thumb_derivative.count).eql(1);

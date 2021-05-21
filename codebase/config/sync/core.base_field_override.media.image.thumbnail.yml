@@ -19,7 +19,7 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  file_extensions: 'png gif jpg jpeg'
+  file_extensions: 'png gif jpg jpeg tiff tif jp2'
   alt_field: true
   alt_field_required: true
   title_field: false
