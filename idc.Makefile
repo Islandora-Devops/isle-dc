@@ -140,13 +140,21 @@ start:
 		if [ "$$?" -eq "0" -a -n "$${DRUPAL_STATE_EXISTS}" ]; then break; fi; \
 	done; \
 	if [ "$${DRUPAL_STATE_EXISTS}" != "1" ] ; then \
-		echo "No Drupal state found"; \
+		echo "No Drupal state found.  Loading from snapshot, and importing config from config/sync"; \
 		${MAKE} db_restore; \
+		${MAKE} _docker-up-and-wait; \
+		${MAKE} config-import; \
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
+		${MAKE} _docker-up-and-wait; \
 	fi;
+
+.PHONY: _docker-up-and-wait
+.SILENT: _docker-up-and-wait
+_docker-up-and-wait:
 	docker-compose up -d
 	sleep 5
 	docker-compose exec -T drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to start ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
+
 
 # Static drupal image, with codebase baked in.  This image
 # is tagged based on the current git hash/tag.  If the image is not present
