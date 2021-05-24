@@ -23,41 +23,43 @@ start from a known snapshot state, which currently is an entirely empty (but ini
 
 To reset to a known Drupal state, run
 
-    docker-compose down -v
-    docker-compose up -d
+    make reset
 
-This will remove all content from volumes that you may have added, launch using the snapshot as its initial state.
+This will remove all content from volumes that you may have added, remove all php files downloaded by composer,
+launch using the snapshot as its initial state, then import any config from config/sync.  
+`composer install` will run automatically as part of the startup process.
+
+A slightly quicker way to reset to a known state is:
+
+    docker-compose down -v
+    make up
+
+This removes all content from volumes, restores from the last snapshot, pulls in config from config/sync, but does _not_ remove composer-managed PHP files.  `composer install` will still run upon startup, but it needs to do much less.
 
 To dump the site's configuration so that it can be committed to `git`, do
 
     make config-export
-
-To take a snapshot of Drupal's current content, do
-
-    make snapshot
-
-See [snapshots](#snapshots) for more information on how to make and publish snapshots
 
 ## Make targets
 
 There are several Make targets in the `Makefile`, and its idc-specific companion `idc.Makefile` (which are included by default,
 so no need to do anything special other than `make` to invoke them).  A few useful targets are as follows:
 
-* **make bootstrap** Burn everything down and create a fresh installation from scratch, deleting any pre-existing data, and starting from a completely empty state.  Only the list of modules in `composer.json` (and dependencies in `composer.lock`) survives the process.
-* **make reset** Burn everything down and create a fresh installation _from the snapshot image_.  Unlike `make bootstrap`, modules and dependencies **do not** survive; they will be installed when the drupal container starts.  Does not pull in configuration from config/sync, will use the active configuration present in the snapshot.
-* **make composer-install**  Use the Drupal container to run a `composer install`.  This avoids having to install composer on your local system.
+* **make reset** Burn everything down and create a fresh installation _from the snapshot image_.  composer-installed modules and dependencies **do not** survive; they will be deleted, then installed from scratch via `composer install` when the drupal container starts.  Once up, configuration will from `config/sync` will be imported.
+* **make composer-install**  Use the Drupal container to run a `composer install`.  This avoids having to install composer on your local system.  Note:  the Drupal image startup process implicitly runs `composer install` already, so this make target is used for on-demand composer installs.
 * **make cache-rebuild** Uses Drush inside the Drupal container to rebuild Drupal's cache.
 * **make config-export** Exports all current active Drupal config to the `codebase/config/sync` directory, so that it can be committed to git.
-* **make snapshot** Create a snapshot of the current Drupal state (db, content files, etc), so that you can reset to this state at will, or push it so that others can.
-* **make snapshot-push** Push the current snapshot image to the container registry
-* **make up** Brings up the development environment, including running `composer install`.
-* **make test** Runs all tests.
+* **make up** Brings up the development environment, including running `composer install`.  If there is no pre-existing state (e.g. after a `docker compose down -v`), this will load initial state from the current snapshot, and pull in config from `config/sync`.  Otherwise, if there _is_ pre-existing state (i.e. after a `docker stop`), docker will start, `composer install` will run, but configuration from `config/sync` will _not_ be imported.
+* **make test** Runs all tests.  Optionally, takes a `test=` parameter for running a particular test suite.  NOTE:  Running all tests without a `test=` argument will result in all local state being wiped out
 * **make dev-up** Launches the stack with a Drupal image configured with XDebug for IDE-based debugging.  Updates the environment requiring `make dev-down` to be invoked at the conclusion of a development session.
 * **make dev-down** Stops the Drupal development image, and resets the environment to using production.
 
 A few specialized targets are:
 
+* **make bootstrap** Burn everything down and create a fresh installation from scratch, deleting any pre-existing data, and starting from a completely empty state.  Only the list of modules in `composer.json` (and dependencies in `composer.lock`) survives the process.
 * **make minio-bucket** Create a new bucket in minio based on the environment variables present in `.env`
+* **make snapshot** Create a snapshot of the current Drupal state (db, content files, etc), so that you can reset to this state at will, or push it so that others can.
+* **make snapshot-push** Push the current snapshot image to the container registry
 * **make static-docker-compose.yml** Make a docker-compose.yml based off non-development "static" environment.  Notably:
   * A `drupal-static` image is built or pulled, which has `codebase` baked in, and is used in place of the normal `drupal` image
   * `codebase` is no longer bind mounted
