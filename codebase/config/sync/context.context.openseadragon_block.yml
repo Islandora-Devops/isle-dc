@@ -54,6 +54,21 @@ reactions:
         context_id: openseadragon_block
         uuid: 16401a13-1031-4ffe-96b2-5909df309f6a
         custom_id: openseadragon_block
+      a4d8a58d-7744-4527-a124-189a748eeba1:
+        id: openseadragon_block
+        label: 'Openseadragon block'
+        provider: openseadragon
+        label_display: '0'
+        region: top_menu
+        weight: '0'
+        iiif_manifest_url: '/node/[node:nid]/manifest'
+        context_mapping: {  }
+        custom_id: openseadragon_block
+        theme: idcui
+        css_class: ''
+        unique: 0
+        context_id: openseadragon_block
+        uuid: a4d8a58d-7744-4527-a124-189a748eeba1
     id: blocks
     saved: false
     uuid: 50b9b25e-0836-4531-8a78-9698d71d81de

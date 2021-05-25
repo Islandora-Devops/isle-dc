@@ -8,8 +8,8 @@ _core:
   default_config_hash: JNe263HPnJkhKqjmnodN6AGU7fyzJHGEJuOCU3ZO23w
 id: idcui_local_tasks
 theme: idcui
-region: content
-weight: -6
+region: highlighted
+weight: -7
 provider: null
 plugin: local_tasks_block
 settings:

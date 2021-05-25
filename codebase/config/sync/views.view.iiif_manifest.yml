@@ -7,8 +7,8 @@ dependencies:
     - field.storage.media.field_media_image
   module:
     - file
+    - idc_ui_module
     - image
-    - islandora_iiif
     - media
     - node
     - rest
@@ -368,7 +368,7 @@ display:
         options:
           offset: 0
       style:
-        type: iiif_manifest
+        type: idc_iiif_serializer
         options:
           iiif_tile_field:
             field_media_file: field_media_file
