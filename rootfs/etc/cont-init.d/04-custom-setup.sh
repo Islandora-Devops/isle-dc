@@ -27,17 +27,6 @@ function main {
     create_blazegraph_namespace_with_default_properties "${site}"
     # Need to run migration to get expected default content, now that our required services are running.
     import_islandora_migrations "${site}"
-    # Workaround for this issue (only seems to apply to islandora_fits):
-    # https://www.drupal.org/project/drupal/issues/2914213
-    cat << EOF > /tmp/fix.php
-<?php
-use Drupal\taxonomy\Entity\Term;
-\$term = array_pop(taxonomy_term_load_multiple_by_name('FITS File'));
-\$default = ['uri' => 'https://projects.iq.harvard.edu/fits'];
-\$term->set('field_external_uri', \$default);
-\$term->save();
-EOF
-    drush php:script /tmp/fix.php
     # Rebuild the cache.
     drush cr
 }
