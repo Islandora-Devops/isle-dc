@@ -65,6 +65,40 @@ This will pull down images from Dockerhub and generate
 | `.env`               | A configuration file that is yours to customize. This file controls how the docker-compose.yml file gets generated to meet your use case.</br>It also allows you to set variables that make their way into the final `docker-compose.yml` file, such as your site's domain. |
 | `docker-compose.yml` | A ready to run `docker-compose.yml` file based on your `.env` file.  This file is considered disposable. When you change your `.env` file, you will generate a new one.                                                                                                     |
 
+### .env
+A few key values that might need to be adjusted.
+
+#### environment:
+- local
+- demo
+- custom
+
+These are called modes.
+
+* Locate creates a site and generates a codebase dirrectory
+* Demo creates a site without generating a codebase dirrectory
+* Custom is running your own custom docker container. This is an advanced option.
+
+#### Use_secrets:
+- set to __true__ for non local deployment (on production environment)
+
+#### repository:
+- islandora
+- local
+- Your Docker hub account. This is an advanced option.
+
+#### tag:
+- latest
+  - Latest is the current commit of [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit/)
+- 1.0.0-alpha-3
+  - Tagged [release version](https://github.com/Islandora-Devops/isle-buildkit/tags)
+- 1b4f62a45946679988e124958c736e6c22a2ae14
+  - Github commit hash for [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit/tree/1b4f62a45946679988e124958c736e6c22a2ae14)
+
+
+#### INSTALL_EXISTING_CONFIG & DRUPAL_INSTALL_PROFILE
+Change these if you already have a config export directory. 
+
 Your new Islandora instance will be available at [https://islandora.traefik.me](https://islandora.traefik.me). Don't let the
 funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.
 
