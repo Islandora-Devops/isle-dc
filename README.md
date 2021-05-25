@@ -80,7 +80,7 @@ These are called modes.
 * Custom is running your own custom docker container. This is an advanced option.
 
 #### Use_secrets:
-- set to __true__ for non local
+- set to __true__ for non local deployment (on production environment)
 
 #### repository:
 - islandora
