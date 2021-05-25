@@ -10,6 +10,8 @@ RUN --mount=type=bind,source=codebase,target=/build \
     rm -fr /var/www/drupal/web/sites/default/files/* && \
     bash -lc "remove_standard_profile_references_from_config" && \
     find /var/www/drupal/web/sites -name "settings.php" -exec rm {} \; && \
-    chown -R nginx:nginx /var/www/drupal
+    chown -R nginx:nginx /var/www/drupal && \
+    chmod -R u+w /var/www/drupal && \
+    chmod -R g+w /var/www/drupal
 
 COPY rootfs /
