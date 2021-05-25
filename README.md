@@ -72,10 +72,12 @@ A few key values that might need to be adjusted.
 - local
 - demo
 - custom
+
 These are called modes.
-Locate creates a site and generates a codebase dirrectory
-Demo creates a site without generating a codebase dirrectory
-Custom is running your own custom docker container. This is an advanced option.
+
+* Locate creates a site and generates a codebase dirrectory
+* Demo creates a site without generating a codebase dirrectory
+* Custom is running your own custom docker container. This is an advanced option.
 
 #### Use_secrets:
 - set to __true__ for non local
