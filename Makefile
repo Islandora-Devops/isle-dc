@@ -136,9 +136,9 @@ update-settings-php:
 update-config-from-environment:
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_jwt_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
-	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
 
 # Runs migrations of islandora
 .PHONY: run-islandora-migrations
@@ -356,7 +356,7 @@ local:
 .PHONY: local-from-demo
 .SILENT: local-from-demo
 local-from-demo:
-	$(MAKE) demo
+	$(MAKE) demo ENVIRONMENT=demo
 	$(MAKE) extract-codebase
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	docker-compose up -d

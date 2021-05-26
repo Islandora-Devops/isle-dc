@@ -16,6 +16,7 @@ services:
       DRUPAL_DEFAULT_FCREPO_PORT: 8081
       DRUPAL_DEFAULT_MATOMO_URL: https://${DOMAIN}/matomo/
       DRUPAL_DEFAULT_SITE_URL: http://${DOMAIN} # Make sure this is just http and not https!
+      DRUPAL_ENABLE_ISLANDORA_DEFAULTS: ${ENABLE_ISLANDORA_DEFAULTS}
     labels:
       - traefik.enable=true
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
