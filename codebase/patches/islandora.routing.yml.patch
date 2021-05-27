@@ -1,0 +1,13 @@
+diff --git a/islandora.routing.yml b/islandora.routing.yml
+index 3bdfdf53..b9ef436d 100644
+--- a/islandora.routing.yml
++++ b/islandora.routing.yml
+@@ -57,6 +57,8 @@ islandora.media_source_put_to_node:
+     _custom_access: '\Drupal\islandora\Controller\MediaSourceController::putToNodeAccess'
+   options:
+     _auth: ['basic_auth', 'cookie', 'jwt_auth']
++    default_url_options:
++      https: true
+ 
+ islandora.attach_file_to_media:
+   path: '/media/add_derivative/{media}/{destination_field}'
