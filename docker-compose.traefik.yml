@@ -9,6 +9,7 @@
 # discover it via Docker but will not be able to redirect traffic to it.
 version: "3.7"
 networks:
+  default:
   gateway:
     name: gateway
     driver: bridge
@@ -51,4 +52,7 @@ services:
       # Do not expose in production.
       - traefik.http.routers.api.service=api@internal
     networks:
-      - gateway
+      default:
+        aliases:
+          - islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+          - islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
