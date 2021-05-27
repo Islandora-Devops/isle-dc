@@ -26,7 +26,7 @@ const contentList = "https://islandora-idc.traefik.me/admin/content";
 export const findMediaOf = async (t, name) => {
   await navigateToMediaPage(t, name);
 
-  await t.click(Selector("#rid-content").find("a").withText("Media"));
+  await t.click(Selector("#block-idcui-local-tasks").find("a").withText("Media"));
 
   // assert the presence of the original media
   const media_rows = Selector(".views-table").child("tbody").child("tr");
@@ -136,7 +136,7 @@ export const download = async (uri) => {
  */
 export const uploadImageInUI = async (t, name, file) => {
   await navigateToMediaPage(t, name);
-  await t.click(Selector("#rid-content").find("a").withText("Media"));
+  await t.click(Selector("#block-idcui-local-tasks").find("a").withText("Media"));
   await t.click(Selector(".button"));
   await t.click(Selector(".admin-list").find("a").withText("local images"));
   await t.click(Selector("#edit-field-media-use-17"));

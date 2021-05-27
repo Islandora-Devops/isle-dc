@@ -85,7 +85,8 @@ process:
             plugin: extract
             index:
               - 0
-          - plugin: parse_entity_lookup
+          -
+            plugin: parse_entity_lookup
             defaults:
               entity_type: taxonomy_term
               bundle_key: vid

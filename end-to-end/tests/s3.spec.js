@@ -60,7 +60,7 @@ test('Verify original file and derivatives are in S3', async t => {
     // list its media
 
     await t.click(io)
-    await t.click(Selector('#rid-content').find('a').withText('Media'))
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     const media_name = "S3 Image";
@@ -108,12 +108,12 @@ test('Verify original file and derivatives are in S3', async t => {
         const minio_src = drupal_src.replace('/system/files',' http://minio:9000/idc/local').trim();
         var statusCode;
         const executeReq = () => {
-    
+
             const options = {
                 method:   'HEAD',
                 timeout: 1000
             };
-    
+
             return new Promise(resolve => {
                 const req = http.request(minio_src, options, (res) => {
                     statusCode = res.statusCode;
@@ -122,7 +122,7 @@ test('Verify original file and derivatives are in S3', async t => {
                 req.end();
             });
         };
-    
+
         await executeReq();
         await t.expect(statusCode).eql(200, kind + "file not in S3: " + minio_src);
     }

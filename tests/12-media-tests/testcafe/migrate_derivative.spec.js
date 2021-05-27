@@ -37,7 +37,7 @@ test('Migrate Images for Derivative Generation', async t => {
     // list its media
 
     await t.click(io)
-    await t.click(Selector('#rid-content').find('a').withText('Media'))
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     const media_name = "Map Image";
