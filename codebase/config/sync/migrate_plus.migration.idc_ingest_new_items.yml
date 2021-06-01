@@ -250,6 +250,47 @@ process:
               bundle: person
               bundle_key: vid
               value_key: name
+  field_custodial_history:
+    -
+      plugin: explode
+      source: custodial_history
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
+      process:
+        value:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 0
+        target_id:
+          -
+            plugin: skip_on_empty
+            method: process
+            source: value
+          -
+            plugin: explode
+            delimiter: ;
+          -
+            plugin: extract
+            index:
+              - 1
+          -
+            plugin: entity_lookup
+            entity_type: taxonomy_term
+            bundle: language
+            bundle_key: vid
+            value_key: field_language_code
   field_date_available: date_available
   field_date_copyrighted:
     -

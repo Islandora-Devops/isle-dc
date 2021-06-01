@@ -369,6 +369,9 @@ type JsonApiIslandoraObj struct {
 			Creator struct {
 				Data []RelData
 			} `json:"field_creator"`
+			CustodialHistory struct {
+				Data []JsonApiLanguageValue
+			} `json:"field_custodial_history"`
 			Description struct {
 				Data []JsonApiLanguageValue
 			} `json:"field_description"`

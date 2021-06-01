@@ -54,13 +54,15 @@ test('Migrate Images for Derivative Generation', async t => {
     // (increase timeout in case derivatives haven't been created yet?)
     const service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
     const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
+    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
 
     console.log("Checking for derivatives ...")
 
     await t.expect(await tryUntilTrue(async () => {
         const service_count = await service_derivative.count
         const thumb_count = await thumb_derivative.count
-        if (service_count < 1 || thumb_count < 1) {
+        const fits_count = await fits_derivative.count
+        if (service_count < 1 || thumb_count < 1 || fits_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
@@ -69,4 +71,5 @@ test('Migrate Images for Derivative Generation', async t => {
 
     await t.expect(service_derivative.count).eql(1);
     await t.expect(thumb_derivative.count).eql(1);
+    await t.expect(fits_derivative.count).eql(1);
 });

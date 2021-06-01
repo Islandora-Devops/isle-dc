@@ -64,15 +64,16 @@ type ExpectedRepoObj struct {
 		RelType string `json:"rel_type"`
 		Name    string
 	}
-	DateAvailable      string   `json:"date_available"`
-	DateCopyrighted    []string `json:"date_copyrighted"`
-	DateCreated        []string `json:"date_created"`
-	DatePublished      []string `json:"date_published"`
-	DigitalIdentifier  []string `json:"digital_identifier"`
-	DigitalPublisher   []string `json:"digital_publisher"`
-	DisplayHint        string   `json:"display_hints"`
-	DspaceIdentifier   string   `json:"dspace_identifier"`
-	DspaceItemId       string   `json:"dspace_itemid"`
+	CustodialHistory   []LanguageString `json:"custodial_history"`
+	DateAvailable      string           `json:"date_available"`
+	DateCopyrighted    []string         `json:"date_copyrighted"`
+	DateCreated        []string         `json:"date_created"`
+	DatePublished      []string         `json:"date_published"`
+	DigitalIdentifier  []string         `json:"digital_identifier"`
+	DigitalPublisher   []string         `json:"digital_publisher"`
+	DisplayHint        string           `json:"display_hints"`
+	DspaceIdentifier   string           `json:"dspace_identifier"`
+	DspaceItemId       string           `json:"dspace_itemid"`
 	Extent             []string
 	FindingAid         string `json:"finding_aid"`
 	Genre              []string

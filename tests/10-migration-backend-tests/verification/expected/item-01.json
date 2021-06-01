@@ -55,6 +55,16 @@
       "name": "Weston, Islandora Object Edward, 1886-1958"
     }
   ],
+  "custodial_history": [
+    {
+      "value": "This material was held by the author and donated recently",
+      "language": "eng"
+    },
+    {
+      "value": "该材料由作者持有，最近捐赠",
+      "language": "chi"
+    }
+  ],
   "date_available": "2020-01-01",
   "date_copyrighted": [
     "2010-01-01",

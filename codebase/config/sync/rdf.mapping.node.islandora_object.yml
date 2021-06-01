@@ -43,6 +43,9 @@ fieldMappings:
     properties:
       - 'dcterms:creator'
     mapping_type: rel
+  field_custodial_history:
+    properties:
+      - 'bibframe:custodialHistory'
   field_date_available:
     properties:
       - 'dcterms:available'

@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.islandora_object.field_copyright_and_use
     - field.field.node.islandora_object.field_copyright_holder
     - field.field.node.islandora_object.field_creator
+    - field.field.node.islandora_object.field_custodial_history
     - field.field.node.islandora_object.field_date_available
     - field.field.node.islandora_object.field_date_copyrighted
     - field.field.node.islandora_object.field_date_created
@@ -81,8 +82,9 @@ third_party_settings:
         - field_featured_item
         - field_alternative_title
         - field_resource_type
-        - field_abstract
         - field_description
+        - field_abstract
+        - field_custodial_history
         - field_table_of_contents
         - field_genre
         - field_subject
@@ -218,7 +220,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_abstract:
-    weight: 17
+    weight: 18
     settings:
       size_value: 5000
       rows: 5
@@ -264,7 +266,7 @@ content:
     type: string_textfield
     region: content
   field_contributor:
-    weight: 25
+    weight: 26
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -290,7 +292,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_creator:
-    weight: 26
+    weight: 27
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -298,6 +300,15 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: typed_relation_default
+    region: content
+  field_custodial_history:
+    weight: 19
+    settings:
+      size_value: 5000
+      rows: 5
+      placeholder_value: ''
+    third_party_settings: {  }
+    type: reference_value_select
     region: content
   field_date_available:
     weight: 42
@@ -336,7 +347,7 @@ content:
     type: edtf_default
     region: content
   field_description:
-    weight: 18
+    weight: 17
     settings:
       size_value: 5000
       rows: 5
@@ -385,7 +396,7 @@ content:
     type: string_textfield
     region: content
   field_extent:
-    weight: 27
+    weight: 28
     settings:
       size: 60
       placeholder: ''
@@ -409,7 +420,7 @@ content:
     region: content
   field_genre:
     type: entity_reference_autocomplete
-    weight: 20
+    weight: 21
     region: content
     settings:
       match_operator: CONTAINS
@@ -426,7 +437,7 @@ content:
     type: link_default
     region: content
   field_is_part_of:
-    weight: 24
+    weight: 25
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -459,7 +470,7 @@ content:
     region: content
   field_language:
     type: entity_reference_autocomplete
-    weight: 22
+    weight: 23
     region: content
     settings:
       match_operator: CONTAINS
@@ -545,7 +556,7 @@ content:
     type: options_buttons
     region: content
   field_spatial_coverage:
-    weight: 23
+    weight: 24
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -555,7 +566,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_subject:
-    weight: 21
+    weight: 22
     settings:
       match_operator: CONTAINS
       size: 60
@@ -565,7 +576,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_table_of_contents:
-    weight: 19
+    weight: 20
     settings:
       size_value: 5000
       rows: 5

@@ -23,6 +23,7 @@ dependencies:
     - field.storage.node.field_copyright_and_use
     - field.storage.node.field_copyright_holder
     - field.storage.node.field_creator
+    - field.storage.node.field_custodial_history
     - field.storage.node.field_date_available
     - field.storage.node.field_date_copyrighted
     - field.storage.node.field_date_created
@@ -259,6 +260,14 @@ field_settings:
         - field.storage.node.field_creator
       module:
         - taxonomy
+  field_custodial_history:
+    label: 'Custodial History'
+    datasource_id: 'entity:node'
+    property_path: field_custodial_history
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_custodial_history
   field_date_available:
     label: 'Date Available'
     datasource_id: 'entity:node'

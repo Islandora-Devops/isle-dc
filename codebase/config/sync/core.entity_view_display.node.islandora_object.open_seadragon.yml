@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.islandora_object.field_copyright_and_use
     - field.field.node.islandora_object.field_copyright_holder
     - field.field.node.islandora_object.field_creator
+    - field.field.node.islandora_object.field_custodial_history
     - field.field.node.islandora_object.field_date_available
     - field.field.node.islandora_object.field_date_copyrighted
     - field.field.node.islandora_object.field_date_created
@@ -96,7 +97,7 @@ content:
     third_party_settings: {  }
   field_citable_url:
     type: link
-    weight: 28
+    weight: 27
     region: content
     label: above
     settings:
@@ -108,7 +109,7 @@ content:
     third_party_settings: {  }
   field_collection_number:
     type: string
-    weight: 31
+    weight: 30
     region: content
     label: above
     settings:
@@ -116,7 +117,7 @@ content:
     third_party_settings: {  }
   field_contributor:
     type: typed_relation_default
-    weight: 30
+    weight: 29
     region: content
     label: above
     settings:
@@ -124,7 +125,7 @@ content:
     third_party_settings: {  }
   field_copyright_and_use:
     type: entity_reference_label
-    weight: 35
+    weight: 34
     region: content
     label: above
     settings:
@@ -132,7 +133,7 @@ content:
     third_party_settings: {  }
   field_copyright_holder:
     type: entity_reference_label
-    weight: 36
+    weight: 35
     region: content
     label: above
     settings:
@@ -140,11 +141,20 @@ content:
     third_party_settings: {  }
   field_creator:
     type: typed_relation_default
-    weight: 29
+    weight: 28
     region: content
     label: above
     settings:
       link: true
+    third_party_settings: {  }
+  field_custodial_history:
+    type: reference_value_formatter
+    weight: 41
+    region: content
+    label: above
+    settings:
+      display_invalid_reference: 1
+      invalid_reference_label: ''
     third_party_settings: {  }
   field_date_available:
     type: edtf_default
@@ -159,7 +169,7 @@ content:
     third_party_settings: {  }
   field_date_copyrighted:
     type: edtf_default
-    weight: 33
+    weight: 32
     region: content
     label: above
     settings:
@@ -170,7 +180,7 @@ content:
     third_party_settings: {  }
   field_date_created:
     type: edtf_default
-    weight: 32
+    weight: 31
     region: content
     label: above
     settings:
@@ -181,7 +191,7 @@ content:
     third_party_settings: {  }
   field_date_published:
     type: edtf_default
-    weight: 34
+    weight: 33
     region: content
     label: above
     settings:
@@ -201,7 +211,7 @@ content:
     third_party_settings: {  }
   field_digital_identifier:
     type: string
-    weight: 38
+    weight: 37
     region: content
     label: above
     settings:
@@ -217,7 +227,7 @@ content:
     third_party_settings: {  }
   field_extent:
     type: string
-    weight: 39
+    weight: 38
     region: content
     label: above
     settings:
@@ -225,7 +235,7 @@ content:
     third_party_settings: {  }
   field_featured_item:
     type: boolean
-    weight: 37
+    weight: 36
     region: content
     label: above
     settings:
@@ -396,7 +406,7 @@ content:
     third_party_settings: {  }
   field_years:
     type: edtf_default
-    weight: 41
+    weight: 40
     region: content
     label: above
     settings:
@@ -406,7 +416,7 @@ content:
       day_format: dd
     third_party_settings: {  }
   islandora_fits_checksum:
-    weight: 40
+    weight: 39
     region: content
     settings: {  }
     third_party_settings: {  }

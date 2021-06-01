@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.islandora_object.field_copyright_and_use
     - field.field.node.islandora_object.field_copyright_holder
     - field.field.node.islandora_object.field_creator
+    - field.field.node.islandora_object.field_custodial_history
     - field.field.node.islandora_object.field_date_available
     - field.field.node.islandora_object.field_date_copyrighted
     - field.field.node.islandora_object.field_date_created
@@ -84,6 +85,7 @@ hidden:
   field_copyright_and_use: true
   field_copyright_holder: true
   field_creator: true
+  field_custodial_history: true
   field_date_available: true
   field_date_copyrighted: true
   field_date_created: true

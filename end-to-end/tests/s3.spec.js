@@ -76,13 +76,15 @@ test('Verify original file and derivatives are in S3', async t => {
     // (increase timeout in case derivatives haven't been created yet?)
     const service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
     const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
+    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
 
     const service_count = await service_derivative.count
     const thumb_count = await thumb_derivative.count
+    const fits_count = await fits_derivative.count
 
     // if a derivative isn't present yet, it may be because it hasn't been generated yet.
     // in that case, wait 30 seconds and refresh the page, and see if it appears.
-    if (service_count < 1 || thumb_count < 1) {
+    if (service_count < 1 || thumb_count < 1 || fits_count < 1) {
         console.log("Derivatives haven't appeared.  Sleeping for 30 seconds, then trying again ...")
         // sleep 30 seconds, refresh the page
         await t.wait(30000);
@@ -91,6 +93,7 @@ test('Verify original file and derivatives are in S3', async t => {
 
     await t.expect(service_derivative.count).eql(1);
     await t.expect(thumb_derivative.count).eql(1);
+    await t.expect(fits_derivative.count).eql(1);
 
     const original_uri = await media.getAttribute('href');
     const thumb_media_uri = await thumb_derivative.getAttribute('href');
@@ -99,7 +102,7 @@ test('Verify original file and derivatives are in S3', async t => {
     let uris = {
         original: original_uri,
         thumbnail: thumb_media_uri,
-        service: service_media_uri
+        service: service_media_uri,
     }
 
     for (const kind in uris) {
@@ -126,8 +129,5 @@ test('Verify original file and derivatives are in S3', async t => {
         await executeReq();
         await t.expect(statusCode).eql(200, kind + "file not in S3: " + minio_src);
     }
-
-
-
 
 });

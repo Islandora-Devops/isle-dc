@@ -10,6 +10,11 @@ dependencies:
     - taxonomy.vocabulary.person
   module:
     - controlled_access_terms
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
 id: node.islandora_object.field_contributor
 field_name: field_contributor
 entity_type: node
@@ -158,6 +163,7 @@ settings:
     'relators:fnd': 'Funder (fnd)'
     'relators:gis': 'Geographic information specialist (gis)'
     'relators:grt': 'Graphic technician (grt; deprecated, use Artist)'
+    'bibframe:heldBy': 'Held by'
     'relators:hnr': 'Honoree (hnr)'
     'relators:hst': 'Host (hst)'
     'relators:his': 'Host institution (his)'

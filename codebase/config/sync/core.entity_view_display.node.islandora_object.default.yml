@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.islandora_object.field_copyright_and_use
     - field.field.node.islandora_object.field_copyright_holder
     - field.field.node.islandora_object.field_creator
+    - field.field.node.islandora_object.field_custodial_history
     - field.field.node.islandora_object.field_date_available
     - field.field.node.islandora_object.field_date_copyrighted
     - field.field.node.islandora_object.field_date_created
@@ -152,6 +153,15 @@ content:
       link: true
     third_party_settings: {  }
     type: typed_relation_default
+    region: content
+  field_custodial_history:
+    weight: 43
+    label: above
+    settings:
+      display_invalid_reference: 1
+      invalid_reference_label: ''
+    third_party_settings: {  }
+    type: reference_value_formatter
     region: content
   field_date_available:
     weight: 18

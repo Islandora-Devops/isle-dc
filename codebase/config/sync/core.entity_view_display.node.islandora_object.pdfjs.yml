@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.islandora_object.field_copyright_and_use
     - field.field.node.islandora_object.field_copyright_holder
     - field.field.node.islandora_object.field_creator
+    - field.field.node.islandora_object.field_custodial_history
     - field.field.node.islandora_object.field_date_available
     - field.field.node.islandora_object.field_date_copyrighted
     - field.field.node.islandora_object.field_date_created
@@ -52,6 +53,7 @@ dependencies:
     module:
       - islandora_defaults
   module:
+    - reference_value_pair
     - user
 _core:
   default_config_hash: LL0DwJidNZPoF8xl8g2QIW9bNPeiqUcy0CwmsIqfPvo
@@ -60,6 +62,15 @@ targetEntityType: node
 bundle: islandora_object
 mode: pdfjs
 content:
+  field_custodial_history:
+    type: reference_value_formatter
+    weight: 0
+    region: content
+    label: above
+    settings:
+      display_invalid_reference: 1
+      invalid_reference_label: ''
+    third_party_settings: {  }
   field_gemini_uri:
     weight: 30
     region: content
@@ -115,9 +126,9 @@ content:
     region: content
   islandora_fits_checksum:
     weight: 100
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   links:
     weight: 2
     region: content

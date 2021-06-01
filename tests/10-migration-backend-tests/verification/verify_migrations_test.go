@@ -930,6 +930,14 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 		assert.Equal(t, expectedJson.Creator[i].RelType, actualRelType)
 	}
 
+	// Custodial History
+	assert.Equal(t, 2, len(expectedJson.CustodialHistory))
+	assert.Equal(t, len(expectedJson.CustodialHistory), len(relData.CustodialHistory.Data))
+	for i := range relData.CustodialHistory.Data {
+		assert.Equal(t, expectedJson.CustodialHistory[i].Value, relData.CustodialHistory.Data[i].value())
+		assert.Equal(t, expectedJson.CustodialHistory[i].LangCode, relData.CustodialHistory.Data[i].langCode(t))
+	}
+
 	// Description
 	assert.Equal(t, 2, len(expectedJson.Description))
 	assert.Equal(t, len(expectedJson.Description), len(relData.Description.Data))
