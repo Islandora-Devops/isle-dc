@@ -1,2 +1,2 @@
 local_id,title,abstract,access_rights,access_terms,alt_title,collection_number,contributor,copyright,copyright_holder,creator,date_available,date_copyrighted,date_created,date_published,description,digital_identifier,digital_publisher,display_hints,dspace_identifier,dspace_itemid,extent,finding_aid,genre,geoportal_link,issn,is_part_of,item_barcode,jhir_uri,language,library_catalog_link,member_of,model,oclc_number,publisher,publisher_country,resource_type,spatial_coverage,subject,table_of_contents,title_language,years
-filedelete_io_01,File Deletion Repository Item One,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,deletion-collection-01,,,,,,,,,,
+filedelete_io_01,File Deletion Repository Item One,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,deletion-collection-01,Binary,,,,,,,,,

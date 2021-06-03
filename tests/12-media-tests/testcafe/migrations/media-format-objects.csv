@@ -4,3 +4,13 @@ media_format_object_01,Migrated Tiff Object,:::Media Format Collection,Image
 media_format_object_02,Uploaded Tiff Object,:::Media Format Collection,Image
 media_format_object_03,Migrated JPEG2000 Object,:::Media Format Collection,Image
 media_format_object_04,Uploaded JPEG2000 Object,:::Media Format Collection,Image
+media_format_object_05,Migrated Geo Tiff Object,:::Media Format Collection,Binary
+media_format_object_06,Uploaded Geo Tiff Object,:::Media Format Collection,Binary
+media_format_object_07,Migrated Zip Object,:::Media Format Collection,Binary
+media_format_object_08,Uploaded Zip Object,:::Media Format Collection,Binary
+media_format_object_09,Migrated Tar Object,:::Media Format Collection,Binary
+media_format_object_10,Uploaded Tar Object,:::Media Format Collection,Binary
+media_format_object_11,Migrated GZip Object,:::Media Format Collection,Binary
+media_format_object_12,Uploaded GZip Object,:::Media Format Collection,Binary
+media_format_object_13,Migrated TGZ Object,:::Media Format Collection,Binary
+media_format_object_14,Uploaded TGZ Object,:::Media Format Collection,Binary

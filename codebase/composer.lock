@@ -7579,12 +7579,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/islandora_defaults.git",
-                "reference": "6077efe28faa42b4f2244ad235228dc0f08f63f1"
+                "reference": "f13727c4de68d8170596ce110fad31d345e3ac95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/6077efe28faa42b4f2244ad235228dc0f08f63f1",
-                "reference": "6077efe28faa42b4f2244ad235228dc0f08f63f1",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/f13727c4de68d8170596ce110fad31d345e3ac95",
+                "reference": "f13727c4de68d8170596ce110fad31d345e3ac95",
                 "shasum": ""
             },
             "require": {
@@ -7610,7 +7610,7 @@
                 "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
                 "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
             },
-            "time": "2021-04-20T20:36:15+00:00"
+            "time": "2021-06-01T16:35:13+00:00"
         },
         {
             "name": "jhu-idc/migrate_file",
@@ -12888,6 +12888,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": "use `EnglishInflector` from the String component instead",
             "time": "2021-03-17T20:31:43+00:00"
         },
         {

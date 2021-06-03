@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - islandora
+    - islandora_defaults
 _core:
   default_config_hash: _w1tI4doB71OVhr9ylF4DCZRMGXy8Mtjcuk-8iAOz7Y
 name: image_original_file
@@ -15,18 +16,26 @@ disabled: false
 conditions:
   media_has_term:
     id: media_has_term
-    negate: 0
+    negate: false
     uri: 'http://pcdm.org/use#OriginalFile'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
     logic: and
   parent_node_has_term:
     id: parent_node_has_term
-    negate: 0
+    negate: false
     uri: 'http://purl.org/coar/resource_type/c_c513'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
     logic: and
+  media_mediatype:
+    id: media_mediatype
+    bundles:
+      image: image
+    negate: 0
+    uuid: c75c67f1-e3da-4b65-bf27-f6ec27f85915
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
 reactions:
   derivative:
     id: derivative

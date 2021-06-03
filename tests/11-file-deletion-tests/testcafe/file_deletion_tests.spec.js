@@ -59,7 +59,7 @@ test('Migrate Files to be Deleted', async t => {
 
     // Navigate to Files listing, verify File is present, and used in one place
     await t.navigateTo(fileListing);
-    const fileToDelete = Selector('div.view-content').find('a').withText('FP4 Datasheet');
+    const fileToDelete = Selector('div.view-content').find('a').withText('Test Geo Tif File');
     await t.expect(fileToDelete.count).eql(1);
     const tr = fileToDelete.parent('tr');
     const referenceCell = tr.child('td').nth(-1);
@@ -67,7 +67,7 @@ test('Migrate Files to be Deleted', async t => {
 
     // Navigate to Media listing, verify Media is present containing the File to be deleted
     await t.navigateTo(mediaListing);
-    const mediaToDelete = Selector('div.view-content').find('a').withText('FP4 Datasheet');
+    const mediaToDelete = Selector('div.view-content').find('a').withText('Test Geo Tif File');
     await t.expect(mediaToDelete.count).eql(1);
 
     // Delete the Media and the File

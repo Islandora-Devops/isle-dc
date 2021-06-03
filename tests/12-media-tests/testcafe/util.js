@@ -128,7 +128,7 @@ export const download = async (uri) => {
   return saveTo;
 };
 
-/** Upload an image using the admin GUI as media of the given repository object
+/** Upload an Image media type using the admin GUI as media of the given repository object
  *
  * @param {TestController} t Testcafe test controller
  * @param {string} name Name of the repository object for whom to upload an image to
@@ -142,6 +142,23 @@ export const uploadImageInUI = async (t, name, file) => {
   await t.click(Selector("#edit-field-media-use-17"));
   await t.expect(Selector("#edit-field-media-use-17").checked).ok();
   await t.setFilesToUpload("#edit-field-media-image-0-upload", file);
+  await t.click("#edit-submit");
+};
+
+/** Upload a File media type using the admin GUI as media of the given repository object
+ *
+ * @param {TestController} t Testcafe test controller
+ * @param {string} name Name of the repository object for whom to upload a file to
+ * @param {string} file path of the file to upload, on disk.
+ */
+export const uploadFileInUI = async (t, name, file) => {
+  await navigateToMediaPage(t, name);
+  await t.click(Selector("#block-idcui-local-tasks").find("a").withText("Media"));
+  await t.click(Selector(".button"));
+  await t.click(Selector(".admin-list").find("a").withText("local files"));
+  await t.click(Selector("#edit-field-media-use-17"));
+  await t.expect(Selector("#edit-field-media-use-17").checked).ok();
+  await t.setFilesToUpload("#edit-field-media-file-0-upload", file);
   await t.click("#edit-submit");
 };
 

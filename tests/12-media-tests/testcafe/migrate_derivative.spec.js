@@ -26,7 +26,7 @@ test('Migrate Images for Derivative Generation', async t => {
     // migrate the test objects into Drupal
     await doMigration(t, migrationType.NEW_COLLECTION, './migrations/derivative-collection.csv');
     await doMigration(t, migrationType.NEW_ITEM, './migrations/derivative-islandora_object.csv');
-    await doMigration(t, migrationType.NEW_MEDIA_FILE, './migrations/derivative-file.csv');
+    await doMigration(t, migrationType.NEW_MEDIA_IMAGE, './migrations/derivative-file.csv');
 
     // verify the presence of the islandora object
     const io_name = "Derivative Repository Item One"
@@ -45,7 +45,7 @@ test('Migrate Images for Derivative Generation', async t => {
     await t.expect(media.count).eql(1);
 
     // assert expected attributes of the original media
-    await t.expect(media.parent('tr').child('td').nth(2).innerText).eql('File')
+    await t.expect(media.parent('tr').child('td').nth(2).innerText).eql('Image')
     await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('image/tiff')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Preservation Master File')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
