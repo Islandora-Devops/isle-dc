@@ -23,3 +23,5 @@ saveas: ''
 torrents: ''
 _core:
   default_config_hash: FS38f8_G3S09nKLtUCOEs0IhkjQQRl3UfDJnFD7B1qY
+use_cssjs_host: false
+cssjs_host: ''

@@ -70,10 +70,13 @@ process:
   field_mime_type: mime_type
   name/value: name
   field_media_of:
-    plugin: migration_lookup
-    migration: idc_ingest_new_items
-    no_stub: true
+    plugin: parse_entity_lookup
     source: media_of
+    defaults:
+      entity_type: node
+      bundle: islandora_object
+      bundle_key: type
+      value_key: title
   field_media_use:
     -
       plugin: skip_on_empty

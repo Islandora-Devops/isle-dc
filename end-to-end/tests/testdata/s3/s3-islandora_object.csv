@@ -1,2 +1,2 @@
-local_id,title,member_of,model
-s3_io_01,S3 Repository Item One,:::Collection for S3 tests,Image
+node_id,local_id,title,member_of,model
+,s3_io_01,S3 Repository Item One,:::S3 Test Collection,Image

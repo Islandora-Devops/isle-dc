@@ -12,10 +12,6 @@ fixture`Migration Derivative Tests`
             .useRole(adminUser);
     });
 
-const migrate_new_items = 'idc_ingest_new_items';
-const migrate_new_collection = 'idc_ingest_new_collection';
-const migrate_media_file = 'idc_ingest_media_file';
-
 const selectMigration = Selector('#edit-migrations');
 const migrationOptions = selectMigration.find('option');
 

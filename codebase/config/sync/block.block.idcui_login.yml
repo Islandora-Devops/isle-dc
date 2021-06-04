@@ -11,7 +11,7 @@ _core:
 id: idcui_login
 theme: idcui
 region: top_menu
-weight: -6
+weight: -4
 provider: null
 plugin: user_login_block
 settings:

@@ -75,6 +75,7 @@ type ExpectedRepoObj struct {
 	DspaceIdentifier   string           `json:"dspace_identifier"`
 	DspaceItemId       string           `json:"dspace_itemid"`
 	Extent             []string
+	FeaturedItem       bool   `json:"featured_item"`
 	FindingAid         string `json:"finding_aid"`
 	Genre              []string
 	GeoportalLink      string   `json:"geoportal_link"`

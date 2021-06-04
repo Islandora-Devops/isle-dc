@@ -1,2 +1,2 @@
 local_id,name,mime_type,media_of,media_use,url
-media_ext_00001,Hello World,text/plain,media_io_01,Original File|Preservation Master File,http://migration-assets/assets/extracted_text/hello_world.txt
+media_ext_00001,Hello World,text/plain,:::Media Migration Repository Item One,Original File|Preservation Master File,http://migration-assets/assets/extracted_text/hello_world.txt

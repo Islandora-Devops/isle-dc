@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_abstract
     - field.storage.node.field_access_rights
+    - field.storage.node.field_access_terms
     - field.storage.node.field_alternative_title
     - field.storage.node.field_citable_url
     - field.storage.node.field_collection_contact_email
@@ -19,7 +20,11 @@ dependencies:
     - field.storage.node.field_date_created
     - field.storage.node.field_date_published
     - field.storage.node.field_description
+    - field.storage.node.field_digital_identifier
     - field.storage.node.field_digital_publisher
+    - field.storage.node.field_display_hints
+    - field.storage.node.field_dspace_identifier
+    - field.storage.node.field_dspace_item_id
     - field.storage.node.field_extent
     - field.storage.node.field_featured_item
     - field.storage.node.field_finding_aid
@@ -28,6 +33,7 @@ dependencies:
     - field.storage.node.field_is_part_of
     - field.storage.node.field_issn
     - field.storage.node.field_item_barcode
+    - field.storage.node.field_jhir
     - field.storage.node.field_language
     - field.storage.node.field_library_catalog_link
     - field.storage.node.field_member_of
@@ -44,12 +50,15 @@ dependencies:
     - search_api.index.default_solr_index
   module:
     - controlled_access_terms
+    - csv_serialization
+    - idc_export
     - idc_ui_module
     - link
     - reference_value_pair
     - rest
     - search_api
     - serialization
+    - views_data_export
 _core:
   default_config_hash: 2NtHk5q6F6Uf40yvQROy8auf4vYMVBZ4TVhcj3z6FKI
 id: solr_search_content
@@ -240,6 +249,18 @@ display:
           exposed: true
           expose:
             label: Title
+          plugin_id: search_api
+        title_1:
+          id: title_1
+          table: search_api_index_default_solr_index
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
           plugin_id: search_api
       title: Search
       header:

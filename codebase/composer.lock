@@ -253,6 +253,26 @@
             "time": "2020-07-15T06:08:04+00:00"
         },
         {
+            "name": "citation-style-language/locales",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/citation-style-language/locales.git",
+                "reference": "master"
+            },
+            "type": "library"
+        },
+        {
+            "name": "citation-style-language/styles-distribution",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/citation-style-language/styles-distribution.git",
+                "reference": "master"
+            },
+            "type": "library"
+        },
+        {
             "name": "composer/installers",
             "version": "v1.9.0",
             "source": {
@@ -447,6 +467,20 @@
                 "semver",
                 "validation",
                 "versioning"
+            ],
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-12-03T15:47:16+00:00"
         },
@@ -1790,6 +1824,20 @@
                 "doctrine",
                 "php"
             ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcommon",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-06-05T16:46:05+00:00"
         },
         {
@@ -2007,6 +2055,20 @@
                 "event system",
                 "events"
             ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fevent-manager",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-29T18:28:51+00:00"
         },
         {
@@ -2161,6 +2223,20 @@
                 "parser",
                 "php"
             ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Flexer",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-25T17:44:05+00:00"
         },
         {
@@ -2245,6 +2321,20 @@
                 "orm",
                 "persistence"
             ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fpersistence",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-06-20T12:56:16+00:00"
         },
         {
@@ -2327,51 +2417,6 @@
             "time": "2020-10-27T21:46:55+00:00"
         },
         {
-            "name": "drupal/adaptivetheme",
-            "version": "dev-3.x",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/adaptivetheme.git",
-                "reference": "82867ba9913b66e3261329b83bcd16985c2a85f6"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "type": "drupal-theme",
-            "extra": {
-                "branch-alias": {
-                    "dev-3.x": "3.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-3.1+1-dev",
-                    "datestamp": "1521061984",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "AohRveTPV",
-                    "homepage": "https://www.drupal.org/user/2760115"
-                },
-                {
-                    "name": "Jeff Burnz",
-                    "homepage": "https://www.drupal.org/user/61393"
-                }
-            ],
-            "homepage": "https://www.drupal.org/project/adaptivetheme",
-            "support": {
-                "source": "https://git.drupalcode.org/project/adaptivetheme"
-            },
-            "time": "2018-03-14T21:12:35+00:00"
-        },
-        {
             "name": "drupal/admin_toolbar",
             "version": "2.4.0",
             "source": {
@@ -2447,6 +2492,49 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/admin_toolbar",
                 "issues": "https://www.drupal.org/project/issues/admin_toolbar"
+            }
+        },
+        {
+            "name": "drupal/at_theme",
+            "version": "1.4.14",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/at_theme.git",
+                "reference": "1.4.14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/at_theme-1.4.14.zip",
+                "reference": "1.4.14",
+                "shasum": "88be7d07d9e003b343acdfb8dd90b8e711f1b15a"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9"
+            },
+            "type": "drupal-theme",
+            "extra": {
+                "drupal": {
+                    "version": "1.4.14",
+                    "datestamp": "1615908490",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "mattbloomfield",
+                    "homepage": "https://www.drupal.org/user/3620586"
+                }
+            ],
+            "homepage": "https://www.drupal.org/project/at_theme",
+            "support": {
+                "source": "https://git.drupalcode.org/project/at_theme"
             }
         },
         {
@@ -3544,6 +3632,56 @@
                 "drupal"
             ],
             "time": "2020-08-07T22:30:30+00:00"
+        },
+        {
+            "name": "drupal/csv_serialization",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/csv_serialization.git",
+                "reference": "8.x-2.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/csv_serialization-8.x-2.0.zip",
+                "reference": "8.x-2.0",
+                "shasum": "3531383a6926a4ed761be56553997c2a937449ac"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9",
+                "league/csv": "^9.1"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+                "drupal/coder": "^8.3"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.0",
+                    "datestamp": "1612801962",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Matthew Grasmick",
+                    "homepage": "https://www.drupal.org/user/455714"
+                }
+            ],
+            "description": "Provides CSV as a serialization format.",
+            "homepage": "https://www.drupal.org/project/csv_serialization",
+            "support": {
+                "source": "http://cgit.drupalcode.org/csv_serialization",
+                "issues": "https://www.drupal.org/project/issues/csv_serialization"
+            }
         },
         {
             "name": "drupal/devel",
@@ -4836,7 +4974,7 @@
                     "homepage": "https://www.drupal.org/user/658076"
                 },
                 {
-                    "name": "CrashTest_",
+                    "name": "crashtest_",
                     "homepage": "https://www.drupal.org/user/261457"
                 },
                 {
@@ -4864,10 +5002,10 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/libraries.git",
-                "reference": "3b7ae61a8e68ce37638b313eaccf4febaa48e3fa"
+                "reference": "9d0454c73c7c28c53b17c058dee2bd7b885400c1"
             },
             "require": {
-                "drupal/core": "~8.0"
+                "drupal/core": "^8 || ^9"
             },
             "type": "drupal-module",
             "extra": {
@@ -4875,8 +5013,8 @@
                     "dev-3.x": "3.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-3.0-alpha1+1-dev",
-                    "datestamp": "1561448285",
+                    "version": "8.x-3.0-alpha6+7-dev",
+                    "datestamp": "1609757888",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -4885,7 +5023,7 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -4895,6 +5033,10 @@
                 {
                     "name": "joseph.olstad",
                     "homepage": "https://www.drupal.org/user/1321830"
+                },
+                {
+                    "name": "podarok",
+                    "homepage": "https://www.drupal.org/user/116002"
                 },
                 {
                     "name": "rjacobs",
@@ -4916,7 +5058,7 @@
                 "issues": "http://drupal.org/project/issues/libraries",
                 "irc": "irc://irc.freenode.org/drupal-contribute"
             },
-            "time": "2019-06-25T07:35:46+00:00"
+            "time": "2021-01-04T15:06:40+00:00"
         },
         {
             "name": "drupal/migrate_plus",
@@ -5021,10 +5163,6 @@
                     "name": "Lucas Hedding",
                     "homepage": "https://www.drupal.org/u/heddn",
                     "role": "Maintainer"
-                },
-                {
-                    "name": "heddn",
-                    "homepage": "https://www.drupal.org/user/1463982"
                 }
             ],
             "description": "CSV source migration.",
@@ -6168,6 +6306,75 @@
             }
         },
         {
+            "name": "drupal/views_data_export",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/views_data_export.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/views_data_export-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "f1d16fd06ee7574f680e30f6bf5d6a152e3e9f42"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9",
+                "drupal/csv_serialization": "~1.4 || ~2.0"
+            },
+            "require-dev": {
+                "drupal/search_api": "~1.12",
+                "drupal/xls_serialization": "~1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1592589996",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Steven Jones",
+                    "homepage": "https://www.drupal.org/user/99644"
+                },
+                {
+                    "name": "amoebanath",
+                    "homepage": "https://www.drupal.org/user/2810799"
+                },
+                {
+                    "name": "james.williams",
+                    "homepage": "https://www.drupal.org/user/592268"
+                },
+                {
+                    "name": "jamsilver",
+                    "homepage": "https://www.drupal.org/user/476732"
+                },
+                {
+                    "name": "jhedstrom",
+                    "homepage": "https://www.drupal.org/user/208732"
+                },
+                {
+                    "name": "nerdstein",
+                    "homepage": "https://www.drupal.org/user/1557710"
+                }
+            ],
+            "description": "Plugin to export views data into various file formats.",
+            "homepage": "https://www.drupal.org/project/views_data_export",
+            "support": {
+                "source": "https://git.drupalcode.org/project/views_data_export"
+            }
+        },
+        {
             "name": "drupal/workbench",
             "version": "1.3.0",
             "source": {
@@ -6566,6 +6773,12 @@
                 "emailvalidator",
                 "validation",
                 "validator"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/egulias",
+                    "type": "github"
+                }
             ],
             "time": "2020-12-29T14:50:06+00:00"
         },
@@ -7135,12 +7348,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/roblib/islandora_fits.git",
-                "reference": "5eb05209fcc71589b82b6eff64f7476d7152955e"
+                "reference": "b9d041590fd31cc2e4a5d2675e8956ada9101e97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roblib/islandora_fits/zipball/5eb05209fcc71589b82b6eff64f7476d7152955e",
-                "reference": "5eb05209fcc71589b82b6eff64f7476d7152955e",
+                "url": "https://api.github.com/repos/roblib/islandora_fits/zipball/b9d041590fd31cc2e4a5d2675e8956ada9101e97",
+                "reference": "b9d041590fd31cc2e4a5d2675e8956ada9101e97",
                 "shasum": ""
             },
             "require": {
@@ -7156,7 +7369,7 @@
             "keywords": [
                 "drupal"
             ],
-            "time": "2020-11-07T20:53:07+00:00"
+            "time": "2021-01-14T17:09:48+00:00"
         },
         {
             "name": "islandora/carapace",
@@ -7164,16 +7377,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/carapace.git",
-                "reference": "551f5f4df6fa155084c1c050efcad583c16f6969"
+                "reference": "30e66191ff3ec46795832a6ea35f5a3f73b2a82e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/carapace/zipball/551f5f4df6fa155084c1c050efcad583c16f6969",
-                "reference": "551f5f4df6fa155084c1c050efcad583c16f6969",
+                "url": "https://api.github.com/repos/Islandora/carapace/zipball/30e66191ff3ec46795832a6ea35f5a3f73b2a82e",
+                "reference": "30e66191ff3ec46795832a6ea35f5a3f73b2a82e",
                 "shasum": ""
             },
             "require": {
-                "drupal/adaptivetheme": "dev-3.x"
+                "drupal/at_theme": "^1.4"
             },
             "require-dev": {
                 "drupal/coder": "*",
@@ -7204,7 +7417,7 @@
                 "Islandora",
                 "drupal"
             ],
-            "time": "2020-11-18T20:28:18+00:00"
+            "time": "2021-04-21T13:06:26+00:00"
         },
         {
             "name": "islandora/chullo",
@@ -7552,6 +7765,38 @@
             "time": "2021-05-24T15:54:58+00:00"
         },
         {
+            "name": "jhu-idc/idc_export",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhu-idc/idc_export.git",
+                "reference": "61b5ef3115bf05c9aa6f851a56e65c4ac8e8d895"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhu-idc/idc_export/zipball/61b5ef3115bf05c9aa6f851a56e65c4ac8e8d895",
+                "reference": "61b5ef3115bf05c9aa6f851a56e65c4ac8e8d895",
+                "shasum": ""
+            },
+            "require": {
+                "citation-style-language/locales": "@dev",
+                "citation-style-language/styles-distribution": "@dev",
+                "drupal/csv_serialization": "~1.4 || ~2.0",
+                "seboettg/citeproc-php": "^2"
+            },
+            "require-dev": {
+                "drupal/search_api": "~1.12",
+                "drupal/xls_serialization": "~1.0"
+            },
+            "type": "drupal-module",
+            "description": "Metadata and Citation Export Module for JHU Islandora",
+            "support": {
+                "source": "https://github.com/jhu-idc/idc_export/tree/main",
+                "issues": "https://github.com/jhu-idc/idc_export/issues"
+            },
+            "time": "2021-05-25T21:48:27+00:00"
+        },
+        {
             "name": "jhu-idc/idc_ui_module",
             "version": "dev-main",
             "source": {
@@ -7837,6 +8082,12 @@
                 "escaper",
                 "laminas"
             ],
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
             "time": "2020-11-17T21:26:43+00:00"
         },
         {
@@ -7952,6 +8203,12 @@
             "keywords": [
                 "laminas",
                 "stdlib"
+            ],
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
             ],
             "time": "2020-11-19T20:18:59+00:00"
         },
@@ -8457,6 +8714,12 @@
             "keywords": [
                 "stream",
                 "zip"
+            ],
+            "funding": [
+                {
+                    "url": "https://opencollective.com/zipstream",
+                    "type": "open_collective"
+                }
             ],
             "time": "2020-05-30T13:11:16+00:00"
         },
@@ -9383,6 +9646,16 @@
                 "php",
                 "type"
             ],
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpoption/phpoption",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-07-20T17:29:33+00:00"
         },
         {
@@ -9918,6 +10191,89 @@
                 "xmldsig"
             ],
             "time": "2020-04-22T17:19:51+00:00"
+        },
+        {
+            "name": "seboettg/citeproc-php",
+            "version": "v2.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/seboettg/citeproc-php.git",
+                "reference": "2e47cad09ab245d659fb57d3418ca31b98d57134"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/seboettg/citeproc-php/zipball/2e47cad09ab245d659fb57d3418ca31b98d57134",
+                "reference": "2e47cad09ab245d659fb57d3418ca31b98d57134",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "myclabs/php-enum": "^1.5",
+                "seboettg/collection": "^1.2",
+                "symfony/polyfill-mbstring": "^1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "6.0.13",
+                "satooshi/php-coveralls": "^1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Böttger",
+                    "email": "seboettg@gmail.com",
+                    "homepage": "http://sebastianboettger.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Full-featured CSL processor (https://citationstyles.org)",
+            "time": "2018-10-13T18:02:57+00:00"
+        },
+        {
+            "name": "seboettg/collection",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/seboettg/Collection.git",
+                "reference": "7f0bbf93dba9b261f6d8c725a4f1583f4402162a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/seboettg/Collection/zipball/7f0bbf93dba9b261f6d8c725a4f1583f4402162a",
+                "reference": "7f0bbf93dba9b261f6d8c725a4f1583f4402162a",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "6.5.*",
+                "satooshi/php-coveralls": "^v2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Seboettg\\Collection\\": "src/Seboettg/Collection"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Böttger",
+                    "email": "seboettg@gmail.com"
+                }
+            ],
+            "description": "Simple PHP ArrayList collection",
+            "time": "2019-02-13T07:13:15+00:00"
         },
         {
             "name": "sibyx/phpgpx",
@@ -11978,6 +12334,20 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -12123,6 +12493,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -12314,6 +12698,20 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -12380,6 +12778,20 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -12569,6 +12981,20 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -12735,6 +13161,20 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -12820,6 +13260,20 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-11-27T08:42:42+00:00"
         },
         {
@@ -13413,6 +13867,20 @@
                 "portable",
                 "shim"
             ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-23T14:02:19+00:00"
         },
         {
@@ -13463,6 +13931,20 @@
                 "polyfill",
                 "portable",
                 "shim"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-10-23T14:02:19+00:00"
         },
@@ -13661,6 +14143,20 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -13873,6 +14369,20 @@
                 "uri",
                 "url"
             ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -14039,6 +14549,20 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -14184,6 +14708,20 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -14265,6 +14803,20 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-28T05:23:51+00:00"
         },
         {
@@ -14405,6 +14957,20 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -14524,6 +15090,16 @@
             "homepage": "https://twig.symfony.com",
             "keywords": [
                 "templating"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
+                    "type": "tidelift"
+                }
             ],
             "time": "2021-01-05T10:10:05+00:00"
         },
@@ -15558,6 +16134,51 @@
                 }
             ],
             "time": "2020-11-10T18:47:58+00:00"
+        },
+        {
+            "name": "drupal/adaptivetheme",
+            "version": "dev-3.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/adaptivetheme.git",
+                "reference": "82867ba9913b66e3261329b83bcd16985c2a85f6"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-theme",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.x": "3.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-3.1+1-dev",
+                    "datestamp": "1521061984",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "AohRveTPV",
+                    "homepage": "https://www.drupal.org/user/2760115"
+                },
+                {
+                    "name": "Jeff Burnz",
+                    "homepage": "https://www.drupal.org/user/61393"
+                }
+            ],
+            "homepage": "https://www.drupal.org/project/adaptivetheme",
+            "support": {
+                "source": "https://git.drupalcode.org/project/adaptivetheme"
+            },
+            "time": "2018-03-14T21:12:35+00:00"
         },
         {
             "name": "drupal/coder",
@@ -17896,6 +18517,12 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
+            "funding": [
+                {
+                    "url": "https://github.com/theseer",
+                    "type": "github"
+                }
+            ],
             "time": "2020-07-12T23:59:07+00:00"
         }
     ],
@@ -17912,6 +18539,7 @@
         "islandora-rdm/islandora_fits": 20,
         "islandora/carapace": 20,
         "jhu-idc/idc-ui-theme": 20,
+        "jhu-idc/idc_export": 20,
         "jhu-idc/idc_ui_module": 20,
         "jhu-idc/islandora_defaults": 20
     },

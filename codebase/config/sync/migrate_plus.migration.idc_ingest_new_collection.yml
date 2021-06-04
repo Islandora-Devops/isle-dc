@@ -13,8 +13,10 @@ source:
   plugin: csv
   ids:
     - local_id
+    - node_id
   path: 'Will be populated by the Migrate Source UI'
 process:
+  nid: node_id
   title: title
   field_collection_contact_email: contact_email
   field_collection_contact_name: contact_name
@@ -30,6 +32,7 @@ process:
       delimiter: '|'
       strict: false
   field_finding_aid/uri: finding_aid
+  field_featured_item: featured_item
   field_description:
     -
       plugin: skip_on_empty
@@ -75,9 +78,13 @@ process:
             bundle_key: vid
             value_key: field_language_code
   field_member_of:
-    plugin: migration_lookup
-    migration: idc_ingest_new_collection
+    plugin: parse_entity_lookup
     source: member_of
+    defaults:
+      entity_type: node
+      bundle: collection_object
+      bundle_key: type
+      value_key: title
   field_access_terms:
     -
       plugin: skip_on_empty
@@ -94,12 +101,16 @@ process:
       entity_type: taxonomy_term
       value_key: name
   field_title_language:
-    plugin: entity_lookup
-    source: title_language
-    entity_type: taxonomy_term
-    bundle: language
-    bundle_key: vid
-    value_key: field_language_code
+    -
+      plugin: skip_on_empty
+      method: process
+      source: title_language
+    -
+      plugin: entity_lookup
+      entity_type: taxonomy_term
+      bundle: language
+      bundle_key: vid
+      value_key: name
   field_alternative_title:
     -
       plugin: skip_on_empty
@@ -147,4 +158,16 @@ process:
 destination:
   plugin: 'entity:node'
   default_bundle: collection_object
+  overwrite_properties:
+    - title
+    - field_collection_contact_email
+    - field_collection_contact_name
+    - field_collection_number
+    - field_finding_aid
+    - field_featured_item
+    - field_description
+    - field_member_of
+    - field_access_terms
+    - field_title_language
+    - field_alternative_title
 migration_dependencies: null

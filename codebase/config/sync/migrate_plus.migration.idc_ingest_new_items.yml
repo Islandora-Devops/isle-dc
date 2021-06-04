@@ -13,8 +13,10 @@ source:
   plugin: csv
   ids:
     - local_id
+    - node_id
   path: 'Will be populated by the Migrate Source UI'
 process:
+  nid: node_id
   title: title
   field_abstract:
     -
@@ -90,7 +92,7 @@ process:
   field_alternative_title:
     -
       plugin: explode
-      source: alt_title
+      source: alternative_title
       delimiter: '|'
       strict: false
     -
@@ -407,6 +409,7 @@ process:
       delimiter: '|'
       strict: false
   field_finding_aid/uri: finding_aid
+  field_featured_item: featured_item
   field_genre:
     -
       plugin: skip_on_empty
@@ -619,4 +622,47 @@ process:
 destination:
   plugin: 'entity:node'
   default_bundle: islandora_object
+  overwrite_properties:
+    - title
+    - field_abstract
+    - field_access_rights
+    - field_access_terms
+    - field_alternative_title
+    - field_collection_number
+    - field_contributor
+    - field_copyright_and_use
+    - field_copyright_holder
+    - field_creator
+    - field_date_available
+    - field_date_copyrighted
+    - field_date_created
+    - field_date_published
+    - field_description
+    - field_digital_identifier
+    - field_digital_publisher
+    - field_display_hints
+    - field_dspace_identifier/uri
+    - field_dspace_item_id
+    - field_extent
+    - field_finding_aid/uri
+    - field_featured_item
+    - field_genre
+    - field_geoportal_link/uri
+    - field_issn
+    - field_is_part_of
+    - field_item_barcode
+    - field_jhir/uri
+    - field_language
+    - field_library_catalog_link/uri
+    - field_member_of
+    - field_model
+    - field_oclc_number
+    - field_publisher
+    - field_publisher_country
+    - field_resource_type
+    - field_spatial_coverage
+    - field_subject
+    - field_table_of_contents
+    - field_title_language
+    - field_years
 migration_dependencies: null

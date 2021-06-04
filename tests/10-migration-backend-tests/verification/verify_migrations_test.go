@@ -479,9 +479,8 @@ func Test_VerifyTaxonomyTermGeolocation(t *testing.T) {
 	for i, v := range actual.JsonApiAttributes.GeoAltName {
 		assert.Equal(t, expectedJson.GeoAltName[i], v)
 	}
-	assert.Equal(t, 0, len(actual.JsonApiAttributes.Broader))
+	assert.Equal(t, 2, len(actual.JsonApiAttributes.Broader))
 	for i, v := range actual.JsonApiAttributes.Broader {
-		assert.Equal(t, expectedJson.Broader[i].Title, v.Title)
 		assert.Equal(t, expectedJson.Broader[i].Uri, v.Uri)
 	}
 }
@@ -829,6 +828,9 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 
 	// Extent
 	assert.Equal(t, expectedJson.Extent, attributes.Extent)
+
+	// Featured Item
+	assert.Equal(t, expectedJson.FeaturedItem, attributes.FeaturedItem)
 
 	// Finding Aid
 	assert.Equal(t, expectedJson.FindingAid, attributes.FindingAid.Uri)

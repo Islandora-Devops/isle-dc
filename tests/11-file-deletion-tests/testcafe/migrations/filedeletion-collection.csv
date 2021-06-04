@@ -1,2 +1,2 @@
-local_id,title,title_language,alternative_title,member_of,contact_email,contact_name,collection_number,description,finding_aid
-deletion-collection-01,File Deletion Collection,eng,,,,,,Collection for File Deletion tests;eng,
+node_id,local_id,title,title_language,alternative_title,member_of,contact_email,contact_name,collection_number,description,finding_aid
+,deletion-collection-01,File Deletion Collection,English,,,,,,Collection for File Deletion Tests;eng,

@@ -7,7 +7,12 @@
     "Sagebrush State"
   ],
   "broader": [
-
+   {
+     "uri": "https://en.wikipedia.org/wiki/United_States"
+   },
+   {
+     "uri": "https://www.geonames.org/countries/US/united-states.html"
+   }
   ],
   "authority": [
     {

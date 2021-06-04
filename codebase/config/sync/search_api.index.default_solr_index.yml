@@ -20,6 +20,15 @@ dependencies:
     - field.storage.node.field_collection_contact_name
     - field.storage.node.field_collection_number
     - field.storage.node.field_contributor
+    - field.storage.taxonomy_term.field_geo_alt_name
+    - field.storage.taxonomy_term.field_family_name
+    - field.storage.taxonomy_term.field_person_alternate_name
+    - field.storage.taxonomy_term.field_preferred_name_fuller_form
+    - field.storage.taxonomy_term.field_preferred_name_number
+    - field.storage.taxonomy_term.field_preferred_name_prefix
+    - field.storage.taxonomy_term.field_primary_part_of_name
+    - field.storage.taxonomy_term.field_preferred_name_rest
+    - field.storage.taxonomy_term.field_preferred_name_suffix
     - field.storage.node.field_copyright_and_use
     - field.storage.node.field_copyright_holder
     - field.storage.node.field_creator
@@ -54,8 +63,9 @@ dependencies:
     - field.storage.node.field_subject
     - field.storage.node.field_table_of_contents
     - field.storage.node.field_tags
+    - field.storage.node.field_title_language
+    - field.storage.taxonomy_term.field_language_code
     - field.storage.node.field_years
-    - field.storage.taxonomy_term.field_geo_alt_name
     - search_api.server.default_solr_server
     - core.entity_view_mode.node.search_index
 third_party_settings:
@@ -234,6 +244,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_contributor
+  field_contributor_rel_type:
+    label: 'Contributor » Type'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:rel_type'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
   field_copyright_and_use:
     label: 'Copyright and Use'
     datasource_id: 'entity:node'
@@ -260,6 +278,22 @@ field_settings:
         - field.storage.node.field_creator
       module:
         - taxonomy
+  field_creator_id:
+    label: Creator
+    datasource_id: 'entity:node'
+    property_path: field_creator
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_creator
+  field_creator_rel_type:
+    label: 'Creator » Type'
+    datasource_id: 'entity:node'
+    property_path: 'field_creator:rel_type'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_creator
   field_custodial_history:
     label: 'Custodial History'
     datasource_id: 'entity:node'
@@ -345,6 +379,17 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_extent
+  field_family_name:
+    label: 'Contributor » Taxonomy term » Family Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:entity:field_family_name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+        - field.storage.taxonomy_term.field_family_name
+      module:
+        - taxonomy
   field_featured_item:
     label: 'Featured Item'
     datasource_id: 'entity:node'
@@ -377,6 +422,17 @@ field_settings:
     dependencies:
       config:
         - field.storage.taxonomy_term.field_geo_alt_name
+  field_geo_alt_name_1:
+    label: 'Contributor » Taxonomy term » Alternate Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:entity:field_geo_alt_name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+        - field.storage.taxonomy_term.field_geo_alt_name
+      module:
+        - taxonomy
   field_geoportal_link:
     label: 'Geoportal Link'
     datasource_id: 'entity:node'
@@ -433,6 +489,17 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_language
+  field_language_code:
+    label: 'Title Language » Taxonomy term » Language Code'
+    datasource_id: 'entity:node'
+    property_path: 'field_title_language:entity:field_language_code'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_title_language
+        - field.storage.taxonomy_term.field_language_code
+      module:
+        - taxonomy
   field_library_catalog_link:
     label: 'Library Catalog Link'
     datasource_id: 'entity:node'
@@ -465,6 +532,83 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_oclc_number
+  field_person_alternate_name:
+    label: 'Contributor » Taxonomy term » Person Alternate Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:entity:field_person_alternate_name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+        - field.storage.taxonomy_term.field_person_alternate_name
+      module:
+        - taxonomy
+  field_preferred_name_fuller_form:
+    label: 'Contributor » Taxonomy term » Person Preferred Name: Fuller Form'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:entity:field_preferred_name_fuller_form'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+        - field.storage.taxonomy_term.field_preferred_name_fuller_form
+      module:
+        - taxonomy
+  field_preferred_name_number:
+    label: 'Contributor » Taxonomy term » Person Preferred Name: Number'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:entity:field_preferred_name_number'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+        - field.storage.taxonomy_term.field_preferred_name_number
+      module:
+        - taxonomy
+  field_preferred_name_prefix:
+    label: 'Contributor » Taxonomy term » Person Preferred Name: Prefix'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:entity:field_preferred_name_prefix'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+        - field.storage.taxonomy_term.field_preferred_name_prefix
+      module:
+        - taxonomy
+  field_preferred_name_rest:
+    label: 'Contributor » Taxonomy term » Person Preferred Name: Rest of Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:entity:field_preferred_name_rest'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+        - field.storage.taxonomy_term.field_preferred_name_rest
+      module:
+        - taxonomy
+  field_preferred_name_suffix:
+    label: 'Contributor » Taxonomy term » Person Preferred Name: Suffix'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:entity:field_preferred_name_suffix'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+        - field.storage.taxonomy_term.field_preferred_name_suffix
+      module:
+        - taxonomy
+  field_primary_part_of_name:
+    label: 'Contributor » Taxonomy term » Person Preferred Name: Primary Part of Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_contributor:entity:field_primary_part_of_name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_contributor
+        - field.storage.taxonomy_term.field_primary_part_of_name
+      module:
+        - taxonomy
   field_publisher:
     label: Publisher
     datasource_id: 'entity:node'
@@ -527,6 +671,16 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_tags
+  field_title_language:
+    label: 'Title Language » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_title_language:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_title_language
+      module:
+        - taxonomy
   field_years:
     label: Years
     datasource_id: 'entity:node'

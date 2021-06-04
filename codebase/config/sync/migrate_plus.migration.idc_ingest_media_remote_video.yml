@@ -24,10 +24,13 @@ process:
   name: name
   field_media_oembed_video: url
   field_media_of:
-    plugin: migration_lookup
-    migration: idc_ingest_new_items
-    no_stub: true
+    plugin: parse_entity_lookup
     source: media_of
+    defaults:
+      entity_type: node
+      bundle: islandora_object
+      bundle_key: type
+      value_key: title
   status: constants/STATUS
 destination:
   plugin: 'entity:media'

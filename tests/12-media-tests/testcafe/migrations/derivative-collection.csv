@@ -1,2 +1,2 @@
-local_id,title,title_language,alternative_title,member_of,contact_email,contact_name,collection_number,description,finding_aid
-derivative-collection-01,Derivative Collection,eng,,,,,,Collection for Derivative tests;eng,
+node_id,local_id,title,title_language,alternative_title,member_of,contact_email,contact_name,collection_number,description,finding_aid
+,derivative-collection-01,Derivative Collection,English,,,,,,Collection for Derivative tests;eng,
