@@ -1,0 +1,48 @@
+uuid: 5db23ffa-cd8a-46a1-a3ea-bea4b776fa7f
+langcode: en
+status: true
+dependencies:
+  config:
+    - contact.form.repository_item_contact
+  module:
+    - contact_block
+    - context
+    - islandora
+    - node
+  theme:
+    - idcui
+id: contactblock_2
+theme: idcui
+region: modal
+weight: 0
+provider: null
+plugin: contact_block
+settings:
+  id: contact_block
+  label: 'Leave feedback for ask a question about this item'
+  provider: contact_block
+  label_display: visible
+  contact_form: repository_item_contact
+visibility:
+  view_inclusion:
+    id: view_inclusion
+    negate: null
+    view_inclusion: {  }
+    context_mapping: {  }
+  request_path_exclusion:
+    id: request_path_exclusion
+    pages: ''
+    negate: null
+    context_mapping: {  }
+  media_source_mimetype:
+    id: media_source_mimetype
+    mimetype: ''
+    negate: false
+    context_mapping: {  }
+  node_type:
+    id: node_type
+    bundles:
+      islandora_object: islandora_object
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

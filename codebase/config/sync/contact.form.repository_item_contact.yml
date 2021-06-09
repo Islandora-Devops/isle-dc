@@ -1,0 +1,27 @@
+uuid: 3d277044-a993-468e-9dea-a317fc15a35d
+langcode: en
+status: true
+dependencies:
+  module:
+    - contact_ajax
+    - contact_storage
+third_party_settings:
+  contact_ajax:
+    enabled: true
+    prefix_id: ''
+    render_selector: ''
+    confirmation_type: 1
+  contact_storage:
+    submit_text: 'Send message'
+    show_preview: false
+    disabled_form_message: 'This contact form has been disabled.'
+    maximum_submissions_user: 0
+    page_autoreply_format: plain_text
+id: repository_item_contact
+label: 'Repository Item Contact'
+recipients:
+  - web@localhost
+reply: ''
+weight: 0
+message: ''
+redirect: ''
