@@ -201,7 +201,7 @@ test:
 .PHONY: db_dump
 .SILENT: db_dump
 db_dump:
-	docker-compose exec -T mariadb bash -c "mysqldump drupal_default --add-drop-database > /mariadb-dump/drupal_default.sql"
+	docker-compose exec -T mariadb bash -c "mysqldump drupal_default > /mariadb-dump/drupal_default.sql"
 
 .PHONY: db_restore
 .SILENT: db_restore
