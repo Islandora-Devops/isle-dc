@@ -201,7 +201,7 @@ test:
 .PHONY: db_dump
 .SILENT: db_dump
 db_dump:
-	docker-compose exec -T mariadb bash -c "mysqldump --databases drupal_default --add-drop-database > /mariadb-dump/drupal_default.sql"
+	docker-compose exec -T mariadb bash -c "mysqldump drupal_default --add-drop-database > /mariadb-dump/drupal_default.sql"
 
 .PHONY: db_restore
 .SILENT: db_restore
@@ -211,8 +211,10 @@ db_restore:
 	fi; \
 	echo "Creating mysql user $${DRUPAL_DEFAULT_DB_USER}"
 	docker-compose exec -T mariadb mysql mysql -e "CREATE USER IF NOT EXISTS '$${DRUPAL_DEFAULT_DB_USER}'@'%' IDENTIFIED BY '${DRUPAL_DEFAULT_DB_PASSWORD}'; FLUSH PRIVILEGES"; \
+	docker-compose exec -T mariadb bash -c 'mysql mysql -e "DROP DATABASE IF EXISTS drupal_default"'; \
+	docker-compose exec -T mariadb bash -c 'mysql mysql -e "CREATE DATABASE drupal_default DEFAULT CHARACTER SET utf8"'; \
 	echo "Loading mysql dump"; \
-		docker-compose exec -T mariadb bash -c 'mysql mysql < /mariadb-dump/drupal_default.sql'; \
+	docker-compose exec -T mariadb bash -c 'mysql drupal_default < /mariadb-dump/drupal_default.sql'; \
 	docker-compose exec -T mariadb mysql mysql -e "GRANT ALL PRIVILEGES ON drupal_default.* to '$${DRUPAL_DEFAULT_DB_USER}'@'%';";
 
 .phony: minio-bucket
