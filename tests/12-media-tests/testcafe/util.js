@@ -26,7 +26,9 @@ const contentList = "https://islandora-idc.traefik.me/admin/content";
 export const findMediaOf = async (t, name) => {
   await navigateToMediaPage(t, name);
 
-  await t.click(Selector("#block-idcui-local-tasks").find("a").withText("Media"));
+  await t.click(
+    Selector("#block-idcui-local-tasks").find("a").withText("Media")
+  );
 
   // assert the presence of the original media
   const media_rows = Selector(".views-table").child("tbody").child("tr");
@@ -98,6 +100,36 @@ export const doMigration = async (t, migrationType, file) => {
     .click(migrationOptions.withAttribute("value", migrationType));
 
   await t.setFilesToUpload("#edit-source-file", [file]).click("#edit-import");
+
+  // Now, wait until we see messages on screen that everything has migrated successfully
+  await t
+    .expect(
+      await tryUntilTrue(async () => {
+        let error_present = await Selector(".messages--error").count;
+        let status_present = await Selector(".messages--status").count;
+
+        // Something failed and was kind enough to leave a message
+        if (error_present > 0) {
+          throw "Error performing migrations!";
+        }
+
+        // If there is no status block, we're not done
+        if (status_present < 1) {
+          return false;
+        }
+
+        // Iterate through all messages and look for '0 failed'
+        let messages = Selector(".messages__list");
+        let message_count = await messages.count;
+
+        for (var i = 0; i < message_count; i++) {
+          await t.expect(messages.nth(i).innerText).contains("0 failed");
+        }
+
+        return message_count > 0;
+      })
+    )
+    .eql(true, "Could not perform migration!");
 };
 
 /**
@@ -136,7 +168,9 @@ export const download = async (uri) => {
  */
 export const uploadImageInUI = async (t, name, file) => {
   await navigateToMediaPage(t, name);
-  await t.click(Selector("#block-idcui-local-tasks").find("a").withText("Media"));
+  await t.click(
+    Selector("#block-idcui-local-tasks").find("a").withText("Media")
+  );
   await t.click(Selector(".button"));
   await t.click(Selector(".admin-list").find("a").withText("local images"));
   await t.click(Selector("#edit-field-media-use-17"));
@@ -153,7 +187,9 @@ export const uploadImageInUI = async (t, name, file) => {
  */
 export const uploadFileInUI = async (t, name, file) => {
   await navigateToMediaPage(t, name);
-  await t.click(Selector("#block-idcui-local-tasks").find("a").withText("Media"));
+  await t.click(
+    Selector("#block-idcui-local-tasks").find("a").withText("Media")
+  );
   await t.click(Selector(".button"));
   await t.click(Selector(".admin-list").find("a").withText("local files"));
   await t.click(Selector("#edit-field-media-use-17"));
