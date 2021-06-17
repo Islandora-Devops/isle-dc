@@ -7034,12 +7034,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/chullo.git",
-                "reference": "d563d5e48ef9b15dcf45029277bbc2f6eeef2454"
+                "reference": "7f7df8847844ab478f65de8377c5678d037cb5e3"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Islandora/chullo/zipball/d563d5e48ef9b15dcf45029277bbc2f6eeef2454",
-                "reference": "d563d5e48ef9b15dcf45029277bbc2f6eeef2454",
+                "reference": "7f7df8847844ab478f65de8377c5678d037cb5e3",
                 "shasum": ""
             },
             "require": {
@@ -7083,7 +7083,7 @@
             ],
             "description": "A PHP client for interacting with a Fedora 4 server.",
             "homepage": "https://github.com/Islandora/chullo",
-            "time": "2021-05-05T17:38:36+00:00"
+            "time": "2021-02-16T15:51:00+00:00"
         },
         {
             "name": "islandora/crayfish-commons",
@@ -7091,12 +7091,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/Crayfish-Commons.git",
-                "reference": "46a1f1b63bdb47d07ed58e5f1d388af1ffd27185"
+                "reference": "748c59cd1ddce9ddc9a05e25594cc6a9b230f9c1"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Islandora/Crayfish-Commons/zipball/46a1f1b63bdb47d07ed58e5f1d388af1ffd27185",
-                "reference": "46a1f1b63bdb47d07ed58e5f1d388af1ffd27185",
+                "reference": "748c59cd1ddce9ddc9a05e25594cc6a9b230f9c1",
                 "shasum": ""
             },
             "require": {
@@ -7142,7 +7142,7 @@
             ],
             "description": "Shared code amongst Islandora Crayfish microservices",
             "homepage": "https://github.com/Islandora/Crayfish-Commons",
-            "time": "2021-05-26T16:09:26+00:00"
+            "time": "2021-03-12T18:49:29+00:00"
         },
         {
             "name": "islandora/islandora",
@@ -7150,12 +7150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/islandora.git",
-                "reference": "cf82e8f392c081221781fd568cfc11d1bde7fd87"
+                "reference": "d76a6644c919acaa48d59d862a4fc6e8a279be2d"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Islandora/islandora/zipball/cf82e8f392c081221781fd568cfc11d1bde7fd87",
-                "reference": "cf82e8f392c081221781fd568cfc11d1bde7fd87",
+                "reference": "d76a6644c919acaa48d59d862a4fc6e8a279be2d",
                 "shasum": ""
             },
             "require": {
@@ -7216,7 +7216,7 @@
                 "issues": "https://github.com/Islandora/documentation/issues",
                 "source": "https://github.com/Islandora/islandora/tree/8.x-1.x"
             },
-            "time": "2021-05-17T17:46:42+00:00"
+            "time": "2021-03-31T20:47:01+00:00"
         },
         {
             "name": "islandora/jsonld",
@@ -7224,12 +7224,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/jsonld.git",
-                "reference": "dfd99c4c1beac54efc0eaa6cdbadc01d4918fd6c"
+                "reference": "3281e15d7b341cb7195361c0dd2b5314c893cb22"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Islandora/jsonld/zipball/dfd99c4c1beac54efc0eaa6cdbadc01d4918fd6c",
-                "reference": "dfd99c4c1beac54efc0eaa6cdbadc01d4918fd6c",
+                "reference": "3281e15d7b341cb7195361c0dd2b5314c893cb22",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -7251,7 +7251,7 @@
             ],
             "description": "JSON-LD serializer for Drupal 8",
             "homepage": "https://github.com/Islandora/jsonld",
-            "time": "2021-05-03T15:37:22+00:00"
+            "time": "2021-03-18T03:08:36+00:00"
         },
         {
             "name": "islandora/openseadragon",
@@ -7259,12 +7259,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/openseadragon.git",
-                "reference": "5f847e56c032ddc4c5b19f4350caaec90873a54c"
+                "reference": "0fd1218f929cb4fd1537f52647f35f4248ce0fc0"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Islandora/openseadragon/zipball/5f847e56c032ddc4c5b19f4350caaec90873a54c",
-                "reference": "5f847e56c032ddc4c5b19f4350caaec90873a54c",
+                "reference": "0fd1218f929cb4fd1537f52647f35f4248ce0fc0",
                 "shasum": ""
             },
             "require": {
@@ -7299,7 +7299,7 @@
                 "drupal",
                 "openseadragon"
             ],
-            "time": "2021-05-05T14:43:55+00:00"
+            "time": "2021-03-31T15:18:29+00:00"
         },
         {
             "name": "jhu-idc/controlled_access_terms",
@@ -7362,12 +7362,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "b6a90d7e012e1a5701424db1a14feae00baf4a4d"
+                "reference": "31bae6d2f6ac9782938f2f4a389518ecd35ea0fa"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/b6a90d7e012e1a5701424db1a14feae00baf4a4d",
-                "reference": "b6a90d7e012e1a5701424db1a14feae00baf4a4d",
+                "reference": "31bae6d2f6ac9782938f2f4a389518ecd35ea0fa",
                 "shasum": ""
             },
             "type": "drupal-theme",
@@ -7376,7 +7376,7 @@
                 "source": "https://github.com/jhu-idc/idc-ui-theme/tree/develop",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2021-06-11T22:16:23+00:00"
+            "time": "2021-06-02T20:10:05+00:00"
         },
         {
             "name": "jhu-idc/idc_export",
@@ -7384,12 +7384,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_export.git",
-                "reference": "f162dd757b1b09ccab27a4bfcd2baf70ced43564"
+                "reference": "61b5ef3115bf05c9aa6f851a56e65c4ac8e8d895"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/jhu-idc/idc_export/zipball/f162dd757b1b09ccab27a4bfcd2baf70ced43564",
-                "reference": "f162dd757b1b09ccab27a4bfcd2baf70ced43564",
+                "reference": "61b5ef3115bf05c9aa6f851a56e65c4ac8e8d895",
                 "shasum": ""
             },
             "require": {
@@ -7409,7 +7409,7 @@
                 "source": "https://github.com/jhu-idc/idc_export/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_export/issues"
             },
-            "time": "2021-06-04T19:25:38+00:00"
+            "time": "2021-05-25T21:48:27+00:00"
         },
         {
             "name": "jhu-idc/idc_ui_module",
@@ -7417,12 +7417,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_ui_module.git",
-                "reference": "ccfb31419e3f1b1b1c46cc325552211ee464c50d"
+                "reference": "2315e6824f10f68f83c6005b4bc9f16f46bdd997"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/ccfb31419e3f1b1b1c46cc325552211ee464c50d",
-                "reference": "ccfb31419e3f1b1b1c46cc325552211ee464c50d",
+                "reference": "2315e6824f10f68f83c6005b4bc9f16f46bdd997",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -7431,7 +7431,7 @@
                 "source": "https://github.com/jhu-idc/idc_ui_module/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_ui_module/issues"
             },
-            "time": "2021-06-15T18:22:56+00:00"
+            "time": "2021-06-14T13:33:43+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",
