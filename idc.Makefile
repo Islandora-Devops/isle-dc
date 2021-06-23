@@ -54,6 +54,7 @@ snapshot-image:
 .SILENT: reset
 reset: warning-destroy-state destroy-state
 	@echo "Removing vendored modules"
+	-rm -rf codebase/modules
 	-rm -rf codebase/vendor
 	-rm -rf codebase/web/core
 	-rm -rf codebase/web/modules/contrib
