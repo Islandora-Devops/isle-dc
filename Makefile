@@ -198,8 +198,7 @@ config-export:
 config-import: set-site-uuid delete-shortcut-entities
 	docker-compose exec -T drupal drush -l $(SITE) config:import -y
 
-# Dump database.
-drupal-database-dump: $(DEST)
+drupal-database-dump:
 ifndef DEST
 	$(error DEST is not set)
 endif
@@ -215,7 +214,7 @@ endif
 	# Need to specify the root user to import the database otherwise it will fail due to permissions.
 	docker-compose exec -T drupal with-contenv bash -lc 'chown root:root /tmp/dump.sql && mysql -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} < /tmp/dump.sql'
 
-drupal-public-files-dump: $(DEST)
+drupal-public-files-dump:
 ifndef DEST
 	$(error DEST is not set)
 endif
@@ -230,7 +229,7 @@ endif
 	docker-compose exec -T drupal with-contenv bash -lc 'tar zxvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files && chown -R nginx:nginx /var/www/drupal/web/sites/default/files && rm /tmp/public-files.tgz'
 
 # Dump fcrepo.
-fcrepo-export: $(DEST)
+fcrepo-export:
 ifndef DEST
 	$(error DEST is not set)
 endif
