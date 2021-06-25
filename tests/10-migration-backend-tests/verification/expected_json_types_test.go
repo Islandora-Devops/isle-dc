@@ -82,9 +82,9 @@ type ExpectedRepoObj struct {
 	AccessTerms        []string `json:"access_terms"`
 	Issn               string
 	IsPartOf           string `json:"is_part_of"`
-	ItemBarcode        string `json:"item_barcode"`
+	ItemBarcode        []string `json:"item_barcode"`
 	JhirUri            string `json:"jhir"`
-	LibraryCatalogLink string `json:"catalog_link"`
+	LibraryCatalogLink []string `json:"catalog_link"`
 	Model              struct {
 		Name        string
 		ExternalUri string `json:"external_uri"`
