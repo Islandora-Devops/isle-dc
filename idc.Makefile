@@ -173,6 +173,14 @@ static-drupal-image:
 	    echo "Using existing Drupal image $${EXISTING}" ; \
 	fi
 
+# Export a tar of the static drupal image
+.PHONY: static-drupal-image-export
+.SILENT: static-drupal-image-export
+static-drupal-image-export: static-drupal-image
+	IMAGE=${REPOSITORY}/drupal-static:${GIT_TAG} ; \
+	mkdir -p images ; \
+	docker save $${IMAGE} > images/static-drupal.tar
+
 
 # Build a docker-compose file that will run the whole stack, except with
 # the static drupal image rather than the dev drupal image + codebase bind mount.

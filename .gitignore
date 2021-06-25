@@ -107,3 +107,6 @@ certs
 *node_modules
 end-to-end/reports
 screenshots/
+
+# Ignore docker images
+/images
