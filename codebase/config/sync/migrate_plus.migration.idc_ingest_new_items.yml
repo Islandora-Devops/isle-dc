@@ -428,7 +428,15 @@ process:
   field_geoportal_link/uri: geoportal_link
   field_issn: issn
   field_is_part_of: is_part_of
-  field_item_barcode: item_barcode
+  field_item_barcode:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: item_barcode
+    -
+      plugin: explode
+      delimiter: '|'
+      strict: false
   field_jhir/uri: jhir_uri
   field_language:
     -
@@ -445,7 +453,15 @@ process:
       bundle: language
       bundle_key: vid
       value_key: name
-  field_library_catalog_link/uri: library_catalog_link
+  field_library_catalog_link/uri:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: library_catalog_link
+    -
+      plugin: explode
+      delimiter: '|'
+      strict: false
   field_member_of:
     -
       plugin: skip_on_empty
