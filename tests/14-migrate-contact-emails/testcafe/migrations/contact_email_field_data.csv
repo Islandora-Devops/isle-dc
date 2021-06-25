@@ -1,0 +1,3 @@
+email_id,langcode,contact_form,subject,message_value,message_format,append_message,recipient_type,recipient_field,recipient_reference,reply_to_type,reply_to_email,reply_to_field,reply_to_reference,status,created,changed,default_langcode
+1,en,collection_contact,Feedback for [contact_message:field_collection:entity:title]: [contact_message:subject],,,1,reference,,field_collection.node.collection_object.field_collection_contact_email,reference,,,field_collection.node.collection_object.field_collection_contact_email,,,,
+2,en,repository_item_contact,this is a moo,this is a message,,1,reference,,field_collection.node.collection_object.field_collection_contact_email,reference,,,field_collection.node.collection_object.field_collection_contact_email,,,,
