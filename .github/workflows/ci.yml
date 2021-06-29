@@ -10,10 +10,9 @@ on:
       - development
 
 jobs:
-    everything:
-        name: Build, Test, or Deploy
+    build:
+        name: build
         runs-on: ubuntu-latest
-        timeout-minutes: 45
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
         steps:
@@ -26,35 +25,67 @@ jobs:
               shell: bash
               run: |
                   echo '{"experimental": "enabled"}' > ~/.docker/config.json
-            
-            # Initially run the development environment to make sure that succeeds
-            - name: Build Dev
-              run: make up
     
             # Build and run the static environment
             - name: Build Static 
-              run: docker-compose down -v && make static-docker-compose.yml up
+              run: make static-docker-compose.yml up
 
             # Drush tests
             - name: Drush test
               run: docker-compose exec -T drupal drush -d status
 
-            # Run end-to-end tests
-            - name: End-To-End Tests
+            - name: Export image
+              run: make static-drupal-image-export
+
+            - uses: actions/upload-artifact@v2
+              with:
+                name: drupal-image
+                path: images
+    test:
+        name: test
+        runs-on: ubuntu-latest
+        needs: build
+        strategy:
+          matrix:
+            suite: 
+              - 01-end-to-end
+              - 02-static-config
+              - 10-migration-backend-tests
+              - 11-file-deletion-tests
+              - 12-media-tests
+              - 13-migration-entity-resolution
+              - 20-export-tests
+        steps:
+            # Check out current commit
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Download Drupal Image
+              uses: actions/download-artifact@v2
+              with:
+                name: drupal-image
+                path: images
+
+            - name: Load Drupal Image
+              run: docker load < images/static-drupal.tar
+
+            - name: Up
+              run: make up
+
+            - name: test
               run: | 
                 mkdir -p end-to-end/reports
                 chmod a+rwx end-to-end/reports
-                make test
-            
-            # Upload artifacts if tests fail
-            - name: Test Failure Forensics
-              uses: actions/upload-artifact@v2
-              if: failure()
-              with:
-                name: end-to-end-reports
-                path: end-to-end/reports         
+                make test test=${{ matrix.suite }}
+    deploy:
+        name: Deploy
+        runs-on: ubuntu-latest
+        needs: [ build, test]
+        steps:
+            # Check out current commit
+            - name: Checkout
+              uses: actions/checkout@v2
 
-            # Log in to Docker, if we have the secrets
             - name: Docker Login
               if: contains('refs/heads/main 
                             refs/heads/development', github.ref) &&
@@ -64,6 +95,15 @@ jobs:
                 registry: ghcr.io
                 username: ${{ env.DOCKER_USER }}
                 password: ${{ secrets.DOCKER_PASS }}
+
+            - name: Download Drupal Image
+              uses: actions/download-artifact@v2
+              with:
+                name: drupal-image
+                path: images
+
+            - name: Load Drupal Image
+              run: docker load < images/static-drupal.tar
             
             # Push docker images, if we are on the appropriate branch or tag
             - name: Docker Push
