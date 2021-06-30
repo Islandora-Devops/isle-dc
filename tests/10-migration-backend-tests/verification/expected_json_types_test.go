@@ -76,7 +76,10 @@ type ExpectedRepoObj struct {
 	DspaceItemId       string           `json:"dspace_itemid"`
 	Extent             []string
 	FeaturedItem       bool   `json:"featured_item"`
-	FindingAid         string `json:"finding_aid"`
+	FindingAid         []struct {
+		Uri   string
+		Title string
+	} `json:"finding_aid"`
 	Genre              []string
 	GeoportalLink      string   `json:"geoportal_link"`
 	AccessTerms        []string `json:"access_terms"`
@@ -286,10 +289,10 @@ type ExpectedCollection struct {
 	CollectionNumber []string `json:"collection_number"`
 	MemberOf         []string `json:"member_of"`
 	AccessTerms      []string `json:"access_terms"`
-	FindingAid       struct {
+	FindingAid       []struct {
 		Uri   string
 		Title string
-	}
+	} `json:"finding_aid"`
 }
 
 // Represents the expected results of a migrated Corporate Body taxonomy term

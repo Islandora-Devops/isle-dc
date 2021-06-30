@@ -31,7 +31,21 @@ process:
       plugin: explode
       delimiter: '|'
       strict: false
-  field_finding_aid/uri: finding_aid
+  field_finding_aid:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: finding_aid
+    -
+      plugin: explode
+      delimiter: '|'
+      strict: false
+    -
+      plugin: deepen
+    -
+      plugin: sub_process
+      process:
+        uri: value
   field_featured_item: featured_item
   field_description:
     -

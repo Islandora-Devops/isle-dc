@@ -104,7 +104,14 @@
     "one image file"
   ],
   "featured_item": true,
-  "finding_aid": "http://www.google.com",
+  "finding_aid": [
+    {
+      "uri": "http://www.google.com"
+    },
+    {
+      "uri": "http://www.example.com"
+    }
+  ],
   "genre": [
     "Nature",
     "Analog"
