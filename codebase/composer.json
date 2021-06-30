@@ -204,6 +204,9 @@
             },
             "islandora/islandora": {
                 "Routing definitions": "patches/islandora.routing.yml.patch"
+            },
+            "drupal/core": {
+                "SimpleTest FileSystemInterface fix": "patches/simpletest-filesysteminterface.patch"
             }
         }
     }

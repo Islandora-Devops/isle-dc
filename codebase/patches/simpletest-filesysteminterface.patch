@@ -1,0 +1,22 @@
+diff --git a/core/modules/simpletest/src/EnvironmentCleanerService.php b/core/modules/simpletest/src/EnvironmentCleanerService.php
+index b4de5789ea..d1597912cf 100644
+--- a/core/modules/simpletest/src/EnvironmentCleanerService.php
++++ b/core/modules/simpletest/src/EnvironmentCleanerService.php
+@@ -7,7 +7,7 @@
+ use Drupal\Core\StringTranslation\TranslationInterface;
+ use Drupal\Core\Config\ConfigFactory;
+ use Drupal\Core\Cache\CacheBackendInterface;
+-use Drupal\Core\File\FileSystem;
++use Drupal\Core\File\FileSystemInterface;
+ use Drupal\Core\Test\EnvironmentCleaner;
+
+ /**
+@@ -57,7 +57,7 @@ class EnvironmentCleanerService extends EnvironmentCleaner {
+    *   (optional) The translation service. If none is supplied, this class will
+    *   attempt to discover one using \Drupal.
+    */
+-  public function __construct($root, Connection $test_database, Connection $results_database, MessengerInterface $messenger, TranslationInterface $translation, ConfigFactory $config, CacheBackendInterface $cache_default, FileSystem $file_system) {
++  public function __construct($root, Connection $test_database, Connection $results_database, MessengerInterface $messenger, TranslationInterface $translation, ConfigFactory $config, CacheBackendInterface $cache_default, FileSystemInterface $file_system) {
+     $this->root = $root;
+     $this->testDatabase = $test_database;
+     $this->resultsDatabase = $results_database;
