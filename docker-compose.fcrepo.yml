@@ -11,7 +11,8 @@ services:
   fcrepo:
     image: ${REPOSITORY:-islandora}/fcrepo:${TAG:-latest}
     environment:
-      FCREPO_ALLOW_EXTERNAL_DRUPAL: http://${DOMAIN}/
+      FCREPO_ALLOW_EXTERNAL_DRUPALHTTP: http://${DOMAIN}/
+      FCREPO_ALLOW_EXTERNAL_DRUPALHTTPS: https://${DOMAIN}/
       FCREPO_TOMCAT_ADMIN_ROLES: manager-gui,fedoraAdmin
       FCREPO_TOMCAT_ADMIN_USER: admin 
       FCREPO_DISABLE_SYN: ${DISABLE_SYN}

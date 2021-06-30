@@ -319,7 +319,7 @@ download-default-certs:
 .SILENT: demo
 demo:
 	$(MAKE) download-default-certs ENVIROMENT=demo
-	$(MAKE) docker-compose.yml ENVIROMENT=demo
+	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
 	$(MAKE) pull ENVIROMENT=demo
 	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
@@ -339,7 +339,7 @@ demo:
 .SILENT: local
 local:
 	$(MAKE) download-default-certs ENVIROMENT=local
-	$(MAKE) docker-compose.yml ENVIRONMENT=local
+	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p $(CURDIR)/codebase
 	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
