@@ -115,7 +115,6 @@ module:
   serialization: 0
   shortcut: 0
   simplesamlphp_auth: 0
-  simpletest: 0
   sophron: 0
   syslog: 0
   system: 0
