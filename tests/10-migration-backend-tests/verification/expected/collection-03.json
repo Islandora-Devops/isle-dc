@@ -31,8 +31,12 @@
   "member_of": [
     "Parent Collection"
   ],
-  "finding_aid":
+  "finding_aid": [
     {
       "uri": "http://wikipedia.org"
+    },
+    {
+      "uri": "http://www.example.com"
     }
+  ]
 }

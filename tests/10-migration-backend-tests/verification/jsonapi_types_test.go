@@ -265,7 +265,7 @@ type JsonApiCollection struct {
 			ContactEmail     string   `json:"field_collection_contact_email"`
 			ContactName      string   `json:"field_collection_contact_name"`
 			CollectionNumber []string `json:"field_collection_number"`
-			FindingAid       struct {
+			FindingAid       []struct {
 				Uri   string
 				Title string
 			} `json:"field_finding_aid"`
@@ -321,7 +321,7 @@ type JsonApiIslandoraObj struct {
 			Description  string
 			Extent       []string `json:"field_extent"`
 			FeaturedItem bool     `json:"field_featured_item"`
-			FindingAid   struct {
+			FindingAid   []struct {
 				Uri   string
 				Title string
 			} `json:"field_finding_aid"`
@@ -334,12 +334,12 @@ type JsonApiIslandoraObj struct {
 				Uri string
 			} `json:"field_is_part_of"`
 			Issn        string `json:"field_issn"`
-			ItemBarcode string `json:"field_item_barcode"`
+			ItemBarcode []string `json:"field_item_barcode"`
 			JhirUri     struct {
 				Uri   string
 				Title string
 			} `json:"field_jhir"`
-			LibraryCatalogLink struct {
+			LibraryCatalogLink []struct {
 				Uri   string
 				Title string
 			} `json:"field_library_catalog_link"`

@@ -657,6 +657,11 @@ func Test_VerifyCollection(t *testing.T) {
 	assert.Equal(t, expectedJson.ContactName, actual.JsonApiAttributes.ContactName)
 	assert.ElementsMatch(t, expectedJson.CollectionNumber, actual.JsonApiAttributes.CollectionNumber)
 
+	// Check Finding Aids
+	for i := range actual.JsonApiAttributes.FindingAid {
+		assert.Equal(t, expectedJson.FindingAid[i].Uri, actual.JsonApiAttributes.FindingAid[i].Uri)
+	}
+
 	relData := res.JsonApiData[0].JsonApiRelationships
 
 	// Resolve and verify title language
@@ -824,7 +829,9 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, expectedJson.DspaceItemId, attributes.DspaceItemid)
 
 	// Library Catalog Link
-	assert.Equal(t, expectedJson.LibraryCatalogLink, attributes.LibraryCatalogLink.Uri)
+	for i := range attributes.LibraryCatalogLink {
+		assert.Equal(t, expectedJson.LibraryCatalogLink[i], attributes.LibraryCatalogLink[i].Uri)
+	}
 
 	// Extent
 	assert.Equal(t, expectedJson.Extent, attributes.Extent)
@@ -833,7 +840,9 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, expectedJson.FeaturedItem, attributes.FeaturedItem)
 
 	// Finding Aid
-	assert.Equal(t, expectedJson.FindingAid, attributes.FindingAid.Uri)
+	for i := range attributes.FindingAid {
+		assert.Equal(t, expectedJson.FindingAid[i].Uri, attributes.FindingAid[i].Uri)
+	}
 
 	// Geoportal Link
 	assert.Equal(t, expectedJson.GeoportalLink, attributes.GeoportalLink.Uri)
@@ -845,7 +854,9 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, expectedJson.IsPartOf, attributes.IsPartOf.Uri)
 
 	// Item Barcode
-	assert.Equal(t, expectedJson.ItemBarcode, attributes.ItemBarcode)
+	for i := range attributes.ItemBarcode {
+		assert.Equal(t, expectedJson.ItemBarcode[i], attributes.ItemBarcode[i])
+	}
 
 	// JHIR
 	assert.Equal(t, expectedJson.JhirUri, attributes.JhirUri.Uri)
