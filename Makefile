@@ -303,6 +303,10 @@ generate-matomo-password:
 .PHONY: generate-secrets
 .SILENT: generate-secrets
 generate-secrets:
+	if [ $$(id -u) -ne 0 ]; then \
+		echo "generate-secrets must be ran as root."; \
+		exit 1; \
+	fi
 	openssl genrsa -out tmp/private.key 2048 &> /dev/null;
 	openssl rsa -pubout -in tmp/private.key -out tmp/public.key &> /dev/null;
 	for f in $$(find secrets/template/* -printf '%f\n'); do \
@@ -331,6 +335,8 @@ generate-secrets:
 			echo "$$f generated!"; \
 		fi \
 	done
+	chown -R root:root secrets/live
+	chmod 600 secrets/live/*
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: download-default-certs
