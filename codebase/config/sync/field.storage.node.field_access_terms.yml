@@ -8,7 +8,7 @@ dependencies:
     - taxonomy
 third_party_settings:
   field_permissions:
-    permission_type: custom
+    permission_type: public
 id: node.field_access_terms
 field_name: field_access_terms
 entity_type: node

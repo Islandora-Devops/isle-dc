@@ -6,6 +6,12 @@ dependencies:
     - field.storage.media.field_access_terms
     - media.type.audio
     - taxonomy.vocabulary.islandora_access
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
 _core:
   default_config_hash: zMylfN-fI9CYLY9HkVelF4387LDjMjcxAueAg6LVf8w
 id: media.audio.field_access_terms
@@ -14,7 +20,7 @@ entity_type: media
 bundle: audio
 label: 'Access terms'
 description: 'Terms that define who has access to view/edit this resource.'
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

@@ -488,10 +488,6 @@ process:
       method: process
       source: member_of
     -
-      plugin: explode
-      delimiter: '|'
-      strict: false
-    -
       plugin: parse_entity_lookup
       defaults:
         entity_type: node

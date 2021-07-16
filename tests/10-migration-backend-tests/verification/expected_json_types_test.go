@@ -100,7 +100,7 @@ type ExpectedRepoObj struct {
 	Subject          []string
 	Title            string
 	TableOfContents  []LanguageString `json:"toc"`
-	MemberOf         []string         `json:"member_of"`
+	MemberOf         string         `json:"member_of"`
 	LinkedAgent      []struct {
 		Rel  string
 		Name string
@@ -287,7 +287,7 @@ type ExpectedCollection struct {
 	ContactEmail     string   `json:"contact_email"`
 	ContactName      string   `json:"contact_name"`
 	CollectionNumber []string `json:"collection_number"`
-	MemberOf         []string `json:"member_of"`
+	MemberOf         string `json:"member_of"`
 	AccessTerms      []string `json:"access_terms"`
 	FindingAid       []struct {
 		Uri   string
@@ -335,6 +335,7 @@ type ExpectedMediaGeneric struct {
 	OriginalName string `json:"original_name"`
 	Size         int
 	MimeType     string   `json:"mime_type"`
+	AccessTerms  []string `json:"access_terms"`
 	MediaUse     []string `json:"use"`
 	MediaOf      string   `json:"media_of"`
 	Uri          struct {

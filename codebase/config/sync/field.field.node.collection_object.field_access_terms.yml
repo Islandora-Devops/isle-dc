@@ -18,7 +18,7 @@ entity_type: node
 bundle: collection_object
 label: 'Access Terms'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

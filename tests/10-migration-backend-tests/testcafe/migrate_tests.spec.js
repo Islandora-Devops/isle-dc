@@ -344,6 +344,17 @@ test('Perform Repository Object Migration', async t => {
 
 test('Perform Media Migrations', async t => {
 
+    // Migrate Islandora Access Terms for media tests
+    await t
+        .click(selectMigration)
+        .click(migrationOptions.withAttribute('value', migrate_islandora_accessterms_taxonomy));
+
+    await t
+        .setFilesToUpload('#edit-source-file', [
+            './migrations/media-accessterms.csv'
+        ])
+        .click('#edit-import');
+
     // Migrate the Collection and Repository Object the Media will be attached to
 
     await t

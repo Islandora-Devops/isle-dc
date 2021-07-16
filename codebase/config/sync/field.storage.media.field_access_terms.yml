@@ -8,7 +8,7 @@ dependencies:
     - taxonomy
 third_party_settings:
   field_permissions:
-    permission_type: private
+    permission_type: public
 _core:
   default_config_hash: wJ27ZPLCi9CKnGI4gwKjMBuAAtXPgxaJoiecuALirdY
 id: media.field_access_terms

@@ -1,2 +1,2 @@
-local_id,name,original_name,mime_type,media_of,media_use,url
-media_file_00001,Geo Tif file,NEFF1851_GEO.tfw,application/octet-stream,:::Media Migration Repository Item One,Original File|Preservation Master File,http://migration-assets/assets/file/NEFF1851_GEO.tfw
+local_id,name,access_terms,original_name,mime_type,media_of,media_use,url
+media_file_00001,Geo Tif file,Media Group A|Media Group B,NEFF1851_GEO.tfw,application/octet-stream,:::Media Migration Repository Item One,Original File|Preservation Master File,http://migration-assets/assets/file/NEFF1851_GEO.tfw

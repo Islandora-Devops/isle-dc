@@ -6,6 +6,12 @@ dependencies:
     - field.storage.media.field_access_terms
     - media.type.video
     - taxonomy.vocabulary.islandora_access
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
 _core:
   default_config_hash: rQJGaUMqAT7XoaBgoFeFJfRfVOjxlPl9TuA_lcUdqy4
 id: media.video.field_access_terms
@@ -14,7 +20,7 @@ entity_type: media
 bundle: video
 label: 'Access terms'
 description: 'Terms that define who has access to view/edit this resource.'
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

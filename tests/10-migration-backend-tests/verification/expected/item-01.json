@@ -132,10 +132,7 @@
     "http://catalog.library.jhu.edu",
     "http://example.org/other_catalog_link"
   ],
-  "member_of": [
-    "Images Collection",
-    "Ansel Adams"
-  ],
+  "member_of": "Images Collection",
   "access_terms": [
     "Images Collection",
     "Ansel Adams"

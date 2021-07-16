@@ -6,13 +6,19 @@ dependencies:
     - field.storage.media.field_access_terms
     - media.type.extracted_text
     - taxonomy.vocabulary.islandora_access
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
 id: media.extracted_text.field_access_terms
 field_name: field_access_terms
 entity_type: media
 bundle: extracted_text
 label: 'Access terms'
 description: ''
-required: false
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''
