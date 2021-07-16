@@ -138,6 +138,8 @@ update-settings-php:
 update-config-from-environment:
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_jwt_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_search_api_solr_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
@@ -333,7 +335,7 @@ local: generate-secrets
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p $(CURDIR)/codebase
 	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project islandora/islandora-sandbox:dev-install-profile /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone https://github.com/islandora-devops/islandora-project /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer require islandora/islandora_profile:1.x-dev'; \
 	fi
 	docker-compose up -d
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
