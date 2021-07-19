@@ -28,7 +28,7 @@ process:
       source: preferred_name_rest
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_preferred_name_prefix:
     -
@@ -37,7 +37,7 @@ process:
       source: preferred_name_prefix
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_preferred_name_fuller_form:
     -
@@ -46,7 +46,7 @@ process:
       source: preferred_name_fuller_form
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_preferred_name_suffix:
     -
@@ -55,7 +55,7 @@ process:
       source: preferred_name_suffix
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_preferred_name_number:
     -
@@ -64,7 +64,7 @@ process:
       source: preferred_name_number
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_primary_part_of_name: primary_part_of_name
   field_person_alternate_name:
@@ -74,7 +74,7 @@ process:
       source: person_alternate_name
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_date:
     -
@@ -83,13 +83,13 @@ process:
       source: date
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_authority_link:
     -
       plugin: explode
       source: authority
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen

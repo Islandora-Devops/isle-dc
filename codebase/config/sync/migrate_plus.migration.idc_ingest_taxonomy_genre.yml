@@ -24,7 +24,7 @@ process:
     -
       plugin: explode
       source: authority
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen

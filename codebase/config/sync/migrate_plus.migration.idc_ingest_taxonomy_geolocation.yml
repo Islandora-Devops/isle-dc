@@ -25,13 +25,13 @@ process:
     -
       plugin: explode
       source: geo_alt_name
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_broader:
     -
       plugin: explode
       source: broader
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -43,7 +43,7 @@ process:
     -
       plugin: explode
       source: authority
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen

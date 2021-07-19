@@ -1,2 +1,2 @@
 local_id,name,access_terms,original_name,mime_type,media_of,media_use,url
-media_audio_00001,Moo Cow,Media Group A|Media Group B,moo.mp3,audio/mpeg,:::Media Migration Repository Item One,Original File|Preservation Master File,http://migration-assets/assets/audio/moo.mp3
+media_audio_00001,Moo Cow,Media Group A||Media Group B,moo.mp3,audio/mpeg,:::Media Migration Repository Item One,Original File||Preservation Master File,http://migration-assets/assets/audio/moo.mp3

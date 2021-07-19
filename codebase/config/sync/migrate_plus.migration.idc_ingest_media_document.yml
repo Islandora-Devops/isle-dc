@@ -99,7 +99,7 @@ process:
       source: media_use
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup

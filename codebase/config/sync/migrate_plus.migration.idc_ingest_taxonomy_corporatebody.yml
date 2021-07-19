@@ -23,7 +23,7 @@ process:
       source: date_of_meeting_or_treaty
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
   field_location_of_meeting:
     -
       plugin: skip_on_empty
@@ -31,7 +31,7 @@ process:
       source: location_of_meeting
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
   field_num_of_section_or_meet:
     -
       plugin: skip_on_empty
@@ -39,7 +39,7 @@ process:
       source: num_of_section_or_meet
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
   field_primary_name: primary_name
   field_subordinate_name:
     -
@@ -48,7 +48,7 @@ process:
       source: subordinate_name
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
   field_corporate_body_alt_name:
     -
       plugin: skip_on_empty
@@ -56,7 +56,7 @@ process:
       source: corporate_body_alt_name
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
   description/value: description
   description/format:
     plugin: default_value
@@ -65,7 +65,7 @@ process:
     -
       plugin: explode
       source: authority
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -105,7 +105,7 @@ process:
       source: date
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
   field_relationships:
     -
       plugin: skip_on_empty
@@ -113,7 +113,7 @@ process:
       source: relationships
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
     -
       plugin: deepen
     -

@@ -1047,6 +1047,123 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	}
 }
 
+// This test is concerned with verifying two things concerning delimiters in ingests:
+// 1) that `:` can exist in the name of a taxonomy term and resolve correct
+//    (here it's tucked into a subject's name)
+// 2) that a `;` in a language value pair behaves fine (in fields like asbtract, description, etc).
+func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
+	expectedJson := ExpectedRepoObj{}
+	unmarshalJson(t, "item-02.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "node", expectedJson.Type)
+	assert.Equal(t, "islandora_object", expectedJson.Bundle)
+
+	u := &JsonApiUrl{
+		t:            t,
+		baseUrl:      DrupalBaseurl,
+		drupalEntity: expectedJson.Type,
+		drupalBundle: expectedJson.Bundle,
+		filter:       "title",
+		value:        expectedJson.Title,
+	}
+
+	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
+	res := &JsonApiIslandoraObj{}
+	u.getSingle(res)
+	actual := res.JsonApiData[0]
+	sourceId := actual.Id
+	assert.NotEmpty(t, sourceId)
+
+	// Verify attributes
+	attributes := actual.JsonApiAttributes
+
+	// Title
+	assert.Equal(t, expectedJson.Title, attributes.Title)
+
+	// Identifiers
+	assert.Equal(t, 2, len(expectedJson.DigitalIdentifier))
+	assert.EqualValues(t, expectedJson.DigitalIdentifier, attributes.DigitalIdentifier)
+
+	// Resolve and verify relationships
+	relData := actual.JsonApiRelationships
+
+	// Abstract
+	assert.Equal(t, 2, len(expectedJson.Abstract))
+	assert.Equal(t, len(expectedJson.Abstract), len(relData.Abstract.Data))
+	for i := range relData.Abstract.Data {
+		assert.Equal(t, expectedJson.Abstract[i].Value, relData.Abstract.Data[i].value())
+		assert.Equal(t, expectedJson.Abstract[i].LangCode, relData.Abstract.Data[i].langCode(t))
+	}
+
+	// Alt title
+	assert.Equal(t, 2, len(expectedJson.AltTitle))
+	assert.Equal(t, len(expectedJson.AltTitle), len(relData.AltTitle.Data))
+	for i := range relData.AltTitle.Data {
+		assert.Equal(t, expectedJson.AltTitle[i].Value, relData.AltTitle.Data[i].value())
+		assert.Equal(t, expectedJson.AltTitle[i].LangCode, relData.AltTitle.Data[i].langCode(t))
+	}
+
+	// Contributor
+	// TODO: type introspection if Contributor can hold some type other than person
+	assert.Equal(t, 2, len(expectedJson.Contributor))
+	assert.Equal(t, len(expectedJson.Contributor), len(relData.Contributor.Data))
+	for i := range relData.Contributor.Data {
+		actualPerson := &JsonApiPerson{}
+		relData.Contributor.Data[i].resolve(t, actualPerson)
+		actualRelType, err := relData.Contributor.Data[i].metaString("rel_type")
+		assert.Nil(t, err)
+		assert.Equal(t, expectedJson.Contributor[i].RelType, actualRelType)
+		assert.Equal(t, expectedJson.Contributor[i].Name, actualPerson.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	// Creator
+	// TODO: type introspection if Creator can hold some type other than person
+	assert.Equal(t, 2, len(expectedJson.Creator))
+	assert.Equal(t, len(expectedJson.Creator), len(relData.Creator.Data))
+	for i := range relData.Creator.Data {
+		actualPerson := &JsonApiPerson{}
+		relData.Creator.Data[i].resolve(t, actualPerson)
+		actualRelType, err := relData.Creator.Data[i].metaString("rel_type")
+		assert.Nil(t, err)
+		assert.Equal(t, expectedJson.Creator[i].Name, actualPerson.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Equal(t, expectedJson.Creator[i].RelType, actualRelType)
+	}
+
+	// Custodial History
+	assert.Equal(t, 2, len(expectedJson.CustodialHistory))
+	assert.Equal(t, len(expectedJson.CustodialHistory), len(relData.CustodialHistory.Data))
+	for i := range relData.CustodialHistory.Data {
+		assert.Equal(t, expectedJson.CustodialHistory[i].Value, relData.CustodialHistory.Data[i].value())
+		assert.Equal(t, expectedJson.CustodialHistory[i].LangCode, relData.CustodialHistory.Data[i].langCode(t))
+	}
+
+	// Description
+	assert.Equal(t, 2, len(expectedJson.Description))
+	assert.Equal(t, len(expectedJson.Description), len(relData.Description.Data))
+	for i := range relData.Description.Data {
+		assert.Equal(t, expectedJson.Description[i].Value, relData.Description.Data[i].value())
+		assert.Equal(t, expectedJson.Description[i].LangCode, relData.Description.Data[i].langCode(t))
+	}
+
+	// Subject
+	assert.Equal(t, 2, len(expectedJson.Subject))
+	assert.Equal(t, len(expectedJson.Subject), len(relData.Subject.Data))
+	for i := range relData.Subject.Data {
+		subj := &JsonApiSubject{}
+		relData.Subject.Data[i].resolve(t, subj)
+		assert.Contains(t, expectedJson.Subject, subj.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	// Table of Contents
+	assert.Equal(t, 2, len(expectedJson.TableOfContents))
+	assert.Equal(t, len(expectedJson.TableOfContents), len(relData.TableOfContents.Data))
+	for i := range relData.TableOfContents.Data {
+		assert.Equal(t, expectedJson.TableOfContents[i].LangCode, relData.TableOfContents.Data[i].langCode(t))
+		assert.Equal(t, expectedJson.TableOfContents[i].Value, relData.TableOfContents.Data[i].value())
+	}
+}
+
 // Two media with identical file content will have different File entities, but each File entity will reference the
 // the same file URI.  The file URI should be based on the checksum of the bytestream's content.  Allowing different
 // File entities allows the same bytestream to have different file metadata (i.e. be known by one name in one Media,

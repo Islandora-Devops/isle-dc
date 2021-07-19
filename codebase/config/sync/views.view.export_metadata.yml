@@ -1691,7 +1691,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -1762,7 +1762,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -1876,7 +1876,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -1990,7 +1990,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -2061,7 +2061,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -2132,7 +2132,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -2317,7 +2317,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -2431,7 +2431,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -2502,7 +2502,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -2640,7 +2640,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_date_copyrighted:
@@ -2749,7 +2749,7 @@ display:
             hide_alter_empty: 1
             group_rows: 1
             multi_type: separator
-            separator: '|'
+            separator: '||'
             delta_limit: '0'
             delta_offset: '0'
             delta_reversed: 0
@@ -2769,7 +2769,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: false
           fallback_handler: search_api
@@ -2777,7 +2777,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_date_created:
@@ -2886,7 +2886,7 @@ display:
             hide_alter_empty: 1
             group_rows: 1
             multi_type: separator
-            separator: '|'
+            separator: '||'
             delta_limit: '0'
             delta_offset: '0'
             delta_reversed: 0
@@ -2906,7 +2906,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: false
           fallback_handler: search_api
@@ -2914,7 +2914,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_date_published:
@@ -3023,7 +3023,7 @@ display:
             hide_alter_empty: 1
             group_rows: 1
             multi_type: separator
-            separator: '|'
+            separator: '||'
             delta_limit: '0'
             delta_offset: '0'
             delta_reversed: 0
@@ -3043,7 +3043,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: false
           fallback_handler: search_api
@@ -3051,7 +3051,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_description:
@@ -3114,7 +3114,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -3122,7 +3122,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: ', '
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_digital_identifier:
@@ -3185,7 +3185,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -3193,7 +3193,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: ', '
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_digital_publisher:
@@ -3256,7 +3256,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -3264,7 +3264,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: ', '
+            multi_separator: '||'
             display_methods:
               access_rights:
                 display_method: label
@@ -3630,7 +3630,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -3782,7 +3782,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -3853,7 +3853,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -4188,7 +4188,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -4334,7 +4334,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -4452,7 +4452,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -4523,7 +4523,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -4721,7 +4721,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -4792,7 +4792,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -4906,7 +4906,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -5020,7 +5020,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -5134,7 +5134,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -5248,7 +5248,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -5362,7 +5362,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -5593,7 +5593,7 @@ display:
             hide_alter_empty: 1
             group_rows: 1
             multi_type: separator
-            separator: '|'
+            separator: '||'
             delta_limit: '0'
             delta_offset: '0'
             delta_reversed: 0
@@ -5613,7 +5613,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -6358,7 +6358,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -6429,7 +6429,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -6513,7 +6513,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api_entity
@@ -6634,7 +6634,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_collection_contact_name:
@@ -6705,7 +6705,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_collection_number:
@@ -6768,7 +6768,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: false
           fallback_handler: search_api
@@ -6776,7 +6776,7 @@ display:
             link_to_item: false
             use_highlighting: false
             multi_type: separator
-            multi_separator: '|'
+            multi_separator: '||'
           entity_type: node
           plugin_id: search_api_field
         field_description:
@@ -6839,7 +6839,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api
@@ -6914,7 +6914,7 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
-          separator: '|'
+          separator: '||'
           field_api_classes: false
           field_rendering: true
           fallback_handler: search_api

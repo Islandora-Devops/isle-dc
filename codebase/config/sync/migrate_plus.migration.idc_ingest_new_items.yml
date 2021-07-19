@@ -22,7 +22,7 @@ process:
     -
       plugin: explode
       source: abstract
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -36,7 +36,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -48,7 +48,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -66,7 +66,7 @@ process:
       source: access_rights
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup
@@ -81,7 +81,7 @@ process:
       source: access_terms
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup
@@ -93,7 +93,7 @@ process:
     -
       plugin: explode
       source: alternative_title
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -107,7 +107,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -119,7 +119,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -137,7 +137,7 @@ process:
       source: collection_number
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_contributor:
     -
@@ -146,7 +146,7 @@ process:
       source: contributor
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -198,7 +198,7 @@ process:
       source: copyright_holder
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: parse_entity_lookup
@@ -214,7 +214,7 @@ process:
       source: creator
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -256,7 +256,7 @@ process:
     -
       plugin: explode
       source: custodial_history
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -270,7 +270,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -282,7 +282,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -301,7 +301,7 @@ process:
       source: date_copyrighted
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_date_created:
     -
@@ -310,7 +310,7 @@ process:
       source: date_created
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_date_published:
     -
@@ -319,7 +319,7 @@ process:
       source: date_published
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_description:
     -
@@ -328,7 +328,7 @@ process:
       source: description
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -342,7 +342,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -354,7 +354,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -372,7 +372,7 @@ process:
       source: digital_identifier
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_digital_publisher:
     -
@@ -381,7 +381,7 @@ process:
       source: digital_publisher
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: parse_entity_lookup
@@ -406,7 +406,7 @@ process:
       source: extent
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_finding_aid:
     -
@@ -415,7 +415,7 @@ process:
       source: finding_aid
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -431,7 +431,7 @@ process:
       source: genre
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup
@@ -449,7 +449,7 @@ process:
       source: item_barcode
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_jhir/uri: jhir_uri
   field_language:
@@ -459,7 +459,7 @@ process:
       source: language
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup
@@ -474,7 +474,7 @@ process:
       source: library_catalog_link
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -508,7 +508,7 @@ process:
       source: oclc_number
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_publisher:
     -
@@ -517,7 +517,7 @@ process:
       source: publisher
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: parse_entity_lookup
@@ -533,7 +533,7 @@ process:
       source: publisher_country
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup
@@ -548,7 +548,7 @@ process:
       source: resource_type
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup
@@ -563,7 +563,7 @@ process:
       source: spatial_coverage
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup
@@ -578,7 +578,7 @@ process:
       source: subject
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: parse_entity_lookup
@@ -594,7 +594,7 @@ process:
       source: table_of_contents
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -608,7 +608,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -620,7 +620,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -649,7 +649,7 @@ process:
       source: years
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
 destination:
   plugin: 'entity:node'

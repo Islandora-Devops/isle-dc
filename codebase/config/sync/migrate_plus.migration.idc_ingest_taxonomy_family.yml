@@ -26,12 +26,12 @@ process:
     -
       plugin: explode
       source: date
-      delimiter: '|'
+      delimiter: '||'
   field_authority_link:
     -
       plugin: explode
       source: authority
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -68,7 +68,7 @@ process:
     -
       plugin: explode
       source: relationships
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen

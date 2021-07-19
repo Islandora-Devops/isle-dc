@@ -1,2 +1,2 @@
 local_id,name,access_terms,original_name,mime_type,media_of,media_use,url
-media_video_00001,Chair Pop Video,Media Group A|Media Group B,chair-pop-gif.mp4,video/mp4,:::Media Migration Repository Item One,Original File|Preservation Master File,http://migration-assets/assets/video/chair-pop-gif.mp4
+media_video_00001,Chair Pop Video,Media Group A||Media Group B,chair-pop-gif.mp4,video/mp4,:::Media Migration Repository Item One,Original File||Preservation Master File,http://migration-assets/assets/video/chair-pop-gif.mp4

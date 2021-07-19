@@ -1,0 +1,83 @@
+{
+  "type": "node",
+  "bundle": "islandora_object",
+  "title": "Special Character: Repository Item|RI",
+  "abstract": [
+    {
+      "value": "Special Item|Repository Item; Abstract in English",
+      "language": "eng"
+    },
+    {
+      "value": "日本語のサンプルリポジトリアイテムの要約",
+      "language": "jpn"
+    }
+  ],
+  "alt_title": [
+    {
+      "value": "Special Repository Item; Alternate Title",
+      "language": "eng"
+    },
+    {
+      "value": "Пример альтернативного названия элемента репозитория на русском языке",
+      "language": "rus"
+    }
+  ],
+  "contributor": [
+    {
+      "rel_type": "relators:art",
+      "name": "Adams, Islandora Object Ansel Easton, 1902-1984"
+    },
+    {
+      "rel_type": "relators:pht",
+      "name": "Adams, Islandora Object Ansel Easton, 1902-1984"
+    }
+  ],
+  "creator": [
+    {
+      "rel_type": "relators:art",
+      "name": "Adams, Islandora Object Ansel Easton, 1902-1984"
+    },
+    {
+      "rel_type": "relators:pht",
+      "name": "Weston, Islandora Object Edward, 1886-1958"
+    }
+  ],
+  "custodial_history": [
+    {
+      "value": "This material was held by the author; it was donated recently",
+      "language": "eng"
+    },
+    {
+      "value": "该材料由作者持有，最近捐赠",
+      "language": "chi"
+    }
+  ],
+  "description": [
+    {
+      "value": "Special Repository Item: Description in English",
+      "language": "eng"
+    },
+    {
+      "value": "सैंपल रिपोजिटरी आइटम का विवरण हिंदी मे",
+      "language": "hin"
+    }
+  ],
+  "digital_identifier": [
+    "a digital identifier; one",
+    "a digital identifier; two"
+  ],
+  "subject": [
+    "Photography: Still Life",
+    "Analog Islandora Object Photography"
+  ],
+  "toc": [
+    {
+      "value": "Table of Contents in English|TOC",
+      "language": "eng"
+    },
+    {
+      "value": "Inhaltsverzeichnis; deutscher Sprache",
+      "language": "ger"
+    }
+  ]
+}

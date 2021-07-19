@@ -25,11 +25,9 @@ process:
       plugin: skip_on_empty
       method: process
       source: collection_number
-      delimiter: '|'
-      strict: false
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
   field_finding_aid:
     -
@@ -38,7 +36,7 @@ process:
       source: finding_aid
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -54,7 +52,7 @@ process:
       source: description
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -68,7 +66,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -80,7 +78,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -106,7 +104,7 @@ process:
       source: access_terms
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup
@@ -132,7 +130,7 @@ process:
       source: alternative_title
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: deepen
@@ -146,7 +144,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
@@ -158,7 +156,7 @@ process:
             source: value
           -
             plugin: explode
-            delimiter: ;
+            delimiter: ;;
           -
             plugin: extract
             index:
