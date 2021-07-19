@@ -10,7 +10,7 @@ migration_tags: null
 migration_group: idc_ingest
 label: 'Entity: Contact Email (configuration enity)'
 source:
-  plugin: csv
+  plugin: idc_csv
   ids:
     - email_id
   path: modules/contrib/idc_ui_module/migrate/contact_emails.csv
