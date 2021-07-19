@@ -15,6 +15,7 @@ permissions:
   - 'opt-in or out of matomo tracking'
   - 'restful get oai_pmh'
   - 'search content'
+  - 'skip CAPTCHA'
   - 'use text format basic_html'
   - 'view field_citable_url'
   - 'view field_model'

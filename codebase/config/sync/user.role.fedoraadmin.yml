@@ -8,4 +8,5 @@ id: fedoraadmin
 label: fedoraAdmin
 weight: -7
 is_admin: null
-permissions: {  }
+permissions:
+  - 'skip CAPTCHA'

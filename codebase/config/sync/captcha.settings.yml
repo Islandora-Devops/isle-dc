@@ -10,3 +10,4 @@ enable_stats: false
 log_wrong_responses: false
 _core:
   default_config_hash: _UaIWu0_ZD3lUs97wlFC2Koi-o7Bex69Xr9q36nJtkY
+wrong_captcha_response_message: 'The answer you entered for the CAPTCHA was not correct.'

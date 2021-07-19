@@ -78,6 +78,7 @@ permissions:
   - 'restful get oai_pmh'
   - 'revert collection_object revisions'
   - 'revert islandora_object revisions'
+  - 'skip CAPTCHA'
   - 'update any media'
   - 'update media'
   - 'use text format full_html'
