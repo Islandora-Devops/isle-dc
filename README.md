@@ -14,9 +14,6 @@
   - [Traefik](#traefik)
   - [ETCD](#etcd)
 - [Troubleshooting/Issues](#troubleshootingissues)
-- [FAQ](#faq)
-  - [Question: When doing an `drush config:import -y` I get one of the following errors](#question-when-doing-an-drush-configimport--y-i-get-one-of-the-following-errors)
-  - [Question: When doing an `drush sql:dump` I get one of the following errors](#question-when-doing-an-drush-sqldump-i-get-one-of-the-following-errors)
 - [Development](#development)
 - [Maintainers/Sponsors](#maintainerssponsors)
   - [Architecture Team](#architecture-team)
@@ -317,7 +314,7 @@ Post your questions here and subscribe for updates, meeting announcements, and t
 - [Islandora Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora)
 - [Islandora Dev Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora-dev)
 
-For common errors, see docs/troubleshooting.md
+For common errors, see `docs/troubleshooting.md`.
 
 ## Development
 
