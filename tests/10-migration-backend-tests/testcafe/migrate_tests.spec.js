@@ -447,3 +447,35 @@ test('Perform Media Migrations', async t => {
         ])
         .click('#edit-import');
 });
+
+// quick sanity test to see that this migration fails and produces
+// one error per row.
+test('Perform test on CSV with bad formatting', async t =>  {
+  await t
+    .click(selectMigration)
+    .click(migrationOptions.withAttribute('value', migrate_new_items));
+
+  await t
+    .setFilesToUpload('#edit-source-file', [
+      './migrations/islandora_object_bad.csv'
+     ])
+    .click('#edit-import');
+
+  await t
+    .navigateTo(`https://islandora-idc.traefik.me/admin/structure/migrate/manage/idc_ingest/migrations/idc_ingest_new_items/messages`);
+
+  const error_msg = 'Array index missing, extraction failed.';
+
+  // there should be three errors, one for each row
+  const row1 = Selector('td').withText('io_bad_01').parent();
+  await t.expect(row1.child('td').nth(0).innerText).eql('io_bad_01');
+  await t.expect(row1.child('td').nth(3).innerText).eql(error_msg);
+
+  const row2 = Selector('td').withText('io_bad_02').parent();
+  await t.expect(row2.child('td').nth(0).innerText).eql('io_bad_02');
+  await t.expect(row2.child('td').nth(3).innerText).eql(error_msg);
+
+  const row3 = Selector('td').withText('io_bad_03').parent();
+  await t.expect(row3.child('td').nth(0).innerText).eql('io_bad_03');
+  await t.expect(row3.child('td').nth(3).innerText).eql(error_msg);
+});
