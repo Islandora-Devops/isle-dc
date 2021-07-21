@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7ff55a580c50ac27cc0a0f5f88205d0",
+    "content-hash": "081c35f66f46c7ed9688842df9c93f24",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3095,6 +3095,9 @@
                         "[web-root]/profiles/README.txt": "assets/scaffold/files/profiles.README.txt",
                         "[web-root]/themes/README.txt": "assets/scaffold/files/themes.README.txt"
                     }
+                },
+                "patches_applied": {
+                    "SimpleTest FileSystemInterface fix": "patches/simpletest-filesysteminterface.patch"
                 }
             },
             "autoload": {
@@ -7570,16 +7573,16 @@
         },
         {
             "name": "jhu_idc/idc_migration",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_migration.git",
-                "reference": "185ee1047d659983f4d13d8f3eb6ae194a4a54d7"
+                "reference": "d6b5a240ec4444c61cd7d673cfef98c2cc236bf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/185ee1047d659983f4d13d8f3eb6ae194a4a54d7",
-                "reference": "185ee1047d659983f4d13d8f3eb6ae194a4a54d7",
+                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/d6b5a240ec4444c61cd7d673cfef98c2cc236bf1",
+                "reference": "d6b5a240ec4444c61cd7d673cfef98c2cc236bf1",
                 "shasum": ""
             },
             "require": {
@@ -7609,9 +7612,9 @@
             ],
             "description": "Custom migration plugins for IDC",
             "support": {
-                "source": "https://github.com/jhu-idc/idc_migration/tree/v1.0.5"
+                "source": "https://github.com/jhu-idc/idc_migration/tree/v1.0.6"
             },
-            "time": "2021-05-04T15:36:44+00:00"
+            "time": "2021-07-20T18:46:02+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -15584,9 +15587,6 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives",
                 "ext-zlib": "Allow gzip compression of HTTP requests"
             },
-            "bin": [
-                "bin/composer"
-            ],
             "type": "library",
             "extra": {
                 "branch-alias": {

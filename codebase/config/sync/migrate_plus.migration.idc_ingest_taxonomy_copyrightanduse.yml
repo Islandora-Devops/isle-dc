@@ -10,7 +10,7 @@ migration_tags: null
 migration_group: idc_ingest
 label: 'Taxonomy: Copyright and Use'
 source:
-  plugin: csv
+  plugin: idc_csv
   ids:
     - local_id
   path: 'Will be populated by the Migrate Source UI'

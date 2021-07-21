@@ -13,7 +13,7 @@ migration_tags: controlled_access_terms_language
 migration_group: islandora
 label: 'Term migration for iDC Languages'
 source:
-  plugin: csv
+  plugin: idc_csv
   path: modules/contrib/controlled_access_terms/modules/controlled_access_terms_defaults/migrate/language.csv
   header_row_count: 1
   ids:

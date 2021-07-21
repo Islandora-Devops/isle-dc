@@ -13,7 +13,7 @@ migration_tags: controlled_access_terms_rights
 migration_group: islandora
 label: 'Term migration for iDC Access Rights and Copyrights'
 source:
-  plugin: csv
+  plugin: idc_csv
   path: modules/contrib/controlled_access_terms/modules/controlled_access_terms_defaults/migrate/rights.csv
   header_row_count: 1
   ids:

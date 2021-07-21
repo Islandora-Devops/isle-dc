@@ -15,7 +15,7 @@ migration_tags: islandora_tags
 migration_group: islandora
 label: 'Tags migration from CSV'
 source:
-  plugin: csv
+  plugin: idc_csv
   path: modules/contrib/islandora/migrate/tags.csv
   header_row_count: 1
   ids:

@@ -10,7 +10,7 @@ migration_tags: null
 migration_group: idc_ingest
 label: '(1) Ingest New Collection'
 source:
-  plugin: csv
+  plugin: idc_csv
   ids:
     - local_id
     - node_id
