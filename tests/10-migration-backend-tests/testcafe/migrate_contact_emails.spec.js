@@ -12,7 +12,7 @@ const selectMigration = Selector('#edit-migrations');
 const migrationOptions = selectMigration.find('option');
 const selectUpdateExistingRecords = Selector('#edit-update-existing-records');
 
-fixture`Migration Tests`
+fixture`Contact e-mail migration tests`
   .page`https://islandora-idc.traefik.me/migrate_source_ui`
   .beforeEach(async t => {
     await t
@@ -20,7 +20,7 @@ fixture`Migration Tests`
   });
 
 test('Perform contact emails migration', async (t) => {
-  const migrationId = 'idc_ingest_new_contact_email';
+  const migrationId = 'idc_ingest_contact_email';
 
   await t
     .click(selectMigration)
