@@ -20,3 +20,6 @@ docker build -t local/derivative-backend-tests "${BASE_TEST_FOLDER}/verification
 # TODO: expose logs when failing tests?
 # N.B. trailing slash on the BASE_ASSETS_URL is important.  uses the internal URL.
 docker run --network gateway --rm -e PHP_MAX_EXECUTION_TIME=${PHP_MAX_EXECUTION_TIME} -e ALPACA_HOMERUS_HTTP_SOCKET_TIMEOUT_MS=${ALPACA_HOMERUS_HTTP_SOCKET_TIMEOUT_MS} local/derivative-backend-tests
+
+# Test to make sure the JWT expiry is equal to or greater than 14400
+docker-compose exec -T drupal bash -lc "set -vex ; drush en jwt_auth_issuer && apk add jq && printf '%s-' $(date '+%s') > /tmp/calc ; curl -s -u admin:password http://localhost/jwt/token | jq .token |cut -f 2 -d "."|base64 -d 2>/dev/null|awk 'BEGIN {RS=\",\";FS=\":\";} /exp/ { print \$2\"\\n\"}' | sed -e '/^$/d' >> /tmp/calc ; cat /tmp/calc; bc < /tmp/calc |sed -e s/-// > /tmp/res ; [ 14400 -le \`cat /tmp/res\` ]"
