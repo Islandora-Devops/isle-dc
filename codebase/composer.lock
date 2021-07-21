@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dea9261ff7b2a1da2cd23b51a60127bc",
+    "content-hash": "f49050a912e3c72cd899a72b9e78baa6",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -7418,6 +7418,32 @@
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
             "time": "2021-06-02T20:10:05+00:00"
+        },
+        {
+            "name": "jhu-idc/idc_defaults",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhu-idc/idc_defaults.git",
+                "reference": "27ac2a27580081bb5b4a151ea0bf169d653b74f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhu-idc/idc_defaults/zipball/27ac2a27580081bb5b4a151ea0bf169d653b74f6",
+                "reference": "27ac2a27580081bb5b4a151ea0bf169d653b74f6",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/workbench_access": "^1.0@beta",
+                "islandora/islandora": "dev-8.x-1.x"
+            },
+            "type": "drupal-module",
+            "description": "Customizations for the Islandora integration at JHU's Sheridan Libraries.",
+            "support": {
+                "source": "https://github.com/jhu-idc/idc_defaults/tree/main",
+                "issues": "https://github.com/jhu-idc/idc_defaults/issues"
+            },
+            "time": "2021-07-21T13:32:30+00:00"
         },
         {
             "name": "jhu-idc/idc_export",
@@ -18247,6 +18273,7 @@
         "islandora-rdm/islandora_fits": 20,
         "islandora/carapace": 20,
         "jhu-idc/idc-ui-theme": 20,
+        "jhu-idc/idc_defaults": 20,
         "jhu-idc/idc_export": 20,
         "jhu-idc/idc_ui_module": 20,
         "jhu-idc/islandora_defaults": 20

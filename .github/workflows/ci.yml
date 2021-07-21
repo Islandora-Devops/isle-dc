@@ -55,6 +55,7 @@ jobs:
               - 12-media-tests
               - 13-migration-entity-resolution
               - 20-export-tests
+              - 21-role-permission-tests
         steps:
             # Check out current commit
             - name: Checkout

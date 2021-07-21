@@ -55,6 +55,7 @@ module:
   hal: 0
   help: 0
   history: 0
+  idc_defaults: 0
   idc_export: 0
   idc_migration: 0
   idc_ui_module: 0

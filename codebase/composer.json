@@ -49,6 +49,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/jhu-idc/idc_defaults.git"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/jhu-idc/idc_export.git"
         },
         {
@@ -120,6 +124,7 @@
         "islandora-rdm/islandora_fits": "dev-master",
         "islandora/carapace": "dev-8.x-3.x",
         "jhu-idc/idc-ui-theme": "dev-develop",
+        "jhu-idc/idc_defaults": "dev-main",
         "jhu-idc/idc_export": "dev-main",
         "jhu-idc/idc_ui_module": "dev-main",
         "jhu-idc/islandora_defaults": "dev-8.x-1.x",
