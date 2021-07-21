@@ -3,16 +3,17 @@ package main
 import (
 	"crypto/sha1"
 	"encoding/json"
-	"errors"
 	"fmt"
+	"github.com/jhu-idc/idc-golang/drupal/env"
+	"github.com/jhu-idc/idc-golang/drupal/fs"
+	"github.com/jhu-idc/idc-golang/drupal/jsonapi"
+	"github.com/jhu-idc/idc-golang/drupal/model"
 	. "github.com/logrusorgru/aurora/v3"
 	"github.com/stretchr/testify/assert"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -38,7 +39,7 @@ func TestMain(m *testing.M) {
 		err error
 	)
 
-	assetsUrl := os.Getenv(AssetsBaseUrl)
+	assetsUrl := env.AssetsBaseUrlOr("http://migration-assets/assets/")
 	if assetsUrl != "" {
 		if res, err = http.Get(assetsUrl); err != nil {
 			log.Println(Sprintf(Red("Assets container (%s) is not up, media tests will fail: %s"), assetsUrl, BrightRed(err.Error())))
@@ -69,34 +70,34 @@ func Test_VerifyTaxonomyTermPerson_Person2(t *testing.T) {
 }
 
 func verifyTaxonomyTermPerson(t *testing.T, fileName string, restOfName string) {
-	expectedJson := ExpectedPerson{}
+	expectedJson := model.ExpectedPerson{}
 	log.Printf("Test Person file: %s and %s", fileName, restOfName)
-	unmarshalJson(t, fileName, &expectedJson)
+	unmarshalExpectedJson(t, fileName, &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "person", expectedJson.Bundle)
 	assert.Equal(t, restOfName, expectedJson.RestOfName[0])
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	personRes := &JsonApiPerson{}
-	u.getSingle(personRes)
+	personRes := &model.JsonApiPerson{}
+	u.GetSingle(personRes)
 
 	// for each field in expected json,
 	//   see if the expected field matches the actual field from retrieved json
 	//   resolve relationships if required
 	//     - required for schema:knows
 	actual := personRes.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.PrimaryName, actual.JsonApiAttributes.PrimaryPartOfName)
 	assert.ElementsMatch(t, expectedJson.RestOfName, actual.JsonApiAttributes.PreferredNameRest)
 	assert.ElementsMatch(t, expectedJson.Prefix, actual.JsonApiAttributes.PreferredNamePrefix)
@@ -116,16 +117,16 @@ func verifyTaxonomyTermPerson(t *testing.T, fileName string, restOfName string) 
 	assert.Equal(t, 1, len(actual.JsonApiRelationships.Relationships.Data))
 	relData := actual.JsonApiRelationships.Relationships.Data[0]
 	assert.Equal(t, "schema:knows", relData.Meta["rel_type"])
-	u.value = expectedJson.Knows[0]
+	u.Value = expectedJson.Knows[0]
 
 	// retrieve json of the resolved entity from the jsonapi
-	personRes = &JsonApiPerson{}
-	u.getSingle(personRes)
+	personRes = &model.JsonApiPerson{}
+	u.GetSingle(personRes)
 	relSchemaKnows := personRes.JsonApiData[0]
 
 	// sanity
-	assert.Equal(t, relSchemaKnows.Type.bundle(), "person")
-	assert.Equal(t, relSchemaKnows.Type.entity(), "taxonomy_term")
+	assert.Equal(t, relSchemaKnows.Type.Bundle(), "person")
+	assert.Equal(t, relSchemaKnows.Type.Entity(), "taxonomy_term")
 
 	// test
 	assert.Equal(t, expectedJson.Knows[0], relSchemaKnows.JsonApiAttributes.Name)
@@ -135,34 +136,34 @@ func verifyTaxonomyTermPerson(t *testing.T, fileName string, restOfName string) 
 // a name field. This test ensures that these long names can be entered via ingest.
 func Test_VerifyTaxonomyTermLongNamePerson(t *testing.T) {
 
-	expectedJson := ExpectedPerson{}
-	unmarshalJson(t, "taxonomy-person-03.json", &expectedJson)
+	expectedJson := model.ExpectedPerson{}
+	unmarshalExpectedJson(t, "taxonomy-person-03.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "person", expectedJson.Bundle)
 	assert.Equal(t, "Lorem", expectedJson.RestOfName[0])
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "field_preferred_name_fuller_form",
-		value:        expectedJson.FullerForm[0],
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "field_preferred_name_fuller_form",
+		Value:        expectedJson.FullerForm[0],
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	personRes := &JsonApiPerson{}
-	u.getSingle(personRes)
+	personRes := &model.JsonApiPerson{}
+	u.GetSingle(personRes)
 
 	// If we get this far, it means we found it by it's name, so that's a good start. Now check a few other things
 	// as a sanity test. This is not a comprehensive test of the taxonomy as we've already checked things
 	// like full terms in other tests.
 	actual := personRes.JsonApiData[0]
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.PrimaryName, actual.JsonApiAttributes.PrimaryPartOfName)
 	assert.ElementsMatch(t, expectedJson.RestOfName, actual.JsonApiAttributes.PreferredNameRest)
 	assert.ElementsMatch(t, expectedJson.AltName, actual.JsonApiAttributes.PersonAlternateName)
@@ -171,29 +172,29 @@ func Test_VerifyTaxonomyTermLongNamePerson(t *testing.T) {
 }
 
 func Test_VerifyTaxonomyTermAccessRights(t *testing.T) {
-	expectedJson := ExpectedAccessRights{}
-	unmarshalJson(t, "taxonomy-accessrights.json", &expectedJson)
+	expectedJson := model.ExpectedAccessRights{}
+	unmarshalExpectedJson(t, "taxonomy-accessrights.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "access_rights", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	accessRightsRes := &JsonApiAccessRights{}
-	u.getSingle(accessRightsRes)
+	accessRightsRes := &model.JsonApiAccessRights{}
+	u.GetSingle(accessRightsRes)
 
 	actual := accessRightsRes.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -221,30 +222,30 @@ func Test_VerifyTaxonomyTermIslandoraAccessTerms_Term2(t *testing.T) {
 }
 
 func verifyTaxonomyTermIslandoraAccessTerms(t *testing.T, fileName string) {
-	expectedJson := ExpectedIslandoraAccessTerms{}
+	expectedJson := model.ExpectedIslandoraAccessTerms{}
 
-	unmarshalJson(t, fileName, &expectedJson)
+	unmarshalExpectedJson(t, fileName, &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "islandora_access", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	accessTermsRes := &JsonApiIslandoraAccessTerms{}
-	u.get(accessTermsRes)
+	accessTermsRes := &model.JsonApiIslandoraAccessTerms{}
+	u.Get(accessTermsRes)
 
 	actual := accessTermsRes.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -252,16 +253,16 @@ func verifyTaxonomyTermIslandoraAccessTerms(t *testing.T, fileName string) {
 
 	// one test doesn't have a parent.
 	if len(expectedJson.Parent) != 0 {
-		u.value = expectedJson.Parent[0]
+		u.Value = expectedJson.Parent[0]
 
 		// retrieve json of the resolved entity from the jsonapi
-		accessTermsRes = &JsonApiIslandoraAccessTerms{}
-		u.get(accessTermsRes)
+		accessTermsRes = &model.JsonApiIslandoraAccessTerms{}
+		u.Get(accessTermsRes)
 		relParent := accessTermsRes.JsonApiData[0]
 
 		// sanity
-		assert.Equal(t, relParent.Type.bundle(), "islandora_access")
-		assert.Equal(t, relParent.Type.entity(), "taxonomy_term")
+		assert.Equal(t, relParent.Type.Bundle(), "islandora_access")
+		assert.Equal(t, relParent.Type.Entity(), "taxonomy_term")
 
 		// test
 		assert.Equal(t, expectedJson.Parent[0], relParent.JsonApiAttributes.Name)
@@ -269,29 +270,29 @@ func verifyTaxonomyTermIslandoraAccessTerms(t *testing.T, fileName string) {
 }
 
 func Test_VerifyTaxonomyCopyrightAndUse(t *testing.T) {
-	expectedJson := ExpectedCopyrightAndUse{}
-	unmarshalJson(t, "taxonomy-copyrightanduse.json", &expectedJson)
+	expectedJson := model.ExpectedCopyrightAndUse{}
+	unmarshalExpectedJson(t, "taxonomy-copyrightanduse.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "copyright_and_use", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	copyrightRes := &JsonApiCopyrightAndUse{}
-	u.getSingle(copyrightRes)
+	copyrightRes := &model.JsonApiCopyrightAndUse{}
+	u.GetSingle(copyrightRes)
 
 	actual := copyrightRes.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -305,29 +306,29 @@ func Test_VerifyTaxonomyCopyrightAndUse(t *testing.T) {
 }
 
 func Test_VerifyTaxonomyTermResourceType(t *testing.T) {
-	expectedJson := ExpectedResourceType{}
-	unmarshalJson(t, "taxonomy-resourcetypes.json", &expectedJson)
+	expectedJson := model.ExpectedResourceType{}
+	unmarshalExpectedJson(t, "taxonomy-resourcetypes.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "resource_types", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiResourceType{}
-	u.getSingle(res)
+	res := &model.JsonApiResourceType{}
+	u.GetSingle(res)
 
 	actual := res.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -341,31 +342,31 @@ func Test_VerifyTaxonomyTermResourceType(t *testing.T) {
 }
 
 func Test_VerifyTaxonomyTermFamily(t *testing.T) {
-	expectedJson := ExpectedFamily{}
-	unmarshalJson(t, "taxonomy-family-01.json", &expectedJson)
+	expectedJson := model.ExpectedFamily{}
+	unmarshalExpectedJson(t, "taxonomy-family-01.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "family", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	familyres := &JsonApiFamily{}
-	u.getSingle(familyres)
+	familyres := &model.JsonApiFamily{}
+	u.GetSingle(familyres)
 	sourceId := familyres.JsonApiData[0].Id
 	assert.NotEmpty(t, sourceId)
 
 	actual := familyres.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -387,16 +388,16 @@ func Test_VerifyTaxonomyTermFamily(t *testing.T) {
 	// Resolve relationship to a name
 	relData := familyres.JsonApiData[0].JsonApiRelationships.Relationships.Data[0]
 	assert.Equal(t, "schema:knowsAbout", relData.Meta["rel_type"])
-	u.value = expectedJson.KnowsAbout[0]
+	u.Value = expectedJson.KnowsAbout[0]
 
 	// retrieve json of the resolved entity from the jsonapi
-	familyres = &JsonApiFamily{}
-	u.getSingle(familyres)
+	familyres = &model.JsonApiFamily{}
+	u.GetSingle(familyres)
 	relSchemaKnowsAbout := familyres.JsonApiData[0]
 
 	// sanity
-	assert.Equal(t, relSchemaKnowsAbout.Type.bundle(), "family")
-	assert.Equal(t, relSchemaKnowsAbout.Type.entity(), "taxonomy_term")
+	assert.Equal(t, relSchemaKnowsAbout.Type.Bundle(), "family")
+	assert.Equal(t, relSchemaKnowsAbout.Type.Entity(), "taxonomy_term")
 
 	// test
 	assert.Equal(t, expectedJson.KnowsAbout[0], relSchemaKnowsAbout.JsonApiAttributes.Name)
@@ -406,29 +407,29 @@ func Test_VerifyTaxonomyTermFamily(t *testing.T) {
 }
 
 func Test_VerifyTaxonomyTermGenre(t *testing.T) {
-	expectedJson := ExpectedGenre{}
-	unmarshalJson(t, "taxonomy-genre.json", &expectedJson)
+	expectedJson := model.ExpectedGenre{}
+	unmarshalExpectedJson(t, "taxonomy-genre.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "genre", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	genreRes := &JsonApiGenre{}
-	u.getSingle(genreRes)
+	genreRes := &model.JsonApiGenre{}
+	u.GetSingle(genreRes)
 
 	actual := genreRes.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -442,29 +443,29 @@ func Test_VerifyTaxonomyTermGenre(t *testing.T) {
 }
 
 func Test_VerifyTaxonomyTermGeolocation(t *testing.T) {
-	expectedJson := ExpectedGeolocation{}
-	unmarshalJson(t, "taxonomy-geolocation.json", &expectedJson)
+	expectedJson := model.ExpectedGeolocation{}
+	unmarshalExpectedJson(t, "taxonomy-geolocation.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "geo_location", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiGeolocation{}
-	u.getSingle(res)
+	res := &model.JsonApiGeolocation{}
+	u.GetSingle(res)
 
 	actual := res.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -486,29 +487,29 @@ func Test_VerifyTaxonomyTermGeolocation(t *testing.T) {
 }
 
 func Test_VerifyTaxonomySubject(t *testing.T) {
-	expectedJson := ExpectedSubject{}
-	unmarshalJson(t, "taxonomy-subject.json", &expectedJson)
+	expectedJson := model.ExpectedSubject{}
+	unmarshalExpectedJson(t, "taxonomy-subject.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "subject", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiSubject{}
-	u.getSingle(res)
+	res := &model.JsonApiSubject{}
+	u.GetSingle(res)
 
 	actual := res.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -522,29 +523,29 @@ func Test_VerifyTaxonomySubject(t *testing.T) {
 }
 
 func Test_VerifyTaxonomyTermLanguage(t *testing.T) {
-	expectedJson := ExpectedLanguage{}
-	unmarshalJson(t, "taxonomy-language.json", &expectedJson)
+	expectedJson := model.ExpectedLanguage{}
+	unmarshalExpectedJson(t, "taxonomy-language.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "language", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiLanguage{}
-	u.getSingle(res)
+	res := &model.JsonApiLanguage{}
+	u.GetSingle(res)
 
 	actual := res.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -559,29 +560,29 @@ func Test_VerifyTaxonomyTermLanguage(t *testing.T) {
 }
 
 func Test_VerifyTaxonomyTermCorporateBody(t *testing.T) {
-	expectedJson := ExpectedCorporateBody{}
-	unmarshalJson(t, "taxonomy-corporatebody-02.json", &expectedJson)
+	expectedJson := model.ExpectedCorporateBody{}
+	unmarshalExpectedJson(t, "taxonomy-corporatebody-02.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "taxonomy_term", expectedJson.Type)
 	assert.Equal(t, "corporate_body", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiCorporateBody{}
-	u.getSingle(res)
+	res := &model.JsonApiCorporateBody{}
+	u.GetSingle(res)
 
 	actual := res.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
@@ -606,19 +607,19 @@ func Test_VerifyTaxonomyTermCorporateBody(t *testing.T) {
 	relData := actual.JsonApiRelationships.Relationships.Data
 	assert.Equal(t, 1, len(relData))
 	assert.Equal(t, len(expectedJson.Relationship), len(relData))
-	assert.Equal(t, "taxonomy_term", relData[0].Type.entity())
-	assert.Equal(t, "corporate_body", relData[0].Type.bundle())
+	assert.Equal(t, "taxonomy_term", relData[0].Type.Entity())
+	assert.Equal(t, "corporate_body", relData[0].Type.Bundle())
 	assert.Equal(t, expectedJson.Relationship[0].Rel, relData[0].Meta["rel_type"])
-	u = &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: relData[0].Type.entity(),
-		drupalBundle: relData[0].Type.bundle(),
-		filter:       "id",
-		value:        relData[0].Id,
+	u = &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: relData[0].Type.Entity(),
+		DrupalBundle: relData[0].Type.Bundle(),
+		Filter:       "id",
+		Value:        relData[0].Id,
 	}
-	target := &JsonApiCorporateBody{}
-	u.getSingle(target)
+	target := &model.JsonApiCorporateBody{}
+	u.GetSingle(target)
 	assert.Equal(t, expectedJson.Relationship[0].Name, target.JsonApiData[0].JsonApiAttributes.Name)
 
 	//  "Parent Organization" -> 'schema:subOrganization' -> "My Corporate Body"
@@ -627,31 +628,31 @@ func Test_VerifyTaxonomyTermCorporateBody(t *testing.T) {
 }
 
 func Test_VerifyCollection(t *testing.T) {
-	expectedJson := ExpectedCollection{}
-	unmarshalJson(t, "collection-01.json", &expectedJson)
+	expectedJson := model.ExpectedCollection{}
+	unmarshalExpectedJson(t, "collection-01.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "node", expectedJson.Type)
 	assert.Equal(t, "collection_object", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "title",
-		value:        expectedJson.Title,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "title",
+		Value:        expectedJson.Title,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiCollection{}
-	u.getSingle(res)
+	res := &model.JsonApiCollection{}
+	u.GetSingle(res)
 	sourceId := res.JsonApiData[0].Id
 	assert.NotEmpty(t, sourceId)
 
 	actual := res.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Title, actual.JsonApiAttributes.Title)
 	assert.Equal(t, expectedJson.ContactEmail, actual.JsonApiAttributes.ContactEmail)
 	assert.Equal(t, expectedJson.ContactName, actual.JsonApiAttributes.ContactName)
@@ -666,18 +667,18 @@ func Test_VerifyCollection(t *testing.T) {
 
 	// Resolve and verify title language
 	assert.NotNil(t, relData.TitleLanguage.Data)
-	assert.Equal(t, "taxonomy_term", relData.TitleLanguage.Data.Type.entity())
-	assert.Equal(t, "language", relData.TitleLanguage.Data.Type.bundle())
-	assert.Equal(t, expectedJson.TitleLangCode, relData.TitleLanguage.Data.langCode(t))
+	assert.Equal(t, "taxonomy_term", relData.TitleLanguage.Data.Type.Entity())
+	assert.Equal(t, "language", relData.TitleLanguage.Data.Type.Bundle())
+	assert.Equal(t, expectedJson.TitleLangCode, relData.TitleLanguage.Data.LangCode(t))
 	// Resolve and verify alternate title values and languages
 	assert.NotNil(t, relData.AltTitle.Data)
 	assert.Equal(t, 2, len(relData.AltTitle.Data))
 	assert.Equal(t, len(expectedJson.AltTitle), len(relData.AltTitle.Data))
 	for i, altTitleData := range relData.AltTitle.Data {
-		assert.Equal(t, "taxonomy_term", altTitleData.Type.entity())
-		assert.Equal(t, "language", altTitleData.Type.bundle())
-		assert.Equal(t, expectedJson.AltTitle[i].Value, altTitleData.value())
-		assert.Equal(t, expectedJson.AltTitle[i].LangCode, altTitleData.langCode(t))
+		assert.Equal(t, "taxonomy_term", altTitleData.Type.Entity())
+		assert.Equal(t, "language", altTitleData.Type.Bundle())
+		assert.Equal(t, expectedJson.AltTitle[i].Value, altTitleData.Value())
+		assert.Equal(t, expectedJson.AltTitle[i].LangCode, altTitleData.LangCode(t))
 	}
 
 	// Resolve and verify description values and languages
@@ -685,27 +686,27 @@ func Test_VerifyCollection(t *testing.T) {
 	assert.Equal(t, 2, len(relData.Description.Data))
 	assert.Equal(t, len(expectedJson.Description), len(relData.Description.Data))
 	for i, descData := range relData.Description.Data {
-		assert.Equal(t, "taxonomy_term", descData.Type.entity())
-		assert.Equal(t, "language", descData.Type.bundle())
-		assert.Equal(t, expectedJson.Description[i].Value, descData.value())
-		assert.Equal(t, expectedJson.Description[i].LangCode, descData.langCode(t))
+		assert.Equal(t, "taxonomy_term", descData.Type.Entity())
+		assert.Equal(t, "language", descData.Type.Bundle())
+		assert.Equal(t, expectedJson.Description[i].Value, descData.Value())
+		assert.Equal(t, expectedJson.Description[i].LangCode, descData.LangCode(t))
 	}
 
 	// Resolve and verify member_of values
 	assert.NotNil(t, relData.MemberOf)
-	assert.Equal(t, "node", relData.MemberOf.Data.Type.entity())
-	assert.Equal(t, "collection_object", relData.MemberOf.Data.Type.bundle())
-
-	u = &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: relData.MemberOf.Data.Type.entity(),
-		drupalBundle: relData.MemberOf.Data.Type.bundle(),
-		filter:       "id",
-		value:        relData.MemberOf.Data.Id,
+	assert.Equal(t, "node", relData.MemberOf.Data.Type.Entity())
+	assert.Equal(t, "collection_object", relData.MemberOf.Data.Type.Bundle())
+	memberCol := model.JsonApiCollection{}
+	relData.MemberOf.Data.Resolve(t, &memberCol)
+	u = &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: relData.MemberOf.Data.Type.Entity(),
+		DrupalBundle: relData.MemberOf.Data.Type.Bundle(),
+		Filter:       "id",
+		Value:        relData.MemberOf.Data.Id,
 	}
-	memberCol := JsonApiCollection{}
-	u.getSingle(&memberCol)
+	u.GetSingle(&memberCol)
 
 	assert.Equal(t, expectedJson.MemberOf, memberCol.JsonApiData[0].JsonApiAttributes.Title)
 
@@ -714,19 +715,19 @@ func Test_VerifyCollection(t *testing.T) {
 	assert.Equal(t, 1, len(relData.AccessTerms.Data))
 	assert.Equal(t, len(expectedJson.AccessTerms), len(relData.AccessTerms.Data))
 	for i, accessTermsData := range relData.AccessTerms.Data {
-		assert.Equal(t, "taxonomy_term", accessTermsData.Type.entity())
-		assert.Equal(t, "islandora_access", accessTermsData.Type.bundle())
+		assert.Equal(t, "taxonomy_term", accessTermsData.Type.Entity())
+		assert.Equal(t, "islandora_access", accessTermsData.Type.Bundle())
 
-		u = &JsonApiUrl{
-			t:            t,
-			baseUrl:      DrupalBaseurl,
-			drupalEntity: accessTermsData.Type.entity(),
-			drupalBundle: accessTermsData.Type.bundle(),
-			filter:       "id",
-			value:        accessTermsData.Id,
+		u = &jsonapi.JsonApiUrl{
+			T:            t,
+			BaseUrl:      DrupalBaseurl,
+			DrupalEntity: accessTermsData.Type.Entity(),
+			DrupalBundle: accessTermsData.Type.Bundle(),
+			Filter:       "id",
+			Value:        accessTermsData.Id,
 		}
-		accessTerm := JsonApiIslandoraAccessTerms{}
-		u.get(&accessTerm)
+		accessTerm := model.JsonApiIslandoraAccessTerms{}
+		u.Get(&accessTerm)
 
 		assert.Equal(t, expectedJson.AccessTerms[i], accessTerm.JsonApiData[0].JsonApiAttributes.Name)
 	}
@@ -735,54 +736,54 @@ func Test_VerifyCollection(t *testing.T) {
 // Node title lengths are now configurable in settings.local.php, currently set at 500 for a node
 // This test ensures that these long node titles can be entered via ingest.
 func Test_VerifyLongNodeTitle(t *testing.T) {
-	expectedJson := ExpectedCollection{}
-	unmarshalJson(t, "collection-03.json", &expectedJson)
+	expectedJson := model.ExpectedCollection{}
+	unmarshalExpectedJson(t, "collection-03.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "node", expectedJson.Type)
 	assert.Equal(t, "collection_object", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "title",
-		value:        expectedJson.Title,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "title",
+		Value:        expectedJson.Title,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiCollection{}
-	u.getSingle(res)
+	res := &model.JsonApiCollection{}
+	u.GetSingle(res)
 	sourceId := res.JsonApiData[0].Id
 	assert.NotEmpty(t, sourceId)
 
 	actual := res.JsonApiData[0]
-	assert.Equal(t, expectedJson.Type, actual.Type.entity())
-	assert.Equal(t, expectedJson.Bundle, actual.Type.bundle())
+	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
+	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Title, actual.JsonApiAttributes.Title)
 }
 
 func Test_VerifyRepositoryItem(t *testing.T) {
-	expectedJson := ExpectedRepoObj{}
-	unmarshalJson(t, "item-01.json", &expectedJson)
+	expectedJson := model.ExpectedRepoObj{}
+	unmarshalExpectedJson(t, "item-01.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "node", expectedJson.Type)
 	assert.Equal(t, "islandora_object", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "title",
-		value:        expectedJson.Title,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "title",
+		Value:        expectedJson.Title,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiIslandoraObj{}
-	u.getSingle(res)
+	res := &model.JsonApiIslandoraObj{}
+	u.GetSingle(res)
 	actual := res.JsonApiData[0]
 	sourceId := actual.Id
 	assert.NotEmpty(t, sourceId)
@@ -868,16 +869,16 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.Abstract))
 	assert.Equal(t, len(expectedJson.Abstract), len(relData.Abstract.Data))
 	for i := range relData.Abstract.Data {
-		assert.Equal(t, expectedJson.Abstract[i].Value, relData.Abstract.Data[i].value())
-		assert.Equal(t, expectedJson.Abstract[i].LangCode, relData.Abstract.Data[i].langCode(t))
+		assert.Equal(t, expectedJson.Abstract[i].Value, relData.Abstract.Data[i].Value())
+		assert.Equal(t, expectedJson.Abstract[i].LangCode, relData.Abstract.Data[i].LangCode(t))
 	}
 
 	// Access Rights
 	assert.Equal(t, 2, len(expectedJson.AccessRights))
 	assert.Equal(t, len(expectedJson.AccessRights), len(relData.AccessRights.Data))
 	for i := range relData.AccessRights.Data {
-		expectedAccessRights := &JsonApiAccessRights{}
-		relData.AccessRights.Data[i].resolve(t, expectedAccessRights)
+		expectedAccessRights := &model.JsonApiAccessRights{}
+		relData.AccessRights.Data[i].Resolve(t, expectedAccessRights)
 		assert.Equal(t, expectedJson.AccessRights[i], expectedAccessRights.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -885,8 +886,8 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
 	assert.Equal(t, len(expectedJson.AccessTerms), len(relData.AccessTerms.Data))
 	for i := range relData.AccessTerms.Data {
-		expectedAccessTerms := &JsonApiIslandoraAccessTerms{}
-		relData.AccessTerms.Data[i].resolve(t, expectedAccessTerms)
+		expectedAccessTerms := &model.JsonApiIslandoraAccessTerms{}
+		relData.AccessTerms.Data[i].Resolve(t, expectedAccessTerms)
 		assert.Equal(t, expectedJson.AccessTerms[i], expectedAccessTerms.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -894,8 +895,8 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.AltTitle))
 	assert.Equal(t, len(expectedJson.AltTitle), len(relData.AltTitle.Data))
 	for i := range relData.AltTitle.Data {
-		assert.Equal(t, expectedJson.AltTitle[i].Value, relData.AltTitle.Data[i].value())
-		assert.Equal(t, expectedJson.AltTitle[i].LangCode, relData.AltTitle.Data[i].langCode(t))
+		assert.Equal(t, expectedJson.AltTitle[i].Value, relData.AltTitle.Data[i].Value())
+		assert.Equal(t, expectedJson.AltTitle[i].LangCode, relData.AltTitle.Data[i].LangCode(t))
 	}
 
 	// Contributor
@@ -903,17 +904,17 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.Contributor))
 	assert.Equal(t, len(expectedJson.Contributor), len(relData.Contributor.Data))
 	for i := range relData.Contributor.Data {
-		actualPerson := &JsonApiPerson{}
-		relData.Contributor.Data[i].resolve(t, actualPerson)
-		actualRelType, err := relData.Contributor.Data[i].metaString("rel_type")
+		actualPerson := &model.JsonApiPerson{}
+		relData.Contributor.Data[i].Resolve(t, actualPerson)
+		actualRelType, err := relData.Contributor.Data[i].MetaString("rel_type")
 		assert.Nil(t, err)
 		assert.Equal(t, expectedJson.Contributor[i].RelType, actualRelType)
 		assert.Equal(t, expectedJson.Contributor[i].Name, actualPerson.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Copyright And Use
-	actualCopyrightAndUse := &JsonApiCopyrightAndUse{}
-	relData.CopyrightAndUse.Data.resolve(t, actualCopyrightAndUse)
+	actualCopyrightAndUse := &model.JsonApiCopyrightAndUse{}
+	relData.CopyrightAndUse.Data.Resolve(t, actualCopyrightAndUse)
 	assert.Equal(t, expectedJson.CopyrightAndUse, actualCopyrightAndUse.JsonApiData[0].JsonApiAttributes.Name)
 
 	// Copyright Holder
@@ -921,8 +922,8 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.CopyrightHolder))
 	assert.Equal(t, len(expectedJson.CopyrightHolder), len(relData.CopyrightHolder.Data))
 	for i := range relData.CopyrightHolder.Data {
-		actualPerson := &JsonApiPerson{}
-		relData.CopyrightHolder.Data[i].resolve(t, actualPerson)
+		actualPerson := &model.JsonApiPerson{}
+		relData.CopyrightHolder.Data[i].Resolve(t, actualPerson)
 		assert.Equal(t, expectedJson.CopyrightHolder[i], actualPerson.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -931,9 +932,9 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.Creator))
 	assert.Equal(t, len(expectedJson.Creator), len(relData.Creator.Data))
 	for i := range relData.Creator.Data {
-		actualPerson := &JsonApiPerson{}
-		relData.Creator.Data[i].resolve(t, actualPerson)
-		actualRelType, err := relData.Creator.Data[i].metaString("rel_type")
+		actualPerson := &model.JsonApiPerson{}
+		relData.Creator.Data[i].Resolve(t, actualPerson)
+		actualRelType, err := relData.Creator.Data[i].MetaString("rel_type")
 		assert.Nil(t, err)
 		assert.Equal(t, expectedJson.Creator[i].Name, actualPerson.JsonApiData[0].JsonApiAttributes.Name)
 		assert.Equal(t, expectedJson.Creator[i].RelType, actualRelType)
@@ -943,22 +944,22 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.CustodialHistory))
 	assert.Equal(t, len(expectedJson.CustodialHistory), len(relData.CustodialHistory.Data))
 	for i := range relData.CustodialHistory.Data {
-		assert.Equal(t, expectedJson.CustodialHistory[i].Value, relData.CustodialHistory.Data[i].value())
-		assert.Equal(t, expectedJson.CustodialHistory[i].LangCode, relData.CustodialHistory.Data[i].langCode(t))
+		assert.Equal(t, expectedJson.CustodialHistory[i].Value, relData.CustodialHistory.Data[i].Value())
+		assert.Equal(t, expectedJson.CustodialHistory[i].LangCode, relData.CustodialHistory.Data[i].LangCode(t))
 	}
 
 	// Description
 	assert.Equal(t, 2, len(expectedJson.Description))
 	assert.Equal(t, len(expectedJson.Description), len(relData.Description.Data))
 	for i := range relData.Description.Data {
-		assert.Equal(t, expectedJson.Description[i].Value, relData.Description.Data[i].value())
-		assert.Equal(t, expectedJson.Description[i].LangCode, relData.Description.Data[i].langCode(t))
+		assert.Equal(t, expectedJson.Description[i].Value, relData.Description.Data[i].Value())
+		assert.Equal(t, expectedJson.Description[i].LangCode, relData.Description.Data[i].LangCode(t))
 	}
 
 	// Display Hint
 
-	hint := &JsonApiIslandoraDisplay{}
-	relData.DisplayHint.Data.resolve(t, hint)
+	hint := &model.JsonApiIslandoraDisplay{}
+	relData.DisplayHint.Data.Resolve(t, hint)
 	assert.Equal(t, expectedJson.DisplayHint, hint.JsonApiData[0].JsonApiAttributes.Name)
 
 	// Digital Publisher
@@ -966,8 +967,8 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.DigitalPublisher))
 	assert.Equal(t, len(expectedJson.DigitalPublisher), len(relData.DigitalPublisher.Data))
 	for i := range relData.DigitalPublisher.Data {
-		corpBod := &JsonApiCorporateBody{}
-		relData.DigitalPublisher.Data[i].resolve(t, corpBod)
+		corpBod := &model.JsonApiCorporateBody{}
+		relData.DigitalPublisher.Data[i].Resolve(t, corpBod)
 		assert.Contains(t, expectedJson.DigitalPublisher, corpBod.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -975,30 +976,30 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.Genre))
 	assert.Equal(t, len(expectedJson.Genre), len(relData.Genre.Data))
 	for i := range relData.Genre.Data {
-		genre := &JsonApiGenre{}
-		relData.Genre.Data[i].resolve(t, genre)
+		genre := &model.JsonApiGenre{}
+		relData.Genre.Data[i].Resolve(t, genre)
 		assert.Equal(t, expectedJson.Genre[i], genre.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Member Of
 	assert.NotNil(t, relData.MemberOf)
-	collection := &JsonApiCollection{}
-	relData.MemberOf.Data.resolve(t, collection)
+	collection := &model.JsonApiCollection{}
+	relData.MemberOf.Data.Resolve(t, collection)
 	assert.Equal(t, expectedJson.MemberOf, collection.JsonApiData[0].JsonApiAttributes.Title)
 
 	// Model
-	model := &JsonApiIslandoraModel{}
-	relData.Model.Data.resolve(t, model)
-	assert.Equal(t, expectedJson.Model.Name, model.JsonApiData[0].JsonApiAttributes.Name)
-	assert.Equal(t, expectedJson.Model.ExternalUri, model.JsonApiData[0].JsonApiAttributes.ExternalUri.Uri)
+	islandoraModel := &model.JsonApiIslandoraModel{}
+	relData.Model.Data.Resolve(t, islandoraModel)
+	assert.Equal(t, expectedJson.Model.Name, islandoraModel.JsonApiData[0].JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Model.ExternalUri, islandoraModel.JsonApiData[0].JsonApiAttributes.ExternalUri.Uri)
 
 	// Publisher
 	// TODO: introspect on type if field value will be anything other than a corporate body
 	assert.Equal(t, 2, len(expectedJson.Publisher))
 	assert.EqualValues(t, len(expectedJson.Publisher), len(relData.Publisher.Data))
 	for i := range relData.Publisher.Data {
-		pub := &JsonApiCorporateBody{}
-		relData.Publisher.Data[i].resolve(t, pub)
+		pub := &model.JsonApiCorporateBody{}
+		relData.Publisher.Data[i].Resolve(t, pub)
 		assert.Contains(t, expectedJson.Publisher, pub.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -1006,8 +1007,8 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.PublisherCountry))
 	assert.EqualValues(t, len(expectedJson.PublisherCountry), len(relData.PublisherCountry.Data))
 	for i := range relData.PublisherCountry.Data {
-		loc := &JsonApiGeolocation{}
-		relData.PublisherCountry.Data[i].resolve(t, loc)
+		loc := &model.JsonApiGeolocation{}
+		relData.PublisherCountry.Data[i].Resolve(t, loc)
 		assert.Equal(t, expectedJson.PublisherCountry[i], loc.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -1015,8 +1016,8 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.ResourceType))
 	assert.Equal(t, len(expectedJson.ResourceType), len(relData.ResourceType.Data))
 	for i := range relData.ResourceType.Data {
-		resource := &JsonApiResourceType{}
-		relData.ResourceType.Data[i].resolve(t, resource)
+		resource := &model.JsonApiResourceType{}
+		relData.ResourceType.Data[i].Resolve(t, resource)
 		assert.Equal(t, expectedJson.ResourceType[i], resource.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -1024,8 +1025,8 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.SpatialCoverage))
 	assert.Equal(t, len(expectedJson.SpatialCoverage), len(relData.SpatialCoverage.Data))
 	for i := range relData.SpatialCoverage.Data {
-		loc := &JsonApiGeolocation{}
-		relData.SpatialCoverage.Data[i].resolve(t, loc)
+		loc := &model.JsonApiGeolocation{}
+		relData.SpatialCoverage.Data[i].Resolve(t, loc)
 		assert.Equal(t, expectedJson.SpatialCoverage[i], loc.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -1033,8 +1034,8 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.Subject))
 	assert.Equal(t, len(expectedJson.Subject), len(relData.Subject.Data))
 	for i := range relData.Subject.Data {
-		subj := &JsonApiSubject{}
-		relData.Subject.Data[i].resolve(t, subj)
+		subj := &model.JsonApiSubject{}
+		relData.Subject.Data[i].Resolve(t, subj)
 		assert.Contains(t, expectedJson.Subject, subj.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -1042,8 +1043,8 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.TableOfContents))
 	assert.Equal(t, len(expectedJson.TableOfContents), len(relData.TableOfContents.Data))
 	for i := range relData.TableOfContents.Data {
-		assert.Equal(t, expectedJson.TableOfContents[i].LangCode, relData.TableOfContents.Data[i].langCode(t))
-		assert.Equal(t, expectedJson.TableOfContents[i].Value, relData.TableOfContents.Data[i].value())
+		assert.Equal(t, expectedJson.TableOfContents[i].LangCode, relData.TableOfContents.Data[i].LangCode(t))
+		assert.Equal(t, expectedJson.TableOfContents[i].Value, relData.TableOfContents.Data[i].Value())
 	}
 }
 
@@ -1052,25 +1053,25 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 //    (here it's tucked into a subject's name)
 // 2) that a `;` in a language value pair behaves fine (in fields like asbtract, description, etc).
 func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
-	expectedJson := ExpectedRepoObj{}
-	unmarshalJson(t, "item-02.json", &expectedJson)
+	expectedJson := model.ExpectedRepoObj{}
+	unmarshalExpectedJson(t, "item-02.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "node", expectedJson.Type)
 	assert.Equal(t, "islandora_object", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedJson.Type,
-		drupalBundle: expectedJson.Bundle,
-		filter:       "title",
-		value:        expectedJson.Title,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedJson.Type,
+		DrupalBundle: expectedJson.Bundle,
+		Filter:       "title",
+		Value:        expectedJson.Title,
 	}
 
 	// retrieve json of the migrated entity from the jsonapi and unmarshal the single response
-	res := &JsonApiIslandoraObj{}
-	u.getSingle(res)
+	res := &model.JsonApiIslandoraObj{}
+	u.GetSingle(res)
 	actual := res.JsonApiData[0]
 	sourceId := actual.Id
 	assert.NotEmpty(t, sourceId)
@@ -1092,16 +1093,16 @@ func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.Abstract))
 	assert.Equal(t, len(expectedJson.Abstract), len(relData.Abstract.Data))
 	for i := range relData.Abstract.Data {
-		assert.Equal(t, expectedJson.Abstract[i].Value, relData.Abstract.Data[i].value())
-		assert.Equal(t, expectedJson.Abstract[i].LangCode, relData.Abstract.Data[i].langCode(t))
+		assert.Equal(t, expectedJson.Abstract[i].Value, relData.Abstract.Data[i].Value())
+		assert.Equal(t, expectedJson.Abstract[i].LangCode, relData.Abstract.Data[i].LangCode(t))
 	}
 
 	// Alt title
 	assert.Equal(t, 2, len(expectedJson.AltTitle))
 	assert.Equal(t, len(expectedJson.AltTitle), len(relData.AltTitle.Data))
 	for i := range relData.AltTitle.Data {
-		assert.Equal(t, expectedJson.AltTitle[i].Value, relData.AltTitle.Data[i].value())
-		assert.Equal(t, expectedJson.AltTitle[i].LangCode, relData.AltTitle.Data[i].langCode(t))
+		assert.Equal(t, expectedJson.AltTitle[i].Value, relData.AltTitle.Data[i].Value())
+		assert.Equal(t, expectedJson.AltTitle[i].LangCode, relData.AltTitle.Data[i].LangCode(t))
 	}
 
 	// Contributor
@@ -1109,9 +1110,9 @@ func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.Contributor))
 	assert.Equal(t, len(expectedJson.Contributor), len(relData.Contributor.Data))
 	for i := range relData.Contributor.Data {
-		actualPerson := &JsonApiPerson{}
-		relData.Contributor.Data[i].resolve(t, actualPerson)
-		actualRelType, err := relData.Contributor.Data[i].metaString("rel_type")
+		actualPerson := &model.JsonApiPerson{}
+		relData.Contributor.Data[i].Resolve(t, actualPerson)
+		actualRelType, err := relData.Contributor.Data[i].MetaString("rel_type")
 		assert.Nil(t, err)
 		assert.Equal(t, expectedJson.Contributor[i].RelType, actualRelType)
 		assert.Equal(t, expectedJson.Contributor[i].Name, actualPerson.JsonApiData[0].JsonApiAttributes.Name)
@@ -1122,9 +1123,9 @@ func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.Creator))
 	assert.Equal(t, len(expectedJson.Creator), len(relData.Creator.Data))
 	for i := range relData.Creator.Data {
-		actualPerson := &JsonApiPerson{}
-		relData.Creator.Data[i].resolve(t, actualPerson)
-		actualRelType, err := relData.Creator.Data[i].metaString("rel_type")
+		actualPerson := &model.JsonApiPerson{}
+		relData.Creator.Data[i].Resolve(t, actualPerson)
+		actualRelType, err := relData.Creator.Data[i].MetaString("rel_type")
 		assert.Nil(t, err)
 		assert.Equal(t, expectedJson.Creator[i].Name, actualPerson.JsonApiData[0].JsonApiAttributes.Name)
 		assert.Equal(t, expectedJson.Creator[i].RelType, actualRelType)
@@ -1134,24 +1135,24 @@ func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.CustodialHistory))
 	assert.Equal(t, len(expectedJson.CustodialHistory), len(relData.CustodialHistory.Data))
 	for i := range relData.CustodialHistory.Data {
-		assert.Equal(t, expectedJson.CustodialHistory[i].Value, relData.CustodialHistory.Data[i].value())
-		assert.Equal(t, expectedJson.CustodialHistory[i].LangCode, relData.CustodialHistory.Data[i].langCode(t))
+		assert.Equal(t, expectedJson.CustodialHistory[i].Value, relData.CustodialHistory.Data[i].Value())
+		assert.Equal(t, expectedJson.CustodialHistory[i].LangCode, relData.CustodialHistory.Data[i].LangCode(t))
 	}
 
 	// Description
 	assert.Equal(t, 2, len(expectedJson.Description))
 	assert.Equal(t, len(expectedJson.Description), len(relData.Description.Data))
 	for i := range relData.Description.Data {
-		assert.Equal(t, expectedJson.Description[i].Value, relData.Description.Data[i].value())
-		assert.Equal(t, expectedJson.Description[i].LangCode, relData.Description.Data[i].langCode(t))
+		assert.Equal(t, expectedJson.Description[i].Value, relData.Description.Data[i].Value())
+		assert.Equal(t, expectedJson.Description[i].LangCode, relData.Description.Data[i].LangCode(t))
 	}
 
 	// Subject
 	assert.Equal(t, 2, len(expectedJson.Subject))
 	assert.Equal(t, len(expectedJson.Subject), len(relData.Subject.Data))
 	for i := range relData.Subject.Data {
-		subj := &JsonApiSubject{}
-		relData.Subject.Data[i].resolve(t, subj)
+		subj := &model.JsonApiSubject{}
+		relData.Subject.Data[i].Resolve(t, subj)
 		assert.Contains(t, expectedJson.Subject, subj.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
@@ -1159,8 +1160,8 @@ func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.TableOfContents))
 	assert.Equal(t, len(expectedJson.TableOfContents), len(relData.TableOfContents.Data))
 	for i := range relData.TableOfContents.Data {
-		assert.Equal(t, expectedJson.TableOfContents[i].LangCode, relData.TableOfContents.Data[i].langCode(t))
-		assert.Equal(t, expectedJson.TableOfContents[i].Value, relData.TableOfContents.Data[i].value())
+		assert.Equal(t, expectedJson.TableOfContents[i].LangCode, relData.TableOfContents.Data[i].LangCode(t))
+		assert.Equal(t, expectedJson.TableOfContents[i].Value, relData.TableOfContents.Data[i].Value())
 	}
 }
 
@@ -1174,17 +1175,17 @@ func Test_VerifyDuplicateMediaAndFile(t *testing.T) {
 	// will reference the same content.
 	name := "Fuji Acros Datasheet"
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: "media",
-		drupalBundle: "document",
-		filter:       "name",
-		value:        name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: "media",
+		DrupalBundle: "document",
+		Filter:       "name",
+		Value:        name,
 	}
 
-	res := JsonApiDocumentMedia{}
-	u.get(&res)
+	res := model.JsonApiDocumentMedia{}
+	u.Get(&res)
 
 	// Sanity check the response contains what we expect
 	assert.NotEmpty(t, res)
@@ -1196,7 +1197,7 @@ func Test_VerifyDuplicateMediaAndFile(t *testing.T) {
 	var (
 		fileEntityId  string
 		fileEntityUri string
-		resolvedFiles []JsonApiFile
+		resolvedFiles []model.JsonApiFile
 	)
 
 	// The two media should have different File entities
@@ -1208,8 +1209,8 @@ func Test_VerifyDuplicateMediaAndFile(t *testing.T) {
 		}
 
 		// (while we're ranging over the response data, resolve the file entities)
-		file := JsonApiFile{}
-		res.JsonApiData[i].JsonApiRelationships.File.Data.resolve(t, &file)
+		file := model.JsonApiFile{}
+		res.JsonApiData[i].JsonApiRelationships.File.Data.Resolve(t, &file)
 		resolvedFiles = append(resolvedFiles, file)
 	}
 
@@ -1247,8 +1248,8 @@ func Test_VerifyDuplicateMediaAndFile(t *testing.T) {
 }
 
 func Test_VerifyMediaDocument(t *testing.T) {
-	expectedJson := &ExpectedMediaGeneric{}
-	unmarshalJson(t, "media-document.json", &expectedJson)
+	expectedJson := &model.ExpectedMediaGeneric{}
+	unmarshalExpectedJson(t, "media-document.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "media", expectedJson.Type)
@@ -1257,17 +1258,17 @@ func Test_VerifyMediaDocument(t *testing.T) {
 	// There are two media with name that were migrated by testcafe
 	name := "Fuji Acros Datasheet"
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: "media",
-		drupalBundle: "document",
-		filter:       "name",
-		value:        name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: "media",
+		DrupalBundle: "document",
+		Filter:       "name",
+		Value:        name,
 	}
 
-	res := JsonApiDocumentMedia{}
-	u.get(&res)
+	res := model.JsonApiDocumentMedia{}
+	u.Get(&res)
 
 	// use the first media
 	document := res.JsonApiData[0]
@@ -1283,43 +1284,43 @@ func Test_VerifyMediaDocument(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
 	assert.Equal(t, len(expectedJson.AccessTerms), len(document.JsonApiRelationships.AccessTerms.Data))
 	for i := range document.JsonApiRelationships.AccessTerms.Data {
-		use := JsonApiIslandoraAccessTerms{}
-		document.JsonApiRelationships.AccessTerms.Data[i].resolve(t, &use)
+		use := model.JsonApiIslandoraAccessTerms{}
+		document.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
 	assert.Equal(t, len(expectedJson.MediaUse), len(document.JsonApiRelationships.MediaUse.Data))
 	for i := range document.JsonApiRelationships.MediaUse.Data {
-		use := JsonApiMediaUse{}
-		document.JsonApiRelationships.MediaUse.Data[i].resolve(t, &use)
+		use := model.JsonApiMediaUse{}
+		document.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
-	mediaOf := JsonApiIslandoraObj{}
-	document.JsonApiRelationships.MediaOf.Data.resolve(t, &mediaOf)
+	mediaOf := model.JsonApiIslandoraObj{}
+	document.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
 	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
 }
 
 func Test_VerifyMediaImage(t *testing.T) {
-	expectedJson := &ExpectedMediaImage{}
-	unmarshalJson(t, "media-image.json", &expectedJson)
+	expectedJson := &model.ExpectedMediaImage{}
+	unmarshalExpectedJson(t, "media-image.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, "media", expectedJson.Type)
 	assert.Equal(t, "image", expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: "media",
-		drupalBundle: "image",
-		filter:       "name",
-		value:        "Looking For Fossils",
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: "media",
+		DrupalBundle: "image",
+		Filter:       "name",
+		Value:        "Looking For Fossils",
 	}
 
-	res := JsonApiImageMedia{}
-	u.getSingle(&res)
+	res := model.JsonApiImageMedia{}
+	u.GetSingle(&res)
 
 	// use the first media
 	image := res.JsonApiData[0]
@@ -1338,47 +1339,47 @@ func Test_VerifyMediaImage(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
 	assert.Equal(t, len(expectedJson.AccessTerms), len(image.JsonApiRelationships.AccessTerms.Data))
 	for i := range image.JsonApiRelationships.AccessTerms.Data {
-		use := JsonApiIslandoraAccessTerms{}
-		image.JsonApiRelationships.AccessTerms.Data[i].resolve(t, &use)
+		use := model.JsonApiIslandoraAccessTerms{}
+		image.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
-  }
+	}
 
 	assert.Equal(t, expectedJson.AltText, image.JsonApiRelationships.File.Data.Meta["alt"])
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
 	assert.Equal(t, len(expectedJson.MediaUse), len(image.JsonApiRelationships.MediaUse.Data))
 	for i := range image.JsonApiRelationships.MediaUse.Data {
-		use := JsonApiMediaUse{}
-		image.JsonApiRelationships.MediaUse.Data[i].resolve(t, &use)
+		use := model.JsonApiMediaUse{}
+		image.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
-	mediaOf := JsonApiIslandoraObj{}
-	image.JsonApiRelationships.MediaOf.Data.resolve(t, &mediaOf)
+	mediaOf := model.JsonApiIslandoraObj{}
+	image.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
 	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
 }
 
 func Test_VerifyMediaExtractedText(t *testing.T) {
-	expectedJson := &ExpectedMediaExtractedText{}
+	expectedJson := &model.ExpectedMediaExtractedText{}
 	expectedType := "media"
 	expectedBundle := "extracted_text"
-	unmarshalJson(t, "media-extracted_text.json", &expectedJson)
+	unmarshalExpectedJson(t, "media-extracted_text.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, expectedType, expectedJson.Type)
 	assert.Equal(t, expectedBundle, expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedType,
-		drupalBundle: expectedBundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
-	res := JsonApiExtractedTextMedia{}
-	u.getSingle(&res)
+	res := model.JsonApiExtractedTextMedia{}
+	u.GetSingle(&res)
 	ext := res.JsonApiData[0]
 
 	// Verify attributes
@@ -1392,25 +1393,25 @@ func Test_VerifyMediaExtractedText(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
 	assert.Equal(t, len(expectedJson.AccessTerms), len(ext.JsonApiRelationships.AccessTerms.Data))
 	for i := range ext.JsonApiRelationships.AccessTerms.Data {
-		use := JsonApiIslandoraAccessTerms{}
-		ext.JsonApiRelationships.AccessTerms.Data[i].resolve(t, &use)
+		use := model.JsonApiIslandoraAccessTerms{}
+		ext.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
 	assert.Equal(t, len(expectedJson.MediaUse), len(ext.JsonApiRelationships.MediaUse.Data))
 	for i := range ext.JsonApiRelationships.MediaUse.Data {
-		use := JsonApiMediaUse{}
-		ext.JsonApiRelationships.MediaUse.Data[i].resolve(t, &use)
+		use := model.JsonApiMediaUse{}
+		ext.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
-	mediaOf := JsonApiIslandoraObj{}
-	ext.JsonApiRelationships.MediaOf.Data.resolve(t, &mediaOf)
+	mediaOf := model.JsonApiIslandoraObj{}
+	ext.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
 	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
 
-	file := JsonApiFile{}
-	ext.JsonApiRelationships.File.Data.resolve(t, &file)
+	file := model.JsonApiFile{}
+	ext.JsonApiRelationships.File.Data.Resolve(t, &file)
 	assert.EqualValues(t, expectedJson.Uri, file.JsonApiData[0].JsonApiAttributes.Uri)
 	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
@@ -1418,26 +1419,26 @@ func Test_VerifyMediaExtractedText(t *testing.T) {
 }
 
 func Test_VerifyMediaFile(t *testing.T) {
-	expectedJson := &ExpectedMediaGeneric{}
+	expectedJson := &model.ExpectedMediaGeneric{}
 	expectedType := "media"
 	expectedBundle := "file"
-	unmarshalJson(t, "media-file.json", &expectedJson)
+	unmarshalExpectedJson(t, "media-file.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, expectedType, expectedJson.Type)
 	assert.Equal(t, expectedBundle, expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedType,
-		drupalBundle: expectedBundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
-	res := JsonApiGenericFileMedia{}
-	u.getSingle(&res)
+	res := model.JsonApiGenericFileMedia{}
+	u.GetSingle(&res)
 	genericFile := res.JsonApiData[0]
 
 	// Verify attributes
@@ -1452,25 +1453,25 @@ func Test_VerifyMediaFile(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
 	assert.Equal(t, len(expectedJson.AccessTerms), len(genericFile.JsonApiRelationships.AccessTerms.Data))
 	for i := range genericFile.JsonApiRelationships.AccessTerms.Data {
-		use := JsonApiIslandoraAccessTerms{}
-		genericFile.JsonApiRelationships.AccessTerms.Data[i].resolve(t, &use)
+		use := model.JsonApiIslandoraAccessTerms{}
+		genericFile.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
 	assert.Equal(t, len(expectedJson.MediaUse), len(genericFile.JsonApiRelationships.MediaUse.Data))
 	for i := range genericFile.JsonApiRelationships.MediaUse.Data {
-		use := JsonApiMediaUse{}
-		genericFile.JsonApiRelationships.MediaUse.Data[i].resolve(t, &use)
+		use := model.JsonApiMediaUse{}
+		genericFile.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
-	mediaOf := JsonApiIslandoraObj{}
-	genericFile.JsonApiRelationships.MediaOf.Data.resolve(t, &mediaOf)
+	mediaOf := model.JsonApiIslandoraObj{}
+	genericFile.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
 	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
 
-	file := JsonApiFile{}
-	genericFile.JsonApiRelationships.File.Data.resolve(t, &file)
+	file := model.JsonApiFile{}
+	genericFile.JsonApiRelationships.File.Data.Resolve(t, &file)
 	assert.EqualValues(t, expectedJson.Uri, file.JsonApiData[0].JsonApiAttributes.Uri)
 	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
@@ -1478,26 +1479,26 @@ func Test_VerifyMediaFile(t *testing.T) {
 }
 
 func Test_VerifyMediaAudio(t *testing.T) {
-	expectedJson := &ExpectedMediaGeneric{}
+	expectedJson := &model.ExpectedMediaGeneric{}
 	expectedType := "media"
 	expectedBundle := "audio"
-	unmarshalJson(t, "media-audio.json", &expectedJson)
+	unmarshalExpectedJson(t, "media-audio.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, expectedType, expectedJson.Type)
 	assert.Equal(t, expectedBundle, expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedType,
-		drupalBundle: expectedBundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
-	res := JsonApiAudioMedia{}
-	u.getSingle(&res)
+	res := model.JsonApiAudioMedia{}
+	u.GetSingle(&res)
 	audio := res.JsonApiData[0]
 
 	// Verify attributes
@@ -1512,25 +1513,25 @@ func Test_VerifyMediaAudio(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
 	assert.Equal(t, len(expectedJson.AccessTerms), len(audio.JsonApiRelationships.AccessTerms.Data))
 	for i := range audio.JsonApiRelationships.AccessTerms.Data {
-		use := JsonApiIslandoraAccessTerms{}
-		audio.JsonApiRelationships.AccessTerms.Data[i].resolve(t, &use)
+		use := model.JsonApiIslandoraAccessTerms{}
+		audio.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
 	assert.Equal(t, len(expectedJson.MediaUse), len(audio.JsonApiRelationships.MediaUse.Data))
 	for i := range audio.JsonApiRelationships.MediaUse.Data {
-		use := JsonApiMediaUse{}
-		audio.JsonApiRelationships.MediaUse.Data[i].resolve(t, &use)
+		use := model.JsonApiMediaUse{}
+		audio.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
-	mediaOf := JsonApiIslandoraObj{}
-	audio.JsonApiRelationships.MediaOf.Data.resolve(t, &mediaOf)
+	mediaOf := model.JsonApiIslandoraObj{}
+	audio.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
 	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
 
-	file := JsonApiFile{}
-	audio.JsonApiRelationships.File.Data.resolve(t, &file)
+	file := model.JsonApiFile{}
+	audio.JsonApiRelationships.File.Data.Resolve(t, &file)
 	assert.EqualValues(t, expectedJson.Uri, file.JsonApiData[0].JsonApiAttributes.Uri)
 	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
@@ -1538,26 +1539,26 @@ func Test_VerifyMediaAudio(t *testing.T) {
 }
 
 func Test_VerifyMediaVideo(t *testing.T) {
-	expectedJson := &ExpectedMediaGeneric{}
+	expectedJson := &model.ExpectedMediaGeneric{}
 	expectedType := "media"
 	expectedBundle := "video"
-	unmarshalJson(t, "media-video.json", &expectedJson)
+	unmarshalExpectedJson(t, "media-video.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, expectedType, expectedJson.Type)
 	assert.Equal(t, expectedBundle, expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedType,
-		drupalBundle: expectedBundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
-	res := JsonApiVideoMedia{}
-	u.getSingle(&res)
+	res := model.JsonApiVideoMedia{}
+	u.GetSingle(&res)
 	video := res.JsonApiData[0]
 
 	// Verify attributes
@@ -1572,25 +1573,25 @@ func Test_VerifyMediaVideo(t *testing.T) {
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
 	assert.Equal(t, len(expectedJson.AccessTerms), len(video.JsonApiRelationships.AccessTerms.Data))
 	for i := range video.JsonApiRelationships.AccessTerms.Data {
-		use := JsonApiIslandoraAccessTerms{}
-		video.JsonApiRelationships.AccessTerms.Data[i].resolve(t, &use)
+		use := model.JsonApiIslandoraAccessTerms{}
+		video.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
 	assert.Equal(t, len(expectedJson.MediaUse), len(video.JsonApiRelationships.MediaUse.Data))
 	for i := range video.JsonApiRelationships.MediaUse.Data {
-		use := JsonApiMediaUse{}
-		video.JsonApiRelationships.MediaUse.Data[i].resolve(t, &use)
+		use := model.JsonApiMediaUse{}
+		video.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
 		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
-	mediaOf := JsonApiIslandoraObj{}
-	video.JsonApiRelationships.MediaOf.Data.resolve(t, &mediaOf)
+	mediaOf := model.JsonApiIslandoraObj{}
+	video.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
 	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
 
-	file := JsonApiFile{}
-	video.JsonApiRelationships.File.Data.resolve(t, &file)
+	file := model.JsonApiFile{}
+	video.JsonApiRelationships.File.Data.Resolve(t, &file)
 	assert.EqualValues(t, expectedJson.Uri, file.JsonApiData[0].JsonApiAttributes.Uri)
 	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
@@ -1598,26 +1599,26 @@ func Test_VerifyMediaVideo(t *testing.T) {
 }
 
 func Test_VerifyMediaRemoteVideo(t *testing.T) {
-	expectedJson := &ExpectedMediaRemoteVideo{}
+	expectedJson := &model.ExpectedMediaRemoteVideo{}
 	expectedType := "media"
 	expectedBundle := "remote_video"
-	unmarshalJson(t, "media-remote_video.json", &expectedJson)
+	unmarshalExpectedJson(t, "media-remote_video.json", &expectedJson)
 
 	// sanity check the expected json
 	assert.Equal(t, expectedType, expectedJson.Type)
 	assert.Equal(t, expectedBundle, expectedJson.Bundle)
 
-	u := &JsonApiUrl{
-		t:            t,
-		baseUrl:      DrupalBaseurl,
-		drupalEntity: expectedType,
-		drupalBundle: expectedBundle,
-		filter:       "name",
-		value:        expectedJson.Name,
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
 	}
 
-	res := JsonApiRemoteVideoMedia{}
-	u.getSingle(&res)
+	res := model.JsonApiRemoteVideoMedia{}
+	u.GetSingle(&res)
 	video := res.JsonApiData[0]
 
 	// Verify attributes
@@ -1629,94 +1630,17 @@ func Test_VerifyMediaRemoteVideo(t *testing.T) {
 
 	// TODO: media_of not supported for remote_video?
 	//mediaOf := JsonApiIslandoraObj{}
-	//video.JsonApiRelationships.MediaOf.Data.resolve(t, &mediaOf)
+	//video.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
 	//assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
 }
 
-// Searches the file system for the named file.  The `name` should not contain any path components or separators.
-//
-// This function allows for an IDE to discover test resources while allowing for IDC test framework (the one invoked by
-// `make test`) to discover those same resources without hard coding paths.  Instead, this function makes some
-// assumptions about where tests are invoked from, and the directory structure underneath the TestBaseDir.
-func findExpectedJson(t *testing.T, name string) string {
-	// the resolved json file, including its path relative to the working directory.
-	var expectedJsonFile string
-
-	// attempt to discover TestBaseDir from the current working directory, which will work if we are invoked by the
-	// IDC 'make test' target.
-	filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
-		assert.Nil(t, err)
-		// Resolve the expected json file relative to TestBaseDir (note the assumptions made about the directory structure)
-		if info.IsDir() && info.Name() == TestBasedir {
-			expectedJsonFile = filepath.Join(path, "verification", "expected", name)
-			return errors.New(fmt.Sprintf("Found test basedir %s", path))
-		}
-		return nil
-	})
-
-	if expectedJsonFile != "" {
-		return expectedJsonFile
-	}
-
-	// if the TestBaseDir is not found, that means we are probably being invoked from within that directory (e.g. by an
-	// IDE or CLI)
-	filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
-		assert.Nil(t, err)
-		// Resolve the json file relative to the directory name `expected` (note the assumptions made about the directory
-		// structure)
-		if info.IsDir() && info.Name() == "expected" {
-			expectedJsonFile = filepath.Join(path, name)
-			return errors.New(fmt.Sprintf("Found test basedir %s", path))
-		}
-		return nil
-	})
-
-	assert.NotNil(t, expectedJsonFile)
-	assert.NotEmpty(t, expectedJsonFile)
-	return expectedJsonFile
-}
-
-// Locates the JSON file referenced by 'filename' and unmarshals it into the provided 'value'.  Any errors encountered
-// will fail the test.
-//
-// Note that 'filename' should not contain any path components.  It is resolved to a path by
-// findExpectedJson(...)
-func unmarshalJson(t *testing.T, filename string, value interface{}) {
-	expectedJsonFile := findExpectedJson(t, filename)
-	expectedFile, err := os.Open(expectedJsonFile)
+// Locates the requested JSON file under the test directory, and unmarshals it into the interface supplied by `value`.
+func unmarshalExpectedJson(t *testing.T, fileName string, value interface{}) {
+	// TODO: use go:embed
+	path := fs.FindExpectedJson(t, fileName)
+	expectedFile, err := os.Open(path)
+	assert.Nil(t, err, "Error opening file %s: %s", expectedFile, err)
 	defer func() { expectedFile.Close() }()
-	assert.Nil(t, err, "Error opening file %s: %s", expectedJsonFile, err)
-
-	// read expected json from file
 	err = json.NewDecoder(expectedFile).Decode(value)
-	assert.Nil(t, err, "Error decoding the content of file %s as JSON: %s", expectedJsonFile, err)
-}
-
-// Unmarshal a JSONAPI response body and assert that exactly one data element is present
-func unmarshalSingleResponse(t *testing.T, body []byte, res *http.Response, value *JsonApiResponse) *JsonApiResponse {
-	unmarshalResponse(t, body, res, value, func(value *JsonApiResponse) {
-		assert.Equal(t, 1, len(value.Data), "Exactly one JSONAPI data element is expected in the response, but found %d element(s)", len(value.Data))
-	})
-	return value
-}
-
-// Unmarshal a JSONAPI response body and perform supplied assertions on the response
-func unmarshalResponse(t *testing.T, body []byte, res *http.Response, value *JsonApiResponse, responseAssertions func(res *JsonApiResponse)) *JsonApiResponse {
-	err := json.Unmarshal(body, value)
-	assert.Nil(t, err, "Error unmarshaling JSONAPI response body: %s", err)
-	if responseAssertions != nil {
-		responseAssertions(value)
-	}
-	return value
-}
-
-// Successfully GET the content at the URL and return the response and body.
-func getResource(t *testing.T, u string) (*http.Response, []byte) {
-	res, err := http.Get(u)
-	log.Printf("Retrieving %s", u)
-	assert.Nil(t, err, "encountered error requesting %s: %s", u, err)
-	assert.Equal(t, 200, res.StatusCode, "%d status encountered when requesting %s", res.StatusCode, u)
-	body, err := ioutil.ReadAll(res.Body)
-	assert.Nil(t, err, "error encountered reading response body from %s: %s", u, err)
-	return res, body
+	assert.Nil(t, err, "Error decoding the content of file %s as JSON: %s", expectedFile, err)
 }
