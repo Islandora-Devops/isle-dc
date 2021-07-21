@@ -29,7 +29,7 @@ process:
       source: access_terms
     -
       plugin: explode
-      delimiter: '|'
+      delimiter: '||'
       strict: false
     -
       plugin: entity_lookup
