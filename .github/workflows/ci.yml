@@ -54,6 +54,7 @@ jobs:
               - 11-file-deletion-tests
               - 12-media-tests
               - 13-migration-entity-resolution
+              - 14-migrate-contact-emails
               - 20-export-tests
         steps:
             # Check out current commit
