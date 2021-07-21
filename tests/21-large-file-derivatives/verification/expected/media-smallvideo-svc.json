@@ -1,0 +1,9 @@
+{
+  "type": "media",
+  "bundle": "video",
+  "name": "39-Service File.mp4",
+  "use": [
+    "Service File"
+  ],
+  "media_of": "Derivative Small Video"
+}

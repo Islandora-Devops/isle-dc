@@ -1,0 +1,9 @@
+{
+  "type": "media",
+  "bundle": "image",
+  "name": "35-Thumbnail Image.jpg",
+  "use": [
+    "Thumbnail Image"
+  ],
+  "media_of": "Derivative Image 02"
+}

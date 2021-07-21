@@ -1,0 +1,9 @@
+{
+  "type": "media",
+  "bundle": "fits_technical_metadata",
+  "name": "41-FITS File.xml",
+  "use": [
+    "FITS File"
+  ],
+  "media_of": "Derivative Documents"
+}
