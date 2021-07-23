@@ -1,0 +1,25 @@
+uuid: 4ba174a9-310d-412a-aab5-f8bd18ef80ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_unique_id
+    - node.type.collection_object
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
+id: node.collection_object.field_unique_id
+field_name: field_unique_id
+entity_type: node
+bundle: collection_object
+label: 'Unique ID'
+description: 'This is the system''s unique identifier for this field.  Generally this should not be edited. '
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

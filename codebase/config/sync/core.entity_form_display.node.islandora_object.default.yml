@@ -45,6 +45,7 @@ dependencies:
     - field.field.node.islandora_object.field_subject
     - field.field.node.islandora_object.field_table_of_contents
     - field.field.node.islandora_object.field_title_language
+    - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
     - field.field.node.islandora_object.field_years
     - node.type.islandora_object
@@ -64,6 +65,7 @@ third_party_settings:
         - field_member_of
         - field_access_terms
         - field_display_hints
+        - field_unique_id
         - field_weight
       parent_name: ''
       weight: 6
@@ -590,8 +592,16 @@ content:
     third_party_settings: {  }
     type: options_select
     region: content
-  field_weight:
+  field_unique_id:
     weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_weight:
+    weight: 13
     settings:
       placeholder: ''
     third_party_settings: {  }

@@ -45,6 +45,7 @@ dependencies:
     - field.field.node.islandora_object.field_subject
     - field.field.node.islandora_object.field_table_of_contents
     - field.field.node.islandora_object.field_title_language
+    - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
     - field.field.node.islandora_object.field_years
     - node.type.islandora_object
@@ -456,6 +457,7 @@ hidden:
   field_display_hints: true
   field_gemini_uri: true
   field_model: true
+  field_unique_id: true
   field_weight: true
   langcode: true
   openseadragon_media_evas_entity_view_1: true

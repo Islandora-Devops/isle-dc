@@ -1,2 +1,2 @@
-node_id,local_id,title,description,member_of,subject
-,io_01,Sample Repository Item,Test repository object;;eng,::title:Images Collection,::name:My Subject
+unique_id,node_id,title,description,member_of,subject
+io_01,,Sample Repository Item,Test repository object;;eng,::title:Images Collection,::name:My Subject

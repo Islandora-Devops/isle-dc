@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.collection_object.field_member_of
     - field.field.node.collection_object.field_model
     - field.field.node.collection_object.field_title_language
+    - field.field.node.collection_object.field_unique_id
     - node.type.collection_object
   module:
     - link
@@ -163,6 +164,7 @@ hidden:
   display_media_entity_view_2: true
   display_media_thumbnail: true
   field_access_terms: true
+  field_unique_id: true
   langcode: true
   openseadragon_media_evas_entity_view_2: true
   pdfjs_media_evas_entity_view_1: true

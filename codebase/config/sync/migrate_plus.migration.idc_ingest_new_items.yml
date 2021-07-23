@@ -12,11 +12,14 @@ label: '(2) Ingest New Repository Items'
 source:
   plugin: idc_csv
   ids:
-    - local_id
-    - node_id
+    - unique_id
   path: 'Will be populated by the Migrate Source UI'
 process:
-  nid: node_id
+  nid:
+    plugin: skip_on_empty
+    source: node_id
+    method: process
+  field_unique_id: unique_id
   title: title
   field_abstract:
     -

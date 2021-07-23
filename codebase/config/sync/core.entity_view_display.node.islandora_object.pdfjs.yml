@@ -46,6 +46,7 @@ dependencies:
     - field.field.node.islandora_object.field_subject
     - field.field.node.islandora_object.field_table_of_contents
     - field.field.node.islandora_object.field_title_language
+    - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
     - field.field.node.islandora_object.field_years
     - node.type.islandora_object
@@ -179,6 +180,7 @@ hidden:
   field_spatial_coverage: true
   field_table_of_contents: true
   field_title_language: true
+  field_unique_id: true
   field_weight: true
   field_years: true
   langcode: true

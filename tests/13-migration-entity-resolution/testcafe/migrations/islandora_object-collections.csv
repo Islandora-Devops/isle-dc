@@ -1,2 +1,2 @@
-node_id,local_id,title,title_language,description
-,io-collection-01,Images Collection,English,Test Collection;;eng
+unique_id,node_id,title,title_language,description
+io-collection-01,,Images Collection,English,Test Collection;;eng

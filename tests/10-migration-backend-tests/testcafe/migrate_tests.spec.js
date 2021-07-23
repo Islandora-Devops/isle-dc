@@ -469,13 +469,13 @@ test('Perform test on CSV with bad formatting', async t =>  {
   // there should be three errors, one for each row
   const row1 = Selector('td').withText('io_bad_01').parent();
   await t.expect(row1.child('td').nth(0).innerText).eql('io_bad_01');
-  await t.expect(row1.child('td').nth(3).innerText).eql(error_msg);
+  await t.expect(row1.child('td').withText(error_msg).exists).ok();
 
   const row2 = Selector('td').withText('io_bad_02').parent();
   await t.expect(row2.child('td').nth(0).innerText).eql('io_bad_02');
-  await t.expect(row2.child('td').nth(3).innerText).eql(error_msg);
+  await t.expect(row2.child('td').withText(error_msg).exists).ok();
 
   const row3 = Selector('td').withText('io_bad_03').parent();
   await t.expect(row3.child('td').nth(0).innerText).eql('io_bad_03');
-  await t.expect(row3.child('td').nth(3).innerText).eql(error_msg);
+  await t.expect(row3.child('td').withText(error_msg).exists).ok();
 });

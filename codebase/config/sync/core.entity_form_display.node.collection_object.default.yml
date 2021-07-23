@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.collection_object.field_member_of
     - field.field.node.collection_object.field_model
     - field.field.node.collection_object.field_title_language
+    - field.field.node.collection_object.field_unique_id
     - node.type.collection_object
   module:
     - link
@@ -126,6 +127,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: options_select
+    region: content
+  field_unique_id:
+    weight: 27
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   status:
     type: boolean_checkbox
