@@ -7,12 +7,16 @@ networks:
       name: gateway
 services:
   homarus:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/homarus:${TAG:-latest}
   houdini:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/houdini:${TAG:-latest}
   hypercube:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/hypercube:${TAG:-latest}
   milliner:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/milliner:${TAG:-latest}
     environment:
       MILLINER_FEDORA6: ${FEDORA_6}
@@ -20,4 +24,5 @@ services:
       default:
       gateway:
   recast:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/recast:${TAG:-latest}

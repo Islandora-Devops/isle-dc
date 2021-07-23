@@ -4,4 +4,5 @@ networks:
     internal: true
 services:
   alpaca:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/alpaca:${TAG:-latest}
