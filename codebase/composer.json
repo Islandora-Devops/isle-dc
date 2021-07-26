@@ -208,7 +208,8 @@
                 "Node title length 2: Taxonomy name length": "patches/node_title_length_termNameCharLength-3041979-8.patch"
             },
             "islandora/islandora": {
-                "Routing definitions": "patches/islandora.routing.yml.patch"
+                "Routing definitions": "patches/islandora.routing.yml.patch",
+                "Media Source Serivce": "patches/mediasourceservice.patch"
             },
             "drupal/core": {
                 "SimpleTest FileSystemInterface fix": "patches/simpletest-filesysteminterface.patch"
