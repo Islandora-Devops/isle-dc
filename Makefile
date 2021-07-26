@@ -275,68 +275,17 @@ reindex-triplestore:
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 
-# Helper function to generate keys for the user to use in their docker-compose.env.yml
-.PHONY: generate-jwt-keys
-.SILENT: generate-jwt-keys
-generate-jwt-keys:
-	docker run --rm -ti \
-		--entrypoint bash \
-		$(REPOSITORY)/drupal:$(TAG) -c \
-		"openssl genrsa -out /tmp/private.key 2048 &> /dev/null; \
-		openssl rsa -pubout -in /tmp/private.key -out /tmp/public.key &> /dev/null; \
-		echo $$'\nPrivate Key:\n'; \
-		cat /tmp/private.key; \
-		echo $$'\nPublic Key:\n'; \
-		cat /tmp/public.key; \
-		echo $$'\nCopy and paste these keys into your docker-compose.env.yml file where appropriate.'"
-
-# Helper to generate Matomo password, like so:
-# make generate-matomo-password MATOMO_USER_PASS=my_new_password
-.PHONY: generate-matomo-password
-.SILENT: generate-matomo-password
-generate-matomo-password:
-	docker run --rm -ti \
-		--entrypoint php \
-		$(REPOSITORY)/drupal:$(TAG) -r \
-		'echo password_hash(md5("$(MATOMO_USER_PASS)"), PASSWORD_DEFAULT) . "\n";'
-
+# Helper to generate secrets & passwords, like so:
+# make generate-secrets
 .PHONY: generate-secrets
 .SILENT: generate-secrets
 generate-secrets:
-	if [ $$(id -u) -ne 0 ]; then \
-		echo "generate-secrets must be ran as root."; \
-		exit 1; \
-	fi
-	openssl genrsa -out tmp/private.key 2048 &> /dev/null;
-	openssl rsa -pubout -in tmp/private.key -out tmp/public.key &> /dev/null;
-	for f in $$(find secrets/template/* -printf '%f\n'); do \
-		if [ $$f = "DRUPAL_DEFAULT_CONFIGDIR" ]; then \
-			cp secrets/template/$$f secrets/live/$$f; \
-			echo "$$f copied!"; \
-		elif [ $$f = "DRUPAL_DEFAULT_SALT" ]; then \
-			tr -dc 'A-Za-z0-9-_' </dev/urandom | head -c 74 > secrets/live/$$f; \
-			echo "$$f generated!"; \
-		elif [ $$f = "JWT_ADMIN_TOKEN" ]; then \
-			tr -dc 'A-Za-z0-9' </dev/urandom | head -c 64 > secrets/live/$$f; \
-			echo "$$f generated!"; \
-		elif [ $$f = "JWT_PRIVATE_KEY" ]; then \
-			cp tmp/private.key secrets/live/$$f; \
-			rm tmp/private.key; \
-			echo "$$f generated!"; \
-		elif [ $$f = "JWT_PUBLIC_KEY" ]; then \
-			cp tmp/public.key secrets/live/$$f; \
-			rm tmp/public.key; \
-			echo "$$f generated!"; \
-		elif [ $$f = "MATOMO_USER_PASS" ]; then \
-			$(MAKE) generate-matomo-password > secrets/live/$$f; \
-			echo "$$f generated!"; \
-		else \
-			tr -dc 'A-Za-z0-9' </dev/urandom | head -c 48 > secrets/live/$$f; \
-			echo "$$f generated!"; \
-		fi \
-	done
-	chown -R root:root secrets/live
-	chmod 600 secrets/live/*
+	docker run --rm -t \
+		-v $(CURDIR)/secrets:/secrets \
+		-v $(CURDIR)/scripts/generate-secrets.sh:/generate-secrets.sh \
+		-w / \
+		--entrypoint bash \
+		$(REPOSITORY)/drupal:$(TAG) -c /generate-secrets.sh
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: download-default-certs
