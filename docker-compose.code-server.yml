@@ -14,6 +14,7 @@ secrets:
     file: "./secrets/CODE_SERVER_PASSWORD"
 services:
   code-server:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/code-server:${TAG:-latest}
     labels:
       - traefik.enable=true

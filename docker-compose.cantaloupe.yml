@@ -9,6 +9,7 @@ volumes:
   cantaloupe-data:
 services:
   cantaloupe:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/cantaloupe:${TAG:-latest}
     volumes:
       - cantaloupe-data:/data

@@ -7,6 +7,7 @@ networks:
       name: gateway
 services:
   solr:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/solr:${TAG:-latest}
     # No volumes are defined here, other docker-compose.yml files such as
     # docker-compose.demo.yml are expected to extend this definition based

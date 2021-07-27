@@ -16,6 +16,7 @@ volumes:
   solr-data:
 services:
   drupal:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/drupal:${TAG:-latest}
     volumes:
       - ./codebase:/var/www/drupal:delegated

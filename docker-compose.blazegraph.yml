@@ -9,6 +9,7 @@ volumes:
   blazegraph-data:
 services:
   blazegraph:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/blazegraph:${TAG:-latest}
     volumes:
       - blazegraph-data:/data

@@ -10,6 +10,7 @@ services:
   # The service name is drupal that is the default host name used by micro-services etc.
   # Needs to match against demo, custom, and local.
   drupal:
+    restart: ${RESTART_POLICY:-unless-stopped}
     environment:
       DRUPAL_DEFAULT_CANTALOUPE_URL: https://${DOMAIN}/cantaloupe/iiif/2
       DRUPAL_DEFAULT_FCREPO_HOST: ${DOMAIN}
