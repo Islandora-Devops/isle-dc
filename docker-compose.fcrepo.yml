@@ -9,6 +9,7 @@ volumes:
   fcrepo-data:
 services:
   fcrepo:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/fcrepo:${TAG:-latest}
     environment:
       FCREPO_ALLOW_EXTERNAL_DRUPALHTTP: http://${DOMAIN}/

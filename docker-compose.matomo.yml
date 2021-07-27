@@ -9,6 +9,7 @@ volumes:
   matomo-config-data:
 services:
   matomo:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/matomo:${TAG:-latest}
     environment:
       MATOMO_DEFAULT_SITE_HOST: ${DOMAIN}

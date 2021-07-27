@@ -10,6 +10,7 @@ volumes:
 services:
   activemq:
     image: ${REPOSITORY:-islandora}/activemq:${TAG:-latest}
+    restart: ${RESTART_POLICY:-unless-stopped}
     volumes:
       - activemq-data:/opt/activemq/data
     labels:
