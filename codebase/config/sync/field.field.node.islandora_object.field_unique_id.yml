@@ -1,4 +1,4 @@
-uuid: 5ff81e7c-47c8-429c-a34a-7f059892ddff
+uuid: 9f358db2-2acf-4a8b-ae00-10639f90a35b
 langcode: en
 status: true
 dependencies:
@@ -7,6 +7,7 @@ dependencies:
     - node.type.islandora_object
   module:
     - epp
+    - idc_defaults
 third_party_settings:
   epp:
     value: ''
@@ -22,4 +23,4 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string
+field_type: idc_unique

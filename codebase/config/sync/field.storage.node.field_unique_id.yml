@@ -1,9 +1,10 @@
-uuid: baf4e3af-f797-4eef-bdf9-32926577fa99
+uuid: 09aab9c4-6f8d-4800-9549-3fb87a2314a6
 langcode: en
 status: true
 dependencies:
   module:
     - field_permissions
+    - idc_defaults
     - node
 third_party_settings:
   field_permissions:
@@ -11,12 +12,12 @@ third_party_settings:
 id: node.field_unique_id
 field_name: field_unique_id
 entity_type: node
-type: string
+type: idc_unique
 settings:
-  max_length: 255
-  is_ascii: false
+  max_length: '128'
+  is_ascii: true
   case_sensitive: false
-module: core
+module: idc_defaults
 locked: false
 cardinality: 1
 translatable: true
