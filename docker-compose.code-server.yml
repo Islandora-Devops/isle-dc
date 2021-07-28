@@ -58,7 +58,11 @@ services:
     depends_on:
       - drupal
   drupal:
-    # Disable traefik for Drupal as code-server will respond to all requests.
+    environment:
+      PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
+      PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
+      PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
+ # Disable traefik for Drupal as code-server will respond to all requests.
     labels:
       - traefik.enable=false
     volumes:
