@@ -14,6 +14,10 @@ secrets:
     file: "./secrets/CODE_SERVER_PASSWORD"
 services:
   code-server:
+    environment:
+      PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
+      PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
+      PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
     image: ${REPOSITORY:-islandora}/code-server:${TAG:-latest}
     labels:
       - traefik.enable=true
