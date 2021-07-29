@@ -15,6 +15,7 @@ networks:
     internal: false
 services:
   traefik:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: traefik:2.2.1
     container_name: traefik
     # Do not set `api.insecure`, `api.dashboard`, `api.debug` to `true` in production.

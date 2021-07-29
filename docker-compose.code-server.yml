@@ -18,6 +18,7 @@ services:
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
       PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
       PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/code-server:${TAG:-latest}
     labels:
       - traefik.enable=true

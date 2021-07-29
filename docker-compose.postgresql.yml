@@ -14,6 +14,7 @@ services:
   # are included when the respective 'SERVICENAME_DATABASE_SERVICE' variable is set
   # to 'postgresql'.
   postgresql:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/postgresql:${TAG:-latest}
     volumes:
       - postgresql-data:/var/lib/postgresql/data

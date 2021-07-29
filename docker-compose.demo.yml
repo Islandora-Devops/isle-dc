@@ -18,6 +18,7 @@ volumes:
 services:
   # The service name is drupal that is the default host name used by micro-services etc.
   drupal:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/demo:${TAG:-latest}
     volumes:
       - drupal-sites-data:/var/www/drupal/web/sites/default/files
@@ -32,6 +33,7 @@ services:
       - blazegraph
   # Extends docker-compose.solr.yml so that they share a volume.
   solr:
+    restart: ${RESTART_POLICY:-unless-stopped}
     volumes:
       # On a production site you may not want to take this approach but instead refer to each of the cores
       # data directories specifically and maintain the configuration as part of a customized image, where 

@@ -9,6 +9,7 @@ services:
   # Always included even if PostgreSQL is included as Matomo only works with MySQL.
   # https://github.com/matomo-org/matomo/issues/500
   mariadb:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/mariadb:${TAG:-latest}
     volumes:
       - mariadb-data:/var/lib/mysql

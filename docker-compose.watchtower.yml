@@ -4,7 +4,8 @@
 version: "3.7"
 services:
   watchtower:
-    image: v2tec/watchtower
+    image: containrrr/watchtower
+    restart: ${RESTART_POLICY:-unless-stopped}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 1 --no-pull
