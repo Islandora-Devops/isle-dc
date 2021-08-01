@@ -324,7 +324,7 @@ demo: generate-secrets
 #	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
 #	$(MAKE) reindex-solr ENVIROMENT=demo
 #	$(MAKE) reindex-triplestore ENVIROMENT=demo
-	
+
 
 .PHONY: local
 .SILENT: local
@@ -335,7 +335,8 @@ local: generate-secrets
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p $(CURDIR)/codebase
 	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b islandora-profile-in-packagist https://github.com/islandora-devops/islandora-project /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer require islandora/islandora_profile:1.x-dev'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc \
+			'git clone -b islandora-profile-in-packagist https://github.com/islandora-devops/islandora-project /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer require islandora/islandora_profile:loose-drupal-dev -W; composer require islandora/islandora_install_profile_demo:drupal-9-patch-dev -W'; \
 	fi
 	docker-compose up -d
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
