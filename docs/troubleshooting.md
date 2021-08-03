@@ -1,6 +1,10 @@
 # Troubleshooting
 
-This document lists commong ISLE problems and their solutions. It is currently a stub and should be added to.
+This document lists common ISLE problems and their solutions. It is currently a stub and should be added to.
+
+## Logging
+
+To view the Drupal logs from the shell, from your `isle-dc` directory, enter `docker-compose logs -f drupal`.
 
 ## "Your clock is ahead/behind" certificate error
 
