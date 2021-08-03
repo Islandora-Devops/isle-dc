@@ -1,6 +1,10 @@
 # Troubleshooting
 
-This document lists commong ISLE problems and their solutions. It is currently a stub and should be added to.
+This document lists common ISLE problems and their solutions. It is currently a stub and should be added to.
+
+## Logging
+
+To view the Drupal logs from the shell, from your `isle-dc` directory, enter `docker-compose logs -f drupal`. That last argument is the service name, which can be swapped out or can actually be multiple (e.g. `drupal solr fcrepo`) or it can be empty, in which case you will see ALL logs.
 
 ## "Your clock is ahead/behind" certificate error
 
