@@ -5,7 +5,7 @@
 #
 
 # The name of the currently running Drupal Docker container
-DRUPAL_CONTAINER_NAME=$(docker ps | awk '{print $NF}'|grep drupal)
+DRUPAL_CONTAINER_NAME=$(docker ps | awk '{print $NF}' | grep drupal)
 
 # The Docker registry used to obtain the migration assets image
 assets_repo=${MIGRATION_ASSETS_REPO:-ghcr.io/jhu-sheridan-libraries/idc-isle-dc}
@@ -27,6 +27,8 @@ function startContainer {
   local name="$1"
   local image="$2"
   local network="$3"
+  local hostname="$4"
+  local port="$5"
 
   if [ -z "$name" ] ; then
     echo "'name' argument is required"
@@ -42,8 +44,35 @@ function startContainer {
     network="gateway"
   fi
 
-  docker run --rm -d --name "${name}" --network "${network}" "${image}"
+  docker run --rm -d -P --name "${name}" --network "${network}" "${image}"
   trap "docker stop ${name}" EXIT
+
+  if [ -z "${port}" ] ; then
+    port=$(docker inspect -f "{{json .NetworkSettings.Ports }}" ${name}|jq -r '.[]|.[]|.HostPort')
+
+    if [ -z "${port}" ] ; then
+      echo "Cannot detect if ${name} has started, it doesn't publish any ports. Continuing on."
+      return
+    fi
+
+    if [ $(echo ${port} | awk '{print NF}') -eq 2 ] ; then
+      # the same port may be published twice, once for ipv4 and once for ipv6.
+      if [ $(echo ${port} | awk '{print $1}') -eq $(echo ${port} | awk '{print $2}') ] ; then
+        port=$(echo ${port} | awk '{print $1}')
+      fi
+    fi
+
+    if [ $(echo ${port} | awk '{print NF}') -gt 1 ] ; then
+      echo "Cannot detect if ${name} has started, it publishes multiple ports. Continuing on."
+      return
+    fi
+  fi
+
+  if [ -z "${hostname}" ] ; then
+    hostname="localhost"
+  fi
+
+  wait_for_http "http://${hostname}:${port}/" 200
 }
 
 function stopContainer {
@@ -60,4 +89,37 @@ function stopContainer {
   if [ "true" == "$rm" ] ; then
     docker rm -f "${name}"
   fi
+}
+
+function wait_for_http() {
+  # allow curl to error
+  set +e
+  local url="$1"
+  local code="$2"
+  local attempts="$3"
+  local sleep_s="$4"
+  if [ -z "$attempts" ]; then
+    attempts=30
+  fi
+  if [ -z "${sleep_s}" ]; then
+    sleep_s=1
+  fi
+
+  i=0
+  while [ "$i" -lt "${attempts}" ]; do
+    ((i = i + 1))
+    result=$(curl -o /dev/null -s -w '%{http_code}' "$url")
+
+    if [ "${result}" -eq "${code}" ]; then
+      # reset exit flag
+      set -e
+      return
+    else
+      echo "Waiting for HTTP code ${code} from ${url} ..."
+      sleep ${sleep_s}
+    fi
+  done
+
+  echo "Timed out waiting for HTTP code ${code} from ${url}"
+  exit 1
 }
