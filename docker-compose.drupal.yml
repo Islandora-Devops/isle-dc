@@ -17,6 +17,9 @@ services:
       DRUPAL_DEFAULT_FCREPO_PORT: 8081
       DRUPAL_DEFAULT_MATOMO_URL: https://${DOMAIN}/matomo/
       DRUPAL_DEFAULT_SITE_URL: http://${DOMAIN} # Make sure this is just http and not https!
+      PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
+      PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
+      PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
     labels:
       - traefik.enable=true
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
