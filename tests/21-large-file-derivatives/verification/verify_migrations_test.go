@@ -12,7 +12,6 @@ import (
 	"io/fs"
 	"log"
 	"math"
-	"strconv"
 	"strings"
 	"sync"
 	"testing"
@@ -76,6 +75,42 @@ var expectedCount = struct {
 //go:embed expected/*
 var expectedJson embed.FS
 
+// filterable encapsulates a Drupal entity along with a JSON API filter for finding that entity in Drupal
+type filterable interface {
+	model.NamedOrTitled
+	filter() string
+}
+
+// expectedWithFilter encapsulates an expected entity along with a JSON API filter for finding it in Drupal
+type expectedWithFilter struct {
+	expected  model.NamedOrTitled
+	rawfilter string
+}
+
+// filter returns a raw filter string if specified, otherwise it generates one based on the name or title of the entity
+func (e expectedWithFilter) filter() string {
+	if e.rawfilter != "" {
+		return e.rawfilter
+	}
+	return fmt.Sprintf("filter[%s]=%s", e.expected.Field(), e.expected.NameOrTitle())
+}
+
+func (e expectedWithFilter) EntityType() string {
+	return e.expected.EntityType()
+}
+
+func (e expectedWithFilter) EntityBundle() string {
+	return e.expected.EntityBundle()
+}
+
+func (e expectedWithFilter) NameOrTitle() string {
+	return e.expected.NameOrTitle()
+}
+
+func (e expectedWithFilter) Field() string {
+	return e.expected.Field()
+}
+
 // All objects and media reside under a single collection, make sure it exists
 func Test_Collection(t *testing.T) {
 	expected := &model.ExpectedCollection{}
@@ -132,9 +167,8 @@ func Test_Original_Media_Documents(t *testing.T) {
 
 	// Verify each expected media exists
 	for _, filename := range filenames {
-		var expectedMedia model.NamedOrTitled
-		expectedMedia = &model.ExpectedMediaGeneric{}
-		assert.Nil(t, unmarshal(filename, expectedMedia.(*model.ExpectedMediaGeneric)))
+		expectedMedia := expectedWithFilter{expected: &model.ExpectedMediaGeneric{}}
+		assert.Nil(t, unmarshal(filename, expectedMedia.expected))
 		actual := &model.JsonApiDocumentMedia{}
 
 		assertExists(t, expectedMedia, actual, func(expected, actual interface{}) {
@@ -155,9 +189,8 @@ func Test_Original_Media_Videos(t *testing.T) {
 
 	// Verify each expected media exists
 	for _, filename := range filenames {
-		var expectedMedia model.NamedOrTitled
-		expectedMedia = &model.ExpectedMediaGeneric{}
-		assert.Nil(t, unmarshal(filename, expectedMedia.(*model.ExpectedMediaGeneric)))
+		expectedMedia := expectedWithFilter{expected: &model.ExpectedMediaGeneric{}}
+		assert.Nil(t, unmarshal(filename, expectedMedia.expected))
 		actual := &model.JsonApiVideoMedia{}
 
 		assertExists(t, expectedMedia, actual, func(expected, actual interface{}) {
@@ -178,9 +211,8 @@ func Test_Original_Media_Images(t *testing.T) {
 
 	// Verify each expected media exists
 	for _, filename := range filenames {
-		var expectedMedia model.NamedOrTitled
-		expectedMedia = &model.ExpectedMediaGeneric{}
-		assert.Nil(t, unmarshal(filename, expectedMedia.(*model.ExpectedMediaGeneric)))
+		expectedMedia := expectedWithFilter{expected: &model.ExpectedMediaGeneric{}}
+		assert.Nil(t, unmarshal(filename, expectedMedia.expected))
 		actual := &model.JsonApiImageMedia{}
 
 		assertExists(t, expectedMedia, actual, func(expected, actual interface{}) {
@@ -213,20 +245,24 @@ func Test_Derivative_Thumbnail_Media(t *testing.T) {
 	wg.Add(len(filenames))
 
 	for _, filename := range filenames {
-		var expectedMedia model.NamedOrTitled
-		expectedMedia = &model.ExpectedMediaGeneric{}
-		unmarshalErr := unmarshal(filename, expectedMedia.(*model.ExpectedMediaGeneric))
+		expectedMedia := &model.ExpectedMediaGeneric{}
+		unmarshalErr := unmarshal(filename, expectedMedia)
 		assert.Nil(t, unmarshalErr, "error unmarshaling '%s': %s", filename, unmarshalErr)
+
+		var filteredMedia filterable
+		filteredMedia = applyDerivedMediaFilter(expectedMedia, expectedMedia.MediaOf)
+
 		actual := &model.JsonApiImageMedia{}
 
 		go func() {
 			err := doUntil(func() error {
 				var err error
-				assertExists(t, expectedMedia, actual, func(expected, actual interface{}) {
+				assertExists(t, filteredMedia, actual, func(expected, actual interface{}) {
 					jsonApiData := actual.(*model.JsonApiImageMedia).JsonApiData
 					if len(jsonApiData) == 1 {
 						assert.NotEmpty(t, expectedMedia.NameOrTitle())
-						assert.Equal(t, expectedMedia.NameOrTitle(), jsonApiData[0].JsonApiAttributes.Name)
+						assert.Contains(t, expectedMedia.NameOrTitle(), stripPrefix("-", jsonApiData[0].JsonApiAttributes.Name))
+						assertParentObject(t, expectedMedia)
 						err = done
 					}
 				})
@@ -261,22 +297,25 @@ func Test_Derivative_Fits_Media(t *testing.T) {
 
 	wg := sync.WaitGroup{}
 	wg.Add(len(filenames))
-
 	for _, filename := range filenames {
-		var expectedMedia model.NamedOrTitled
-		expectedMedia = &model.ExpectedMediaGeneric{}
-		unmarshalErr := unmarshal(filename, expectedMedia.(*model.ExpectedMediaGeneric))
+		expectedMedia := &model.ExpectedMediaGeneric{}
+		unmarshalErr := unmarshal(filename, expectedMedia)
 		assert.Nil(t, unmarshalErr, "error unmarshaling '%s': %s", filename, unmarshalErr)
+
+		var filteredMedia filterable
+		filteredMedia = applyDerivedMediaFilter(expectedMedia, expectedMedia.MediaOf)
+
 		actual := &model.JsonApiFitsMedia{}
 
 		go func() {
 			err := doUntil(func() error {
 				var err error
-				assertExists(t, expectedMedia, actual, func(expected, actual interface{}) {
+				assertExists(t, filteredMedia, actual, func(expected, actual interface{}) {
 					jsonApiData := actual.(*model.JsonApiFitsMedia).JsonApiData
 					if len(jsonApiData) == 1 {
 						assert.NotEmpty(t, expectedMedia.NameOrTitle())
-						assert.Equal(t, expectedMedia.NameOrTitle(), jsonApiData[0].JsonApiAttributes.Name)
+						assert.Contains(t, expectedMedia.NameOrTitle(), stripPrefix("-", jsonApiData[0].JsonApiAttributes.Name))
+						assertParentObject(t, expectedMedia)
 						err = done
 					}
 				})
@@ -311,19 +350,23 @@ func Test_Derivative_ExtractedText_Media(t *testing.T) {
 	wg.Add(len(filenames))
 
 	for _, filename := range filenames {
-		var expectedMedia model.NamedOrTitled
-		expectedMedia = &model.ExpectedMediaGeneric{}
-		assert.Nil(t, unmarshal(filename, expectedMedia.(*model.ExpectedMediaGeneric)))
+		expectedMedia := &model.ExpectedMediaGeneric{}
+		assert.Nil(t, unmarshal(filename, expectedMedia))
+
+		var filteredMedia filterable
+		filteredMedia = applyDerivedMediaFilter(expectedMedia, expectedMedia.MediaOf)
+
 		actual := &model.JsonApiGenericFileMedia{}
 
 		go func() {
 			err := doUntil(func() error {
 				var err error
-				assertExists(t, expectedMedia, actual, func(expected, actual interface{}) {
+				assertExists(t, filteredMedia, actual, func(expected, actual interface{}) {
 					jsonApiData := actual.(*model.JsonApiGenericFileMedia).JsonApiData
 					if len(jsonApiData) == 1 {
 						assert.NotEmpty(t, expectedMedia.NameOrTitle())
-						assert.Equal(t, expectedMedia.NameOrTitle(), jsonApiData[0].JsonApiAttributes.Name)
+						assert.Contains(t, expectedMedia.NameOrTitle(), stripPrefix("-", jsonApiData[0].JsonApiAttributes.Name))
+						assertParentObject(t, expectedMedia)
 						err = done
 					}
 				})
@@ -363,19 +406,23 @@ func Test_Derivative_Service_Media(t *testing.T) {
 	wg.Add(len(filenames))
 
 	for _, filename := range filenames {
-		var expectedMedia model.NamedOrTitled
-		expectedMedia = &model.ExpectedMediaGeneric{}
-		assert.Nil(t, unmarshal(filename, expectedMedia.(*model.ExpectedMediaGeneric)))
+		expectedMedia := &model.ExpectedMediaGeneric{}
+		assert.Nil(t, unmarshal(filename, expectedMedia))
+
+		var filteredMedia filterable
+		filteredMedia = applyDerivedMediaFilter(expectedMedia, expectedMedia.MediaOf)
+
 		actual := &model.JsonApiGenericFileMedia{}
 
 		go func() {
 			err := doUntil(func() error {
 				var err error
-				assertExists(t, expectedMedia, actual, func(expected, actual interface{}) {
+				assertExists(t, filteredMedia, actual, func(expected, actual interface{}) {
 					jsonApiData := actual.(*model.JsonApiGenericFileMedia).JsonApiData
 					if len(jsonApiData) == 1 {
 						assert.NotEmpty(t, expectedMedia.NameOrTitle())
-						assert.Equal(t, expectedMedia.NameOrTitle(), jsonApiData[0].JsonApiAttributes.Name)
+						assert.Contains(t, expectedMedia.NameOrTitle(), stripPrefix("-", jsonApiData[0].JsonApiAttributes.Name))
+						assertParentObject(t, expectedMedia)
 						err = done
 					}
 				})
@@ -429,19 +476,33 @@ func unmarshal(filepath string, value interface{}) (err error) {
 //
 // The caller provides a populated expected entity, this function will do the legwork of retrieving the actual value and
 // executing the assertion.
-func assertExists(t *testing.T, expected model.NamedOrTitled, actual interface{}, assertionFn func(expected, actual interface{})) {
+func assertExists(t *testing.T, expected filterable, actual interface{}, assertionFn func(expected interface{}, actual interface{})) {
 	req := &jsonapi.JsonApiUrl{
 		T:            t,
 		BaseUrl:      env.BaseUrlOr(drupalBaseUrl),
 		DrupalEntity: expected.EntityType(),
 		DrupalBundle: expected.EntityBundle(),
-		Filter:       expected.Field(),
-		Value:        expected.NameOrTitle(),
+		RawFilter:    expected.filter(),
 	}
 
 	req.Get(&actual)
 
 	assertionFn(expected, actual)
+}
+
+// Resolves the parent of the supplied media, and insures the parent object title matches the expected va
+func assertParentObject(t *testing.T, expectedMedia *model.ExpectedMediaGeneric) {
+	u := jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      drupalBaseUrl,
+		DrupalEntity: model.Node,
+		DrupalBundle: model.RepositoryObject,
+		Filter:       "title",
+		Value:        expectedMedia.MediaOf,
+	}
+	parentObj := &model.JsonApiIslandoraObj{}
+	u.GetSingle(parentObj)
+	assert.Equal(t, expectedMedia.MediaOf, parentObj.JsonApiData[0].JsonApiAttributes.Title)
 }
 
 var (
@@ -485,4 +546,26 @@ func doUntil(fn func() error, deadline time.Time, initialBackoffMs int, backoffF
 
 	log.Printf("deadline expired")
 	return expired
+}
+
+// Builds a JSON API filter that will find an exact match for the expected entity without relying on troublesome aspects
+// of the file name which may change depending on the database state (e.g. the node id present in name of derived media)
+func applyDerivedMediaFilter(expected model.NamedOrTitled, mediaOf string) filterable {
+	return expectedWithFilter{
+		expected: expected,
+		rawfilter: "filter[name-group][condition][operator]=ENDS_WITH&" +
+			fmt.Sprintf("filter[name-group][condition][path]=%s&", expected.Field()) +
+			fmt.Sprintf("filter[name-group][condition][value]=%s&", stripPrefix("-", expected.NameOrTitle())) +
+			fmt.Sprintf("filter[of-group][condition][path]=%s&", "field_media_of.title") +
+			fmt.Sprintf("filter[of-group][condition][value]=%s", mediaOf),
+	}
+}
+
+// Strips the characters up to and including the delimiter from the supplied string.
+func stripPrefix(delimiter, original string) string {
+	if i := strings.Index(original, delimiter); i > -1 {
+		return original[i+1:]
+	}
+
+	return original
 }
