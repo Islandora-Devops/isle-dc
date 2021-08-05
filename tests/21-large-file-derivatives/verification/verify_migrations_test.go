@@ -28,7 +28,7 @@ const (
 	homarusSocketTimeout = "ALPACA_HOMERUS_HTTP_SOCKET_TIMEOUT_MS"
 
 	// default timeout value
-	defaultTimeout = time.Duration(30) * time.Second
+	defaultTimeout = 30000
 
 	expectedCollectionCount             = 1
 	expectedRepoObjectCount             = 8
@@ -205,7 +205,7 @@ func Test_Derivative_Thumbnail_Media(t *testing.T) {
 		"Expected %d files but got %d", expectedCount.derivativeThumbnails, len(filenames))
 
 	// Thumbnail files take some time to generate, so we need to wait
-	timeout, _ := strconv.Atoi(env.GetEnvOr(homarusSocketTimeout, defaultTimeout.String()))
+	timeout := env.GetEnvOrInt(homarusSocketTimeout, defaultTimeout)
 
 	// Execute each request for a thumbnail in its own goroutine
 
@@ -287,7 +287,7 @@ func Test_Derivative_Fits_Media(t *testing.T) {
 				}
 
 				return err
-			}, time.Now().Add(defaultTimeout), 1000, 2.0)
+			}, time.Now().Add(defaultTimeout*time.Millisecond), 1000, 2.0)
 
 			assert.Equal(t, done, err, "Failed retrieving '%s': %s", expectedMedia.NameOrTitle(), err)
 
@@ -334,7 +334,7 @@ func Test_Derivative_ExtractedText_Media(t *testing.T) {
 				}
 
 				return err
-			}, time.Now().Add(defaultTimeout), 1000, 2.0)
+			}, time.Now().Add(defaultTimeout*time.Millisecond), 1000, 2.0)
 
 			assert.Equal(t, done, err, "Failed retrieving '%s': %s", expectedMedia.NameOrTitle(), err)
 
@@ -355,7 +355,7 @@ func Test_Derivative_Service_Media(t *testing.T) {
 		"Expected %d files but got %d", expectedCount.derivativeService, len(filenames))
 
 	// Video files take a while to generate, so we need to wait
-	timeout, _ := strconv.Atoi(env.GetEnvOr(homarusSocketTimeout, defaultTimeout.String()))
+	timeout := env.GetEnvOrInt(homarusSocketTimeout, defaultTimeout)
 
 	// Execute each request for service media in its own goroutine
 
