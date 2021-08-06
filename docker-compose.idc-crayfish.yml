@@ -5,6 +5,8 @@ networks:
 services:
   homarus:
     image: ${REPOSITORY:-islandora}/homarus:${TAG:-latest}
+    environment:
+      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME:-60}
   houdini:
     image: ${REPOSITORY:-islandora}/houdini:${TAG:-latest}
   hypercube:

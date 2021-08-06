@@ -1,0 +1,82 @@
+name: Nightly
+on:
+  schedule:
+    - cron: '5 4 * * *'
+  workflow_dispatch:
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{secrets.DOCKER_USER}}
+    steps:
+      # Check out current commit
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Make sure buildkit is enabled
+      - name: Enable buildkit
+        shell: bash
+        run: |
+          echo '{"experimental": "enabled"}' > ~/.docker/config.json
+
+      # Build and run the static environment
+      - name: Build Static
+        run: make static-docker-compose.yml up
+
+      # Drush tests
+      - name: Drush test
+        run: docker-compose exec -T drupal drush -d status
+
+      - name: Export image
+        run: make static-drupal-image-export
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: drupal-image
+          path: images
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      matrix:
+        suite:
+          - 21-large-file-derivatives
+      fail-fast: false
+    steps:
+      # Check out current commit
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download Drupal Image
+        uses: actions/download-artifact@v2
+        with:
+          name: drupal-image
+          path: images
+
+      - name: Load Drupal Image
+        run: docker load < images/static-drupal.tar
+
+      - name: Up
+        run: make up
+
+      - name: test
+        run: |
+          mkdir -p end-to-end/reports
+          chmod a+rwx end-to-end/reports
+          make test test=${{ matrix.suite }}
+      - name: reports
+        if: failure()
+        run: |
+          mkdir -p end-to-end/reports/${{ matrix.suite }}
+          docker ps
+          docker logs idc_drupal_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/drupal-${{ matrix.suite }}.log
+          docker logs idc_alpaca_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/alpaca-${{ matrix.suite }}.log
+          docker logs idc_homarus_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/homarus-${{ matrix.suite }}.log
+      - name: upload reports
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports-${{ matrix.suite }}
+          path: end-to-end/reports/${{ matrix.suite }}

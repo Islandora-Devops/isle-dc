@@ -30,8 +30,10 @@ $config['s3fs.settings']['use_cname'] = (bool) getenv('DRUPAL_DEFAULT_S3_USE_CNA
 $config['s3fs.settings']['use_customhost'] = (bool) getenv('DRUPAL_DEFAULT_S3_USE_CUSTOMHOST') ?: false;
 $config['s3fs.settings']['use_path_style_endpoint'] = (bool) getenv('DRUPAL_DEFAULT_S3_USE_PATH_STYLE_ENDPOINT') ?: false;
 
-# This will be overridden by s3fs, but needs a value in order to enable private FS at all. 
-$settings['file_private_path'] = '/tmp'; 
+# This will be overridden by s3fs, but needs a value in order to enable private FS at all.
+$settings['file_private_path'] = '/tmp';
 
 # This needs to be defined in in order to avoid crashing
 $settings['flysystem']['fedora']['config']['root'] = 'http://fcrepo.isle-dc.localhost/fcrepo/rest/';
+
+$config['islandora.settings']['jwt_expiry'] = str_replace("'", "", str_replace('"', '', getenv('DRUPAL_JWT_EXPIRY_INTERVAL') ?: '+2 hour'));

@@ -8,6 +8,6 @@ index 3bdfdf53..b9ef436d 100644
      _auth: ['basic_auth', 'cookie', 'jwt_auth']
 +    default_url_options:
 +      https: true
- 
+
  islandora.attach_file_to_media:
    path: '/media/add_derivative/{media}/{destination_field}'

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f49050a912e3c72cd899a72b9e78baa6",
+    "content-hash": "dbfd091d29559985c82b81b03537aecd",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -7599,16 +7599,16 @@
         },
         {
             "name": "jhu_idc/idc_migration",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_migration.git",
-                "reference": "d6b5a240ec4444c61cd7d673cfef98c2cc236bf1"
+                "reference": "8f84792ed7813a56b85b4c9fa0ec20e57a95b334"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/d6b5a240ec4444c61cd7d673cfef98c2cc236bf1",
-                "reference": "d6b5a240ec4444c61cd7d673cfef98c2cc236bf1",
+                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/8f84792ed7813a56b85b4c9fa0ec20e57a95b334",
+                "reference": "8f84792ed7813a56b85b4c9fa0ec20e57a95b334",
                 "shasum": ""
             },
             "require": {
@@ -7638,9 +7638,9 @@
             ],
             "description": "Custom migration plugins for IDC",
             "support": {
-                "source": "https://github.com/jhu-idc/idc_migration/tree/v1.0.6"
+                "source": "https://github.com/jhu-idc/idc_migration/tree/v1.0.7"
             },
-            "time": "2021-07-20T18:46:02+00:00"
+            "time": "2021-07-22T23:36:41+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",

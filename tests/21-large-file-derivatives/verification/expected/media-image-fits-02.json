@@ -1,0 +1,9 @@
+{
+  "type": "media",
+  "bundle": "fits_technical_metadata",
+  "name": "35-FITS File.xml",
+  "use": [
+    "FITS File"
+  ],
+  "media_of": "Derivative Image 02"
+}

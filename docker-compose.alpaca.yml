@@ -5,3 +5,11 @@ networks:
 services:
   alpaca:
     image: ${REPOSITORY:-islandora}/alpaca:${TAG:-latest}
+    environment:
+      ALPACA_LOGGER_ISLANDORA_LEVEL: DEBUG
+      ALPACA_LOGGER_CAMEL_LEVEL: WARN
+      ALPACA_LOGGER_ROOT_LEVEL: WARN
+      ALPACA_HOMERUS_HTTP_SOCKET_TIMEOUT_MS: ${ALPACA_HOMERUS_HTTP_SOCKET_TIMEOUT_MS:-600000}
+    networks:
+      - default
+      - gateway

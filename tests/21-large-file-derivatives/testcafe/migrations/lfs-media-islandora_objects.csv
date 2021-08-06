@@ -1,0 +1,9 @@
+unique_id,node_id,title,member_of,resource_type,model,display_hint
+lfs_io_01,,Derivative Image 01,:::Derivatives Collection,Image,Image,Open Seadragon
+lfs_io_02,,Derivative Image 02,:::Derivatives Collection,Image,Image,Open Seadragon
+lfs_io_03,,Derivative Image 03,:::Derivatives Collection,Image,Image,Open Seadragon
+lfs_io_04,,Derivative Image 04,:::Derivatives Collection,Image,Image,Open Seadragon
+lfs_io_05,,Derivative Image 05,:::Derivatives Collection,Image,Image,Open Seadragon
+lfs_io_06,,Derivative Small Video,:::Derivatives Collection,Moving Image,Video,
+lfs_io_07,,Derivative Large Video,:::Derivatives Collection,Moving Image,Video,
+lfs_io_08,,Derivative Documents,:::Derivatives Collection,Text,Digital Document,

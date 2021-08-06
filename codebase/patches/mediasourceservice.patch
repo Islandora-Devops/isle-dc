@@ -1,0 +1,54 @@
+diff --git a/web/modules/contrib/islandora/src/MediaSource/MediaSourceService.php b/web/modules/contrib/islandora/src/MediaSource/MediaSourceService.php
+index 9399e334..9c160327 100644
+--- a/src/MediaSource/MediaSourceService.php
++++ b/src/MediaSource/MediaSourceService.php
+@@ -281,13 +281,32 @@ class MediaSourceService {
+       }
+ 
+       $directory = $this->fileSystem->dirname($content_location);
+-      if (!$this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
+-        throw new HttpException(500, "The destination directory does not exist, could not be created, or is not writable");
++      try {
++        if (!$this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
++          throw new HttpException(500, "The destination directory does not exist, could not be created, or is not writable");
++        }
++      } catch (\Drupal\Core\Database\IntegrityConstraintViolationException $constraintEx) {
++        // ignore
++      } catch (\Exception $e) {
++        throw new HttpException(500, sprintf("%s %s", get_class($e), $e->getMessage()), $e);
+       }
+ 
+       // Copy over the file content.
+-      $this->updateFile($file, $resource, $mimetype);
+-      $file->save();
++      try {
++        $this->updateFile($file, $resource, $mimetype);
++      } catch (\Drupal\Core\Database\IntegrityConstraintViolationException $constraintEx) {
++        if (!str_contains($constraintEx->getMessage(), sprintf("'%s'", $directory))) {
++          throw new HttpException(500, sprintf("Constraint violation when updating file: %s", $constraintEx->getMessage()), $constraintEx);
++        }
++      } catch (\Exception $e) {
++        throw new HttpException(500, sprintf("Error updating file: %s", $e->getMessage()), $e);
++      }
++
++      try {
++        $file->save();
++      } catch (EntityStorageException $e) {
++        throw new HttpException(500, sprintf("Error saving file: %s", $e->getMessage()), $e);
++      }
+ 
+       // Construct the Media.
+       $media_struct = [
+@@ -312,7 +331,11 @@ class MediaSourceService {
+       }
+ 
+       $media = $this->entityTypeManager->getStorage('media')->create($media_struct);
+-      $media->save();
++      try {
++        $media->save();
++      } catch (EntityStorageException $e) {
++        throw new HttpException(500, sprintf("Error saving media: %s", $e->getMessage()), $e);
++      }
+       return $media;
+     }
+ 

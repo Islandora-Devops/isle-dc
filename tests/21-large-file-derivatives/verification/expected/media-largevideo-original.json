@@ -1,0 +1,10 @@
+{
+  "type": "media",
+  "bundle": "video",
+  "name": "smptebars.mp4",
+  "use": [
+    "Preservation Master File",
+    "Original File"
+  ],
+  "media_of": "Derivative Large Video"
+}
