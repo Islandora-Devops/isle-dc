@@ -1,5 +1,6 @@
 import {Selector} from 'testcafe';
 import {adminUser} from './roles.js';
+import {doMigration} from './util.js';
 
 
 fixture`Migration Tests`
@@ -340,6 +341,56 @@ test('Perform Repository Object Migration', async t => {
     ])
     .click('#edit-import');
 
+});
+
+// This is a quick test to ensure that one is able to edit items
+// after ingesting them - there was an issue with unique ids where you could not
+// edit items after creating them.  This is a basic sanity test to see if there is a
+// issue like that again.
+test('Perform Edit on Repository Item', async t => {
+  await doMigration(t, migrate_new_items, './migrations/islandora_object-edit1.csv');
+
+  await t
+    .navigateTo('https://islandora-idc.traefik.me/admin/content');
+
+  const item = Selector('div.view-content').find('a').withText('Unique Test Item');
+  await t.expect(item.count).eql(1);
+  await t.click(item);
+
+  // click on edit tab
+  await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Edit'));
+  await t
+    .typeText('#edit-title-0-value', 'Unique New Title', { replace: true })
+    .click('#edit-submit');
+
+  await t.expect(Selector('.messages__list').withText('Unique New Title').exists).ok();
+  await t.expect(Selector('.messages__list').withText('has been updated').exists).ok();
+});
+
+test('Perform Edit on Repository Item using duplicate id', async t => {
+
+  await doMigration(t, migrate_new_items, './migrations/islandora_object-edit2.csv');
+
+  await t
+    .navigateTo('https://islandora-idc.traefik.me/admin/content');
+
+  // there are two items:
+  //   'Edit Item 1' with unique id io_345
+  //   'Edit Item 2' with unique id io_456
+  // Try to set 'Edit Item 2's unique id to the same as 'Edit Item 1'
+  // and check that it fails
+  const item = Selector('div.view-content').find('a').withText('Edit Item 2');
+  await t.expect(item.count).eql(1);
+  await t.click(item);
+
+  // click on edit tab
+  await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Edit'));
+  await t
+    .typeText('#edit-field-unique-id-0-value', 'io_345', { replace: true })
+    .click('#edit-submit');
+
+  let msg = 'The ID (io_345) is already in use, please choose another one.';
+  await t.expect(Selector('.messages--error').withText(msg).exists).ok();
 });
 
 test('Perform Media Migrations', async t => {
