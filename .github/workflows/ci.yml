@@ -13,6 +13,8 @@ jobs:
     build:
         name: build
         runs-on: ubuntu-latest
+        outputs:
+          matrix: ${{ steps.excludes-matrix.outputs.matrix }}
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
         steps:
@@ -41,21 +43,27 @@ jobs:
               with:
                 name: drupal-image
                 path: images
+
+            - name: Generate Test Matrix
+              id: test-matrix
+              uses: jhu-idc/idc-matrixgen@1.0.0
+              with:
+                key: suite
+
+            - name: Exclude nightly jobs
+              id: excludes-matrix
+              uses: jhu-idc/idc-matrixgen@1.0.0
+              with:
+                key: suite
+                glob: '*nightly*.sh'
+                exclude: true
+                matrix: ${{ steps.test-matrix.outputs.matrix }}
     test:
         name: test
         runs-on: ubuntu-latest
         needs: build
         strategy:
-          matrix:
-            suite:
-              - 01-end-to-end
-              - 02-static-config
-              - 10-migration-backend-tests
-              - 11-file-deletion-tests
-              - 12-media-tests
-              - 13-migration-entity-resolution
-              - 20-export-tests
-              - 21-role-permission-tests
+          matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
           fail-fast: false
         steps:
             # Check out current commit
@@ -97,7 +105,7 @@ jobs:
     deploy:
         name: Deploy
         runs-on: ubuntu-latest
-        needs: [ build, test]
+        needs: [ build, test ]
         steps:
             # Check out current commit
             - name: Checkout
