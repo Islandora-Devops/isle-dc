@@ -10,6 +10,7 @@ dependencies:
     - field.field.media.video.field_media_video_file
     - field.field.media.video.field_mime_type
     - field.field.media.video.field_original_name
+    - field.field.media.video.field_unique_id
     - media.type.video
   module:
     - file
@@ -63,6 +64,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
+  field_unique_id:
+    weight: 27
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   name:
     type: string_textfield

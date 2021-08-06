@@ -12,6 +12,7 @@ dependencies:
     - field.field.media.image.field_media_use
     - field.field.media.image.field_mime_type
     - field.field.media.image.field_original_name
+    - field.field.media.image.field_unique_id
     - field.field.media.image.field_width
     - media.type.image
   enforced:
@@ -45,6 +46,7 @@ hidden:
   field_media_use: true
   field_mime_type: true
   field_original_name: true
+  field_unique_id: true
   field_width: true
   langcode: true
   name: true

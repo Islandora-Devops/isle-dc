@@ -1,4 +1,4 @@
-local_id,name,original_name,mime_type,media_of,media_use,url
+unique_id,name,original_name,mime_type,media_of,media_use,url
 media_format_file_tests_01,Geo Tif file,NEFF1851_GEO.tfw,application/octet-stream,:::Migrated Geo Tiff Object,Original File,http://migration-assets/assets/file/NEFF1851_GEO.tfw
 media_format_file_tests_02,Test Zip File,file_test.zip,application/zip,:::Migrated Zip Object,Original File,http://migration-assets/assets/file/file_test.zip
 media_format_file_tests_03,Test Tar File,file_test.tar,application/x-tar,:::Migrated Tar Object,Original File,http://migration-assets/assets/file/file_test.tar

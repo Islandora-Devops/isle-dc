@@ -12,7 +12,7 @@ label: '(3d) Ingest New Extracted Text Media'
 source:
   plugin: idc_csv
   ids:
-    - local_id
+    - unique_id
   path: 'Will be populated by the Migrate Source UI'
   constants:
     STATUS: true
@@ -22,6 +22,7 @@ source:
     TMP_FS: /tmp/
     FORMAT: basic_html
 process:
+  field_unique_id: unique_id
   _url_filename:
     -
       plugin: callback

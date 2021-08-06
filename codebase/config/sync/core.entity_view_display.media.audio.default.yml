@@ -10,6 +10,7 @@ dependencies:
     - field.field.media.audio.field_media_use
     - field.field.media.audio.field_mime_type
     - field.field.media.audio.field_original_name
+    - field.field.media.audio.field_unique_id
     - media.type.audio
   module:
     - file
@@ -38,10 +39,10 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
   field_gemini_uri:
-    weight: 100
+    weight: 7
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   field_media_audio_file:
     type: file_audio
     weight: 1
@@ -78,7 +79,7 @@ content:
       link_to_entity: false
     third_party_settings: {  }
   field_original_name:
-    weight: 101
+    weight: 8
     label: above
     settings: {  }
     third_party_settings: {  }
@@ -94,6 +95,7 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true
   thumbnail: true

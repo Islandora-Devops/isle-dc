@@ -1,0 +1,26 @@
+uuid: c32edb16-1ac4-4732-90ae-7a8f28fb8a6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_unique_id
+    - media.type.video
+  module:
+    - epp
+    - idc_defaults
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
+id: media.video.field_unique_id
+field_name: field_unique_id
+entity_type: media
+bundle: video
+label: 'Unique ID'
+description: 'This is the system''s unique identifier for this field.  Generally this should not be edited after the item is created. '
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: idc_unique

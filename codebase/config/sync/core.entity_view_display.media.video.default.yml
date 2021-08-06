@@ -10,6 +10,7 @@ dependencies:
     - field.field.media.video.field_media_video_file
     - field.field.media.video.field_mime_type
     - field.field.media.video.field_original_name
+    - field.field.media.video.field_unique_id
     - media.type.video
   module:
     - file
@@ -38,10 +39,10 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
   field_gemini_uri:
-    weight: 100
+    weight: 7
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   field_media_of:
     type: entity_reference_label
     weight: 4
@@ -81,7 +82,7 @@ content:
       link_to_entity: false
     third_party_settings: {  }
   field_original_name:
-    weight: 101
+    weight: 8
     label: above
     settings: {  }
     third_party_settings: {  }
@@ -97,6 +98,7 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true
   thumbnail: true

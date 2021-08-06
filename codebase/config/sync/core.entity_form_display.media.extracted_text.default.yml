@@ -9,6 +9,7 @@ dependencies:
     - field.field.media.extracted_text.field_media_of
     - field.field.media.extracted_text.field_media_use
     - field.field.media.extracted_text.field_mime_type
+    - field.field.media.extracted_text.field_unique_id
     - media.type.extracted_text
   module:
     - file
@@ -48,6 +49,14 @@ content:
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
+  field_unique_id:
+    weight: 26
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   langcode:
     type: language_select
     weight: 1

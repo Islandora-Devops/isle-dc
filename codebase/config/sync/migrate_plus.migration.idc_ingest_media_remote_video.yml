@@ -12,7 +12,7 @@ label: '(3f) Ingest Remote Video Media'
 source:
   plugin: idc_csv
   ids:
-    - local_id
+    - unique_id
   path: 'Will be populated by the Migrate Source UI'
   constants:
     STATUS: true
@@ -21,6 +21,7 @@ source:
     DRUPAL_FS: 'private://'
     TMP_FS: /tmp/
 process:
+  field_unique_id: unique_id
   name: name
   field_access_terms:
     -

@@ -1,2 +1,2 @@
-local_id,name,access_terms,original_name,mime_type,media_of,media_use,url,alt_text
+unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url,alt_text
 media_img_00001,Looking For Fossils,Media Group A||Media Group B,TRP_7767.jpg,image/jpeg,:::Media Migration Repository Item One,Original File||Preservation Master File,http://migration-assets/assets/image/TRP_7767.jpg,Image alt text

@@ -1,0 +1,26 @@
+uuid: b1aa1e24-6823-4839-b640-1e26728d7f3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_unique_id
+    - media.type.extracted_text
+  module:
+    - epp
+    - idc_defaults
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
+id: media.extracted_text.field_unique_id
+field_name: field_unique_id
+entity_type: media
+bundle: extracted_text
+label: 'Unique ID'
+description: 'This is the system''s unique identifier for this field.  Generally this should not be edited after the item is created. '
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: idc_unique

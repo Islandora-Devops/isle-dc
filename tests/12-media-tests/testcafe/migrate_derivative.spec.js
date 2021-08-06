@@ -69,3 +69,26 @@ test('Migrate Images for Derivative Generation', async t => {
     await t.expect(thumb_derivative.count).eql(1);
     await t.expect(fits_derivative.count).eql(1);
 });
+
+test('Test Derivatives Unique Id Field', async t => {
+
+    // note: FITS media do not have this field.
+    const media_list = ['Service File.jpg', 'Thumbnail Image.jpg'];
+    const io_name = "Derivative Repository Item One"
+
+    // we know these derivatives already exist from last test, so don't repeat those
+    // tests here, just look at deriviatives
+    for (const media_text of media_list) {
+      await t.navigateTo(contentList);
+      const io = Selector('div.view-content').find('a').withText(io_name);
+      await t.click(io);
+      await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'));
+
+      const derivative = Selector('div.view-content').find('a').withText(media_text);
+
+      // just make sure they each have a value for unique id field set.
+      await t.click(derivative);
+      await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Edit'));
+      await t.expect(Selector('#edit-field-unique-id-0-value').value).notEql('');
+    }
+});

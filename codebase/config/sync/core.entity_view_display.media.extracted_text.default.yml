@@ -9,6 +9,7 @@ dependencies:
     - field.field.media.extracted_text.field_media_of
     - field.field.media.extracted_text.field_media_use
     - field.field.media.extracted_text.field_mime_type
+    - field.field.media.extracted_text.field_unique_id
     - media.type.extracted_text
   module:
     - file
@@ -62,6 +63,14 @@ content:
     settings:
       link: true
     third_party_settings: {  }
+  field_unique_id:
+    weight: 6
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
   uid:
     label: hidden
     type: author

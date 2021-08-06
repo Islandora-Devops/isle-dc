@@ -1,0 +1,26 @@
+uuid: db0e43d4-0572-420e-9361-acd6582e7200
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_unique_id
+    - media.type.remote_video
+  module:
+    - epp
+    - idc_defaults
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
+id: media.remote_video.field_unique_id
+field_name: field_unique_id
+entity_type: media
+bundle: remote_video
+label: 'Unique ID'
+description: 'This is the system''s unique identifier for this field.  Generally this should not be edited after the item is created. '
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: idc_unique
