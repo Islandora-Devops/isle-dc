@@ -14,6 +14,7 @@ dependencies:
     - field.field.taxonomy_term.corporate_body.field_relationships
     - field.field.taxonomy_term.corporate_body.field_subordinate_name
     - field.field.taxonomy_term.corporate_body.field_type
+    - field.field.taxonomy_term.corporate_body.field_unique_id
     - taxonomy.vocabulary.corporate_body
   module:
     - controlled_access_terms
@@ -146,5 +147,6 @@ content:
     region: content
 hidden:
   field_corporate_body_alt_name: true
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true

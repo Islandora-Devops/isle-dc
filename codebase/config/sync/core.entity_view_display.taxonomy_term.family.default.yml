@@ -8,6 +8,7 @@ dependencies:
     - field.field.taxonomy_term.family.field_family_name
     - field.field.taxonomy_term.family.field_relationships
     - field.field.taxonomy_term.family.field_title_and_other_words
+    - field.field.taxonomy_term.family.field_unique_id
     - taxonomy.vocabulary.family
   module:
     - controlled_access_terms
@@ -22,12 +23,12 @@ content:
   description:
     label: hidden
     type: text_default
-    weight: 4
+    weight: 2
     settings: {  }
     third_party_settings: {  }
     region: content
   field_authority_link:
-    weight: 10
+    weight: 3
     label: above
     settings:
       trim_length: 80
@@ -39,7 +40,7 @@ content:
     type: authority_formatter_default
     region: content
   field_date:
-    weight: 12
+    weight: 5
     label: above
     settings:
       date_separator: dash
@@ -50,7 +51,7 @@ content:
     type: edtf_default
     region: content
   field_family_name:
-    weight: 1
+    weight: 0
     label: above
     settings:
       link_to_entity: false
@@ -58,7 +59,7 @@ content:
     type: string
     region: content
   field_relationships:
-    weight: 11
+    weight: 4
     label: above
     settings:
       link: true
@@ -66,7 +67,7 @@ content:
     type: typed_relation_default
     region: content
   field_title_and_other_words:
-    weight: 2
+    weight: 1
     label: above
     settings:
       link_to_entity: false
@@ -74,5 +75,6 @@ content:
     type: string
     region: content
 hidden:
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true

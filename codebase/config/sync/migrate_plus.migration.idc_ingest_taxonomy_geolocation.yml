@@ -12,7 +12,7 @@ label: 'Taxonomy: Geolocation'
 source:
   plugin: idc_csv
   ids:
-    - local_id
+    - unique_id
   path: 'Will be populated by the Migrate Source UI'
   constants:
     STATUS: true
@@ -21,6 +21,7 @@ source:
     NODE: node
 process:
   name: name
+  field_unique_id: unique_id
   field_geo_alt_name:
     -
       plugin: explode

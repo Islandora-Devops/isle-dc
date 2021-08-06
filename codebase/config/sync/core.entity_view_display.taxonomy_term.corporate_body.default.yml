@@ -13,6 +13,7 @@ dependencies:
     - field.field.taxonomy_term.corporate_body.field_relationships
     - field.field.taxonomy_term.corporate_body.field_subordinate_name
     - field.field.taxonomy_term.corporate_body.field_type
+    - field.field.taxonomy_term.corporate_body.field_unique_id
     - taxonomy.vocabulary.corporate_body
   module:
     - controlled_access_terms
@@ -29,7 +30,7 @@ third_party_settings:
         - field_num_of_section_or_meet
         - field_date_of_meeting_or_treaty
       parent_name: ''
-      weight: 2
+      weight: 1
       format_type: fieldset
       region: content
       format_settings:
@@ -40,7 +41,7 @@ third_party_settings:
     group_alt_corporate_name:
       children: {  }
       parent_name: ''
-      weight: 3
+      weight: 2
       format_type: fieldset
       region: content
       format_settings:
@@ -58,12 +59,12 @@ content:
   description:
     label: hidden
     type: text_default
-    weight: 1
+    weight: 0
     settings: {  }
     third_party_settings: {  }
     region: content
   field_authority_link:
-    weight: 4
+    weight: 3
     label: above
     settings:
       trim_length: 80
@@ -75,7 +76,7 @@ content:
     type: authority_formatter_default
     region: content
   field_corporate_body_alt_name:
-    weight: 22
+    weight: 7
     label: above
     settings:
       link_to_entity: false
@@ -83,7 +84,7 @@ content:
     type: string
     region: content
   field_date:
-    weight: 21
+    weight: 6
     label: above
     settings:
       date_separator: dash
@@ -129,7 +130,7 @@ content:
     type: string
     region: content
   field_relationships:
-    weight: 6
+    weight: 4
     label: above
     settings:
       link: true
@@ -145,12 +146,13 @@ content:
     type: string
     region: content
   field_type:
-    weight: 7
+    weight: 5
     label: above
     settings: {  }
     third_party_settings: {  }
     type: list_default
     region: content
 hidden:
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true

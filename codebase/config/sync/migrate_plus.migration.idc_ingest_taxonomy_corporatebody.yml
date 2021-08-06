@@ -12,10 +12,11 @@ label: 'Taxonomy: Corporate Body'
 source:
   plugin: idc_csv
   ids:
-    - local_id
+    - unique_id
   path: 'Will be populated by the Migrate Source UI'
 process:
   name: name
+  field_unique_id: unique_id
   field_date_of_meeting_or_treaty:
     -
       plugin: skip_on_empty

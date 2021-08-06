@@ -6,6 +6,7 @@ dependencies:
     - field.field.taxonomy_term.geo_location.field_authority_link
     - field.field.taxonomy_term.geo_location.field_broader
     - field.field.taxonomy_term.geo_location.field_geo_alt_name
+    - field.field.taxonomy_term.geo_location.field_unique_id
     - taxonomy.vocabulary.geo_location
   module:
     - controlled_access_terms
@@ -21,12 +22,12 @@ content:
   description:
     label: hidden
     type: text_default
-    weight: 1
+    weight: 0
     settings: {  }
     third_party_settings: {  }
     region: content
   field_authority_link:
-    weight: 3
+    weight: 2
     label: inline
     settings:
       trim_length: 80
@@ -38,7 +39,7 @@ content:
     type: authority_formatter_default
     region: content
   field_broader:
-    weight: 4
+    weight: 3
     label: above
     settings:
       trim_length: 80
@@ -50,7 +51,7 @@ content:
     type: link
     region: content
   field_geo_alt_name:
-    weight: 2
+    weight: 1
     label: inline
     settings:
       link_to_entity: false
@@ -58,5 +59,6 @@ content:
     type: string
     region: content
 hidden:
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true

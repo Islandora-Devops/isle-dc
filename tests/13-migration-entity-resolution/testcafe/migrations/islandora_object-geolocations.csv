@@ -1,2 +1,2 @@
-local_id,name,description
+unique_id,name,description
 io-geolocation-01,My GeoLocation,A GeoLocation taxonomy term for testing

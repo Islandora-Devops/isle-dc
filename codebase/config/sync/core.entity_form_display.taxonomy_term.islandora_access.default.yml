@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.islandora_access.field_unique_id
     - taxonomy.vocabulary.islandora_access
   module:
     - text
@@ -19,6 +20,14 @@ content:
       placeholder: ''
       rows: 5
     third_party_settings: {  }
+  field_unique_id:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0

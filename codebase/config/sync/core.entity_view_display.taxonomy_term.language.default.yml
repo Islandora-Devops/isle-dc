@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.taxonomy_term.language.field_authority_link
     - field.field.taxonomy_term.language.field_language_code
+    - field.field.taxonomy_term.language.field_unique_id
     - taxonomy.vocabulary.language
   module:
     - controlled_access_terms
@@ -25,7 +26,7 @@ content:
     third_party_settings: {  }
   field_authority_link:
     type: authority_formatter_default
-    weight: 0
+    weight: 1
     region: content
     label: above
     settings:
@@ -56,5 +57,6 @@ content:
     type: string
     region: content
 hidden:
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true

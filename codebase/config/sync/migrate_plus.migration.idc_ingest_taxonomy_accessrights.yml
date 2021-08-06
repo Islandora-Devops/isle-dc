@@ -12,7 +12,7 @@ label: 'Taxonomy: Access Rights'
 source:
   plugin: idc_csv
   ids:
-    - local_id
+    - unique_id
   path: 'Will be populated by the Migrate Source UI'
   constants:
     STATUS: true
@@ -20,6 +20,7 @@ source:
     DESC_FORMAT: basic_html
 process:
   name: name
+  field_unique_id: unique_id
   field_authority_link:
     -
       plugin: explode

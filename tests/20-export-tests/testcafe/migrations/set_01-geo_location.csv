@@ -1,4 +1,4 @@
-local_id,name,geo_alt_name,broader,authority,description
+unique_id,name,geo_alt_name,broader,authority,description
 io-geolocation-01,"Knoxville, TN",,https://www.geonames.org/4662168/tennessee.html||https://en.wikipedia.org/wiki/Tennessee,,A city in Tennessee
 io-geolocation-02,"Hernandez, NM",,https://www.geonames.org/5481136/new-mexico.html,,A small town in New Mexico
 io-geolocation-03,"Chicago, IL",,https://www.geonames.org/4896861/illinois.html,,A large city in Illinois

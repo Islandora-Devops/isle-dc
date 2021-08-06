@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.resource_types.field_authority_link
+    - field.field.taxonomy_term.resource_types.field_unique_id
     - taxonomy.vocabulary.resource_types
   module:
     - controlled_access_terms
@@ -31,6 +32,14 @@ content:
     third_party_settings: {  }
     type: authority_link_default
     region: content
+  field_unique_id:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -43,7 +52,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 100
+    weight: 4
     region: content
     third_party_settings: {  }
 hidden:

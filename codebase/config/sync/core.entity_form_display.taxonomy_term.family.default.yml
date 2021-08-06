@@ -8,6 +8,7 @@ dependencies:
     - field.field.taxonomy_term.family.field_family_name
     - field.field.taxonomy_term.family.field_relationships
     - field.field.taxonomy_term.family.field_title_and_other_words
+    - field.field.taxonomy_term.family.field_unique_id
     - taxonomy.vocabulary.family
   module:
     - controlled_access_terms
@@ -70,6 +71,14 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_unique_id:
+    weight: 7
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -82,7 +91,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 8
     region: content
     third_party_settings: {  }
 hidden:

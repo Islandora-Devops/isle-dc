@@ -1,2 +1,2 @@
-local_id,name,authority,description
+unique_id,name,authority,description
 subject-01,Analog Photography,http://www.google.com?q=Analog%20Photography;other||http://www.ford.com;iso19115,<p>Analog photography description.</p>

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.access_rights.field_authority_link
+    - field.field.taxonomy_term.access_rights.field_unique_id
     - taxonomy.vocabulary.access_rights
   module:
     - controlled_access_terms
@@ -28,6 +29,14 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: authority_link_default
+    region: content
+  field_unique_id:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   name:
     type: string_textfield

@@ -1,0 +1,26 @@
+uuid: 8ab49718-13cc-4b83-ad09-99ced5f09678
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_unique_id
+    - taxonomy.vocabulary.corporate_body
+  module:
+    - epp
+    - idc_defaults
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
+id: taxonomy_term.corporate_body.field_unique_id
+field_name: field_unique_id
+entity_type: taxonomy_term
+bundle: corporate_body
+label: 'Unique ID'
+description: 'This is the system''s unique identifier for this field.  Generally this should not be edited.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: idc_unique

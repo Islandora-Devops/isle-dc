@@ -1,3 +1,3 @@
-local_id,name,authority,description
+unique_id,name,authority,description
 io-genre-01,Analog,,<p>Analog form of a medium</p>
 io-genre-02,Nature,,<p>Of or relating to the natural world</p>

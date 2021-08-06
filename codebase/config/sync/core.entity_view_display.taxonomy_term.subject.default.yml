@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.subject.field_authority_link
+    - field.field.taxonomy_term.subject.field_unique_id
     - taxonomy.vocabulary.subject
   module:
     - controlled_access_terms
@@ -18,12 +19,12 @@ content:
   description:
     label: hidden
     type: text_default
-    weight: 101
+    weight: 0
     settings: {  }
     third_party_settings: {  }
     region: content
   field_authority_link:
-    weight: 103
+    weight: 1
     label: above
     settings:
       trim_length: 80
@@ -35,5 +36,6 @@ content:
     type: authority_formatter_default
     region: content
 hidden:
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true

@@ -9,6 +9,7 @@ dependencies:
     - field.field.taxonomy_term.family.field_family_name
     - field.field.taxonomy_term.family.field_relationships
     - field.field.taxonomy_term.family.field_title_and_other_words
+    - field.field.taxonomy_term.family.field_unique_id
     - taxonomy.vocabulary.family
   module:
     - controlled_access_terms
@@ -75,5 +76,6 @@ content:
     type: string
     region: content
 hidden:
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true

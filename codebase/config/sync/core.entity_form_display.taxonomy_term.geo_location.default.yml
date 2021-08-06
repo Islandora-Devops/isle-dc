@@ -6,6 +6,7 @@ dependencies:
     - field.field.taxonomy_term.geo_location.field_authority_link
     - field.field.taxonomy_term.geo_location.field_broader
     - field.field.taxonomy_term.geo_location.field_geo_alt_name
+    - field.field.taxonomy_term.geo_location.field_unique_id
     - taxonomy.vocabulary.geo_location
   module:
     - controlled_access_terms
@@ -50,6 +51,14 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_unique_id:
+    weight: 5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -62,7 +71,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 5
+    weight: 6
     region: content
     third_party_settings: {  }
 hidden:

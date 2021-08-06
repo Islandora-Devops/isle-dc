@@ -1,4 +1,4 @@
-local_id,name,parent,description
+unique_id,name,parent,description
 accesscontrol_01,Archives and Special Collections,,"<p>Collections from the archives</p>",
 accesscontrol_02,Collection A,Archives and Special Collections,"<p>For items in Collection A</p>",
 accesscontrol_03,Collection B,Collection A,,

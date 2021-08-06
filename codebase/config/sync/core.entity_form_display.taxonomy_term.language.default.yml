@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.taxonomy_term.language.field_authority_link
     - field.field.taxonomy_term.language.field_language_code
+    - field.field.taxonomy_term.language.field_unique_id
     - taxonomy.vocabulary.language
   module:
     - controlled_access_terms
@@ -40,6 +41,14 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_unique_id:
+    weight: 4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -52,7 +61,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 5
     region: content
     third_party_settings: {  }
 hidden:

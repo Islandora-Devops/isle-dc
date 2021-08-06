@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.genre.field_authority_link
+    - field.field.taxonomy_term.genre.field_unique_id
     - taxonomy.vocabulary.genre
   module:
     - controlled_access_terms
@@ -35,5 +36,6 @@ content:
     type: authority_formatter_default
     region: content
 hidden:
+  field_unique_id: true
   langcode: true
   search_api_excerpt: true

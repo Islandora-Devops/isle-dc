@@ -1,4 +1,4 @@
-local_id,name,language_code,authority,description
+unique_id,name,language_code,authority,description
 lang_01,Swedish,swe,http://id.loc.gov/vocabulary/iso639-2/swe;iso639-2b,
 lang_02,Apache,apa,http://id.loc.gov/vocabulary/iso639-2/apa;iso639-2b,
 lang_03,English (test),eng,http://id.loc.gov/vocabulary/iso639-2/eng;iso639-2b,
