@@ -1,7 +1,7 @@
-local_id,node_id,name,original_name,mime_type,media_of,media_use,url
-lfs_image_00001,,B12.tiff,B12.tiff,image/tiff,:::Derivative Image 01,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/B12.tiff
-lfs_image_00002,,B13.tiff,B13.tiff,image/tiff,:::Derivative Image 02,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/B13.tiff
-lfs_image_00003,,B14.tiff,B14.tiff,image/tiff,:::Derivative Image 03,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/B14.tiff
-lfs_image_00004,,B15.tiff,B15.tiff,image/tiff,:::Derivative Image 04,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/B15.tiff
-lfs_image_00005,,NEFF1851.tiff,NEFF1851.tiff,image/tiff,:::Derivative Image 05,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/NEFF1851.tiff
+unique_id,name,original_name,mime_type,media_of,media_use,url
+lfs_image_00001,B12.tiff,B12.tiff,image/tiff,:::Derivative Image 01,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/B12.tiff
+lfs_image_00002,B13.tiff,B13.tiff,image/tiff,:::Derivative Image 02,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/B13.tiff
+lfs_image_00003,B14.tiff,B14.tiff,image/tiff,:::Derivative Image 03,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/B14.tiff
+lfs_image_00004,B15.tiff,B15.tiff,image/tiff,:::Derivative Image 04,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/B15.tiff
+lfs_image_00005,NEFF1851.tiff,NEFF1851.tiff,image/tiff,:::Derivative Image 05,Original File||Preservation Master File,http://migration-assets/assets/lfs/image/NEFF1851.tiff
 
