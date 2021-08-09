@@ -11,6 +11,7 @@ dependencies:
     - field.field.media.file.field_mime_type
     - field.field.media.file.field_original_name
     - field.field.media.file.field_unique_id
+    - field.field.media.file.field_restricted_access
     - media.type.file
   module:
     - file
@@ -81,6 +82,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
+  field_restricted_access:
+    weight: 102
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   name:
     type: string

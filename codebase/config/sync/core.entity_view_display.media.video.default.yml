@@ -11,6 +11,7 @@ dependencies:
     - field.field.media.video.field_mime_type
     - field.field.media.video.field_original_name
     - field.field.media.video.field_unique_id
+    - field.field.media.video.field_restricted_access
     - media.type.video
   module:
     - file
@@ -61,7 +62,7 @@ content:
     third_party_settings: {  }
   field_media_video_file:
     type: file_video
-    weight: 1
+    weight: 0
     label: visually_hidden
     settings:
       muted: false
@@ -88,9 +89,19 @@ content:
     third_party_settings: {  }
     type: basic_string
     region: content
+  field_restricted_access:
+    weight: 9
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   name:
     type: string
-    weight: 0
+    weight: 1
     region: content
     label: above
     settings:

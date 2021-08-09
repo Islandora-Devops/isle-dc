@@ -1,4 +1,4 @@
-uuid: 35fb735f-ff1b-495d-bcb2-6fc1240d3550
+uuid: ac6626ca-d8b1-477c-96ed-bc5d1243d891
 langcode: en
 status: true
 dependencies:
@@ -12,66 +12,78 @@ dependencies:
     - field.field.media.fits_technical_metadata.field_restricted_access
     - field.field.media.fits_technical_metadata.fits_ois_file_information_md5che
     - media.type.fits_technical_metadata
-  enforced:
-    module:
-      - islandora_fits
   module:
-    - islandora_fits
-_core:
-  default_config_hash: eQIgNGtw_hfVQxGPLc_JeBC1l1whFSoMsEYYNx0vOv4
+    - path
 id: media.fits_technical_metadata.default
 targetEntityType: media
 bundle: fits_technical_metadata
 mode: default
 content:
-  field_media_file:
-    weight: 0
-    label: hidden
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: fits_formatter
-    region: content
   field_media_of:
-    weight: 1
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
+    type: entity_reference_autocomplete
+    weight: 7
     region: content
-  field_media_use:
-    weight: 3
-    label: above
     settings:
-      link: true
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_mime_type:
-    weight: 2
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
   field_restricted_access:
-    weight: 4
-    label: above
+    weight: 6
     settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
+      display_label: true
     third_party_settings: {  }
-    type: boolean
+    type: boolean_checkbox
     region: content
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 5
+    region: content
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
 hidden:
-  created: true
   field_complete: true
   field_file_size: true
+  field_media_file: true
+  field_media_use: true
+  field_mime_type: true
   fits_ois_file_information_md5che: true
-  langcode: true
-  name: true
-  search_api_excerpt: true
-  thumbnail: true
-  uid: true

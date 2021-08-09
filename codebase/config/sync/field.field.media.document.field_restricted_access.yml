@@ -1,0 +1,29 @@
+uuid: 8c01cae7-f5f5-4bb3-bc97-7503c822d2a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_restricted_access
+    - media.type.document
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
+id: media.document.field_restricted_access
+field_name: field_restricted_access
+entity_type: media
+bundle: document
+label: 'Restricted Access'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

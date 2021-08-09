@@ -11,6 +11,7 @@ dependencies:
     - field.field.media.file.field_mime_type
     - field.field.media.file.field_original_name
     - field.field.media.file.field_unique_id
+    - field.field.media.file.field_restricted_access
     - media.type.file
   module:
     - file
@@ -72,6 +73,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_restricted_access:
+    weight: 28
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   name:
     type: string_textfield

@@ -1,0 +1,29 @@
+uuid: 6a007731-1781-473f-85ed-be8a965eed4c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_restricted_access
+    - media.type.fits_technical_metadata
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
+id: media.fits_technical_metadata.field_restricted_access
+field_name: field_restricted_access
+entity_type: media
+bundle: fits_technical_metadata
+label: 'Restricted Access'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

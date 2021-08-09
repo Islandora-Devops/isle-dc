@@ -1,0 +1,21 @@
+uuid: 08df4c55-c3f3-42e9-b60c-771dabaa64da
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_restricted_access
+    - media.type.extracted_text
+id: media.extracted_text.field_restricted_access
+field_name: field_restricted_access
+entity_type: media
+bundle: extracted_text
+label: 'Restricted Access'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

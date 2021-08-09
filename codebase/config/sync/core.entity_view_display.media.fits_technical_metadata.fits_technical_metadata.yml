@@ -10,6 +10,7 @@ dependencies:
     - field.field.media.fits_technical_metadata.field_media_of
     - field.field.media.fits_technical_metadata.field_media_use
     - field.field.media.fits_technical_metadata.field_mime_type
+    - field.field.media.fits_technical_metadata.field_restricted_access
     - field.field.media.fits_technical_metadata.fits_ois_file_information_md5che
     - image.style.thumbnail
     - media.type.fits_technical_metadata
@@ -66,6 +67,7 @@ hidden:
   field_media_of: true
   field_media_use: true
   field_mime_type: true
+  field_restricted_access: true
   fits_ois_file_information_md5che: true
   langcode: true
   name: true

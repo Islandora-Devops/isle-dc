@@ -48,6 +48,8 @@ process:
       bundle: islandora_object
       bundle_key: type
       value_key: field_unique_id
+      value_key: title
+  field_restricted_access: restricted_access
   status: constants/STATUS
 destination:
   plugin: 'entity:media'

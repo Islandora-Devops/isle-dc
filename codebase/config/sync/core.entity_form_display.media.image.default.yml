@@ -12,6 +12,7 @@ dependencies:
     - field.field.media.image.field_mime_type
     - field.field.media.image.field_original_name
     - field.field.media.image.field_unique_id
+    - field.field.media.image.field_restricted_access
     - field.field.media.image.field_width
     - image.style.thumbnail
     - media.type.image
@@ -76,6 +77,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_restricted_access:
+    weight: 28
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   name:
     type: string_textfield

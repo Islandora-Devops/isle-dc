@@ -4,18 +4,19 @@ import (
 	"crypto/sha1"
 	"encoding/json"
 	"fmt"
-	"github.com/jhu-idc/idc-golang/drupal/env"
-	"github.com/jhu-idc/idc-golang/drupal/fs"
-	"github.com/jhu-idc/idc-golang/drupal/jsonapi"
-	"github.com/jhu-idc/idc-golang/drupal/model"
-	. "github.com/logrusorgru/aurora/v3"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/jhu-idc/idc-golang/drupal/env"
+	"github.com/jhu-idc/idc-golang/drupal/fs"
+	"github.com/jhu-idc/idc-golang/drupal/jsonapi"
+	"github.com/jhu-idc/idc-golang/drupal/model"
+	. "github.com/logrusorgru/aurora/v3"
+	"github.com/stretchr/testify/assert"
 )
 
 const (
@@ -1507,6 +1508,7 @@ func Test_VerifyMediaAudio(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, audio.JsonApiAttributes.MimeType)
 	assert.EqualValues(t, expectedJson.OriginalName, audio.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Size, audio.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.RestrictedAccess, audio.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 

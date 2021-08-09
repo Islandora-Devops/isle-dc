@@ -130,6 +130,7 @@
         "jhu-idc/islandora_defaults": "dev-8.x-1.x",
         "jhu-idc/migrate_file": "^1.1",
         "jhu_idc/idc_migration": "v1.0.7",
+        "maennchen/zipstream-php": "^2.1",
         "vlucas/phpdotenv": "^4.0",
         "webflo/drupal-finder": "^1.0.0",
         "zaporylie/composer-drupal-optimizations": "^1.0"
