@@ -8,7 +8,7 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.build.outputs.matrix }}
+      matrix: ${{ steps.test-matrix.outputs.matrix }}
     env:
       DOCKER_USER: ${{secrets.DOCKER_USER}}
     steps:
