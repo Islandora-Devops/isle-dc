@@ -76,7 +76,6 @@ jobs:
           chmod a+rwx end-to-end/reports
           make test test=${{ matrix.suite }}
       - name: reports
-        if: failure()
         run: |
           mkdir -p end-to-end/reports/${{ matrix.suite }}
           docker ps
@@ -84,7 +83,6 @@ jobs:
           docker logs idc_alpaca_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/alpaca-${{ matrix.suite }}.log
           docker logs idc_homarus_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/homarus-${{ matrix.suite }}.log
       - name: upload reports
-        if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: reports-${{ matrix.suite }}
