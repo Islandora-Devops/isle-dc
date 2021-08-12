@@ -72,7 +72,7 @@ endif
 DATABASE_SERVICES := $(sort $(DATABASE_SERVICES))
 
 # The services to be run (order is important), as services can override one
-# another. Traefik must be last if included as otherwise its network 
+# another. Traefik must be last if included as otherwise its network
 # definition for `gateway` will be overriden.
 SERVICES := $(REQUIRED_SERIVCES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(SECRETS) $(CODE_SERVER_SERVICE)
 
@@ -171,14 +171,14 @@ hydrate: update-settings-php update-config-from-environment solr-cores namespace
 delete-shortcut-entities:
 	docker-compose exec -T drupal drush -l $(SITE) entity:delete shortcut_set
 
-# Forces the site uuid to match that in the config_sync_directory so that 
+# Forces the site uuid to match that in the config_sync_directory so that
 # configuration can be imported.
 .PHONY: set-site-uuid
 .SILENT: set-site-uuid
 set-site-uuid:
 	docker-compose exec -T drupal with-contenv bash -lc "set_site_uuid"
 
-# RemovesForces the site uuid to match that in the config_sync_directory so that 
+# RemovesForces the site uuid to match that in the config_sync_directory so that
 # configuration can be imported.
 .PHONY: remove_standard_profile_references_from_config
 .SILENT: remove_standard_profile_references_from_config
@@ -222,7 +222,7 @@ endif
 	docker cp $$(docker-compose ps -q drupal):/tmp/public-files.tgz $(DEST)
 
 drupal-public-files-import: $(SRC)
-ifndef SRC 
+ifndef SRC
 	$(error SRC is not set)
 endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/public-files.tgz
@@ -275,33 +275,17 @@ reindex-triplestore:
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 
-# Helper function to generate keys for the user to use in their docker-compose.env.yml
-.PHONY: generate-jwt-keys
-.SILENT: generate-jwt-keys
-generate-jwt-keys:
-	docker run --rm -ti \
+# Helper to generate secrets & passwords, like so:
+# make generate-secrets
+.PHONY: generate-secrets
+.SILENT: generate-secrets
+generate-secrets:
+	docker run --rm -t \
+		-v $(CURDIR)/secrets:/secrets \
+		-v $(CURDIR)/scripts/generate-secrets.sh:/generate-secrets.sh \
+		-w / \
 		--entrypoint bash \
-		$(REPOSITORY)/drupal:$(TAG) -c \
-		"openssl genrsa -out /tmp/private.key 2048 &> /dev/null; \
-		openssl rsa -pubout -in /tmp/private.key -out /tmp/public.key &> /dev/null; \
-		echo $$'\nPrivate Key:\n'; \
-		cat /tmp/private.key; \
-		echo $$'\nPublic Key:\n'; \
-		cat /tmp/public.key; \
-		echo $$'\nCopy and paste these keys into your docker-compose.env.yml file where appropriate.'"
-
-# Helper to generate Matomo password, like so:
-# make generate-matomo-password MATOMO_USER_PASS=my_new_password
-.PHONY: generate-matomo-password
-.SILENT: generate-matomo-password
-generate-matomo-password:
-ifndef MATOMO_USER_PASS
-	$(error MATOMO_USER_PASS is not set)
-endif
-	docker run --rm -ti \
-		--entrypoint php \
-		$(REPOSITORY)/drupal:$(TAG) -r \
-		'echo password_hash(md5("$(MATOMO_USER_PASS)"), PASSWORD_DEFAULT) . "\n";'
+		$(REPOSITORY)/drupal:$(TAG) -c /generate-secrets.sh
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: download-default-certs
@@ -317,7 +301,7 @@ download-default-certs:
 
 .PHONY: demo
 .SILENT: demo
-demo:
+demo: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=demo
 	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
 	$(MAKE) pull ENVIROMENT=demo
@@ -333,11 +317,11 @@ demo:
 	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
 	$(MAKE) reindex-solr ENVIROMENT=demo
 	$(MAKE) reindex-triplestore ENVIROMENT=demo
-	
+
 
 .PHONY: local
 .SILENT: local
-local:
+local: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=local
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
@@ -357,5 +341,5 @@ local:
 .SILENT: clean
 clean:
 	-docker-compose down -v
-	sudo rm -fr codebase certs
+	sudo rm -fr codebase certs secrets/live/*
 	git clean -xffd .
