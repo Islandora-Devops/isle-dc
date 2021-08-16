@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbfd091d29559985c82b81b03537aecd",
+    "content-hash": "c6813b56091fc6229736173a69d4303a",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3762,16 +3762,8 @@
             ],
             "authors": [
                 {
-                    "name": "anruether",
-                    "homepage": "https://www.drupal.org/user/894458"
-                },
-                {
                     "name": "geek-merlin",
                     "homepage": "https://www.drupal.org/user/229048"
-                },
-                {
-                    "name": "heliogabal",
-                    "homepage": "https://www.drupal.org/user/998658"
                 }
             ],
             "description": "Prepopulate entity values via tokens.",
@@ -7191,12 +7183,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/islandora.git",
-                "reference": "d76a6644c919acaa48d59d862a4fc6e8a279be2d"
+                "reference": "714d9b632f06e4ea94d54406afc8e05e84325a84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/islandora/zipball/d76a6644c919acaa48d59d862a4fc6e8a279be2d",
-                "reference": "d76a6644c919acaa48d59d862a4fc6e8a279be2d",
+                "url": "https://api.github.com/repos/Islandora/islandora/zipball/714d9b632f06e4ea94d54406afc8e05e84325a84",
+                "reference": "714d9b632f06e4ea94d54406afc8e05e84325a84",
                 "shasum": ""
             },
             "require": {
@@ -7229,7 +7221,8 @@
             "type": "drupal-module",
             "extra": {
                 "patches_applied": {
-                    "Routing definitions": "patches/islandora.routing.yml.patch"
+                    "Routing definitions": "patches/islandora.routing.yml.patch",
+                    "Media Source Serivce": "patches/mediasourceservice.patch"
                 }
             },
             "license": [
@@ -7257,7 +7250,7 @@
                 "issues": "https://github.com/Islandora/documentation/issues",
                 "source": "https://github.com/Islandora/islandora/tree/8.x-1.x"
             },
-            "time": "2021-03-31T20:47:01+00:00"
+            "time": "2021-07-29T14:02:53+00:00"
         },
         {
             "name": "islandora/jsonld",
@@ -7403,12 +7396,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "31bae6d2f6ac9782938f2f4a389518ecd35ea0fa"
+                "reference": "165bd8270e9bde116fb0ddd6a6d7a3082118171b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/31bae6d2f6ac9782938f2f4a389518ecd35ea0fa",
-                "reference": "31bae6d2f6ac9782938f2f4a389518ecd35ea0fa",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/165bd8270e9bde116fb0ddd6a6d7a3082118171b",
+                "reference": "165bd8270e9bde116fb0ddd6a6d7a3082118171b",
                 "shasum": ""
             },
             "type": "drupal-theme",
@@ -7417,7 +7410,7 @@
                 "source": "https://github.com/jhu-idc/idc-ui-theme/tree/develop",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2021-06-02T20:10:05+00:00"
+            "time": "2021-08-05T19:20:34+00:00"
         },
         {
             "name": "jhu-idc/idc_defaults",
@@ -7484,12 +7477,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_ui_module.git",
-                "reference": "2315e6824f10f68f83c6005b4bc9f16f46bdd997"
+                "reference": "42c8929f9139e8db81ebcacf7f72a1c5cb834208"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/2315e6824f10f68f83c6005b4bc9f16f46bdd997",
-                "reference": "2315e6824f10f68f83c6005b4bc9f16f46bdd997",
+                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/42c8929f9139e8db81ebcacf7f72a1c5cb834208",
+                "reference": "42c8929f9139e8db81ebcacf7f72a1c5cb834208",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -7498,7 +7491,7 @@
                 "source": "https://github.com/jhu-idc/idc_ui_module/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_ui_module/issues"
             },
-            "time": "2021-06-14T13:33:43+00:00"
+            "time": "2021-08-05T19:20:22+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",
@@ -15613,6 +15606,9 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives",
                 "ext-zlib": "Allow gzip compression of HTTP requests"
             },
+            "bin": [
+                "bin/composer"
+            ],
             "type": "library",
             "extra": {
                 "branch-alias": {
