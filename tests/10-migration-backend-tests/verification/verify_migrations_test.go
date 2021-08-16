@@ -1280,6 +1280,7 @@ func Test_VerifyMediaDocument(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, document.JsonApiAttributes.MimeType)
 	assert.Equal(t, expectedJson.OriginalName, document.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Name, document.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.RestrictedAccess, document.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
@@ -1334,6 +1335,7 @@ func Test_VerifyMediaImage(t *testing.T) {
 	assert.Equal(t, expectedJson.Name, image.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Height, image.JsonApiAttributes.Height)
 	assert.Equal(t, expectedJson.Width, image.JsonApiAttributes.Width)
+	assert.Equal(t, expectedJson.RestrictedAccess, image.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1388,6 +1390,7 @@ func Test_VerifyMediaExtractedText(t *testing.T) {
 	assert.Equal(t, expectedJson.Name, ext.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.MimeType, ext.JsonApiAttributes.MimeType)
 	assert.EqualValues(t, expectedJson.ExtractedText, ext.JsonApiAttributes.EditedText)
+	assert.Equal(t, expectedJson.RestrictedAccess, ext.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1448,6 +1451,7 @@ func Test_VerifyMediaFile(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, genericFile.JsonApiAttributes.MimeType)
 	assert.EqualValues(t, expectedJson.OriginalName, genericFile.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Size, genericFile.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.RestrictedAccess, genericFile.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1569,6 +1573,7 @@ func Test_VerifyMediaVideo(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, video.JsonApiAttributes.MimeType)
 	assert.EqualValues(t, expectedJson.OriginalName, video.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Size, video.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.RestrictedAccess, video.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1627,6 +1632,7 @@ func Test_VerifyMediaRemoteVideo(t *testing.T) {
 
 	assert.Equal(t, expectedJson.Name, video.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.EmbedUrl, video.JsonApiAttributes.EmbedUrl)
+	assert.Equal(t, expectedJson.RestrictedAccess, video.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 

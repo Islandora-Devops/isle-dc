@@ -5,6 +5,7 @@
   "original_name": "NEFF1851_GEO.tfw",
   "size": 44,
   "mime_type": "application/octet-stream",
+  "restricted_access": true,
   "use": [
     "Preservation Master File",
     "Original File"
