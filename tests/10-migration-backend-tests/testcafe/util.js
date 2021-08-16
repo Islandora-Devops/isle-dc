@@ -97,39 +97,53 @@ export const doMigration = async (t, migrationType, file) => {
   // migrate the test objects into Drupal
   await t
     .click(selectMigration)
-    .click(migrationOptions.withAttribute("value", migrationType));
-
-  await t.setFilesToUpload("#edit-source-file", [file]).click("#edit-import");
+    .click(migrationOptions.withAttribute("value", migrationType))
+    .setFilesToUpload("#edit-source-file", [file])
+    .click("#edit-import");
 
   // Now, wait until we see messages on screen that everything has migrated successfully
   await t
     .expect(
       await tryUntilTrue(async () => {
-        let error_present = await Selector(".messages--error").count;
-        let status_present = await Selector(".messages--status").count;
+        let status_div = await Selector(".messages--status", { timeout: 1000});
+        let status_count = await status_div.count;
+        let error_div = await Selector(".messages--error", { timeout: 1000});
+        let error_count = await error_div.count;
 
-        // Something failed and was kind enough to leave a message
-        if (error_present > 0) {
-          throw "Error performing migrations!";
-        }
+        console.log("status: ", status_count, ", error: ", error_count);
 
         // If there is no status block, we're not done
-        if (status_present < 1) {
+        if (status_count < 1) {
+          console.log("no status section present");
           return false;
         }
 
-        // Iterate through all messages and look for '0 failed'
-        let messages = Selector(".messages__list");
-        let message_count = await messages.count;
+        // Something failed and was kind enough to leave a message
+        if (error_count > 0) {
+          let error_msg_count = await Selector(".messages--error").find(".messages__list").count;
+          let update_warning_present = await Selector(".messages--error")
+            .find(".messages__list")
+            .withText("There is a security update available for your version of Drupal.").count;
 
-        for (var i = 0; i < message_count; i++) {
-          await t.expect(messages.nth(i).innerText).contains("0 failed");
+          console.log("error message count: ", error_msg_count);
+          if (update_warning_present == 0 || update_warning_present == 1 && error_msg_count > 1) {
+            throw "Error performing migrations!";
+          } else {
+            console.log("Ignoring Drupal Update message");
+          }
         }
 
-        return message_count > 0;
+        // look for the message containing '0 failed', if it's not there, then there was an issue
+        await t.expect(
+          Selector(".messages")
+            .withText(`done with "${migrationType}"`)
+            .withText('0 failed').count
+        ).eql(1, "Migration didn't finish successfully: some objects failed to import")
+        .then(() => console.log(`Migration Done => ${migrationType} : ${file}`));
+
+        return true;
       })
-    )
-    .eql(true, "Could not perform migration!");
+    ).eql(true, "Could not perform migration!");
 };
 
 /**
@@ -165,8 +179,9 @@ export const download = async (uri) => {
  * @param {TestController} t Testcafe test controller
  * @param {string} name Name of the repository object for whom to upload an image to
  * @param {string} file path of the file to upload, on disk.
+ * @param {string} access term that should be applied to the media that's created
  */
-export const uploadImageInUI = async (t, name, file) => {
+export const uploadImageInUI = async (t, name, file, accessTerm) => {
   await navigateToMediaPage(t, name);
   await t.click(
     Selector("#block-idcui-local-tasks").find("a").withText("Media")
@@ -175,6 +190,7 @@ export const uploadImageInUI = async (t, name, file) => {
   await t.click(Selector(".admin-list").find("a").withText("local images"));
   await t.click(Selector("#edit-field-media-use-17"));
   await t.expect(Selector("#edit-field-media-use-17").checked).ok();
+  await t.click(Selector("#edit-field-access-terms").find("option").withText(accessTerm));
   await t.setFilesToUpload("#edit-field-media-image-0-upload", file);
   await t.click("#edit-submit");
 };
@@ -184,8 +200,9 @@ export const uploadImageInUI = async (t, name, file) => {
  * @param {TestController} t Testcafe test controller
  * @param {string} name Name of the repository object for whom to upload a file to
  * @param {string} file path of the file to upload, on disk.
+ * @param {string} access term that should be applied to the media that's created
  */
-export const uploadFileInUI = async (t, name, file) => {
+export const uploadFileInUI = async (t, name, file, accessTerm) => {
   await navigateToMediaPage(t, name);
   await t.click(
     Selector("#block-idcui-local-tasks").find("a").withText("Media")
@@ -194,6 +211,7 @@ export const uploadFileInUI = async (t, name, file) => {
   await t.click(Selector(".admin-list").find("a").withText("local files"));
   await t.click(Selector("#edit-field-media-use-17"));
   await t.expect(Selector("#edit-field-media-use-17").checked).ok();
+  await t.click(Selector("#edit-field-access-terms").find("option").withText(accessTerm));
   await t.setFilesToUpload("#edit-field-media-file-0-upload", file);
   await t.click("#edit-submit");
 };
@@ -215,6 +233,11 @@ export const tryUntilTrue = async (
   func,
   deadline_ms = process.env.TEST_OPERATION_TIMEOUT_MS
 ) => {
+  console.log("tryUntilTrue timeout: ", deadline_ms);
+  if (deadline_ms == undefined) {
+    deadline_ms = 30000;
+  }
+  console.log("tryUntilTrue timeout: ", deadline_ms);
   let expired = false;
   setTimeout(() => {
     expired = true;

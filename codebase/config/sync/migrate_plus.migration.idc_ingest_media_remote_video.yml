@@ -33,11 +33,12 @@ process:
       delimiter: '||'
       strict: false
     -
-      plugin: entity_lookup
-      bundle_key: vid
-      bundle: islandora_access
-      entity_type: taxonomy_term
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: islandora_access
+        bundle_key: vid
+        value_key: field_unique_id
   field_media_oembed_video: url
   field_media_of:
     plugin: parse_entity_lookup
@@ -46,7 +47,7 @@ process:
       entity_type: node
       bundle: islandora_object
       bundle_key: type
-      value_key: title
+      value_key: field_unique_id
   status: constants/STATUS
 destination:
   plugin: 'entity:media'

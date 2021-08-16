@@ -27,12 +27,13 @@ process:
     default_value: basic_html
   status: constants/STATUS
   parent:
-    plugin: entity_lookup
+    plugin: parse_entity_lookup
     source: parent
-    entity_type: taxonomy_term
-    value_key: name
-    bundle_key: vid
-    bundle: islandora_access
+    defaults:
+      entity_type: taxonomy_term
+      bundle: islandora_access
+      bundle_key: vid
+      value_key: field_unique_id
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: islandora_access

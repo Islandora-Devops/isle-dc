@@ -132,9 +132,9 @@ process:
     plugin: parse_entity_lookup
     defaults:
       entity_type: taxonomy_term
-      bundle_key: vid
       bundle: person
-      value_key: name
+      bundle_key: vid
+      value_key: field_unique_id
   field_relationships/rel_type: constants/REL_TYPE
   status: constants/STATUS
 destination:

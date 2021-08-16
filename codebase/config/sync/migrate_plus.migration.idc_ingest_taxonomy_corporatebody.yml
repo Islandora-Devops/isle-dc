@@ -138,7 +138,7 @@ process:
               entity_type: taxonomy_term
               bundle_key: vid
               bundle: corporate_body
-              value_key: name
+              value_key: field_unique_id
         rel_type:
           -
             plugin: skip_on_empty

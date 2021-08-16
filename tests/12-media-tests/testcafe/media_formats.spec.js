@@ -27,7 +27,7 @@ test("Upload tiff in UI", async (t) => {
   const file = await download(
     "http://migration-assets/assets/image/formats/tiff.tif"
   );
-  await uploadImageInUI(t, "Uploaded Tiff Object", file);
+  await uploadImageInUI(t, "Uploaded Tiff Object", file, "Group A");
 
   await t
     .expect(
@@ -56,7 +56,7 @@ test("Upload jpeg 2000 in UI", async (t) => {
   const file = await download(
     "http://migration-assets/assets/image/formats/jp2.jp2"
   );
-  await uploadImageInUI(t, "Uploaded JPEG2000 Object", file);
+  await uploadImageInUI(t, "Uploaded JPEG2000 Object", file, "Group A");
 
   await t
     .expect(
@@ -86,7 +86,7 @@ test("Upload Geo Tiff in UI", async (t) => {
     "http://migration-assets/assets/file/NEFF1851_GEO.tfw"
   );
 
-  await uploadFileInUI(t, "Uploaded Geo Tiff Object", file);
+  await uploadFileInUI(t, "Uploaded Geo Tiff Object", file, "Group A");
 
   await t
     .expect(
@@ -115,7 +115,7 @@ test("Upload Zip in UI", async (t) => {
   const file = await download(
     "http://migration-assets/assets/file/file_test.zip"
   );
-  await uploadFileInUI(t, "Uploaded Zip Object", file);
+  await uploadFileInUI(t, "Uploaded Zip Object", file, "Group A");
 
   await t
     .expect(
@@ -144,7 +144,7 @@ test("Upload Tar in UI", async (t) => {
   const file = await download(
     "http://migration-assets/assets/file/file_test.tar"
   );
-  await uploadFileInUI(t, "Uploaded Tar Object", file);
+  await uploadFileInUI(t, "Uploaded Tar Object", file, "Group A");
 
   await t
     .expect(
@@ -173,7 +173,7 @@ test("Upload GZip in UI", async (t) => {
   const file = await download(
     "http://migration-assets/assets/file/file_test.tar.gz"
   );
-  await uploadFileInUI(t, "Uploaded GZip Object", file);
+  await uploadFileInUI(t, "Uploaded GZip Object", file, "Group A");
 
   await t
     .expect(
@@ -203,7 +203,7 @@ test("Upload TGZ in UI", async (t) => {
   const file = await download(
     "http://migration-assets/assets/file/file_test.tgz"
   );
-  await uploadFileInUI(t, "Uploaded TGZ Object", file);
+  await uploadFileInUI(t, "Uploaded TGZ Object", file, "Group A");
 
   await t
     .expect(

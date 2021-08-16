@@ -30,4 +30,9 @@ test("Migrate Images for testing format support", async (t) => {
     migrationType.NEW_MEDIA_FILE,
     "./migrations/media-format-file.csv"
   );
+
+  await doMigration(
+    t,
+    migrationType.NEW_ACCESS_TERMS,
+    "./migrations/media-format-accessterms.csv")
 });

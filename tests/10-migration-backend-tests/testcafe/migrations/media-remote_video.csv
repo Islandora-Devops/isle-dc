@@ -1,2 +1,2 @@
 unique_id,name,access_terms,media_of,url
-media_rvideo_00001,A Tour of Go,Media Group A|Media Group B,:::Media Migration Repository Item One,https://www.youtube.com/watch?v=ytEkHepK08c
+media_rvideo_00001,A Tour of Go,:::media_accesscontrol_01||:::media_accesscontrol_02,:::media_io_01,https://www.youtube.com/watch?v=ytEkHepK08c

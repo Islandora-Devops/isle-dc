@@ -879,7 +879,7 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	for i := range relData.AccessRights.Data {
 		expectedAccessRights := &model.JsonApiAccessRights{}
 		relData.AccessRights.Data[i].Resolve(t, expectedAccessRights)
-		assert.Equal(t, expectedJson.AccessRights[i], expectedAccessRights.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.AccessRights, expectedAccessRights.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Access Terms
@@ -888,7 +888,7 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	for i := range relData.AccessTerms.Data {
 		expectedAccessTerms := &model.JsonApiIslandoraAccessTerms{}
 		relData.AccessTerms.Data[i].Resolve(t, expectedAccessTerms)
-		assert.Equal(t, expectedJson.AccessTerms[i], expectedAccessTerms.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.AccessTerms, expectedAccessTerms.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Alt title
@@ -978,7 +978,7 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	for i := range relData.Genre.Data {
 		genre := &model.JsonApiGenre{}
 		relData.Genre.Data[i].Resolve(t, genre)
-		assert.Equal(t, expectedJson.Genre[i], genre.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.Genre, genre.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Member Of
@@ -1009,7 +1009,7 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	for i := range relData.PublisherCountry.Data {
 		loc := &model.JsonApiGeolocation{}
 		relData.PublisherCountry.Data[i].Resolve(t, loc)
-		assert.Equal(t, expectedJson.PublisherCountry[i], loc.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.PublisherCountry, loc.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Resource Type
@@ -1018,7 +1018,7 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	for i := range relData.ResourceType.Data {
 		resource := &model.JsonApiResourceType{}
 		relData.ResourceType.Data[i].Resolve(t, resource)
-		assert.Equal(t, expectedJson.ResourceType[i], resource.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.ResourceType, resource.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Spatial Coverage
@@ -1027,7 +1027,7 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 	for i := range relData.SpatialCoverage.Data {
 		loc := &model.JsonApiGeolocation{}
 		relData.SpatialCoverage.Data[i].Resolve(t, loc)
-		assert.Equal(t, expectedJson.SpatialCoverage[i], loc.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.SpatialCoverage, loc.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	// Subject
@@ -1286,7 +1286,7 @@ func Test_VerifyMediaDocument(t *testing.T) {
 	for i := range document.JsonApiRelationships.AccessTerms.Data {
 		use := model.JsonApiIslandoraAccessTerms{}
 		document.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
-		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
@@ -1341,7 +1341,7 @@ func Test_VerifyMediaImage(t *testing.T) {
 	for i := range image.JsonApiRelationships.AccessTerms.Data {
 		use := model.JsonApiIslandoraAccessTerms{}
 		image.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
-		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, expectedJson.AltText, image.JsonApiRelationships.File.Data.Meta["alt"])
@@ -1395,7 +1395,7 @@ func Test_VerifyMediaExtractedText(t *testing.T) {
 	for i := range ext.JsonApiRelationships.AccessTerms.Data {
 		use := model.JsonApiIslandoraAccessTerms{}
 		ext.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
-		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
@@ -1455,7 +1455,7 @@ func Test_VerifyMediaFile(t *testing.T) {
 	for i := range genericFile.JsonApiRelationships.AccessTerms.Data {
 		use := model.JsonApiIslandoraAccessTerms{}
 		genericFile.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
-		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
@@ -1463,7 +1463,7 @@ func Test_VerifyMediaFile(t *testing.T) {
 	for i := range genericFile.JsonApiRelationships.MediaUse.Data {
 		use := model.JsonApiMediaUse{}
 		genericFile.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
-		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.MediaUse, use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	mediaOf := model.JsonApiIslandoraObj{}
@@ -1515,7 +1515,7 @@ func Test_VerifyMediaAudio(t *testing.T) {
 	for i := range audio.JsonApiRelationships.AccessTerms.Data {
 		use := model.JsonApiIslandoraAccessTerms{}
 		audio.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
-		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))
@@ -1575,7 +1575,7 @@ func Test_VerifyMediaVideo(t *testing.T) {
 	for i := range video.JsonApiRelationships.AccessTerms.Data {
 		use := model.JsonApiIslandoraAccessTerms{}
 		video.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
-		assert.Equal(t, expectedJson.AccessTerms[i], use.JsonApiData[0].JsonApiAttributes.Name)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
 	}
 
 	assert.Equal(t, 2, len(expectedJson.MediaUse))

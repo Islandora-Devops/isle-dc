@@ -92,7 +92,7 @@ process:
               entity_type: taxonomy_term
               bundle_key: vid
               bundle: family
-              value_key: name
+              value_key: field_unique_id
         rel_type:
           -
             plugin: explode

@@ -99,7 +99,7 @@ process:
       entity_type: node
       bundle: collection_object
       bundle_key: type
-      value_key: title
+      value_key: field_unique_id
   field_access_terms:
     -
       plugin: skip_on_empty
@@ -110,22 +110,24 @@ process:
       delimiter: '||'
       strict: false
     -
-      plugin: entity_lookup
-      bundle_key: vid
-      bundle: islandora_access
-      entity_type: taxonomy_term
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: islandora_access
+        bundle_key: vid
+        value_key: field_unique_id
   field_title_language:
     -
       plugin: skip_on_empty
       method: process
       source: title_language
     -
-      plugin: entity_lookup
-      entity_type: taxonomy_term
-      bundle: language
-      bundle_key: vid
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: language
+        bundle_key: vid
+        value_key: field_unique_id
   field_alternative_title:
     -
       plugin: skip_on_empty

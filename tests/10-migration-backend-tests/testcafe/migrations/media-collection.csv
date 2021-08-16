@@ -1,2 +1,2 @@
-unique_id,node_id,title,title_language,alternative_title,member_of,contact_email,contact_name,collection_number,description,finding_aid,access_terms
-media-collection-01,,Media Collection,English,,,,,,Collection for Media Migrations;;eng,,Media Group A||Media Group B
+unique_id,node_id,title,title_language,description,access_terms
+media-collection-01,,Media Collection,::name:English,Collection for Media Migrations;;eng,:::media_accesscontrol_01||:::media_accesscontrol_02

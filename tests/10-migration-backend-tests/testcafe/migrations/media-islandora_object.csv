@@ -1,3 +1,3 @@
 unique_id,node_id,title,access_terms,member_of
-media_io_01,,Media Migration Repository Item One,Media Group A|Media Group B,:::Media Collection
-media_io_02,,Media Migration Repository Item Two,Media Group A|Media Group B,:::Media Collection
+media_io_01,,Media Migration Repository Item One,:::media_accesscontrol_01||:::media_accesscontrol_02,:::media-collection-01
+media_io_02,,Media Migration Repository Item Two,:::media_accesscontrol_01||:::media_accesscontrol_02,:::media-collection-01

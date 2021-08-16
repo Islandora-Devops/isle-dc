@@ -72,11 +72,12 @@ process:
       delimiter: '||'
       strict: false
     -
-      plugin: entity_lookup
-      bundle_key: vid
-      bundle: access_rights
-      entity_type: taxonomy_term
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: access_rights
+        bundle_key: vid
+        value_key: field_unique_id
   field_access_terms:
     -
       plugin: skip_on_empty
@@ -87,11 +88,12 @@ process:
       delimiter: '||'
       strict: false
     -
-      plugin: entity_lookup
-      bundle_key: vid
-      bundle: islandora_access
-      entity_type: taxonomy_term
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: islandora_access
+        bundle_key: vid
+        value_key: field_unique_id
   field_alternative_title:
     -
       plugin: explode
@@ -186,14 +188,15 @@ process:
               entity_type: taxonomy_term
               bundle: person
               bundle_key: vid
-              value_key: name
+              value_key: field_unique_id
   field_copyright_and_use:
-    plugin: entity_lookup
+    plugin: parse_entity_lookup
     source: copyright
-    entity_type: taxonomy_term
-    bundle: copyright_and_use
-    bundle_key: vid
-    value_key: name
+    defaults:
+      entity_type: taxonomy_term
+      bundle: copyright_and_use
+      bundle_key: vid
+      value_key: field_unique_id
   field_copyright_holder:
     -
       plugin: skip_on_empty
@@ -209,7 +212,7 @@ process:
         entity_type: taxonomy_term
         bundle: person
         bundle_key: vid
-        value_key: name
+        value_key: field_unique_id
   field_creator:
     -
       plugin: skip_on_empty
@@ -254,7 +257,7 @@ process:
               entity_type: taxonomy_term
               bundle: person
               bundle_key: vid
-              value_key: name
+              value_key: field_unique_id
   field_custodial_history:
     -
       plugin: explode
@@ -392,13 +395,13 @@ process:
         entity_type: taxonomy_term
         bundle: corporate_body
         bundle_key: vid
-        value_key: name
+        value_key: field_unique_id
   field_display_hints:
     plugin: entity_lookup
     source: display_hints
-    bundle_key: vid
-    bundle: islandora_display
     entity_type: taxonomy_term
+    bundle: islandora_display
+    bundle_key: vid
     value_key: name
   field_dspace_identifier/uri: dspace_identifier
   field_dspace_item_id: dspace_itemid
@@ -437,11 +440,12 @@ process:
       delimiter: '||'
       strict: false
     -
-      plugin: entity_lookup
-      entity_type: taxonomy_term
-      bundle: genre
-      bundle_key: vid
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: genre
+        bundle_key: vid
+        value_key: field_unique_id
   field_geoportal_link/uri: geoportal_link
   field_issn: issn
   field_is_part_of: is_part_of
@@ -465,11 +469,12 @@ process:
       delimiter: '||'
       strict: false
     -
-      plugin: entity_lookup
-      entity_type: taxonomy_term
-      bundle: language
-      bundle_key: vid
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: language
+        bundle_key: vid
+        value_key: field_unique_id
   field_library_catalog_link:
     -
       plugin: skip_on_empty
@@ -496,14 +501,14 @@ process:
         entity_type: node
         bundle_key: type
         bundle: collection_object
-        value_key: title
+        value_key: field_unique_id
   field_model:
     plugin: entity_lookup
-    bundle_key: vid
-    bundle: islandora_models
-    entity_type: taxonomy_term
-    value_key: name
     source: model
+    entity_type: taxonomy_term
+    bundle: islandora_models
+    bundle_key: vid
+    value_key: name
   field_oclc_number:
     -
       plugin: skip_on_empty
@@ -528,7 +533,7 @@ process:
         bundle_key: vid
         bundle: corporate_body
         entity_type: taxonomy_term
-        value_key: name
+        value_key: field_unique_id
   field_publisher_country:
     -
       plugin: skip_on_empty
@@ -539,11 +544,12 @@ process:
       delimiter: '||'
       strict: false
     -
-      plugin: entity_lookup
-      bundle_key: vid
-      bundle: geo_location
-      entity_type: taxonomy_term
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: geo_location
+        bundle_key: vid
+        value_key: field_unique_id
   field_resource_type:
     -
       plugin: skip_on_empty
@@ -554,11 +560,12 @@ process:
       delimiter: '||'
       strict: false
     -
-      plugin: entity_lookup
-      bundle_key: vid
-      bundle: resource_types
-      entity_type: taxonomy_term
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: resource_types
+        bundle_key: vid
+        value_key: field_unique_id
   field_spatial_coverage:
     -
       plugin: skip_on_empty
@@ -569,11 +576,12 @@ process:
       delimiter: '||'
       strict: false
     -
-      plugin: entity_lookup
-      bundle_key: vid
-      bundle: geo_location
-      entity_type: taxonomy_term
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: geo_location
+        bundle_key: vid
+        value_key: field_unique_id
   field_subject:
     -
       plugin: skip_on_empty
@@ -589,7 +597,7 @@ process:
         bundle_key: vid
         bundle: subject
         entity_type: taxonomy_term
-        value_key: name
+        value_key: field_unique_id
   field_table_of_contents:
     -
       plugin: skip_on_empty
@@ -640,11 +648,12 @@ process:
       method: process
       source: title_language
     -
-      plugin: entity_lookup
-      entity_type: taxonomy_term
-      bundle: language
-      bundle_key: vid
-      value_key: name
+      plugin: parse_entity_lookup
+      defaults:
+        entity_type: taxonomy_term
+        bundle: language
+        bundle_key: vid
+        value_key: field_unique_id
   field_years:
     -
       plugin: skip_on_empty
