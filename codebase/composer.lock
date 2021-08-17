@@ -7187,7 +7187,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/islandora/zipball/714d9b632f06e4ea94d54406afc8e05e84325a84",
+                "url": "https://api.github.com/repos/Islandora/islandora/zipball/d76a6644c919acaa48d59d862a4fc6e8a279be2d",
                 "reference": "d76a6644c919acaa48d59d862a4fc6e8a279be2d",
                 "shasum": ""
             },
@@ -7250,7 +7250,7 @@
                 "issues": "https://github.com/Islandora/documentation/issues",
                 "source": "https://github.com/Islandora/islandora/tree/8.x-1.x"
             },
-            "time": "2021-07-29T14:02:53+00:00"
+            "time": "2021-03-31T20:47:01+00:00"
         },
         {
             "name": "islandora/jsonld",
@@ -7396,12 +7396,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "165bd8270e9bde116fb0ddd6a6d7a3082118171b"
+                "reference": "09788e092882baba6171f9a2a2e7f45d86327569"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/165bd8270e9bde116fb0ddd6a6d7a3082118171b",
-                "reference": "165bd8270e9bde116fb0ddd6a6d7a3082118171b",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/09788e092882baba6171f9a2a2e7f45d86327569",
+                "reference": "09788e092882baba6171f9a2a2e7f45d86327569",
                 "shasum": ""
             },
             "type": "drupal-theme",
@@ -7410,7 +7410,7 @@
                 "source": "https://github.com/jhu-idc/idc-ui-theme/tree/develop",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2021-08-05T19:20:34+00:00"
+            "time": "2021-08-17T14:21:48+00:00"
         },
         {
             "name": "jhu-idc/idc_defaults",
@@ -15606,9 +15606,6 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives",
                 "ext-zlib": "Allow gzip compression of HTTP requests"
             },
-            "bin": [
-                "bin/composer"
-            ],
             "type": "library",
             "extra": {
                 "branch-alias": {
