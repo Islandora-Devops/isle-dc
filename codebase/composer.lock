@@ -7183,12 +7183,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/islandora.git",
-                "reference": "714d9b632f06e4ea94d54406afc8e05e84325a84"
+                "reference": "d76a6644c919acaa48d59d862a4fc6e8a279be2d"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Islandora/islandora/zipball/714d9b632f06e4ea94d54406afc8e05e84325a84",
-                "reference": "714d9b632f06e4ea94d54406afc8e05e84325a84",
+                "reference": "d76a6644c919acaa48d59d862a4fc6e8a279be2d",
                 "shasum": ""
             },
             "require": {
