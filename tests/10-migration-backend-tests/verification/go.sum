@@ -7,6 +7,8 @@ github.com/jhu-idc/idc-golang v0.0.1 h1:CmCummAaSwoPTLsVsQSNUKn250a/NW9zm+Kg+xR9
 github.com/jhu-idc/idc-golang v0.0.1/go.mod h1:wxcDQrMEPBHa1dPsZCXaAdR1lAUbiY4NuzP/lSMEskg=
 github.com/jhu-idc/idc-golang v0.0.3 h1:5C7HTeolZ3ZrvY7hH7EtTzX2qtosNxYvKdeOeUP8kbo=
 github.com/jhu-idc/idc-golang v0.0.3/go.mod h1:wxcDQrMEPBHa1dPsZCXaAdR1lAUbiY4NuzP/lSMEskg=
+github.com/jhu-idc/idc-golang v0.0.4 h1:1UJiDhST/nPcD9asVUPpAL5f21DvVCHxZqU7rNcSQBA=
+github.com/jhu-idc/idc-golang v0.0.4/go.mod h1:wxcDQrMEPBHa1dPsZCXaAdR1lAUbiY4NuzP/lSMEskg=
 github.com/logrusorgru/aurora/v3 v3.0.0 h1:R6zcoZZbvVcGMvDCKo45A9U/lzYyzl5NfYIvznmDfE4=
 github.com/logrusorgru/aurora/v3 v3.0.0/go.mod h1:vsR12bk5grlLvLXAYrBsb5Oc/N+LxAlxggSjiwMnCUc=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
