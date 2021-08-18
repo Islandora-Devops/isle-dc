@@ -1,6 +1,7 @@
 import {Selector} from 'testcafe';
 import {adminUser} from './roles.js';
 import { t } from 'testcafe';
+import { doMigration } from './util.js'
 
 import fs from 'fs';
 import { join as joinPath } from 'path';
@@ -37,139 +38,40 @@ test('Perform Repository Object Migration', async t => {
   // Migrate dependencies first
 
   // access rights
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_accessrights_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-access_rights.csv'
-    ])
-    .click('#edit-import');
-
+  await doMigration(t, migrate_accessrights_taxonomy, './migrations/set_01-access_rights.csv');
 
   // access terms
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_islandora_accessterms_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-accessterms.csv'
-    ])
-    .click('#edit-import');
-
+  await doMigration(t, migrate_islandora_accessterms_taxonomy, './migrations/set_01-accessterms.csv');
 
   // copyright and use
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_copyrightanduse_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-copyright_and_use.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(t, migrate_copyrightanduse_taxonomy, './migrations/set_01-copyright_and_use.csv');
 
   // corporate body
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_corporatebody_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-corporate_body.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(t, migrate_corporatebody_taxonomy, './migrations/set_01-corporate_body.csv');
 
   // genre
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_genre_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-genre.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(t, migrate_genre_taxonomy, './migrations/set_01-genre.csv');
 
   // geo location
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_geolocation_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-geo_location.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(t, migrate_geolocation_taxonomy, './migrations/set_01-geo_location.csv');
 
   // language
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_language_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-language.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(t, migrate_language_taxonomy, './migrations/set_01-language.csv');
 
   // persons
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_person_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-person.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(t, migrate_person_taxonomy, './migrations/set_01-person.csv');
 
   // resource types
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_resource_types));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-resource_types.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(t, migrate_resource_types, './migrations/set_01-resource_types.csv');
 
   // subjects
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_subject_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-subject.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(t, migrate_subject_taxonomy, './migrations/set_01-subject.csv');
 
   // collections
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_new_collection));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-collection.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(t, migrate_new_collection, './migrations/set_01-collection.csv');
 
   // Migrate Islandora Repository Objects
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_new_items));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/set_01-islandora_object.csv'
-    ])
-    .click('#edit-import');
-
+  await doMigration(t, migrate_new_items, './migrations/set_01-islandora_object.csv');
 });
 
 // SKIP FOR NOW - not working.
