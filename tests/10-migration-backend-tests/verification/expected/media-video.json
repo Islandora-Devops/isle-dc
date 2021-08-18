@@ -2,6 +2,7 @@
   "type": "media",
   "bundle": "video",
   "name": "Chair Pop Video",
+  "unique_id": "media_video_00001",
   "original_name": "chair-pop-gif.mp4",
   "size": 214707,
   "mime_type": "video/mp4",

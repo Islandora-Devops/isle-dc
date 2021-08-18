@@ -2,6 +2,7 @@
   "type": "taxonomy_term",
   "bundle": "geo_location",
   "name": "Nevada",
+  "unique_id": "geolocation-01",
   "geo_alt_name": [
     "Silver State",
     "Sagebrush State"

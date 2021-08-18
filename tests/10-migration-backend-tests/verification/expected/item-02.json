@@ -2,6 +2,7 @@
   "type": "node",
   "bundle": "islandora_object",
   "title": "Special Character: Repository Item|RI",
+  "unique_id": "io_02",
   "abstract": [
     {
       "value": "Special Item|Repository Item; Abstract in English",

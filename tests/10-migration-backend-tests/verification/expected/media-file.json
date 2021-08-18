@@ -2,6 +2,7 @@
   "type": "media",
   "bundle": "file",
   "name": "Geo Tif file",
+  "unique_id": "media_file_00001",
   "original_name": "NEFF1851_GEO.tfw",
   "size": 44,
   "mime_type": "application/octet-stream",

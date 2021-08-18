@@ -3,6 +3,7 @@
   "bundle": "remote_video",
   "name": "A Tour of Go",
   "restricted_access": true,
+  "unique_id": "media_rvideo_00001",
   "access_terms": [
     "Media Group B",
     "Media Group A"

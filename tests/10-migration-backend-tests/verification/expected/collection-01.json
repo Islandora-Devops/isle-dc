@@ -3,6 +3,7 @@
   "bundle": "collection_object",
   "title": "Test Collection One",
   "title_language": "eng",
+  "unique_id": "collection-02",
   "alternative_title": [
     {
       "value": "Titre alternatif pour Test Collection One",

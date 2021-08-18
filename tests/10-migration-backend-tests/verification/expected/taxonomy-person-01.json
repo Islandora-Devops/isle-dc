@@ -2,6 +2,7 @@
   "type": "taxonomy_term",
   "bundle": "person",
   "name": "Adams, Ansel Easton, 1902-1984",
+  "unique_id": "person_1",
   "primary_name": "Adams",
   "rest_of_name": [
       "Ansel Easton"

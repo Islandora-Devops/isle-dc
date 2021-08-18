@@ -2,6 +2,7 @@
   "type": "media",
   "bundle": "extracted_text",
   "name": "Hello World",
+  "unique_id": "media_ext_00001",
   "original_name": "hello_world.txt",
   "size": 29,
   "mime_type": "text/plain",

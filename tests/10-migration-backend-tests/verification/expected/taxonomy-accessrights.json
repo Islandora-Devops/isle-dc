@@ -2,6 +2,7 @@
   "type": "taxonomy_term",
   "bundle": "access_rights",
   "name": "Public Domain",
+  "unique_id": "accessrights_01",
   "authority": [
     {
       "uri": "https://en.wikipedia.org/wiki/Public_domain_in_the_United_States",

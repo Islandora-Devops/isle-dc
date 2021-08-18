@@ -2,6 +2,7 @@
   "type": "taxonomy_term",
   "bundle": "subject",
   "name": "Analog Photography",
+  "unique_id": "subject-01",
   "authority": [
     {
       "uri": "http://www.google.com?q=Analog%20Photography",

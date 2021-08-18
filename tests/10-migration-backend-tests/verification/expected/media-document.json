@@ -2,6 +2,7 @@
   "type": "media",
   "bundle": "document",
   "name": "Fuji Acros Datasheet",
+  "unique_id": "media_doc_00001",
   "original_name": "Fuji_acros.pdf",
   "size": 98884,
   "mime_type": "application/pdf",
