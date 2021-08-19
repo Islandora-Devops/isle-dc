@@ -1,2 +1,3 @@
-unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url,alt_text,restricted_access
-media_img_00001,Looking For Fossils,:::media_accesscontrol_01||:::media_accesscontrol_02,TRP_7767.jpg,image/jpeg,:::media_io_01,Original File||Preservation Master File,http://migration-assets/assets/image/TRP_7767.jpg,Image alt text,1
+unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url,alt_text,restricted_access,
+media_img_00001,Looking For Fossils,:::media_accesscontrol_01||:::media_accesscontrol_02,TRP_7767.jpg,image/jpeg,:::media_io_01,Original File||Preservation Master File,http://migration-assets/assets/image/TRP_7767.jpg,Image alt text,0,
+media_format_file_tiff_01,Tiff Image,:::media_accesscontrol_01||:::media_accesscontrol_02,tiff.tif,image/tiff,::title:Migrated Tiff Object,Original File,http://migration-assets/assets/image/formats/tiff.tif,tiff,1

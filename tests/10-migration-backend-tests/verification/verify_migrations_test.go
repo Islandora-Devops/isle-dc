@@ -1335,7 +1335,7 @@ func Test_VerifyMediaImage(t *testing.T) {
 	assert.Equal(t, expectedJson.Name, image.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Height, image.JsonApiAttributes.Height)
 	assert.Equal(t, expectedJson.Width, image.JsonApiAttributes.Width)
-	assert.Equal(t, expectedJson.RestrictedAccess, image.JsonApiAttributes.RestrictedAccess)
+	assert.NotEqual(t, expectedJson.RestrictedAccess, image.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1360,6 +1360,43 @@ func Test_VerifyMediaImage(t *testing.T) {
 	mediaOf := model.JsonApiIslandoraObj{}
 	image.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
 	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
+
+	u = &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: "media",
+		DrupalBundle: "image",
+		Filter:       "name",
+		Value:        "Tiff Image",
+	}
+
+	res2 := model.JsonApiImageMedia{}
+	u.GetSingle(&res2)
+
+	image2 := res2.JsonApiData[0]
+
+	assert.Equal(t, expectedJson.RestrictedAccess, image2.JsonApiAttributes.RestrictedAccess)
+
+	file := model.JsonApiFile{}
+	file2 := model.JsonApiFile{}
+	res.JsonApiData[0].JsonApiRelationships.File.Data.Resolve(t, &file)
+	res2.JsonApiData[0].JsonApiRelationships.File.Data.Resolve(t, &file2)
+
+	// check that the first file binary can be accessed where its media is restricted access == false
+	// TODO obtain from env
+	baseUri := "https://islandora-idc.traefik.me/"
+	fileUrl := fmt.Sprintf("%s%s", baseUri, file.JsonApiData[0].JsonApiAttributes.Uri.Url)
+	fileRes, err := http.Get(fileUrl)
+
+	assert.Nil(t, err)
+	assert.Equal(t, "200 OK", fileRes.Status)
+
+	// check that the second file binary cannot be accessed where its media is restricted access == true
+	fileUrl = fmt.Sprintf("%s%s", baseUri, file2.JsonApiData[0].JsonApiAttributes.Uri.Url)
+	fileRes, err = http.Get(fileUrl)
+
+	assert.Nil(t, err)
+	assert.Equal(t, "403 Forbidden", fileRes.Status)
 }
 
 func Test_VerifyMediaExtractedText(t *testing.T) {
