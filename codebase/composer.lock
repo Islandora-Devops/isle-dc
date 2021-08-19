@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6813b56091fc6229736173a69d4303a",
+
+    "content-hash": "04abb3f7488d8e7898c50545ab165b32",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -7444,12 +7445,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_export.git",
-                "reference": "61b5ef3115bf05c9aa6f851a56e65c4ac8e8d895"
+                "reference": "5aa97497ffe86402d3f4b946d7008b78c001bc1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_export/zipball/61b5ef3115bf05c9aa6f851a56e65c4ac8e8d895",
-                "reference": "61b5ef3115bf05c9aa6f851a56e65c4ac8e8d895",
+                "url": "https://api.github.com/repos/jhu-idc/idc_export/zipball/5aa97497ffe86402d3f4b946d7008b78c001bc1b",
+                "reference": "5aa97497ffe86402d3f4b946d7008b78c001bc1b",
                 "shasum": ""
             },
             "require": {
@@ -7469,7 +7470,7 @@
                 "source": "https://github.com/jhu-idc/idc_export/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_export/issues"
             },
-            "time": "2021-05-25T21:48:27+00:00"
+            "time": "2021-08-17T17:54:37+00:00"
         },
         {
             "name": "jhu-idc/idc_ui_module",
