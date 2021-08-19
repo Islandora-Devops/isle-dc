@@ -8,6 +8,7 @@
   "height": 2239,
   "width": 3378,
   "mime_type": "image/jpeg",
+  "restricted_access": true,
   "use": [
     "Preservation Master File",
     "Original File"

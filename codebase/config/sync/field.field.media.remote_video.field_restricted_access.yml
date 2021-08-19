@@ -1,0 +1,21 @@
+uuid: 38379cb5-0be7-46ba-bf6e-328c0ed4d36d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_restricted_access
+    - media.type.remote_video
+id: media.remote_video.field_restricted_access
+field_name: field_restricted_access
+entity_type: media
+bundle: remote_video
+label: 'Restricted Access'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

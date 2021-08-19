@@ -1,2 +1,2 @@
-unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url
-media_audio_00001,Moo Cow,:::media_accesscontrol_01||:::media_accesscontrol_02,moo.mp3,audio/mpeg,:::media_io_01,Original File||Preservation Master File,http://migration-assets/assets/audio/moo.mp3
+unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url,restricted_access
+media_audio_00001,Moo Cow,:::media_accesscontrol_01||:::media_accesscontrol_02,moo.mp3,audio/mpeg,:::media_io_01,Original File||Preservation Master File,http://migration-assets/assets/audio/moo.mp3,1

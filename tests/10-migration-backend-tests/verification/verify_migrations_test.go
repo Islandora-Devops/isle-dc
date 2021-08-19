@@ -4,18 +4,19 @@ import (
 	"crypto/sha1"
 	"encoding/json"
 	"fmt"
-	"github.com/jhu-idc/idc-golang/drupal/env"
-	"github.com/jhu-idc/idc-golang/drupal/fs"
-	"github.com/jhu-idc/idc-golang/drupal/jsonapi"
-	"github.com/jhu-idc/idc-golang/drupal/model"
-	. "github.com/logrusorgru/aurora/v3"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/jhu-idc/idc-golang/drupal/env"
+	"github.com/jhu-idc/idc-golang/drupal/fs"
+	"github.com/jhu-idc/idc-golang/drupal/jsonapi"
+	"github.com/jhu-idc/idc-golang/drupal/model"
+	. "github.com/logrusorgru/aurora/v3"
+	"github.com/stretchr/testify/assert"
 )
 
 const (
@@ -1279,6 +1280,7 @@ func Test_VerifyMediaDocument(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, document.JsonApiAttributes.MimeType)
 	assert.Equal(t, expectedJson.OriginalName, document.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Name, document.JsonApiAttributes.Name)
+	assert.NotEqual(t, expectedJson.RestrictedAccess, document.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
@@ -1333,6 +1335,7 @@ func Test_VerifyMediaImage(t *testing.T) {
 	assert.Equal(t, expectedJson.Name, image.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Height, image.JsonApiAttributes.Height)
 	assert.Equal(t, expectedJson.Width, image.JsonApiAttributes.Width)
+	assert.NotEqual(t, expectedJson.RestrictedAccess, image.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1357,6 +1360,43 @@ func Test_VerifyMediaImage(t *testing.T) {
 	mediaOf := model.JsonApiIslandoraObj{}
 	image.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
 	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
+
+	u = &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: "media",
+		DrupalBundle: "image",
+		Filter:       "name",
+		Value:        "Tiff Image",
+	}
+
+	res2 := model.JsonApiImageMedia{}
+	u.GetSingle(&res2)
+
+	image2 := res2.JsonApiData[0]
+
+	assert.Equal(t, expectedJson.RestrictedAccess, image2.JsonApiAttributes.RestrictedAccess)
+
+	file := model.JsonApiFile{}
+	file2 := model.JsonApiFile{}
+	res.JsonApiData[0].JsonApiRelationships.File.Data.Resolve(t, &file)
+	res2.JsonApiData[0].JsonApiRelationships.File.Data.Resolve(t, &file2)
+
+	// check that the first file binary can be accessed where its media is restricted access == false
+	// TODO obtain from env
+	baseUri := "https://islandora-idc.traefik.me/"
+	fileUrl := fmt.Sprintf("%s%s", baseUri, file.JsonApiData[0].JsonApiAttributes.Uri.Url)
+	fileRes, err := http.Get(fileUrl)
+
+	assert.Nil(t, err)
+	assert.Equal(t, "200 OK", fileRes.Status)
+
+	// check that the second file binary cannot be accessed where its media is restricted access == true
+	fileUrl = fmt.Sprintf("%s%s", baseUri, file2.JsonApiData[0].JsonApiAttributes.Uri.Url)
+	fileRes, err = http.Get(fileUrl)
+
+	assert.Nil(t, err)
+	assert.Equal(t, "403 Forbidden", fileRes.Status)
 }
 
 func Test_VerifyMediaExtractedText(t *testing.T) {
@@ -1387,6 +1427,7 @@ func Test_VerifyMediaExtractedText(t *testing.T) {
 	assert.Equal(t, expectedJson.Name, ext.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.MimeType, ext.JsonApiAttributes.MimeType)
 	assert.EqualValues(t, expectedJson.ExtractedText, ext.JsonApiAttributes.EditedText)
+	assert.Equal(t, expectedJson.RestrictedAccess, ext.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1447,6 +1488,7 @@ func Test_VerifyMediaFile(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, genericFile.JsonApiAttributes.MimeType)
 	assert.EqualValues(t, expectedJson.OriginalName, genericFile.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Size, genericFile.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.RestrictedAccess, genericFile.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1507,6 +1549,7 @@ func Test_VerifyMediaAudio(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, audio.JsonApiAttributes.MimeType)
 	assert.EqualValues(t, expectedJson.OriginalName, audio.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Size, audio.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.RestrictedAccess, audio.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1567,6 +1610,7 @@ func Test_VerifyMediaVideo(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, video.JsonApiAttributes.MimeType)
 	assert.EqualValues(t, expectedJson.OriginalName, video.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Size, video.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.RestrictedAccess, video.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 
@@ -1625,6 +1669,7 @@ func Test_VerifyMediaRemoteVideo(t *testing.T) {
 
 	assert.Equal(t, expectedJson.Name, video.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.EmbedUrl, video.JsonApiAttributes.EmbedUrl)
+	assert.Equal(t, expectedJson.RestrictedAccess, video.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 

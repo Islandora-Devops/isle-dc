@@ -6,6 +6,7 @@ dependencies:
     - field.field.media.remote_video.field_access_terms
     - field.field.media.remote_video.field_media_oembed_video
     - field.field.media.remote_video.field_unique_id
+    - field.field.media.remote_video.field_restricted_access
     - media.type.remote_video
   module:
     - media
@@ -32,6 +33,16 @@ content:
       max_width: 0
       max_height: 0
     third_party_settings: {  }
+    region: content
+  field_restricted_access:
+    weight: 2
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
 hidden:
   created: true

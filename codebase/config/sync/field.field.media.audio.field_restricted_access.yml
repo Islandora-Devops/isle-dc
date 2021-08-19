@@ -1,0 +1,29 @@
+uuid: 052644bd-ff2b-4b31-b046-cf315948efeb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_restricted_access
+    - media.type.audio
+  module:
+    - epp
+third_party_settings:
+  epp:
+    value: ''
+    on_update: 1
+id: media.audio.field_restricted_access
+field_name: field_restricted_access
+entity_type: media
+bundle: audio
+label: 'Restricted Access'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -10,6 +10,7 @@ dependencies:
     - field.field.media.extracted_text.field_media_use
     - field.field.media.extracted_text.field_mime_type
     - field.field.media.extracted_text.field_unique_id
+    - field.field.media.extracted_text.field_restricted_access
     - media.type.extracted_text
   module:
     - file
@@ -70,6 +71,16 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_restricted_access:
+    weight: 7
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   uid:
     label: hidden

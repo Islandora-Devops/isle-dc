@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+
     "content-hash": "04abb3f7488d8e7898c50545ab165b32",
     "packages": [
         {
@@ -3762,16 +3763,8 @@
             ],
             "authors": [
                 {
-                    "name": "anruether",
-                    "homepage": "https://www.drupal.org/user/894458"
-                },
-                {
                     "name": "geek-merlin",
                     "homepage": "https://www.drupal.org/user/229048"
-                },
-                {
-                    "name": "heliogabal",
-                    "homepage": "https://www.drupal.org/user/998658"
                 }
             ],
             "description": "Prepopulate entity values via tokens.",
@@ -7404,12 +7397,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "31bae6d2f6ac9782938f2f4a389518ecd35ea0fa"
+                "reference": "929823d199fec108c63584b9bdd25fd45939cf6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/31bae6d2f6ac9782938f2f4a389518ecd35ea0fa",
-                "reference": "31bae6d2f6ac9782938f2f4a389518ecd35ea0fa",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/929823d199fec108c63584b9bdd25fd45939cf6c",
+                "reference": "929823d199fec108c63584b9bdd25fd45939cf6c",
                 "shasum": ""
             },
             "type": "drupal-theme",
@@ -7418,7 +7411,7 @@
                 "source": "https://github.com/jhu-idc/idc-ui-theme/tree/develop",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2021-06-02T20:10:05+00:00"
+            "time": "2021-08-17T17:30:36+00:00"
         },
         {
             "name": "jhu-idc/idc_defaults",
@@ -7485,12 +7478,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_ui_module.git",
-                "reference": "2315e6824f10f68f83c6005b4bc9f16f46bdd997"
+                "reference": "42c8929f9139e8db81ebcacf7f72a1c5cb834208"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/2315e6824f10f68f83c6005b4bc9f16f46bdd997",
-                "reference": "2315e6824f10f68f83c6005b4bc9f16f46bdd997",
+                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/42c8929f9139e8db81ebcacf7f72a1c5cb834208",
+                "reference": "42c8929f9139e8db81ebcacf7f72a1c5cb834208",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -7499,7 +7492,7 @@
                 "source": "https://github.com/jhu-idc/idc_ui_module/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_ui_module/issues"
             },
-            "time": "2021-06-14T13:33:43+00:00"
+            "time": "2021-08-05T19:20:22+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",

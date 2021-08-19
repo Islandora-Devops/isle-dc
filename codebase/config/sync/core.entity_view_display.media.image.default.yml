@@ -12,6 +12,7 @@ dependencies:
     - field.field.media.image.field_mime_type
     - field.field.media.image.field_original_name
     - field.field.media.image.field_unique_id
+    - field.field.media.image.field_restricted_access
     - field.field.media.image.field_width
     - media.type.image
   module:
@@ -93,6 +94,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
+  field_restricted_access:
+    weight: 102
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   field_width:
     type: number_integer

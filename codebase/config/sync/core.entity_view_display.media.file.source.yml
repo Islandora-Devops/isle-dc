@@ -12,6 +12,7 @@ dependencies:
     - field.field.media.file.field_mime_type
     - field.field.media.file.field_original_name
     - field.field.media.file.field_unique_id
+    - field.field.media.file.field_restricted_access
     - media.type.file
   enforced:
     module:
@@ -43,6 +44,7 @@ hidden:
   field_mime_type: true
   field_original_name: true
   field_unique_id: true
+  field_restricted_access: true
   langcode: true
   name: true
   search_api_excerpt: true

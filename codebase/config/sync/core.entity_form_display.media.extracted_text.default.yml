@@ -10,6 +10,7 @@ dependencies:
     - field.field.media.extracted_text.field_media_use
     - field.field.media.extracted_text.field_mime_type
     - field.field.media.extracted_text.field_unique_id
+    - field.field.media.extracted_text.field_restricted_access
     - media.type.extracted_text
   module:
     - file
@@ -56,6 +57,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_restricted_access:
+    weight: 27
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   langcode:
     type: language_select

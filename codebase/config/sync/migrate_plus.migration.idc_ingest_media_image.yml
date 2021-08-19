@@ -109,6 +109,7 @@ process:
       bundle: islandora_media_use
       bundle_key: vid
       value_key: name
+  field_restricted_access: restricted_access
   status: constants/STATUS
 destination:
   plugin: 'entity:media'

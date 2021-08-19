@@ -5,6 +5,7 @@
   "original_name": "moo.mp3",
   "size": 82539,
   "mime_type": "audio/mpeg",
+  "restricted_access": true,
   "use": [
     "Preservation Master File",
     "Original File"
