@@ -1280,7 +1280,7 @@ func Test_VerifyMediaDocument(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, document.JsonApiAttributes.MimeType)
 	assert.Equal(t, expectedJson.OriginalName, document.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Name, document.JsonApiAttributes.Name)
-	assert.Equal(t, expectedJson.RestrictedAccess, document.JsonApiAttributes.RestrictedAccess)
+	assert.NotEqual(t, expectedJson.RestrictedAccess, document.JsonApiAttributes.RestrictedAccess)
 
 	// Resolve relationships and verify
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
