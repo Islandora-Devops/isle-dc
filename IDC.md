@@ -96,6 +96,7 @@ Configuration is via environment variables
 
 |Env Var|Default Value|Description|
 |-------|-------------|-----------|
+|DRUPAL_DEFAULT_MIGRATIONS_VALIDATE|true|Determines whether migrations will perform validation|
 |DRUPAL_DEFAULT_S3_ACCESS_KEY|-|S3 access key|
 |DRUPAL_DEFAULT_S3_SECRET_KEY|-|S3 secret key|
 |DRUPAL_DEFAULT_S3_BUCKET|idc|S3 bucket name|
@@ -103,7 +104,6 @@ Configuration is via environment variables
 |DRUPAL_DEFAULT_S3_HOSTNAME|-|S3 hostname; use only if `DRUPAL_DEFAULT_USE_CUSTOMHOST` is true|
 |DRUPAL_DEFAULT_S3_USE_CNAME|false|Serve files from a custom domain by using an appropriately named bucket, e.g. "mybucket.mydomain.com".|
 |DRUPAL_DEFAULT_S3_USE_PATH_STYLE_ENDPOINT|false|Send requests to a path-style endpoint, instead of a virtual-hosted-style endpoint. For example, http://s3.amazonaws.com/bucket, insead of http://bucket.s3.amazonaws.com. |
-
 ## Debugging
 
 ### TL;DR

@@ -77,13 +77,14 @@ process:
   field_media_audio_file/target_id:
     plugin: file_import
     source: '@_download_filepath'
+    uid: constants/ADMIN
     move: true
     reuse: false
     rename: false
     id_only: true
     destination: '@_destination_drupalpath'
     mimetype: mime_type
-    filename: name
+    filename: '@_url_filename'
   field_mime_type: mime_type
   name: name
   field_media_of:
@@ -113,4 +114,5 @@ process:
 destination:
   plugin: 'entity:media'
   default_bundle: audio
+  validate: true
 migration_dependencies: null

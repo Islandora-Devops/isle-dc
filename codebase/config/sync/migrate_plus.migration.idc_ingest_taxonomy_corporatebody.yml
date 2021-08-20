@@ -154,4 +154,5 @@ process:
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: corporate_body
+  validate: true
 migration_dependencies: null

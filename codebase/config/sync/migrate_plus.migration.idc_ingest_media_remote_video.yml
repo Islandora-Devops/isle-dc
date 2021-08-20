@@ -53,4 +53,5 @@ process:
 destination:
   plugin: 'entity:media'
   default_bundle: remote_video
+  validate: true
 migration_dependencies: null

@@ -30,4 +30,5 @@ process:
   reply_to_reference: reply_to_reference
 destination:
   plugin: 'entity:contact_email'
+  validate: true
 migration_dependencies: null

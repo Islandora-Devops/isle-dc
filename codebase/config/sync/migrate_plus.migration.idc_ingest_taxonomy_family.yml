@@ -105,4 +105,5 @@ process:
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: family
+  validate: true
 migration_dependencies: null

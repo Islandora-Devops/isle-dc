@@ -37,3 +37,28 @@ $settings['file_private_path'] = '/tmp';
 $settings['flysystem']['fedora']['config']['root'] = 'http://fcrepo.isle-dc.localhost/fcrepo/rest/';
 
 $config['islandora.settings']['jwt_expiry'] = str_replace("'", "", str_replace('"', '', getenv('DRUPAL_JWT_EXPIRY_INTERVAL') ?: '+2 hour'));
+
+# Migration validation
+$config['migrate_plus.migration.idc_ingest_contact_email']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_media_audio']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_media_document']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_media_extracted_text']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_media_file']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_media_image']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_media_remote_video']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_media_video']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_new_collection']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_new_items']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_media_file']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_accessrights']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_copyrightanduse']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_corporatebody']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_family']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_genre']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_geolocation']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_islandora_accessterms']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_language']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_persons']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_resourcetypes']['destination']['validate'] =
+$config['migrate_plus.migration.idc_ingest_taxonomy_subject']['destination']['validate'] =
+(getenv('DRUPAL_DEFAULT_MIGRATIONS_VALIDATE') !== "false");

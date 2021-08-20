@@ -91,8 +91,8 @@ SERVICES := $(REQUIRED_SERIVCES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABAS
 default: download-default-certs docker-compose.yml pull
 
 .SILENT: docker-compose.yml
-docker-compose.yml: $(SERVICES:%=docker-compose.%.yml) .env
-	docker-compose $(SERVICES:%=-f docker-compose.%.yml) config > docker-compose.yml
+docker-compose.yml: $(SERVICES:%=docker-compose.%.yml)
+	docker-compose $(args) $(SERVICES:%=-f docker-compose.%.yml) config > docker-compose.yml
 
 .PHONY: pull
 pull: docker-compose.yml

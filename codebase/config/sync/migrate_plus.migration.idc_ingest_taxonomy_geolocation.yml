@@ -85,4 +85,5 @@ process:
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: geo_location
+  validate: true
 migration_dependencies: null

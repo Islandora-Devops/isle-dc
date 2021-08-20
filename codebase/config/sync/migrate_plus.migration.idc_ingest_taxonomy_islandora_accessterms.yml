@@ -37,4 +37,5 @@ process:
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: islandora_access
+  validate: true
 migration_dependencies: null

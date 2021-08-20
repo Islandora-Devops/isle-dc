@@ -3,6 +3,7 @@ set -e
 
 BASE_TEST_FOLDER="$(pwd)/$(dirname $0)/$(basename $0 .sh)"
 TESTCAFE_TESTS_FOLDER="$BASE_TEST_FOLDER/testcafe"
+use_env "DRUPAL_DEFAULT_MIGRATIONS_VALIDATE=false"
 
 # Start the backend that serves the media files to be migrated
 # Listens internally on port 80 (addressed as http://<assets_container>/assets/)

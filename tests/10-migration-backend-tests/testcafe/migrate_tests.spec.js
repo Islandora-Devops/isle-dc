@@ -5,7 +5,7 @@ import {doMigration} from './util.js';
 
 fixture`Migration Tests`
   .page`https://islandora-idc.traefik.me/migrate_source_ui`
-  .beforeEach(async t => {
+    .beforeEach(async t => {
     await t
       .useRole(adminUser);
   });
@@ -37,213 +37,144 @@ const selectUpdateExistingRecords = Selector('#edit-update-existing-records');
 
 test('Perform Person Taxonomy Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_person_taxonomy));
+  await doMigration(
+    t,
+    migrate_person_taxonomy,
+    './migrations/persons-01.csv'
+  );
 
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/persons-01.csv'
-    ])
-    .click('#edit-import');
-
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_person_taxonomy))
-    .expect(selectUpdateExistingRecords.checked).ok();  // n.b. checked by default
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/persons-02.csv'
-    ])
-    .click('#edit-import');
-
+  await doMigration(
+    t,
+    migrate_person_taxonomy,
+    './migrations/persons-02.csv'
+  );
 });
 
 test('Perform Family Taxonomy Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_family_taxonomy));
+  await doMigration(
+    t,
+    migrate_family_taxonomy,
+    './migrations/family-01.csv'
+  );
 
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/family-01.csv'
-    ])
-    .click('#edit-import');
-
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_family_taxonomy))
-    .expect(selectUpdateExistingRecords.checked).ok();  // n.b. checked by default
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/family-02.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_family_taxonomy,
+    './migrations/family-02.csv'
+  );
 
 });
 
 test('Perform Access Rights Taxonomy Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_accessrights_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/accessrights.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_accessrights_taxonomy,
+    './migrations/accessrights.csv'
+  );
 
 });
 
 test('Perform Islandora Access Terms Taxonomy Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_islandora_accessterms_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/accessterms.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_islandora_accessterms_taxonomy,
+    './migrations/accessterms.csv'
+  );
 
 });
 
 test('Perform Copyright and Use Taxonomy Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_copyrightanduse_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/copyrightanduse.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_copyrightanduse_taxonomy,
+    './migrations/copyrightanduse.csv'
+  );
 
 });
 
 test('Perform Subject Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_subject_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/subject.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_subject_taxonomy,
+    './migrations/subject.csv'
+  );
 
 });
 
 test('Perform Geolocation Taxonomy Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_geolocation_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/geolocation.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_geolocation_taxonomy,
+    './migrations/geolocation.csv'
+  );
 
 });
 
 test('Perform Resource Types Taxonomy Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_resource_types));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/resourcetypes.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_resource_types,
+    './migrations/resourcetypes.csv'
+  );
 
 });
 
 test('Perform Language Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_language_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/language.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_language_taxonomy,
+    './migrations/language.csv'
+  );
 
 });
 
 test('Perform Corporate Body Taxonomy Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_corporatebody_taxonomy));
+  await doMigration(
+    t,
+    migrate_corporatebody_taxonomy,
+    './migrations/corporatebody-01.csv'
+  );
 
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/corporatebody-01.csv'
-    ])
-    .click('#edit-import');
-
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_corporatebody_taxonomy))
-    .expect(selectUpdateExistingRecords.checked).ok();  // n.b. checked by default
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/corporatebody-02.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_corporatebody_taxonomy,
+    './migrations/corporatebody-02.csv'
+  );
 
 });
 
 test('Perform Collection Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_new_collection));
+  await doMigration(
+    t,
+    migrate_new_collection,
+    './migrations/collection-01.csv'
+  );
 
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/collection-01.csv'
-    ])
-    .click('#edit-import');
-
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_new_collection))
-    .expect(selectUpdateExistingRecords.checked).ok();  // n.b. checked by default
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/collection-02.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_new_collection,
+    './migrations/collection-02.csv'
+  );
 
 });
 
 test('Perform Genre Taxonomy Migration', async t => {
 
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_genre_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/genre.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_genre_taxonomy,
+    './migrations/genre.csv'
+  );
 
 });
 
@@ -251,96 +182,79 @@ test('Perform Repository Object Migration', async t => {
   // Migrate dependencies first
 
   // access terms
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_islandora_accessterms_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/islandora_object-accessterms.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_islandora_accessterms_taxonomy,
+    './migrations/islandora_object-accessterms.csv'
+  );
 
   // persons
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_person_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/islandora_object-persons.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_person_taxonomy,
+    './migrations/islandora_object-persons.csv'
+  );
 
   // subjects
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_subject_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/islandora_object-subjects.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_subject_taxonomy,
+    './migrations/islandora_object-subjects.csv'
+  );
 
   // locations
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_geolocation_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/islandora_object-geolocations.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_geolocation_taxonomy,
+    './migrations/islandora_object-geolocations.csv'
+  );
 
   // genres
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_genre_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/islandora_object-genres.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_genre_taxonomy,
+    './migrations/islandora_object-genres.csv'
+  );
 
   // corporate bodies
-
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_corporatebody_taxonomy));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/islandora_object-corporatebodies.csv'
-    ])
-    .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_corporatebody_taxonomy,
+    './migrations/islandora_object-corporatebodies.csv'
+  );
 
   // collections
-
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_new_collection));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/islandora_object-collections.csv'
-    ])
-    .click('#edit-import');
-
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_new_items));
+  await doMigration(
+    t,
+    migrate_new_collection,
+    './migrations/islandora_object-collections.csv'
+  );
 
   // Migrate Islandora Repository Objects
+  await doMigration(
+    t,
+    migrate_new_items,
+    './migrations/islandora_object.csv'
+  );
+});
 
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/islandora_object.csv'
-    ])
-    .click('#edit-import');
+// This simply re-runs the collections and islandora objects migrations from the last
+// test to ensure that they can be re-run multiple times.
+// (there was an issue where unique_id constraints were preventing updates from
+// succeeding)
+// TODO - remove skip once PR https://github.com/jhu-idc/idc-isle-dc/pull/198 is in
+test.skip('Perform duplicate migrations to test ingest re-runs', async t => {
+  // migrate collections, again
+  await doMigration(
+    t,
+    migrate_new_collection,
+    './migrations/islandora_object-collections.csv');
 
+  // Migrate Islandora Repository Objects, again
+  await doMigration(
+    t,
+    migrate_new_items,
+    './migrations/islandora_object.csv');
 });
 
 // This is a quick test to ensure that one is able to edit items
@@ -395,138 +309,81 @@ test('Perform Edit on Repository Item using duplicate id', async t => {
 
 test('Perform Media Migrations', async t => {
 
-    // Migrate Islandora Access Terms for media tests
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_islandora_accessterms_taxonomy));
+  // Migrate Islandora Access Terms for media tests
+  await doMigration(
+    t,
+    migrate_islandora_accessterms_taxonomy,
+    './migrations/media-accessterms.csv'
+  );
 
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-accessterms.csv'
-        ])
-        .click('#edit-import');
+  // Migrate access rights
+  await doMigration(
+    t,
+    migrate_accessrights_taxonomy,
+    './migrations/media-accessrights.csv'
+  );
 
-    // Migrate the Collection and Repository Object the Media will be attached to
+  // Migrate media subjects
+  await doMigration(
+    t,
+    migrate_subject_taxonomy,
+    './migrations/media-subjects.csv'
+  );
 
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_new_collection));
+  // Migrate the Collection and Repository Object the Media will be attached to
+  await doMigration(
+    t,
+    migrate_new_collection,
+    './migrations/media-collection.csv'
+  );
 
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-collection.csv'
-        ])
-        .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_new_items,
+    './migrations/media-islandora_object.csv'
+  );
 
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_new_items));
+  await doMigration(
+    t,
+    migrate_media_image,
+    './migrations/media-image.csv'
+  );
 
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-islandora_object.csv'
-        ])
-        .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_media_document,
+    './migrations/media-document.csv'
+  );
 
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_media_image));
+  await doMigration(
+    t,
+    migrate_media_extracted_text,
+    './migrations/media-extracted_text.csv'
+  );
 
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-image.csv'
-        ])
-        .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_media_file,
+    './migrations/media-file.csv'
+  );
 
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_media_document));
+  await doMigration(
+    t,
+    migrate_media_video,
+    './migrations/media-video.csv'
+  );
 
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-document.csv'
-        ])
-        .click('#edit-import');
+  await doMigration(
+    t,
+    migrate_media_remote_video,
+    './migrations/media-remote_video.csv'
+  );
 
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_media_extracted_text));
+  await doMigration(
+    t,
+    migrate_media_audio,
+    './migrations/media-audio.csv'
+  );
 
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-extracted_text.csv'
-        ])
-        .click('#edit-import');
-
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_media_file));
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-file.csv'
-        ])
-        .click('#edit-import');
-
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_media_video));
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-video.csv'
-        ])
-        .click('#edit-import');
-
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_media_remote_video));
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-remote_video.csv'
-        ])
-        .click('#edit-import');
-
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_media_audio));
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './migrations/media-audio.csv'
-        ])
-        .click('#edit-import');
 });
 
-// quick sanity test to see that this migration fails and produces
-// one error per row.
-test('Perform test on CSV with bad formatting', async t =>  {
-  await t
-    .click(selectMigration)
-    .click(migrationOptions.withAttribute('value', migrate_new_items));
-
-  await t
-    .setFilesToUpload('#edit-source-file', [
-      './migrations/islandora_object_bad.csv'
-     ])
-    .click('#edit-import');
-
-  await t
-    .navigateTo(`https://islandora-idc.traefik.me/admin/structure/migrate/manage/idc_ingest/migrations/idc_ingest_new_items/messages`);
-
-  const error_msg = 'Array index missing, extraction failed.';
-
-  // there should be three errors, one for each row
-  const row1 = Selector('td').withText('io_bad_01').parent();
-  await t.expect(row1.child('td').nth(0).innerText).eql('io_bad_01');
-  await t.expect(row1.child('td').withText(error_msg).exists).ok();
-
-  const row2 = Selector('td').withText('io_bad_02').parent();
-  await t.expect(row2.child('td').nth(0).innerText).eql('io_bad_02');
-  await t.expect(row2.child('td').withText(error_msg).exists).ok();
-
-  const row3 = Selector('td').withText('io_bad_03').parent();
-  await t.expect(row3.child('td').nth(0).innerText).eql('io_bad_03');
-  await t.expect(row3.child('td').withText(error_msg).exists).ok();
-});

@@ -299,7 +299,10 @@ process:
             bundle: language
             bundle_key: vid
             value_key: field_language_code
-  field_date_available: date_available
+  field_date_available:
+    plugin: skip_on_empty
+    method: process
+    source: date_available
   field_date_copyrighted:
     -
       plugin: skip_on_empty
@@ -666,6 +669,7 @@ process:
 destination:
   plugin: 'entity:node'
   default_bundle: islandora_object
+  validate: true
   overwrite_properties:
     - title
     - field_abstract

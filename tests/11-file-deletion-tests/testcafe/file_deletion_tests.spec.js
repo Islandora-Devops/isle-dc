@@ -56,10 +56,11 @@ test('Migrate Files to be Deleted', async t => {
     let fileListing = 'https://islandora-idc.traefik.me/admin/content/files/';
     let mediaListing = 'https://islandora-idc.traefik.me/admin/content/media';
 
-
     // Navigate to Files listing, verify File is present, and used in one place
     await t.navigateTo(fileListing);
-    const fileToDelete = Selector('div.view-content').find('a').withText('Test Geo Tif File');
+    const fileToDelete = Selector('div.view-content').find('a').withText('NEFF1851_GEO.tfw');
+    // get url for later
+    let url = await fileToDelete.getAttribute('href');
     await t.expect(fileToDelete.count).eql(1);
     const tr = fileToDelete.parent('tr');
     const referenceCell = tr.child('td').nth(-1);
@@ -76,36 +77,19 @@ test('Migrate Files to be Deleted', async t => {
     await t.click(Selector('input').withAttribute('name', 'op').withAttribute('value', 'Delete'));
 
     // After deleting the media, there are two messages that show on the flash:
-    // 'Deleted 2 items.' (A green informational message)
-    // '1 item has not been deleted because you do not have the necessary permissions.' (A yellow warning message)
-
+    // 'Deleted 3 items.' (A green informational message)
     await t.expect(Selector('div').withAttribute('aria-label', 'Status message').innerText)
-        .contains('Deleted 2 items.')
-    await t.expect(Selector('div').withAttribute('aria-label', 'Warning message').innerText)
-        .contains('1 item has not been deleted because you do not have the necessary permissions.')
-
-    // The two items that would normally be deleted are the Media and the File, but the warning message indicates the
-    // that something (the File, in this case) *was not* deleted.
+        .contains('Deleted 3 items.')
 
     // Verify the Media is gone
     await t.expect(mediaToDelete.count).eql(0);
 
-    // Navigate to the File listing, verify File is present with zero references (although we wanted the file to be
-    // deleted, apparently it can't be due to some permissions issue that is not understood).
+    // Navigate to the File listing and verify the File is gone, too.
     await t.navigateTo(fileListing);
-    await t.expect(fileToDelete.count).eql(1);
-    await t.expect(referenceCell.innerText).eql('0 places');
+    await t.expect(fileToDelete.count).eql(0);
 
-    // It isn't clear as to why the File entity survives.  The warning message claims it is a permissions issue, but
-    // we are logged in as the admin.  Logging into the container and examining the filesystem permissions shows that
-    // the nginx user ought to be able to delete the file (and in fact, you can test this is true by execing into the
-    // container as the nginx user and rm'ing a file).
-
-    // Perform HEAD on File's URL and verify it is a 200 (i.e. the bytes are still there)
-
-    let url = await fileToDelete.getAttribute('href');
+    // check that the file is no longer in minio (based on url captured from earlier)
     var statusCode = -1;
-
     const executeReq = () => {
         url = url.replace('http:', 'https:')
         console.log(url);
@@ -128,7 +112,5 @@ test('Migrate Files to be Deleted', async t => {
 
     await executeReq();
 
-    // When a file is deleted on the s3fs-backed private FS, reading its
-    // bytes results in a 403, apparently
-    await t.expect(403).eql(statusCode);
+    await t.expect(404).eql(statusCode);
 });

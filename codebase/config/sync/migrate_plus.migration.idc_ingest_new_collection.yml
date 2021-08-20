@@ -175,6 +175,7 @@ process:
 destination:
   plugin: 'entity:node'
   default_bundle: collection_object
+  validate: true
   overwrite_properties:
     - title
     - field_collection_contact_email

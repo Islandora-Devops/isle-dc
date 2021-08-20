@@ -184,10 +184,12 @@ static-drupal-image-export: static-drupal-image
 
 # Build a docker-compose file that will run the whole stack, except with
 # the static drupal image rather than the dev drupal image + codebase bind mount.
-.SILENT: static-docker-compose.yml
 .PHONY: static-docker-compose.yml
+.SILENT: static-docker-compose.yml
 static-docker-compose.yml: static-drupal-image
 	-rm -f docker-compose.yml
+	ENV_FILE=.env ; \
+	if [ "$(env)" != "" ] ; then ENV_FILE=$(env); fi; \
 	echo '' > .env_static && \
 	    while read line; do \
 		if echo $$line | grep -q "ENVIRONMENT" ; then \
@@ -195,12 +197,12 @@ static-docker-compose.yml: static-drupal-image
 		else \
 			echo $$line >> .env_static ; \
 		fi \
-	    done < .env && \
+	    done < $${ENV_FILE} && \
 	    echo DRUPAL_STATIC_TAG=${GIT_TAG} >> .env_static
-	mv .env .env.bak
-	mv .env_static .env
-	$(MAKE) docker-compose.yml || mv .env.bak .env
-	if [ -f .env.bak ] ; then mv .env.bak .env ; fi
+	mv $${ENV_FILE} .env.bak
+	mv .env_static $${ENV_FILE}
+	$(MAKE) -B docker-compose.yml args="--env-file $${ENV_FILE}" || mv .env.bak $${ENV_FILE}
+	if [ -f .env.bak ] ; then mv .env.bak $${ENV_FILE} ; fi
 
 .SILENT: test
 .PHONY: test

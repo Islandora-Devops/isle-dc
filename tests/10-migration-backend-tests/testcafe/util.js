@@ -89,6 +89,9 @@ const navigateToMediaPage = async (t, name) => {
  * @param {string} file Path to the cvs file to upload for migration
  */
 export const doMigration = async (t, migrationType, file) => {
+
+  console.log('loading migration file: ', file);
+
   await t.navigateTo("https://islandora-idc.traefik.me/migrate_source_ui");
 
   const selectMigration = Selector("#edit-migrations");

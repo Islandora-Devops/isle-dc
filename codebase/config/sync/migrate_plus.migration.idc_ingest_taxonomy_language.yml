@@ -67,4 +67,5 @@ process:
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: language
+  validate: true
 migration_dependencies: null
