@@ -2,6 +2,7 @@
   "type": "taxonomy_term",
   "bundle": "resource_types",
   "name": "My Still Image",
+  "unique_id": "resourcetype_01",
   "authority": [
     {
       "uri": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/dcmitype/StillImage/",

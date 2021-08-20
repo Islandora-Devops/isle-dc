@@ -2,6 +2,7 @@
   "type": "taxonomy_term",
   "bundle": "corporate_body",
   "name": "Parent Corporate Body",
+  "unique_id": "corp_01",
   "description": {
     "value": "<p>This is a parent corporate body</p>",
     "format": "basic_html",

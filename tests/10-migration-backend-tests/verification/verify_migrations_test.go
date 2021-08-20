@@ -100,6 +100,7 @@ func verifyTaxonomyTermPerson(t *testing.T, fileName string, restOfName string) 
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.PrimaryName, actual.JsonApiAttributes.PrimaryPartOfName)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.ElementsMatch(t, expectedJson.RestOfName, actual.JsonApiAttributes.PreferredNameRest)
 	assert.ElementsMatch(t, expectedJson.Prefix, actual.JsonApiAttributes.PreferredNamePrefix)
 	assert.ElementsMatch(t, expectedJson.Suffix, actual.JsonApiAttributes.PreferredNameSuffix)
@@ -165,6 +166,7 @@ func Test_VerifyTaxonomyTermLongNamePerson(t *testing.T) {
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.PrimaryName, actual.JsonApiAttributes.PrimaryPartOfName)
 	assert.ElementsMatch(t, expectedJson.RestOfName, actual.JsonApiAttributes.PreferredNameRest)
 	assert.ElementsMatch(t, expectedJson.AltName, actual.JsonApiAttributes.PersonAlternateName)
@@ -197,6 +199,7 @@ func Test_VerifyTaxonomyTermAccessRights(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -248,6 +251,7 @@ func verifyTaxonomyTermIslandoraAccessTerms(t *testing.T, fileName string) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -295,6 +299,7 @@ func Test_VerifyTaxonomyCopyrightAndUse(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -331,6 +336,7 @@ func Test_VerifyTaxonomyTermResourceType(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -369,6 +375,7 @@ func Test_VerifyTaxonomyTermFamily(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -432,6 +439,7 @@ func Test_VerifyTaxonomyTermGenre(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -468,6 +476,7 @@ func Test_VerifyTaxonomyTermGeolocation(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -512,6 +521,7 @@ func Test_VerifyTaxonomySubject(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -548,6 +558,7 @@ func Test_VerifyTaxonomyTermLanguage(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -585,6 +596,7 @@ func Test_VerifyTaxonomyTermCorporateBody(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Name, actual.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.Description.Format, actual.JsonApiAttributes.Description.Format)
 	assert.Equal(t, expectedJson.Description.Value, actual.JsonApiAttributes.Description.Value)
 	assert.Equal(t, expectedJson.Description.Processed, actual.JsonApiAttributes.Description.Processed)
@@ -655,6 +667,7 @@ func Test_VerifyCollection(t *testing.T) {
 	assert.Equal(t, expectedJson.Type, actual.Type.Entity())
 	assert.Equal(t, expectedJson.Bundle, actual.Type.Bundle())
 	assert.Equal(t, expectedJson.Title, actual.JsonApiAttributes.Title)
+	assert.Equal(t, expectedJson.UniqueId, actual.JsonApiAttributes.UniqueId)
 	assert.Equal(t, expectedJson.ContactEmail, actual.JsonApiAttributes.ContactEmail)
 	assert.Equal(t, expectedJson.ContactName, actual.JsonApiAttributes.ContactName)
 	assert.ElementsMatch(t, expectedJson.CollectionNumber, actual.JsonApiAttributes.CollectionNumber)
@@ -794,6 +807,9 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 
 	// Title
 	assert.Equal(t, expectedJson.Title, attributes.Title)
+
+	// Check unique id
+	assert.Equal(t, expectedJson.UniqueId, attributes.UniqueId)
 
 	// Collection Number
 	assert.Equal(t, 2, len(expectedJson.CollectionNumber))
@@ -1083,6 +1099,9 @@ func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
 	// Title
 	assert.Equal(t, expectedJson.Title, attributes.Title)
 
+	// Unique Id
+	assert.Equal(t, expectedJson.UniqueId, attributes.UniqueId)
+
 	// Identifiers
 	assert.Equal(t, 2, len(expectedJson.DigitalIdentifier))
 	assert.EqualValues(t, expectedJson.DigitalIdentifier, attributes.DigitalIdentifier)
@@ -1281,6 +1300,7 @@ func Test_VerifyMediaDocument(t *testing.T) {
 	assert.Equal(t, expectedJson.OriginalName, document.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Name, document.JsonApiAttributes.Name)
 	assert.NotEqual(t, expectedJson.RestrictedAccess, document.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, document.JsonApiAttributes.UniqueId)
 
 	// Resolve relationships and verify
 	assert.Equal(t, 2, len(expectedJson.AccessTerms))
@@ -1336,6 +1356,7 @@ func Test_VerifyMediaImage(t *testing.T) {
 	assert.Equal(t, expectedJson.Height, image.JsonApiAttributes.Height)
 	assert.Equal(t, expectedJson.Width, image.JsonApiAttributes.Width)
 	assert.NotEqual(t, expectedJson.RestrictedAccess, image.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, image.JsonApiAttributes.UniqueId)
 
 	// Resolve relationships and verify
 
@@ -1428,6 +1449,7 @@ func Test_VerifyMediaExtractedText(t *testing.T) {
 	assert.Equal(t, expectedJson.MimeType, ext.JsonApiAttributes.MimeType)
 	assert.EqualValues(t, expectedJson.ExtractedText, ext.JsonApiAttributes.EditedText)
 	assert.Equal(t, expectedJson.RestrictedAccess, ext.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, ext.JsonApiAttributes.UniqueId)
 
 	// Resolve relationships and verify
 
@@ -1489,6 +1511,7 @@ func Test_VerifyMediaFile(t *testing.T) {
 	assert.EqualValues(t, expectedJson.OriginalName, genericFile.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Size, genericFile.JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.RestrictedAccess, genericFile.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, genericFile.JsonApiAttributes.UniqueId)
 
 	// Resolve relationships and verify
 
@@ -1550,6 +1573,7 @@ func Test_VerifyMediaAudio(t *testing.T) {
 	assert.EqualValues(t, expectedJson.OriginalName, audio.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Size, audio.JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.RestrictedAccess, audio.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, audio.JsonApiAttributes.UniqueId)
 
 	// Resolve relationships and verify
 
@@ -1611,6 +1635,7 @@ func Test_VerifyMediaVideo(t *testing.T) {
 	assert.EqualValues(t, expectedJson.OriginalName, video.JsonApiAttributes.OriginalName)
 	assert.Equal(t, expectedJson.Size, video.JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.RestrictedAccess, video.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, video.JsonApiAttributes.UniqueId)
 
 	// Resolve relationships and verify
 
@@ -1670,6 +1695,7 @@ func Test_VerifyMediaRemoteVideo(t *testing.T) {
 	assert.Equal(t, expectedJson.Name, video.JsonApiAttributes.Name)
 	assert.Equal(t, expectedJson.EmbedUrl, video.JsonApiAttributes.EmbedUrl)
 	assert.Equal(t, expectedJson.RestrictedAccess, video.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, video.JsonApiAttributes.UniqueId)
 
 	// Resolve relationships and verify
 

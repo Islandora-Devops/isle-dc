@@ -2,6 +2,7 @@
   "type": "taxonomy_term",
   "bundle": "islandora_access",
   "name": "Archives and Special Collections",
+  "unique_id": "accesscontrol_01",
   "description": {
     "value": "<p>Collections from the archives</p>",
     "format": "basic_html",

@@ -2,6 +2,7 @@
   "type": "node",
   "bundle": "islandora_object",
   "title": "Sample Repository Item",
+  "unique_id": "io_01",
   "abstract": [
     {
       "value": "Sample Repository Item Abstract in English",

@@ -2,6 +2,7 @@
   "type": "taxonomy_term",
   "bundle": "language",
   "name": "Klingon",
+  "unique_id": "language-01",
   "language_code": "kln",
   "authority": [
     {

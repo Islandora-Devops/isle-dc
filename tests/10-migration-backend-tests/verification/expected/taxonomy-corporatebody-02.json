@@ -2,6 +2,7 @@
   "type": "taxonomy_term",
   "bundle": "corporate_body",
   "name": "My Corporate Body",
+  "unique_id": "corp_02",
   "description": {
     "value": "<p>A corporate body description.</p>",
     "format": "basic_html",
@@ -25,7 +26,7 @@
       "Another Subordinate Name"
   ],
   "corporate_body_alternate_name": [
-      "Alt name of meeting", 
+      "Alt name of meeting",
       "Another Alt Name"
   ],
   "authority": [
