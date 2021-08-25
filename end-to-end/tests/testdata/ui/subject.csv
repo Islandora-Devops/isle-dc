@@ -1,0 +1,7 @@
+unique_id,name,authority,description
+subject-01,Analog Photography,http://www.google.com?q=Analog%20Photography;other||http://www.ford.com;iso19115,<p>Analog photography description.</p>
+io-subject-01,Analog Islandora Object Photography,,Still images captured by the chemical and physical process of a photo-sensitive emlusion reacting with light.
+io-subject-02,General Islandora Object Photography,,"Still images, captured by any means (analog photographs, digital photographs, single frame still video capture)"
+io-subject-03,Photography: Still Life,,"Still images, captured by any means (analog photographs, digital photographs, single frame still video capture)"
+subject-02,Moo,,A moo collection
+subject-03,Moo2,,Another slightly different moo

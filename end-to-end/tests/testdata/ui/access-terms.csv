@@ -1,0 +1,8 @@
+unique_id,name,parent,description
+accesscontrol_01,Animals,,Collections related to animals
+accesscontrol_02,Farm Animals,:::accesscontrol_02,Collections of farm animals
+accesscontrol_03,Arctic Animals,:::accesscontrol_02,Collections of arctic animals
+accesscontrol_04,Duck Collection,:::accesscontrol_02,Collection for ducks
+accesscontrol_05,Parent Collection,,Collection called Parent Collection
+accesscontrol_06,Image Collection,,
+accesscontrol_00,Default,,

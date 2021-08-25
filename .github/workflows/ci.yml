@@ -101,7 +101,12 @@ jobs:
               with:
                 name: reports-${{ matrix.suite }}
                 path: end-to-end/reports/${{ matrix.suite }}
-
+            - name: upload screenshots
+              if: failure()
+              uses: actions/upload-artifact@v2
+              with:
+                name: reports-screenshots
+                path: end-to-end/reports/screenshots
     deploy:
         name: Deploy
         runs-on: ubuntu-latest

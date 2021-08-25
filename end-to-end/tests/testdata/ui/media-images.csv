@@ -1,0 +1,4 @@
+unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url,alt_text
+media_ui_image_01,A single image,:::accesscontrol_04,tiff.tif,image/tiff,:::io_02,Original File,http://migration-assets/assets/image/formats/tiff.tif,A single image
+media_ui_image_02,Page 1 img,:::accesscontrol_05,jpg.jpg,image/jpeg,:::io_05,Original File,http://migration-assets/assets/image/formats/jpg.jpg,Page one
+media_ui_image_03,Page 2 img,:::accesscontrol_05,png.png,image/png,:::io_06,Original File,http://migration-assets/assets/image/formats/png.png,Page two

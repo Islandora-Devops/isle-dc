@@ -6,7 +6,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "testcafe chromium tests/**/*.spec.js"
+    "test": "./run-testcafe.sh"
   },
   "author": "",
   "license": "ISC",

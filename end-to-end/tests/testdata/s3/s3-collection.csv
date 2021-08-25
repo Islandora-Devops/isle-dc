@@ -1,2 +1,2 @@
-node_id,local_id,title,title_language,alternative_title,member_of,contact_email,contact_name,collection_number,description,finding_aid
-,s3-collection-01,S3 Test Collection,English,,,,,,Collection for S3 tests;;eng,
+unique_id,node_id,title,title_language,alternative_title,member_of,access_terms,contact_email,contact_name,collection_number,description,finding_aid,featured_item
+s3-collection-01,,S3 Test Collection,::name:English,,,:::accesscontrol_00,,,,Collection for S3 tests;;eng,,0

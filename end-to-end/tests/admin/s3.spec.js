@@ -1,6 +1,7 @@
 import http from 'http';
-import {Selector} from 'testcafe';
-import {localAdmin, s3Admin} from './roles.js';
+import { Selector } from 'testcafe';
+import { migrate } from '../helpers';
+import { localAdmin } from '../roles';
 
 const migrate_new_items = 'idc_ingest_new_items';
 const migrate_new_collection = 'idc_ingest_new_collection';
@@ -8,6 +9,7 @@ const migrate_media_image = 'idc_ingest_media_image';
 
 const selectMigration = Selector('#edit-migrations');
 const migrationOptions = selectMigration.find('option');
+const status = Selector('.messages--status').withText('0 failed');
 
 const contentList = "https://islandora-idc.traefik.me/admin/content";
 
@@ -21,38 +23,14 @@ fixture`S3 Tests`
 test('Verify original file and derivatives are in S3', async t => {
 
     // migrate the test objects into Drupal
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_new_collection));
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './testdata/s3/s3-collection.csv'
-        ])
-        .click('#edit-import');
-
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_new_items))
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './testdata/s3/s3-islandora_object.csv'
-        ])
-        .click('#edit-import');
-
-    await t
-        .click(selectMigration)
-        .click(migrationOptions.withAttribute('value', migrate_media_image))
-
-    await t
-        .setFilesToUpload('#edit-source-file', [
-            './testdata/s3/s3-file.csv'
-        ])
-        .click('#edit-import');
+    await migrate(t, 'idc_ingest_taxonomy_islandora_accessterms', '../testdata/s3/access-terms.csv');
+    await migrate(t, 'idc_ingest_taxonomy_subject', '../testdata/s3/subject.csv');
+    await migrate(t, migrate_new_collection, '../testdata/s3/s3-collection.csv');
+    await migrate(t, migrate_new_items, '../testdata/s3/s3-islandora_object.csv');
+    await migrate(t, migrate_media_image, '../testdata/s3/s3-file.csv');
 
     // verify the presence of the islandora object
-    const io_name = "S3 Repository Item One"
+    const io_name = "S3 Repository Item 1"
     await t.navigateTo(contentList)
     const io = Selector('div.view-content').find('a').withText(io_name)
     await t.expect(io.count).eql(1);
@@ -88,7 +66,7 @@ test('Verify original file and derivatives are in S3', async t => {
         console.log("Derivatives haven't appeared.  Sleeping for 30 seconds, then trying again ...")
         // sleep 30 seconds, refresh the page
         await t.wait(30000);
-        await t.eval(() => location.reload(true));
+        await t.eval(() => location.reload());
     }
 
     await t.expect(service_derivative.count).eql(1);

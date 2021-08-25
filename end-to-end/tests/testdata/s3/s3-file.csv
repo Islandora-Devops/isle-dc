@@ -1,2 +1,2 @@
-local_id,name,original_name,mime_type,media_of,media_use,url
-s3_media_file_00001,S3 Image,s3.jpg,image/jpeg,:::S3 Repository Item One,Original File,https://islandora-idc.traefik.me/themes/contrib/idc-ui-theme/images/sheridan-libraries.logo.small.horizontal.blue.jpg
+unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url,alt_text
+media_ui_image_04,S3 Image,:::accesscontrol_00,s3.jpg,image/jpeg,:::s3_io_01,Original File,https://islandora-idc.traefik.me/themes/contrib/idc-ui-theme/images/sheridan-libraries.logo.small.horizontal.blue.jpg,Image from the file system
