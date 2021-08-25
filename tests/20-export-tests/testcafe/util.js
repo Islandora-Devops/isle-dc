@@ -122,7 +122,7 @@ export const doMigration = async (t, migrationType, file) => {
           let error_msg_count = await Selector(".messages--error").find(".messages__list").count;
           let update_warning_present = await Selector(".messages--error")
             .find(".messages__list")
-            .withText("There is a security update available for your version of Drupal.").count;
+            .withText("security update").count;
 
           if (update_warning_present == 0 || update_warning_present == 1 && error_msg_count > 1) {
             throw "Error performing migrations!";

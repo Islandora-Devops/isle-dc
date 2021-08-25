@@ -124,9 +124,11 @@ export const doMigration = async (t, migrationType, file) => {
         // Something failed and was kind enough to leave a message
         if (error_count > 0) {
           let error_msg_count = await Selector(".messages--error").find(".messages__list").count;
+          // We need to ignore messages for Drupal security updates as well as module security updates
+          // which are formatted slightly differently
           let update_warning_present = await Selector(".messages--error")
             .find(".messages__list")
-            .withText("There is a security update available for your version of Drupal.").count;
+            .withText("security update").count;
 
           console.log("error message count: ", error_msg_count);
           if (update_warning_present == 0 || update_warning_present == 1 && error_msg_count > 1) {
