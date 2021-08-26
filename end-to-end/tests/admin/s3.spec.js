@@ -27,7 +27,7 @@ test('Verify original file and derivatives are in S3', async t => {
     await migrate(t, 'idc_ingest_taxonomy_subject', '../testdata/s3/subject.csv');
     await migrate(t, migrate_new_collection, '../testdata/s3/s3-collection.csv');
     await migrate(t, migrate_new_items, '../testdata/s3/s3-islandora_object.csv');
-    await migrate(t, migrate_media_image, '../testdata/s3/s3-file.csv');
+    await migrate(t, migrate_media_image, '../testdata/s3/s3-file.csv', 30000);
 
     // verify the presence of the islandora object
     const io_name = "S3 Repository Item 1"

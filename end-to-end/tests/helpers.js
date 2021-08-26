@@ -60,6 +60,7 @@ export async function migrate(t, migrationId, sourceFile, timeout = 10000) {
   const fileInput = Selector('#edit-source-file');
 
   await t
+    .expect(sourceFile).ok('No file path was provided')
     .click(selectMigration)
     .click(migrationOptions.withAttribute('value', migrationId))
     .setFilesToUpload(fileInput, [ sourceFile ])

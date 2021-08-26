@@ -138,7 +138,7 @@ async function checkForUIMigrations(t) {
 
 test('Do migrations', async (t) => {
   if (!(await checkForUIMigrations(t))) {
-    await addUiData(t);
+    await addUiData(t, 30000);
   }
 });
 
