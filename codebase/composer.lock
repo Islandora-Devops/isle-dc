@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "faed35f7ffc11cd1ba0d9fcf6d779b07",
+    "content-hash": "a5b1ae6e06123cfefb6028ead62090b5",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -7776,25 +7776,25 @@
         },
         {
             "name": "jhu-idc/idc-ui-theme",
-            "version": "dev-d9",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "ac6bfc7e6429af4a6f819c7f1760d078095d3df0"
+                "reference": "977bb9a701d7f99bcc6ca724b1d7a2b7f0d32ed9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/ac6bfc7e6429af4a6f819c7f1760d078095d3df0",
-                "reference": "ac6bfc7e6429af4a6f819c7f1760d078095d3df0",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/977bb9a701d7f99bcc6ca724b1d7a2b7f0d32ed9",
+                "reference": "977bb9a701d7f99bcc6ca724b1d7a2b7f0d32ed9",
                 "shasum": ""
             },
             "type": "drupal-theme",
             "description": "Moo",
             "support": {
-                "source": "https://github.com/jhu-idc/idc-ui-theme/tree/d9",
+                "source": "https://github.com/jhu-idc/idc-ui-theme/tree/develop",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2021-08-24T17:12:08+00:00"
+            "time": "2021-08-25T13:55:24+00:00"
         },
         {
             "name": "jhu-idc/idc_defaults",
@@ -7824,16 +7824,16 @@
         },
         {
             "name": "jhu-idc/idc_export",
-            "version": "dev-d9",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_export.git",
-                "reference": "85228a0aab4ac149179d8225daf0bb7cff2d7171"
+                "reference": "c060e02b61e422a98f54116c55600371d08885ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_export/zipball/85228a0aab4ac149179d8225daf0bb7cff2d7171",
-                "reference": "85228a0aab4ac149179d8225daf0bb7cff2d7171",
+                "url": "https://api.github.com/repos/jhu-idc/idc_export/zipball/c060e02b61e422a98f54116c55600371d08885ce",
+                "reference": "c060e02b61e422a98f54116c55600371d08885ce",
                 "shasum": ""
             },
             "require": {
@@ -7850,45 +7850,45 @@
             "type": "drupal-module",
             "description": "Metadata and Citation Export Module for JHU Islandora",
             "support": {
-                "source": "https://github.com/jhu-idc/idc_export/tree/d9",
+                "source": "https://github.com/jhu-idc/idc_export/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_export/issues"
             },
-            "time": "2021-08-24T17:14:23+00:00"
+            "time": "2021-08-26T21:03:21+00:00"
         },
         {
             "name": "jhu-idc/idc_ui_module",
-            "version": "dev-d9",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_ui_module.git",
-                "reference": "2444997e5d14475c5d861330e1b8d77959101ab6"
+                "reference": "317441cd7d0f19492c1bd38bd48d5b6001a07588"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/2444997e5d14475c5d861330e1b8d77959101ab6",
-                "reference": "2444997e5d14475c5d861330e1b8d77959101ab6",
+                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/317441cd7d0f19492c1bd38bd48d5b6001a07588",
+                "reference": "317441cd7d0f19492c1bd38bd48d5b6001a07588",
                 "shasum": ""
             },
             "type": "drupal-module",
             "description": "Moo Module",
             "support": {
-                "source": "https://github.com/jhu-idc/idc_ui_module/tree/d9",
+                "source": "https://github.com/jhu-idc/idc_ui_module/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_ui_module/issues"
             },
-            "time": "2021-08-24T17:10:59+00:00"
+            "time": "2021-08-25T13:55:29+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",
-            "version": "dev-d9",
+            "version": "dev-8.x-1.x",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/islandora_defaults.git",
-                "reference": "f172124ce04c97e26cb1de6c00e85a645951388c"
+                "reference": "fb1aac2963687dab260440110b1192427ba4ba92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/f172124ce04c97e26cb1de6c00e85a645951388c",
-                "reference": "f172124ce04c97e26cb1de6c00e85a645951388c",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/fb1aac2963687dab260440110b1192427ba4ba92",
+                "reference": "fb1aac2963687dab260440110b1192427ba4ba92",
                 "shasum": ""
             },
             "require": {
@@ -7898,7 +7898,7 @@
                 "islandora/islandora": "dev-8.x-1.x",
                 "islandora/openseadragon": "dev-8.x-1.x",
                 "jhu-idc/controlled_access_terms": "dev-8.x-1.x",
-                "jhu-idc/reference_value_pair": "dev-d9"
+                "jhu-idc/reference_value_pair": "dev-main"
             },
             "type": "drupal-module",
             "license": [
@@ -7912,22 +7912,22 @@
             ],
             "support": {
                 "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
-                "source": "https://github.com/jhu-idc/islandora_defaults/tree/d9"
+                "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
             },
-            "time": "2021-08-25T17:13:42+00:00"
+            "time": "2021-08-27T15:56:18+00:00"
         },
         {
             "name": "jhu-idc/migrate_file",
-            "version": "dev-d9",
+            "version": "dev-8.x-1.x",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/migrate_file.git",
-                "reference": "3900beb32517e352d2700b296dac7429507a698b"
+                "reference": "1c0da9e22374eb5937e6e89018e56d7fde134bc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/migrate_file/zipball/3900beb32517e352d2700b296dac7429507a698b",
-                "reference": "3900beb32517e352d2700b296dac7429507a698b",
+                "url": "https://api.github.com/repos/jhu-idc/migrate_file/zipball/1c0da9e22374eb5937e6e89018e56d7fde134bc5",
+                "reference": "1c0da9e22374eb5937e6e89018e56d7fde134bc5",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -7943,20 +7943,20 @@
                 "issues": "https://www.drupal.org/project/issues/migrate_file",
                 "source": "http://cgit.drupalcode.org/migrate_file"
             },
-            "time": "2021-08-26T13:58:29+00:00"
+            "time": "2021-08-30T13:04:01+00:00"
         },
         {
             "name": "jhu-idc/reference_value_pair",
-            "version": "dev-d9",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/reference_value_pair.git",
-                "reference": "5d2699bc7921591802b8d2bacbdd2fc6cb7b3145"
+                "reference": "ee0bb998be76fc9b32884028d417fd7779df235d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/reference_value_pair/zipball/5d2699bc7921591802b8d2bacbdd2fc6cb7b3145",
-                "reference": "5d2699bc7921591802b8d2bacbdd2fc6cb7b3145",
+                "url": "https://api.github.com/repos/jhu-idc/reference_value_pair/zipball/ee0bb998be76fc9b32884028d417fd7779df235d",
+                "reference": "ee0bb998be76fc9b32884028d417fd7779df235d",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -7972,20 +7972,20 @@
                 "issues": "http://github.com/jhu-idc/reference_value_pair",
                 "source": "http://github.com/jhu-idc/reference_value_pair"
             },
-            "time": "2021-08-26T15:02:03+00:00"
+            "time": "2021-08-27T15:49:40+00:00"
         },
         {
             "name": "jhu_idc/idc_migration",
-            "version": "dev-d9",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_migration.git",
-                "reference": "3ace3c3e8bd395156ce33b8ea09d1f04ec5a8878"
+                "reference": "e52a14bd908e321850f9aa0becaa17bcec253326"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/3ace3c3e8bd395156ce33b8ea09d1f04ec5a8878",
-                "reference": "3ace3c3e8bd395156ce33b8ea09d1f04ec5a8878",
+                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/e52a14bd908e321850f9aa0becaa17bcec253326",
+                "reference": "e52a14bd908e321850f9aa0becaa17bcec253326",
                 "shasum": ""
             },
             "require": {
@@ -8014,9 +8014,9 @@
             ],
             "description": "Custom migration plugins for IDC",
             "support": {
-                "source": "https://github.com/jhu-idc/idc_migration/tree/d9"
+                "source": "https://github.com/jhu-idc/idc_migration/tree/v2.0.0"
             },
-            "time": "2021-08-24T17:16:53+00:00"
+            "time": "2021-08-27T15:30:40+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -20323,8 +20323,7 @@
         "jhu-idc/idc_export": 20,
         "jhu-idc/idc_ui_module": 20,
         "jhu-idc/islandora_defaults": 20,
-        "jhu-idc/migrate_file": 20,
-        "jhu_idc/idc_migration": 20
+        "jhu-idc/migrate_file": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
