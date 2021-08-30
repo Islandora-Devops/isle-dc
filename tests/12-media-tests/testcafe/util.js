@@ -191,7 +191,7 @@ export const uploadImageInUI = async (t, name, file, accessTerm) => {
   await t.click(
     Selector("#block-idcui-local-tasks").find("a").withText("Media")
   );
-  await t.click(Selector(".button"));
+  await t.click(Selector(".action-links").find("a").withText('Add Media'));
   await t.click(Selector(".admin-list").find("a").withText("local images"));
   await t.click(Selector("#edit-field-media-use-17"));
   await t.expect(Selector("#edit-field-media-use-17").checked).ok();
@@ -212,7 +212,7 @@ export const uploadFileInUI = async (t, name, file, accessTerm) => {
   await t.click(
     Selector("#block-idcui-local-tasks").find("a").withText("Media")
   );
-  await t.click(Selector(".button"));
+  await t.click(Selector(".action-links").find("a").withText('Add Media'));
   await t.click(Selector(".admin-list").find("a").withText("local files"));
   await t.click(Selector("#edit-field-media-use-17"));
   await t.expect(Selector("#edit-field-media-use-17").checked).ok();
