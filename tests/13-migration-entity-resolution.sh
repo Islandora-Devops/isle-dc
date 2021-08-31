@@ -9,4 +9,4 @@ use_env "DRUPAL_DEFAULT_MIGRATIONS_VALIDATE=false"
 mkdir "${TESTCAFE_TESTS_FOLDER}/screenshots" && chmod 777 "${TESTCAFE_TESTS_FOLDER}/screenshots"
 
 # Execute migrations using testcafe
-docker run --network gateway -v "${TESTCAFE_TESTS_FOLDER}":/tests testcafe/testcafe --screenshots path=/tests/screenshots,takeOnFails=true chromium /tests/**/*.js
+docker run --network gateway --env-file=$(pwd)/.env -v "${TESTCAFE_TESTS_FOLDER}":/tests testcafe/testcafe --screenshots path=/tests/screenshots,takeOnFails=true chromium /tests/**/*.js
