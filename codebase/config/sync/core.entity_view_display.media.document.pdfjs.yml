@@ -46,8 +46,8 @@ hidden:
   field_media_use: true
   field_mime_type: true
   field_original_name: true
-  field_unique_id: true
   field_restricted_access: true
+  field_unique_id: true
   langcode: true
   name: true
   search_api_excerpt: true
