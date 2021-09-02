@@ -18,4 +18,4 @@ docker build -t local/migration-backend-tests "${BASE_TEST_FOLDER}/verification"
 # Execute tests in docker image, on the same docker network (gateway, idc_default?) as Drupal
 # TODO: expose logs when failing tests?
 # N.B. trailing slash on the BASE_ASSETS_URL is important.  uses the internal URL.
-docker run --network gateway --rm -e BASE_ASSETS_URL=http://${assets_container}/assets/ local/migration-backend-tests
+docker run --network gateway --env-file=$(pwd)/.env --rm -e BASE_ASSETS_URL=http://${assets_container}/assets/ local/migration-backend-tests
