@@ -336,10 +336,20 @@ field_settings:
       config:
         - field.storage.node.field_description
   field_digital_publisher:
+    label: 'Digital Publisher » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_digital_publisher:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_digital_publisher
+      module:
+        - taxonomy
+  field_digital_publisher_id:
     label: 'Digital Publisher'
     datasource_id: 'entity:node'
     property_path: field_digital_publisher
-    type: string
+    type: integer
     dependencies:
       config:
         - field.storage.node.field_digital_publisher

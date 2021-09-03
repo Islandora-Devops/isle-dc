@@ -186,12 +186,10 @@ solr_configs:
               name: buildOnStartup
               VALUE: 'false'
 text_files:
-  stopwords: |
-
+  stopwords: ''
   synonyms: |
     drupal, durpal
-  protwords: |
-
+  protwords: ''
   accents: |
     # À => A
     "\u00C0" => "A"

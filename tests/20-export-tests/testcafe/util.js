@@ -2,9 +2,9 @@ import { Selector } from "testcafe";
 import fs from "fs";
 import path from "path";
 import url from "url";
-import http from "http";
+import https from "https";
 
-const contentList = "https://islandora-idc.traefik.me/admin/content";
+export const contentList = "https://islandora-idc.traefik.me/admin/content";
 
 /** Find media for a repository object with the given name
  *
@@ -168,7 +168,7 @@ export const download = async (uri) => {
   const saveTo = basedir + "/" + filename;
   const file = fs.createWriteStream(saveTo);
 
-  await httpget(uri, file);
+  await httpGetFile(uri, file);
   return saveTo;
 };
 
@@ -214,7 +214,7 @@ export const uploadFileInUI = async (t, name, file, accessTerm) => {
   await t.click("#edit-submit");
 };
 
-const httpget = (uri, file) => {
+const httpGetFile = (uri, file) => {
   return new Promise((resolve) => {
     http.get(uri, (response) => response.pipe(file));
     resolve();
@@ -248,4 +248,31 @@ export const tryUntilTrue = async (
       return true;
     }
   }
+};
+
+/** Makes a HTTPS Get request to the URL passed in
+ *
+ * @param {string} url url of end point to contact
+ * @returns {object} object containing {statusCode, contentType, rawData}
+ */
+export const getResponseData = (url) => new Promise((resolve, reject) => {
+  https.get(url, res => {
+    const { statusCode } = res;
+    const contentType = res.headers['content-type'];
+    res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (chunk) => { rawData += chunk; });
+    res.on('end', () => resolve({ statusCode, contentType, rawData }));
+  }).on('error', e => reject(e));
+});
+
+/** Looks up the ID for a node based on it's title
+ *
+ * @param {string} title title of the node
+ * @returns {string} the id of the node that has the title
+ */
+export const findNodeIdForTitle = async (t, title)  => {
+  await t.navigateTo(contentList);
+  const url = await Selector('div.view-content').find('a').withText(title).getAttribute("href");
+  return url.substring(url.lastIndexOf('/') + 1);
 };

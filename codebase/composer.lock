@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5b1ae6e06123cfefb6028ead62090b5",
+    "content-hash": "5146a8ded20966b6ef133d39f9b7ab27",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -481,6 +481,11 @@
                 "validation",
                 "versioning"
             ],
+            "support": {
+                "irc": "irc://irc.freenode.org/composer",
+                "issues": "https://github.com/composer/semver/issues",
+                "source": "https://github.com/composer/semver/tree/3.2.5"
+            },
             "funding": [
                 {
                     "url": "https://packagist.com",
@@ -7828,12 +7833,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_export.git",
-                "reference": "c060e02b61e422a98f54116c55600371d08885ce"
+                "reference": "49661366440656929e20e46f6448bbd68779f510"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_export/zipball/c060e02b61e422a98f54116c55600371d08885ce",
-                "reference": "c060e02b61e422a98f54116c55600371d08885ce",
+                "url": "https://api.github.com/repos/jhu-idc/idc_export/zipball/49661366440656929e20e46f6448bbd68779f510",
+                "reference": "49661366440656929e20e46f6448bbd68779f510",
                 "shasum": ""
             },
             "require": {
@@ -7841,19 +7846,21 @@
                 "citation-style-language/styles-distribution": "@dev",
                 "drupal/csv_serialization": "~1.4 || ~2.0",
                 "drupal/views_data_export": "^1.0",
+                "jhu-idc/controlled_access_terms": "dev-8.x-1.x",
                 "seboettg/citeproc-php": "^2"
             },
             "require-dev": {
                 "drupal/search_api": "~1.12",
                 "drupal/xls_serialization": "~1.0"
             },
+            "default-branch": true,
             "type": "drupal-module",
             "description": "Metadata and Citation Export Module for JHU Islandora",
             "support": {
                 "source": "https://github.com/jhu-idc/idc_export/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_export/issues"
             },
-            "time": "2021-08-26T21:03:21+00:00"
+            "time": "2021-09-02T14:33:17+00:00"
         },
         {
             "name": "jhu-idc/idc_ui_module",
@@ -7883,12 +7890,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/islandora_defaults.git",
-                "reference": "fb1aac2963687dab260440110b1192427ba4ba92"
+                "reference": "efe2668dbf1e7454d8d68ce5fb3079048973028f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/fb1aac2963687dab260440110b1192427ba4ba92",
-                "reference": "fb1aac2963687dab260440110b1192427ba4ba92",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/efe2668dbf1e7454d8d68ce5fb3079048973028f",
+                "reference": "efe2668dbf1e7454d8d68ce5fb3079048973028f",
                 "shasum": ""
             },
             "require": {
@@ -7900,6 +7907,7 @@
                 "jhu-idc/controlled_access_terms": "dev-8.x-1.x",
                 "jhu-idc/reference_value_pair": "dev-main"
             },
+            "default-branch": true,
             "type": "drupal-module",
             "license": [
                 "GPL-2.0+"
@@ -7914,7 +7922,7 @@
                 "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
                 "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
             },
-            "time": "2021-08-27T15:56:18+00:00"
+            "time": "2021-09-01T14:54:11+00:00"
         },
         {
             "name": "jhu-idc/migrate_file",
@@ -9151,6 +9159,10 @@
             "keywords": [
                 "enum"
             ],
+            "support": {
+                "issues": "https://github.com/myclabs/php-enum/issues",
+                "source": "https://github.com/myclabs/php-enum/tree/1.8.3"
+            },
             "funding": [
                 {
                     "url": "https://github.com/mnapoli",
@@ -9276,6 +9288,10 @@
                 "parser",
                 "php"
             ],
+            "support": {
+                "issues": "https://github.com/nikic/PHP-Parser/issues",
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.12.0"
+            },
             "time": "2021-07-21T10:44:31+00:00"
         },
         {
@@ -9842,6 +9858,9 @@
                 "psr",
                 "psr-6"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/cache/tree/master"
+            },
             "time": "2016-08-06T20:24:11+00:00"
         },
         {
@@ -9886,6 +9905,10 @@
                 "container-interop",
                 "psr"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/1.1.1"
+            },
             "time": "2021-03-05T17:36:06+00:00"
         },
         {
@@ -9932,6 +9955,10 @@
                 "psr",
                 "psr-14"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/event-dispatcher/issues",
+                "source": "https://github.com/php-fig/event-dispatcher/tree/1.0.0"
+            },
             "time": "2019-01-08T18:20:26+00:00"
         },
         {
@@ -10130,6 +10157,9 @@
                 "psr",
                 "psr-3"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.4"
+            },
             "time": "2021-05-03T11:20:27+00:00"
         },
         {
@@ -10283,34 +10313,41 @@
         },
         {
             "name": "seboettg/citeproc-php",
-            "version": "v2.1.6",
+            "version": "v2.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seboettg/citeproc-php.git",
-                "reference": "2e47cad09ab245d659fb57d3418ca31b98d57134"
+                "reference": "53e94194a8269adf87cbf95a2d47876baf91f5d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seboettg/citeproc-php/zipball/2e47cad09ab245d659fb57d3418ca31b98d57134",
-                "reference": "2e47cad09ab245d659fb57d3418ca31b98d57134",
+                "url": "https://api.github.com/repos/seboettg/citeproc-php/zipball/53e94194a8269adf87cbf95a2d47876baf91f5d8",
+                "reference": "53e94194a8269adf87cbf95a2d47876baf91f5d8",
                 "shasum": ""
             },
             "require": {
+                "ext-intl": "*",
                 "ext-json": "*",
                 "ext-simplexml": "*",
                 "myclabs/php-enum": "^1.5",
-                "seboettg/collection": "^1.2",
-                "symfony/polyfill-mbstring": "^1.3"
+                "php": ">=7.1",
+                "seboettg/collection": "^2.1",
+                "symfony/polyfill-mbstring": "^1.10"
             },
             "require-dev": {
-                "phpunit/phpunit": "6.0.13",
-                "satooshi/php-coveralls": "^1"
+                "php-coveralls/php-coveralls": "^1",
+                "phpmd/phpmd": "^2.8",
+                "phpunit/phpunit": "^7.5",
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "": "src/"
-                }
+                    "Seboettg\\CiteProc\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -10325,30 +10362,37 @@
                 }
             ],
             "description": "Full-featured CSL processor (https://citationstyles.org)",
-            "time": "2018-10-13T18:02:57+00:00"
+            "support": {
+                "issues": "https://github.com/seboettg/citeproc-php/issues",
+                "source": "https://github.com/seboettg/citeproc-php/tree/v2.2.5"
+            },
+            "time": "2020-12-06T10:15:17+00:00"
         },
         {
             "name": "seboettg/collection",
-            "version": "v1.3.1",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seboettg/Collection.git",
-                "reference": "7f0bbf93dba9b261f6d8c725a4f1583f4402162a"
+                "reference": "292a342c557e9c5b970a3736d3f6f987699a49de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seboettg/Collection/zipball/7f0bbf93dba9b261f6d8c725a4f1583f4402162a",
-                "reference": "7f0bbf93dba9b261f6d8c725a4f1583f4402162a",
+                "url": "https://api.github.com/repos/seboettg/Collection/zipball/292a342c557e9c5b970a3736d3f6f987699a49de",
+                "reference": "292a342c557e9c5b970a3736d3f6f987699a49de",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "6.5.*",
-                "satooshi/php-coveralls": "^v2.0"
+                "satooshi/php-coveralls": "2.*"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Seboettg\\Collection\\": "src/Seboettg/Collection"
+                    "Seboettg\\Collection\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -10361,8 +10405,28 @@
                     "email": "seboettg@gmail.com"
                 }
             ],
-            "description": "Simple PHP ArrayList collection",
-            "time": "2019-02-13T07:13:15+00:00"
+            "description": "Collection is a set of useful PHP wrapper classes for arrays, similar to Java Collection. Contains ArrayList, Stack, Queue.",
+            "keywords": [
+                "OOP",
+                "array",
+                "arraylist",
+                "basic-data-structures",
+                "collections",
+                "comparable",
+                "comparable-interface",
+                "comparator",
+                "datastructures",
+                "filter",
+                "map",
+                "queue",
+                "sort",
+                "stack"
+            ],
+            "support": {
+                "issues": "https://github.com/seboettg/Collection/issues",
+                "source": "https://github.com/seboettg/Collection/tree/v2.1.1"
+            },
+            "time": "2021-05-10T23:27:19+00:00"
         },
         {
             "name": "silex/silex",
@@ -12545,6 +12609,9 @@
                 "interoperability",
                 "standards"
             ],
+            "support": {
+                "source": "https://github.com/symfony/cache-contracts/tree/v2.4.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -12706,6 +12773,9 @@
             ],
             "description": "Eases the creation of beautiful and testable command line interfaces",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/console/tree/v4.4.25"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -12835,6 +12905,9 @@
             ],
             "description": "Provides tools to ease debugging PHP code",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/debug/tree/v4.4.25"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -12981,6 +13054,9 @@
             ],
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.4.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -13274,6 +13350,9 @@
                 "interoperability",
                 "standards"
             ],
+            "support": {
+                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v1.1.9"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -13611,6 +13690,9 @@
                 "interoperability",
                 "standards"
             ],
+            "support": {
+                "source": "https://github.com/symfony/http-client-contracts/tree/v2.4.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -13933,6 +14015,9 @@
                 "polyfill",
                 "portable"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.23.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -14088,6 +14173,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.23.1"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -14253,6 +14341,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.23.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -14330,6 +14421,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.23.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -14544,6 +14638,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php73/tree/v1.23.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -14624,6 +14721,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.23.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -15355,6 +15455,9 @@
                 "interoperability",
                 "standards"
             ],
+            "support": {
+                "source": "https://github.com/symfony/service-contracts/tree/v2.4.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -15373,16 +15476,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.3.3",
+            "version": "v5.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "bd53358e3eccec6a670b5f33ab680d8dbe1d4ae1"
+                "reference": "8d224396e28d30f81969f083a58763b8b9ceb0a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/bd53358e3eccec6a670b5f33ab680d8dbe1d4ae1",
-                "reference": "bd53358e3eccec6a670b5f33ab680d8dbe1d4ae1",
+                "url": "https://api.github.com/repos/symfony/string/zipball/8d224396e28d30f81969f083a58763b8b9ceb0a5",
+                "reference": "8d224396e28d30f81969f083a58763b8b9ceb0a5",
                 "shasum": ""
             },
             "require": {
@@ -15435,6 +15538,9 @@
                 "utf-8",
                 "utf8"
             ],
+            "support": {
+                "source": "https://github.com/symfony/string/tree/v5.3.7"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -15449,7 +15555,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-27T11:44:38+00:00"
+            "time": "2021-08-26T08:00:08+00:00"
         },
         {
             "name": "symfony/translation",
@@ -15595,6 +15701,9 @@
                 "interoperability",
                 "standards"
             ],
+            "support": {
+                "source": "https://github.com/symfony/translation-contracts/tree/v2.4.0"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -16365,6 +16474,10 @@
                 "check",
                 "validate"
             ],
+            "support": {
+                "issues": "https://github.com/webmozarts/assert/issues",
+                "source": "https://github.com/webmozarts/assert/tree/1.10.0"
+            },
             "time": "2021-03-09T10:59:23+00:00"
         },
         {
@@ -16411,6 +16524,10 @@
                 }
             ],
             "description": "A robust cross-platform utility for normalizing, comparing and modifying file paths.",
+            "support": {
+                "issues": "https://github.com/webmozart/path-util/issues",
+                "source": "https://github.com/webmozart/path-util/tree/2.3.0"
+            },
             "time": "2015-12-17T08:42:14+00:00"
         },
         {
@@ -16958,6 +17075,10 @@
                 }
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
+            "support": {
+                "issues": "https://github.com/composer/package-versions-deprecated/issues",
+                "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.3"
+            },
             "funding": [
                 {
                     "url": "https://packagist.com",
@@ -17091,6 +17212,11 @@
                 "Xdebug",
                 "performance"
             ],
+            "support": {
+                "irc": "irc://irc.freenode.org/composer",
+                "issues": "https://github.com/composer/xdebug-handler/issues",
+                "source": "https://github.com/composer/xdebug-handler/tree/2.0.2"
+            },
             "funding": [
                 {
                     "url": "https://packagist.com",
@@ -18173,6 +18299,10 @@
                 "reflection",
                 "static analysis"
             ],
+            "support": {
+                "issues": "https://github.com/phpDocumentor/ReflectionCommon/issues",
+                "source": "https://github.com/phpDocumentor/ReflectionCommon/tree/2.x"
+            },
             "time": "2020-06-27T09:03:43+00:00"
         },
         {
@@ -18225,6 +18355,10 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
+            "support": {
+                "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/master"
+            },
             "time": "2020-09-03T19:13:55+00:00"
         },
         {
@@ -18270,6 +18404,10 @@
                 }
             ],
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
+            "support": {
+                "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.4.0"
+            },
             "time": "2020-09-17T18:55:26+00:00"
         },
         {
@@ -19265,6 +19403,10 @@
                 "unidiff",
                 "unified diff"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/diff/issues",
+                "source": "https://github.com/sebastianbergmann/diff/tree/4.0.4"
+            },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
@@ -20331,5 +20473,5 @@
         "php": ">=7.0.8"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.1.0"
 }
