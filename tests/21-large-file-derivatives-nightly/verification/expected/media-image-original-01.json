@@ -3,7 +3,7 @@
   "bundle": "image",
   "name": "B12.tiff",
   "use": [
-    "Preservation Master File",
+    "Preservation File",
     "Original File"
   ],
   "media_of": "Derivative Image 01"

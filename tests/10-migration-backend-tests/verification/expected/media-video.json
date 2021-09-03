@@ -8,7 +8,7 @@
   "mime_type": "video/mp4",
   "restricted_access": true,
   "use": [
-    "Preservation Master File",
+    "Preservation File",
     "Original File"
   ],
   "access_terms": [

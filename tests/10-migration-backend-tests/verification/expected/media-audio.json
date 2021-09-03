@@ -8,7 +8,7 @@
   "mime_type": "audio/mpeg",
   "restricted_access": true,
   "use": [
-    "Preservation Master File",
+    "Preservation File",
     "Original File"
   ],
   "access_terms": [

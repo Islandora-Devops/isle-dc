@@ -43,7 +43,7 @@ test('Migrate Images for Derivative Generation', async t => {
     // assert expected attributes of the original media
     await t.expect(media.parent('tr').child('td').nth(2).innerText).eql('Image')
     await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('image/tiff')
-    await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Preservation Master File')
+    await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Preservation File')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
 
     // assert the presence of a derivative thumbnail and service image

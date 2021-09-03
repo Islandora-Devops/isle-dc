@@ -193,7 +193,7 @@ display:
   entity_view_1:
     display_plugin: entity_view
     id: entity_view_1
-    display_title: 'Preservation Master - Download'
+    display_title: 'Preservation File - Download'
     position: 1
     display_options:
       display_extenders: {  }
@@ -220,7 +220,7 @@ display:
           group_type: group
           admin_label: ''
           operator: '='
-          value: 'http://pcdm.org/use#PreservationMasterFile'
+          value: 'http://pcdm.org/use#PreservationFile'
           group: 1
           exposed: false
           expose:
@@ -229,6 +229,8 @@ display:
             description: ''
             use_operator: false
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
             identifier: ''
             required: false
             remember: false
@@ -236,8 +238,6 @@ display:
             remember_roles:
               authenticated: authenticated
             placeholder: ''
-            operator_limit_selection: false
-            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -262,7 +262,7 @@ display:
       bundles: {  }
       argument_mode: id
       default_argument: null
-      title: 'Preservation Master'
+      title: 'Preservation File'
       show_title: false
     cache_metadata:
       max-age: -1

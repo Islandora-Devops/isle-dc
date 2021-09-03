@@ -3,7 +3,7 @@
   "bundle": "video",
   "name": "smptebars2.mp4",
   "use": [
-    "Preservation Master File",
+    "Preservation File",
     "Original File"
   ],
   "media_of": "Derivative Small Video"

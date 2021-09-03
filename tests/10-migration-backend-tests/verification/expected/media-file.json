@@ -8,7 +8,7 @@
   "mime_type": "application/octet-stream",
   "restricted_access": true,
   "use": [
-    "Preservation Master File",
+    "Preservation File",
     "Original File"
   ],
   "access_terms": [

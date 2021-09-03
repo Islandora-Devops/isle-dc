@@ -11,7 +11,7 @@
   "mime_type": "image/jpeg",
   "restricted_access": true,
   "use": [
-    "Preservation Master File",
+    "Preservation File",
     "Original File"
   ],
   "access_terms": [

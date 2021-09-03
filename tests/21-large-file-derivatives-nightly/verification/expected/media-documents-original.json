@@ -3,7 +3,7 @@
   "bundle": "document",
   "name": "Fuji Acros Datasheet",
   "use": [
-    "Preservation Master File",
+    "Preservation File",
     "Original File"
   ],
   "media_of": "Derivative Documents"
