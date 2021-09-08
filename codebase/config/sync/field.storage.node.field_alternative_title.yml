@@ -15,7 +15,7 @@ field_name: field_alternative_title
 entity_type: node
 type: language_value_pair
 settings:
-  max_length: '500'
+  max_length: '5000'
   is_ascii: false
   case_sensitive: false
   target_type: taxonomy_term
