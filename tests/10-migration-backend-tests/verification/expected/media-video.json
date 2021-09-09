@@ -15,9 +15,5 @@
     "Media Group B",
     "Media Group A"
   ],
-  "media_of": "Media Migration Repository Item One",
-  "uri": {
-    "url": "/system/files/34/e9/34/86f9a355930ac2c14f067082e6d584ea24",
-    "value": "private://34/e9/34/86f9a355930ac2c14f067082e6d584ea24"
-  }
+  "media_of": "Media Migration Repository Item One"
 }

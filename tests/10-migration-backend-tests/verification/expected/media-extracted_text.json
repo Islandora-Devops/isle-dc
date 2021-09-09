@@ -16,10 +16,6 @@
     "Media Group A"
   ],
   "media_of": "Media Migration Repository Item One",
-  "uri": {
-    "url": "/system/files/53/06/43/aaed48b24d41bbe075579df620204d06d1",
-    "value": "private://53/06/43/aaed48b24d41bbe075579df620204d06d1"
-  },
   "extracted_text": {
     "value": "Hello, extracted text world!<br />\n",
     "format": "basic_html",
