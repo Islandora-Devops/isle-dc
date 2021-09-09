@@ -1,15 +1,16 @@
 package main
 
 import (
-	"crypto/sha1"
 	"encoding/json"
 	"fmt"
-	"io"
+	"github.com/stretchr/testify/require"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"testing"
+	"text/template"
+	"time"
 
 	"github.com/jhu-idc/idc-golang/drupal/env"
 	"github.com/jhu-idc/idc-golang/drupal/fs"
@@ -37,6 +38,23 @@ const (
 var (
 	drupalAdmin = env.GetEnvOr("DRUPAL_DEFAULT_ACCOUNT_NAME", "admin")
 	drupalPass  = env.GetEnvOr("DRUPAL_DEFAULT_ACCOUNT_PASSWORD", "password")
+
+	// the following are used to process the expected uris for files associated with drupal media, and output
+	// the 'url' and 'value' components of a Drupal File.  templates are used because the urls are now parameterized
+	// with the date the file was uploaded into the system.
+	//
+	//
+	urlTmpl, _   = template.New("url").Parse("{{ print \"/system/files/\" print .Date print \"/\" print .File }}")
+	valueTmpl, _ = template.New("value").Parse("{{ print \"private://\" print .Date print \"/\" print .File }}")
+
+	// input to the template which is pre-populated with the current date.
+	tmplInput = &struct {
+		Date string
+		File string
+	}{
+		fmt.Sprintf(time.Now().Format("2006-01-02")),
+		"",
+	}
 )
 
 func TestMain(m *testing.M) {
@@ -1190,14 +1208,13 @@ func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
 	}
 }
 
-// Two media with identical file content will have different File entities, but each File entity will reference the
-// the same file URI.  The file URI should be based on the checksum of the bytestream's content.  Allowing different
-// File entities allows the same bytestream to have different file metadata (i.e. be known by one name in one Media,
-// and known by a different name in another Media).
+// Two media with identical file content will have different File entities, and each File will have its own bitstream.
+// That is, there is a 1:1 relationship between the File and the bitstream, even if a byte-for-byte identical bitstream
+// was already in the system.
 func Test_VerifyDuplicateMediaAndFile(t *testing.T) {
 	// There are two Media with this name that were migrated by testcafe; they use the same file, so the File entity
-	// linked by these Media should be byte-for-byte identical.  The File entities will be different, but their URIs
-	// will reference the same content.
+	// linked by these Media should be byte-for-byte identical.  The File entities will be different, and their URIs
+	// will be different.
 	name := "Fuji Acros Datasheet"
 
 	u := &jsonapi.JsonApiUrl{
@@ -1244,34 +1261,34 @@ func Test_VerifyDuplicateMediaAndFile(t *testing.T) {
 	// sanity
 	assert.Equal(t, 2, len(resolvedFiles))
 
-	// The two media should have the same URI (because the bytestreams are identical)
+	// The two media should have different URIs
 	for i := range resolvedFiles {
 		if fileEntityUri == "" {
 			fileEntityUri = resolvedFiles[i].JsonApiData[0].JsonApiAttributes.Uri.Value
 		} else {
-			assert.Equal(t, fileEntityUri, resolvedFiles[i].JsonApiData[0].JsonApiAttributes.Uri.Value)
+			assert.NotEqual(t, fileEntityUri, resolvedFiles[i].JsonApiData[0].JsonApiAttributes.Uri.Value)
+			// The URIs should differ: 'private://2021-09-09/Fuji_acros_0.pdf' vs 'private://2021-09-09/Fuji_acros.pdf'
+			if strings.Contains(fileEntityUri, "Fuji_acros.pdf") {
+				sliced := strings.Split(resolvedFiles[i].JsonApiData[0].JsonApiAttributes.Uri.Value, "/")
+				assert.Equal(t, "Fuji_acros_0.pdf", sliced[len(sliced)-1])
+			} else {
+				sliced := strings.Split(fileEntityUri, "/")
+				assert.Equal(t, "Fuji_acros_0.pdf", sliced[len(sliced)-1])
+			}
 		}
 	}
 
-	// download one of the files and confirm the URI is based on the checksum of the content
-	var (
-		fileRes *http.Response
-		err     error
-	)
-	// TODO obtain from env
-	baseUri := "https://islandora-idc.traefik.me/"
-	fileUrl := fmt.Sprintf("%s%s", baseUri, resolvedFiles[0].JsonApiData[0].JsonApiAttributes.Uri.Url)
-	// TODO: set truncate to false in migration def
-	// private://c9/a0/60/c39365820edc5d1a51f221d49e96a8a730 -> c9a060c39365820edc5d1a51f221d49e96a8a730
-	expectedChecksum := strings.ReplaceAll(strings.ReplaceAll(resolvedFiles[0].JsonApiData[0].JsonApiAttributes.Uri.Value, "/", ""), "private:", "")
-	fileRes, err = http.Get(fileUrl)
-	assert.Nil(t, err)
-	defer fileRes.Body.Close()
-	assert.Equal(t, 200, fileRes.StatusCode)
-	hash := sha1.New()
-	io.Copy(hash, fileRes.Body)
-	actualChecksum := hash.Sum(nil)
-	assert.Equal(t, expectedChecksum, fmt.Sprintf("%x", actualChecksum))
+	// ensure content can be downloaded
+	baseUri := env.BaseUrlOr("https://islandora-idc.traefik.me/")
+	for i := range resolvedFiles {
+		fileUrl := fmt.Sprintf("%s%s", baseUri, resolvedFiles[i].JsonApiData[0].JsonApiAttributes.Uri.Url)
+		fileRes, err := http.Get(fileUrl)
+		assert.Nil(t, err)
+		assert.Equal(t, http.StatusOK, fileRes.StatusCode,
+			"Unable to retrieve the content of %s, wanted %d, got %d: '%s'",
+			fileUrl, http.StatusOK, fileRes.StatusCode, fileRes.Status)
+		fileRes.Body.Close()
+	}
 }
 
 func Test_VerifyMediaDocument(t *testing.T) {
@@ -1412,7 +1429,7 @@ func Test_VerifyMediaImage(t *testing.T) {
 
 	// check that the first file binary can be accessed where its media is restricted access == false
 	// TODO obtain from env
-	baseUri := "https://islandora-idc.traefik.me/"
+	baseUri := "https://islandora-idc.traefik.me"
 	fileUrl := fmt.Sprintf("%s%s", baseUri, file.JsonApiData[0].JsonApiAttributes.Uri.Url)
 	fileRes, err := http.Get(fileUrl)
 
@@ -1482,7 +1499,7 @@ func Test_VerifyMediaExtractedText(t *testing.T) {
 
 	file := model.JsonApiFile{}
 	ext.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
-	assert.EqualValues(t, expectedJson.Uri, file.JsonApiData[0].JsonApiAttributes.Uri)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, expectedJson.OriginalName, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
 	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
 	assert.Equal(t, expectedJson.OriginalName, file.JsonApiData[0].JsonApiAttributes.Filename)
@@ -1544,7 +1561,7 @@ func Test_VerifyMediaFile(t *testing.T) {
 
 	file := model.JsonApiFile{}
 	genericFile.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
-	assert.EqualValues(t, expectedJson.Uri, file.JsonApiData[0].JsonApiAttributes.Uri)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, expectedJson.OriginalName, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
 	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
 	assert.Equal(t, expectedJson.OriginalName, file.JsonApiData[0].JsonApiAttributes.Filename)
@@ -1606,7 +1623,7 @@ func Test_VerifyMediaAudio(t *testing.T) {
 
 	file := model.JsonApiFile{}
 	audio.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
-	assert.EqualValues(t, expectedJson.Uri, file.JsonApiData[0].JsonApiAttributes.Uri)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, expectedJson.OriginalName, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
 	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
 	assert.Equal(t, expectedJson.OriginalName, file.JsonApiData[0].JsonApiAttributes.Filename)
@@ -1668,7 +1685,7 @@ func Test_VerifyMediaVideo(t *testing.T) {
 
 	file := model.JsonApiFile{}
 	video.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
-	assert.EqualValues(t, expectedJson.Uri, file.JsonApiData[0].JsonApiAttributes.Uri)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, expectedJson.OriginalName, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
 	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
 	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
 	assert.Equal(t, expectedJson.OriginalName, file.JsonApiData[0].JsonApiAttributes.Filename)
@@ -1721,4 +1738,28 @@ func unmarshalExpectedJson(t *testing.T, fileName string, value interface{}) {
 	defer func() { expectedFile.Close() }()
 	err = json.NewDecoder(expectedFile).Decode(value)
 	assert.Nil(t, err, "Error decoding the content of file %s as JSON: %s", expectedFile, err)
+}
+
+// generates the expected URL and Value for media files from a Go template, and compares them to the provided
+// actual values
+func verifyExpectedUri(t *testing.T, actualUrl, actualValue, mediaFilename, creationDate string) {
+	// Used to hold the executed template value
+	tmplValue := &strings.Builder{}
+
+	tmplInput.File = mediaFilename
+	if createTime, err := time.Parse(model.TsLayout, creationDate); err != nil {
+		require.Nil(t, err, "error parsing creation date '%s' using layout '%s': %v", creationDate, model.TsLayout, err)
+	} else {
+		tmplInput.Date = createTime.Format("2006-01-02")
+	}
+
+	err := urlTmpl.Execute(tmplValue, tmplInput)
+	require.Nil(t, err, "error executing template: %v", err)
+	assert.Equal(t, tmplValue.String(), actualUrl)
+
+	tmplValue.Reset()
+
+	err = valueTmpl.Execute(tmplValue, tmplInput)
+	require.Nil(t, err, "error executing template: %v", err)
+	assert.Equal(t, tmplValue.String(), actualValue)
 }
