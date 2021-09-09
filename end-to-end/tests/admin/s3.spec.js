@@ -48,7 +48,7 @@ test('Verify original file and derivatives are in S3', async t => {
 
     // assert expected attributes of the original media
     await t.expect(media.parent('tr').child('td').nth(2).innerText).eql('Image')
-    await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('image/png')
+    await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('image/jpeg')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
 
     // assert the presence of a derivative thumbnail and service image
