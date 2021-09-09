@@ -2,7 +2,6 @@
 set -e
 
 TESTCAFE_TESTS_FOLDER="$(pwd)/end-to-end"
-use_env "DRUPAL_DEFAULT_MIGRATIONS_VALIDATE=false"
 
 # Start the backend that serves the media files to be migrated
 # Listens internally on port 80 (addressed as http://<assets_container>/assets/)
