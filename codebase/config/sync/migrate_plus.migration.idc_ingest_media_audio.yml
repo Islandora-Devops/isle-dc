@@ -20,6 +20,8 @@ source:
     ADMIN: 1
     DRUPAL_FS: 'private://'
     TMP_FS: /tmp/
+    DATE_FORMAT: 'Y-m-d'
+    DIR_DELIMITER: '/'
 process:
   field_unique_id: unique_id
   _url_filename:
@@ -45,18 +47,22 @@ process:
       - url
       - '@_url_filepath'
     file_exists: 1
-  _file_sha:
+  _formatted_date:
     plugin: callback
-    callable: sha1_file
-    source: '@_download_filepath'
-  _destination_filepath:
-    plugin: pairtree
-    source: '@_file_sha'
+    callable: date
+    source: constants/DATE_FORMAT
+  _destination_dir:
+    plugin: concat
+    source:
+      - '@_formatted_date'
+      - constants/DIR_DELIMITER
   _destination_drupalpath:
     plugin: concat
     source:
       - constants/DRUPAL_FS
       - '@_destination_filepath'
+      - '@_destination_dir'
+      - '@_url_filename'
   field_access_terms:
     -
       plugin: skip_on_empty
@@ -80,7 +86,8 @@ process:
     uid: constants/ADMIN
     move: true
     reuse: false
-    rename: false
+    file_exists: rename
+    rename: true
     id_only: true
     destination: '@_destination_drupalpath'
     mimetype: mime_type
