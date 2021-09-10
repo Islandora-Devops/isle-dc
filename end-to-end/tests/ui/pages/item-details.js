@@ -1,5 +1,6 @@
 import { Selector, t } from "testcafe";
 import ContactModal from "./contact-modal";
+import CitationsModal from "./citations-modal";
 
 export class ItemDetail {
   constructor() {
@@ -11,11 +12,15 @@ export class ItemDetail {
     const actions = this.container.find('button');
     this.downloadBtn = actions.withText('Download Item');
     this.exportBtn = actions.withText('Export Metadata');
+    this.citationsBtn = actions.withText('Citations');
     this.contactBtn = actions.withText('Ask the Collection Admin');
 
     this.metadata = this.container.find('.node--id-49 div.field').filterVisible();
 
+    this.metadataExportMessageLink = Selector('#vde-automatic-download');
+
     this.contactModal = ContactModal;
+    this.citationsModal = CitationsModal;
   }
 }
 
