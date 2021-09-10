@@ -1,4 +1,5 @@
 import { getCurrentUrl } from '../helpers';
+import { anon, localAdmin } from '../roles';
 import page from './pages/collections-list';
 
 fixture `Collections Page`
@@ -118,4 +119,13 @@ test('Featured items', async (t) => {
     .expect(page.featuredItems.list.exists).ok()
     .expect(page.featuredItems.items.count).eql(2)
     .expect(page.featuredItems.items.withText('Duck Collection').exists).ok();
+});
+
+test('Only collection export exists', async (t) => {
+  await t
+    .expect(page.exportColBtn.exists).notOk()
+    .useRole(localAdmin)
+    .expect(page.exportColBtn.exists).ok()
+    .expect(page.exportItmBtn.exists).notOk()
+    .useRole(anon);
 });

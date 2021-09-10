@@ -1,6 +1,7 @@
 import { Selector, t } from "testcafe";
 import ContactModal from "./contact-modal";
 import CitationsModal from "./citations-modal";
+import DownloadsModal from "./downloads-media-modal";
 
 export class ItemDetail {
   constructor() {
@@ -10,10 +11,11 @@ export class ItemDetail {
     this.description = this.container.find('#item-description');
 
     const actions = this.container.find('button');
-    this.downloadBtn = actions.withText('Download Item');
-    this.exportBtn = actions.withText('Export Metadata');
+    this.downloadBtn = actions.withText('Download Media');
     this.citationsBtn = actions.withText('Citations');
     this.contactBtn = actions.withText('Ask the Collection Admin');
+
+    this.exportBtn = this.container.find('a').withText('Export Metadata');
 
     this.metadata = this.container.find('.node--id-49 div.field').filterVisible();
 
@@ -21,6 +23,7 @@ export class ItemDetail {
 
     this.contactModal = ContactModal;
     this.citationsModal = CitationsModal;
+    this.downloadModal = DownloadsModal;
   }
 }
 

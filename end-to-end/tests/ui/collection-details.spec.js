@@ -1,3 +1,4 @@
+import { anon, localAdmin } from '../roles';
 import Page from './pages/collection-details';
 
 /**
@@ -97,3 +98,15 @@ test('Featured repo items display correctly', async (t) => {
     .expect(Page.featuredItems.items.nth(0).find('img').withAttribute('src', /\.jpg$/).exists).ok()
     .expect(Page.featuredItems.items.nth(1).withText('No image available').exists).ok();
 });
+
+test('Export links look good', async (t) => {
+  await t
+    .useRole(localAdmin)
+    .expect(Page.exportColBtn.exists).ok()
+    .expect(Page.exportColBtn.getAttribute('href'))
+      .contains('/export_collections?query=itm_field_member_of:42 AND (ss_type:collection_object OR ss_type:islandora_object)&nodeId=42')
+    .expect(Page.exportItmBtn.exists).ok()
+    .expect(Page.exportItmBtn.getAttribute('href'))
+      .contains('/export_items?query=itm_field_member_of:42 AND (ss_type:collection_object OR ss_type:islandora_object)&nodeId=42')
+    .useRole(anon);
+})
