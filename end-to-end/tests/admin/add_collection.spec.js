@@ -16,6 +16,6 @@ test(`Create minimal collection object`, async t => {
     .click(Selector('#edit-field-access-terms option').nth(-1))
     .click('#edit-submit')
     .expect(Selector('title').innerText).match(/^Moo/)
-    .expect(getCurrentURL()).match(/.+?node\/\d+$/);
+    .expect(getCurrentURL()).match(/.+?node\/\d+/);
 })
 
