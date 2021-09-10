@@ -1,6 +1,7 @@
 import { Selector, t } from "testcafe";
 import { Searchable } from './searchable';
 import ContactModal from "./contact-modal";
+import FeaturedItems from "./featured-items-list";
 
 /**
  * The collections details page has all the features of the /collections
@@ -31,6 +32,8 @@ export class CollectionDetails extends Searchable {
     this.facetCategories = facetsContainer.child('[data-test-facets-category]');
 
     this.contactModal = ContactModal;
+
+    this.featuredItems = FeaturedItems;
   }
 
   async toggleMetadata() {

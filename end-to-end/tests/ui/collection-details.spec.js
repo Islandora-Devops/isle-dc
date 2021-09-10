@@ -88,12 +88,12 @@ test('Contact modal displays correctly', async (t) => {
     .expect(Page.contactModal.visibility().exists).notOk();
 });
 
-// TODO: enable once this bug is fixed
-test.skip('Featured repo items display correctly', async (t) => {
+test('Featured repo items display correctly', async (t) => {
   await t
     .expect(Page.featuredItems.list.exists).ok()
     .expect(Page.featuredItems.items.count).eql(2)
-    .expect(Page.featuredItems.items.nth(0).find('image').exists).ok()
-    // Mallard item has a Tiff image, which should never be displayed on the page
-    .expect(Page.featuredItems.items.nth(0).find('image').attributes.src).notContains('.tif');
+    .expect(Page.featuredItems.items.nth(0).find('img').exists).ok()
+    // // Mallard item has a Tiff image, which should never be displayed on the page
+    .expect(Page.featuredItems.items.nth(0).find('img').withAttribute('src', /\.jpg$/).exists).ok()
+    .expect(Page.featuredItems.items.nth(1).withText('No image available').exists).ok();
 });
