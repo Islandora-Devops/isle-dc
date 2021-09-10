@@ -6,8 +6,12 @@ dependencies:
     module:
       - islandora_core_feature
   module:
+    - field_permissions
     - media
     - node
+third_party_settings:
+  field_permissions:
+    permission_type: public
 _core:
   default_config_hash: VN6byCtafQaDCBbb4rpeh3YZPTHgir0ycHw6y-S-TYw
 id: media.field_media_of
