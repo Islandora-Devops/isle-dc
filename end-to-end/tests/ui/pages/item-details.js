@@ -15,7 +15,7 @@ export class ItemDetail {
     this.citationsBtn = actions.withText('Citations');
     this.contactBtn = actions.withText('Ask the Collection Admin');
 
-    this.exportBtn = this.container.find('a').withText('Export Metadata');
+    this.exportBtn = this.container.find('a').withText('Export Item Metadata');
 
     this.metadata = this.container.find('.node--id-49 div.field').filterVisible();
 

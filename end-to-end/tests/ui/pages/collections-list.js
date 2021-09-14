@@ -8,8 +8,8 @@ export class CollectionsList extends Searchable {
 
     this.featuredItems = FeaturedItems;
 
-    this.exportItmBtn = Selector('a').withExactText('Export Item Metadata');
-    this.exportColBtn = Selector('a').withExactText('Export Collection Metadata');
+    this.exportItmBtn = Selector('a').withExactText('Export Metadata – Items');
+    this.exportColBtn = Selector('a').withExactText('Export Metadata – Collections');
   }
 }
 
