@@ -7,6 +7,9 @@ export class CollectionsList extends Searchable {
     super();
 
     this.featuredItems = FeaturedItems;
+
+    this.exportItmBtn = Selector('a').withExactText('Export Metadata – Items');
+    this.exportColBtn = Selector('a').withExactText('Export Metadata – Collections');
   }
 }
 

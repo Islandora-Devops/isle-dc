@@ -19,3 +19,5 @@ export const staff = Role('https://islandora-idc.traefik.me/saml_login', async (
     .typeText('#password', 'moo')
     .click('button[type="submit"]');
 });
+
+export const anon = Role.anonymous();

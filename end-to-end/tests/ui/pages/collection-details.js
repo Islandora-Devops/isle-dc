@@ -34,6 +34,9 @@ export class CollectionDetails extends Searchable {
     this.contactModal = ContactModal;
 
     this.featuredItems = FeaturedItems;
+
+    this.exportItmBtn = Selector('a').withExactText('Export Metadata – Items');
+    this.exportColBtn = Selector('a').withExactText('Export Metadata – Collections');
   }
 
   async toggleMetadata() {
