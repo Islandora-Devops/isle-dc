@@ -79,6 +79,9 @@ jobs:
             - name: Load Drupal Image
               run: docker load < images/static-drupal.tar
 
+            - name: Use static docker-compose file, to test static image
+              run:  make static-docker-compose.yml
+
             - name: Up
               run: make up
 
