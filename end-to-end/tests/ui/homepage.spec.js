@@ -1,4 +1,5 @@
-import { Selector } from 'testcafe';
+import Homepage from './pages/home';
+import HeaderFooter from './pages/header-footer';
 
 /**
  * Test static some elements
@@ -15,15 +16,15 @@ fixture`Homepage`
 test('Homepage has expected text', async (t) => {
   // Check page title
   await t
-    .expect(Selector("title").innerText).match(/.+?\| Default$/);
+    .expect(HeaderFooter.title.innerText).match(/.+?\| Default$/);
 
   // Title contains a styled <span>, which could break up the text with \n or similar
-  const mainTitle = Selector('h1').innerText;
+  const mainTitle = Homepage.mainTitle.innerText;
   await t
     .expect(mainTitle).contains('DIGITAL REPOSITORIES')
     .expect(mainTitle).contains('@ JHU');
 
-  const contentLinks = Selector('div.dialog-off-canvas-main-canvas a');
+  const contentLinks = Homepage.contentLinks;
   await t
     .expect(contentLinks.count).eql(2)
     .expect(contentLinks.withText('Library Collections').exists).ok()
@@ -31,8 +32,8 @@ test('Homepage has expected text', async (t) => {
 });
 
 test('Header has expected elements', async (t) => {
-  const nav = Selector('nav');
-  const links = Selector('nav a');
+  const nav = HeaderFooter.nav;
+  const links = HeaderFooter.navLinks;
 
   await t
     .expect(nav.count).eql(2, 'Should have a nav within a nav')
@@ -40,17 +41,17 @@ test('Header has expected elements', async (t) => {
     .expect(links.withText('Sheridan Libraries').exists).ok();
 
   await t
-    .expect(Selector('header img').exists).ok('Library logo is present')
-    .expect(Selector('header #block-idcsearchblock').exists).ok('Global search is present');
+    .expect(HeaderFooter.logo.exists).ok('Library logo is present')
+    .expect(HeaderFooter.globalSearch.exists).ok('Global search is present');
 });
 
 test('Footer has expected elements', async (t) => {
-  const text = Selector('footer').innerText;
+  const text = HeaderFooter.footer.innerText;
 
   await t
     .expect(text).contains('The Sheridan Libraries')
     .expect(text).contains('Johns Hopkins University');
 
   await t
-    .expect(Selector('footer a').count).eql(13);
+    .expect(HeaderFooter.footerLinks.count).eql(13);
 });

@@ -11,7 +11,7 @@ _core:
 id: idcui_messages
 theme: idcui
 region: highlighted
-weight: -8
+weight: -9
 provider: null
 plugin: system_messages_block
 settings:

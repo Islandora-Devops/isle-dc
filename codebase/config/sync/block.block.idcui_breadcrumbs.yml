@@ -10,8 +10,8 @@ _core:
   default_config_hash: 6rcz_yGFLgo_lZvnRlBgwBAIeej_i2WaVixQIyWdfhI
 id: idcui_breadcrumbs
 theme: idcui
-region: top_menu
-weight: -9
+region: highlighted
+weight: -8
 provider: null
 plugin: system_breadcrumb_block
 settings:

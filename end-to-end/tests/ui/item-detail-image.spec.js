@@ -1,3 +1,4 @@
+import HeaderFooter from './pages/header-footer';
 import { ImagePage } from './pages/item-details';
 
 async function hasMetadata(t, field, value) {
@@ -42,6 +43,15 @@ test('Contact modal', async (t) => {
     .expect(ImagePage.contactModal.visibility().exists).ok()
     // Make sure collection is auto-filled
     .expect(ImagePage.contactModal.collection.value).eql('Duck Collection (42)');
+});
+
+test('Breadcrumbs are present', async (t) => {
+  await t
+    .expect(HeaderFooter.breadcrumbContainer.exists).ok()
+    .expect(HeaderFooter.breadcrumbs.count).eql(3)
+    .expect(HeaderFooter.breadcrumbs.withText('Home').exists).ok()
+    .expect(HeaderFooter.breadcrumbs.withText('Farm Animals').exists).ok()
+    .expect(HeaderFooter.breadcrumbs.withText('Duck Collection').exists).ok();
 });
 
 test('Download', async (t) => {

@@ -13,7 +13,7 @@ _core:
 id: idcui_footer
 theme: idcui
 region: top_menu
-weight: -8
+weight: -9
 provider: null
 plugin: 'system_menu_block:footer'
 settings:
