@@ -140,3 +140,9 @@ jobs:
             - name: Docker Push
               if: ${{github.event_name}} != "pull_request" && env.DOCKER_USER != null
               run: docker-compose push drupal
+
+            # Experimental way to delete artifact
+            - name: Delete Temporary Images
+              uses: geekyeggo/delete-artifact@v1
+              with:
+                name: drupal-image
