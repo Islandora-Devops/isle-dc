@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5146a8ded20966b6ef133d39f9b7ab27",
+    "content-hash": "7b5863aeaaf5ee635f9b24bcc66ebe5f",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -8161,6 +8161,44 @@
                 "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
             },
             "time": "2021-09-01T14:54:11+00:00"
+        },
+        {
+            "name": "jhu-idc/islandora_repository_reports",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhu-idc/islandora_repository_reports.git",
+                "reference": "56a0291091585f311909c61ef1e268569fd9fb99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_repository_reports/zipball/56a0291091585f311909c61ef1e268569fd9fb99",
+                "reference": "56a0291091585f311909c61ef1e268569fd9fb99",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Jordan",
+                    "email": "mjordan@sfu.ca",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Drupal 8/9 module that provides a collection of reports on various aspects of an Islandora repository.",
+            "homepage": "https://github.com/jhu-idc/islandora_repository_reports",
+            "keywords": [
+                "Drupal",
+                "Islandora"
+            ],
+            "support": {
+                "issues": "https://github.com/jhu-idc/islandora_repository_reports/issues",
+                "source": "https://github.com/jhu-idc/islandora_repository_reports/tree/main"
+            },
+            "time": "2021-09-10T20:21:16+00:00"
         },
         {
             "name": "jhu-idc/migrate_file",
@@ -21367,6 +21405,7 @@
         "jhu-idc/idc_export": 20,
         "jhu-idc/idc_ui_module": 20,
         "jhu-idc/islandora_defaults": 20,
+        "jhu-idc/islandora_repository_reports": 20,
         "jhu-idc/migrate_file": 20
     },
     "prefer-stable": true,
