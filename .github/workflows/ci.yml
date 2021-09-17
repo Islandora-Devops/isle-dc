@@ -128,12 +128,14 @@ jobs:
                 password: ${{ secrets.DOCKER_PASS }}
 
             - name: Download Drupal Image
+              if: ${{ github.event_name != 'pull_request' && env.DOCKER_USER != null }}
               uses: actions/download-artifact@v2
               with:
                 name: drupal-image
                 path: images
 
             - name: Load Drupal Image
+              if: ${{ github.event_name != 'pull_request' && env.DOCKER_USER != null }}
               run: docker load < images/static-drupal.tar
 
             # Push docker images, if we are on the appropriate branch or tag
