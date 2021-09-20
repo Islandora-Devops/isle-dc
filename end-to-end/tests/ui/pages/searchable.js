@@ -9,6 +9,10 @@ class Pager {
     this.prev = this.buttons.nth(0);
     this.next = this.buttons.nth(-1);
   }
+
+  async goToPage(page) {
+    await t.click(this.buttons.withText(String(page)));
+  }
 }
 
 class Dropdown {
@@ -50,6 +54,7 @@ export class Searchable {
    * @param {number} facets (OPTIONAL) expected number of facets. Default: 0
    */
   constructor() {
+    this.titleBar = Selector('[data-test-search-title-bar]');
     this.searchInput = Selector('[data-test-search-input] input');
     this.searchSubmit = Selector('[data-test-search-input] button');
     this.pagers = [ new Pager(0), new Pager(1) ];

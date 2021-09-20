@@ -127,7 +127,7 @@
         "drush/drush": "^10.0",
         "islandora-rdm/islandora_fits": "dev-master",
         "islandora/carapace": "dev-8.x-3.x",
-        "jhu-idc/idc-ui-theme": "dev-develop",
+        "jhu-idc/idc-ui-theme": "dev-main",
         "jhu-idc/idc_defaults": "dev-main",
         "jhu-idc/idc_export": "dev-main",
         "jhu-idc/idc_ui_module": "dev-main",

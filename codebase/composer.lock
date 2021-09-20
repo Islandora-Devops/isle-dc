@@ -8016,26 +8016,26 @@
         },
         {
             "name": "jhu-idc/idc-ui-theme",
-            "version": "dev-develop",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "58479c402e4ee61ac23008ca5e6001007d148b95"
+                "reference": "19ecd0eb490aed275f5e140e99d5b143c9dbc8ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/58479c402e4ee61ac23008ca5e6001007d148b95",
-                "reference": "58479c402e4ee61ac23008ca5e6001007d148b95",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/19ecd0eb490aed275f5e140e99d5b143c9dbc8ca",
+                "reference": "19ecd0eb490aed275f5e140e99d5b143c9dbc8ca",
                 "shasum": ""
             },
             "default-branch": true,
             "type": "drupal-theme",
             "description": "Moo",
             "support": {
-                "source": "https://github.com/jhu-idc/idc-ui-theme/tree/develop",
+                "source": "https://github.com/jhu-idc/idc-ui-theme/tree/main",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2021-09-14T14:12:49+00:00"
+            "time": "2021-09-16T18:20:14+00:00"
         },
         {
             "name": "jhu-idc/idc_defaults",

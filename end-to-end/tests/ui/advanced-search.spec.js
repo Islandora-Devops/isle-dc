@@ -50,11 +50,15 @@ test('Proximity search and Clear button', async (t) => {
 });
 
 /**
+ * Navigate to results page 3 first
  * Normal search 'animal' (2 results)
+ *  - Displaying any results means that the current page has been reset as expected
  * Normal search 'animal' OR 'page' (5 results)
  */
 test('Normal search', async (t) => {
   await t.expect(Page.results.count).eql(10);
+
+  await Page.pagers[0].goToPage(3);
 
   const term1 = Page.queryTerm(0);
 
@@ -78,6 +82,14 @@ test('Normal search', async (t) => {
 });
 
 test('Collection filter', async (t) => {
+  const pager = Page.pagers[0];
+
+  await pager.goToPage(3);
+
+  await t
+    .expect(Page.results.count).eql(4)
+    .expect(pager.pager.withText('24 of 24 items').exists).ok();
+
   await t
     .typeText(Page.collectionsFilter.input, 'collection', { paste: true})
     .expect(Page.collectionsFilter.suggestions.count).eql(10)
@@ -118,4 +130,21 @@ test('Date filter and basic search', async (t) => {
     .expect(Page.results.count).eql(8)
     .click(Page.clearFilters)
     .expect(Page.results.count).eql(10);
+});
+
+test('Date filter will reset current page', async (t) => {
+  const pager = Page.pagers[0];
+
+  await t.expect(Page.results.count).eql(10);
+  await pager.goToPage(3);
+  await t
+    .expect(Page.results.count).eql(4)
+    .expect(pager.pager.withText('24 of 24 items').exists).ok();
+
+  await t
+    .typeText(Page.dateInput1, '2000', { paste: true })
+    .pressKey('enter')
+    .expect(Page.results.count).eql(5)
+    .expect(pager.pager.withText('5 of 5 items').exists).ok();
+
 });
