@@ -138,6 +138,9 @@ jobs:
               if: ${{ github.event_name != 'pull_request' && env.DOCKER_USER }}
               run: docker load < images/static-drupal.tar
 
+            - name: Use static docker-compose file, to deploy image
+              run:  make static-docker-compose.yml
+
             # Push docker images, if we are on the appropriate branch or tag
             - name: Docker Push
               if: ${{ github.event_name != 'pull_request' && env.DOCKER_USER }}
