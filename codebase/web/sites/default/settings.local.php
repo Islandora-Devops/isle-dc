@@ -62,3 +62,10 @@ $config['migrate_plus.migration.idc_ingest_taxonomy_persons']['destination']['va
 $config['migrate_plus.migration.idc_ingest_taxonomy_resourcetypes']['destination']['validate'] =
 $config['migrate_plus.migration.idc_ingest_taxonomy_subject']['destination']['validate'] =
 (getenv('DRUPAL_DEFAULT_MIGRATIONS_VALIDATE') !== "false");
+
+# Set the google tag in the google tag manager module. This will override whatever id is
+# already there, but it won't show up in the UI. If DRUPAL_GTM_CONTAINER_ID is set, it is the
+# active key, no matter what the UI displays.  You can always verify this by looking at the source
+# for a user facing page.
+$config['google_tag.container.idc_gtm_info']['container_id'] = getenv('DRUPAL_GTM_CONTAINER_ID');
+

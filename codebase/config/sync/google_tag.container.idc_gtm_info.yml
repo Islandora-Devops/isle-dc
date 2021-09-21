@@ -1,0 +1,72 @@
+uuid: 1ad62bf1-3315-4f16-a739-14545df638ca
+langcode: en
+status: true
+dependencies:
+  module:
+    - context
+    - islandora
+id: idc_gtm_info
+label: 'IDC GTM Info'
+weight: 0
+container_id:
+data_layer: dataLayer
+include_classes: false
+whitelist_classes: |-
+  google
+  nonGooglePixels
+  nonGoogleScripts
+  nonGoogleIframes
+blacklist_classes: |-
+  customScripts
+  customPixels
+include_environment: false
+environment_id: ''
+environment_token: ''
+path_toggle: 'exclude listed'
+path_list: |-
+  /admin*
+  /batch*
+  /node/add*
+  /node/*/edit
+  /node/*/delete
+  /user/*/edit*
+  /user/*/cancel*
+role_toggle: 'exclude listed'
+role_list: {  }
+status_toggle: 'exclude listed'
+status_list: |-
+  403
+  404
+conditions:
+  context:
+    id: context
+    values: ''
+    negate: null
+  context_all:
+    id: context_all
+    values: ''
+    negate: null
+  http_status_code:
+    id: http_status_code
+    status_codes: {  }
+    negate: false
+  node_is_published:
+    id: node_is_published
+    negate: 0
+    context_mapping:
+      node: '@node.node_route_context:node'
+  request_domain:
+    id: request_domain
+    domains: ''
+    negate: false
+  user_status:
+    id: user_status
+    user_status:
+      viewing_profile: '0'
+      logged_viewing_profile: '0'
+      own_page_true: '0'
+      field_value: '0'
+    user_fields: uid
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
