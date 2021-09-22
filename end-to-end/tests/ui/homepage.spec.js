@@ -21,12 +21,11 @@ test('Homepage has expected text', async (t) => {
   // Title contains a styled <span>, which could break up the text with \n or similar
   const mainTitle = Homepage.mainTitle.innerText;
   await t
-    .expect(mainTitle).contains('DIGITAL REPOSITORIES')
-    .expect(mainTitle).contains('@ JHU');
+    .expect(mainTitle).contains('HOPKINS DIGITAL LIBRARY');
 
   const contentLinks = Homepage.contentLinks;
   await t
-    .expect(contentLinks.count).eql(2)
+    .expect(contentLinks.count).eql(4)
     .expect(contentLinks.withText('Library Collections').exists).ok()
     .expect(contentLinks.withText('Contact Us').exists).ok();
 });
