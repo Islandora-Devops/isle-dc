@@ -67,33 +67,33 @@ test('Proximity search syntax', async (t) => {
  * the ordering has changed.
  */
 test('List option: sort order', async (t) => {
-  const orderValue = 'sort_order=DESC';
+  const orderValue = 'sort_order=ASC';
   await doSearch(t, 'animal');
 
   await t
     .expect(page.results.count).eql(7)
-    .expect(page.results.nth(0).withText('Arctic Animals').exists).notOk();
+    .expect(page.results.nth(0).withText('Arctic Animals').exists).ok();
 
   await page.listOptions.sortOrder.setValue(`&${orderValue}`);
 
   await t
     .expect(await getCurrentUrl()).contains(orderValue)
-    .expect(page.results.nth(0).withText('Arctic Animals').exists).ok();
+    .expect(page.results.nth(0).withText('Arctic Animals').exists).notOk();
 });
 
 test('List option: sort by', async (t) => {
   const value = 'sort_by=title';
-  await doSearch(t, 'animal');
+  await doSearch(t, 'moo');
 
   await t
-    .expect(page.results.count).eql(7)
-    .expect(page.results.nth(0).withText('Arctic Animals').exists).notOk();
+    .expect(page.results.count).eql(4)
+    .expect(page.results.nth(0).withText('Moo').exists).ok();
 
   await page.listOptions.sortBy.setValue(`&${value}`);
 
   await t
     .expect(await getCurrentUrl()).contains(value)
-    .expect(page.results.nth(0).withText('Arctic Animals').exists).ok();
+    .expect(page.results.nth(0).withText('Cow Collection').exists).ok();
 });
 
 test('List option: items per page', async (t) => {
