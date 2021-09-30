@@ -69,3 +69,5 @@ $config['migrate_plus.migration.idc_ingest_taxonomy_subject']['destination']['va
 # for a user facing page.
 $config['google_tag.container.idc_gtm_info']['container_id'] = getenv('DRUPAL_GTM_CONTAINER_ID');
 
+# Make the timeout for the default Guzzle client something crazy big to avoid timeouts on large media
+$settings['http_client_config']['timeout'] = 99999999;
