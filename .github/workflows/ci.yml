@@ -121,6 +121,8 @@ jobs:
             # Check out current commit
             - name: Checkout
               uses: actions/checkout@v2
+              with:
+                fetch-depth: 0
 
             - name: Docker Login
               if: ${{ github.event_name != 'pull_request' && env.DOCKER_USER }}
@@ -152,7 +154,7 @@ jobs:
             # Push docker images, if we are on the appropriate branch or tag
             - name: Docker Push
               if: ${{ github.event_name != 'pull_request' && env.DOCKER_USER }}
-              run: git fetch origin --tags && sh tag_and_push_images.sh
+              run: sh tag_and_push_images.sh
 
             # Experimental way to delete artifact
             - name: Delete Temporary Images
