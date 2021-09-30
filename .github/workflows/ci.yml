@@ -4,6 +4,8 @@ on:
     branches:
       - main
       - development
+    tags:
+      - v*
   pull_request:
     branches:
       - main
@@ -114,6 +116,7 @@ jobs:
         needs: [ build, test ]
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PUSH_REPOSITORY: ${{secrets.DOCKER_PUSH_REPOSITORY}}
         steps:
             # Check out current commit
             - name: Checkout
@@ -144,7 +147,7 @@ jobs:
             # Push docker images, if we are on the appropriate branch or tag
             - name: Docker Push
               if: ${{ github.event_name != 'pull_request' && env.DOCKER_USER }}
-              run: docker-compose push drupal
+              run: sh tag_and_push_images.sh
 
             # Experimental way to delete artifact
             - name: Delete Temporary Images
