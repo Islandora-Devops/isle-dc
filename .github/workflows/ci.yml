@@ -144,6 +144,11 @@ jobs:
             - name: Use static docker-compose file, to deploy image
               run:  make static-docker-compose.yml
 
+              # The primary purpose of this step is to make sure all the non-drupal images are
+              # downloaded.
+            - name: Load the irest of the stack
+              run: docker-compose up -d
+
             # Push docker images, if we are on the appropriate branch or tag
             - name: Docker Push
               if: ${{ github.event_name != 'pull_request' && env.DOCKER_USER }}
