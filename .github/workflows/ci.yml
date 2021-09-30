@@ -152,7 +152,7 @@ jobs:
             # Push docker images, if we are on the appropriate branch or tag
             - name: Docker Push
               if: ${{ github.event_name != 'pull_request' && env.DOCKER_USER }}
-              run: sh tag_and_push_images.sh
+              run: git fetch origin --tags && sh tag_and_push_images.sh
 
             # Experimental way to delete artifact
             - name: Delete Temporary Images
