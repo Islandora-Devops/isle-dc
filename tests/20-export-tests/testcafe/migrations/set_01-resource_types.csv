@@ -1,2 +1,3 @@
 unique_id,name,authority,decription
-resourcetype_01,Test Type,https://www.dublincore.org/specifications/dublin-core/dcmi-terms/dcmitype/StillImage/;dcmi_types||http://www.google.com;dcmi_types,My test description
+resourcetype_01,Test Type,https://www.dublincore.org/specifications/dublin-core/dcmi-terms/dcmitype/StillImage/;dcmi_types,My test description
+resourcetype_02,Test Image Type,https://www.dublincore.org/specifications/dublin-core/dcmi-terms/dcmitype/StillImage/;dcmi_types,My test description

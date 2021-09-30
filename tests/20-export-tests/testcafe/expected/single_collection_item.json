@@ -1,0 +1,26 @@
+{
+    "unique_id": "io-collection-02",
+    "title": "Collection A (Animals)",
+    "title_language": ":language::lang_03",
+    "alternative_title": [
+        "Animal Collection;;eng",
+        "動物コレクション;;jpn"
+    ],
+    "member_of": ":collection_object::io-collection-01",
+    "access_terms": ":islandora_access::accesscontrol_02",
+    "collection_number": [
+        "345",
+        "567"
+    ],
+    "contact_email": "bseeger@jhu.edu",
+    "contact_name": "Bethany Seeger",
+    "description": [
+        "Collection of Animal Images;;eng",
+        "Some animal images;;eng"
+    ],
+    "finding_aid": [
+        "http://www.example.com/Collection_A",
+        "http://www.google.com"
+    ],
+    "featured_item": "1"
+}
