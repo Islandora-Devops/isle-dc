@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - idc_defaults
     - islandora
 _core:
   default_config_hash: 1hWjMsl225Q8XunEOdRDfkkuswJrsGmg2qhYd1i36XQ
@@ -15,18 +16,26 @@ disabled: false
 conditions:
   media_has_term:
     id: media_has_term
-    negate: 0
+    negate: false
     uri: 'http://pcdm.org/use#OriginalFile'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
     logic: and
   parent_node_has_term:
     id: parent_node_has_term
-    negate: 0
+    negate: false
     uri: 'http://purl.org/coar/resource_type/c_12ce'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
     logic: and
+  media_use_is_present:
+    id: media_use_is_present
+    logic: and
+    uri: 'http://pcdm.org/use#ServiceFile'
+    negate: 1
+    uuid: b2273f03-0863-484e-8f70-aadbace35872
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
 reactions:
   derivative:
     id: derivative
