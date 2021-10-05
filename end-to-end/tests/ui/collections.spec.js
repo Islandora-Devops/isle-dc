@@ -67,18 +67,18 @@ test('Proximity search syntax', async (t) => {
  * the ordering has changed.
  */
 test('List option: sort order', async (t) => {
-  const orderValue = 'sort_order=ASC';
+  const orderValue = 'sort_order=DESC';
   await doSearch(t, 'animal');
 
   await t
     .expect(page.results.count).eql(7)
-    .expect(page.results.nth(0).withText('Arctic Animals').exists).ok();
+    .expect(page.results.nth(0).withText('Duck Collection').exists).ok();
 
   await page.listOptions.sortOrder.setValue(`&${orderValue}`);
 
   await t
     .expect(await getCurrentUrl()).contains(orderValue)
-    .expect(page.results.nth(0).withText('Arctic Animals').exists).notOk();
+    .expect(page.results.nth(0).withText('Arctic Animals').exists).ok();
 });
 
 test('List option: sort by', async (t) => {
@@ -87,7 +87,7 @@ test('List option: sort by', async (t) => {
 
   await t
     .expect(page.results.count).eql(4)
-    .expect(page.results.nth(0).withText('Moo').exists).ok();
+    .expect(page.results.nth(0).withText('Duck Collection').exists).ok();
 
   await page.listOptions.sortBy.setValue(`&${value}`);
 

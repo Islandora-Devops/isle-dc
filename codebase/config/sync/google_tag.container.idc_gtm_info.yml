@@ -8,7 +8,7 @@ dependencies:
 id: idc_gtm_info
 label: 'IDC GTM Info'
 weight: 0
-container_id:
+container_id: null
 data_layer: dataLayer
 include_classes: false
 whitelist_classes: |-
@@ -46,19 +46,11 @@ conditions:
     id: context_all
     values: ''
     negate: null
-  http_status_code:
-    id: http_status_code
-    status_codes: {  }
-    negate: false
   node_is_published:
     id: node_is_published
     negate: 0
     context_mapping:
       node: '@node.node_route_context:node'
-  request_domain:
-    id: request_domain
-    domains: ''
-    negate: false
   user_status:
     id: user_status
     user_status:

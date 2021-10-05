@@ -21,8 +21,8 @@ source:
     DRUPAL_FS: 'private://'
     TMP_FS: /tmp/
     FORMAT: basic_html
-    DATE_FORMAT: 'Y-m-d'
-    DIR_DELIMITER: '/'
+    DATE_FORMAT: Y-m-d
+    DIR_DELIMITER: /
 process:
   field_unique_id: unique_id
   _url_filename:

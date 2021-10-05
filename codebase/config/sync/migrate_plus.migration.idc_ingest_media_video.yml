@@ -20,8 +20,8 @@ source:
     ADMIN: 1
     DRUPAL_FS: 'private://'
     TMP_FS: /tmp/
-    DATE_FORMAT: 'Y-m-d'
-    DIR_DELIMITER: '/'
+    DATE_FORMAT: Y-m-d
+    DIR_DELIMITER: /
 process:
   field_unique_id: unique_id
   _url_filename:
@@ -62,7 +62,6 @@ process:
       - constants/DRUPAL_FS
       - '@_destination_dir'
       - '@_url_filename'
-
   field_access_terms:
     -
       plugin: skip_on_empty
