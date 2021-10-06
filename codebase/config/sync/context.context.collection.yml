@@ -2,11 +2,14 @@ uuid: 8c0394cf-c71d-45f8-8217-7cb471f3bc91
 langcode: en
 status: true
 dependencies:
+  config:
+    - views.view.members
   enforced:
     module:
       - islandora_defaults
   module:
     - islandora
+    - views
 _core:
   default_config_hash: r2g4JP9TzR_dhRzzoX7nZDts96oTvWa_d-LzSBkYZno
 name: collection

@@ -8,9 +8,9 @@ dependencies:
 _core:
   default_config_hash: 1hWjMsl225Q8XunEOdRDfkkuswJrsGmg2qhYd1i36XQ
 name: video_original_file
-label: 'Video Derivatives'
+label: 'Video Service File Derivative'
 group: Derivatives
-description: 'Derivatives for Video'
+description: 'Service Derivative for Video'
 requireAllConditions: true
 disabled: false
 conditions:
@@ -41,6 +41,5 @@ reactions:
     id: derivative
     actions:
       video_generate_a_service_file_from_an_original_file: video_generate_a_service_file_from_an_original_file
-      video_generate_a_thumbnail_from_an_original_file: video_generate_a_thumbnail_from_an_original_file
     saved: false
-weight: -5
+weight: -6

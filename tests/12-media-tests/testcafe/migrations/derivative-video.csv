@@ -1,0 +1,3 @@
+unique_id,name,original_name,mime_type,media_of,media_use,url
+derivative_video_01,Video With Deriv,earth_small.mp4,video/mp4,::title:Derivative Repository Item Video With Deriv,Original File,http://migration-assets/assets/video/earth_small.mp4
+derivative_video_02,Video No Deriv,earth_large.mp4,video/mp4,::title:Derivative Repository Item Video With No Deriv,Original File||Service File,http://migration-assets/assets/video/earth_large.mp4

@@ -21,7 +21,7 @@ conditions:
     id: node_type
     bundles:
       islandora_object: islandora_object
-    negate: 0
+    negate: false
     context_mapping:
       node: '@node.node_route_context:node'
 reactions:

@@ -17,7 +17,7 @@ conditions:
     id: file_uses_filesystem
     filesystems:
       public: public
-    negate: 0
+    negate: false
     context_mapping:
       file: '@islandora.file_route_context_provider:file'
 reactions: {  }

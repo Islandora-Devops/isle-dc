@@ -20,7 +20,7 @@ conditions:
     id: content_entity_type
     types:
       taxonomy_term: taxonomy_term
-    negate: 0
+    negate: false
     context_mapping:
       taxonomy_term: '@islandora.taxonomy_term_route_context_provider:taxonomy_term'
 reactions: {  }
