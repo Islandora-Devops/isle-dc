@@ -64,14 +64,15 @@ test('Facet toggle', async (t) => {
   const category = 'Year';
   const valueContainer = Page.facetValueContainer(category);
   await t
-    .expect(valueContainer.clientHeight).gt(0)
+    .expect(valueContainer.clientHeight).eql(0)
     .click(Page.facetToggle(category))
-    .expect(valueContainer.clientHeight).eql(0);
+    .expect(valueContainer.clientHeight).gt(0);
 });
 
 test('Selecting facets', async (t) => {
   const category = 'Year';
   await t
+    .click(Page.facetToggle(category))
     .expect(Page.facetValues(category).count).eql(2)
     .expect(Page.results.count).eql(3);
 

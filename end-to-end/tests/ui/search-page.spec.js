@@ -38,6 +38,8 @@ test('Selecting or deselecting a facet resets current page', async (t) => {
 
   await pager.goToPage(3);
 
+  await t.click(Page.facetToggle(facet.category));
+
   await Page.selectFacet(facet.category, facet.value);
 
   // Checking the current results list should be sufficient, because if the page

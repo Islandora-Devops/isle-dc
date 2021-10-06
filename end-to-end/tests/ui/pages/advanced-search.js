@@ -42,6 +42,7 @@ class QueryTerm {
 class CollectionsFilter {
   constructor() {
     const container = new Selector('[data-test-collection-lookup-filter]');
+    this.toggle = container.parent().sibling('button');
     this.selectedCollections = container.find('[data-test-collection-lookup-selected-item]');
     this.input = container.find('[data-test-collection-lookup-input]');
     this.clearBtn = this.input.parent().find('button[title="Clear"]');
@@ -57,10 +58,12 @@ export class AdvancedSearch extends Searchable {
     this.collectionsFilter = new CollectionsFilter();
 
     this.languageFilter = new Selector('[data-test-language-filter]');
+    this.languageToggle = this.languageFilter.parent().sibling('button');
     this.langaugeFilterOptions = this.languageFilter.find('[data-test-language-filter-item]');
     this.selectedLanguages = this.languageFilter.find('[data-test-language-filter-item].bg-blue-spirit');
 
     this.dateFilter = new Selector('[data-test-date-filter]');
+    this.dateToggle = this.dateFilter.parent().sibling('button');
     this.dateInput1 = this.dateFilter.find('input').nth(0);
     this.dateInput2 = this.dateFilter.find('input').nth(1);
 
