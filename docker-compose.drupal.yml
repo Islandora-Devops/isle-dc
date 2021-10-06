@@ -20,6 +20,7 @@ services:
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
       PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
       PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
+      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
     labels:
       - traefik.enable=true
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80

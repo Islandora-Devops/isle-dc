@@ -18,6 +18,7 @@ services:
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
       PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
       PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
+      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/code-server:${TAG:-latest}
     labels:
@@ -67,6 +68,7 @@ services:
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
       PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
       PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
+      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
  # Disable traefik for Drupal as code-server will respond to all requests.
     labels:
       - traefik.enable=false
