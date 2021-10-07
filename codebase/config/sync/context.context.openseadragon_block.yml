@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - islandora
+    - openseadragon
 _core:
   default_config_hash: 3wN51ZrZ_CwiyII1vVdxC_77GRiISZ3ui3b3eBwVyF4
 name: openseadragon_block

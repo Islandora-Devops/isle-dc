@@ -15,7 +15,7 @@ disabled: false
 conditions:
   node_has_term:
     id: node_has_term
-    negate: 0
+    negate: false
     uri: 'http://mozilla.github.io/pdf.js'
     context_mapping:
       node: '@node.node_route_context:node'

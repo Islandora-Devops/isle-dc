@@ -3,8 +3,8 @@ langcode: en
 status: true
 dependencies:
   module:
+    - idc_defaults
     - islandora
-    - islandora_defaults
 _core:
   default_config_hash: _w1tI4doB71OVhr9ylF4DCZRMGXy8Mtjcuk-8iAOz7Y
 name: image_original_file
@@ -33,7 +33,7 @@ conditions:
     bundles:
       image: image
     negate: 0
-    uuid: c75c67f1-e3da-4b65-bf27-f6ec27f85915
+    uuid: fcfa2d89-4099-4cd5-8210-9fb5b14eff02
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
 reactions:
@@ -43,4 +43,4 @@ reactions:
       image_generate_a_service_file_from_an_original_file: image_generate_a_service_file_from_an_original_file
       image_generate_a_thumbnail_from_an_original_file: image_generate_a_thumbnail_from_an_original_file
     saved: false
-weight: -3
+weight: -4

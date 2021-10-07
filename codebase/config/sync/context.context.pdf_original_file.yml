@@ -15,14 +15,14 @@ disabled: false
 conditions:
   media_has_term:
     id: media_has_term
-    negate: 0
+    negate: false
     uri: 'http://pcdm.org/use#OriginalFile'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
     logic: and
   parent_node_has_term:
     id: parent_node_has_term
-    negate: 0
+    negate: false
     uri: 'https://schema.org/DigitalDocument'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
@@ -34,4 +34,4 @@ reactions:
       get_ocr_from_image: get_ocr_from_image
       image_generate_a_thumbnail_from_an_original_file: digital_document_generate_a_thumbnail_from_an_original_file
     saved: false
-weight: -6
+weight: -7

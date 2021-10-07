@@ -18,7 +18,7 @@ disabled: false
 conditions:
   node_has_term:
     id: node_has_term
-    negate: 0
+    negate: false
     tids:
       -
         target_id: '5'

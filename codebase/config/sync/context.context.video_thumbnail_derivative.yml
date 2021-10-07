@@ -1,0 +1,36 @@
+uuid: 37a6fa8a-c60b-45b6-9d91-208af4ed674f
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+name: video_thumbnail_derivative
+label: 'Video Thumbnail Derivative'
+group: Derivatives
+description: 'Thumbnail derivative for videos'
+requireAllConditions: true
+disabled: false
+conditions:
+  parent_node_has_term:
+    id: parent_node_has_term
+    logic: and
+    uri: 'http://purl.org/coar/resource_type/c_12ce'
+    negate: false
+    uuid: cbb644dd-2b69-4b50-b897-6057eba4179e
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+  media_has_term:
+    id: media_has_term
+    logic: and
+    uri: 'http://pcdm.org/use#OriginalFile'
+    negate: false
+    uuid: 9e858622-eefc-4015-acea-1cb861592e60
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+reactions:
+  derivative:
+    id: derivative
+    actions:
+      video_generate_a_thumbnail_from_an_original_file: video_generate_a_thumbnail_from_an_original_file
+    saved: false
+weight: -5

@@ -1,0 +1,3 @@
+unique_id,name,original_name,mime_type,media_of,media_use,url
+derivative_audio_01,Audio With Deriv,file_example_MP3_700KB.mp3,audio/mp3,::title:Derivative Repository Item Audio With Deriv,Original File,http://migration-assets/assets/audio/file_example_MP3_700KB.mp3
+derivative_audio_02,Audio No Deriv,file_example_MP3_1MG.mp3,audio/mp3,::title:Derivative Repository Item Audio With No Deriv,Original File||Service File,http://migration-assets/assets/audio/file_example_MP3_1MG.mp3
