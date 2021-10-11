@@ -3,8 +3,7 @@ networks:
   default:
     internal: true
   gateway:
-    external:
-      name: gateway
+    name: gateway
 services:
   solr:
     restart: ${RESTART_POLICY:-unless-stopped}
