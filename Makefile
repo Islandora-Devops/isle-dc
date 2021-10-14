@@ -318,7 +318,6 @@ demo: generate-secrets
 	$(MAKE) reindex-solr ENVIROMENT=demo
 	$(MAKE) reindex-triplestore ENVIROMENT=demo
 
-
 .PHONY: local
 .SILENT: local
 local: generate-secrets
@@ -343,3 +342,16 @@ clean:
 	-docker-compose down -v
 	sudo rm -fr codebase certs secrets/live/*
 	git clean -xffd .
+
+.PHONY: up
+.SILENT: up
+up:
+	test -f docker-compose.yml && docker-compose up -d --remove-orphans || $(MAKE) local
+	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish building.\n"
+	sleep 10
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
+
+.PHONY: down
+.SILENT: down
+down:
+	-docker-compose down --remove-orphans
