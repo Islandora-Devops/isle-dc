@@ -346,7 +346,7 @@ clean:
 .PHONY: up
 .SILENT: up
 up:
-	test -f docker-compose.yml && docker-compose up -d --remove-orphans || $(MAKE) local
+	test -f docker-compose.yml && docker-compose up -d --remove-orphans || $(MAKE) demo
 	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish building.\n"
 	sleep 10
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
