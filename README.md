@@ -37,7 +37,7 @@ as database import/export and reindexing.
 
 ## Requirements
 
-- Composer 1.10+ (see [issues/184](https://github.com/Islandora-Devops/isle-dc/issues/184) for help. 2.x currently does not work. 
+- Composer 1.10+ (see [issues/184](https://github.com/Islandora-Devops/isle-dc/issues/184) for help). 2.x currently does not work. 
 - Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
 - Docker-CE 19.x+ (*If using Docker Desktop for Windows, any stable release
   *after* 2.2.0.4, or use a 2.2.0.4 with a [patch][Docker for Windows Patch] due
