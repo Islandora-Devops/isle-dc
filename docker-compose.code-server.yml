@@ -7,7 +7,7 @@ networks:
   default:
     internal: true
   gateway:
-    name: gateway
+    external: true
 secrets:
   CODE_SERVER_PASSWORD:
     file: "./secrets/CODE_SERVER_PASSWORD"

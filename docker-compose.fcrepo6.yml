@@ -3,7 +3,7 @@ networks:
   default:
     internal: true
   gateway:
-    name: gateway
+    external: true
 volumes:
   fcrepo-data:
 services:

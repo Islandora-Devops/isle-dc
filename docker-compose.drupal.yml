@@ -4,7 +4,7 @@ networks:
   default:
     internal: true
   gateway:
-    name: gateway
+    external: true
 services:
   # The service name is drupal that is the default host name used by micro-services etc.
   # Needs to match against demo, custom, and local.
