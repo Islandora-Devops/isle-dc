@@ -166,6 +166,19 @@ following to `docker-compose.env.yml`:
 drupal:
   image: YOUR_CUSTOM_IMAGE
 ```
+## Shutting down and bring back up
+To run a non-destructive shutdown and bring it back up without having to know the docker commands needed. This keeps all of the commands for basic operations within the make commands.
+```shell
+# Shut down isle-dc with losing work.
+make down
+
+# Bring isle-dc back up from where it left off
+make up
+
+# If make hasn't been run this will run make demo 
+
+```
+
 ## Secrets
 
 When running Islandora in the wild, you'll want to use secrets to store sensitive
