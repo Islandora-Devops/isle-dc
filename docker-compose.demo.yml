@@ -10,8 +10,7 @@ networks:
   default:
     internal: true
   gateway:
-    external:
-      name: gateway
+    external: true
 volumes:
   drupal-sites-data:
   solr-data:
@@ -36,6 +35,6 @@ services:
     restart: ${RESTART_POLICY:-unless-stopped}
     volumes:
       # On a production site you may not want to take this approach but instead refer to each of the cores
-      # data directories specifically and maintain the configuration as part of a customized image, where 
+      # data directories specifically and maintain the configuration as part of a customized image, where
       # in your configuration is Solr managed under source control somewhere.
       - solr-data:/opt/solr/server/solr

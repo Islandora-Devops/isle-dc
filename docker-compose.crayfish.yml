@@ -3,8 +3,7 @@ networks:
   default:
     internal: true
   gateway:
-    external:
-      name: gateway
+    external: true
 services:
   homarus:
     restart: ${RESTART_POLICY:-unless-stopped}
