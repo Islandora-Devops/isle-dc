@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38f51d37ddcc43a982c442ee1799ac61",
+    "content-hash": "f7ccfee2596716fa36ff934cb34de555",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3851,7 +3851,7 @@
             "extra": {
                 "drupal": {
                     "version": "4.1.1",
-                    "datestamp": "1609419527",
+                    "datestamp": "1631968537",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4041,17 +4041,17 @@
         },
         {
             "name": "drupal/entity_embed",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/entity_embed.git",
-                "reference": "8.x-1.1"
+                "reference": "8.x-1.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/entity_embed-8.x-1.1.zip",
-                "reference": "8.x-1.1",
-                "shasum": "f2c3f4b3071cbd69db94c5255e1db89510995b5d"
+                "url": "https://ftp.drupal.org/files/projects/entity_embed-8.x-1.2.zip",
+                "reference": "8.x-1.2",
+                "shasum": "e1d4c9d6931984836c1ea550c32ae40f42367525"
             },
             "require": {
                 "drupal/core": "^8.8 || ^9",
@@ -4063,7 +4063,7 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.1",
+                    "version": "8.x-1.2",
                     "datestamp": "1631726164",
                     "security-coverage": {
                         "status": "covered",
@@ -5189,7 +5189,7 @@
                 "reference": "ba30ae518d87313a5d532ba0d45581243b81ac1b"
             },
             "require": {
-                "drupal/core": "^8 || ^9"
+                "drupal/core": "^8.8 || ^9"
             },
             "type": "drupal-module",
             "extra": {
@@ -5197,8 +5197,8 @@
                     "dev-3.x": "3.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-3.0-beta1+1-dev",
-                    "datestamp": "1609772819",
+                    "version": "8.x-3.0-beta1+4-dev",
+                    "datestamp": "1635189814",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -7880,7 +7880,6 @@
             "suggest": {
                 "drupal/transliterate_filenames": "Sanitizes filenames when they are uploaded so they don't break your repository."
             },
-            "default-branch": true,
             "type": "drupal-module",
             "license": [
                 "GPL-2.0+"
@@ -7923,8 +7922,19 @@
                 "reference": "dfd99c4c1beac54efc0eaa6cdbadc01d4918fd6c",
                 "shasum": ""
             },
+            "require-dev": {
+                "drupal/coder": "*",
+                "phpunit/phpunit": "^8",
+                "sebastian/phpcpd": "*",
+                "squizlabs/php_codesniffer": "^3"
+            },
             "default-branch": true,
             "type": "drupal-module",
+            "autoload": {
+                "psr-4": {
+                    "Drupal\\jsonld\\": "src/"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0+"
@@ -7936,8 +7946,8 @@
                     "role": "Owner"
                 },
                 {
-                    "name": "Diego Pino",
-                    "email": "dpino@metro.org",
+                    "name": "Jared Whiklo",
+                    "email": "jwhiklo@gmail.com",
                     "role": "Maintainer"
                 }
             ],
@@ -7945,7 +7955,7 @@
             "homepage": "https://github.com/Islandora/jsonld",
             "support": {
                 "issues": "https://github.com/Islandora/documentation/issues",
-                "source": "https://github.com/Islandora/jsonld/tree/2.0.0"
+                "source": "https://github.com/Islandora/jsonld/tree/2.x"
             },
             "time": "2021-05-03T15:37:22+00:00"
         },
@@ -11429,6 +11439,7 @@
                 "issues": "https://github.com/simplesamlphp/simplesamlphp-module-authfacebook/issues",
                 "source": "https://github.com/simplesamlphp/simplesamlphp-module-authfacebook"
             },
+            "abandoned": true,
             "time": "2020-03-13T11:29:21+00:00"
         },
         {
@@ -11587,6 +11598,7 @@
                 "issues": "https://github.com/tvdijen/simplesamlphp-module-authwindowslive/issues",
                 "source": "https://github.com/tvdijen/simplesamlphp-module-authwindowslive"
             },
+            "abandoned": true,
             "time": "2019-12-03T09:01:13+00:00"
         },
         {
@@ -12367,6 +12379,7 @@
                 "issues": "https://github.com/simplesamlphp/simplesamlphp-module-oauth/issues",
                 "source": "https://github.com/simplesamlphp/simplesamlphp-module-oauth/"
             },
+            "abandoned": true,
             "time": "2020-04-29T19:37:43+00:00"
         },
         {
@@ -20819,7 +20832,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
