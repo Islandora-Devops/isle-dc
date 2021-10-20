@@ -8306,16 +8306,16 @@
         },
         {
             "name": "jhu_idc/idc_migration",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_migration.git",
-                "reference": "e52a14bd908e321850f9aa0becaa17bcec253326"
+                "reference": "5672577a6186b729426f6e8f573fb313690e5612"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/e52a14bd908e321850f9aa0becaa17bcec253326",
-                "reference": "e52a14bd908e321850f9aa0becaa17bcec253326",
+                "url": "https://api.github.com/repos/jhu-idc/idc_migration/zipball/5672577a6186b729426f6e8f573fb313690e5612",
+                "reference": "5672577a6186b729426f6e8f573fb313690e5612",
                 "shasum": ""
             },
             "require": {
@@ -8344,9 +8344,9 @@
             ],
             "description": "Custom migration plugins for IDC",
             "support": {
-                "source": "https://github.com/jhu-idc/idc_migration/tree/v2.0.0"
+                "source": "https://github.com/jhu-idc/idc_migration/tree/v2.0.1"
             },
-            "time": "2021-08-27T15:30:40+00:00"
+            "time": "2021-10-14T20:07:08+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
