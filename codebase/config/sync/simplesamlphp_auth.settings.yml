@@ -5,11 +5,11 @@ unique_id: eduPersonPrincipalName
 user_name: eduPersonPrincipalName
 auth_source: default-sp
 login_link_show: true
-login_link_display_name: 'Federated login'
+login_link_display_name: 'JHED Login'
 header_no_cache: false
 role:
   population: 'global_admin:eduPersonPrincipalName,=,staff1@johnshopkins.edu|collection_level_admin:eduPersonPrincipalName,=,staff2@johnshopkins.edu'
-  eval_every_time: true
+  eval_every_time: false
 register_users: true
 allow:
   set_drupal_pwd: false

@@ -20,12 +20,19 @@ export const claAdminUser = Role('https://islandora-idc.traefik.me/user/login', 
         .click('#edit-submit');
 });
 
+export const staff1AdminSSO = Role('https://islandora-idc.traefik.me/saml_login', async t => {
+  await t
+    .typeText('#username', 'staff1')
+    .typeText('#password', 'moo')
+    .click('.form-button');
+});
+
 export const userRole = async (t, username, password) => {
     return Role('https://islandora-idc.traefik.me/user/login', async t => {
       await t
           .typeText('#edit-name', username)
           .typeText('#edit-pass', password)
-        .click('#edit-submit');
+          .click('#edit-submit');
     });
 }
 /*
