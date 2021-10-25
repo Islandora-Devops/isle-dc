@@ -1,0 +1,28 @@
+{
+  "type": [
+    {
+      "target_id": "page",
+      "target_type": "node_type"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Browse Collections"
+    }
+  ],
+  "path": [
+    {
+      "alias": "/browse-collections"
+    }
+  ],
+  "field_display_title": [
+    {
+      "value": "Browse Collections"
+    }
+  ]
+}

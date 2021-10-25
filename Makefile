@@ -325,7 +325,6 @@ demo: generate-secrets
 #	$(MAKE) reindex-solr ENVIROMENT=demo
 #	$(MAKE) reindex-triplestore ENVIROMENT=demo
 
-
 .PHONY: local
 .SILENT: local
 ## Make a local site with codebase directory bind mounted.
@@ -345,8 +344,15 @@ local: generate-secrets
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 	# The - at the beginning is not a typo, it will allow this process to failing the make command.
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
-	sudo chown -R `id -u`:101 codebase
+	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
+	$(MAKE) initial_content login
 
+.SILENT: initial_content
+initial_content:
+	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/homepage.json" https://${DOMAIN}/node?_format=json
+	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
+
+# Destroys everything beware!
 .PHONY: clean
 .SILENT: clean
 ## Destroys everything beware!
@@ -375,11 +381,13 @@ up:
 down:
 	-docker-compose down --remove-orphans
 
-GREEN  := $(shell tput -Txterm setaf 2)
-YELLOW := $(shell tput -Txterm setaf 3)
-WHITE  := $(shell tput -Txterm setaf 7)
-RESET  := $(shell tput -Txterm sgr0)
-TARGET_MAX_CHAR_NUM=20
+.PHONY: login
+login:
+	docker-compose exec -T drupal with-contenv bash -lc "drush uli --uri=$(DOMAIN)"
+
+.phony: confirm
+confirm:
+	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
 
 .PHONY: help
 .SILENT: help

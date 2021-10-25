@@ -1,0 +1,23 @@
+{
+  "type": [
+    {
+      "target_id": "home_page",
+      "target_type": "node_type"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Explore the Collection"
+    }
+  ],
+  "field_display_title": [
+    {
+      "value": "Explore the Collection"
+    }
+  ]
+}
