@@ -345,9 +345,10 @@ local: generate-secrets
 	# The - at the beginning is not a typo, it will allow this process to failing the make command.
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
 	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
-	$(MAKE) initial_content login
+	# $(MAKE) initial_content 
+	$(MAKE) login
 
-.SILENT: initial_content
+.PHONY: initial_content
 initial_content:
 	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/homepage.json" https://${DOMAIN}/node?_format=json
 	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
@@ -382,8 +383,11 @@ down:
 	-docker-compose down --remove-orphans
 
 .PHONY: login
+.SILENT: login
 login:
+	echo "\n\n=========== LOGIN ==========="
 	docker-compose exec -T drupal with-contenv bash -lc "drush uli --uri=$(DOMAIN)"
+	echo "=============================\n"
 
 .phony: confirm
 confirm:
