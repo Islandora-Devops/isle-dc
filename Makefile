@@ -337,6 +337,8 @@ local: generate-secrets
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b install-profile https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
 	fi
 	docker-compose up -d
+	#context greater than this commit hash is broken with certain Islandora contexts
+	docker-compose exec -T drupal with-contenv bash -lc "composer require drupal/context '4.x-dev#14c362a5c57457692cdb1335c24619e6ae76af94'"
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
@@ -345,7 +347,7 @@ local: generate-secrets
 	# The - at the beginning is not a typo, it will allow this process to failing the make command.
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
 	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
-	# $(MAKE) initial_content 
+	# $(MAKE) initial_content
 	$(MAKE) login
 
 .PHONY: initial_content
