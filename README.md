@@ -42,9 +42,21 @@ as database import/export and reindexing.
 - Docker-CE 19.x+ (*If using Docker Desktop for Windows, any stable release
   *after* 2.2.0.4, or use a 2.2.0.4 with a [patch][Docker for Windows Patch] due
   to a [bug][Docker for Windows Bug]*)
-- Docker-compose version 1.25.x+ (see [issues/184](https://github.com/Islandora-Devops/isle-dc/issues/184) for help). 2.x currently does not work.
+- Docker-compose version 1.25.x+.* Docker is now rolling out a 2.0.x branch, with incompatible config file syntax. 
 - Git 2.0+
 - GNU Make 4.0+
+
+* As of August, 2021, Docker Desktop is now shipping with docker-compose 2.0 which has incompatible config file syntax. Until this is addressed, run 
+
+```bash
+docker-compose disable-v2
+```
+
+before running any of the make commands below.
+
+
+See release notes at https://docs.docker.com/compose/cli-command/.
+
 
 ## Getting Started
 
@@ -165,6 +177,19 @@ following to `docker-compose.env.yml`:
 drupal:
   image: YOUR_CUSTOM_IMAGE
 ```
+## Shutting down and bring back up
+To run a non-destructive shutdown and bring it back up without having to know the docker commands needed. This keeps all of the commands for basic operations within the make commands.
+```shell
+# Shut down isle-dc with losing work.
+make down
+
+# Bring isle-dc back up from where it left off
+make up
+
+# If make hasn't been run this will run make demo 
+
+```
+
 ## Secrets
 
 When running Islandora in the wild, you'll want to use secrets to store sensitive
