@@ -43,7 +43,6 @@ as database import/export and reindexing.
   *after* 2.2.0.4, or use a 2.2.0.4 with a [patch][Docker for Windows Patch] due
   to a [bug][Docker for Windows Bug]*)
 - Docker-compose version 1.25.x+.* Docker is now rolling out a 2.0.x branch, with incompatible config file syntax. 
-- Drush 9.0+
 - Git 2.0+
 - GNU Make 4.0+
 
