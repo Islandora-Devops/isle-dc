@@ -109,6 +109,12 @@ all ingested data, use
 
 ```
 docker-compose down -v
+
+# OR a better option because it removes these directories (codebase/ certs/ secrets/live/) and
+# resets all files back to their original states. This takes it back to a clean slate.
+
+make clean
+
 ```
 
 ## Local Development
