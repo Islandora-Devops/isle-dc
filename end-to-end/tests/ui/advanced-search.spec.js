@@ -68,7 +68,7 @@ test('Normal search', async (t) => {
     .click(term1.nonproxyTerm.field)
     .click(term1.nonproxyTerm.fields.withText('Title'))
     .click(Page.submitBtn)
-    .expect(Page.results.count).eql(2);
+    .expect(Page.results.count).eql(2, { timeout: 30000 });
 
   await t.click(Page.addTermBtn);
 
