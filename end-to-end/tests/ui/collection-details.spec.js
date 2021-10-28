@@ -61,7 +61,7 @@ test('Shows both collections and repo items', async (t) => {
 test('Facet toggle', async (t) => {
   await t.expect(Page.facetCategories.count).eql(3);
 
-  const category = 'Year';
+  const category = 'Years';
   const valueContainer = Page.facetValueContainer(category);
   await t
     .expect(valueContainer.clientHeight).eql(0)
@@ -70,15 +70,15 @@ test('Facet toggle', async (t) => {
 });
 
 test('Selecting facets', async (t) => {
-  const category = 'Year';
+  const category = 'Years';
   await t
     .click(Page.facetToggle(category))
-    .expect(Page.facetValues(category).count).eql(2)
+    .expect(Page.facetValues(category).count).eql(1)
     .expect(Page.results.count).eql(3);
 
-  await Page.selectFacet(category, '2000-01-01');
+  await Page.selectFacet(category, '2000');
 
-  await t.expect(Page.results.count).eql(1);
+  await t.expect(Page.results.count).eql(2);
 });
 
 test('Contact modal displays correctly', async (t) => {

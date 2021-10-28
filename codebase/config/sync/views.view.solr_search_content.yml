@@ -5598,6 +5598,9 @@ display:
           plugin_id: search_api_field
       defaults:
         fields: false
+        cache: false
+      cache:
+        type: none
     cache_metadata:
       max-age: 0
       contexts:

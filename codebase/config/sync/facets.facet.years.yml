@@ -1,4 +1,4 @@
-uuid: 636ab79b-e24a-4f20-b1f1-cb127e5f3ecc
+uuid: abeba1dd-9a63-4043-99db-8f9d5493d99b
 langcode: en
 status: true
 dependencies:
@@ -7,20 +7,21 @@ dependencies:
     - views.view.solr_search_content
   module:
     - search_api
-id: date_created
-name: Year
-url_alias: date_created
+id: years
+name: Years
+url_alias: years
 weight: 0
 min_count: 1
 show_only_one_result: false
-field_identifier: field_date_created
+field_identifier: field_years
 facet_source_id: 'search_api:views_rest__solr_search_content__rest_export_1'
 widget:
   type: array
   config:
     show_numbers: true
-query_operator: and
+query_operator: or
 use_hierarchy: false
+keep_hierarchy_parents_active: false
 expand_hierarchy: false
 enable_parent_when_child_gets_disabled: true
 hard_limit: 0
