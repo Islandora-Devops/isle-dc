@@ -21,3 +21,6 @@ services:
     networks:
       default:
       gateway: # Do not expose in production.
+    ports:
+      - published: 8161
+        target: 8161
