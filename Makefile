@@ -232,6 +232,10 @@ endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/public-files.tgz
 	docker-compose exec -T drupal with-contenv bash -lc 'tar zxvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files && chown -R nginx:nginx /var/www/drupal/web/sites/default/files && rm /tmp/public-files.tgz'
 
+# Composer Update
+composer_update:
+	docker-compose exec -T drupal with-contenv bash -lc 'composer update'
+
 # Dump fcrepo.
 fcrepo-export:
 ifndef DEST
