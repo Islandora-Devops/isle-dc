@@ -65,6 +65,7 @@ To get started with a **demo** environment, run:
 ```bash
 make demo
 ```
+⚠️ If prompted during `make up\demo\local\clean` for password, use your computer's password. The build process may need elevated privileges to write or remove files. For other password information see [Secrets](#secrets)
 
 This will pull down images from Dockerhub and generate
 
