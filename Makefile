@@ -391,3 +391,4 @@ set_admin_password:
 	@$(eval PASSWORD ?= $(shell bash -c 'read -s -p "Password: " pwd; echo $$pwd'))
 	@echo "\n\nSetting admin password now"
 	docker-compose exec -T drupal with-contenv bash -lc 'drush user:password admin "$(PASSWORD)"'
+	@echo "$(PASSWORD)" > secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD
