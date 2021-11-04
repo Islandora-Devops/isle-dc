@@ -100,7 +100,7 @@ test('Test Video Derivative Generation Conditions', async t => {
     await doMigration(t, migrationType.NEW_MEDIA_VIDEO, './migrations/derivative-video.csv');
     await doMigration(t, migrationType.NEW_MEDIA_AUDIO, './migrations/derivative-audio.csv');
 
-    // This is a 4 part test: 
+    // This is a 4 part test:
     // 1) there should be one video with a deriv
     // 2) there should be one video w/o a deriv
     // 3) there should be one audio file with a deriv
@@ -115,7 +115,7 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try { 
+    try {
         await t.click(io)
         await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
     } catch (err){
@@ -171,7 +171,7 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try { 
+    try {
         await t.click(io)
         await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
     } catch (err){
@@ -213,7 +213,7 @@ test('Test Video Derivative Generation Conditions', async t => {
         return true;
     })).eql(true, "Derivatives have not appeared");
 
-    // there should be no service file. It could show up later, so this might be a weak test. 
+    // there should be no service file. It could show up later, so this might be a weak test.
     await t.expect(service_derivative.count).eql(0);
     await t.expect(thumb_derivative.count).eql(1);
     await t.expect(fits_derivative.count).eql(1);
@@ -227,7 +227,7 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try { 
+    try {
         await t.click(io)
         await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
     } catch (err){
@@ -279,7 +279,7 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try { 
+    try {
         await t.click(io)
         await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
     } catch (err){
@@ -301,7 +301,7 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Service File');
 
-    // check for the presence of a Service and FITs file. Though there should not be 
+    // check for the presence of a Service and FITs file. Though there should not be
     // a separate Service File
     service_derivative = Selector('div.view-content').find('a').withText('Service File.mp3');
     fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
@@ -319,7 +319,64 @@ test('Test Video Derivative Generation Conditions', async t => {
         return true;
     })).eql(true, "Derivatives have not appeared");
 
-    // there should be no service file. It could show up later, so this might be a weak test. 
+    // there should be no service file. It could show up later, so this might be a weak test.
     await t.expect(service_derivative.count).eql(0);
     await t.expect(fits_derivative.count).eql(1);
 });
+
+test('Migrate PDF for Derivative Generation', async t => {
+
+    // migrate the test objects into Drupal
+    await doMigration(t, migrationType.NEW_COLLECTION, './migrations/derivative-collection.csv');
+    await doMigration(t, migrationType.NEW_ITEM, './migrations/derivative-islandora_object.csv');
+    await doMigration(t, migrationType.NEW_MEDIA_DOCUMENT, './migrations/derivative-document.csv');
+
+    // verify the presence of the islandora object
+    const io_name = "Derivative Repository Item PDF"
+    await t.navigateTo(contentList)
+    const io = Selector('div.view-content').find('a').withText(io_name)
+    await t.expect(io.count).eql(1);
+
+    // list its media
+
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
+
+    // assert the presence of the original media
+    const media_name = 'ilford_temprature-compensation-chart.pdf';
+    const media = Selector('div.view-content').find('a').withText(media_name);
+    await t.expect(media.count).eql(1);
+
+    // assert expected attributes of the original media
+    await t.expect(media.parent('tr').child('td').nth(2).innerText).eql('Document')
+    await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('application/pdf')
+    await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
+
+    // assert the presence of a derivative thumbnail and fits file
+    // (increase timeout in case derivatives haven't been created yet?)
+    // no service files are generated for PDFs
+    const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.png');
+    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
+    const ocr_derivative = Selector('div.view-content').find('a').withText('Extracted Text.txt');
+
+    console.log("Checking for derivatives ...")
+
+    await t.expect(await tryUntilTrue(async () => {
+        const thumb_count = await thumb_derivative.count
+        const fits_count = await fits_derivative.count
+        const ocr_count = await ocr_derivative.count
+        console.log('thumb count: ', thumb_count, ', fits count: ', fits_count,
+          ', extracted text count: ', ocr_count);
+        if (thumb_count < 1 || fits_count < 1 || ocr_count < 1) {
+            await t.eval(() => location.reload(true));
+            return false;
+        }
+        return true;
+    })).eql(true, "Derivatives have not appeared");
+
+    await t.expect(thumb_derivative.count).eql(1);
+    await t.expect(fits_derivative.count).eql(1);
+    await t.expect(ocr_derivative.count).eql(1);
+});
+
+

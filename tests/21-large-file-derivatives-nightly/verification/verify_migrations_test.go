@@ -34,7 +34,7 @@ const (
 	expectedOriginalDocumentsMediaCount = 1
 	expectedOriginalVideoCount          = 2
 	expectedOriginalImageCount          = 5
-	expectedDerivativeThumbCount        = expectedRepoObjectCount - expectedOriginalDocumentsMediaCount // the PDF doesn't have a thumbnail
+	expectedDerivativeThumbCount        = expectedRepoObjectCount
 	expectedDerivativeFitsCount         = expectedRepoObjectCount - 1                                   // TODO: the first image doesn't have a FITS file
 	expectedDerivativeExtractedTxtCount = expectedOriginalDocumentsMediaCount                           // Only the PDF has extracted text
 	expectedDerivativeServiceCount      = expectedRepoObjectCount - expectedOriginalDocumentsMediaCount // The PDF doesn't have a service file; TODO: Missing service files for the large and small video
@@ -231,7 +231,6 @@ func Test_Derivative_Thumbnail_Media(t *testing.T) {
 	t.Parallel()
 
 	// Collect the filenames of the expected thumbnail media
-	// - the PDF (media-documents-original) won't have one
 	filenames := filenamesMatching(t, "thumb")
 	assert.Len(t, filenames, expectedCount.derivativeThumbnails,
 		"Expected %d files but got %d", expectedCount.derivativeThumbnails, len(filenames))

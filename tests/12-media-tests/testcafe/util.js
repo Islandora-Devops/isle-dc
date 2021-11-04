@@ -156,9 +156,10 @@ export const doMigration = async (t, migrationType, file) => {
 export const migrationType = {
   NEW_ITEM: "idc_ingest_new_items",
   NEW_COLLECTION: "idc_ingest_new_collection",
+  NEW_MEDIA_AUDIO: "idc_ingest_media_audio",
+  NEW_MEDIA_DOCUMENT: "idc_ingest_media_document",
   NEW_MEDIA_FILE: "idc_ingest_media_file",
   NEW_MEDIA_IMAGE: "idc_ingest_media_image",
-  NEW_MEDIA_AUDIO: "idc_ingest_media_audio",
   NEW_MEDIA_VIDEO: "idc_ingest_media_video",
   NEW_ACCESS_TERMS: "idc_ingest_taxonomy_islandora_accessterms"
 };
