@@ -286,7 +286,7 @@ generate-secrets:
 		-v $(CURDIR)/scripts/generate-secrets.sh:/generate-secrets.sh \
 		-w / \
 		--entrypoint bash \
-		$(REPOSITORY)/drupal:$(TAG) -c /generate-secrets.sh && chown -R `id -u`:`id -g` /secrets 
+		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: download-default-certs
