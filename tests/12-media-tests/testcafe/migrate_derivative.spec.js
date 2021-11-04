@@ -324,7 +324,6 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(fits_derivative.count).eql(1);
 });
 
-<<<<<<< HEAD
 test('Migrate PDF for Derivative Generation', async t => {
 
     // migrate the test objects into Drupal
@@ -381,7 +380,7 @@ test('Migrate PDF for Derivative Generation', async t => {
     await t.expect(ocr_derivative.count).eql(1);
 });
 
-test('Test Collection Derivative Generation Conditions', async t => {
+test('Test Collection Derivative Generation Condition', async t => {
     await doMigration(t, migrationType.NEW_COLLECTION, './migrations/col-deriv-collection.csv');
     await doMigration(t, migrationType.NEW_MEDIA_IMAGE, './migrations/col-deriv-image.csv');
 
