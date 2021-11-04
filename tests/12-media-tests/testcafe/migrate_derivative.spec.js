@@ -410,7 +410,7 @@ test('Test Collection Derivative Generation Conditions', async t => {
 
     // assert expected attributes of the original media
     await t.expect(media.parent('tr').child('td').nth(2).innerText).eql('Image')
-    await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('image/jpg')
+    await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('image/jpeg')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).notContains('Service File');
 
