@@ -7,19 +7,19 @@ dependencies:
 _core:
   default_config_hash: xavOhHKb20w-w4Izd0AAF6xMVnVZJo00Wv3MFho81pc
 name: pages
-label: 'Page Derivatives'
+label: 'Page / Paged Content Derivatives'
 group: Derivatives
-description: 'Derivatives for Pages'
+description: 'Derivatives for Paged Content and Pages'
 requireAllConditions: true
 disabled: false
 conditions:
   parent_node_has_term:
     id: parent_node_has_term
     negate: false
-    uri: 'http://id.loc.gov/ontologies/bibframe/part'
+    uri: 'http://id.loc.gov/ontologies/bibframe/part,https://schema.org/Book'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
-    logic: and
+    logic: or
   media_has_term:
     id: media_has_term
     negate: false
