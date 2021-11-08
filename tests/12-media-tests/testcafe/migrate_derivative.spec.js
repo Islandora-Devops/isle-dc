@@ -444,7 +444,7 @@ test('Test Paged Content Derivative Generation Condition: Paged Content', async 
 
     const io_name = "Paged Content Repository Item One";
     await t.navigateTo(contentList)
-    const io = Selector('td.views-field-title').find('a').withText(io_name)
+    let io = Selector('td.views-field-title').find('a').withText(io_name)
     await t.expect(io.count).eql(1);
 
     // list its media
