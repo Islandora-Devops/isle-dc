@@ -1,4 +1,4 @@
 unique_id,name,original_name,mime_type,media_of,media_use,url,alt_text
 page-div-image-01,Paged Content Image,TRP_7767.jpg,image/jpeg,:::paged_io_01,Original File,http://migration-assets/assets/image/goat_herd_cover.jpg,A jpeg image
-page-div-image-01,Page One Image ,TRP_7767.jpg,image/jpeg,:::paged_io_02,Original File,http://migration-assets/assets/image/goat_herd_page1.jpg,A jpeg image
-page-div-image-01,Page Two Image,TRP_7767.jpg,image/jpeg,:::paged_io_03,Original File,http://migration-assets/assets/image/goat_herd_page2.jpg,A jpeg image
+page-div-image-02,Page One Image,TRP_7767.jpg,image/jpeg,:::paged_io_02,Original File,http://migration-assets/assets/image/goat_herd_page1.jpg,A jpeg image
+page-div-image-03,Page Two Image,TRP_7767.jpg,image/jpeg,:::paged_io_03,Original File,http://migration-assets/assets/image/goat_herd_page2.jpg,A jpeg image

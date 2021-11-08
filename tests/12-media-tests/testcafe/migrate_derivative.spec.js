@@ -384,9 +384,9 @@ test('Test Collection Derivative Generation Condition: Image', async t => {
     await doMigration(t, migrationType.NEW_COLLECTION, './migrations/col-deriv-collection.csv');
     await doMigration(t, migrationType.NEW_MEDIA_IMAGE, './migrations/col-deriv-image.csv');
 
-    let io_name = "Derivative Collection with Image";
+    const io_name = "Derivative Collection with Image";
     await t.navigateTo(contentList)
-    let io = Selector('div.view-content').find('a').withText(io_name)
+    const io = Selector('div.view-content').find('a').withText(io_name)
     await t.expect(io.count).eql(1);
 
     // list its media
@@ -404,7 +404,7 @@ test('Test Collection Derivative Generation Condition: Image', async t => {
     }
 
     // assert the presence of the original media
-    let media = Selector('div.view-content').find('a').withText("Some Image");
+    const media = Selector('div.view-content').find('a').withText("Some Image");
     await t.expect(media.count).eql(1);
 
     // assert expected attributes of the original media
@@ -414,9 +414,9 @@ test('Test Collection Derivative Generation Condition: Image', async t => {
     await t.expect(media.parent('tr').child('td').nth(4).innerText).notContains('Service File');
 
     // assert the presence of a derivative thumbnail and service image
-    let service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
-    let thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
-    let fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
+    const service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
+    const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
+    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
 
     console.log("Checking for derivatives ...")
 
@@ -442,9 +442,9 @@ test('Test Paged Content Derivative Generation Condition: Paged Content', async 
     await doMigration(t, migrationType.NEW_ITEM, './migrations/paged-content-islandora-object.csv');
     await doMigration(t, migrationType.NEW_MEDIA_IMAGE, './migrations/paged-content-image.csv');
 
-    let io_name = "Paged Content Repository Item One";
+    const io_name = "Paged Content Repository Item One";
     await t.navigateTo(contentList)
-    let io = Selector('td.views-field-title').find('a').withText(io_name)
+    const io = Selector('td.views-field-title').find('a').withText(io_name)
     await t.expect(io.count).eql(1);
 
     // list its media
@@ -462,7 +462,7 @@ test('Test Paged Content Derivative Generation Condition: Paged Content', async 
     }
 
     // assert the presence of the original media
-    let media = Selector('div.view-content').find('a').withText("Paged Content Image");
+    const media = Selector('div.view-content').find('a').withText("Paged Content Image");
     await t.expect(media.count).eql(1);
 
     // assert expected attributes of the original media
@@ -472,33 +472,27 @@ test('Test Paged Content Derivative Generation Condition: Paged Content', async 
     await t.expect(media.parent('tr').child('td').nth(4).innerText).notContains('Service File');
 
     // assert the presence of a derivative thumbnail and service image
-    let service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
-    let thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
-    let fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
+    const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
 
     console.log("Checking for derivatives ...")
 
     await t.expect(await tryUntilTrue(async () => {
-        const service_count = await service_derivative.count
         const thumb_count = await thumb_derivative.count
-        const fits_count = await fits_derivative.count
 
-        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count, ", fits count:", fits_count);
-        if (service_count < 1 || thumb_count < 1 || fits_count < 1) {
+        console.log("thumb count: ", thumb_count);
+        if (thumb_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
         return true;
-    })).eql(true, "Derivatives have not appeared");
+    })).eql(true, "Thumbnail has not appeared");
 
-    await t.expect(service_derivative.count).eql(1);
     await t.expect(thumb_derivative.count).eql(1);
-    await t.expect(fits_derivative.count).eql(1);
 
     // check the pages' derivatives for good measure
     // list it's children
     try {
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Children'))
+        await t.click(Selector('#block-seven-primary-local-tasks').find('a').withText('Children'))
     } catch (err){
         console.log(err);
         if (!err.errStack.includes("Error: Quick Edit")) {
@@ -534,9 +528,8 @@ test('Test Paged Content Derivative Generation Condition: Paged Content', async 
 // this could stand to be refactored even more, to pull out checking derivatives
 const checkChildPage = async (t, pageItemName, mediaName, mediaType, mimeType) => {
 
-    let io = Selector('div.view-content').find('a').withText(pageItemName);
+    const io = Selector('div.view-content').find('a').withText(pageItemName);
     await t.expect(io.count).eql(1);
-
     await t.click(io);
 
     try {
@@ -552,7 +545,7 @@ const checkChildPage = async (t, pageItemName, mediaName, mediaType, mimeType) =
     }
 
     // assert the presence of the original media
-    media = Selector('div.view-content').find('a').withText(mediaName);
+    const media = Selector('div.view-content').find('a').withText(mediaName);
     await t.expect(media.count).eql(1);
 
     // assert expected attributes of the original media
@@ -562,19 +555,22 @@ const checkChildPage = async (t, pageItemName, mediaName, mediaType, mimeType) =
     await t.expect(media.parent('tr').child('td').nth(4).innerText).notContains('Service File');
 
     // assert the presence of a derivative thumbnail and service image
-    let service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
-    let thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
-    let fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
+    const service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
+    const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
+    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
+    const extracted_text = Selector('div.view-content').find('a').withText('Extracted Text.txt');
 
-    console.log("Checking for derivatives ...")
+    console.log('Checking for derivatives ...')
 
     await t.expect(await tryUntilTrue(async () => {
         const service_count = await service_derivative.count
         const thumb_count = await thumb_derivative.count
         const fits_count = await fits_derivative.count
+        const extracted_count = await extracted_text.count
 
-        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count, ", fits count:", fits_count);
-        if (service_count < 1 || thumb_count < 1 || fits_count < 1) {
+        console.log('Service_count: ', service_count, ', thumb count: ', thumb_count,
+            ', fits count: ', fits_count, ', extracted text: ', extracted_count)
+        if (service_count < 1 || thumb_count < 1 || fits_count < 1 || extracted_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
@@ -584,4 +580,5 @@ const checkChildPage = async (t, pageItemName, mediaName, mediaType, mimeType) =
     await t.expect(service_derivative.count).eql(1);
     await t.expect(thumb_derivative.count).eql(1);
     await t.expect(fits_derivative.count).eql(1);
+    await t.expect(extracted_text.count).eql(1);
 }
