@@ -506,7 +506,7 @@ test('Test Paged Content Derivative Generation Condition: Paged Content', async 
     await checkChildPage(t, 'Page 1', 'Page One Image', 'Image', 'image/jpeg');
 
     await t.navigateTo(contentList)
-    io = Selector('div.view-content').find('a').withText(io_name)
+    io = Selector('td.views-field-title').find('a').withText(io_name)
     await t.expect(io.count).eql(1);
 
     try {
