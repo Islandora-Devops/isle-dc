@@ -76,13 +76,18 @@ jobs:
           chmod a+rwx end-to-end/reports
           make test test=${{ matrix.suite }}
       - name: reports
+        if: always()
         run: |
           mkdir -p end-to-end/reports/${{ matrix.suite }}
           docker ps
           docker logs idc_drupal_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/drupal-${{ matrix.suite }}.log
           docker logs idc_alpaca_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/alpaca-${{ matrix.suite }}.log
           docker logs idc_homarus_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/homarus-${{ matrix.suite }}.log
+          docker logs idc_crayfits_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/crayfits-${{ matrix.suite }}.log
+          docker logs idc_fits_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/fits-${{ matrix.suite }}.log
+          docker logs idc_houdini_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/houdini-${{ matrix.suite }}.log
       - name: upload reports
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: reports-${{ matrix.suite }}
