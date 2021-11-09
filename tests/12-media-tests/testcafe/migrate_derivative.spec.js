@@ -94,7 +94,7 @@ test('Test Derivatives Unique Id Field', async t => {
     }
 });
 
-test('Test Video Derivative Generation Conditions', async t => {
+test('Test AudioVideo Derivative Generation Conditions', async t => {
     await doMigration(t, migrationType.NEW_COLLECTION, './migrations/derivative-collection.csv');
     await doMigration(t, migrationType.NEW_ITEM, './migrations/derivative-islandora_object.csv');
     await doMigration(t, migrationType.NEW_MEDIA_VIDEO, './migrations/derivative-video.csv');
@@ -115,18 +115,8 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        console.log(err);
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     let media = Selector('div.view-content').find('a').withText("Video With Deriv");
@@ -171,17 +161,8 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     media = Selector('div.view-content').find('a').withText("Video No Deriv");
@@ -227,17 +208,8 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     media = Selector('div.view-content').find('a').withText("Audio With Deriv");
@@ -279,17 +251,8 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     media = Selector('div.view-content').find('a').withText("Audio No Deriv");
@@ -390,18 +353,8 @@ test('Test Collection Derivative Generation Condition: Image', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        console.log(err);
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     const media = Selector('div.view-content').find('a').withText("Some Image");
@@ -448,18 +401,8 @@ test('Test Paged Content Derivative Generation Condition: Paged Content', async 
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        console.log(err);
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     const media = Selector('div.view-content').find('a').withText("Paged Content Image");
@@ -491,17 +434,7 @@ test('Test Paged Content Derivative Generation Condition: Paged Content', async 
 
     // check the pages' derivatives for good measure
     // list it's children
-    try {
-        await t.click(Selector('#block-seven-primary-local-tasks').find('a').withText('Children'))
-    } catch (err){
-        console.log(err);
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Children'))
-        }
-    }
+    await t.click(Selector('#block-seven-primary-local-tasks').find('a').withText('Children'))
 
     await checkChildPage(t, 'Page 1', 'Page One Image', 'Image', 'image/jpeg');
 
@@ -509,18 +442,8 @@ test('Test Paged Content Derivative Generation Condition: Paged Content', async 
     io = Selector('td.views-field-title').find('a').withText(io_name)
     await t.expect(io.count).eql(1);
 
-    try {
-        await t.click(io_name);
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Children'))
-    } catch (err){
-        console.log(err);
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Children'))
-        }
-    }
+    await t.click(io);
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Children'))
 
     await checkChildPage(t, 'Page 2', 'Page Two Image', 'Image', 'image/jpeg');
 });
@@ -532,17 +455,7 @@ const checkChildPage = async (t, pageItemName, mediaName, mediaType, mimeType) =
     await t.expect(io.count).eql(1);
     await t.click(io);
 
-    try {
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        console.log(err);
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     const media = Selector('div.view-content').find('a').withText(mediaName);
