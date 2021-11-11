@@ -1,0 +1,13 @@
+diff --git a/src/Controller/MediaSourceController.php b/src/Controller/MediaSourceController.php
+index bab43fcf..154a7871 100644
+--- a/src/Controller/MediaSourceController.php
++++ b/src/Controller/MediaSourceController.php
+@@ -189,7 +189,7 @@ class MediaSourceController extends ControllerBase {
+     }
+     catch (\Exception $e) {
+       $transaction->rollBack();
+-      throw new HttpException(500, $e->getMessage());
++      throw new HttpException(500, $e->getMessage(), $e);
+     }
+   }
+ 

@@ -219,7 +219,8 @@
             },
             "islandora/islandora": {
                 "Routing definitions": "patches/islandora.routing.yml.patch",
-                "Media Source Serivce": "patches/mediasourceservice.patch"
+                "Media Source Serivce": "patches/mediasourceservice.patch",
+                "Media Source Controller": "patches/mediasourcecontroller.patch"
             }
         }
     }
