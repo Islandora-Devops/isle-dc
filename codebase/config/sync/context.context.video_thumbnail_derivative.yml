@@ -33,4 +33,4 @@ reactions:
     actions:
       video_generate_a_thumbnail_from_an_original_file: video_generate_a_thumbnail_from_an_original_file
     saved: false
-weight: -5
+weight: -6

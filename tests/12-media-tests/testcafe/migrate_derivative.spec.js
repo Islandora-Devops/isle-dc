@@ -94,7 +94,7 @@ test('Test Derivatives Unique Id Field', async t => {
     }
 });
 
-test('Test Video Derivative Generation Conditions', async t => {
+test('Test AudioVideo Derivative Generation Conditions', async t => {
     await doMigration(t, migrationType.NEW_COLLECTION, './migrations/derivative-collection.csv');
     await doMigration(t, migrationType.NEW_ITEM, './migrations/derivative-islandora_object.csv');
     await doMigration(t, migrationType.NEW_MEDIA_VIDEO, './migrations/derivative-video.csv');
@@ -115,18 +115,8 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        console.log(err);
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     let media = Selector('div.view-content').find('a').withText("Video With Deriv");
@@ -171,17 +161,8 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     media = Selector('div.view-content').find('a').withText("Video No Deriv");
@@ -227,17 +208,8 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     media = Selector('div.view-content').find('a').withText("Audio With Deriv");
@@ -279,17 +251,8 @@ test('Test Video Derivative Generation Conditions', async t => {
     await t.expect(io.count).eql(1);
 
     // list its media
-    try {
-        await t.click(io)
-        await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-    } catch (err){
-        if (!err.errStack.includes("Error: Quick Edit")) {
-            throw err;
-        } else {
-            // else ignore this type of error and try again
-            await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
-        }
-    }
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
 
     // assert the presence of the original media
     media = Selector('div.view-content').find('a').withText("Audio No Deriv");
@@ -365,6 +328,7 @@ test('Migrate PDF for Derivative Generation', async t => {
         const thumb_count = await thumb_derivative.count
         const fits_count = await fits_derivative.count
         const ocr_count = await ocr_derivative.count
+
         console.log('thumb count: ', thumb_count, ', fits count: ', fits_count,
           ', extracted text count: ', ocr_count);
         if (thumb_count < 1 || fits_count < 1 || ocr_count < 1) {
@@ -379,4 +343,155 @@ test('Migrate PDF for Derivative Generation', async t => {
     await t.expect(ocr_derivative.count).eql(1);
 });
 
+test('Test Collection Derivative Generation Condition: Image', async t => {
+    await doMigration(t, migrationType.NEW_COLLECTION, './migrations/col-deriv-collection.csv');
+    await doMigration(t, migrationType.NEW_MEDIA_IMAGE, './migrations/col-deriv-image.csv');
 
+    const io_name = "Derivative Collection with Image";
+    await t.navigateTo(contentList)
+    const io = Selector('div.view-content').find('a').withText(io_name)
+    await t.expect(io.count).eql(1);
+
+    // list its media
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
+
+    // assert the presence of the original media
+    const media = Selector('div.view-content').find('a').withText("Some Image");
+    await t.expect(media.count).eql(1);
+
+    // assert expected attributes of the original media
+    await t.expect(media.parent('tr').child('td').nth(2).innerText).eql('Image')
+    await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('image/jpeg')
+    await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
+    await t.expect(media.parent('tr').child('td').nth(4).innerText).notContains('Service File');
+
+    // assert the presence of a derivative thumbnail and service image
+    const service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
+    const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
+    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
+
+    console.log("Checking for derivatives ...")
+
+    await t.expect(await tryUntilTrue(async () => {
+        const service_count = await service_derivative.count
+        const thumb_count = await thumb_derivative.count
+        const fits_count = await fits_derivative.count
+
+        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count, ", fits count:", fits_count);
+        if (service_count < 1 || thumb_count < 1 || fits_count < 1) {
+            await t.eval(() => location.reload(true));
+            return false;
+        }
+        return true;
+    })).eql(true, "Derivatives have not appeared");
+
+    await t.expect(service_derivative.count).eql(1);
+    await t.expect(thumb_derivative.count).eql(1);
+    await t.expect(fits_derivative.count).eql(1);
+});
+
+test('Test Paged Content Derivative Generation Condition: Paged Content', async t => {
+    await doMigration(t, migrationType.NEW_ITEM, './migrations/paged-content-islandora-object.csv');
+    await doMigration(t, migrationType.NEW_MEDIA_IMAGE, './migrations/paged-content-image.csv');
+
+    const io_name = "Paged Content Repository Item One";
+    await t.navigateTo(contentList)
+    let io = Selector('td.views-field-title').find('a').withText(io_name)
+    await t.expect(io.count).eql(1);
+
+    // list its media
+    await t.click(io)
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
+
+    // assert the presence of the original media
+    const media = Selector('div.view-content').find('a').withText("Paged Content Image");
+    await t.expect(media.count).eql(1);
+
+    // assert expected attributes of the original media
+    await t.expect(media.parent('tr').child('td').nth(2).innerText).eql('Image')
+    await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('image/jpeg')
+    await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
+    await t.expect(media.parent('tr').child('td').nth(4).innerText).notContains('Service File');
+
+    // assert the presence of a derivative thumbnail and service image
+    const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
+
+    console.log("Checking for derivatives ...")
+
+    await t.expect(await tryUntilTrue(async () => {
+        const thumb_count = await thumb_derivative.count
+
+        console.log("thumb count: ", thumb_count);
+        if (thumb_count < 1) {
+            await t.eval(() => location.reload(true));
+            return false;
+        }
+        return true;
+    })).eql(true, "Thumbnail has not appeared");
+
+    await t.expect(thumb_derivative.count).eql(1);
+
+    // check the pages' derivatives for good measure
+    // list it's children
+    await t.click(Selector('#block-seven-primary-local-tasks').find('a').withText('Children'))
+
+    await checkChildPage(t, 'Page 1', 'Page One Image', 'Image', 'image/jpeg');
+
+    await t.navigateTo(contentList)
+    io = Selector('td.views-field-title').find('a').withText(io_name)
+    await t.expect(io.count).eql(1);
+
+    await t.click(io);
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Children'))
+
+    await checkChildPage(t, 'Page 2', 'Page Two Image', 'Image', 'image/jpeg');
+});
+
+// this could stand to be refactored even more, to pull out checking derivatives
+const checkChildPage = async (t, pageItemName, mediaName, mediaType, mimeType) => {
+
+    const io = Selector('div.view-content').find('a').withText(pageItemName);
+    await t.expect(io.count).eql(1);
+    await t.click(io);
+
+    await t.click(Selector('#block-idcui-local-tasks').find('a').withText('Media'))
+
+    // assert the presence of the original media
+    const media = Selector('div.view-content').find('a').withText(mediaName);
+    await t.expect(media.count).eql(1);
+
+    // assert expected attributes of the original media
+    await t.expect(media.parent('tr').child('td').nth(2).innerText).eql(mediaType);
+    await t.expect(media.parent('tr').child('td').nth(3).innerText).eql(mimeType);
+    await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
+    await t.expect(media.parent('tr').child('td').nth(4).innerText).notContains('Service File');
+
+    // assert the presence of a derivative thumbnail and service image
+    const service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
+    const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
+    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
+    const extracted_text = Selector('div.view-content').find('a').withText('Extracted Text.txt');
+
+    console.log('Checking for derivatives ...')
+
+    await t.expect(await tryUntilTrue(async () => {
+        const service_count = await service_derivative.count
+        const thumb_count = await thumb_derivative.count
+        const fits_count = await fits_derivative.count
+        const extracted_count = await extracted_text.count
+
+        console.log('Service_count: ', service_count, ', thumb count: ', thumb_count,
+            ', fits count: ', fits_count, ', extracted text: ', extracted_count)
+        if (service_count < 1 || thumb_count < 1 || fits_count < 1 || extracted_count < 1) {
+            await t.eval(() => location.reload(true));
+            return false;
+        }
+        return true;
+    })).eql(true, "Derivatives have not appeared");
+
+    await t.expect(service_derivative.count).eql(1);
+    await t.expect(thumb_derivative.count).eql(1);
+    await t.expect(fits_derivative.count).eql(1);
+    await t.expect(extracted_text.count).eql(1);
+}
