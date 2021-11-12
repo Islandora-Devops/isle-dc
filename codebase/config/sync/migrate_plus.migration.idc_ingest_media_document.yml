@@ -51,6 +51,10 @@ process:
     plugin: callback
     callable: date
     source: constants/DATE_FORMAT
+  _the_filename:
+      plugin: default_value
+      source: new_filename
+      default: '@_url_filename'
   _destination_dir:
     plugin: concat
     source:
@@ -61,7 +65,7 @@ process:
     source:
       - constants/DRUPAL_FS
       - '@_destination_dir'
-      - '@_url_filename'
+      - '@_the_filename'
   field_access_terms:
     -
       plugin: skip_on_empty
@@ -90,7 +94,7 @@ process:
     id_only: true
     destination: '@_destination_drupalpath'
     mimetype: mime_type
-    filename: '@_url_filename'
+    filename: '@_the_filename'
   field_mime_type: mime_type
   name/value: name
   field_media_of:
