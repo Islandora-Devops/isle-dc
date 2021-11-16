@@ -28,37 +28,38 @@ const checkFilename = async (t, itemName, mediaName, filename) => {
 }
 
 test("Filename setting via migration - Audio", async (t) => {
-  await checkFilename(t, "Filename Test Item - Changed", 'Moo Cow New Name', "CowMoo.mp3")
+  await checkFilename(t, "Filename Test - Audio - Changed", 'Moo Cow New Name', "CowMoo.mp3")
   await t.navigateTo(workbenchContentList);
-  await checkFilename(t, "Filename Test Item - Original", 'Moo Cow Orig Name', "moo.mp3")
+  await checkFilename(t, "Filename Test - Audio - Original", 'Moo Cow Orig Name', "moo.mp3")
 });
 
 test("Filename setting via migration - Document", async (t) => {
-  await checkFilename(t, "Filename Test Item - Changed", "Fuji Acros Datasheet", "ThePDF.pdf")
+  await checkFilename(t, "Filename Test - Document - Original", "Fuji Acros Datasheet", "ThePDF.pdf")
   await t.navigateTo(workbenchContentList);
-  await checkFilename(t, "Filename Test Item - Original", "Fuji Acros Datasheet", "Fuji_acros.pdf")
+  await checkFilename(t, "Filename Test - Document - Original", "Fuji Acros Datasheet", "Fuji_acros.pdf")
 });
 
 test("Filename setting via migration - Extracted Text", async (t) => {
-  await checkFilename(t, "Filename Test Item - Changed", "Hello World", "hiyaworld.txt");
+  // this was put on the Audio RI
+  await checkFilename(t, "Filename Test - Audio - Changed", "Hello World", "hiyaworld.txt");
   await t.navigateTo(workbenchContentList);
-  await checkFilename(t, "Filename Test Item - Original", "Hello World", "hello_world.txt");
+  await checkFilename(t, "Filename Test - Audio - Original", "Hello World", "hello_world.txt");
 });
 
 test("Filename setting via migration - File", async (t) => {
-  await checkFilename(t, "Filename Test Item - Changed", "Geo Tif file", "NewName.tfw");
+  await checkFilename(t, "Filename Test - File - Changed", "Geo Tif file", "NewName.tfw");
   await t.navigateTo(workbenchContentList);
-  await checkFilename(t, "Filename Test Item - Original", "Geo Tif file", "NEFF1851_GEO.tfw");
+  await checkFilename(t, "Filename Test - File - Original", "Geo Tif file", "NEFF1851_GEO.tfw");
 });
 
 test("Filename setting via migration - Image", async (t) => {
-  await checkFilename(t, "Filename Test Item - Changed", "Looking For Fossils", "family_trip.jpg");
+  await checkFilename(t, "Filename Test - Image - Changed", "Looking For Fossils", "family_trip.jpg");
   await t.navigateTo(workbenchContentList);
-  await checkFilename(t, "Filename Test Item - Original", "Tiff Image", "tiff.tif");
+  await checkFilename(t, "Filename Test - Image - Original", "Tiff Image", "tiff.tif");
 });
 
 test("Filename setting via migration - Video", async (t) => {
-  await checkFilename(t, "Filename Test Item - Changed", "Chair Pop Video", "ChairVideo.mp4");
+  await checkFilename(t, "Filename Test - Video - Changed", "Chair Pop Video", "ChairVideo.mp4");
   await t.navigateTo(workbenchContentList);
-  await checkFilename(t, "Filename Test Item - Original", "Chair Pop Video", "chair-pop-gif.mp4");
+  await checkFilename(t, "Filename Test - Video - Original", "Chair Pop Video", "chair-pop-gif.mp4");
 });
