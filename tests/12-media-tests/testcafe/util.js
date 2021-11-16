@@ -5,6 +5,7 @@ import url from "url";
 import http from "http";
 
 export const contentList = "https://islandora-idc.traefik.me/admin/content";
+export const workbenchContentList = "https://islandora-idc.traefik.me/admin/workbench/content/all";
 
 /** Find media for a repository object with the given name
  *

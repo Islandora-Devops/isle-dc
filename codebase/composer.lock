@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7ccfee2596716fa36ff934cb34de555",
+    "content-hash": "b88e9d14032a00beb0799947c8981ff7",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -8256,19 +8256,18 @@
         },
         {
             "name": "jhu-idc/migrate_file",
-            "version": "dev-8.x-1.x",
+            "version": "dev-file_uid_fix",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/migrate_file.git",
-                "reference": "1c0da9e22374eb5937e6e89018e56d7fde134bc5"
+                "reference": "955537f9158c137a558c2310fb0ee4e6e56aaef1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/migrate_file/zipball/1c0da9e22374eb5937e6e89018e56d7fde134bc5",
-                "reference": "1c0da9e22374eb5937e6e89018e56d7fde134bc5",
+                "url": "https://api.github.com/repos/jhu-idc/migrate_file/zipball/955537f9158c137a558c2310fb0ee4e6e56aaef1",
+                "reference": "955537f9158c137a558c2310fb0ee4e6e56aaef1",
                 "shasum": ""
             },
-            "default-branch": true,
             "type": "drupal-module",
             "license": [
                 "GPL-2.0+"
@@ -8282,7 +8281,7 @@
                 "issues": "https://www.drupal.org/project/issues/migrate_file",
                 "source": "http://cgit.drupalcode.org/migrate_file"
             },
-            "time": "2021-08-30T13:04:01+00:00"
+            "time": "2021-11-15T20:02:54+00:00"
         },
         {
             "name": "jhu-idc/reference_value_pair",

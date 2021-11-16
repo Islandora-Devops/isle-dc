@@ -1,6 +1,6 @@
-unique_id,name,original_name,mime_type,media_of,media_use,url
-media_format_file_tests_01,Geo Tif file,NEFF1851_GEO.tfw,application/octet-stream,::title:Migrated Geo Tiff Object,Original File,http://migration-assets/assets/file/NEFF1851_GEO.tfw
-media_format_file_tests_02,Test Zip File,file_test.zip,application/zip,::title:Migrated Zip Object,Original File,http://migration-assets/assets/file/file_test.zip
-media_format_file_tests_03,Test Tar File,file_test.tar,application/x-tar,::title:Migrated Tar Object,Original File,http://migration-assets/assets/file/file_test.tar
-media_format_file_tests_04,Test GZ File,file_test.tar.gz,application/gzip,::title:Migrated GZip Object,Original File,http://migration-assets/assets/file/file_test.tar.gz
-media_format_file_tests_05,Test TGZ File,file_test.tgz,application/gzip,::title:Migrated TGZ Object,Original File,http://migration-assets/assets/file/file_test.tgz
+unique_id,access_terms,name,original_name,mime_type,media_of,media_use,url
+media_format_file_tests_01,::name:Group A,Geo Tif file,NEFF1851_GEO.tfw,application/octet-stream,::title:Migrated Geo Tiff Object,Original File,http://migration-assets/assets/file/NEFF1851_GEO.tfw
+media_format_file_tests_02,::name:Group A,Test Zip File,file_test.zip,application/zip,::title:Migrated Zip Object,Original File,http://migration-assets/assets/file/file_test.zip
+media_format_file_tests_03,::name:Group A,Test Tar File,file_test.tar,application/x-tar,::title:Migrated Tar Object,Original File,http://migration-assets/assets/file/file_test.tar
+media_format_file_tests_04,::name:Group A,Test GZ File,file_test.tar.gz,application/gzip,::title:Migrated GZip Object,Original File,http://migration-assets/assets/file/file_test.tar.gz
+media_format_file_tests_05,::name:Group A,Test TGZ File,file_test.tgz,application/gzip,::title:Migrated TGZ Object,Original File,http://migration-assets/assets/file/file_test.tgz

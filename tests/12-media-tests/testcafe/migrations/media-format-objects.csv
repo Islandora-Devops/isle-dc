@@ -1,16 +1,16 @@
-unique_id,node_id,title,member_of,model
-derivative_io_01,,Derivative Repository Item One,::title:Derivative Collection,Image
-media_format_object_01,,Migrated Tiff Object,::title:Media Format Collection,Image
-media_format_object_02,,Uploaded Tiff Object,::title:Media Format Collection,Image
-media_format_object_03,,Migrated JPEG2000 Object,::title:Media Format Collection,Image
-media_format_object_04,,Uploaded JPEG2000 Object,::title:Media Format Collection,Image
-media_format_object_05,,Migrated Geo Tiff Object,::title:Media Format Collection,Binary
-media_format_object_06,,Uploaded Geo Tiff Object,::title:Media Format Collection,Binary
-media_format_object_07,,Migrated Zip Object,::title:Media Format Collection,Binary
-media_format_object_08,,Uploaded Zip Object,::title:Media Format Collection,Binary
-media_format_object_09,,Migrated Tar Object,::title:Media Format Collection,Binary
-media_format_object_10,,Uploaded Tar Object,::title:Media Format Collection,Binary
-media_format_object_11,,Migrated GZip Object,::title:Media Format Collection,Binary
-media_format_object_12,,Uploaded GZip Object,::title:Media Format Collection,Binary
-media_format_object_13,,Migrated TGZ Object,::title:Media Format Collection,Binary
-media_format_object_14,,Uploaded TGZ Object,::title:Media Format Collection,Binary
+unique_id,node_id,access_rights,access_terms,copyright,date_available,digital_publisher,resource_type,subject,title,member_of,model,years
+derivative_io_01,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Derivative Repository Item One,::title:Derivative Collection,Image,2019
+media_format_object_01,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Migrated Tiff Object,::title:Media Format Collection,Image,2019
+media_format_object_02,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Uploaded Tiff Object,::title:Media Format Collection,Image,2019
+media_format_object_03,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Migrated JPEG2000 Object,::title:Media Format Collection,Image,2019
+media_format_object_04,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Uploaded JPEG2000 Object,::title:Media Format Collection,Image,2019
+media_format_object_05,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Migrated Geo Tiff Object,::title:Media Format Collection,Binary,2019
+media_format_object_06,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Uploaded Geo Tiff Object,::title:Media Format Collection,Binary,2019
+media_format_object_07,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Migrated Zip Object,::title:Media Format Collection,Binary,2019
+media_format_object_08,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Uploaded Zip Object,::title:Media Format Collection,Binary,2019
+media_format_object_09,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Migrated Tar Object,::title:Media Format Collection,Binary,2019
+media_format_object_10,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Uploaded Tar Object,::title:Media Format Collection,Binary,2019
+media_format_object_11,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Migrated GZip Object,::title:Media Format Collection,Binary,2019
+media_format_object_12,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Uploaded GZip Object,::title:Media Format Collection,Binary,2019
+media_format_object_13,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Migrated TGZ Object,::title:Media Format Collection,Binary,2019
+media_format_object_14,,::name:Public digital access,::name:Group A,::name:Not Evaluated,2019-12-10,::name:Johns Hopkins Sheridan Libraries,::name:Image,::name:Media Photography,Uploaded TGZ Object,::title:Media Format Collection,Binary,2019

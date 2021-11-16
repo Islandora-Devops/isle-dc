@@ -1,4 +1,4 @@
-import { adminUser } from "./roles.js";
+import { globalAdminUser } from "./roles.js";
 import { findMediaOf } from "./util.js";
 import { tryUntilTrue } from "./util.js";
 import { download } from "./util.js";
@@ -7,9 +7,9 @@ import { uploadImageInUI , uploadFileInUI } from "./util.js";
 fixture`Media format tests`
   .page`https://islandora-idc.traefik.me/migrate_source_ui`.beforeEach(
   async (t) => {
-    await t.useRole(adminUser);
-  }
-);
+    // user created in formats.init.js
+    await t.useRole(globalAdminUser);
+  });
 
 test("Migrate tiff", async (t) => {
   await t

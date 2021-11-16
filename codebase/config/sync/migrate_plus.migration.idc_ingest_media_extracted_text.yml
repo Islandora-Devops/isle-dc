@@ -17,7 +17,7 @@ source:
   constants:
     STATUS: true
     DISPLAY: true
-    ADMIN: 1
+    ADMIN: -1
     DRUPAL_FS: 'private://'
     TMP_FS: /tmp/
     FORMAT: basic_html

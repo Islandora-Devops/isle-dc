@@ -1,21 +1,16 @@
-import {Selector} from 'testcafe';
-import {adminUser} from './roles.js';
-import {doMigration} from './util.js';
-import {migrationType} from './util.js';
-import {tryUntilTrue} from './util.js';
-
+import { Selector } from 'testcafe';
+import { globalAdminUser } from './roles.js';
+import { doMigration, migrationType, tryUntilTrue } from './util.js';
 
 fixture`Migration Derivative Tests`
     .page`https://islandora-idc.traefik.me/migrate_source_ui`
-    .beforeEach(async t => {
-        await t
-            .useRole(adminUser);
+    .beforeEach(
+    async (t) => {
+        // user created in formats.init.js
+        await t.useRole(globalAdminUser);
     });
 
-const selectMigration = Selector('#edit-migrations');
-const migrationOptions = selectMigration.find('option');
-
-const contentList = "https://islandora-idc.traefik.me/admin/content";
+const contentList = "https://islandora-idc.traefik.me/admin/workbench/content/all"
 
 test('Migrate Images for Derivative Generation', async t => {
 

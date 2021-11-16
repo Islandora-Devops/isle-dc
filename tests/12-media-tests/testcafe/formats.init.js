@@ -1,13 +1,14 @@
-import { adminUser } from "./roles.js";
+import { adminUser, globalAdminUser, createGlobalAdmin, createCLA } from "./roles.js";
 import { doMigration } from "./util.js";
 import { migrationType } from "./util.js";
 
-fixture`Ingest Media Formats`
+fixture`Ingest Media Formats and create users`
   .page`https://islandora-idc.traefik.me/migrate_source_ui`.beforeEach(
   async (t) => {
     await t.useRole(adminUser);
-  }
-);
+    await createGlobalAdmin(t);
+    await t.useRole(globalAdminUser);
+  });
 
 test("Migrate Images for testing format support", async (t) => {
   await doMigration(
@@ -95,3 +96,7 @@ test("Migrate Images for testing filename support", async (t) => {
   );
 });
 
+test("Create test users", async (t) => {
+    // could creat globalAdmin, but it's created in the fixture already
+    await createCLA(t, 'Islandora Access');
+});
