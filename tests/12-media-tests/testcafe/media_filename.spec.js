@@ -19,10 +19,9 @@ const checkFilename = async (t, itemName, mediaName, filename) => {
   // assert the presence of the original media
   const media = Selector('div.view-content').find('a').withText(mediaName);
   await t.expect(media.count).eql(1);
-
   await t.click(Selector(media.parent('tr').child('td').nth(6).find('a').withText('Edit')));
-
-  // assert that the filename is found on the page (orig name was moo.mp3)
+  
+  // assert the presence of the appropriate filename
   const file = Selector('#block-seven-content').find('a').withText(filename);
   await t.expect(file.count).eql(1);
 }
