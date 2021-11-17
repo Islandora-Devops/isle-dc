@@ -134,7 +134,7 @@
         "jhu-idc/idc_ui_module": "dev-main",
         "jhu-idc/islandora_defaults": "dev-8.x-1.x",
         "jhu-idc/islandora_repository_reports": "dev-main",
-        "jhu-idc/migrate_file": "dev-file_uid_fix",
+        "jhu-idc/migrate_file": "dev-8.x-1.x",
         "jhu_idc/idc_migration": "^2.0",
         "maennchen/zipstream-php": "^2.1",
         "seboettg/citeproc-php": "v2.2.5",
