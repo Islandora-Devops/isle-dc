@@ -1,0 +1,3 @@
+unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url,restricted_access,new_filename
+media_file_00001,Geo Tif file,:::media_accesscontrol_01||:::media_accesscontrol_02,example1.tfw,application/octet-stream,:::media_io_fn_5,Original File||Service File,http://migration-assets/assets/file/example1.tfw,1,NewName.tfw
+media_file_00002,Geo Tif file,:::media_accesscontrol_01||:::media_accesscontrol_02,example1.tfw,application/octet-stream,:::media_io_fn_6,Original File||Service File,http://migration-assets/assets/file/example1.tfw,1,

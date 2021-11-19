@@ -4,7 +4,8 @@ import path from "path";
 import url from "url";
 import http from "http";
 
-const contentList = "https://islandora-idc.traefik.me/admin/content";
+export const contentList = "https://islandora-idc.traefik.me/admin/content";
+export const workbenchContentList = "https://islandora-idc.traefik.me/admin/workbench/content/all";
 
 /** Find media for a repository object with the given name
  *
@@ -158,10 +159,13 @@ export const migrationType = {
   NEW_COLLECTION: "idc_ingest_new_collection",
   NEW_MEDIA_AUDIO: "idc_ingest_media_audio",
   NEW_MEDIA_DOCUMENT: "idc_ingest_media_document",
+  NEW_MEDIA_EXTRACTED_TEXT: "idc_ingest_media_extracted_text",
   NEW_MEDIA_FILE: "idc_ingest_media_file",
   NEW_MEDIA_IMAGE: "idc_ingest_media_image",
   NEW_MEDIA_VIDEO: "idc_ingest_media_video",
-  NEW_ACCESS_TERMS: "idc_ingest_taxonomy_islandora_accessterms"
+  NEW_ACCESS_TERMS: "idc_ingest_taxonomy_islandora_accessterms",
+  NEW_ACCESS_RIGHTS: "idc_ingest_taxonomy_accessrights",
+  NEW_SUBJECTS: "idc_ingest_taxonomy_subject"
 };
 
 /** Download the contents of a url into a file

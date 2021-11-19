@@ -1,0 +1,3 @@
+unique_id,name,access_terms,mime_type,media_of,media_use,url,restricted_access,new_filename
+media_ext_00001,Hello World,:::media_accesscontrol_01||:::media_accesscontrol_02,text/plain,:::media_io_fn_1,Original File||Service File,http://migration-assets/assets/extracted_text/hello_world.txt,1,hiyaworld.txt
+media_ext_00002,Hello World,:::media_accesscontrol_01||:::media_accesscontrol_02,text/plain,:::media_io_fn_2,Original File||Service File,http://migration-assets/assets/extracted_text/hello_world.txt,1,
