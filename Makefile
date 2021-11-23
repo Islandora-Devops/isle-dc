@@ -121,7 +121,7 @@ drupal-database:
 .PHONY: install
 .SILENT: install
 install: drupal-database
-	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites install_site"
+	docker-compose exec drupal with-contenv bash -lc "for_all_sites install_site"
 
 # Updates settings.php according to the environment variables.
 .PHONY: update-settings-php
@@ -316,18 +316,16 @@ demo: generate-secrets
 	$(MAKE) pull ENVIROMENT=demo
 	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
-	docker-compose exec -T drupal with-contenv bash -lc 'composer update'
-	$(MAKE) install ENVIRONMENT=demo
 	$(MAKE) update-settings-php ENVIROMENT=demo
-#	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIROMENT=demo
-#	$(MAKE) drupal-database ENVIROMENT=demo
-#	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql ENVIROMENT=demo
+	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIROMENT=demo
+	$(MAKE) drupal-database ENVIROMENT=demo
+	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql ENVIROMENT=demo
 	$(MAKE) hydrate ENVIROMENT=demo
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-#	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz ENVIROMENT=demo
-#	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
-#	$(MAKE) reindex-solr ENVIROMENT=demo
-#	$(MAKE) reindex-triplestore ENVIROMENT=demo
+	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz ENVIROMENT=demo
+	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
+	$(MAKE) reindex-solr ENVIROMENT=demo
+	$(MAKE) reindex-triplestore ENVIROMENT=demo
 
 .PHONY: local
 .SILENT: local
@@ -336,20 +334,55 @@ local: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=local
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
-	#mkdir -p $(CURDIR)/codebase
+	mkdir -p $(CURDIR)/codebase
 	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b install-profile https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush:^10.3'; \
 	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 	docker-compose up -d
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
-	# The - at the beginning is not a typo, it will allow this process to failing the make command.
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
+
+.PHONY: demo-install-profile
+.SILENT: demo-instal-profile
+demo-install-profile: generate-secrets
+	$(MAKE) download-default-certs ENVIROMENT=demo
+	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
+	$(MAKE) pull ENVIROMENT=demo
+	mkdir -p $(CURDIR)/codebase
+	docker-compose up -d --remove-orphans
+	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish initializing.\n"
+	sleep 10
+	$(MAKE) install
+	$(MAKE) update-settings-php ENVIROMENT=demo
+	$(MAKE) hydrate ENVIROMENT=demo
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
+	$(MAKE) initial_content
+	$(MAKE) login
+
+.PHONY: local-install-profile
+.SILENT: local-install-profile
+local-install-profile: generate-secrets
+	$(MAKE) download-default-certs ENVIROMENT=local
+	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
+	$(MAKE) pull ENVIRONMENT=local
+	mkdir -p $(CURDIR)/codebase
+	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b install-profile https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+	fi
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
+	docker-compose up -d --remove-orphans
+	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
+	$(MAKE) install ENVIRONMENT=local
+	$(MAKE) hydrate ENVIRONMENT=local
+	# The - at the beginning is not a typo, it will allow this process to failing the make command.
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
 	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
 	$(MAKE) initial_content
 	$(MAKE) login
 
