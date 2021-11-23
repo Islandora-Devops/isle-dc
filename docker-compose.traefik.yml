@@ -19,7 +19,7 @@ services:
     container_name: traefik
     # Do not set `api.insecure`, `api.dashboard`, `api.debug` to `true` in production.
     # Also do not expose database 3306/5432, as an entry point.
-    command: >
+    command: >-
       --api.insecure=true
       --api.dashboard=true
       --api.debug=true
@@ -36,7 +36,7 @@ services:
       --providers.docker.network=gateway
       --providers.docker.exposedByDefault=false
       --providers.file.filename=/etc/traefik/tls.yml
-      --providers.docker.defaultRule=Host(`${DOMAIN}`)
+      '--providers.docker.defaultRule=Host(`${DOMAIN}`)'
     ports:
       - 80:80       # drupal, cantaloupe, matomo
       - 443:443     # https for ^^^
