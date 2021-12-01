@@ -286,7 +286,7 @@ generate-secrets:
 		-v $(CURDIR)/scripts/generate-secrets.sh:/generate-secrets.sh \
 		-w / \
 		--entrypoint bash \
-		$(REPOSITORY)/drupal:$(TAG) -c /generate-secrets.sh
+		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: download-default-certs
@@ -384,6 +384,19 @@ help:
 		} \
 	} \
 	{lastLine = $$0}' $(MAKEFILE_LIST)
+
+IS_DRUPAL_PSSWD_FILE_READABLE := $(shell test -r secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD -a -w secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD && echo 1 || echo 0)
+CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 'sudo -k tee')
+
+.PHONY: set_admin_password
+.SILENT: set_admin_password
+## Sets the admin password and accomodates for permissions restrictions to the secrets directory. Only runs sudo when needed.
+set_admin_password:
+	@$(eval PASSWORD ?= $(shell bash -c 'read -s -p "New Password: " pwd; echo $$pwd'))
+	@echo "\n\nSetting admin password now"
+	docker-compose exec -T drupal with-contenv bash -lc 'drush user:password admin "$(PASSWORD)"'
+	echo "$(PASSWORD)" | $(CMD) secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD >> /dev/null
+	@echo "\ndone."
 
 LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
 
