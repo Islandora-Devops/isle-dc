@@ -68,7 +68,7 @@ test('Normal search', async (t) => {
     .click(term1.nonproxyTerm.field)
     .click(term1.nonproxyTerm.fields.withText('Title'))
     .click(Page.submitBtn)
-    .expect(Page.results.count).eql(2, { timeout: 30000 });
+    .expect(Page.results.count).eql(2);
 
   await t.click(Page.addTermBtn);
 
@@ -87,24 +87,24 @@ test('Collection filter', async (t) => {
   await pager.goToPage(3);
 
   await t
-    .expect(Page.results.count).eql(4, { timeout: 30000 })
+    .expect(Page.results.count).eql(4)
     .expect(pager.pager.withText('24 of 24 items').exists).ok();
 
   await t
     .click(Page.collectionsFilter.toggle) // Closed by default, need to open it first
     .typeText(Page.collectionsFilter.input, 'collection', { paste: true})
-    .expect(Page.collectionsFilter.suggestions.count).eql(10, { timeout: 30000 })
+    .expect(Page.collectionsFilter.suggestions.count).eql(10)
     .typeText(Page.collectionsFilter.input, 'duck', { replace: true, paste: true })
-    .expect(Page.collectionsFilter.suggestions.count).eql(2, { timeout: 30000 })
+    .expect(Page.collectionsFilter.suggestions.count).eql(2)
     .click(Page.collectionsFilter.suggestions.find('button').nth(0))
-    .expect(Page.collectionsFilter.selectedCollections.count).eql(1, { timeout: 30000 })
+    .expect(Page.collectionsFilter.selectedCollections.count).eql(1)
     .expect(Page.collectionsFilter.selectedCollections.withText('Duck Collection').exists).ok()
-    .expect(Page.results.count).eql(3, { timeout: 30000 })
+    .expect(Page.results.count).eql(3)
     .click(Page.collectionsFilter.clearBtn)
     .expect(Page.collectionsFilter.suggestions.exists).notOk()
     .click(Page.collectionsFilter.selectedCollections.withText('Duck Collection'))
     .expect(Page.collectionsFilter.selectedCollections.exists).notOk()
-    .expect(Page.results.count).eql(10, { timeout: 30000 });
+    .expect(Page.results.count).eql(10);
 });
 
 /**
