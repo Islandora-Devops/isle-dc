@@ -82,3 +82,14 @@ more portable.
 ```bash
 make database-dump DEST=/tmp/dump.sql
 ```
+
+## Drupal can't connect to a valid Solr container:
+
+**Error:**
+
+The server configured at `/admin/config/search/search-api` shows a failed connection to a properly configured Solr container.
+
+This can sometimes be caused by Docker containers not inheriting the DNS configurations from the host machine.
+
+To fix edit `/etc/resolv.conf` in both the Drupal and the Solr containers by adding a valid DNS entry ie `nameserver 223.5.5.5`
+
