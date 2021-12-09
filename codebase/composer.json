@@ -138,6 +138,7 @@
         "jhu_idc/idc_migration": "^2.0",
         "maennchen/zipstream-php": "^2.1",
         "seboettg/citeproc-php": "v2.2.5",
+        "symfony/string": "^5.4",
         "vlucas/phpdotenv": "^4.0",
         "webflo/drupal-finder": "^1.0.0",
         "zaporylie/composer-drupal-optimizations": "^1.0"
