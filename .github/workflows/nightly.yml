@@ -86,6 +86,7 @@ jobs:
           docker logs idc_crayfits_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/crayfits-${{ matrix.suite }}.log
           docker logs idc_fits_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/fits-${{ matrix.suite }}.log
           docker logs idc_houdini_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/houdini-${{ matrix.suite }}.log
+          docker logs idc_dlq_1 2>&1 | tee end-to-end/reports/${{ matrix.suite }}/dlq-${{ matrix.suite }}.log
       - name: upload reports
         if: always()
         uses: actions/upload-artifact@v2
