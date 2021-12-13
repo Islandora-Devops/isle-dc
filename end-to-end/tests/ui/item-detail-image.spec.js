@@ -60,8 +60,8 @@ test('Download', async (t) => {
     .expect(ImagePage.downloadModal.visibility().exists).notOk()
     .click(ImagePage.downloadBtn)
     .expect(ImagePage.downloadModal.visibility().exists).ok()
-    .expect(ImagePage.downloadModal.content.count).eql(3)
-    .expect(ImagePage.downloadModal.content.find('a[download]').count).eql(3);
+    .expect(ImagePage.downloadModal.content.count).eql(2)
+    .expect(ImagePage.downloadModal.content.find('a[download]').count).eql(2);
 });
 
 test('Export metadata', async (t) => {

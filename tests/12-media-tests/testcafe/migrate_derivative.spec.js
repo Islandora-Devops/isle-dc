@@ -45,16 +45,14 @@ test('Migrate Images for Derivative Generation', async t => {
     // (increase timeout in case derivatives haven't been created yet?)
     const service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
     const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
-    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
 
     console.log("Checking for derivatives ...")
 
     await t.expect(await tryUntilTrue(async () => {
         const service_count = await service_derivative.count
         const thumb_count = await thumb_derivative.count
-        const fits_count = await fits_derivative.count
-        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count, ", fits count:", fits_count);
-        if (service_count < 1 || thumb_count < 1 || fits_count < 1) {
+        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count);
+        if (service_count < 1 || thumb_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
@@ -63,12 +61,10 @@ test('Migrate Images for Derivative Generation', async t => {
 
     await t.expect(service_derivative.count).eql(1);
     await t.expect(thumb_derivative.count).eql(1);
-    await t.expect(fits_derivative.count).eql(1);
 });
 
 test('Test Derivatives Unique Id Field', async t => {
 
-    // note: FITS media do not have this field.
     const media_list = ['Service File.jpg', 'Thumbnail Image.jpg'];
     const io_name = "Derivative Repository Item One"
 
@@ -127,16 +123,14 @@ test('Test AudioVideo Derivative Generation Conditions', async t => {
     // (increase timeout in case derivatives haven't been created yet?)
     let service_derivative = Selector('div.view-content').find('a').withText('Service File.mp4');
     let thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
-    let fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
 
     console.log("Checking for derivatives ...")
 
     await t.expect(await tryUntilTrue(async () => {
         const service_count = await service_derivative.count
         const thumb_count = await thumb_derivative.count
-        const fits_count = await fits_derivative.count
-        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count, ", fits count:", fits_count);
-        if (service_count < 1 || thumb_count < 1 || fits_count < 1) {
+        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count);
+        if (service_count < 1 || thumb_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
@@ -145,7 +139,6 @@ test('Test AudioVideo Derivative Generation Conditions', async t => {
 
     await t.expect(service_derivative.count).eql(1);
     await t.expect(thumb_derivative.count).eql(1);
-    await t.expect(fits_derivative.count).eql(1);
 
     //
     // 2) there should be one video w/o a deriv
@@ -173,16 +166,14 @@ test('Test AudioVideo Derivative Generation Conditions', async t => {
     // (increase timeout in case derivatives haven't been created yet?)
     service_derivative = Selector('div.view-content').find('a').withText('Service File.mp4');
     thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
-    fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
 
     console.log("Checking for derivatives ...")
 
     await t.expect(await tryUntilTrue(async () => {
         const service_count = await service_derivative.count
         const thumb_count = await thumb_derivative.count
-        const fits_count = await fits_derivative.count
-        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count, ", fits count:", fits_count);
-        if (thumb_count < 1 || fits_count < 1) {
+        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count);
+        if (thumb_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
@@ -192,7 +183,6 @@ test('Test AudioVideo Derivative Generation Conditions', async t => {
     // there should be no service file. It could show up later, so this might be a weak test.
     await t.expect(service_derivative.count).eql(0);
     await t.expect(thumb_derivative.count).eql(1);
-    await t.expect(fits_derivative.count).eql(1);
 
     //
     // 3) there should be one audio file with a deriv
@@ -216,18 +206,16 @@ test('Test AudioVideo Derivative Generation Conditions', async t => {
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).notContains('Service File');
 
-    // assert the presence of a derivative service image and FITS file
+    // assert the presence of a derivative service image
     // (increase timeout in case derivatives haven't been created yet?)
     service_derivative = Selector('div.view-content').find('a').withText('Service File.mp3');
-    fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
 
     console.log("Checking for derivatives ...")
 
     await t.expect(await tryUntilTrue(async () => {
         const service_count = await service_derivative.count
-        const fits_count = await fits_derivative.count
-        console.log("Service_count: ", service_count, ", fits count:", fits_count);
-        if (service_count < 1 || fits_count < 1) {
+        console.log("Service_count: ", service_count);
+        if (service_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
@@ -235,7 +223,6 @@ test('Test AudioVideo Derivative Generation Conditions', async t => {
     })).eql(true, "Derivatives have not appeared");
 
     await t.expect(service_derivative.count).eql(1);
-    await t.expect(fits_derivative.count).eql(1);
 
     //
     // 4) there should be one audio file w/o a deriv
@@ -259,27 +246,12 @@ test('Test AudioVideo Derivative Generation Conditions', async t => {
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Service File');
 
-    // check for the presence of a Service and FITs file. Though there should not be
+    // check for the presence of a Service. Though there should not be
     // a separate Service File
     service_derivative = Selector('div.view-content').find('a').withText('Service File.mp3');
-    fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
-
-    console.log("Checking for derivatives ...")
-
-    await t.expect(await tryUntilTrue(async () => {
-        const service_count = await service_derivative.count
-        const fits_count = await fits_derivative.count
-        console.log("Service_count: ", service_count, ", fits count:", fits_count);
-        if (fits_count < 1) {
-            await t.eval(() => location.reload(true));
-            return false;
-        }
-        return true;
-    })).eql(true, "Derivatives have not appeared");
 
     // there should be no service file. It could show up later, so this might be a weak test.
     await t.expect(service_derivative.count).eql(0);
-    await t.expect(fits_derivative.count).eql(1);
 });
 
 test('Migrate PDF for Derivative Generation', async t => {
@@ -310,23 +282,20 @@ test('Migrate PDF for Derivative Generation', async t => {
     await t.expect(media.parent('tr').child('td').nth(3).innerText).eql('application/pdf')
     await t.expect(media.parent('tr').child('td').nth(4).innerText).contains('Original File')
 
-    // assert the presence of a derivative thumbnail and fits file
+    // assert the presence of a derivative thumbnail
     // (increase timeout in case derivatives haven't been created yet?)
     // no service files are generated for PDFs
     const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.png');
-    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
     const ocr_derivative = Selector('div.view-content').find('a').withText('Extracted Text.txt');
 
     console.log("Checking for derivatives ...")
 
     await t.expect(await tryUntilTrue(async () => {
         const thumb_count = await thumb_derivative.count
-        const fits_count = await fits_derivative.count
         const ocr_count = await ocr_derivative.count
 
-        console.log('thumb count: ', thumb_count, ', fits count: ', fits_count,
-          ', extracted text count: ', ocr_count);
-        if (thumb_count < 1 || fits_count < 1 || ocr_count < 1) {
+        console.log('thumb count: ', thumb_count, ', extracted text count: ', ocr_count);
+        if (thumb_count < 1 || ocr_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
@@ -334,7 +303,6 @@ test('Migrate PDF for Derivative Generation', async t => {
     })).eql(true, "Derivatives have not appeared");
 
     await t.expect(thumb_derivative.count).eql(1);
-    await t.expect(fits_derivative.count).eql(1);
     await t.expect(ocr_derivative.count).eql(1);
 });
 
@@ -364,17 +332,15 @@ test('Test Collection Derivative Generation Condition: Image', async t => {
     // assert the presence of a derivative thumbnail and service image
     const service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
     const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
-    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
 
     console.log("Checking for derivatives ...")
 
     await t.expect(await tryUntilTrue(async () => {
         const service_count = await service_derivative.count
         const thumb_count = await thumb_derivative.count
-        const fits_count = await fits_derivative.count
 
-        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count, ", fits count:", fits_count);
-        if (service_count < 1 || thumb_count < 1 || fits_count < 1) {
+        console.log("Service_count: ", service_count, ", thumb count: ", thumb_count);
+        if (service_count < 1 || thumb_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
@@ -383,7 +349,6 @@ test('Test Collection Derivative Generation Condition: Image', async t => {
 
     await t.expect(service_derivative.count).eql(1);
     await t.expect(thumb_derivative.count).eql(1);
-    await t.expect(fits_derivative.count).eql(1);
 });
 
 test('Test Paged Content Derivative Generation Condition: Paged Content', async t => {
@@ -465,7 +430,6 @@ const checkChildPage = async (t, pageItemName, mediaName, mediaType, mimeType) =
     // assert the presence of a derivative thumbnail and service image
     const service_derivative = Selector('div.view-content').find('a').withText('Service File.jpg');
     const thumb_derivative = Selector('div.view-content').find('a').withText('Thumbnail Image.jpg');
-    const fits_derivative = Selector('div.view-content').find('a').withText('FITS File.xml');
     const extracted_text = Selector('div.view-content').find('a').withText('Extracted Text.txt');
 
     console.log('Checking for derivatives ...')
@@ -473,12 +437,11 @@ const checkChildPage = async (t, pageItemName, mediaName, mediaType, mimeType) =
     await t.expect(await tryUntilTrue(async () => {
         const service_count = await service_derivative.count
         const thumb_count = await thumb_derivative.count
-        const fits_count = await fits_derivative.count
         const extracted_count = await extracted_text.count
 
         console.log('Service_count: ', service_count, ', thumb count: ', thumb_count,
-            ', fits count: ', fits_count, ', extracted text: ', extracted_count)
-        if (service_count < 1 || thumb_count < 1 || fits_count < 1 || extracted_count < 1) {
+            ', extracted text: ', extracted_count)
+        if (service_count < 1 || thumb_count < 1 || extracted_count < 1) {
             await t.eval(() => location.reload(true));
             return false;
         }
@@ -487,6 +450,5 @@ const checkChildPage = async (t, pageItemName, mediaName, mediaType, mimeType) =
 
     await t.expect(service_derivative.count).eql(1);
     await t.expect(thumb_derivative.count).eql(1);
-    await t.expect(fits_derivative.count).eql(1);
     await t.expect(extracted_text.count).eql(1);
 }

@@ -35,7 +35,6 @@ const (
 	expectedOriginalVideoCount          = 2
 	expectedOriginalImageCount          = 5
 	expectedDerivativeThumbCount        = expectedRepoObjectCount
-	expectedDerivativeFitsCount         = expectedRepoObjectCount - 1                                   // TODO: the first image doesn't have a FITS file
 	expectedDerivativeExtractedTxtCount = expectedOriginalDocumentsMediaCount                           // Only the PDF has extracted text
 	expectedDerivativeServiceCount      = expectedRepoObjectCount - expectedOriginalDocumentsMediaCount // The PDF doesn't have a service file; TODO: Missing service files for the large and small video
 )
@@ -53,8 +52,6 @@ var expectedCount = struct {
 	originalImages int
 	// The expected number of derivative thumbnails generated after migration
 	derivativeThumbnails int
-	// The expected number of FITS technical metadata generated after migration
-	derivativeFits int
 	// The expected number of extracted text media generated after migration
 	derivativeExtractedText int
 	// The expected number of service files generated after migration
@@ -66,7 +63,6 @@ var expectedCount = struct {
 	expectedOriginalVideoCount,
 	expectedOriginalImageCount,
 	expectedDerivativeThumbCount,
-	expectedDerivativeFitsCount,
 	expectedDerivativeExtractedTxtCount,
 	expectedDerivativeServiceCount,
 }
@@ -275,60 +271,6 @@ func Test_Derivative_Thumbnail_Media(t *testing.T) {
 			}, time.Now().Add(time.Duration(timeout)*time.Millisecond), 1000, 2.0)
 
 			assert.Equal(t, done, err, "Failed retrieving '%s': %s", expectedMedia.NameOrTitle(), err)
-			wg.Done()
-		}()
-	}
-
-	wg.Wait()
-}
-
-func Test_Derivative_Fits_Media(t *testing.T) {
-	// Run derivative tests in parallel to avoid long wait times
-	t.Parallel()
-
-	// Collect the filenames of the expected fits media
-	// TODO: media-image-fits-01 won't have one
-	filenames := filenamesMatching(t, "fits")
-	assert.Len(t, filenames, expectedCount.derivativeFits,
-		"Expected %d files but got %d", expectedCount.derivativeFits, len(filenames))
-
-	// Execute each request for fits media in its own goroutine
-
-	wg := sync.WaitGroup{}
-	wg.Add(len(filenames))
-	for _, filename := range filenames {
-		expectedMedia := &model.ExpectedMediaGeneric{}
-		unmarshalErr := unmarshal(filename, expectedMedia)
-		assert.Nil(t, unmarshalErr, "error unmarshaling '%s': %s", filename, unmarshalErr)
-
-		var filteredMedia filterable
-		filteredMedia = applyDerivedMediaFilter(expectedMedia, expectedMedia.MediaOf)
-
-		actual := &model.JsonApiFitsMedia{}
-
-		go func() {
-			err := doUntil(func() error {
-				var err error
-				assertExists(t, filteredMedia, actual, func(expected, actual interface{}) {
-					jsonApiData := actual.(*model.JsonApiFitsMedia).JsonApiData
-					if len(jsonApiData) == 1 {
-						assert.NotEmpty(t, expectedMedia.NameOrTitle())
-						assert.Contains(t, expectedMedia.NameOrTitle(), stripPrefix("-", jsonApiData[0].JsonApiAttributes.Name))
-						assertParentObject(t, expectedMedia)
-						err = done
-					}
-				})
-
-				if len(actual.JsonApiData) > 1 {
-					err = errors.New(fmt.Sprintf("too many results retrieving JSONAPI entity %s, bundle %s, %s %s",
-						expectedMedia.EntityType(), expectedMedia.EntityBundle(), expectedMedia.Field(), expectedMedia.NameOrTitle()))
-				}
-
-				return err
-			}, time.Now().Add(defaultTimeout*time.Millisecond), 1000, 2.0)
-
-			assert.Equal(t, done, err, "Failed retrieving '%s': %s", expectedMedia.NameOrTitle(), err)
-
 			wg.Done()
 		}()
 	}

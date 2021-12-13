@@ -53,9 +53,9 @@ process:
     callable: date
     source: constants/DATE_FORMAT
   _the_filename:
-      plugin: default_value
-      source: new_filename
-      default: '@_url_filename'
+    plugin: default_value
+    source: new_filename
+    default: '@_url_filename'
   _destination_dir:
     plugin: concat
     source:
