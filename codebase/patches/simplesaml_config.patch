@@ -438,7 +438,7 @@ new file mode 100644
 index 00000000..399dde26
 --- /dev/null
 +++ b/config/config.php
-@@ -0,0 +1,1225 @@
+@@ -0,0 +1,1224 @@
 +<?php
 +/*
 + * The configuration of SimpleSAMLphp
@@ -1468,7 +1468,6 @@ index 00000000..399dde26
 +            'urn:oid:1.3.6.1.4.1.5923.1.1.1.1' => 'eduPersonAffiliation',
 +            'urn:oid:1.3.6.1.4.1.5923.1.1.1.13' => 'eduPersonUniqueId',
 +            'urn:oid:1.3.6.1.4.1.5923.1.1.1.6' => 'eduPersonPrincipalName',
-+            'urn:oid:1.2.840.113556.1.4.656' => 'eduPersonPrincipalName',
 +            'urn:oid:1.3.6.1.4.1.5923.1.1.1.9' => 'eduPersonScopedAffiliation',
 +            'urn:oid:2.16.840.1.113730.3.1.3' => 'employeeNumber',
 +            'urn:oid:2.16.840.1.113730.3.1.241' => 'displayName',
