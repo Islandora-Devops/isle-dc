@@ -61,6 +61,12 @@ services:
         aliases:
           - ${DOMAIN}
       gateway: {}
+    deploy:
+      resources:
+          limits:
+            memory: ${TRAEFIK_MEMORY_LIMIT:-8G}
+          reservations:
+            memory: 4G
   drupal:
     depends_on:
       - traefik

@@ -11,3 +11,9 @@ services:
       ALPACA_HOUDINI_TIMEOUT: ${ALPACA_HOUDINI_TIMEOUT:-10000}
       ALPACA_HOMARUS_TIMEOUT: ${ALPACA_HOMARUS_TIMEOUT:-10000}
       ALPACA_FITS_TIMEOUT: ${ALPACA_HOMARUS_TIMEOUT:-10000}
+    deploy:
+      resources:
+          limits:
+            memory: ${ALPACA_MEMORY_LIMIT:-2G}
+          reservations:
+            memory: 1G

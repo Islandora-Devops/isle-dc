@@ -26,3 +26,9 @@ services:
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.tls=true
     networks:
       default:
+    deploy:
+      resources:
+          limits:
+            memory: ${CANTALOUPE_MEMORY_LIMIT:-5G}
+          reservations:
+            memory: 1G

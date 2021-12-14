@@ -35,3 +35,9 @@ services:
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.rule=Host(`${DOMAIN}`) && PathPrefix(`/matomo`)
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.tls=true
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.middlewares=${COMPOSE_PROJECT_NAME-isle-dc}-matomo
+    deploy:
+      resources:
+          limits:
+            memory: ${MATOMO_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M

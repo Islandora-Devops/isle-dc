@@ -27,3 +27,9 @@ services:
       - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-mysql_tcp.rule=HostSNI(`*`)
     networks:
       default:
+    deploy:
+      resources:
+          limits:
+            memory: ${MARIADB_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M

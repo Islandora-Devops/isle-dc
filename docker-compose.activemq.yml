@@ -20,3 +20,9 @@ services:
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-activemq_http.entrypoints=activemq
     networks:
       default:
+    deploy:
+      resources:
+          limits:
+            memory: ${ACTIVEMQ_MEMORY_LIMIT:-2G}
+          reservations:
+            memory: 1G

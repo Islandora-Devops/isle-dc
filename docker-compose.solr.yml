@@ -19,3 +19,9 @@ services:
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-solr.loadbalancer.server.port=8983
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-solr_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-solr
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-solr_http.entrypoints=solr
+    deploy:
+      resources:
+          limits:
+            memory: ${SOLR_MEMORY_LIMIT:-8G}
+          reservations:
+            memory: 6G

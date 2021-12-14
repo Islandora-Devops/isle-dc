@@ -8,6 +8,18 @@ services:
     image: ${REPOSITORY:-islandora}/crayfits:${TAG:-latest}
     depends_on:
       - fits
+    deploy:
+      resources:
+          limits:
+            memory: ${CRAYFITS_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M
   fits:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/fits:${TAG:-latest}
+    deploy:
+      resources:
+          limits:
+            memory: ${FITS_MEMORY_LIMIT:-2G}
+          reservations:
+            memory: 1000M
