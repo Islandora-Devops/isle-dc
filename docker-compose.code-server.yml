@@ -21,7 +21,7 @@ services:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/code-server:${TAG:-latest}
     labels:
-      - traefik.enable=true
+      - traefik.enable=${EXPOSE_CODE_SERVER:-false}
       # code-server  
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-code-server.loadbalancer.server.port=8443
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-code-server_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-code-server

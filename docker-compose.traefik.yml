@@ -20,9 +20,9 @@ services:
     # Do not set `api.insecure`, `api.dashboard`, `api.debug` to `true` in production.
     # Also do not expose database 3306/5432, as an entry point.
     command: >-
-      --api.insecure=true
-      --api.dashboard=true
-      --api.debug=true
+      --api.insecure=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      --api.dashboard=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      --api.debug=${EXPOSE_TRAEFIK_DASHBOARD:-false}
       --entryPoints.http.address=:80
       --entryPoints.https.address=:443
       --entryPoints.mysql.address=:3306
@@ -41,14 +41,14 @@ services:
       - 80:80       # drupal, cantaloupe, matomo
       - 443:443     # https for ^^^
       # Don't do any of these in production
-      - 3306:3306   # mysql
-      - 5432:5432   # postgres
-      - 8080:8080   # traefik admin dashboard - helpful for debugging
-      - 8081:8081   # fedora 
-      - 8082:8082   # blazegraph      
-      - 8161:8161   # activemq
-      - 8983:8983   # solr
-      - 8443:8443   # code-server
+      - ${MYSQL_PORT:-3306}:3306   # mysql
+      - ${POSTGRES_PORT:-5432}:5432   # postgres
+      - ${TRAEFIK_DASHBOARD_PORT:-8080}:8080   # traefik admin dashboard - helpful for debugging
+      - ${FEDORA_PORT:-8081}:8081   # fedora
+      - ${BLAZEGRAPH_PORT:-8082}:8082   # blazegraph
+      - ${ACTIVEMQ_PORT:-8161}:8161   # activemq
+      - ${SOLR_PORT:-8983}:8983   # solr
+      - ${CODE_SERVER_PORT:-8443}:8443   # code-server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./tls.yml:/etc/traefik/tls.yml

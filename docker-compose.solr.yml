@@ -15,7 +15,7 @@ services:
       default:
     labels:
       # Do not expose in production.
-      - traefik.enable=true
+      - traefik.enable=${EXPOSE_SOLR:-false}
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-solr.loadbalancer.server.port=8983
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-solr_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-solr
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-solr_http.entrypoints=solr

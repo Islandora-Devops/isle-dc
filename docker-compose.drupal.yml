@@ -21,7 +21,7 @@ services:
       PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
       PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
     labels:
-      - traefik.enable=true
+      - traefik.enable=${EXPOSE_DRUPAL:-true}
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
       - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.scheme=https
       - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.permanent=true
