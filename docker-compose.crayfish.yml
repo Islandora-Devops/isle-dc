@@ -8,12 +8,30 @@ services:
   homarus:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/homarus:${TAG:-latest}
+    deploy:
+      resources:
+          limits:
+            memory: ${HOMARUS_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M
   houdini:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/houdini:${TAG:-latest}
+    deploy:
+      resources:
+          limits:
+            memory: ${HOUDINI_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M
   hypercube:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/hypercube:${TAG:-latest}
+    deploy:
+      resources:
+          limits:
+            memory: ${HYPERCUBE_MEMORY_LIMIT:-512M}
+          reservations:
+            memory: 256M
   milliner:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/milliner:${TAG:-latest}
@@ -22,6 +40,18 @@ services:
     networks:
       default:
       gateway:
+    deploy:
+      resources:
+          limits:
+            memory: ${MILLINER_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M
   recast:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/recast:${TAG:-latest}
+    deploy:
+      resources:
+          limits:
+            memory: ${RECAST_MEMORY_LIMIT:-1G}
+          reservations:
+            memory: 512M

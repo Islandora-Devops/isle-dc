@@ -157,7 +157,7 @@ Then you can `git push` your site to Github and `git clone` it down whenever you
 This environment is used to run your custom `drupal` image which can be produced
 outside of this repository. You can specify the image in your `.env` file using
 the settings `PROJECT_DRUPAL_DOCKERFILE` if you want to build it in the context
-of this repository.
+of this repository. You can also set the memory limits for each containers here as well.
 
 For convenience a `sample.Dockerfile` is provided from which you can generate a
 custom image from the [codebase](./codebase) folder. For example if you followed

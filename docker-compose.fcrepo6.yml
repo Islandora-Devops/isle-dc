@@ -28,3 +28,9 @@ services:
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo.loadbalancer.server.port=80
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo_http.entrypoints=fcrepo
+    deploy:
+      resources:
+          limits:
+            memory: ${FCREPO_MEMORY_LIMIT:-2G}
+          reservations:
+            memory: 1G

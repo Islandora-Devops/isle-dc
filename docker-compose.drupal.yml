@@ -35,3 +35,9 @@ services:
     networks:
       default:
       gateway:
+    deploy:
+      resources:
+          limits:
+            memory: ${DRUPAL_MEMORY_LIMIT:-512M}
+          reservations:
+            memory: 256M
