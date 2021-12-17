@@ -74,7 +74,7 @@ DATABASE_SERVICES := $(sort $(DATABASE_SERVICES))
 # The services to be run (order is important), as services can override one
 # another. Traefik must be last if included as otherwise its network
 # definition for `gateway` will be overriden.
-SERVICES := $(REQUIRED_SERIVCES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(TRAEFIK_SERVICE) $(SECRETS) $(CODE_SERVER_SERVICE)
+SERVICES := $(REQUIRED_SERIVCES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(SECRETS) $(CODE_SERVER_SERVICE) $(TRAEFIK_SERVICE)
 
 default: download-default-certs docker-compose.yml pull
 
