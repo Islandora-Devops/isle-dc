@@ -8,9 +8,6 @@ networks:
     internal: true
   gateway:
     external: true
-secrets:
-  CODE_SERVER_PASSWORD:
-    file: "./secrets/CODE_SERVER_PASSWORD"
 services:
   code-server:
     environment:
@@ -40,8 +37,6 @@ services:
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.entrypoints=https
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.rule=Host(`${DOMAIN}`)
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls=true
-    secrets:
-      - CODE_SERVER_PASSWORD
     volumes:
       # Mount and serve contents of Drupal site.
       - type: volume
