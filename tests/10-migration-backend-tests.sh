@@ -9,7 +9,7 @@ TESTCAFE_TESTS_FOLDER="$BASE_TEST_FOLDER/testcafe"
 startMigrationAssetsContainer
 
 # Execute migrations using testcafe
-docker run --network gateway -v "${TESTCAFE_TESTS_FOLDER}":/tests testcafe/testcafe --screenshots path=/tests/screenshots,takeOnFails=true chromium /tests/**/*.js
+docker run --network gateway -v "${TESTCAFE_TESTS_FOLDER}":/tests testcafe/testcafe:"${TESTCAFE_VERSION}" --screenshots path=/tests/screenshots,takeOnFails=true chromium /tests/**/*.js
 
 # Verify migrations using go
 # Build docker image (TODO: should it be defined in docker-compose.yml to avoid any env issues?)

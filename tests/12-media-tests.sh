@@ -9,5 +9,5 @@ use_env "DRUPAL_DEFAULT_MIGRATIONS_VALIDATE=false"
 startMigrationAssetsContainer
 
 # Execute migrations using testcafe
-docker run --rm --env-file=$(pwd)/.env --network gateway -v "${TESTCAFE_TESTS_FOLDER}":/tests testcafe/testcafe --skip-js-errors --screenshots path=/tests/screenshots,takeOnFails=true chromium /tests/**/*.init.js
-docker run --rm --env-file=$(pwd)/.env --network gateway -v "${TESTCAFE_TESTS_FOLDER}":/tests testcafe/testcafe --skip-js-errors --screenshots path=/tests/screenshots,takeOnFails=true chromium /tests/**/*.spec.js
+docker run --rm --env-file=$(pwd)/.env --network gateway -v "${TESTCAFE_TESTS_FOLDER}":/tests testcafe/testcafe:"${TESTCAFE_VERSION}" --skip-js-errors --screenshots path=/tests/screenshots,takeOnFails=true chromium /tests/**/*.init.js
+docker run --rm --env-file=$(pwd)/.env --network gateway -v "${TESTCAFE_TESTS_FOLDER}":/tests testcafe/testcafe:"${TESTCAFE_VERSION}" --skip-js-errors --screenshots path=/tests/screenshots,takeOnFails=true chromium /tests/**/*.spec.js
