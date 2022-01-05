@@ -58,6 +58,15 @@ test('Shows both collections and repo items', async (t) => {
     .expect(Page.results.withText('Mallard').exists).ok();
 });
 
+test('Boolean operators still work as expected', async (t) => {
+  await t
+    .typeText(Page.searchInput, 'wild OR plastic', { paste: true, replace: true })
+    .click(Page.searchSubmit)
+    .expect(Page.results.count).eql(2)
+    // The two items should be present, but not the sub collection
+    .expect(Page.results.withText('SubDuck Collection').exists).notOk();
+});
+
 test('Facet toggle', async (t) => {
   await t.expect(Page.facetCategories.count).eql(3);
 

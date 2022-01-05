@@ -149,3 +149,36 @@ test('Date filter will reset current page', async (t) => {
     .expect(pager.pager.withText('5 of 5 items').exists).ok();
 
 });
+
+/**
+ * Try a manually entered boolean query inside the advanced search
+ *
+ * Expected search: ?query="plastic material"~10 OR (test) NOT (item AND rendering)
+ */
+test('Compound boolean search', async (t) => {
+  const term1 = Page.queryTerm(0);
+
+  await t
+    .click(term1.proxy)
+    .typeText(term1.proxyTerm.termA, 'plastic', { paste: true, replace: true})
+    .typeText(term1.proxyTerm.range, '10', { paste: true, replace: true})
+    .typeText(term1.proxyTerm.termB, 'material', { paste: true, replace: true});
+
+  const term2 = Page.queryTerm(1);
+
+  await t
+    .click(term2.opOr)
+    .typeText(term2.nonproxyTerm.term, 'test', { paste: true, replace: true});
+
+  const term3 = Page.queryTerm(2);
+
+  await t
+    .click(term3.opNot)
+    .typeText(term3.nonproxyTerm.term, 'item AND rendering', { paste: true, replace: true});
+
+  await t
+    .click(Page.submitBtn)
+    .expect(Page.results.count).eql(5)
+    .expect(Page.results.withText('A video item').exists).notOk()
+    .expect(Page.results.withText('rubber duck').exists).ok();
+});
