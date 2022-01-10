@@ -9,7 +9,9 @@ function main {
     create_database "${site}"
     # Needs to be set to do an install from existing configuration.
     drush islandora:settings:create-settings-if-missing
+    local previous_owner_group=$(allow_settings_modifications ${site})
     drush islandora:settings:set-config-sync-directory "${DRUPAL_DEFAULT_CONFIGDIR}"
+    restore_settings_ownership ${site} ${previous_owner_group}
     install_site "${site}"
     # Settings like the hash / flystem can be affected by environment variables at runtime.
     update_settings_php "${site}"
