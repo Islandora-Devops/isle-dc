@@ -319,6 +319,11 @@ demo: generate-secrets
 	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
 	$(MAKE) reindex-solr ENVIROMENT=demo
 	$(MAKE) reindex-triplestore ENVIROMENT=demo
+	docker-compose exec -T drupal with-contenv bash -lc "composer require 'drupal/adminimal_theme:^1.6' --prefer-dist --optimize-autoloader -W"
+	docker-compose exec -T drupal with-contenv bash -lc 'drush theme:enable adminimal_theme'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush config-set system.theme admin adminimal_theme -y'
+	docker-compose exec -T drupal with-contenv bash -lc "composer require 'drupal/adminimal_admin_toolbar:^1.11' --prefer-dist --optimize-autoloader -W"
+	docker-compose exec -T drupal with-contenv bash -lc 'drush pm:enable -y adminimal_admin_toolbar'
 
 .PHONY: local
 .SILENT: local
