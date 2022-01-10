@@ -72,7 +72,4 @@ $config['google_tag.container.idc_gtm_info']['container_id'] = getenv('DRUPAL_GT
 # Make the timeout for the default Guzzle client something crazy big to avoid timeouts on large media
 $settings['http_client_config']['timeout'] = 99999999;
 
-$settings['trusted_host_patterns'] = [
-  '^.+\.traefik\.me$',
-  '^.+\.library\.jhu\.edu$',
- ];
+$settings['trusted_host_patterns'] = explode(',',getenv('TRUSTED_HOST_LIST'));
