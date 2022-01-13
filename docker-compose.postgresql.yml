@@ -24,7 +24,7 @@ services:
     # Since this is not http, but tcp traffic it does does not understand the concept of a "host".
     # so we must dedicate a port to it in traefik, and direct all traffic to this router: HostSNI(`*`).
     labels:
-      - traefik.enable=true
+      - traefik.enable=${EXPOSE_POSTGRES:-false}
       - traefik.tcp.services.${COMPOSE_PROJECT_NAME-isle-dc}-postgresql.loadbalancer.server.port=5432
       - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-postgresql_tcp.service=${COMPOSE_PROJECT_NAME-isle-dc}-postgresql
       - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-postgresql_tcp.entrypoints=postgresql
