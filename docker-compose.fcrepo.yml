@@ -24,7 +24,7 @@ services:
       default:
     labels:
       # Do not expose in production.
-      - traefik.enable=true
+      - traefik.enable=${EXPOSE_FEDORA:-false}
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo.loadbalancer.server.port=80
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo_http.entrypoints=fcrepo

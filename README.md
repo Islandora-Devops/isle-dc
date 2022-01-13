@@ -263,6 +263,11 @@ The code-server service can be disabled/enabled via the
 INCLUDE_CODE_SERVER_SERVICE=true
 ```
 
+* Run `make local`, `make up`, or `make demo` to build the containers and local file system(s).
+* Then modify the `.env` file.
+* Then `make pull` then `make up` to fetch the builds.
+It will then report it created the **code-server** and recreated **traefik** and **drupal** containers.
+
 By default this will accessible at
 [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/).
 

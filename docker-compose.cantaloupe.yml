@@ -10,10 +10,14 @@ services:
   cantaloupe:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/cantaloupe:${TAG:-latest}
+    environment:
+      CANTALOUPE_DELEGATE_SCRIPT_ENABLED: ${CANTALOUPE_DELEGATE_SCRIPT_ENABLED} # "true"
+      CANTALOUPE_DELEGATE_SCRIPT_PATHNAME: ${CANTALOUPE_DELEGATE_SCRIPT_PATHNAME} #/opt/tomcat/bin/delegates.rb
+      CANTALOUPE_HTTPSOURCE_LOOKUP_STRATEGY: ${CANTALOUPE_HTTPSOURCE_LOOKUP_STRATEGY} # ScriptLookupStrategy
     volumes:
       - cantaloupe-data:/data
     labels:
-      - traefik.enable=true
+      - traefik.enable=${EXPOSE_CANTALOUPE:-true}
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe.loadbalancer.server.port=80
       - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.scheme=https
       - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.permanent=true
