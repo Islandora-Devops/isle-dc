@@ -23,7 +23,8 @@
 ## Introduction
 
 [Docker Compose] project for creating and managing an Islandora 8 instance
-using [Docker] containers from [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit).
+using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora) 
+that were created by [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit).
 
 In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on configuration
 that you supply in a `.env` file.  And there are three use cases we're trying to accomplish:
@@ -261,6 +262,11 @@ The code-server service can be disabled/enabled via the
 # Includes `code-server` as a service.
 INCLUDE_CODE_SERVER_SERVICE=true
 ```
+
+* Run `make local`, `make up`, or `make demo` to build the containers and local file system(s).
+* Then modify the `.env` file.
+* Then `make up` to fetch the builds.
+It will then report it created the **code-server** and recreated **traefik** and **drupal** containers.
 
 By default this will accessible at
 [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/).
