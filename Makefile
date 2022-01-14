@@ -336,6 +336,7 @@ demo: generate-secrets
 	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
 	$(MAKE) reindex-solr ENVIROMENT=demo
 	$(MAKE) reindex-triplestore ENVIROMENT=demo
+	$(MAKE) fix-masonry
 
 .PHONY: local
 .SILENT: local
