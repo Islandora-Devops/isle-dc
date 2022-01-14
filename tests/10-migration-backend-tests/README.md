@@ -14,30 +14,33 @@ This does not affect management of migrations, since they are a part of the exte
 
 ### Multi-value field separators
 
-The vertical pipe `|` is used to separate multiple values, e.g. if an item has multiple alternate names, they will be represented as `Alternate Name One|Alternate Name Two`.  The semi-colon `;` is used to separate components of a value.  If a string field has an associated language (e.g. a field type of `language_value_pair`), it would be represented as `This is the string field;eng`.
+Two vertical pipes  `||` are used to separate multiple values, e.g. if an item has multiple alternate names, they will be represented as `Alternate Name One||Alternate Name Two`.  Two semi-colons `;;` are used to separate components of a value.  If a string field has an associated language (e.g. a field type of `language_value_pair`), it would be represented as `This is the string field;;eng`.
 
-The problem is that `|` and `;` become _reserved_ characters and cannot be used in the value itself.  This is especially problematic for the semi-colon, since it could be reasonably used as punctuation in a description or abstract field, or within a URL.
-
-The immediate workaround is to use a different character other than `;` for separating components of a value, such as `^` or `@` that are less likely to appear in a text field.  Longer term there may need to be some mechanism of escaping these reserved characters when they are used in a value.
+The problem is that `||` and `;;` become _reserved_ characters and cannot be used in the value itself.  When we used a single semi-colon this was problematic, since it was used as punctuation in a description or abstract field, or within a URL.  So we changed it to using `;;` knowing that might not cover all cases either. 
 
 ### Problematic Fields
 
-These are fields for which there is no or incomplete migration support. Resolving these known issues may involve custom Drupal code (e.g. modifying or writing novel migration plugins), restricting the use of local identifiers in favor of URIs for field values, and/or exploring additional parameters to the `migration_lookup` plugin (e.g. supplying multiple migrations to the `migration` configuration key).
+These are fields for which there was no or incomplete migration support. Resolving these known issues involved custom Drupal code (e.g. modifying or writing novel migration plugins), restricting the use of local identifiers in favor of URIs for field values, and/or exploring additional parameters to the `migration_lookup` plugin (e.g. supplying multiple migrations to the `migration` configuration key).
+
+The option we chose was to create a new migration plugin that has way more flexibility with which to deal with these fields.  It's called `parse_entity_lookup` and it provides the ability to distinguish exactly which object you're referencing in a migration.  Code for it is located [here](https://github.com/jhu-idc/idc_migration/blob/master/src/Plugin/migrate/process/ParseEntityLookup.php). 
+
+We now also have the field `unique_id`, which holds a value that is unique across all entities. It *is* a field one could use to reliably grab the right entity and we do use it in some places now. 
+
+These are fields that use `parse_entity_lookup`, as it would be hard to distinguish which entity they were referencing otherwise. 
 
 |Entity|Bundle|Field (type)|Description|
 |---|---|---|---|
-|taxonomy_term|geo_location|`field_broader` (`link`)|Values for this field may contain arbitrary URLs to an external resource or internal links to a Drupal resource with the form, e.g. `entity:node/16`.  The current migration for `geo_location` cannot use local ids _and_ arbitrary URLs.|
-|taxonomy_term|corporate_body|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
-|taxonomy_term|person|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
-|taxonomy_term|family|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
-|node|islandora_object|`field_creator` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
-|node|islandora_object|`field_contributor` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
-|node|islandora_object|`field_copyright_holder` (`entity_reference`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
-|node|islandora_object|`field_digital_publisher` (`entity_reference`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
-|node|islandora_object|`field_publisher` (`entity_reference`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  It is problematic to use local ids to reference multiple bundles.|
-|node|islandora_object|`field_member_of` (`entity_reference`)|Values for this field may reference different bundles.  It is problematic to use local ids to reference multiple bundles.|
-|node|islandora_object|`field_publisher` (`entity_reference`)|Values for this field may reference different bundles.  It is problematic to use local ids to reference multiple bundles.|
-|node|islandora_object|`field_subject` (`entity_reference`)|Values for this field may reference different bundles.  It is problematic to use local ids to reference multiple bundles.|
+|taxonomy_term|corporate_body|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles). |
+|taxonomy_term|person|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  |
+|taxonomy_term|family|`field_relationships` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  |
+|node|islandora_object|`field_creator` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).|
+|node|islandora_object|`field_contributor` (`typed_relation`)|Values for this field may reference multiple taxonomies (i.e. different bundles).  |
+|node|islandora_object|`field_copyright_holder` (`entity_reference`)|Values for this field may reference multiple taxonomies (i.e. different bundles). |
+|node|islandora_object|`field_digital_publisher` (`entity_reference`)|Values for this field may reference multiple taxonomies (i.e. different bundles). |
+|node|islandora_object|`field_publisher` (`entity_reference`)|Values for this field may reference multiple taxonomies (i.e. different bundles). |
+|node|islandora_object|`field_member_of` (`entity_reference`)|Values for this field may reference different bundles. |
+|node|islandora_object|`field_publisher` (`entity_reference`)|Values for this field may reference different bundles. |
+|node|islandora_object|`field_subject` (`entity_reference`)|Values for this field may reference different bundles.  |
 
 ## Invoking the tests
 
