@@ -471,6 +471,8 @@ set_admin_password:
 	echo "$(PASSWORD)" | $(CMD) secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD >> /dev/null
 	@echo "\ndone."
 
+# Hot fix section. These are not meant to be run normally but are meant to be run when needed.
+
 LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
 
 .PHONY: fix-masonry
@@ -481,3 +483,10 @@ fix-masonry:
 	docker-compose exec drupal bash -lc "[ -d '/var/www/drupal/web/libraries' ] && exit ; mkdir -p /var/www/drupal/web/libraries ; chmod 755 /var/www/drupal/web/libraries ; chown 1000:nginx /var/www/drupal/web/libraries"
 	docker-compose exec drupal bash -lc "cd /var/www/drupal/web/libraries/ ; [ ! -d '/var/www/drupal/web/libraries/masonry' ] && git clone --quiet --branch ${LATEST_VERSION} https://github.com/desandro/masonry.git || echo Ready"
 	docker-compose exec drupal bash -lc "cd /var/www/drupal/web/libraries/ ; [ -d '/var/www/drupal/web/libraries/masonry' ] && chmod -R 755 /var/www/drupal/web/libraries/masonry ; chown -R 1000:nginx /var/www/drupal/web/libraries/masonry"
+
+.PHONY: fix_views
+.SILENT: fix_views
+## This fixes a know issues with views when using the make local build. The error must be triggered before this will work.
+fix_views:
+	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
+	docker-compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
