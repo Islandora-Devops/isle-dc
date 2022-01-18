@@ -8,8 +8,8 @@ export const pageUserCreate = 'https://islandora-idc.traefik.me/admin/people/cre
  */
 export const adminUser = Role('https://islandora-idc.traefik.me/user/login', async t => {
     await t
-        .typeText('#edit-name', 'admin')
-        .typeText('#edit-pass', 'password')
+        .typeText('#edit-name', process.env.DRUPAL_DEFAULT_ACCOUNT_NAME)
+        .typeText('#edit-pass', process.env.DRUPAL_DEFAULT_ACCOUNT_PASSWORD)
         .click('#edit-submit');
 });
 
