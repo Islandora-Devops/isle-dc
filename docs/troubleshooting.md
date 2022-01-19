@@ -128,3 +128,14 @@ To fix this:
  * edit your .env file, an increase ALPACA_HOUDINI_TIMEOUT (and other similar timeouts if necessary).  Note these values are in milliseconds.
  * make docker-compose.yml  (this is necessary to pick up the change and re-write docker-compose.yml)
  * restart containers
+
+## Uncaught PHP Exception InvalidArgumentException or Flysystem driver is missing
+
+Error message likely to see.
+> FastCGI sent in stderr: "PHP message: Uncaught PHP Exception InvalidArgumentException: "A valid cache entry key is required. Use getAll() to get all table data." at /var/www/drupal/web/core/modules/views/src/ViewsData.php line 140" while reading response header from upstream
+
+A log of the error is needed for the fix to review. A full description of the issue and how the error triggered is on https://github.com/Islandora-Devops/isle-dc/pull/213.
+
+To fix this:
+
+* Run `make fix_views`
