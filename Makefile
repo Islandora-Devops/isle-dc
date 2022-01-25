@@ -337,6 +337,7 @@ local: generate-secrets
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
+	$(MAKE) fix-pdfjs
 
 .PHONY: clean
 .SILENT: clean
@@ -408,3 +409,15 @@ fix-masonry:
 	docker-compose exec drupal bash -lc "[ -d '/var/www/drupal/web/libraries' ] && exit ; mkdir -p /var/www/drupal/web/libraries ; chmod 755 /var/www/drupal/web/libraries ; chown 1000:nginx /var/www/drupal/web/libraries"
 	docker-compose exec drupal bash -lc "cd /var/www/drupal/web/libraries/ ; [ ! -d '/var/www/drupal/web/libraries/masonry' ] && git clone --quiet --branch ${LATEST_VERSION} https://github.com/desandro/masonry.git || echo Ready"
 	docker-compose exec drupal bash -lc "cd /var/www/drupal/web/libraries/ ; [ -d '/var/www/drupal/web/libraries/masonry' ] && chmod -R 755 /var/www/drupal/web/libraries/masonry ; chown -R 1000:nginx /var/www/drupal/web/libraries/masonry"
+
+PDFJS_VERSION := 2.0.943
+
+.PHONY: fix-pdfjs
+.SILENT: fix-pdfjs
+## Fix missing pdfjs.
+fix-pdfjs:
+	@echo "Version of pdfjs is $${PDFJS_VERSION} downloading."
+	docker-compose exec drupal bash -lc "cd /var/www/drupal/web/libraries ; [ ! -d '/var/www/drupal/web/libraries/pdf.js' ] && curl -b cookie.txt -L https://github.com/mozilla/pdf.js/releases/download/v$${PDFJS_VERSION}/pdfjs-$${PDFJS_VERSION}-dist.zip -o pdfjs.zip || echo Ready"
+	docker-compose exec drupal bash -lc "cd /var/www/drupal/web/libraries ; [ -f '/var/www/drupal/web/libraries/pdfjs.zip' ] && unzip pdfjs.zip -d /var/www/drupal/web/libraries/pdf.js || echo Ready"
+	docker-compose exec drupal bash -lc "[ -f '/var/www/drupal/web/libraries/pdfjs.zip' ] && rm -rf /var/www/drupal/web/libraries/pdfjs.zip || echo Zip file removed" 
+	docker-compose exec drupal bash -lc "[ -d '/var/www/drupal/web/libraries/pdf.js' ] && chmod -R 755 /var/www/drupal/web/libraries/pdf.js ; chown -R 1000:nginx /var/www/drupal/web/libraries/pdf.js"
