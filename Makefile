@@ -153,6 +153,14 @@ run-islandora-migrations:
 solr-cores:
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
 
+# Reloads solr-cores with current live configurations and then optimizes it. This assumes the solr-core is named ISLANDORA.
+.PHONY: solr-reload-cores
+.SILENT: solr-reload-cores
+solr-reload-cores:
+	curl $(shell echo "http://$(shell docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr)):8983/solr/admin/cores?action=RELOAD\&core=ISLANDORA")
+	curl $(shell echo "http://$(shell docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr)):8983/solr/ISLANDORA/update?optimize=true")
+	echo "Can be verified at http://$(shell docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr)):8983/solr/#/~cores/ISLANDORA"
+
 # Creates namespaces in Blazegraph according to the environment variables.
 .PHONY: namespaces
 .SILENT: namespaces
