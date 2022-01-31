@@ -666,6 +666,7 @@ process:
       plugin: explode
       delimiter: '||'
       strict: false
+  field_weight: weight
 destination:
   plugin: 'entity:node'
   default_bundle: islandora_object
@@ -713,4 +714,5 @@ destination:
     - field_table_of_contents
     - field_title_language
     - field_years
+    - field_weight
 migration_dependencies: null

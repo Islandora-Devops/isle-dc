@@ -176,5 +176,6 @@
       "language": "ger"
     }
   ],
-  "title_language": "English"
+  "title_language": "English",
+  "weight": 10
 }

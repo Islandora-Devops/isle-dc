@@ -1086,6 +1086,9 @@ func Test_VerifyRepositoryItem(t *testing.T) {
 		assert.Equal(t, expectedJson.TableOfContents[i].LangCode, relData.TableOfContents.Data[i].LangCode(t))
 		assert.Equal(t, expectedJson.TableOfContents[i].Value, relData.TableOfContents.Data[i].Value())
 	}
+
+	// Weight
+	assert.Equal(t, 10, expectedJson.Weight)
 }
 
 // This test is concerned with verifying two things concerning delimiters in ingests:
@@ -1206,6 +1209,9 @@ func Test_VerifyRepositoryItemWithDelimitersInData(t *testing.T) {
 		assert.Equal(t, expectedJson.TableOfContents[i].LangCode, relData.TableOfContents.Data[i].LangCode(t))
 		assert.Equal(t, expectedJson.TableOfContents[i].Value, relData.TableOfContents.Data[i].Value())
 	}
+
+	// Weight should not exist
+	assert.Empty(t, expectedJson.Weight)
 }
 
 // Two media with identical file content will have different File entities, and each File will have its own bitstream.
