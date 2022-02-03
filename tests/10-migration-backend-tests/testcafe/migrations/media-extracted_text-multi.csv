@@ -1,0 +1,2 @@
+unique_id,name,access_terms,mime_type,media_of,media_use,url,restricted_access,new_filename
+media_ext_m_00001,Hello World Multi,:::media_accesscontrol_01||:::media_accesscontrol_02,text/plain,:::media_io_1,Original File||Preservation File,http://migration-assets/assets/extracted_text/hello_world.txt,1,hello_world-multi.txt

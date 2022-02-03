@@ -1,0 +1,26 @@
+{
+  "type": "media",
+  "bundle": "image",
+  "name": "Looking For Fossils Multi",
+  "unique_id": "media_img_m_00001",
+  "original_name": "TRP_7767.jpg",
+  "alt_text": "Image alt text",
+  "size": 7584545,
+  "height": 2239,
+  "width": 3378,
+  "mime_type": "image/jpeg",
+  "restricted_access": true,
+  "use": [
+    "Preservation File",
+    "Original File"
+  ],
+  "access_terms": [
+    "Media Group B",
+    "Media Group A"
+  ],
+  "media_of": "Media Migration Repository Item One",
+  "uri": {
+    "url": "/system/files/2021-03/trp_7767-multi_0.jpg",
+    "value": "private://2021-03/trp_7767-multi_0.jpg"
+  }
+}

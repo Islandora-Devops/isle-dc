@@ -1735,6 +1735,480 @@ func Test_VerifyMediaRemoteVideo(t *testing.T) {
 	//assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
 }
 
+//---------- Check multiple ingests of media files ------
+// These next set of tests test what happens when you run a media
+// ingest a few times. They end result should be the same, overall
+//
+func Test_VerifyMediaDocumentMultipleIngests(t *testing.T) {
+	expectedJson := &model.ExpectedMediaGeneric{}
+	unmarshalExpectedJson(t, "media-document-multi.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "media", expectedJson.Type)
+	assert.Equal(t, "document", expectedJson.Bundle)
+
+	// There are two media with name that were migrated by testcafe
+	name := "Fuji Acros Datasheet Multi"
+
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: "media",
+		DrupalBundle: "document",
+		Filter:       "name",
+		Value:        name,
+	}
+
+	res := model.JsonApiDocumentMedia{}
+	u.Get(&res)
+
+	// use the first media
+	document := res.JsonApiData[0]
+
+	// Verify attributes
+
+	assert.Equal(t, expectedJson.Size, document.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.MimeType, document.JsonApiAttributes.MimeType)
+	assert.Equal(t, expectedJson.OriginalName, document.JsonApiAttributes.OriginalName)
+	assert.Equal(t, expectedJson.Name, document.JsonApiAttributes.Name)
+	assert.NotEqual(t, expectedJson.RestrictedAccess, document.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, document.JsonApiAttributes.UniqueId)
+
+	// Resolve relationships and verify
+	assert.Equal(t, 2, len(expectedJson.AccessTerms))
+	assert.Equal(t, len(expectedJson.AccessTerms), len(document.JsonApiRelationships.AccessTerms.Data))
+	for i := range document.JsonApiRelationships.AccessTerms.Data {
+		use := model.JsonApiIslandoraAccessTerms{}
+		document.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	assert.Equal(t, 2, len(expectedJson.MediaUse))
+	assert.Equal(t, len(expectedJson.MediaUse), len(document.JsonApiRelationships.MediaUse.Data))
+	for i := range document.JsonApiRelationships.MediaUse.Data {
+		use := model.JsonApiMediaUse{}
+		document.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
+		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	mediaOf := model.JsonApiIslandoraObj{}
+	document.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
+	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
+
+	index := strings.Index(expectedJson.OriginalName, ".")
+	expectedFilename := expectedJson.OriginalName[:index] + "-multi_0" + expectedJson.OriginalName[index:]
+
+    file := model.JsonApiFile{}
+	document.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, 
+		expectedFilename, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
+	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
+}
+
+func Test_VerifyMediaImageMultipleIngests(t *testing.T) {
+	expectedJson := &model.ExpectedMediaImage{}
+	unmarshalExpectedJson(t, "media-image-multi.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, "media", expectedJson.Type)
+	assert.Equal(t, "image", expectedJson.Bundle)
+
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: "media",
+		DrupalBundle: "image",
+		Filter:       "name",
+		Value:        "Looking For Fossils Multi",
+	}
+
+	res := model.JsonApiImageMedia{}
+	u.GetSingle(&res)
+
+	// use the first media
+	image := res.JsonApiData[0]
+
+	// Verify attributes
+
+	assert.Equal(t, expectedJson.Size, image.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.MimeType, image.JsonApiAttributes.MimeType)
+	assert.Equal(t, expectedJson.OriginalName, image.JsonApiAttributes.OriginalName)
+	assert.Equal(t, expectedJson.Name, image.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.Height, image.JsonApiAttributes.Height)
+	assert.Equal(t, expectedJson.Width, image.JsonApiAttributes.Width)
+	assert.NotEqual(t, expectedJson.RestrictedAccess, image.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, image.JsonApiAttributes.UniqueId)
+
+	// Resolve relationships and verify
+
+	assert.Equal(t, 2, len(expectedJson.AccessTerms))
+	assert.Equal(t, len(expectedJson.AccessTerms), len(image.JsonApiRelationships.AccessTerms.Data))
+	for i := range image.JsonApiRelationships.AccessTerms.Data {
+		use := model.JsonApiIslandoraAccessTerms{}
+		image.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	assert.Equal(t, expectedJson.AltText, image.JsonApiRelationships.File.Data.Meta["alt"])
+
+	assert.Equal(t, 2, len(expectedJson.MediaUse))
+	assert.Equal(t, len(expectedJson.MediaUse), len(image.JsonApiRelationships.MediaUse.Data))
+	for i := range image.JsonApiRelationships.MediaUse.Data {
+		use := model.JsonApiMediaUse{}
+		image.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
+		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	mediaOf := model.JsonApiIslandoraObj{}
+	image.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
+	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
+
+	u = &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: "media",
+		DrupalBundle: "image",
+		Filter:       "name",
+		Value:        "Tiff Image Multi",
+	}
+
+	index := strings.Index(expectedJson.OriginalName, ".")
+	expectedFilename := expectedJson.OriginalName[:index] + "-multi_0" + expectedJson.OriginalName[index:]
+
+    file := model.JsonApiFile{}
+	image.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, 
+		expectedFilename, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
+	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
+
+	res2 := model.JsonApiImageMedia{}
+	u.GetSingle(&res2)
+
+	image2 := res2.JsonApiData[0]
+
+	assert.Equal(t, expectedJson.RestrictedAccess, image2.JsonApiAttributes.RestrictedAccess)
+
+	file2 := model.JsonApiFile{}
+	res2.JsonApiData[0].JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file2, drupalAdmin, drupalPass)
+
+	// check that the first file binary can be accessed where its media is restricted access == false
+	// TODO obtain from env
+	baseUri := "https://islandora-idc.traefik.me"
+	fileUrl := fmt.Sprintf("%s%s", baseUri, file.JsonApiData[0].JsonApiAttributes.Uri.Url)
+	fileRes, err := http.Get(fileUrl)
+
+	assert.Nil(t, err)
+	assert.Equal(t, "200 OK", fileRes.Status)
+
+    // check that the second file binary cannot be accessed where its media is restricted access == true
+    fileUrl = fmt.Sprintf("%s%s", baseUri, file2.JsonApiData[0].JsonApiAttributes.Uri.Url)
+    fileRes, err = http.Get(fileUrl)
+	assert.Nil(t, err)
+	assert.Equal(t, "403 Forbidden", fileRes.Status)
+}
+
+func Test_VerifyMediaExtractedTextMultipleIngests(t *testing.T) {
+	expectedJson := &model.ExpectedMediaExtractedText{}
+	expectedType := "media"
+	expectedBundle := "extracted_text"
+	unmarshalExpectedJson(t, "media-extracted_text-multi.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, expectedType, expectedJson.Type)
+	assert.Equal(t, expectedBundle, expectedJson.Bundle)
+
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
+	}
+
+	res := model.JsonApiExtractedTextMedia{}
+	u.GetSingle(&res)
+	ext := res.JsonApiData[0]
+
+	// Verify attributes
+
+	assert.Equal(t, expectedJson.Name, ext.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.MimeType, ext.JsonApiAttributes.MimeType)
+	assert.EqualValues(t, expectedJson.ExtractedText, ext.JsonApiAttributes.EditedText)
+	assert.Equal(t, expectedJson.RestrictedAccess, ext.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, ext.JsonApiAttributes.UniqueId)
+
+	// Resolve relationships and verify
+
+	assert.Equal(t, 2, len(expectedJson.AccessTerms))
+	assert.Equal(t, len(expectedJson.AccessTerms), len(ext.JsonApiRelationships.AccessTerms.Data))
+	for i := range ext.JsonApiRelationships.AccessTerms.Data {
+		use := model.JsonApiIslandoraAccessTerms{}
+		ext.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	assert.Equal(t, 2, len(expectedJson.MediaUse))
+	assert.Equal(t, len(expectedJson.MediaUse), len(ext.JsonApiRelationships.MediaUse.Data))
+	for i := range ext.JsonApiRelationships.MediaUse.Data {
+		use := model.JsonApiMediaUse{}
+		ext.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
+		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	mediaOf := model.JsonApiIslandoraObj{}
+	ext.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
+	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
+
+	index := strings.Index(expectedJson.OriginalName, ".")
+	expectedFilename := expectedJson.OriginalName[:index] + "-multi_0" + expectedJson.OriginalName[index:]
+
+    file := model.JsonApiFile{}
+	ext.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, 
+		expectedFilename, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
+	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
+}
+
+func Test_VerifyMediaFileMultipleIngests(t *testing.T) {
+	expectedJson := &model.ExpectedMediaGeneric{}
+	expectedType := "media"
+	expectedBundle := "file"
+	unmarshalExpectedJson(t, "media-file-multi.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, expectedType, expectedJson.Type)
+	assert.Equal(t, expectedBundle, expectedJson.Bundle)
+
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
+	}
+
+	res := model.JsonApiGenericFileMedia{}
+	u.GetSingle(&res)
+	genericFile := res.JsonApiData[0]
+
+	// Verify attributes
+
+	assert.Equal(t, expectedJson.Name, genericFile.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.MimeType, genericFile.JsonApiAttributes.MimeType)
+	assert.EqualValues(t, expectedJson.OriginalName, genericFile.JsonApiAttributes.OriginalName)
+	assert.Equal(t, expectedJson.Size, genericFile.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.RestrictedAccess, genericFile.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, genericFile.JsonApiAttributes.UniqueId)
+
+	// Resolve relationships and verify
+
+	assert.Equal(t, 2, len(expectedJson.AccessTerms))
+	assert.Equal(t, len(expectedJson.AccessTerms), len(genericFile.JsonApiRelationships.AccessTerms.Data))
+	for i := range genericFile.JsonApiRelationships.AccessTerms.Data {
+		use := model.JsonApiIslandoraAccessTerms{}
+		genericFile.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	assert.Equal(t, 2, len(expectedJson.MediaUse))
+	assert.Equal(t, len(expectedJson.MediaUse), len(genericFile.JsonApiRelationships.MediaUse.Data))
+	for i := range genericFile.JsonApiRelationships.MediaUse.Data {
+		use := model.JsonApiMediaUse{}
+		genericFile.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
+		assert.Contains(t, expectedJson.MediaUse, use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	mediaOf := model.JsonApiIslandoraObj{}
+	genericFile.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
+	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
+
+	index := strings.Index(expectedJson.OriginalName, ".")
+	expectedFilename := expectedJson.OriginalName[:index] + "-multi_0" + expectedJson.OriginalName[index:]
+
+    file := model.JsonApiFile{}
+	genericFile.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, 
+		expectedFilename, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
+	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
+}
+
+func Test_VerifyMediaAudioMultipleIngests(t *testing.T) {
+	expectedJson := &model.ExpectedMediaGeneric{}
+	expectedType := "media"
+	expectedBundle := "audio"
+	unmarshalExpectedJson(t, "media-audio-multi.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, expectedType, expectedJson.Type)
+	assert.Equal(t, expectedBundle, expectedJson.Bundle)
+
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
+	}
+
+	res := model.JsonApiAudioMedia{}
+	u.GetSingle(&res)
+	audio := res.JsonApiData[0]
+
+	// Verify attributes
+
+	assert.Equal(t, expectedJson.Name, audio.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.MimeType, audio.JsonApiAttributes.MimeType)
+	assert.EqualValues(t, expectedJson.OriginalName, audio.JsonApiAttributes.OriginalName)
+	assert.Equal(t, expectedJson.Size, audio.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.RestrictedAccess, audio.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, audio.JsonApiAttributes.UniqueId)
+
+	// Resolve relationships and verify
+
+	assert.Equal(t, 2, len(expectedJson.AccessTerms))
+	assert.Equal(t, len(expectedJson.AccessTerms), len(audio.JsonApiRelationships.AccessTerms.Data))
+	for i := range audio.JsonApiRelationships.AccessTerms.Data {
+		use := model.JsonApiIslandoraAccessTerms{}
+		audio.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	assert.Equal(t, 2, len(expectedJson.MediaUse))
+	assert.Equal(t, len(expectedJson.MediaUse), len(audio.JsonApiRelationships.MediaUse.Data))
+	for i := range audio.JsonApiRelationships.MediaUse.Data {
+		use := model.JsonApiMediaUse{}
+		audio.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
+		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	mediaOf := model.JsonApiIslandoraObj{}
+	audio.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
+	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
+
+	index := strings.Index(expectedJson.OriginalName, ".")
+	expectedFilename := expectedJson.OriginalName[:index] + "-multi_0" + expectedJson.OriginalName[index:]
+
+    file := model.JsonApiFile{}
+	audio.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, 
+		expectedFilename, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
+	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
+}
+
+func Test_VerifyMediaVideoMultipleIngests(t *testing.T) {
+	expectedJson := &model.ExpectedMediaGeneric{}
+	expectedType := "media"
+	expectedBundle := "video"
+	unmarshalExpectedJson(t, "media-video-multi.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, expectedType, expectedJson.Type)
+	assert.Equal(t, expectedBundle, expectedJson.Bundle)
+
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
+	}
+
+	res := model.JsonApiVideoMedia{}
+	u.GetSingle(&res)
+	video := res.JsonApiData[0]
+
+	// Verify attributes
+
+	assert.Equal(t, expectedJson.Name, video.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.MimeType, video.JsonApiAttributes.MimeType)
+	assert.EqualValues(t, expectedJson.OriginalName, video.JsonApiAttributes.OriginalName)
+	assert.Equal(t, expectedJson.Size, video.JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.RestrictedAccess, video.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, video.JsonApiAttributes.UniqueId)
+
+	// Resolve relationships and verify
+
+	assert.Equal(t, 2, len(expectedJson.AccessTerms))
+	assert.Equal(t, len(expectedJson.AccessTerms), len(video.JsonApiRelationships.AccessTerms.Data))
+	for i := range video.JsonApiRelationships.AccessTerms.Data {
+		use := model.JsonApiIslandoraAccessTerms{}
+		video.JsonApiRelationships.AccessTerms.Data[i].Resolve(t, &use)
+		assert.Contains(t, expectedJson.AccessTerms, use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	assert.Equal(t, 2, len(expectedJson.MediaUse))
+	assert.Equal(t, len(expectedJson.MediaUse), len(video.JsonApiRelationships.MediaUse.Data))
+	for i := range video.JsonApiRelationships.MediaUse.Data {
+		use := model.JsonApiMediaUse{}
+		video.JsonApiRelationships.MediaUse.Data[i].Resolve(t, &use)
+		assert.Equal(t, expectedJson.MediaUse[i], use.JsonApiData[0].JsonApiAttributes.Name)
+	}
+
+	mediaOf := model.JsonApiIslandoraObj{}
+	video.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
+	assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
+
+	index := strings.Index(expectedJson.OriginalName, ".")
+	expectedFilename := expectedJson.OriginalName[:index] + "-multi_0" + expectedJson.OriginalName[index:]
+
+    file := model.JsonApiFile{}
+	video.JsonApiRelationships.File.Data.ResolveWithBasicAuth(t, &file, drupalAdmin, drupalPass)
+	verifyExpectedUri(t, file.JsonApiData[0].JsonApiAttributes.Uri.Url, file.JsonApiData[0].JsonApiAttributes.Uri.Value, 
+		expectedFilename, file.JsonApiData[0].JsonApiAttributes.CreatedDate)
+	assert.Equal(t, expectedJson.Size, file.JsonApiData[0].JsonApiAttributes.FileSize)
+	assert.Equal(t, expectedJson.MimeType, file.JsonApiData[0].JsonApiAttributes.MimeType)
+}
+
+func Test_VerifyMediaRemoteVideoMultipleIngests(t *testing.T) {
+	expectedJson := &model.ExpectedMediaRemoteVideo{}
+	expectedType := "media"
+	expectedBundle := "remote_video"
+	unmarshalExpectedJson(t, "media-remote_video-multi.json", &expectedJson)
+
+	// sanity check the expected json
+	assert.Equal(t, expectedType, expectedJson.Type)
+	assert.Equal(t, expectedBundle, expectedJson.Bundle)
+
+	u := &jsonapi.JsonApiUrl{
+		T:            t,
+		BaseUrl:      DrupalBaseurl,
+		DrupalEntity: expectedType,
+		DrupalBundle: expectedBundle,
+		Filter:       "name",
+		Value:        expectedJson.Name,
+	}
+
+	res := model.JsonApiRemoteVideoMedia{}
+	u.GetSingle(&res)
+	video := res.JsonApiData[0]
+
+	// Verify attributes
+
+	assert.Equal(t, expectedJson.Name, video.JsonApiAttributes.Name)
+	assert.Equal(t, expectedJson.EmbedUrl, video.JsonApiAttributes.EmbedUrl)
+	assert.Equal(t, expectedJson.RestrictedAccess, video.JsonApiAttributes.RestrictedAccess)
+	assert.Equal(t, expectedJson.UniqueId, video.JsonApiAttributes.UniqueId)
+
+	// Resolve relationships and verify
+
+	// TODO: media_of not supported for remote_video?
+	//mediaOf := JsonApiIslandoraObj{}
+	//video.JsonApiRelationships.MediaOf.Data.Resolve(t, &mediaOf)
+	//assert.Equal(t, expectedJson.MediaOf, mediaOf.JsonApiData[0].JsonApiAttributes.Title)
+}
+//
+// -- done checking media ingests performed more than once ------
+//
+
 // Locates the requested JSON file under the test directory, and unmarshals it into the interface supplied by `value`.
 func unmarshalExpectedJson(t *testing.T, fileName string, value interface{}) {
 	// TODO: use go:embed

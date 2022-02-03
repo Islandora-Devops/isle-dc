@@ -1,0 +1,19 @@
+{
+  "type": "media",
+  "bundle": "file",
+  "name": "Geo Tif file Multi",
+  "unique_id": "media_file_m_00001",
+  "original_name": "NEFF1851_GEO.tfw",
+  "size": 44,
+  "mime_type": "application/octet-stream",
+  "restricted_access": true,
+  "use": [
+    "Preservation File",
+    "Original File"
+  ],
+  "access_terms": [
+    "Media Group B",
+    "Media Group A"
+  ],
+  "media_of": "Media Migration Repository Item One"
+}

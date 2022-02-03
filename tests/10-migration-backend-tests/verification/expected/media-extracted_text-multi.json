@@ -1,0 +1,24 @@
+{
+  "type": "media",
+  "bundle": "extracted_text",
+  "name": "Hello World Multi",
+  "unique_id": "media_ext_m_00001",
+  "original_name": "hello_world.txt",
+  "size": 29,
+  "mime_type": "text/plain",
+  "restricted_access": true,
+  "use": [
+    "Preservation File",
+    "Original File"
+  ],
+  "access_terms": [
+    "Media Group B",
+    "Media Group A"
+  ],
+  "media_of": "Media Migration Repository Item One",
+  "extracted_text": {
+    "value": "Hello, extracted text world!<br />\n",
+    "format": "basic_html",
+    "processed": "Hello, extracted text world!<br />"
+  }
+}

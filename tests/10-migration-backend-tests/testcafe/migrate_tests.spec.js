@@ -387,3 +387,123 @@ test('Perform Media Migrations', async t => {
 
 });
 
+test('Duplicate Media Migrations', async t => {
+
+  // Migrate Islandora Access Terms for media tests
+  await doMigration(
+    t,
+    migrate_islandora_accessterms_taxonomy,
+    './migrations/media-accessterms.csv'
+  );
+
+  // Migrate access rights
+  await doMigration(
+    t,
+    migrate_accessrights_taxonomy,
+    './migrations/media-accessrights.csv'
+  );
+
+  // Migrate media subjects
+  await doMigration(
+    t,
+    migrate_subject_taxonomy,
+    './migrations/media-subjects.csv'
+  );
+
+  // Migrate the Collection and Repository Object the Media will be attached to
+  await doMigration(
+    t,
+    migrate_new_collection,
+    './migrations/media-collection.csv'
+  );
+
+  await doMigration(
+    t,
+    migrate_new_items,
+    './migrations/media-islandora_object.csv'
+  );
+
+  // audio
+  await doMigration(
+    t,
+    migrate_media_audio,
+    './migrations/media-audio-multi.csv'
+  );
+  await doMigration(
+    t,
+    migrate_media_audio,
+    './migrations/media-audio-multi.csv'
+  );
+
+  // document
+  await doMigration(
+    t,
+    migrate_media_document,
+    './migrations/media-document-multi.csv'
+  );
+  await doMigration(
+    t,
+    migrate_media_document,
+    './migrations/media-document-multi.csv'
+  );
+
+  // extracted text
+  await doMigration(
+    t,
+    migrate_media_extracted_text,
+    './migrations/media-extracted_text-multi.csv'
+  );
+  await doMigration(
+    t,
+    migrate_media_extracted_text,
+    './migrations/media-extracted_text-multi.csv'
+  );
+
+  // file
+  await doMigration(
+    t,
+    migrate_media_file,
+    './migrations/media-file-multi.csv'
+  );
+  await doMigration(
+    t,
+    migrate_media_file,
+    './migrations/media-file-multi.csv'
+  );
+
+  // image
+  await doMigration(
+    t,
+    migrate_media_image,
+    './migrations/media-image-multi.csv'
+  );
+  await doMigration(
+    t,
+    migrate_media_image,
+    './migrations/media-image-multi.csv'
+  );
+
+  // video
+  await doMigration(
+    t,
+    migrate_media_video,
+    './migrations/media-video-multi.csv'
+  );
+  await doMigration(
+    t,
+    migrate_media_video,
+    './migrations/media-video-multi.csv'
+  );
+
+  await doMigration(
+    t,
+    migrate_media_remote_video,
+    './migrations/media-remote_video-multi.csv'
+  );
+  await doMigration(
+    t,
+    migrate_media_remote_video,
+    './migrations/media-remote_video-multi.csv'
+  );
+});
+
