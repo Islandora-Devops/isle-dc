@@ -121,7 +121,7 @@ drupal-database:
 .PHONY: install
 .SILENT: install
 install: drupal-database
-	docker-compose exec drupal with-contenv bash -lc "for_all_sites install_site"
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites install_site"
 
 # Updates settings.php according to the environment variables.
 .PHONY: update-settings-php
