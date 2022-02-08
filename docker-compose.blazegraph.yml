@@ -16,7 +16,7 @@ services:
       default:
     labels:
       - traefik.enable=${EXPOSE_BLAZEGRAPH:-false}
-      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph.loadbalancer.server.port=80
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph.loadbalancer.server.port=8080
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph_http.entrypoints=blazegraph
     deploy:
