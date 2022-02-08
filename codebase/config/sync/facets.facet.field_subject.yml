@@ -33,7 +33,7 @@ processor_configs:
     weights:
       sort: 20
     settings:
-      sort: DESC
+      sort: ASC
   count_widget_order:
     processor_id: count_widget_order
     weights:

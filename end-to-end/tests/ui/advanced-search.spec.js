@@ -33,9 +33,9 @@ test('Proximity search and Clear button', async (t) => {
     .expect(term2.proxy.value).eql('false')
     .click(term2.proxy)
     .expect(term2.proxy.value).eql('true')
-    .typeText(term2.proxyTerm.termA, 'two')
+    .typeText(term2.proxyTerm.termA, 'two', { paste: true })
     .typeText(term2.proxyTerm.range, '3')
-    .typeText(term2.proxyTerm.termB, 'content')
+    .typeText(term2.proxyTerm.termB, 'content', { paste: true })
     .click(Page.submitBtn)
     .expect(Page.results.count).eql(1);
 
@@ -64,7 +64,7 @@ test('Normal search', async (t) => {
 
   await t
     .expect(term1.proxy.value).eql('false')
-    .typeText(term1.nonproxyTerm.term, 'animal')
+    .typeText(term1.nonproxyTerm.term, 'animal', { paste: true })
     .click(term1.nonproxyTerm.field)
     .click(term1.nonproxyTerm.fields.withText('Title'))
     .click(Page.submitBtn)
@@ -76,9 +76,20 @@ test('Normal search', async (t) => {
   await t
     .click(term2.opOr)
     .expect(term2.nonproxyTerm.field.value).eql('')
-    .typeText(term2.nonproxyTerm.term, 'page')
+    .typeText(term2.nonproxyTerm.term, 'page', { paste: true })
     .click(Page.submitBtn)
     .expect(Page.results.count).eql(5);
+});
+
+test('Can initiate search with Enter key', async (t) => {
+  const term1 = Page.queryTerm(0);
+
+  await t
+    .click(term1.nonproxyTerm.field)
+    .click(term1.nonproxyTerm.fields.withText('Title'))
+    .typeText(term1.nonproxyTerm.term, 'moo', { paste: true })
+    .pressKey('enter')
+    .expect(Page.results.count).eql(1);
 });
 
 test('Collection filter', async (t) => {
@@ -108,27 +119,26 @@ test('Collection filter', async (t) => {
 });
 
 /**
+ * Enter basic keyword search: 'item'
  * Enter date 1: 2000
  * Enter Date 2: 2010
- * Enter basic keyword search: 'item'
  * Hit Clear (search term) button
- *      Clearing terms will clear the search, but will not clear the date filter!
- * Hit the Clear (filters) button
+ * Hit the Clear (filters) button (no effect, because he first Clear will clear filters)
  */
 test('Date filter and basic search', async (t) => {
   const term = Page.queryTerm(0);
   await t
-    .typeText(Page.dateInput1, '2000', { paste: true})
-    .pressKey('enter')
-    .expect(Page.results.count).eql(5)
-    .typeText(Page.dateInput2, '2010', { paste: true})
-    .pressKey('tab')
-    .expect(Page.results.count).eql(8)
     .typeText(term.nonproxyTerm.term, 'item', { paste: true})
     .click(Page.submitBtn)
+    .expect(Page.results.count).eql(7)
+    .typeText(Page.dateInput1, '2000', { paste: true})
+    .pressKey('enter')
+    .expect(Page.results.count).eql(2)
+    .typeText(Page.dateInput2, '2010', { paste: true})
+    .pressKey('tab')
     .expect(Page.results.count).eql(5)
     .click(Page.clearTerms)
-    .expect(Page.results.count).eql(8)
+    .expect(Page.results.count).eql(10)
     .click(Page.clearFilters)
     .expect(Page.results.count).eql(10);
 });

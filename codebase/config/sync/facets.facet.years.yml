@@ -31,19 +31,19 @@ processor_configs:
   active_widget_order:
     processor_id: active_widget_order
     weights:
-      sort: 20
+      sort: -10
     settings:
-      sort: DESC
+      sort: ASC
   count_widget_order:
     processor_id: count_widget_order
     weights:
-      sort: 30
+      sort: -8
     settings:
       sort: DESC
   display_value_widget_order:
     processor_id: display_value_widget_order
     weights:
-      sort: 40
+      sort: -9
     settings:
       sort: ASC
   url_processor_handler:

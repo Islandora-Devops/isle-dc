@@ -69,7 +69,7 @@ export class AdvancedSearch extends Searchable {
 
     this.addTermBtn = container.find('button').withText('Add term');
     this.helpBtn = container.find('button[data-test-advanced-search-help-drawer]');
-    this.submitBtn = container.find('button').withText('Search');
+    this.submitBtn = container.find('button').withExactText('Search');
 
     // Various clear buttons
     const clearBtns = container.find('button').withText('Clear');
