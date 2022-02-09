@@ -114,6 +114,7 @@ endif
 .PHONY: drupal-database
 .SILENT: drupal-database
 drupal-database:
+	docker-compose exec -T drupal timeout 300 bash -c "while ! test -e /var/run/nginx/nginx.pid -a -e /var/run/php-fpm7/php-fpm7.pid; do sleep 1; done"
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_database"
 
 # Installs drupal site(s) using environment variables.
