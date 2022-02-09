@@ -89,8 +89,8 @@ SERVICES := $(REQUIRED_SERVICES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_
 default: download-default-certs docker-compose.yml pull
 
 .SILENT: docker-compose.yml
-docker-compose.yml: $(SERVICES:%=docker-compose.%.yml) .env
-	docker-compose $(SERVICES:%=-f docker-compose.%.yml) config > docker-compose.yml
+docker-compose.yml: $(SERVICES:%=build/docker-compose/docker-compose.%.yml) .env
+	docker-compose $(SERVICES:%=-f build/docker-compose/docker-compose.%.yml) config > docker-compose.yml
 
 .PHONY: pull
 ## Fetches the latest images from the registry.

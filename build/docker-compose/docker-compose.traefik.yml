@@ -53,8 +53,8 @@ services:
       - ${CODE_SERVER_PORT:-8443}:8443   # code-server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./tls.yml:/etc/traefik/tls.yml
-      - ./certs:/etc/ssl/traefik
+      - ../../build/traefik-tls.yml:/etc/traefik/tls.yml
+      - ../../certs:/etc/ssl/traefik
     labels:
       # Do not expose in production.
       - traefik.http.routers.api.service=api@internal

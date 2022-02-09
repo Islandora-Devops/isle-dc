@@ -1,9 +1,4 @@
-# Container does not perform any initialization aside from importing env-vars from `confd`.
-# Users are expected to manually set up their site using a combination of the following:
-# - Makefile targets
-# - composer requires / install
-# - Drush commands
-# - Manual changes to the codebase directory
+# This file builds a local image from the codebase folder
 version: "3.7"
 networks:
   default:
@@ -14,20 +9,26 @@ volumes:
   drupal-sites-data:
   solr-data:
 services:
+  # The service name is drupal that is the default host name used by micro-services etc.
   drupal:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/drupal:${TAG:-latest}
-    volumes:
-      - ./codebase:/var/www/drupal:delegated
-      - drupal-sites-data:/var/www/drupal/web/sites/default/files
-      - solr-data:/opt/solr/server/solr
+    build:
+      context: ../../
+      dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./Dockerfile}
     environment:
-      DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: ${INSTALL_EXISTING_CONFIG}
-      DRUPAL_DEFAULT_PROFILE: ${DRUPAL_INSTALL_PROFILE}
+      #
+      # Set environment variables that allow use to install from an existing configuration.
+      #
+      DRUPAL_DEFAULT_CONFIGDIR: /var/www/drupal/config/sync
+      DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"
+      DRUPAL_DEFAULT_PROFILE: minimal
+    volumes:
+      - drupal-sites-data:/var/www/drupal/web/sites/default/files
+      # Used to dump solr configuration directly into solr instance via the search_api_solr module.
+      - solr-data:/opt/solr/server/solr
     depends_on:
       # Requires a the very minimum a database.
       - ${DRUPAL_DATABASE_SERVICE}
-  # Extends docker-compose.solr.yml
+  # Extends docker-compose.solr.yml so that they share a volume.
   solr:
     volumes:
       # On a production site you may not want to take this approach but instead refer to each of the cores
