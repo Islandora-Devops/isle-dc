@@ -12,4 +12,4 @@ RUN --mount=type=bind,source=codebase,target=/build \
     find /var/www/drupal/web/sites -name "settings.php" -exec rm {} \; && \
     chown -R nginx:nginx /var/www/drupal
 
-COPY rootfs /
+COPY build/rootfs /

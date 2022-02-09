@@ -25,7 +25,7 @@ function random_secret() {
 
 function main() {
 	echo "Generating Secrets"
-	local secret_templates=($(find /secrets/template/* -exec basename {} \;))
+	local secret_templates=($(find ../secrets/template/* -exec basename {} \;))
 	generate_jwt_keys
 	for secret in "${secret_templates[@]}"; do
 		case "${secret}" in
