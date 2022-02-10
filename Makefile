@@ -281,12 +281,14 @@ reindex-triplestore:
 .PHONY: generate-secrets
 .SILENT: generate-secrets
 generate-secrets:
+ifeq ($(USE_SECRETS), false)
 	docker run --rm -t \
 		-v $(CURDIR)/secrets:/secrets \
 		-v $(CURDIR)/scripts/generate-secrets.sh:/generate-secrets.sh \
 		-w / \
 		--entrypoint bash \
 		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
+endif
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: download-default-certs
