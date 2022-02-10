@@ -289,7 +289,7 @@ ifeq ($(USE_SECRETS), false)
 		--entrypoint bash \
 		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
 else
-	echo "Skipping secrets generation, as USE_SECRETS is set to false."
+	echo "Skipping secrets generation, as USE_SECRETS is set to true."
 	cp -n secrets/template/* secrets/live
 endif
 
