@@ -211,9 +211,14 @@ other backends, particularly environment variables, you must mount the secrets
 into containers as files using docker-compose. During startup, the files'
 contents are read into the container environment and made available to `confd`.
 
-To enable using secrets, set `USE_SECRETS=true` in your .env file. When you run
-`make docker-compose.yml`, a large block of `secrets` will be added at the top of
-your `docker-compose.yml` file.
+To enable using secrets prior to running the `make` commands, copy sample.env
+to .env. Set `USE_SECRETS=true` in your .env file. Make a copy of the files in
+/secrets/template/ to /secrets/live/.
+
+To enable using secrets after run `make local` or `make up`, set 
+`USE_SECRETS=true` in your .env file. When you run `make docker-compose.yml`, a
+large block of `secrets` will be added at the top of your `docker-compose.yml`
+file.
 
 ```yml
 secrets:
