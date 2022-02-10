@@ -290,7 +290,7 @@ ifeq ($(USE_SECRETS), false)
 		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
 else
 	echo "Skipping secrets generation, as USE_SECRETS is set to false."
-	cp secrets/template/* secrets/live
+	cp -n secrets/template/* secrets/live
 endif
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
