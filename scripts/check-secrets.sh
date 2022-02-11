@@ -122,6 +122,7 @@ function main() {
 			done
 		else
 			echo -e "\nPlease update the missing secrets before continuing.\n\n"
+			exit 1
 		fi
 	fi
 }
