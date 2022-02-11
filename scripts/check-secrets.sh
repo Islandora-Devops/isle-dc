@@ -22,7 +22,7 @@ cat << EOF
 	${YELLOW} --- --- WARNING --- --- ${RESET}${RED} --- --- WARNING --- --- ${RESET}
 
 	${RED}
-		Using default values for secrets in a production environment is 
+		Using default values for secrets in a production environment is a
 
 					Security Risk${RESET}
 		
