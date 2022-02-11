@@ -276,6 +276,7 @@ reindex-triplestore:
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 
+# TEST_FILES:=$(wildcard $(CURDIR)/secrets/live/*)
 # Helper to generate secrets & passwords, like so:
 # make generate-secrets
 .PHONY: generate-secrets
@@ -289,8 +290,8 @@ ifeq ($(USE_SECRETS), false)
 		--entrypoint bash \
 		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
 else
-	echo "Skipping secrets generation, as USE_SECRETS is set to true."
-	cp -n secrets/template/* secrets/live
+	@echo "'Uses Secrets' is set to 'true'."
+	$(MAKE) secrets_warning
 endif
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
@@ -324,6 +325,7 @@ demo: generate-secrets
 	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
 	$(MAKE) reindex-solr ENVIROMENT=demo
 	$(MAKE) reindex-triplestore ENVIROMENT=demo
+	$(MAKE) secrets_warning
 
 .PHONY: local
 .SILENT: local
@@ -342,6 +344,7 @@ local: generate-secrets
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
+	$(MAKE) secrets_warning
 
 .PHONY: clean
 .SILENT: clean
@@ -359,6 +362,7 @@ up:
 	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish building.\n"
 	sleep 10
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
+	$(MAKE) secrets_warning
 
 .PHONY: down
 .SILENT: down
@@ -389,6 +393,13 @@ help:
 		} \
 	} \
 	{lastLine = $$0}' $(MAKEFILE_LIST)
+
+.PHONY: secrets_warning
+.SILENT: secrets_warning
+## Check to see if the secrets directory contains default secrets.
+secrets_warning:
+	@echo 'Starting scripts/check-secrets.sh'
+	@bash scripts/check-secrets.sh || (echo "check-secrets exited $$?"; exit 1)
 
 IS_DRUPAL_PSSWD_FILE_READABLE := $(shell test -r secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD -a -w secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD && echo 1 || echo 0)
 CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 'sudo -k tee')
