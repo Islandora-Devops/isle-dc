@@ -8074,12 +8074,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "fec99316fe780ebd21cd5efac62c4e9b17f99b88"
+                "reference": "bd303f884c908ea17bc7a1aefeb0f584ccc97f7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/fec99316fe780ebd21cd5efac62c4e9b17f99b88",
-                "reference": "fec99316fe780ebd21cd5efac62c4e9b17f99b88",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/bd303f884c908ea17bc7a1aefeb0f584ccc97f7c",
+                "reference": "bd303f884c908ea17bc7a1aefeb0f584ccc97f7c",
                 "shasum": ""
             },
             "default-branch": true,
@@ -8089,7 +8089,7 @@
                 "source": "https://github.com/jhu-idc/idc-ui-theme/tree/main",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2022-02-01T16:57:47+00:00"
+            "time": "2022-02-08T17:00:16+00:00"
         },
         {
             "name": "jhu-idc/idc_defaults",
@@ -21478,5 +21478,5 @@
         "php": ">=7.0.8"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

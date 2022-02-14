@@ -12,7 +12,7 @@ export class ItemDetail {
 
     const actions = this.container.find('button');
     this.downloadBtn = actions.withText('Download Media');
-    this.citationsBtn = actions.withText('Citations');
+    this.citationsBtn = actions.withText('View Citations');
     this.contactBtn = actions.withText('Ask the Collection Admin');
 
     this.exportBtn = this.container.find('a').withText('Export Item Metadata');
