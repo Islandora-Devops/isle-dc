@@ -49,6 +49,12 @@ EOF
 }
 
 function main() {
+	unameOut="$(uname -s)"
+	case "${unameOut}" in
+		Linux*)     hash=sha1sum;;
+		Darwin*)    hash=md5;;
+		*)          hash="UNKNOWN"
+	esac
 	# Check if $USE_SECRETS is set to true.
 	if [ "$USE_SECRETS" = true ]; then
 		local secret_live=[];
@@ -97,11 +103,22 @@ function main() {
 			missing_secret_identified=true
 			break;
 		fi
-		if [[ "$(md5sum $(pwd)/secrets/template/${secret}| awk '{print $1}')" == "$(md5sum $(pwd)/secrets/live/${secret}| awk '{print $1}')" ]]; then
-			# Ignore the config location directory. This won't pose a security risk.
-			if [[ ! "${secret}" = "DRUPAL_DEFAULT_CONFIGDIR" ]]; then
-				echo -e "${RED}Default Secret${RESET} ${BLUE}->${RESET} $(pwd)/secrets/live/${secret}"
-				FOUND_INSECURE_SECRETS=true
+
+		if [[ $hash == "UNKNOWN" ]]; then
+			if [[ $(cat secrets/template/ACTIVEMQ_PASSWORD) == $(cat secrets/live/ACTIVEMQ_PASSWORD) ]]; then
+				# Ignore the config location directory. This won't pose a security risk.
+				if [[ ! "${secret}" = "DRUPAL_DEFAULT_CONFIGDIR" ]]; then
+					echo -e "${RED}Default Secret${RESET} ${BLUE}->${RESET} $(pwd)/secrets/live/${secret}"
+					FOUND_INSECURE_SECRETS=true
+				fi
+			fi
+		else
+			if [[ "$($hash $(pwd)/secrets/template/${secret}| awk '{print $1}')" == "$($hash $(pwd)/secrets/live/${secret}| awk '{print $1}')" ]]; then
+				# Ignore the config location directory. This won't pose a security risk.
+				if [[ ! "${secret}" = "DRUPAL_DEFAULT_CONFIGDIR" ]]; then
+					echo -e "${RED}Default Secret${RESET} ${BLUE}->${RESET} $(pwd)/secrets/live/${secret}"
+					FOUND_INSECURE_SECRETS=true
+				fi
 			fi
 		fi
 	done
