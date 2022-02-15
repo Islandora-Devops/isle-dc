@@ -127,5 +127,16 @@ function main() {
 	fi
 }
 
+# Just incase the wishes to automate generation of secrets.
+if [[ $1 == 'yes' ]]; then
+	docker run --rm -t \
+	-v $(pwd)/secrets:/secrets \
+	-v $(pwd)/scripts/generate-secrets.sh:/generate-secrets.sh \
+	-w / \
+	--entrypoint bash \
+	${REPOSITORY}/drupal:${TAG} -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
+	echo -e "\n${GREEN}Secrets generated.${RESET}"
+fi
+
 main
 print_security_warning
