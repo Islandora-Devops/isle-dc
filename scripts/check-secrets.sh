@@ -52,7 +52,6 @@ function main() {
 	unameOut="$(uname -s)"
 	case "${unameOut}" in
 		Linux*)     hash=sha1sum;;
-		Darwin*)    hash=md5;;
 		*)          hash="UNKNOWN"
 	esac
 	# Check if $USE_SECRETS is set to true.
