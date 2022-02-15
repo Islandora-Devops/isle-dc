@@ -97,7 +97,7 @@ function main() {
 			missing_secret_identified=true
 			break;
 		fi
-		if [[ "$(sha1sum $(pwd)/secrets/template/${secret}| awk '{print $1}')" == "$(sha1sum $(pwd)/secrets/live/${secret}| awk '{print $1}')" ]]; then
+		if [[ "$(md5sum $(pwd)/secrets/template/${secret}| awk '{print $1}')" == "$(md5sum $(pwd)/secrets/live/${secret}| awk '{print $1}')" ]]; then
 			# Ignore the config location directory. This won't pose a security risk.
 			if [[ ! "${secret}" = "DRUPAL_DEFAULT_CONFIGDIR" ]]; then
 				echo -e "${RED}Default Secret${RESET} ${BLUE}->${RESET} $(pwd)/secrets/live/${secret}"
