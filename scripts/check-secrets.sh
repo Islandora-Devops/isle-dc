@@ -58,7 +58,7 @@ function main() {
 	if [ "$USE_SECRETS" = true ]; then
 		local secret_live=[];
 		# Check if the $(pwd)/secrets/live directory is empty.
-		if [ "$(ls -I ".keep" $(pwd)/secrets/live)" ]; then
+		if [ "$(ls $(pwd)/secrets/live)" ]; then
 			local secret_live=($(find $(pwd)/secrets/live/* -exec basename {} \;))
 		fi
 	fi
