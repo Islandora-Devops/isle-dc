@@ -38,20 +38,12 @@ as database import/export and reindexing.
 
 ## Requirements
 
-- Composer 1.10+
 - Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
-- Docker-CE 19.x+ (*If using Docker Desktop for Windows, any stable release
-  *after* 2.2.0.4, or use a 2.2.0.4 with a [patch][Docker for Windows Patch] due
-  to a [bug][Docker for Windows Bug]*)
-- Docker-compose version 1.25.x+.* Docker is now rolling out a 2.0.x branch, with incompatible config file syntax. 
+- Docker-CE 19.x+
+- Docker-compose version 1.25.x+ 
 - Git 2.0+
 - GNU Make 4.0+
-
-* As of August, 2021, Docker Desktop is now shipping with docker-compose 2.0 which has incompatible config file syntax. Until this is addressed, run 
-
-```bash
-docker-compose disable-v2
-```
+- At least 8GB of RAM (ideally 16GB)
 
 before running any of the make commands below.
 
