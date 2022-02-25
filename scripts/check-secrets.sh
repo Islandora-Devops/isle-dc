@@ -104,7 +104,7 @@ function main() {
 		fi
 
 		if [[ $hash == "UNKNOWN" ]]; then
-			if [[ $(cat secrets/template/ACTIVEMQ_PASSWORD) == $(cat secrets/live/ACTIVEMQ_PASSWORD) ]]; then
+			if [[ $(cat secrets/template/${secret}) == $(cat secrets/live/${secret}) ]]; then
 				# Ignore the config location directory. This won't pose a security risk.
 				if [[ ! "${secret}" = "DRUPAL_DEFAULT_CONFIGDIR" ]]; then
 					echo -e "${RED}Default Secret${RESET} ${BLUE}->${RESET} $(pwd)/secrets/live/${secret}"
