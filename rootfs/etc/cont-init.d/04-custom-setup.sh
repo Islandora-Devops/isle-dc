@@ -35,9 +35,11 @@ function main {
 <?php
 use Drupal\taxonomy\Entity\Term;
 \$term = array_pop(taxonomy_term_load_multiple_by_name('FITS File'));
-\$default = ['uri' => 'https://projects.iq.harvard.edu/fits'];
-\$term->set('field_external_uri', \$default);
-\$term->save();
+if (\$term) {
+  \$default = ['uri' => 'https://projects.iq.harvard.edu/fits'];
+  \$term->set('field_external_uri', \$default);
+  \$term->save();
+}
 EOF
     drush php:script /tmp/fix.php
     # Rebuild the cache.
