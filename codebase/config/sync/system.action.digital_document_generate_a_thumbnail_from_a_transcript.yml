@@ -1,0 +1,20 @@
+uuid: 8cf3d791-b5a1-43b2-bed6-f45cd7ea6678
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora_image
+id: digital_document_generate_a_thumbnail_from_a_transcript
+label: 'Digital Document - Generate a thumbnail from a transcript'
+type: node
+plugin: generate_image_derivative
+configuration:
+  queue: islandora-connector-houdini
+  event: 'Generate Derivative'
+  source_term_uri: 'http://pcdm.org/use#Transcript'
+  derivative_term_uri: 'http://pcdm.org/use#ThumbnailImage'
+  mimetype: image/png
+  args: '-thumbnail 100x100'
+  destination_media_type: image
+  scheme: private
+  path: '[date:custom:Y]-[date:custom:m]/[node:nid]-[term:name].png'

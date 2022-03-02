@@ -1,0 +1,20 @@
+uuid: 5aeb50e1-dd37-40b6-b1e2-ddabb60590bd
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora_text_extraction
+id: extract_text_from_image_or_pdf_transcript
+label: 'Extract Text from Image or PDF Transcript'
+type: node
+plugin: generate_ocr_derivative
+configuration:
+  queue: islandora-connector-ocr
+  event: 'Generate Derivative'
+  source_term_uri: 'http://pcdm.org/use#Transcript'
+  derivative_term_uri: 'http://pcdm.org/use#ExtractedText'
+  mimetype: text/plain
+  args: null
+  destination_media_type: extracted_text
+  scheme: private
+  path: '[date:custom:Y]-[date:custom:m]/[node:nid]-[term:name].txt'

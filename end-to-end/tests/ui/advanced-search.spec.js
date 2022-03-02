@@ -188,7 +188,7 @@ test('Compound boolean search', async (t) => {
 
   await t
     .click(Page.submitBtn)
-    .expect(Page.results.count).eql(5)
+    .expect(Page.results.count).eql(6)
     .expect(Page.results.withText('A video item').exists).notOk()
     .expect(Page.results.withText('rubber duck').exists).ok();
 });

@@ -21,7 +21,7 @@ test('Boolean search: "s3 OR duck"', async (t) => {
 
 test('Simple wildcard with "*": "test*"', async (t) => {
   await GlobalSearch.search('test*', t);
-  await t.expect(Results.results.count).eql(5);
+  await t.expect(Results.results.count).eql(6);
 });
 
 test('Simple windcard with "?": "te?t"', async (t) => {

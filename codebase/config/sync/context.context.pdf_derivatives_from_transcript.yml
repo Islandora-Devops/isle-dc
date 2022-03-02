@@ -1,0 +1,37 @@
+uuid: b9b6ef6e-3a9f-4bc9-b093-67f6f7d80410
+langcode: en
+status: true
+dependencies:
+  module:
+    - islandora
+_core:
+  default_config_hash: c7_MtAQ35bFVk9PanoKR52wijgATcHFDBpFQ7MB7NPQ
+name: pdf_derivatives_from_transcript
+label: 'PDF Derivatives from Transcript'
+group: Derivatives
+description: 'Derivatives for PDF documents where the media is a Transcript'
+requireAllConditions: true
+disabled: false
+conditions:
+  media_has_term:
+    id: media_has_term
+    negate: false
+    uri: 'http://pcdm.org/use#Transcript'
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+    logic: and
+  parent_node_has_term:
+    id: parent_node_has_term
+    negate: false
+    uri: 'http://purl.org/coar/resource_type/c_18cc'
+    context_mapping:
+      media: '@islandora.media_route_context_provider:media'
+    logic: and
+reactions:
+  derivative:
+    id: derivative
+    actions:
+      digital_document_generate_a_thumbnail_from_a_transcript: digital_document_generate_a_thumbnail_from_a_transcript
+      extract_text_from_image_or_pdf_transcript: extract_text_from_image_or_pdf_transcript
+    saved: false
+weight: -8
