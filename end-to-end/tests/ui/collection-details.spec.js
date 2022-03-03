@@ -113,7 +113,7 @@ test('Featured repo items display correctly', async (t) => {
 test('Breadcrumbs are present', async (t) => {
   await t
     .expect(HeaderFooter.breadcrumbContainer.exists).ok()
-    .expect(HeaderFooter.breadcrumbs.count).eql(2)
+    .expect(HeaderFooter.breadcrumbs.count).eql(3)
     .expect(HeaderFooter.breadcrumbs.withText('Home').exists).ok()
     .expect(HeaderFooter.breadcrumbs.withText('Farm Animals').exists).ok();
 });

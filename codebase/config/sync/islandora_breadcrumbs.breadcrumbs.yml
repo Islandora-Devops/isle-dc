@@ -1,9 +1,0 @@
-maxDepth: -1
-includeSelf: false
-referenceField: field_member_of
-dependencies:
-  module:
-    - islandora
-  enforced:
-    module:
-      - islandora_breadcrumbs
