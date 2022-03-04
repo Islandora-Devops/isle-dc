@@ -96,7 +96,7 @@ endif
 ## Create Dockerfile from example if it does not exist.
 build:
 	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
-		cp "$(CURDIR)"/sample.Dockerfile $(PROJECT_DRUPAL_DOCKERFILE); \
+		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
 	fi
 	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(COMPOSE_PROJECT_NAME)_drupal --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
 
@@ -283,8 +283,8 @@ reindex-triplestore:
 .SILENT: generate-secrets
 generate-secrets:
 	docker run --rm -t \
-		-v "$(CURDIR)"/secrets:/secrets \
-		-v "$(CURDIR)"/scripts/generate-secrets.sh:/generate-secrets.sh \
+		-v "$(CURDIR)/secrets":/secrets \
+		-v "$(CURDIR)/scripts/generate-secrets.sh":/generate-secrets.sh \
 		-w / \
 		--entrypoint bash \
 		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
@@ -308,7 +308,7 @@ demo: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=demo
 	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
 	$(MAKE) pull ENVIROMENT=demo
-	mkdir -p "$(CURDIR)"/codebase
+	mkdir -p "$(CURDIR)/codebase"
 	docker-compose up -d
 	$(MAKE) update-settings-php ENVIROMENT=demo
 	$(MAKE) drupal-public-files-import SRC="$(CURDIR)/demo-data/public-files.tgz" ENVIROMENT=demo
@@ -316,7 +316,7 @@ demo: generate-secrets
 	$(MAKE) drupal-database-import SRC="$(CURDIR)/demo-data/drupal.sql" ENVIROMENT=demo
 	$(MAKE) hydrate ENVIROMENT=demo
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-	$(MAKE) fcrepo-import SRC="$(CURDIR)"/demo-data/fcrepo-export.tgz ENVIROMENT=demo
+	$(MAKE) fcrepo-import SRC="$(CURDIR)/demo-data/fcrepo-export.tgz" ENVIROMENT=demo
 	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
 	$(MAKE) reindex-solr ENVIROMENT=demo
 	$(MAKE) reindex-triplestore ENVIROMENT=demo
@@ -329,16 +329,16 @@ local: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=local
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
-	mkdir -p "$(CURDIR)"/codebase
+	mkdir -p "$(CURDIR)/codebase"
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v "$(CURDIR)"/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush:^10.3'; \
+		docker container run --rm -v "$(CURDIR)/codebase":/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush:^10.3'; \
 	fi
 	docker-compose up -d
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
-	$(MAKE) set-files-owner SRC="$(CURDIR)"/codebase ENVIROMENT=local
+	$(MAKE) set-files-owner SRC="$(CURDIR)/codebase" ENVIROMENT=local
 
 .PHONY: clean
 .SILENT: clean
