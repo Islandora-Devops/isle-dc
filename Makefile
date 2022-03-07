@@ -6,6 +6,11 @@ ENV_FILE=$(shell \
 	fi; \
 	echo .env)
 
+# Checks to see if the path includes a space character. Intended to be a temporary fix.
+ifneq (1,$(words $(CURDIR)))
+$(error Containing path cannot contain space characters: '$(CURDIR)')
+endif
+
 # Include the sample.env so new values can be added with defaults without requiring
 # users to regenerate their .env files losing their changes.
 include sample.env
