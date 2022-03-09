@@ -6,6 +6,11 @@ ENV_FILE=$(shell \
 	fi; \
 	echo .env)
 
+# Checks to see if the path includes a space character. Intended to be a temporary fix.
+ifneq (1,$(words $(CURDIR)))
+$(error Containing path cannot contain space characters: '$(CURDIR)')
+endif
+
 # Include the sample.env so new values can be added with defaults without requiring
 # users to regenerate their .env files losing their changes.
 include sample.env
@@ -96,7 +101,7 @@ endif
 ## Create Dockerfile from example if it does not exist.
 build:
 	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
-		cp $(CURDIR)/sample.Dockerfile $(PROJECT_DRUPAL_DOCKERFILE); \
+		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
 	fi
 	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(COMPOSE_PROJECT_NAME)_drupal --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
 
@@ -108,7 +113,7 @@ set-files-owner: $(SRC)
 ifndef SRC
 	$(error SRC is not set)
 endif
-	sudo find $(SRC) -exec chown $(shell id -u):101 {} \;
+	sudo find "$(SRC)" -exec chown $(shell id -u):101 {} \;
 
 # Creates required databases for drupal site(s) using environment variables.
 .PHONY: drupal-database
@@ -212,7 +217,7 @@ drupal-database-import: $(SRC)
 ifndef SRC
 	$(error SRC is not set)
 endif
-	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/dump.sql
+	docker cp "$(SRC)" $$(docker-compose ps -q drupal):/tmp/dump.sql
 	# Need to specify the root user to import the database otherwise it will fail due to permissions.
 	docker-compose exec -T drupal with-contenv bash -lc 'chown root:root /tmp/dump.sql && mysql -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} < /tmp/dump.sql'
 
@@ -227,7 +232,7 @@ drupal-public-files-import: $(SRC)
 ifndef SRC
 	$(error SRC is not set)
 endif
-	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/public-files.tgz
+	docker cp "$(SRC)" $$(docker-compose ps -q drupal):/tmp/public-files.tgz
 	docker-compose exec -T drupal with-contenv bash -lc 'tar zxvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files && chown -R nginx:nginx /var/www/drupal/web/sites/default/files && rm /tmp/public-files.tgz'
 
 # Dump fcrepo.
@@ -246,7 +251,7 @@ ifndef SRC
 endif
 	$(MAKE) -B docker-compose.yml DISABLE_SYN=true
 	docker-compose up -d fcrepo
-	docker cp $(SRC) $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz
+	docker cp "$(SRC)" $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz
 	docker-compose exec -T fcrepo with-contenv bash -lc 'cd /tmp && tar zxvf fcrepo-export.tgz && chown -R tomcat:tomcat fcrepo-export && rm fcrepo-export.tgz'
 ifeq ($(FEDORA_6), true)
 	docker-compose exec -T fcrepo with-contenv bash -lc 'java -jar fcrepo-upgrade-utils-6.0.0-beta-1.jar -i /tmp/fcrepo-export -o /data/home -s 5+ -t 6+ -u http://${DOMAIN}:8081/fcrepo/rest && chown -R tomcat:tomcat /data/home'
@@ -283,8 +288,8 @@ reindex-triplestore:
 .SILENT: generate-secrets
 generate-secrets:
 	docker run --rm -t \
-		-v $(CURDIR)/secrets:/secrets \
-		-v $(CURDIR)/scripts/generate-secrets.sh:/generate-secrets.sh \
+		-v "$(CURDIR)/secrets":/secrets \
+		-v "$(CURDIR)/scripts/generate-secrets.sh":/generate-secrets.sh \
 		-w / \
 		--entrypoint bash \
 		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
@@ -308,15 +313,15 @@ demo: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=demo
 	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
 	$(MAKE) pull ENVIROMENT=demo
-	mkdir -p $(CURDIR)/codebase
+	mkdir -p "$(CURDIR)/codebase"
 	docker-compose up -d
 	$(MAKE) update-settings-php ENVIROMENT=demo
-	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIROMENT=demo
+	$(MAKE) drupal-public-files-import SRC="$(CURDIR)/demo-data/public-files.tgz" ENVIROMENT=demo
 	$(MAKE) drupal-database ENVIROMENT=demo
-	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql ENVIROMENT=demo
+	$(MAKE) drupal-database-import SRC="$(CURDIR)/demo-data/drupal.sql" ENVIROMENT=demo
 	$(MAKE) hydrate ENVIROMENT=demo
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz ENVIROMENT=demo
+	$(MAKE) fcrepo-import SRC="$(CURDIR)/demo-data/fcrepo-export.tgz" ENVIROMENT=demo
 	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
 	$(MAKE) reindex-solr ENVIROMENT=demo
 	$(MAKE) reindex-triplestore ENVIROMENT=demo
@@ -324,20 +329,21 @@ demo: generate-secrets
 .PHONY: local
 .SILENT: local
 ## Make a local site with codebase directory bind mounted.
+local: QUOTED_CURDIR = "$(CURDIR)"
 local: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=local
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
-	mkdir -p $(CURDIR)/codebase
-	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush:^10.3'; \
+	mkdir -p "$(CURDIR)/codebase"
+	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
+		docker container run --rm -v "$(CURDIR)/codebase":/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:dev-8.x-1.x; composer require drush/drush:^10.3'; \
 	fi
 	docker-compose up -d
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
+	$(MAKE) set-files-owner SRC="$(CURDIR)/codebase" ENVIROMENT=local
 
 .PHONY: clean
 .SILENT: clean
