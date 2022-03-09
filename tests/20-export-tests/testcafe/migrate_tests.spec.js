@@ -397,7 +397,7 @@ async function getRemoteFileContents(t, fileLink) {
       if (!requestInfo)
           return false;
 
-      fileContents = logger.requests[1].response.body;
+      fileContents = logger.requests[0].response.body;
       return true;
     })).ok();
 

@@ -80,6 +80,7 @@ test('Facet toggle', async (t) => {
 
 test('Selecting facets', async (t) => {
   const category = 'Years';
+  const valueContainer = Page.facetValueContainer(category);
   await t
     .click(Page.facetToggle(category))
     .expect(Page.facetValues(category).count).eql(1)
@@ -88,6 +89,7 @@ test('Selecting facets', async (t) => {
   await Page.selectFacet(category, '2000');
 
   await t.expect(Page.results.count).eql(2);
+  await t.expect(valueContainer.clientHeight).gt(0);
 });
 
 test('Contact modal displays correctly', async (t) => {
