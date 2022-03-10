@@ -91,6 +91,12 @@ the things you can do.  If you want to poke around, here's all the services that
 | Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |
 | Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                       |
 
+Expose all of the endpoints at once (for testing and demo purposes and NOT production) by running
+```bash
+make kitchen_sink
+```
+This will automatically stop the containers, modify the `.env` file, import the changes and restart the containers with the new configurations. See [#custom-environment](#custom-environment) for more information on building with custom environment settings.
+
 When you're done with your demo environment, shut it down by running
 
 ```bash
@@ -159,9 +165,15 @@ the guide above to create the codebase folder from the `islandora/demo` image.
 And then run it by changing `ENVIRONMENT` to be `custom` and regenerating the
 `docker-compose.yml` file and building the image.
 
+To pull in changes to the .env file run the following.
 ```bash
 make docker-compose.yml
 make build
+
+# then either
+docker-compose up -d
+# OR
+make up
 ```
 
 At this point you could run it using `docker-compose`:
