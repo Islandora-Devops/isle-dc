@@ -23,7 +23,7 @@
 ## Introduction
 
 [Docker Compose] project for creating and managing an Islandora 8 instance
-using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora) 
+using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora)
 that were created by [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit).
 
 In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on configuration
@@ -40,7 +40,7 @@ as database import/export and reindexing.
 
 - Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
 - Docker-CE 19.x+
-- Docker-compose version 1.25.x+ 
+- Docker-compose version 1.25.x+
 - Git 2.0+
 - GNU Make 4.0+
 - At least 8GB of RAM (ideally 16GB)
@@ -97,7 +97,7 @@ When you're done with your demo environment, shut it down by running
 docker-compose down
 ```
 
-This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and 
+This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and
 all ingested data, use
 
 ```
@@ -186,7 +186,7 @@ make down
 # Bring isle-dc back up from where it left off
 make up
 
-# If make hasn't been run this will run make demo 
+# If make hasn't been run this will run make demo
 
 ```
 
