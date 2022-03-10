@@ -401,6 +401,44 @@ local-install-profile: generate-secrets
 initial_content:
 	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/homepage.json" https://${DOMAIN}/node?_format=json
 	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
+.PHONY: kitchen_sink
+.SILENT: kitchen_sink
+## Turn on/expose all endpoints for demo/testing; CANTALOUPE, MATOMO, DRUPAL, MYSQL, POSTGRES, TRAEFIK DASHBOARD, FEDORA, BLAZEGRAPH, ACTIVEMQ, SOLR, CODE SERVER. NOT FOR PRODUCTION!!!
+kitchen_sink:
+	echo 'Exposing everything including the kitchen sink...'
+ifeq ($(shell test -e docker-compose.yml && echo -n yes),yes)
+	$(MAKE) down
+	sed --in-place='' 's/EXPOSE_CANTALOUPE=false/EXPOSE_CANTALOUPE=true/g' .env
+	sed --in-place='' 's/EXPOSE_MATOMO=false/EXPOSE_MATOMO=true/g' .env
+	sed --in-place='' 's/EXPOSE_DRUPAL=false/EXPOSE_DRUPAL=true/g' .env
+	sed --in-place='' 's/EXPOSE_MYSQL=false/EXPOSE_MYSQL=true/g' .env
+	sed --in-place='' 's/EXPOSE_POSTGRES=false/EXPOSE_POSTGRES=true/g' .env
+	sed --in-place='' 's/EXPOSE_TRAEFIK_DASHBOARD=false/EXPOSE_TRAEFIK_DASHBOARD=true/g' .env
+	sed --in-place='' 's/EXPOSE_FEDORA=false/EXPOSE_FEDORA=true/g' .env
+	sed --in-place='' 's/EXPOSE_BLAZEGRAPH=false/EXPOSE_BLAZEGRAPH=true/g' .env
+	sed --in-place='' 's/EXPOSE_ACTIVEMQ=false/EXPOSE_ACTIVEMQ=true/g' .env
+	sed --in-place='' 's/EXPOSE_SOLR=false/EXPOSE_SOLR=true/g' .env
+	sed --in-place='' 's/EXPOSE_CODE_SERVER=false/EXPOSE_CODE_SERVER=true/g' .env
+	sed --in-place='' 's/INCLUDE_CODE_SERVER_SERVICE=false/INCLUDE_CODE_SERVER_SERVICE=true/g' .env
+	$(MAKE) docker-compose.yml
+	$(MAKE) build
+	$(MAKE) up
+	echo "Complete"
+	echo "You can now access the following endpoints:"
+	echo "Drupal:                               https://$(DOMAIN)"
+	echo "Traefik:                              http://$(DOMAIN):8080/dashboard/#/"
+	echo "Fedora:                               http://$(DOMAIN):8081/fcrepo/rest"
+	echo "Blazegraph:                           http://$(DOMAIN):8082/bigdata/#splash"
+	echo "Activemq:                             http://$(DOMAIN):8161"
+	echo "Solr:                                 http://$(DOMAIN):8983/solr/#/"
+	echo "Cantaloupe:                           https://$(DOMAIN)/cantaloupe"
+	echo "Matomo:                               https://$(DOMAIN)/matomo/"
+	echo "Code Server (Code Editor in Browser): https://$(DOMAIN):8443/"
+else
+	echo ""
+	echo "Problem: Run this after you've run one of the make commands to build isle-dc (up, demo, local, etc.). Exiting..."
+endif
+
 
 # Destroys everything beware!
 .PHONY: clean
