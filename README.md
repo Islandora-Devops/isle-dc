@@ -74,7 +74,7 @@ funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.
 If you do not have [secrets enabled](#secrets), you can log into Drupal as
 `admin` using the default password: `password`. Otherwise you can find the
 password in the file
-[./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD](./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD).
+[./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD](/secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD).
 
 Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
 the things you can do.  If you want to poke around, here's all the services that are available to visit:
