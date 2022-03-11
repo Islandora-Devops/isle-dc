@@ -1,0 +1,7 @@
+uuid: 52c0c12e-9d55-4eb3-a9de-0f87eb856184
+langcode: en
+status: true
+dependencies: {  }
+formId: contact_message_repository_item_contact_form
+captchaType: default
+label: contact_message_repository_item_contact_form
