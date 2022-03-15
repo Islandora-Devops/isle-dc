@@ -24,13 +24,15 @@ async function doSearch(t, query) {
 
 test('Has expected number of collections', async (t) => {
   await t
-    .expect(page.results.count).eql(10)
+    .expect(page.results.count).eql(14)
     .expect(page.pagers[0]).ok()
-    .expect(page.pagers[0].pager.textContent).contains('1 – 10 of');
+    .expect(page.pagers[0].pager.textContent).contains('1 – 14 of');
 });
 
 test('Pager controls work', async (t) => {
   const pager = page.pagers[0];
+
+  await page.listOptions.itemsPerPage.setValue('10');
 
   await t
     .expect(pager).ok('No pager found on page')
@@ -107,6 +109,8 @@ test('List option: items per page', async (t) => {
 });
 
 test('List option: go to page', async (t) => {
+  await page.listOptions.itemsPerPage.setValue('10');
+
   await t.expect(page.pagers[0].pager.withText('1 – 10').exists).ok();
 
   await page.listOptions.currentPage.setValue('2');

@@ -5,6 +5,9 @@ fixture `Search Page`
 
 test('Returns all items by default', async (t) => {
   const pager = Page.pagers[0];
+
+  await Page.listOptions.itemsPerPage.setValue('10');
+
   await t
     .expect(Page.titleBar.withText('Search Results').exists).ok()
     .expect(pager.pager.withText('of 24 items').exists).ok()
@@ -13,6 +16,9 @@ test('Returns all items by default', async (t) => {
 
 test('Entering a new search term resets current page', async (t) => {
   const pager = Page.pagers[0];
+
+  await Page.listOptions.itemsPerPage.setValue('10');
+
   await t
     // First search for 'moo'
     .typeText(Page.searchInput, 'moo', { paste: true })
@@ -30,6 +36,8 @@ test('Entering a new search term resets current page', async (t) => {
 
 test('Selecting or deselecting a facet resets current page', async (t) => {
   const pager = Page.pagers[0];
+
+  await Page.listOptions.itemsPerPage.setValue('10');
 
   const facet = {
     category: 'Resource Type',
