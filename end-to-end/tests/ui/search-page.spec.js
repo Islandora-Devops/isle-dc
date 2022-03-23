@@ -10,7 +10,7 @@ test('Returns all items by default', async (t) => {
 
   await t
     .expect(Page.titleBar.withText('Search Results').exists).ok()
-    .expect(pager.pager.withText('of 24 items').exists).ok()
+    .expect(pager.pager.withText('of 22 items').exists).ok()
     .expect(pager.buttons.count).eql(5);
 });
 
@@ -24,9 +24,7 @@ test('Entering a new search term resets current page', async (t) => {
     .typeText(Page.searchInput, 'moo', { paste: true })
     .click(Page.searchSubmit)
     .expect(Page.results.count).eql(10)
-    .expect(pager.buttons.withText('2').exists).ok()
-    .click(pager.buttons.withText('2'))
-    .expect(Page.results.count).eql(2)
+    .expect(pager.buttons.withText('2').exists).notOk()
     // Second search for 'animal'
     .typeText(Page.searchInput, 'animal', { paste: true, replace: true })
     .click(Page.searchSubmit)
@@ -54,6 +52,6 @@ test('Selecting or deselecting a facet resets current page', async (t) => {
   // param were set to anything other than the first page, then no results
   // would be shown
   await t
-    .expect(pager.pager.withText('10 of 10 items').exists).ok()
-    .expect(Page.results.count).eql(10);
+    .expect(pager.pager.withText('8 of 8 items').exists).ok()
+    .expect(Page.results.count).eql(8);
 });

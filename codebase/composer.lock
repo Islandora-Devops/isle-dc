@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d16a71dde80a38f6dcc4d1c492abeaad",
+    "content-hash": "641dd269604d01a5ef9d3a5744379af0",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -8159,12 +8159,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_ui_module.git",
-                "reference": "c7d26ef94d453319fc3f5abd9ed0225dace3ff12"
+                "reference": "90a7615b419ee9526a34979a682eb09a123fe99b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/c7d26ef94d453319fc3f5abd9ed0225dace3ff12",
-                "reference": "c7d26ef94d453319fc3f5abd9ed0225dace3ff12",
+                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/90a7615b419ee9526a34979a682eb09a123fe99b",
+                "reference": "90a7615b419ee9526a34979a682eb09a123fe99b",
                 "shasum": ""
             },
             "default-branch": true,
@@ -8174,7 +8174,7 @@
                 "source": "https://github.com/jhu-idc/idc_ui_module/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_ui_module/issues"
             },
-            "time": "2022-03-08T17:27:44+00:00"
+            "time": "2022-03-23T19:05:41+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",
@@ -21507,5 +21507,5 @@
         "php": ">=7.0.8"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }

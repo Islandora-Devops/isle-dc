@@ -24,7 +24,7 @@ test('Proximity search and Clear button', async (t) => {
     .typeText(term1.proxyTerm.range, '3')
     .typeText(term1.proxyTerm.termB, 'item', { paste: true })
     .click(Page.submitBtn)
-    .expect(Page.results.count).eql(3);
+    .expect(Page.results.count).eql(1);
 
   await t.click(Page.addTermBtn);
 
@@ -39,12 +39,12 @@ test('Proximity search and Clear button', async (t) => {
     .typeText(term2.proxyTerm.range, '3')
     .typeText(term2.proxyTerm.termB, 'content', { paste: true })
     .click(Page.submitBtn)
-    .expect(Page.results.count).eql(1);
+    .expect(Page.results.count).eql(0);
 
   await t
     .click(term2.removeBtn)
     .click(Page.submitBtn)
-    .expect(Page.results.count).eql(3);
+    .expect(Page.results.count).eql(1);
 
   await t
     .click(Page.clearTerms)
@@ -82,7 +82,7 @@ test('Normal search', async (t) => {
     .expect(term2.nonproxyTerm.field.value).eql('')
     .typeText(term2.nonproxyTerm.term, 'page', { paste: true })
     .click(Page.submitBtn)
-    .expect(Page.results.count).eql(5);
+    .expect(Page.results.count).eql(3);
 });
 
 test('Can initiate search with Enter key', async (t) => {
@@ -104,8 +104,8 @@ test('Collection filter', async (t) => {
   await pager.goToPage(3);
 
   await t
-    .expect(Page.results.count).eql(4)
-    .expect(pager.pager.withText('24 of 24 items').exists).ok();
+    .expect(Page.results.count).eql(2)
+    .expect(pager.pager.withText('22 of 22 items').exists).ok();
 
   await t
     .click(Page.collectionsFilter.toggle) // Closed by default, need to open it first
@@ -139,13 +139,13 @@ test('Date filter and basic search', async (t) => {
   await t
     .typeText(term.nonproxyTerm.term, 'item', { paste: true})
     .click(Page.submitBtn)
-    .expect(Page.results.count).eql(7)
+    .expect(Page.results.count).eql(5)
     .typeText(Page.dateInput1, '2000', { paste: true})
     .pressKey('enter')
     .expect(Page.results.count).eql(2)
     .typeText(Page.dateInput2, '2010', { paste: true})
     .pressKey('tab')
-    .expect(Page.results.count).eql(5)
+    .expect(Page.results.count).eql(3)
     .click(Page.clearTerms)
     .expect(Page.results.count).eql(10);
 });
@@ -158,8 +158,8 @@ test('Date filter will reset current page', async (t) => {
   await t.expect(Page.results.count).eql(10);
   await pager.goToPage(3);
   await t
-    .expect(Page.results.count).eql(4)
-    .expect(pager.pager.withText('24 of 24 items').exists).ok();
+    .expect(Page.results.count).eql(2)
+    .expect(pager.pager.withText('22 of 22 items').exists).ok();
 
   await t
     .typeText(Page.dateInput1, '2000', { paste: true })
