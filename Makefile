@@ -402,10 +402,6 @@ clean:
 	sudo rm -fr codebase certs secrets/live/*
 	git clean -xffd .
 
-.phony: confirm
-confirm:
-	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
-
 .PHONY: up
 .SILENT: up
 ## Brings up the containers or builds demo if no containers were found.
