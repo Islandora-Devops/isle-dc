@@ -117,7 +117,7 @@ Drupal container.  This lets you update code using the IDE of your choice on you
 changes are automatically reflected on the Drupal container.  Simply place any exported Drupal site as
 the `codebase` folder in `isle-dc` and you're good to go.
 
-If you don't provide a codebase, you'll be given a vanilla Drupal 9 instance with the Islandora module
+If you don't provide a codebase, you'll be given a basic setup from vanilla Drupal 9 instance with the Islandora module
 installed and the bare minimum configured to run.  This is useful if you want to build your repository
 from scratch and avoid `islandora_defaults`.
 

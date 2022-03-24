@@ -1,0 +1,31 @@
+{
+  "type": [
+    {
+      "target_id": "home_page",
+      "target_type": "node_type"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Islandora Sandbox"
+    }
+  ],
+  "body": [
+    {
+      "value": "<div class=\"node__links\">\r\n<ul class=\"links inline\">\r\n\t<li class=\"node-readmore\"><span class=\"node-readmore__link-wrapper\"><a aria-label=\"Browse all collections\" class=\"node-readmore__link\" href=\"/browse-collections\" hreflang=\"en\" rel=\"tag\" title=\"Browse our collections\">Browse All Collections<span class=\"visually-hidden\"> Browse All Collections</span></a></span></li>\r\n</ul>\r\n</div>\r\n\r\n<p>Welcome to the Islandora Community! (Note that all communication in Islandora is subject to our <a href=\"https://islandora.ca/codeofconduct\">code of conduct</a>).</p>\r\n\r\n<p>This demo is loaded with sample content and configurations to demonstrate features of Islandora and provide a starting point for development.&nbsp;&nbsp;Additional information is provided on the <a href=\"http://islandora.ca/\">Islandora Website</a>.&nbsp;</p>\r\n\r\n<p>The <a href=\"https://groups.google.com/g/islandora\">Islandora Google groups mailing list</a> is open to Islandora users who connect to share information. <a href=\"https://join.slack.com/t/islandora/shared_invite/zt-x7e0jj1x-C1pNzKrR7Fvs4QdQziPZ~g\">Join Islandora Slack</a> to ask questions and learn more about community events where you can learn more about Islandora. <a href=\"https://www.drupal.org/slack\">Drupal also maintains a Slack community</a> where you can ask more general questions about Drupal configuration.&nbsp;</p>\r\n\r\n<p>We welcome you to visit and edit <a href=\"https://islandora.github.io/documentation/\">Islandora documentation</a> or submit issues and code to Islandora via repositories in our <a href=\"https://github.com/Islandora\">Github organization. &nbsp;</a></p>\r\n\r\n<p>Thanks, and happy building!</p>\r\n\r\n<p> <a href=\"https://github.com/Islandora/documentation/wiki/Sandbox.Islandora.ca-online-credentials\"> login credentials </a></p>\r\n",
+      "format": "full_html",
+      "processed": "<div class=\"node__links\">\n<ul class=\"links inline\">\n\t<li class=\"node-readmore\"><span class=\"node-readmore__link-wrapper\"><a aria-label=\"Browse all collections\" class=\"node-readmore__link\" href=\"/browse-collections\" hreflang=\"en\" rel=\"tag\" title=\"Browse our collections\">Browse All Collections<span class=\"visually-hidden\"> Browse All Collections</span></a></span></li>\n</ul>\n</div>\n\n<p>Welcome to the Islandora Community! (Note that all communication in Islandora is subject to our <a href=\"https://islandora.ca/codeofconduct\">code of conduct</a>).</p>\n\n<p>This demo is loaded with sample content and configurations to demonstrate features of Islandora and provide a starting point for development.  Additional information is provided on the <a href=\"http://islandora.ca/\">Islandora Website</a>. </p>\n\n<p>The <a href=\"https://groups.google.com/g/islandora\">Islandora Google groups mailing list</a> is open to Islandora users who connect to share information. <a href=\"https://join.slack.com/t/islandora/shared_invite/zt-x7e0jj1x-C1pNzKrR7Fvs4QdQziPZ~g\">Join Islandora Slack</a> to ask questions and learn more about community events where you can learn more about Islandora. <a href=\"https://www.drupal.org/slack\">Drupal also maintains a Slack community</a> where you can ask more general questions about Drupal configuration. </p>\n\n<p>We welcome you to visit and edit <a href=\"https://islandora.github.io/documentation/\">Islandora documentation</a> or submit issues and code to Islandora via repositories in our <a href=\"https://github.com/Islandora\">Github organization.  </a></p>\n\n<p>Thanks, and happy building!</p>\n\n<p> <a href=\"https://github.com/Islandora/documentation/wiki/Sandbox.Islandora.ca-online-credentials\"> login credentials </a></p>\n",
+      "summary": ""
+    }
+  ],
+  "field_display_title": [
+    {
+      "value": "Islandora Sandbox"
+    }
+  ]
+}

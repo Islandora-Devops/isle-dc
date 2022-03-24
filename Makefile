@@ -143,6 +143,8 @@ update-settings-php:
 update-config-from-environment:
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_jwt_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_search_api_solr_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
@@ -234,6 +236,10 @@ ifndef SRC
 endif
 	docker cp "$(SRC)" $$(docker-compose ps -q drupal):/tmp/public-files.tgz
 	docker-compose exec -T drupal with-contenv bash -lc 'tar zxvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files && chown -R nginx:nginx /var/www/drupal/web/sites/default/files && rm /tmp/public-files.tgz'
+
+# Composer Update
+composer_update:
+	docker-compose exec -T drupal with-contenv bash -lc 'composer update'
 
 # Dump fcrepo.
 fcrepo-export:
@@ -345,10 +351,59 @@ local: generate-secrets
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC="$(CURDIR)/codebase" ENVIROMENT=local
 
+.PHONY: demo-install-profile
+.SILENT: demo-instal-profile
+demo-install-profile: generate-secrets
+	$(MAKE) download-default-certs ENVIROMENT=demo
+	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
+	$(MAKE) pull ENVIROMENT=demo
+	mkdir -p $(CURDIR)/codebase
+	docker-compose up -d --remove-orphans
+	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish initializing.\n"
+	sleep 10
+	$(MAKE) install
+	$(MAKE) update-settings-php ENVIROMENT=demo
+	$(MAKE) hydrate ENVIROMENT=demo
+	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
+	$(MAKE) initial_content
+	$(MAKE) login
+
+.PHONY: local-install-profile
+.SILENT: local-install-profile
+local-install-profile: generate-secrets
+	$(MAKE) download-default-certs ENVIROMENT=local
+	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
+	$(MAKE) pull ENVIRONMENT=local
+	mkdir -p $(CURDIR)/codebase
+	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+	fi
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
+	docker-compose up -d --remove-orphans
+	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
+	$(MAKE) install ENVIRONMENT=local
+	$(MAKE) hydrate ENVIRONMENT=local
+	# The - at the beginning is not a typo, it will allow this process to failing the make command.
+	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
+	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
+	$(MAKE) initial_content
+	$(MAKE) login
+
+.PHONY: initial_content
+initial_content:
+	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/homepage.json" https://${DOMAIN}/node?_format=json
+	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
+
+# Destroys everything beware!
 .PHONY: clean
 .SILENT: clean
 ## Destroys everything beware!
 clean:
+	echo "**DANGER** About to rm your SERVER data subdirs, your docker volumes and your codebase/web"
+	$(MAKE) confirm
 	-docker-compose down -v
 	sudo rm -fr codebase certs secrets/live/*
 	git clean -xffd .
@@ -367,11 +422,16 @@ up:
 down:
 	-docker-compose down --remove-orphans
 
-GREEN  := $(shell tput -Txterm setaf 2)
-YELLOW := $(shell tput -Txterm setaf 3)
-WHITE  := $(shell tput -Txterm setaf 7)
-RESET  := $(shell tput -Txterm sgr0)
-TARGET_MAX_CHAR_NUM=20
+.PHONY: login
+.SILENT: login
+login:
+	echo "\n\n=========== LOGIN ==========="
+	docker-compose exec -T drupal with-contenv bash -lc "drush uli --uri=$(DOMAIN)"
+	echo "=============================\n"
+
+.phony: confirm
+confirm:
+	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
 
 .PHONY: help
 .SILENT: help
