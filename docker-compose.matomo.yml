@@ -11,7 +11,7 @@ services:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/matomo:${TAG:-latest}
     environment:
-      MATOMO_DEFAULT_SITE_HOST: ${DOMAIN}
+      MATOMO_DEFAULT_HOST: ${DOMAIN}
     volumes:
       - matomo-config-data:/var/www/matomo
     depends_on:
