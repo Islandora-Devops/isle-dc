@@ -336,6 +336,7 @@ demo: generate-secrets
 	$(MAKE) reindex-fcrepo-metadata ENVIRONMENT=demo
 	$(MAKE) reindex-solr ENVIRONMENT=demo
 	$(MAKE) reindex-triplestore ENVIRONMENT=demo
+	sed --in-place='' 's/ENVIRONMENT=local/ENVIRONMENT=demo/g' .env
 
 .PHONY: local
 .SILENT: local
@@ -391,6 +392,7 @@ local-install-profile: generate-secrets
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
+	sed --in-place='' 's/ENVIRONMENT=demo/ENVIRONMENT=local/g' .env
 
 .PHONY: initial_content
 initial_content:
