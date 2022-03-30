@@ -321,28 +321,28 @@ download-default-certs:
 .SILENT: demo
 ## Make a demo site.
 demo: generate-secrets
-	$(MAKE) download-default-certs ENVIROMENT=demo
-	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
-	$(MAKE) pull ENVIROMENT=demo
-	mkdir -p "$(CURDIR)/codebase"
+	$(MAKE) download-default-certs ENVIRONMENT=demo
+	$(MAKE) -B docker-compose.yml ENVIRONMENT=demo
+	$(MAKE) pull ENVIRONMENT=demo
+	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
-	$(MAKE) update-settings-php ENVIROMENT=demo
-	$(MAKE) drupal-public-files-import SRC="$(CURDIR)/demo-data/public-files.tgz" ENVIROMENT=demo
-	$(MAKE) drupal-database ENVIROMENT=demo
-	$(MAKE) drupal-database-import SRC="$(CURDIR)/demo-data/drupal.sql" ENVIROMENT=demo
-	$(MAKE) hydrate ENVIROMENT=demo
+	$(MAKE) update-settings-php ENVIRONMENT=demo
+	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIRONMENT=demo
+	$(MAKE) drupal-database ENVIRONMENT=demo
+	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql ENVIRONMENT=demo
+	$(MAKE) hydrate ENVIRONMENT=demo
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-	$(MAKE) fcrepo-import SRC="$(CURDIR)/demo-data/fcrepo-export.tgz" ENVIROMENT=demo
-	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
-	$(MAKE) reindex-solr ENVIROMENT=demo
-	$(MAKE) reindex-triplestore ENVIROMENT=demo
+	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz ENVIRONMENT=demo
+	$(MAKE) reindex-fcrepo-metadata ENVIRONMENT=demo
+	$(MAKE) reindex-solr ENVIRONMENT=demo
+	$(MAKE) reindex-triplestore ENVIRONMENT=demo
 
 .PHONY: local
 .SILENT: local
 ## Make a local site with codebase directory bind mounted.
 local: QUOTED_CURDIR = "$(CURDIR)"
 local: generate-secrets
-	$(MAKE) download-default-certs ENVIROMENT=local
+	$(MAKE) download-default-certs ENVIRONMENT=local
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p "$(CURDIR)/codebase"
@@ -387,15 +387,10 @@ local-install-profile: generate-secrets
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
-	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
+	$(MAKE) remove_standard_profile_references_from_config ENVIRONMENT=local
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
-	# The - at the beginning is not a typo, it will allow this process to failing the make command.
-	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
-	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
-	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
-	$(MAKE) initial_content
-	$(MAKE) login
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
 
 .PHONY: initial_content
 initial_content:
