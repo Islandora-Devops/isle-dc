@@ -439,7 +439,7 @@ endif
 # Destroys everything beware!
 .PHONY: kitchen_sink
 .SILENT: kitchen_sink
-## Turn on/expose all endpoints for demo/testing; CANTALOUPE, MATOMO, DRUPAL, MYSQL, POSTGRES, TRAEFIK DASHBOARD, FEDORA, BLAZEGRAPH, ACTIVEMQ, SOLR, CODE SERVER. NOT FOR PRODUCTION!!!
+## Turn on/expose all endpoints for demo/testing; CANTALOUPE, MATOMO, DRUPAL, MYSQL, POSTGRES, TRAEFIK DASHBOARD, FEDORA, BLAZEGRAPH, ACTIVEMQ, SOLR, except CODE SERVER. NOT FOR PRODUCTION!!!
 kitchen_sink:
 	echo 'Exposing everything including the kitchen sink...'
 ifeq ($(shell test -e docker-compose.yml && echo -n yes),yes)
@@ -454,11 +454,11 @@ ifeq ($(shell test -e docker-compose.yml && echo -n yes),yes)
 	sed --in-place='' 's/EXPOSE_BLAZEGRAPH=false/EXPOSE_BLAZEGRAPH=true/g' .env
 	sed --in-place='' 's/EXPOSE_ACTIVEMQ=false/EXPOSE_ACTIVEMQ=true/g' .env
 	sed --in-place='' 's/EXPOSE_SOLR=false/EXPOSE_SOLR=true/g' .env
-	sed --in-place='' 's/EXPOSE_CODE_SERVER=false/EXPOSE_CODE_SERVER=true/g' .env
-	sed --in-place='' 's/INCLUDE_CODE_SERVER_SERVICE=false/INCLUDE_CODE_SERVER_SERVICE=true/g' .env
-	$(MAKE) docker-compose.yml
 	$(MAKE) build
+	$(MAKE) pull ENVIRONMENT=$(ENVIRONMENT)
 	$(MAKE) up
+	$(MAKE) hydrate ENVIRONMENT=$(ENVIRONMENT)
+	$(MAKE) reindex-solr ENVIRONMENT=$(ENVIRONMENT)
 	echo "Complete"
 	echo "You can now access the following endpoints:"
 	echo "Drupal:                               https://$(DOMAIN)"
@@ -469,7 +469,6 @@ ifeq ($(shell test -e docker-compose.yml && echo -n yes),yes)
 	echo "Solr:                                 http://$(DOMAIN):8983/solr/#/"
 	echo "Cantaloupe:                           https://$(DOMAIN)/cantaloupe"
 	echo "Matomo:                               https://$(DOMAIN)/matomo/"
-	echo "Code Server (Code Editor in Browser): https://$(DOMAIN):8443/"
 else
 	echo ""
 	echo "Problem: Run this after you've run one of the make commands to build isle-dc (up, demo, local, etc.). Exiting..."
