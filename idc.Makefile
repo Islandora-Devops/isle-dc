@@ -79,7 +79,7 @@ warning-destroy-state:
 	@echo "3. Pull the latest images"
 	@echo "4. Re-install modules from composer.json"
 	@echo "WARNING: continue? [Y/n]"
-	@read line; if [ $$line != "Y" ]; then echo aborting; exit 1 ; fi
+	@read line; if [ $(shell echo $$line | tr A-Z a-z) != "y" ]; then echo aborting; exit 1 ; fi
 
 .PHONY: snapshot-empty
 .SILENT: snapshot-empty
