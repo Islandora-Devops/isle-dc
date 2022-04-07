@@ -453,6 +453,12 @@ env:
 confirm:
 	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
 
+RESET=$(shell tput sgr0)
+RED=$(shell tput setaf 1)
+GREEN=$(shell tput setaf 2)
+YELLOW=$(shell tput setaf 3)
+TARGET_MAX_CHAR_NUM=20
+
 .PHONY: help
 .SILENT: help
 help:
