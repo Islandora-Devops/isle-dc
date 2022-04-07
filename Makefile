@@ -114,8 +114,8 @@ build:
 	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(COMPOSE_PROJECT_NAME)_drupal --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
 
 
-# Updates codebase folder to be owned by the host user and nginx group.
 .PHONY: set-files-owner
+## Updates codebase folder to be owned by the host user and nginx group.
 .SILENT: set-files-owner
 set-files-owner: $(SRC)
 ifndef SRC
@@ -123,30 +123,30 @@ ifndef SRC
 endif
 	sudo find "$(SRC)" -exec chown $(shell id -u):101 {} \;
 
-# Creates required databases for drupal site(s) using environment variables.
 .PHONY: drupal-database
+## Creates required databases for drupal site(s) using environment variables.
 .SILENT: drupal-database
 drupal-database:
 	docker-compose exec -T drupal timeout 300 bash -c "while ! test -e /var/run/nginx/nginx.pid -a -e /var/run/php-fpm7/php-fpm7.pid; do sleep 1; done"
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_database"
 
-# Installs drupal site(s) using environment variables.
 .PHONY: install
+## Installs drupal site(s) using environment variables.
 .SILENT: install
 install: drupal-database
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites install_site"
 
-# Updates settings.php according to the environment variables.
 .PHONY: update-settings-php
+## Updates settings.php according to the environment variables.
 .SILENT: update-settings-php
 update-settings-php:
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
 	# Make sure the host user can read the settings.php files after they have been updated.
 	sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;
 
-# Updates configuration from environment variables.
-# Allow all commands to fail as the user may not have all the modules like matomo, etc.
 .PHONY: update-config-from-environment
+## Updates configuration from environment variables.
+## Allow all commands to fail as the user may not have all the modules like matomo, etc.
 .SILENT: update-config-from-environment
 update-config-from-environment:
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
@@ -157,20 +157,20 @@ update-config-from-environment:
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
 
-# Runs migrations of islandora
 .PHONY: run-islandora-migrations
+## Runs migrations of islandora
 .SILENT: run-islandora-migrations
 run-islandora-migrations:
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites import_islandora_migrations"
 
-# Creates solr-cores according to the environment variables.
 .PHONY: solr-cores
+## Creates solr-cores according to the environment variables.
 .SILENT: solr-cores
 solr-cores:
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
 
-# Creates namespaces in Blazegraph according to the environment variables.
 .PHONY: namespaces
+## Creates namespaces in Blazegraph according to the environment variables.
 .SILENT: namespaces
 namespaces:
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_blazegraph_namespace_with_default_properties"
@@ -207,7 +207,6 @@ remove_standard_profile_references_from_config:
 ## Exports the sites configuration.
 config-export:
 	docker-compose exec -T drupal drush -l $(SITE) config:export -y
-
 
 .PHONY: config-import
 .SILENT: config-import
@@ -296,9 +295,8 @@ reindex-triplestore:
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 
-# Helper to generate secrets & passwords, like so:
-# make generate-secrets
 .PHONY: generate-secrets
+## Helper to generate secrets & passwords, like so: make generate-secrets
 .SILENT: generate-secrets
 generate-secrets:
 ifeq ($(USE_SECRETS), false)
@@ -313,8 +311,8 @@ else
 	$(MAKE) secrets_warning
 endif
 
-# Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: download-default-certs
+## Helper function to generate keys for the user to use in their docker-compose.env.yml
 .SILENT: download-default-certs
 download-default-certs:
 	mkdir -p certs
@@ -349,8 +347,8 @@ demo: generate-secrets
 	$(MAKE) login
 
 .PHONY: local
-.SILENT: local
 ## Make a local site with codebase directory bind mounted.
+.SILENT: local
 local: QUOTED_CURDIR = "$(CURDIR)"
 local: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=local
@@ -371,6 +369,7 @@ local: generate-secrets
 	$(MAKE) login
 
 .PHONY: demo-install-profile
+## Make a local site without codebase directory bind mounted, modeled after sandbox.islandora.ca
 .SILENT: demo-install-profile
 demo-install-profile: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=demo
@@ -391,6 +390,7 @@ demo-install-profile: generate-secrets
 	$(MAKE) login
 
 .PHONY: local-install-profile
+## Make a local site with codebase directory bind mounted, modeled after sandbox.islandora.ca
 .SILENT: local-install-profile
 local-install-profile: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=local
@@ -416,11 +416,11 @@ local-install-profile: generate-secrets
 	$(MAKE) login
 
 .PHONY: initial_content
+## Helper function for the install profile: create a homepage and browse-collections page
 initial_content:
 	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/homepage.json" https://${DOMAIN}/node?_format=json
 	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
 
-# Destroys everything beware!
 .PHONY: clean
 .SILENT: clean
 ## Destroys everything beware!
@@ -443,12 +443,17 @@ up:
 
 .PHONY: down
 .SILENT: down
+<<<<<<< HEAD
 ## Brings down the containers. Same as docker-compose down --remove-orphans
+=======
+## Shuts the system down without deleting any persistent data
+>>>>>>> PHONY cleanup
 down:
 	-docker-compose down --remove-orphans
 
 .PHONY: login
 .SILENT: login
+## Runs "drush uli" to provide a direct login link for user 1
 login:
 	echo "\n\n=========== LOGIN ==========="
 	docker-compose exec -T drupal with-contenv bash -lc "drush uli --uri=$(DOMAIN)"
