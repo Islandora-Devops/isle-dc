@@ -6,6 +6,22 @@ ENV_FILE=$(shell \
 	fi; \
 	echo .env)
 
+UNAME := $(shell uname -s)
+SED := $(shell which sed)
+
+ifeq ($(UNAME), Linux)
+	SED := echo "$(SED) -i "
+endif
+ifeq ($(UNAME),Windows_NT)
+	@echo "Windows is not officially supported. Please use Linux or MacOS."
+endif
+ifeq ($(UNAME),Cygwin)
+	@echo "Windows is not officially supported. Please use Linux or MacOS."
+endif
+ifeq ($(UNAME), Darwin)
+	SED := echo "$(SED) -i.bak"
+endif
+
 # Checks to see if the path includes a space character. Intended to be a temporary fix.
 ifneq (1,$(words $(CURDIR)))
 $(error Containing path cannot contain space characters: '$(CURDIR)')
@@ -336,7 +352,7 @@ demo: generate-secrets
 	$(MAKE) reindex-fcrepo-metadata ENVIRONMENT=demo
 	$(MAKE) reindex-solr ENVIRONMENT=demo
 	$(MAKE) reindex-triplestore ENVIRONMENT=demo
-	sed --in-place='' 's/ENVIRONMENT=local/ENVIRONMENT=demo/g' .env
+	$(shell $(SED) 's/ENVIRONMENT=local/ENVIRONMENT=demo/g' .env)
 
 .PHONY: local
 .SILENT: local
@@ -356,6 +372,44 @@ local: generate-secrets
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC="$(CURDIR)/codebase" ENVIROMENT=local
+
+.PHONY: kitchen_sink
+.SILENT: kitchen_sink
+## Turn on/expose all endpoints for demo/testing; CANTALOUPE, MATOMO, DRUPAL, MYSQL, POSTGRES, TRAEFIK DASHBOARD, FEDORA, BLAZEGRAPH, ACTIVEMQ, SOLR, except CODE SERVER. NOT FOR PRODUCTION!!!
+kitchen_sink:
+	echo 'Exposing everything including the kitchen sink...'
+ifeq ($(shell test -e docker-compose.yml && echo -n yes),yes)
+	$(MAKE) down
+	$(shell $(SED) 's/EXPOSE_CANTALOUPE=false/EXPOSE_CANTALOUPE=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_MATOMO=false/EXPOSE_MATOMO=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_DRUPAL=false/EXPOSE_DRUPAL=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_MYSQL=false/EXPOSE_MYSQL=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_POSTGRES=false/EXPOSE_POSTGRES=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_TRAEFIK_DASHBOARD=false/EXPOSE_TRAEFIK_DASHBOARD=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_FEDORA=false/EXPOSE_FEDORA=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_BLAZEGRAPH=false/EXPOSE_BLAZEGRAPH=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_ACTIVEMQ=false/EXPOSE_ACTIVEMQ=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_SOLR=false/EXPOSE_SOLR=true/g' .env)
+	$(MAKE) down
+	$(MAKE) -B docker-compose.yml
+	$(MAKE) pull ENVIRONMENT=$(ENVIRONMENT)
+	$(MAKE) up
+	$(MAKE) hydrate ENVIRONMENT=$(ENVIRONMENT)
+	$(MAKE) reindex-solr ENVIRONMENT=$(ENVIRONMENT)
+	echo "Complete"
+	echo "You can now access the following endpoints:"
+	echo "Drupal:                               https://$(DOMAIN)"
+	echo "Traefik:                              http://$(DOMAIN):8080/dashboard/#/"
+	echo "Fedora:                               http://$(DOMAIN):8081/fcrepo/rest"
+	echo "Blazegraph:                           http://$(DOMAIN):8082/bigdata/#splash"
+	echo "Activemq:                             http://$(DOMAIN):8161"
+	echo "Solr:                                 http://$(DOMAIN):8983/solr/#/"
+	echo "Cantaloupe:                           https://$(DOMAIN)/cantaloupe"
+	echo "Matomo:                               https://$(DOMAIN)/matomo/"
+else
+	echo ""
+	echo "Problem: Run this after you've run one of the make commands to build isle-dc (up, demo, local, etc.). Exiting..."
+endif
 
 .PHONY: demo-install-profile
 .SILENT: demo-instal-profile
@@ -388,7 +442,7 @@ local-install-profile: generate-secrets
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
-	$(MAKE) remove_standard_profile_references_from_config ENVIRONMENT=local
+	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
@@ -437,43 +491,6 @@ endif
 
 
 # Destroys everything beware!
-.PHONY: kitchen_sink
-.SILENT: kitchen_sink
-## Turn on/expose all endpoints for demo/testing; CANTALOUPE, MATOMO, DRUPAL, MYSQL, POSTGRES, TRAEFIK DASHBOARD, FEDORA, BLAZEGRAPH, ACTIVEMQ, SOLR, except CODE SERVER. NOT FOR PRODUCTION!!!
-kitchen_sink:
-	echo 'Exposing everything including the kitchen sink...'
-ifeq ($(shell test -e docker-compose.yml && echo -n yes),yes)
-	$(MAKE) down
-	sed --in-place='' 's/EXPOSE_CANTALOUPE=false/EXPOSE_CANTALOUPE=true/g' .env
-	sed --in-place='' 's/EXPOSE_MATOMO=false/EXPOSE_MATOMO=true/g' .env
-	sed --in-place='' 's/EXPOSE_DRUPAL=false/EXPOSE_DRUPAL=true/g' .env
-	sed --in-place='' 's/EXPOSE_MYSQL=false/EXPOSE_MYSQL=true/g' .env
-	sed --in-place='' 's/EXPOSE_POSTGRES=false/EXPOSE_POSTGRES=true/g' .env
-	sed --in-place='' 's/EXPOSE_TRAEFIK_DASHBOARD=false/EXPOSE_TRAEFIK_DASHBOARD=true/g' .env
-	sed --in-place='' 's/EXPOSE_FEDORA=false/EXPOSE_FEDORA=true/g' .env
-	sed --in-place='' 's/EXPOSE_BLAZEGRAPH=false/EXPOSE_BLAZEGRAPH=true/g' .env
-	sed --in-place='' 's/EXPOSE_ACTIVEMQ=false/EXPOSE_ACTIVEMQ=true/g' .env
-	sed --in-place='' 's/EXPOSE_SOLR=false/EXPOSE_SOLR=true/g' .env
-	$(MAKE) build
-	$(MAKE) pull ENVIRONMENT=$(ENVIRONMENT)
-	$(MAKE) up
-	$(MAKE) hydrate ENVIRONMENT=$(ENVIRONMENT)
-	$(MAKE) reindex-solr ENVIRONMENT=$(ENVIRONMENT)
-	echo "Complete"
-	echo "You can now access the following endpoints:"
-	echo "Drupal:                               https://$(DOMAIN)"
-	echo "Traefik:                              http://$(DOMAIN):8080/dashboard/#/"
-	echo "Fedora:                               http://$(DOMAIN):8081/fcrepo/rest"
-	echo "Blazegraph:                           http://$(DOMAIN):8082/bigdata/#splash"
-	echo "Activemq:                             http://$(DOMAIN):8161"
-	echo "Solr:                                 http://$(DOMAIN):8983/solr/#/"
-	echo "Cantaloupe:                           https://$(DOMAIN)/cantaloupe"
-	echo "Matomo:                               https://$(DOMAIN)/matomo/"
-else
-	echo ""
-	echo "Problem: Run this after you've run one of the make commands to build isle-dc (up, demo, local, etc.). Exiting..."
-endif
-
 .PHONY: clean
 .SILENT: clean
 ## Destroys everything beware!
