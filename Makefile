@@ -93,7 +93,7 @@ docker-compose.yml: $(SERVICES:%=docker-compose.%.yml) .env
 	docker-compose $(SERVICES:%=-f docker-compose.%.yml) config > docker-compose.yml
 
 .PHONY: pull
-## Fetches the latest images from the registry.
+## _ ← Fetches the latest images from the registry.
 pull: docker-compose.yml
 ifeq ($(REPOSITORY), local)
 	# Only need to pull external services if using local images.
@@ -103,7 +103,7 @@ else
 endif
 
 .PHONY: build
-## Create Dockerfile from example if it does not exist.
+## _ ← Create Dockerfile from example if it does not exist.
 build:
 	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
 		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
@@ -174,7 +174,7 @@ namespaces:
 
 .PHONY: hydrate
 .SILENT: hydrate
-## Reconstitute the site from environment variables.
+## _ Reconstitute the site from environment variables.
 hydrate: update-settings-php update-config-from-environment solr-cores namespaces run-islandora-migrations
 	docker-compose exec -T drupal drush cr -y
 
@@ -201,14 +201,14 @@ remove_standard_profile_references_from_config:
 
 .PHONY: config-export
 .SILENT: config-export
-## Exports the sites configuration.
+## _ Exports the sites configuration.
 config-export:
 	docker-compose exec -T drupal drush -l $(SITE) config:export -y
 
 
 .PHONY: config-import
 .SILENT: config-import
-## Import the sites configuration. N.B You may need to run this multiple times in succession due to errors in the configurations dependencies.
+## _ Import the sites configuration. N.B You may need to run this multiple times in succession due to errors in the configurations dependencies.
 config-import: set-site-uuid delete-shortcut-entities
 	docker-compose exec -T drupal drush -l $(SITE) config:import -y
 
@@ -319,7 +319,7 @@ download-default-certs:
 
 .PHONY: demo
 .SILENT: demo
-## Make a demo site.
+## _ Make a demo site.
 demo: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=demo
 	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
@@ -339,7 +339,7 @@ demo: generate-secrets
 
 .PHONY: local
 .SILENT: local
-## Make a local site with codebase directory bind mounted.
+## _ Make a local site with codebase directory bind mounted.
 local: QUOTED_CURDIR = "$(CURDIR)"
 local: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=local
@@ -405,7 +405,7 @@ initial_content:
 # Destroys everything beware!
 .PHONY: clean
 .SILENT: clean
-## Destroys everything beware!
+## _ Destroys everything beware!
 clean:
 	echo "**DANGER** About to rm your SERVER data subdirs, your docker volumes and your codebase/web"
 	$(MAKE) confirm
@@ -415,7 +415,7 @@ clean:
 
 .PHONY: up
 .SILENT: up
-## Brings up the containers or builds demo if no containers were found.
+## _ Brings up the containers or builds demo if no containers were found.
 up:
 	test -f docker-compose.yml && docker-compose up -d --remove-orphans || $(MAKE) demo
 	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish building.\n"
@@ -424,6 +424,7 @@ up:
 
 .PHONY: down
 .SILENT: down
+## _ Brings down the containers. Same as docker-compose down --remove-orphans
 down:
 	-docker-compose down --remove-orphans
 
@@ -433,6 +434,20 @@ login:
 	echo "\n\n=========== LOGIN ==========="
 	docker-compose exec -T drupal with-contenv bash -lc "drush uli --uri=$(DOMAIN)"
 	echo "=============================\n"
+
+.PHONY: env
+.SILENT: env
+## _ Pull in changes to the .env file.
+env:
+	if [ -f .env ]; then \
+		$(MAKE) down ; \
+		$(MAKE) -B docker-compose.yml ; \
+		$(MAKE) pull ; \
+		$(MAKE) up ; \
+	fi
+	if [ ! -f .env ]; then \
+		echo "No .env file found." ; \
+	fi
 
 .phony: confirm
 confirm:
@@ -462,7 +477,7 @@ CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 
 
 .PHONY: set_admin_password
 .SILENT: set_admin_password
-## Sets the admin password and accomodates for permissions restrictions to the secrets directory. Only runs sudo when needed.
+## _ Sets the admin password and accomodates for permissions restrictions to the secrets directory. Only runs sudo when needed.
 set_admin_password:
 	@$(eval PASSWORD ?= $(shell bash -c 'read -s -p "New Password: " pwd; echo $$pwd'))
 	@echo "\n\nSetting admin password now"
@@ -474,7 +489,7 @@ LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/
 
 .PHONY: fix-masonry
 .SILENT: fix-masonry
-## Fix missing masonry library.
+## _ Fix missing masonry library.
 fix-masonry:
 	@echo "Latest version of masonry library is ${LATEST_VERSION}"
 	docker-compose exec drupal bash -lc "[ -d '/var/www/drupal/web/libraries' ] && exit ; mkdir -p /var/www/drupal/web/libraries ; chmod 755 /var/www/drupal/web/libraries ; chown 1000:nginx /var/www/drupal/web/libraries"
