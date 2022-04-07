@@ -93,7 +93,7 @@ docker-compose.yml: $(SERVICES:%=docker-compose.%.yml) .env
 	docker-compose $(SERVICES:%=-f docker-compose.%.yml) config > docker-compose.yml
 
 .PHONY: pull
-## _ ← Fetches the latest images from the registry.
+## _ Fetches the latest images from the registry.
 pull: docker-compose.yml
 ifeq ($(REPOSITORY), local)
 	# Only need to pull external services if using local images.
@@ -103,7 +103,7 @@ else
 endif
 
 .PHONY: build
-## _ ← Create Dockerfile from example if it does not exist.
+## _ Create Dockerfile from example if it does not exist.
 build:
 	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
 		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
