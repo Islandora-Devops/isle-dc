@@ -454,9 +454,8 @@ confirm:
 	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
 
 RESET=$(shell tput sgr0)
-RED=$(shell tput setaf 1)
-GREEN=$(shell tput setaf 2)
-YELLOW=$(shell tput setaf 3)
+RED=$(shell tput setaf 9)
+BLUE=$(shell tput setaf 6)
 TARGET_MAX_CHAR_NUM=20
 
 .PHONY: help
@@ -464,7 +463,7 @@ TARGET_MAX_CHAR_NUM=20
 help:
 	@echo ''
 	@echo 'Usage:'
-	@echo '  ${YELLOW}make${RESET} ${GREEN}<target>${RESET}'
+	@echo '  ${RED}make${RESET} ${BLUE}<target>${RESET}'
 	@echo ''
 	@echo 'Targets:'
 	# @grep '^.PHONY: .* #' Makefile | sed 's/\.PHONY: \(.*\) # \(.*\)/\1 \2/'
@@ -473,7 +472,7 @@ help:
 		if (helpMessage) { \
 			helpCommand = $$1; sub(/:$$/, "", helpCommand); \
 			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
-			printf "  ${YELLOW}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${GREEN}%s${RESET}\n", helpCommand, helpMessage; \
+			printf "  ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}\n", helpCommand, helpMessage; \
 		} \
 	} \
 	{lastLine = $$0}' $(MAKEFILE_LIST)
