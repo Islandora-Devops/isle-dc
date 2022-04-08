@@ -406,7 +406,7 @@ local-install-profile: generate-secrets
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	sed -i 's/^DRUPAL_INSTALL_PROFILE=standard/DRUPAL_INSTALL_PROFILE=islandora_install_profile_demo /g' .env
 	$(MAKE) install ENVIRONMENT=local DRUPAL_INSTALL_PROFILE=islandora_install_profile_demo
-	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults islandora_defaults"
+	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults"
 	$(MAKE) hydrate ENVIRONMENT=local
 	# The - at the beginning is not a typo, it will allow this process to failing the make command.
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
