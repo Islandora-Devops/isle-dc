@@ -398,22 +398,22 @@ local-install-profile: generate-secrets
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p $(CURDIR)/codebase
 	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone https://github.com/islandora-devops/islandora-sandbox -b isle-dc-pr-248 /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	sed -i 's/^DRUPAL_INSTALL_PROFILE=standard/DRUPAL_INSTALL_PROFILE=islandora_install_profile_demo /g' .env
-	$(MAKE) install ENVIRONMENT=local DRUPAL_INSTALL_PROFILE=islandora_install_profile_demo
-	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults"
+	$(MAKE) install ENVIRONMENT=local
+	docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
 	$(MAKE) hydrate ENVIRONMENT=local
 	# The - at the beginning is not a typo, it will allow this process to failing the make command.
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
 	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
 	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
-	$(MAKE) initial_content
-	$(MAKE) login
+	# $(MAKE) initial_content
+	# $(MAKE) login
 
 .PHONY: initial_content
 ## Helper function for the install profile: create a homepage and browse-collections page
