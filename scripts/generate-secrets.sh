@@ -13,7 +13,7 @@ function generate_matomo_password() {
 	# the form, and the hashed version which is written into the database.
 	random_secret 'A-Za-z0-9' 48 MATOMO_USER_PASS_NON_HASHED
 	MATOMO_USER_PASS=$(cat /secrets/live/MATOMO_USER_PASS_NON_HASHED)
-	php -r "echo password_hash(md5('${MATOMO_USER_PASS}'), PASSWORD_DEFAULT) . '\n';" >/secrets/live/MATOMO_USER_PASS
+	php -r "echo password_hash(md5('${MATOMO_USER_PASS}'), PASSWORD_DEFAULT);" >/secrets/live/MATOMO_USER_PASS
 }
 
 function random_secret() {
