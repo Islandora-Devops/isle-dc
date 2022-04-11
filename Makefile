@@ -132,7 +132,6 @@ drupal-database:
 
 .PHONY: install
 ## Installs drupal site(s) using environment variables.
-.SILENT: install
 install: drupal-database
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites install_site"
 
@@ -391,7 +390,6 @@ demo-install-profile: generate-secrets
 
 .PHONY: local-install-profile
 ## Make a local site with codebase directory bind mounted, modeled after sandbox.islandora.ca
-.SILENT: local-install-profile
 local-install-profile: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=local
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
@@ -404,8 +402,7 @@ local-install-profile: generate-secrets
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
-	sed -i 's/^DRUPAL_INSTALL_PROFILE=standard/DRUPAL_INSTALL_PROFILE=islandora_install_profile_demo /g' .env
-	$(MAKE) install ENVIRONMENT=local
+	docker-compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo"
 	$(MAKE) delete-shortcut-entities && docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
 	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults migrate_tools"
 	$(MAKE) hydrate ENVIRONMENT=local
@@ -413,14 +410,14 @@ local-install-profile: generate-secrets
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
 	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
 	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
-	# $(MAKE) initial_content
-	# $(MAKE) login
+	$(MAKE) initial_content
+	$(MAKE) login
 
 .PHONY: initial_content
 ## Helper function for the install profile: create a homepage and browse-collections page
 initial_content:
-	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/homepage.json" https://${DOMAIN}/node?_format=json
-	curl -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
+	curl -k -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/homepage.json" https://${DOMAIN}/node?_format=json
+	curl -k -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
 
 .PHONY: clean
 .SILENT: clean
