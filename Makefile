@@ -132,6 +132,7 @@ drupal-database:
 
 .PHONY: install
 ## Installs drupal site(s) using environment variables.
+.SILENT: install
 install: drupal-database
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites install_site"
 
@@ -367,27 +368,6 @@ local: generate-secrets
 	$(MAKE) secrets_warning
 	$(MAKE) login
 
-.PHONY: demo-install-profile
-## Make a local site without codebase directory bind mounted, modeled after sandbox.islandora.ca
-.SILENT: demo-install-profile
-demo-install-profile: generate-secrets
-	$(MAKE) download-default-certs ENVIROMENT=demo
-	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
-	$(MAKE) pull ENVIROMENT=demo
-	mkdir -p $(CURDIR)/codebase
-	docker-compose up -d --remove-orphans
-	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish initializing.\n"
-	sleep 10
-	sed -i 's/^DRUPAL_INSTALL_PROFILE=standard/DRUPAL_INSTALL_PROFILE=islandora_install_profile_demo /g' .env
-	$(MAKE) install ENVIROMENT=demo DRUPAL_INSTALL_PROFILE=islandora_install_profile_demo
-	$(MAKE) update-settings-php ENVIROMENT=demo
-	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults"
-	$(MAKE) hydrate ENVIROMENT=demo
-	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
-	$(MAKE) initial_content
-	$(MAKE) login
-
 .PHONY: local-install-profile
 ## Make a local site with codebase directory bind mounted, modeled after sandbox.islandora.ca
 local-install-profile: generate-secrets
@@ -401,15 +381,15 @@ local-install-profile: generate-secrets
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
-	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
+	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIROMENT=local
 	docker-compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo"
 	$(MAKE) delete-shortcut-entities && docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
-	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults migrate_tools"
+	docker-compose exec -T drupal with-contenv bash -lc "drush en -y migrate_tools"
 	$(MAKE) hydrate ENVIRONMENT=local
 	# The - at the beginning is not a typo, it will allow this process to failing the make command.
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
-	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
-	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
+	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
 	$(MAKE) initial_content
 	$(MAKE) login
 
