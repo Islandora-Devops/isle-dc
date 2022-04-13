@@ -378,7 +378,7 @@ local: generate-secrets
 ## Turn on/expose all endpoints for demo/testing; CANTALOUPE, MATOMO, DRUPAL, MYSQL, POSTGRES, TRAEFIK DASHBOARD, FEDORA, BLAZEGRAPH, ACTIVEMQ, SOLR, except CODE SERVER. NOT FOR PRODUCTION!!!
 kitchen_sink:
 	echo 'Exposing everything including the kitchen sink...'
-ifeq ($(shell test -e docker-compose.yml && echo -n yes),yes)
+ifeq ($(shell /usr/bin/env bash -c "test -e docker-compose.yml && echo -n yes"),yes)
 	$(MAKE) down
 	$(shell $(SED) 's/EXPOSE_CANTALOUPE=false/EXPOSE_CANTALOUPE=true/g' .env)
 	$(shell $(SED) 's/EXPOSE_MATOMO=false/EXPOSE_MATOMO=true/g' .env)
