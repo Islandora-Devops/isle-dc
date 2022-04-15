@@ -360,10 +360,11 @@ local: generate-secrets
 		docker container run --rm -v "$(CURDIR)/codebase":/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:dev-8.x-1.x; composer require islandora/islandora_defaults:dev-8.x-1.x; composer require drush/drush:^10.3; composer require drupal/search_api_solr:^4.2'; \
 	fi
 	docker-compose up -d
+	docker-compose exec -T drupal with-contenv bash -lc 'composer require mjordan/islandora_workbench_integration "dev-main"'
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
-	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults islandora_defaults"
+	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults islandora_defaults islandora_workbench_integration"
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC="$(CURDIR)/codebase" ENVIROMENT=local
 	$(MAKE) secrets_warning
@@ -371,8 +372,8 @@ local: generate-secrets
 
 .PHONY: demo-install-profile
 ## Make a local site from the install-profile and TODO then add demo content
-.SILENT: demo-instal-profile
-demo-install-profile: generate-secrets
+.SILENT: demo-install-profile
+demo-install-profile:
 	$(MAKE) local-install-profile
 	$(MAKE) demo_content
 	$(MAKE) login
@@ -410,10 +411,10 @@ demo_content:
 	# if [ -d "islandora_workbench" ]; then rm -rf islandora_workbench; fi
 	[ -d "islandora_workbench" ] || git clone -b staging --single-branch https://github.com/DonRichards/islandora_workbench
 ifeq ($(shell uname -s),Linux)
-	sed -i 's/^password.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
+	sed -i 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
 endif
 ifeq ($(shell uname -s),Darwin)
-	sed -i '' 's/^password.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
+	sed -i '' 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
 endif
 	cd islandora_workbench && docker build -t workbench-docker .
 	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install --user && ./workbench --config demoBDcreate_all_localhost.yml)"
@@ -425,7 +426,7 @@ clean:
 	echo "**DANGER** About to rm your SERVER data subdirs, your docker volumes and your codebase/web"
 	$(MAKE) confirm
 	-docker-compose down -v
-	sudo rm -fr codebase certs secrets/live/*
+	sudo rm -fr codebase islandora_workbench certs secrets/live/*
 	git clean -xffd .
 
 .PHONY: up
