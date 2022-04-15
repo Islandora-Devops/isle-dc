@@ -412,9 +412,11 @@ demo_content:
 	[ -d "islandora_workbench" ] || git clone -b staging --single-branch https://github.com/DonRichards/islandora_workbench
 ifeq ($(shell uname -s),Linux)
 	sed -i 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
+	sed -i 's/http:/https:/g' islandora_workbench/demoBDcreate*
 endif
 ifeq ($(shell uname -s),Darwin)
 	sed -i '' 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
+	sed -i '' 's/http:/https:/g' islandora_workbench/demoBDcreate*
 endif
 	cd islandora_workbench && docker build -t workbench-docker .
 	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install --user && ./workbench --config demoBDcreate_all_localhost.yml)"
