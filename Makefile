@@ -18,7 +18,7 @@ endif
 # users to regenerate their .env files losing their changes.
 include sample.env
 include $(ENV_FILE)
-
+s
 # The site to operate on when using drush -l $(SITE) commands
 SITE?=default
 
@@ -369,6 +369,14 @@ local: generate-secrets
 	$(MAKE) secrets_warning
 	$(MAKE) login
 
+.PHONY: demo-install-profile
+## Make a local site from the install-profile and TODO then add demo content
+.SILENT: demo-instal-profile
+demo-install-profile: generate-secrets
+	$(MAKE) local-install-profile
+	$(MAKE) demo_content
+	$(MAKE) login
+
 .PHONY: local-install-profile
 ## Make a local site with codebase directory bind mounted, modeled after sandbox.islandora.ca
 local-install-profile: generate-secrets
@@ -387,18 +395,28 @@ local-install-profile: generate-secrets
 	$(MAKE) delete-shortcut-entities && docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
 	docker-compose exec -T drupal with-contenv bash -lc "drush en -y migrate_tools"
 	$(MAKE) hydrate ENVIRONMENT=local
-	# The - at the beginning is not a typo, it will allow this process to failing the make command.
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
 	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
 	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
-	$(MAKE) initial_content
-	$(MAKE) login
-
-.PHONY: initial_content
-## Helper function for the install profile: create a homepage and browse-collections page
-initial_content:
 	curl -k -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/homepage.json" https://${DOMAIN}/node?_format=json
 	curl -k -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
+	$(MAKE) login
+
+.PHONY: demo_content
+## Helper function for demo sites: do a workbench import of sample objects
+demo_content:
+	# fetch repo that has csv and binaries to data/samples
+	# if prod do this by default
+	# if [ -d "islandora_workbench" ]; then rm -rf islandora_workbench; fi
+	[ -d "islandora_workbench" ] || git clone -b staging --single-branch https://github.com/DonRichards/islandora_workbench
+ifeq ($(shell uname -s),Linux)
+	sed -i 's/^password.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
+endif
+ifeq ($(shell uname -s),Darwin)
+	sed -i '' 's/^password.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
+endif
+	cd islandora_workbench && docker build -t workbench-docker .
+	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install --user && ./workbench --config demoBDcreate_all_localhost.yml)"
 
 .PHONY: clean
 .SILENT: clean
@@ -422,11 +440,7 @@ up:
 
 .PHONY: down
 .SILENT: down
-<<<<<<< HEAD
 ## Brings down the containers. Same as docker-compose down --remove-orphans
-=======
-## Shuts the system down without deleting any persistent data
->>>>>>> PHONY cleanup
 down:
 	-docker-compose down --remove-orphans
 
