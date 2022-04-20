@@ -89,9 +89,13 @@ function main() {
 				echo -e "\nCopying secrets from $(pwd)/secrets/template/ to $(pwd)/secrets/live/\n"
 				echo -e "${GREEN}Suggestion${RESET}:\n    It is much easier to modify these before you start isle than to try to figure out how to push them to the containers."
 				cp -n $(pwd)/secrets/template/* $(pwd)/secrets/live/
-				echo -e "\n${RED}Exiting build${RESET}: Please modify the secrets in $(pwd)/secrets/live/ and then run the same ${BLUE}make${RESET} command again."
 				echo -e "This is optional, but it is recommended to modify the secrets in $(pwd)/secrets/live/ before running on a production environment.\n\n"
-				exit 1
+				echo -e "Would you like to ${RED}exit${RESET} this build process to change the default values of the secrets manually? [y/N] "
+				read exit_answer
+				if [[ ${exit_answer} == [yY] ]] ; then
+					echo -e "\n${RED}Exiting build${RESET}: Please modify the secrets in $(pwd)/secrets/live/ and then run ${BLUE}make up${RESET} command to continue the build process.\n\n\n\n${RED}Exiting build now!...${RESET}"
+					exit 1
+				fi
 			fi
 		fi
 	fi
