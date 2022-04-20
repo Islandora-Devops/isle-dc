@@ -141,6 +141,13 @@ function main() {
 			exit 1
 		fi
 	fi
+
+	# Check if Salt matches the one in secrets/live/.
+	SALT=$(docker-compose exec drupal with-contenv bash -lc "cat web/sites/default/settings.php | grep -F \"['hash_salt']\" | cut -c 27- | cut -f1 -d\"'\" | tr -d '\n'")
+	SETTINGS_SALT=$(cat secrets/live/DRUPAL_DEFAULT_SALT | cut -f1 -d"%" | tr -d '\n')
+	if [[ $(echo "${SALT}") != $(echo "${SETTINGS_SALT}") ]]; then
+		echo "Updates to the salt are not automatically added to web/sites/default/settings.php file. Please make this change manually and then run the same ${BLUE}make down && make up${RESET} command again."
+	fi
 }
 
 # Just incase the wishes to automate generation of secrets.
