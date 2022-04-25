@@ -155,6 +155,17 @@ update-config-from-environment:
 run-islandora-migrations:
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites import_islandora_migrations"
 
+# Reloads solr-cores with current live configurations and then optimizes it. This assumes the solr-core is named ISLANDORA.
+.PHONY: solr-reload-cores
+.SILENT: solr-reload-cores
+solr-reload-cores:
+	for i in $(shell docker inspect -f "{{range .NetworkSettings.Networks}}{{println .IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr) | grep .) ; do \
+		curl http://$$i:8983/solr/admin/cores?action=RELOAD&core=ISLANDORA ; \
+		curl http://$$i:8983/solr/admin/cores?action=OPTIMIZE&core=ISLANDORA ; \
+		echo "Can be verified at http://$$i:8983/solr/#/~cores/ISLANDORA"; \
+	done
+	echo "400 message will happen if the core is current and optimized. These features only become available when the core isn't current."
+
 # Creates solr-cores according to the environment variables.
 .PHONY: solr-cores
 .SILENT: solr-cores
