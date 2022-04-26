@@ -19,24 +19,26 @@ services:
     container_name: traefik
     # Do not set `api.insecure`, `api.dashboard`, `api.debug` to `true` in production.
     # Also do not expose database 3306/5432, as an entry point.
-    command: >-
-      --api.insecure=${EXPOSE_TRAEFIK_DASHBOARD:-false}
-      --api.dashboard=${EXPOSE_TRAEFIK_DASHBOARD:-false}
-      --api.debug=${EXPOSE_TRAEFIK_DASHBOARD:-false}
-      --entryPoints.http.address=:80
-      --entryPoints.https.address=:443
-      --entryPoints.mysql.address=:3306
-      --entryPoints.postgresql.address=:5432
-      --entryPoints.fcrepo.address=:8081
-      --entryPoints.blazegraph.address=:8082
-      --entryPoints.activemq.address=:8161
-      --entryPoints.solr.address=:8983
-      --entryPoints.code-server.address=:8443
-      --providers.docker
-      --providers.docker.network=gateway
-      --providers.docker.exposedByDefault=false
-      --providers.file.filename=/etc/traefik/tls.yml
-      '--providers.docker.defaultRule=Host(`${DOMAIN}`)'
+    # If the commands below are changed, please copy the changes to `docker-compose.acme.yml`.
+    command:
+      - --api.insecure=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      - --api.dashboard=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      - --api.debug=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      - --entryPoints.http.address=:80
+      - --entryPoints.https.address=:443
+      - --entryPoints.mysql.address=:3306
+      - --entryPoints.postgresql.address=:5432
+      - --entryPoints.fcrepo.address=:8081
+      - --entryPoints.blazegraph.address=:8082
+      - --entryPoints.activemq.address=:8161
+      - --entryPoints.solr.address=:8983
+      - --entryPoints.code-server.address=:8443
+      - --log.level=${TRAEFIK_LOG_LEVEL-ERROR}
+      - --providers.docker
+      - --providers.docker.network=gateway
+      - --providers.docker.exposedByDefault=false
+      - --providers.file.filename=/etc/traefik/tls.yml
+      - '--providers.docker.defaultRule=Host(`${DOMAIN}`)'
     ports:
       - 80:80       # drupal, cantaloupe, matomo
       - 443:443     # https for ^^^

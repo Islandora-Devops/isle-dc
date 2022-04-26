@@ -18,7 +18,7 @@ services:
       - cantaloupe-data:/data
     labels:
       - traefik.enable=${EXPOSE_CANTALOUPE:-true}
-      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe.loadbalancer.server.port=80
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe.loadbalancer.server.port=8080
       - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.scheme=https
       - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.permanent=true
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe
