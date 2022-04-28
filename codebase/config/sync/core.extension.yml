@@ -52,6 +52,7 @@ module:
   filter: 0
   flysystem: 0
   geolocation: 0
+  google_analytics: 0
   google_tag: 0
   hal: 0
   help: 0
@@ -65,16 +66,13 @@ module:
   imagemagick: 0
   islandora: 0
   islandora_audio: 0
+  islandora_breadcrumbs: 0
   islandora_core_feature: 0
   islandora_defaults: 0
   islandora_fits: 0
   islandora_iiif: 0
   islandora_image: 0
   islandora_oaipmh: 0
-  islandora_repository_reports: 0
-  islandora_repository_reports_log: 0
-  islandora_repository_reports_oai_usage: 0
-  islandora_repository_reports_vocab: 0
   islandora_search: 0
   islandora_text_extraction: 0
   islandora_text_extraction_defaults: 0
