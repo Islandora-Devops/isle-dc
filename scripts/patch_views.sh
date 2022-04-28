@@ -6,16 +6,46 @@ ERROR_MESSAGE=$(drush watchdog:show --severity=Error --filter="InvalidArgumentEx
 
 # If error message equals to "No such file or directory", then exit.
 if [[ $ERROR_MESSAGE == *'InvalidArgumentException'* ]]; then
+
 	# Install Drupal Console.
-	composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader -W
+	drupal_console_installed() {
+		composer show 'drupal/console' | grep -q '/var/www/drupal/vendor/drupal/console'
+	}
+	if drupal_console_installed; then
+		echo 'Package installed'
+	else
+		composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader -W
+	fi
 
 	# Reinstall views
-	/var/www/drupal/vendor/drupal/console/bin/drupal debug:views --status='Enabled' | awk '{system("/var/www/drupal/vendor/drupal/console/bin/drupal views:disable " $1)}'
-	/var/www/drupal/vendor/drupal/console/bin/drupal debug:views --status='Disabled' | awk '{system("/var/www/drupal/vendor/drupal/console/bin/drupal views:enable " $1)}'
+	enabled_view=`/var/www/drupal/vendor/drupal/console/bin/drupal debug:views --status='Enabled' | cut -d ' ' -f 2 | tail -n +2`
+	for dis_view in $enabled_view; do
+		echo "Disabling view $dis_view"
+		/var/www/drupal/vendor/drupal/console/bin/drupal views:disable $dis_view
+	done
+
+	for en_view in $enabled_view; do
+		echo "Reenabling view $en_view"
+		/var/www/drupal/vendor/drupal/console/bin/drupal views:enable $en_view
+	done
 
 	# Install devel.
-	composer require 'drupal/devel:^4.1' -W && drush pm:enable -y devel
-	drush dev:reinstall islandora
+	devel_installed() {
+		composer show 'drupal/devel' | grep -q '/var/www/drupal/web/modules/contrib/devel'
+	}
+	if devel_installed; then
+		echo 'Package installed'
+	else
+		composer require 'drupal/devel:^4.1' -W
+	fi
+	drush pm:enable -y devel
+
+	echo -e "\n\nThis will likely throw an error, but that's okay.  It's just a patch.\n\n"
+	{ # try
+    drush dev:reinstall -y islandora
+	} || { # catch
+		echo -e "\nIgnore these errors. This will fail if any content is already created.\n\n"
+	}
 
 	# Clear caches
 	/var/www/drupal/vendor/drupal/console/bin/drupal cache:rebuild
