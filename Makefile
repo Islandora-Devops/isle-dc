@@ -424,6 +424,7 @@ up:
 
 .PHONY: down
 .SILENT: down
+## Brings down the containers. Same as docker-compose down --remove-orphans
 down:
 	-docker-compose down --remove-orphans
 
@@ -434,16 +435,35 @@ login:
 	docker-compose exec -T drupal with-contenv bash -lc "drush uli --uri=$(DOMAIN)"
 	echo "=============================\n"
 
+.PHONY: env
+.SILENT: env
+## Pull in changes to the .env file.
+env:
+	if [ -f .env ]; then \
+		$(MAKE) down ; \
+		$(MAKE) -B docker-compose.yml ; \
+		$(MAKE) pull ; \
+		$(MAKE) up ; \
+	fi
+	if [ ! -f .env ]; then \
+		echo "No .env file found." ; \
+	fi
+
 .phony: confirm
 confirm:
 	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
+
+RESET=$(shell tput sgr0)
+RED=$(shell tput setaf 9)
+BLUE=$(shell tput setaf 6)
+TARGET_MAX_CHAR_NUM=20
 
 .PHONY: help
 .SILENT: help
 help:
 	@echo ''
 	@echo 'Usage:'
-	@echo '  ${YELLOW}make${RESET} ${GREEN}<target>${RESET}'
+	@echo '  ${RED}make${RESET} ${BLUE}<target>${RESET}'
 	@echo ''
 	@echo 'Targets:'
 	# @grep '^.PHONY: .* #' Makefile | sed 's/\.PHONY: \(.*\) # \(.*\)/\1 \2/'
@@ -452,7 +472,7 @@ help:
 		if (helpMessage) { \
 			helpCommand = $$1; sub(/:$$/, "", helpCommand); \
 			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
-			printf "  ${YELLOW}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${GREEN}%s${RESET}\n", helpCommand, helpMessage; \
+			printf "  ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}\n", helpCommand, helpMessage; \
 		} \
 	} \
 	{lastLine = $$0}' $(MAKEFILE_LIST)
