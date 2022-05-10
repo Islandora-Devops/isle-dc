@@ -402,7 +402,7 @@ local-install-profile: generate-secrets
 	$(MAKE) hydrate ENVIRONMENT=local
 	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
 	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
-	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
+	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
 	curl -k -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/homepage.json" https://${DOMAIN}/node?_format=json
 	curl -k -u admin:$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) -H "Content-Type: application/json" -d "@demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
 	$(MAKE) login
