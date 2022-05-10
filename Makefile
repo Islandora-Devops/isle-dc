@@ -162,7 +162,10 @@ update-config-from-environment:
 ## Runs migrations of islandora
 .SILENT: run-islandora-migrations
 run-islandora-migrations:
-	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites import_islandora_migrations"
+	#docker-compose exec -T drupal with-contenv bash -lc "for_all_sites import_islandora_migrations"
+	# this line can be reverted when https://github.com/Islandora-Devops/isle-buildkit/blob/fae704f065435438828c568def2a0cc926cc4b6b/drupal/rootfs/etc/islandora/utilities.sh#L557
+	# has been updated to match
+	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:import islandora_defaults_tags,islandora_tags'
 
 .PHONY: solr-cores
 ## Creates solr-cores according to the environment variables.
@@ -357,11 +360,11 @@ local: generate-secrets
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p "$(CURDIR)/codebase"
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v "$(CURDIR)/codebase":/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:dev-8.x-1.x; composer require islandora/islandora_defaults:^2.0; composer require drush/drush:^10.3; composer require drupal/search_api_solr:^4.2'; \
+		docker container run --rm -v "$(CURDIR)/codebase":/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:^2.0; composer require islandora/islandora_defaults:^2.0; composer require drush/drush:^10.3; composer require drupal/search_api_solr:^4.2'; \
 	fi
 	docker-compose up -d
 	docker-compose exec -T drupal with-contenv bash -lc 'composer require mjordan/islandora_workbench_integration "dev-main"'
-	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	docker-compose exec -T drupal with-contenv bash -lc 'composer update -W; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
 	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults islandora_defaults islandora_workbench_integration"
