@@ -391,6 +391,7 @@ local-install-profile: generate-secrets
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+
 	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIROMENT=local
 	docker-compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
 	$(MAKE) delete-shortcut-entities && docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
@@ -409,7 +410,7 @@ demo_content:
 	# fetch repo that has csv and binaries to data/samples
 	# if prod do this by default
 	# if [ -d "islandora_workbench" ]; then rm -rf islandora_workbench; fi
-	[ -d "islandora_workbench" ] || git clone -b staging --single-branch https://github.com/DonRichards/islandora_workbench
+	[ -d "islandora_workbench" ] || (git clone -b patch-2 --single-branch https://github.com/noahwsmith/islandora_workbench && cd islandora_workbench && git remote add upstream https://github.com/mjordan/islandora_workbench.git && git pull --no-edit upstream main)
 ifeq ($(shell uname -s),Linux)
 	sed -i 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
 	sed -i 's/http:/https:/g' islandora_workbench/demoBDcreate*
@@ -419,7 +420,7 @@ ifeq ($(shell uname -s),Darwin)
 	sed -i '' 's/http:/https:/g' islandora_workbench/demoBDcreate*
 endif
 	cd islandora_workbench && docker build -t workbench-docker .
-	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install --user && ./workbench --config demoBDcreate_all_localhost.yml)"
+	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install 2>&1 && ./workbench --config demoBDcreate_all_localhost.yml)"
 
 .PHONY: clean
 .SILENT: clean
