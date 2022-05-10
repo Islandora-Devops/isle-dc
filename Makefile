@@ -6,6 +6,22 @@ ENV_FILE=$(shell \
 	fi; \
 	echo .env)
 
+UNAME := $(shell uname -s)
+SED := $(shell which sed)
+
+ifeq ($(UNAME), Linux)
+	SED := echo "$(SED) -i "
+endif
+ifeq ($(UNAME),Windows_NT)
+	@echo "Windows is not officially supported. Please use Linux or MacOS."
+endif
+ifeq ($(UNAME),Cygwin)
+	@echo "Windows is not officially supported. Please use Linux or MacOS."
+endif
+ifeq ($(UNAME), Darwin)
+	SED := echo "$(SED) -i.bak"
+endif
+
 # Checks to see if the path includes a space character. Intended to be a temporary fix.
 ifneq (1,$(words $(CURDIR)))
 $(error Containing path cannot contain space characters: '$(CURDIR)')
@@ -321,28 +337,29 @@ download-default-certs:
 .SILENT: demo
 ## Make a demo site.
 demo: generate-secrets
-	$(MAKE) download-default-certs ENVIROMENT=demo
-	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
-	$(MAKE) pull ENVIROMENT=demo
-	mkdir -p "$(CURDIR)/codebase"
+	$(MAKE) download-default-certs ENVIRONMENT=demo
+	$(MAKE) -B docker-compose.yml ENVIRONMENT=demo
+	$(MAKE) pull ENVIRONMENT=demo
+	mkdir -p $(CURDIR)/codebase
 	docker-compose up -d
-	$(MAKE) update-settings-php ENVIROMENT=demo
-	$(MAKE) drupal-public-files-import SRC="$(CURDIR)/demo-data/public-files.tgz" ENVIROMENT=demo
-	$(MAKE) drupal-database ENVIROMENT=demo
-	$(MAKE) drupal-database-import SRC="$(CURDIR)/demo-data/drupal.sql" ENVIROMENT=demo
-	$(MAKE) hydrate ENVIROMENT=demo
+	$(MAKE) update-settings-php ENVIRONMENT=demo
+	$(MAKE) drupal-public-files-import SRC=$(CURDIR)/demo-data/public-files.tgz ENVIRONMENT=demo
+	$(MAKE) drupal-database ENVIRONMENT=demo
+	$(MAKE) drupal-database-import SRC=$(CURDIR)/demo-data/drupal.sql ENVIRONMENT=demo
+	$(MAKE) hydrate ENVIRONMENT=demo
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-	$(MAKE) fcrepo-import SRC="$(CURDIR)/demo-data/fcrepo-export.tgz" ENVIROMENT=demo
-	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
-	$(MAKE) reindex-solr ENVIROMENT=demo
-	$(MAKE) reindex-triplestore ENVIROMENT=demo
+	$(MAKE) fcrepo-import SRC=$(CURDIR)/demo-data/fcrepo-export.tgz ENVIRONMENT=demo
+	$(MAKE) reindex-fcrepo-metadata ENVIRONMENT=demo
+	$(MAKE) reindex-solr ENVIRONMENT=demo
+	$(MAKE) reindex-triplestore ENVIRONMENT=demo
+	$(shell $(SED) 's/ENVIRONMENT=local/ENVIRONMENT=demo/g' .env)
 
 .PHONY: local
 .SILENT: local
 ## Make a local site with codebase directory bind mounted.
 local: QUOTED_CURDIR = "$(CURDIR)"
 local: generate-secrets
-	$(MAKE) download-default-certs ENVIROMENT=local
+	$(MAKE) download-default-certs ENVIRONMENT=local
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p "$(CURDIR)/codebase"
@@ -355,6 +372,44 @@ local: generate-secrets
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC="$(CURDIR)/codebase" ENVIROMENT=local
+
+.PHONY: kitchen_sink
+.SILENT: kitchen_sink
+## Turn on/expose all endpoints for demo/testing; CANTALOUPE, MATOMO, DRUPAL, MYSQL, POSTGRES, TRAEFIK DASHBOARD, FEDORA, BLAZEGRAPH, ACTIVEMQ, SOLR, except CODE SERVER. NOT FOR PRODUCTION!!!
+kitchen_sink:
+	echo 'Exposing everything including the kitchen sink...'
+ifeq ($(shell /usr/bin/env bash -c "test -e docker-compose.yml && echo -n yes"),yes)
+	$(MAKE) down
+	$(shell $(SED) 's/EXPOSE_CANTALOUPE=false/EXPOSE_CANTALOUPE=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_MATOMO=false/EXPOSE_MATOMO=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_DRUPAL=false/EXPOSE_DRUPAL=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_MYSQL=false/EXPOSE_MYSQL=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_POSTGRES=false/EXPOSE_POSTGRES=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_TRAEFIK_DASHBOARD=false/EXPOSE_TRAEFIK_DASHBOARD=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_FEDORA=false/EXPOSE_FEDORA=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_BLAZEGRAPH=false/EXPOSE_BLAZEGRAPH=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_ACTIVEMQ=false/EXPOSE_ACTIVEMQ=true/g' .env)
+	$(shell $(SED) 's/EXPOSE_SOLR=false/EXPOSE_SOLR=true/g' .env)
+	$(MAKE) down
+	$(MAKE) -B docker-compose.yml
+	$(MAKE) pull ENVIRONMENT=$(ENVIRONMENT)
+	$(MAKE) up
+	$(MAKE) hydrate ENVIRONMENT=$(ENVIRONMENT)
+	$(MAKE) reindex-solr ENVIRONMENT=$(ENVIRONMENT)
+	echo "Complete"
+	echo "You can now access the following endpoints:"
+	echo "Drupal:                               https://$(DOMAIN)"
+	echo "Traefik:                              http://$(DOMAIN):8080/dashboard/#/"
+	echo "Fedora:                               http://$(DOMAIN):8081/fcrepo/rest"
+	echo "Blazegraph:                           http://$(DOMAIN):8082/bigdata/#splash"
+	echo "Activemq:                             http://$(DOMAIN):8161"
+	echo "Solr:                                 http://$(DOMAIN):8983/solr/#/"
+	echo "Cantaloupe:                           https://$(DOMAIN)/cantaloupe"
+	echo "Matomo:                               https://$(DOMAIN)/matomo/"
+else
+	echo ""
+	echo "Problem: Run this after you've run one of the make commands to build isle-dc (up, demo, local, etc.). Exiting..."
+endif
 
 .PHONY: demo-install-profile
 .SILENT: demo-instal-profile
@@ -390,12 +445,8 @@ local-install-profile: generate-secrets
 	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
-	# The - at the beginning is not a typo, it will allow this process to failing the make command.
-	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
-	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:101 /var/www/drupal'
-	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
-	$(MAKE) initial_content
-	$(MAKE) login
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
+	sed --in-place='' 's/ENVIRONMENT=demo/ENVIRONMENT=local/g' .env
 
 .PHONY: initial_content
 initial_content:

@@ -23,7 +23,7 @@
 ## Introduction
 
 [Docker Compose] project for creating and managing an Islandora 8 instance
-using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora) 
+using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora)
 that were created by [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit).
 
 In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on configuration
@@ -40,7 +40,7 @@ as database import/export and reindexing.
 
 - Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
 - Docker-CE 19.x+
-- Docker-compose version 1.25.x+ 
+- Docker-compose version 1.25.x+
 - Git 2.0+
 - GNU Make 4.0+
 - At least 8GB of RAM (ideally 16GB)
@@ -74,7 +74,7 @@ funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.
 If you do not have [secrets enabled](#secrets), you can log into Drupal as
 `admin` using the default password: `password`. Otherwise you can find the
 password in the file
-[./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD](./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD).
+[./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD](/secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD).
 
 Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
 the things you can do.  If you want to poke around, here's all the services that are available to visit:
@@ -82,14 +82,20 @@ the things you can do.  If you want to poke around, here's all the services that
 | Service     | Url                                                                                            |
 | :---------- | :--------------------------------------------------------------------------------------------- |
 | Drupal      | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |
-| Traefik     | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |
-| Fedora      | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |
-| Blazegraph  | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |
-| Activemq    | [https://islandora.traefik.me:8161](https://islandora.traefik.me:8161)                         |
-| Solr        | [https://islandora.traefik.me:8983](https://islandora.traefik.me:8983)                         |
+| Traefik     | [http://islandora.traefik.me:8080](http://islandora.traefik.me:8080)                         |
+| Fedora      | [http://islandora.traefik.me:8081/fcrepo/rest](http://islandora.traefik.me:8081/fcrepo/rest) |
+| Blazegraph  | [http://islandora.traefik.me:8082/bigdata](http://islandora.traefik.me:8082/bigdata)         |
+| Activemq    | [http://islandora.traefik.me:8161](http://islandora.traefik.me:8161)                         |
+| Solr        | [http://islandora.traefik.me:8983](http://islandora.traefik.me:8983)                         |
 | Cantaloupe  | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |
 | Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |
 | Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                       |
+
+Expose all of the endpoints at once (for testing and demo purposes and NOT production) by running
+```bash
+make kitchen_sink
+```
+This will automatically stop the containers, modify the `.env` file, import the changes and restart the containers with the new configurations. See [#custom-environment](#custom-environment) for more information on building with custom environment settings.
 
 When you're done with your demo environment, shut it down by running
 
@@ -97,7 +103,7 @@ When you're done with your demo environment, shut it down by running
 docker-compose down
 ```
 
-This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and 
+This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and
 all ingested data, use
 
 ```
@@ -159,9 +165,15 @@ the guide above to create the codebase folder from the `islandora/demo` image.
 And then run it by changing `ENVIRONMENT` to be `custom` and regenerating the
 `docker-compose.yml` file and building the image.
 
+To pull in changes to the .env file run the following.
 ```bash
 make docker-compose.yml
 make build
+
+# then either
+docker-compose up -d
+# OR
+make up
 ```
 
 At this point you could run it using `docker-compose`:
@@ -186,7 +198,7 @@ make down
 # Bring isle-dc back up from where it left off
 make up
 
-# If make hasn't been run this will run make demo 
+# If make hasn't been run this will run make demo
 
 ```
 
