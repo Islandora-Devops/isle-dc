@@ -141,7 +141,7 @@ make local
 or
 
 ```bash
-make local_install_profile_demo
+make local-install-profile
 ```
 
 The former will create a very basic starter site; the latter will create a starter site
