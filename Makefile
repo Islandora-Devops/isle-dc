@@ -413,7 +413,7 @@ demo_content:
 	# fetch repo that has csv and binaries to data/samples
 	# if prod do this by default
 	# if [ -d "islandora_workbench" ]; then rm -rf islandora_workbench; fi
-	[ -d "islandora_workbench" ] || (git clone -b staging --single-branch https://github.com/DonRichards/islandora_workbench && cd islandora_workbench && git remote add upstream https://github.com/mjordan/islandora_workbench.git && git pull --no-edit upstream main)
+	[ -d "islandora_workbench" ] || (git clone -b new_staging --single-branch https://github.com/DonRichards/islandora_workbench)
 ifeq ($(shell uname -s),Linux)
 	sed -i 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
 	sed -i 's/http:/https:/g' islandora_workbench/demoBDcreate*
