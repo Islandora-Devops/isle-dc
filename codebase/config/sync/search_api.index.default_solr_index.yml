@@ -808,6 +808,10 @@ field_settings:
     dependencies:
       module:
         - node
+  solr_years:
+    label: 'Solr Years'
+    property_path: solr_years
+    type: string
   sort_date:
     label: 'Sort Date'
     property_path: sort_date
@@ -947,6 +951,7 @@ processor_settings:
   solr_date_range:
     weights:
       preprocess_index: 0
+  solr_years: {  }
   sort_date: {  }
 tracker_settings:
   default:
