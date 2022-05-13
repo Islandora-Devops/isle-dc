@@ -1,6 +1,6 @@
 uuid: 91d4a00b-6c6d-4e3b-8247-70b14f4cab2b
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - field.storage.node.field_abstract
@@ -40,7 +40,6 @@ dependencies:
     - field.storage.node.field_subject
     - field.storage.node.field_table_of_contents
     - field.storage.node.field_title_language
-    - field.storage.node.field_years
     - search_api.index.default_solr_index
   module:
     - controlled_access_terms
@@ -962,12 +961,6 @@ display:
           field: uuid
           entity_type: node
           plugin_id: search_api_field
-        field_years:
-          id: field_years
-          table: search_api_datasource_default_solr_index_entity_node
-          field: field_years
-          entity_type: node
-          plugin_id: search_api_field
       pager:
         type: mini
         options:
@@ -1200,7 +1193,6 @@ display:
         - 'config:field.storage.node.field_subject'
         - 'config:field.storage.node.field_table_of_contents'
         - 'config:field.storage.node.field_title_language'
-        - 'config:field.storage.node.field_years'
         - 'config:search_api.index.default_solr_index'
       cacheable: false
   rest_export_1:

@@ -41,19 +41,20 @@ dependencies:
     - field.field.node.islandora_object.field_publisher
     - field.field.node.islandora_object.field_publisher_country
     - field.field.node.islandora_object.field_resource_type
+    - field.field.node.islandora_object.field_sort_date
     - field.field.node.islandora_object.field_spatial_coverage
     - field.field.node.islandora_object.field_subject
     - field.field.node.islandora_object.field_table_of_contents
     - field.field.node.islandora_object.field_title_language
     - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
-    - field.field.node.islandora_object.field_years
     - node.type.islandora_object
   enforced:
     module:
       - islandora_defaults
   module:
     - controlled_access_terms
+    - datetime
     - field_group
     - link
     - reference_value_pair
@@ -557,6 +558,12 @@ content:
     third_party_settings: {  }
     type: options_buttons
     region: content
+  field_sort_date:
+    weight: 69
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
   field_spatial_coverage:
     weight: 24
     settings:
@@ -606,15 +613,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: number
-    region: content
-  field_years:
-    weight: 42
-    settings:
-      strict_dates: false
-      intervals: true
-      sets: false
-    third_party_settings: {  }
-    type: edtf_default
     region: content
   status:
     type: boolean_checkbox
