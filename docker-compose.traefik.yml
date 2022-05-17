@@ -42,11 +42,11 @@ services:
     ports:
       - 80:80       # drupal, cantaloupe, matomo
       - 443:443     # https for ^^^
+      - ${FEDORA_PORT:-8081}:8081   # fedora, needs to be exposed for cantaloupe
       # Don't do any of these in production
       - ${MYSQL_PORT:-3306}:3306   # mysql
       - ${POSTGRES_PORT:-5432}:5432   # postgres
       - ${TRAEFIK_DASHBOARD_PORT:-8080}:8080   # traefik admin dashboard - helpful for debugging
-      - ${FEDORA_PORT:-8081}:8081   # fedora
       - ${BLAZEGRAPH_PORT:-8082}:8082   # blazegraph
       - ${ACTIVEMQ_PORT:-8161}:8161   # activemq
       - ${SOLR_PORT:-8983}:8983   # solr
