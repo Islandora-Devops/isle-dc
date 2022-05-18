@@ -293,7 +293,6 @@ reindex-triplestore:
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec content emit_node_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec media emit_media_event --configuration="queue=islandora-indexing-triplestore-index&event=Update"'
 
-# TEST_FILES:=$(wildcard $(CURDIR)/secrets/live/*)
 # Helper to generate secrets & passwords, like so:
 # make generate-secrets
 .PHONY: generate-secrets
