@@ -5,10 +5,11 @@ view_displays:
 support_sets: 1
 mapping_source: rdf
 repository_name: 'Islandora 8'
-repository_email: admin@example.com
+repository_email: jscholarship-help@jhu.edu
 expiration: '3600'
 metadata_map_plugins:
-  oai_raw: ''
   oai_dc: dublin_core_rdf
+  oai_raw: ''
 _core:
   default_config_hash: bzVgxAW8qL_RR1YMiABMUohoPHQnkYmISP5yyKAF0Qc
+cache_technique: liberal_cache
