@@ -298,12 +298,17 @@ reindex-triplestore:
 .PHONY: generate-secrets
 .SILENT: generate-secrets
 generate-secrets:
+ifeq ($(USE_SECRETS), false)
 	docker run --rm -t \
 		-v "$(CURDIR)/secrets":/secrets \
 		-v "$(CURDIR)/scripts/generate-secrets.sh":/generate-secrets.sh \
 		-w / \
 		--entrypoint bash \
 		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
+else
+	@echo "'Uses Secrets' is set to 'true'."
+	$(MAKE) secrets_warning
+endif
 
 # Helper function to generate keys for the user to use in their docker-compose.env.yml
 .PHONY: download-default-certs
@@ -336,6 +341,7 @@ demo: generate-secrets
 	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
 	$(MAKE) reindex-solr ENVIROMENT=demo
 	$(MAKE) reindex-triplestore ENVIROMENT=demo
+	$(MAKE) secrets_warning
 
 .PHONY: local
 .SILENT: local
@@ -355,6 +361,7 @@ local: generate-secrets
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
 	$(MAKE) set-files-owner SRC="$(CURDIR)/codebase" ENVIROMENT=local
+	$(MAKE) secrets_warning
 
 .PHONY: demo-install-profile
 .SILENT: demo-instal-profile
@@ -421,6 +428,7 @@ up:
 	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish building.\n"
 	sleep 10
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
+	$(MAKE) secrets_warning
 
 .PHONY: down
 .SILENT: down
@@ -476,6 +484,13 @@ help:
 		} \
 	} \
 	{lastLine = $$0}' $(MAKEFILE_LIST)
+
+.PHONY: secrets_warning
+.SILENT: secrets_warning
+## Check to see if the secrets directory contains default secrets.
+secrets_warning:
+	@echo 'Starting scripts/check-secrets.sh'
+	@bash scripts/check-secrets.sh || (echo "check-secrets exited $$?"; exit 1)
 
 IS_DRUPAL_PSSWD_FILE_READABLE := $(shell test -r secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD -a -w secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD && echo 1 || echo 0)
 CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 'sudo -k tee')
