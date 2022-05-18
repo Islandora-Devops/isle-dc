@@ -9,7 +9,7 @@ warn() {
       echo "the last snapshot."
       echo ""
       echo "WARNING: continue? [Y/n]"
-      read line; if [ $line != "Y" ]; then echo aborting; exit 1 ; fi
+      read line; line=$(echo "$line" | tr a-z A-Z); if [ $line != "Y" ]; then echo aborting; exit 1 ; fi
   fi
 }
 
