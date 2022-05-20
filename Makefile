@@ -424,6 +424,7 @@ ifeq ($(shell uname -s),Darwin)
 endif
 	cd islandora_workbench && docker build -t workbench-docker .
 	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install 2>&1 && ./workbench --config demoBDcreate_all_localhost.yml)"
+	$(MAKE) reindex-solr ENVIROMENT=demo
 
 .PHONY: clean
 .SILENT: clean
