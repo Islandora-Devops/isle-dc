@@ -165,7 +165,7 @@ run-islandora-migrations:
 	#docker-compose exec -T drupal with-contenv bash -lc "for_all_sites import_islandora_migrations"
 	# this line can be reverted when https://github.com/Islandora-Devops/isle-buildkit/blob/fae704f065435438828c568def2a0cc926cc4b6b/drupal/rootfs/etc/islandora/utilities.sh#L557
 	# has been updated to match
-	docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:import islandora_defaults_tags,islandora_tags'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import islandora_defaults_tags,islandora_tags'
 
 .PHONY: solr-cores
 ## Creates solr-cores according to the environment variables.
