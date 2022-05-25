@@ -59,7 +59,7 @@ To get started with a **demo** environment, run:
 make demo
 ```
 
-Or if this demo environment is too simple, run `make demo_islandora_install_profile` to create a demo site that is modeled after https://sandbox.islandora.ca.
+Or if this demo environment is too simple, run `make demo-install-profile` to create a demo site that is modeled after https://sandbox.islandora.ca with some extra content imported via Islandora Workbench.
 
 ⚠️ If prompted during `make up\demo\local\clean` for password, use your computer's password. The build process may need elevated privileges to write or remove files. For other password information see [Secrets](#secrets)
 
