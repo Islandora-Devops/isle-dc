@@ -12,7 +12,7 @@ tls:
 #        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 #        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
 #        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305      
-#      # only used for multiple domains and ssls
+#      # uncomment only if using multiple domains and ssls and add multiple cert entries as needed below.
 #      #sniStrict: true
   stores:
     default:
@@ -22,7 +22,8 @@ tls:
   certificates:
     - certFile: /etc/ssl/traefik/cert.pem
       keyFile: /etc/ssl/traefik/privkey.pem
-# Uncomment and edit accordingly for remote certs - commercial prod & staging example. 
+# Uncomment and edit accordingly for remote certs - commercial prod & staging example.
+# Any new SSL crt, pem or key files would need to be placed in the certs directory.
     #- certFile: /etc/ssl/traefik/commercial_wildcard.crt
     #  keyFile: /etc/ssl/traefik/commercial_wildcard.key
 # Uncomment and update docker-compose traefik labels accordingly with the resolver name e.g. myresolver
