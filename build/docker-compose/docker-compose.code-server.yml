@@ -10,7 +10,7 @@ networks:
     external: true
 secrets:
   CODE_SERVER_PASSWORD:
-    file: "./secrets/live/CODE_SERVER_PASSWORD"
+    file: "../../secrets/live/CODE_SERVER_PASSWORD"
 services:
   code-server:
     environment:

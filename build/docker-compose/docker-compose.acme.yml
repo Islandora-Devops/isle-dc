@@ -29,7 +29,7 @@ services:
       - --certificatesresolvers.myresolver.acme.storage=/acme/acme.json
       - --certificatesResolvers.myresolver.acme.caServer=${ACME_SERVER-https://acme-v02.api.letsencrypt.org/directory}
     volumes:
-      - ./acme:/acme:rw
+      - ../../acme:/acme:rw
   cantaloupe:
     labels:
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.tls.certresolver=myresolver

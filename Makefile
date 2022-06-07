@@ -89,8 +89,8 @@ SERVICES := $(REQUIRED_SERVICES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_
 default: download-default-certs docker-compose.yml pull
 
 .SILENT: docker-compose.yml
-docker-compose.yml: $(SERVICES:%=docker-compose.%.yml) .env
-	docker-compose $(SERVICES:%=-f docker-compose.%.yml) config > docker-compose.yml
+docker-compose.yml: $(SERVICES:%=build/docker-compose/docker-compose.%.yml) .env
+	docker-compose $(SERVICES:%=-f build/docker-compose/docker-compose.%.yml) config > docker-compose.yml
 
 .PHONY: pull
 ## Fetches the latest images from the registry.
@@ -301,7 +301,7 @@ generate-secrets:
 ifeq ($(USE_SECRETS), false)
 	docker run --rm -t \
 		-v "$(CURDIR)/secrets":/secrets \
-		-v "$(CURDIR)/scripts/generate-secrets.sh":/generate-secrets.sh \
+		-v "$(CURDIR)/build/scripts/generate-secrets.sh":/generate-secrets.sh \
 		-w / \
 		--entrypoint bash \
 		$(REPOSITORY)/drupal:$(TAG) -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
@@ -332,12 +332,12 @@ demo: generate-secrets
 	mkdir -p "$(CURDIR)/codebase"
 	docker-compose up -d
 	$(MAKE) update-settings-php ENVIROMENT=demo
-	$(MAKE) drupal-public-files-import SRC="$(CURDIR)/demo-data/public-files.tgz" ENVIROMENT=demo
+	$(MAKE) drupal-public-files-import SRC="$(CURDIR)/build/demo-data/public-files.tgz" ENVIROMENT=demo
 	$(MAKE) drupal-database ENVIROMENT=demo
-	$(MAKE) drupal-database-import SRC="$(CURDIR)/demo-data/drupal.sql" ENVIROMENT=demo
+	$(MAKE) drupal-database-import SRC="$(CURDIR)/build/demo-data/drupal.sql" ENVIROMENT=demo
 	$(MAKE) hydrate ENVIROMENT=demo
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-	$(MAKE) fcrepo-import SRC="$(CURDIR)/demo-data/fcrepo-export.tgz" ENVIROMENT=demo
+	$(MAKE) fcrepo-import SRC="$(CURDIR)/build/demo-data/fcrepo-export.tgz" ENVIROMENT=demo
 	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
 	$(MAKE) reindex-solr ENVIROMENT=demo
 	$(MAKE) reindex-triplestore ENVIROMENT=demo
@@ -489,8 +489,8 @@ help:
 .SILENT: secrets_warning
 ## Check to see if the secrets directory contains default secrets.
 secrets_warning:
-	@echo 'Starting scripts/check-secrets.sh'
-	@bash scripts/check-secrets.sh || (echo "check-secrets exited $$?"; exit 1)
+	@echo 'Starting build/scripts/check-secrets.sh'
+	@bash build/scripts/check-secrets.sh || (echo "check-secrets exited $$?"; exit 1)
 
 IS_DRUPAL_PSSWD_FILE_READABLE := $(shell test -r secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD -a -w secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD && echo 1 || echo 0)
 CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 'sudo -k tee')

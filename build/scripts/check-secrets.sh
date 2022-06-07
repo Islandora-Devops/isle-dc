@@ -76,7 +76,7 @@ function main() {
 		if [[ ${ans} == [yY] ]] ; then
 			docker run --rm -t \
 			-v $(pwd)/secrets:/secrets \
-			-v $(pwd)/scripts/generate-secrets.sh:/generate-secrets.sh \
+			-v $(pwd)/build/scripts/generate-secrets.sh:/generate-secrets.sh \
 			-w / \
 			--entrypoint bash \
 			${REPOSITORY}/drupal:${TAG} -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
@@ -158,7 +158,7 @@ function main() {
 if [[ $1 == 'yes' ]]; then
 	docker run --rm -t \
 	-v $(pwd)/secrets:/secrets \
-	-v $(pwd)/scripts/generate-secrets.sh:/generate-secrets.sh \
+	-v $(pwd)/build/scripts/generate-secrets.sh:/generate-secrets.sh \
 	-w / \
 	--entrypoint bash \
 	${REPOSITORY}/drupal:${TAG} -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
