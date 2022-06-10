@@ -18,7 +18,6 @@ endif
 # users to regenerate their .env files losing their changes.
 include sample.env
 include $(ENV_FILE)
-s
 # The site to operate on when using drush -l $(SITE) commands
 SITE?=default
 
