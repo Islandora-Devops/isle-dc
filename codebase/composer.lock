@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0147b9e2baeb89143b0828fef196e12c",
+    "content-hash": "86df763eeb949255bf4768b153298a62",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -7707,22 +7707,32 @@
             "time": "2021-04-26T09:17:50+00:00"
         },
         {
+            "name": "imagesloaded/imagesloaded",
+            "version": "4.1.4",
+            "dist": {
+                "type": "file",
+                "url": "https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"
+            },
+            "type": "drupal-library"
+        },
+        {
             "name": "islandora-rdm/islandora_fits",
-            "version": "dev-master",
+            "version": "dev-8.x-1.x",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roblib/islandora_fits.git",
-                "reference": "b9d041590fd31cc2e4a5d2675e8956ada9101e97"
+                "reference": "586427738cd9e2724d1ee3aeff8b42d114b518a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roblib/islandora_fits/zipball/b9d041590fd31cc2e4a5d2675e8956ada9101e97",
-                "reference": "b9d041590fd31cc2e4a5d2675e8956ada9101e97",
+                "url": "https://api.github.com/repos/roblib/islandora_fits/zipball/586427738cd9e2724d1ee3aeff8b42d114b518a6",
+                "reference": "586427738cd9e2724d1ee3aeff8b42d114b518a6",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*"
             },
+            "default-branch": true,
             "type": "drupal-module",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -7737,7 +7747,7 @@
                 "issues": "https://www.drupal.org/project/issues/islandora_fits",
                 "source": "http://cgit.drupalcode.org/islandora_fits"
             },
-            "time": "2021-01-14T17:09:48+00:00"
+            "time": "2021-01-14T23:01:15+00:00"
         },
         {
             "name": "islandora/carapace",
@@ -8153,12 +8163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "855a291454c71374d12bb72e2439bd27f44f2795"
+                "reference": "32f8f1dcdf011a7eab4d932602829cdf92fa8264"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/855a291454c71374d12bb72e2439bd27f44f2795",
-                "reference": "855a291454c71374d12bb72e2439bd27f44f2795",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/32f8f1dcdf011a7eab4d932602829cdf92fa8264",
+                "reference": "32f8f1dcdf011a7eab4d932602829cdf92fa8264",
                 "shasum": ""
             },
             "default-branch": true,
@@ -8168,7 +8178,7 @@
                 "source": "https://github.com/jhu-idc/idc-ui-theme/tree/main",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2022-04-26T19:21:26+00:00"
+            "time": "2022-05-19T20:34:43+00:00"
         },
         {
             "name": "jhu-idc/idc_defaults",
@@ -8238,12 +8248,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_ui_module.git",
-                "reference": "90a7615b419ee9526a34979a682eb09a123fe99b"
+                "reference": "5b7ff6c8de994d8243a226724e302cce20c448c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/90a7615b419ee9526a34979a682eb09a123fe99b",
-                "reference": "90a7615b419ee9526a34979a682eb09a123fe99b",
+                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/5b7ff6c8de994d8243a226724e302cce20c448c7",
+                "reference": "5b7ff6c8de994d8243a226724e302cce20c448c7",
                 "shasum": ""
             },
             "default-branch": true,
@@ -8253,7 +8263,7 @@
                 "source": "https://github.com/jhu-idc/idc_ui_module/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_ui_module/issues"
             },
-            "time": "2022-03-23T19:05:41+00:00"
+            "time": "2022-06-10T21:24:51+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",
@@ -8261,12 +8271,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/islandora_defaults.git",
-                "reference": "6ba00e560d13f1f5876c5b8a07c878abb91a6133"
+                "reference": "b776cc40df7844b3c7f7559181fc0ba21ebced4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/6ba00e560d13f1f5876c5b8a07c878abb91a6133",
-                "reference": "6ba00e560d13f1f5876c5b8a07c878abb91a6133",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/b776cc40df7844b3c7f7559181fc0ba21ebced4e",
+                "reference": "b776cc40df7844b3c7f7559181fc0ba21ebced4e",
                 "shasum": ""
             },
             "require": {
@@ -8293,7 +8303,7 @@
                 "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
                 "source": "https://github.com/jhu-idc/islandora_defaults/tree/8.x-1.x"
             },
-            "time": "2021-10-04T20:02:31+00:00"
+            "time": "2022-05-24T20:31:56+00:00"
         },
         {
             "name": "jhu-idc/islandora_repository_reports",
@@ -8369,12 +8379,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/reference_value_pair.git",
-                "reference": "ee0bb998be76fc9b32884028d417fd7779df235d"
+                "reference": "7cecf2ce4642c4d0f5f87d7525598756cfc82308"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/reference_value_pair/zipball/ee0bb998be76fc9b32884028d417fd7779df235d",
-                "reference": "ee0bb998be76fc9b32884028d417fd7779df235d",
+                "url": "https://api.github.com/repos/jhu-idc/reference_value_pair/zipball/7cecf2ce4642c4d0f5f87d7525598756cfc82308",
+                "reference": "7cecf2ce4642c4d0f5f87d7525598756cfc82308",
                 "shasum": ""
             },
             "default-branch": true,
@@ -8391,7 +8401,7 @@
                 "issues": "http://github.com/jhu-idc/reference_value_pair",
                 "source": "http://github.com/jhu-idc/reference_value_pair"
             },
-            "time": "2021-08-27T15:49:40+00:00"
+            "time": "2022-05-31T14:43:55+00:00"
         },
         {
             "name": "jhu_idc/idc_migration",
@@ -9293,6 +9303,16 @@
                 }
             ],
             "time": "2020-05-30T13:11:16+00:00"
+        },
+        {
+            "name": "masonry/masonry",
+            "version": "4.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/desandro/masonry.git",
+                "reference": "3b0883cf4a4a046896719b9cf282ea74be7ffecd"
+            },
+            "type": "drupal-library"
         },
         {
             "name": "masterminds/html5",
@@ -21664,5 +21684,5 @@
         "php": ">=7.0.8"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
