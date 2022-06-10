@@ -67,7 +67,6 @@ dependencies:
     - field.storage.node.field_title_language
     - field.storage.taxonomy_term.field_language_code
     - field.storage.node.field_unique_id
-    - field.storage.node.field_years
     - search_api.server.default_solr_server
     - core.entity_view_mode.node.search_index
 third_party_settings:
@@ -701,14 +700,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_unique_id
-  field_years:
-    label: Years
-    datasource_id: 'entity:node'
-    property_path: field_years
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_years
   idc_reverse_reference_parent_of_page:
     label: 'Page metadata'
     property_path: idc_reverse_reference_parent_of_page
@@ -817,6 +808,14 @@ field_settings:
     dependencies:
       module:
         - node
+  solr_years:
+    label: 'Solr Years'
+    property_path: solr_years
+    type: string
+  sort_date:
+    label: 'Sort Date'
+    property_path: sort_date
+    type: date
   status:
     label: 'Publishing status'
     datasource_id: 'entity:node'
@@ -952,6 +951,8 @@ processor_settings:
   solr_date_range:
     weights:
       preprocess_index: 0
+  solr_years: {  }
+  sort_date: {  }
 tracker_settings:
   default:
     indexing_order: fifo

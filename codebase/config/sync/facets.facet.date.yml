@@ -1,4 +1,4 @@
-uuid: abeba1dd-9a63-4043-99db-8f9d5493d99b
+uuid: 36253efe-86ba-4782-9f32-74c27203c6fa
 langcode: en
 status: true
 dependencies:
@@ -7,18 +7,18 @@ dependencies:
     - views.view.solr_search_content
   module:
     - search_api
-id: years
-name: Years
-url_alias: years
+id: date
+name: Date
+url_alias: date
 weight: 0
 min_count: 1
 show_only_one_result: false
-field_identifier: field_years
+field_identifier: solr_years
 facet_source_id: 'search_api:views_rest__solr_search_content__rest_export_1'
 widget:
   type: array
   config:
-    show_numbers: true
+    show_numbers: false
 query_operator: or
 use_hierarchy: false
 keep_hierarchy_parents_active: false
@@ -31,21 +31,15 @@ processor_configs:
   active_widget_order:
     processor_id: active_widget_order
     weights:
-      sort: -10
-    settings:
-      sort: ASC
-  count_widget_order:
-    processor_id: count_widget_order
-    weights:
-      sort: -8
+      sort: 20
     settings:
       sort: DESC
   display_value_widget_order:
     processor_id: display_value_widget_order
     weights:
-      sort: -9
+      sort: 40
     settings:
-      sort: ASC
+      sort: DESC
   url_processor_handler:
     processor_id: url_processor_handler
     weights:

@@ -42,13 +42,13 @@ dependencies:
     - field.field.node.islandora_object.field_publisher
     - field.field.node.islandora_object.field_publisher_country
     - field.field.node.islandora_object.field_resource_type
+    - field.field.node.islandora_object.field_sort_date
     - field.field.node.islandora_object.field_spatial_coverage
     - field.field.node.islandora_object.field_subject
     - field.field.node.islandora_object.field_table_of_contents
     - field.field.node.islandora_object.field_title_language
     - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
-    - field.field.node.islandora_object.field_years
     - node.type.islandora_object
   enforced:
     module:
@@ -177,12 +177,12 @@ hidden:
   field_model: true
   field_publisher: true
   field_publisher_country: true
+  field_sort_date: true
   field_spatial_coverage: true
   field_table_of_contents: true
   field_title_language: true
   field_unique_id: true
   field_weight: true
-  field_years: true
   langcode: true
   openseadragon_media_evas_entity_view_1: true
   openseadragon_media_evas_entity_view_2: true

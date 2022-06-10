@@ -41,19 +41,20 @@ dependencies:
     - field.field.node.islandora_object.field_publisher
     - field.field.node.islandora_object.field_publisher_country
     - field.field.node.islandora_object.field_resource_type
+    - field.field.node.islandora_object.field_sort_date
     - field.field.node.islandora_object.field_spatial_coverage
     - field.field.node.islandora_object.field_subject
     - field.field.node.islandora_object.field_table_of_contents
     - field.field.node.islandora_object.field_title_language
     - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
-    - field.field.node.islandora_object.field_years
     - node.type.islandora_object
   enforced:
     module:
       - islandora_defaults
   module:
     - controlled_access_terms
+    - datetime
     - link
     - reference_value_pair
     - user
@@ -395,6 +396,15 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
+  field_sort_date:
+    weight: 43
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
   field_spatial_coverage:
     weight: 9
     label: above
@@ -427,17 +437,6 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
-    region: content
-  field_years:
-    weight: 22
-    label: above
-    settings:
-      date_separator: dash
-      date_order: big_endian
-      month_format: mm
-      day_format: dd
-    third_party_settings: {  }
-    type: edtf_default
     region: content
   islandora_fits_checksum:
     weight: 10
