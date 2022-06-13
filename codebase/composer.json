@@ -82,6 +82,31 @@
                     "reference": "master"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "masonry/masonry",
+                "version": "4.2.2",
+                "type": "drupal-library",
+                "source": {
+                    "url": "https://github.com/desandro/masonry.git",
+                    "type": "git",
+                    "reference": "3b0883cf4a4a046896719b9cf282ea74be7ffecd"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "imagesloaded/imagesloaded",
+                "version": "4.1.4",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js",
+                    "type": "file"
+                }
+            }
         }
     ],
     "require": {
@@ -127,7 +152,8 @@
         "drupal/workbench": "^1.3",
         "drupal/workbench_access": "^1.0@beta",
         "drush/drush": "^10.0",
-        "islandora-rdm/islandora_fits": "dev-master",
+        "imagesloaded/imagesloaded": "^4.1",
+        "islandora-rdm/islandora_fits": "dev-8.x-1.x",
         "islandora/carapace": "dev-8.x-3.x",
         "jhu-idc/idc-ui-theme": "dev-main",
         "jhu-idc/idc_defaults": "dev-main",
@@ -138,6 +164,7 @@
         "jhu-idc/migrate_file": "dev-8.x-1.x",
         "jhu_idc/idc_migration": "^2.0",
         "maennchen/zipstream-php": "^2.1",
+        "masonry/masonry": "^4.2",
         "seboettg/citeproc-php": "v2.2.5",
         "symfony/string": "^5.4",
         "vlucas/phpdotenv": "^4.0",
