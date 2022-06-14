@@ -157,8 +157,8 @@ solr-cores:
 .PHONY: solr-reload-cores
 .SILENT: solr-reload-cores
 solr-reload-cores:
-	curl $(shell echo "http://$(shell docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr)):8983/solr/admin/cores?action=RELOAD\&core=ISLANDORA")
-	curl $(shell echo "http://$(shell docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr)):8983/solr/ISLANDORA/update?optimize=true")
+	curl $(shell grep -Fxq "EXPOSE_SOLR=true" .env && echo "http://$(shell docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr)):8983/solr/admin/cores?action=RELOAD\&core=ISLANDORA")
+	curl $(shell grep -Fxq "EXPOSE_SOLR=true" .env && echo "http://$(shell docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr)):8983/solr/ISLANDORA/update?optimize=true")
 	echo "Can be verified at http://$(shell docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr)):8983/solr/#/~cores/ISLANDORA"
 
 # Creates namespaces in Blazegraph according to the environment variables.
