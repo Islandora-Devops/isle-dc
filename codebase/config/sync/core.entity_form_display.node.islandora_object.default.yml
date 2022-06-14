@@ -41,20 +41,19 @@ dependencies:
     - field.field.node.islandora_object.field_publisher
     - field.field.node.islandora_object.field_publisher_country
     - field.field.node.islandora_object.field_resource_type
-    - field.field.node.islandora_object.field_sort_date
     - field.field.node.islandora_object.field_spatial_coverage
     - field.field.node.islandora_object.field_subject
     - field.field.node.islandora_object.field_table_of_contents
     - field.field.node.islandora_object.field_title_language
     - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
+    - field.field.node.islandora_object.field_years
     - node.type.islandora_object
   enforced:
     module:
       - islandora_defaults
   module:
     - controlled_access_terms
-    - datetime
     - field_group
     - link
     - reference_value_pair
@@ -113,7 +112,7 @@ third_party_settings:
         - field_date_created
         - field_date_published
         - field_date_copyrighted
-        - field_sort_date
+        - group_date_solr_year
       parent_name: ''
       weight: 2
       format_type: details
@@ -195,6 +194,20 @@ third_party_settings:
         classes: ''
         open: false
       label: Resources
+    group_date_solr_year:
+      children:
+        - field_years
+      parent_name: group_dates
+      weight: 46
+      format_type: details
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        open: false
+        required_fields: true
+      label: 'Date - Solr Year'
 _core:
   default_config_hash: HLvUbruUDjxBUB1PEtEQF7ZvGRY-87E68yLt78KBruM
 id: node.islandora_object.default
@@ -224,7 +237,7 @@ content:
     type: options_buttons
     region: content
   field_access_terms:
-    weight: 11
+    weight: 10
     settings: {  }
     third_party_settings: {  }
     type: options_select
@@ -364,12 +377,12 @@ content:
     region: content
   field_display_hints:
     type: options_buttons
-    weight: 12
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
   field_dspace_identifier:
-    weight: 68
+    weight: 67
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -377,7 +390,7 @@ content:
     type: link_default
     region: content
   field_dspace_item_id:
-    weight: 69
+    weight: 68
     settings:
       size: 60
       placeholder: ''
@@ -477,7 +490,7 @@ content:
     region: content
   field_member_of:
     type: entity_reference_autocomplete
-    weight: 10
+    weight: 9
     region: content
     settings:
       match_operator: CONTAINS
@@ -544,12 +557,6 @@ content:
     third_party_settings: {  }
     type: options_buttons
     region: content
-  field_sort_date:
-    weight: 46
-    settings: {  }
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
   field_spatial_coverage:
     weight: 24
     settings:
@@ -586,7 +593,7 @@ content:
     type: options_select
     region: content
   field_unique_id:
-    weight: 13
+    weight: 12
     settings:
       size: 60
       placeholder: ''
@@ -594,11 +601,20 @@ content:
     type: string_textfield
     region: content
   field_weight:
-    weight: 14
+    weight: 13
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_years:
+    weight: 42
+    settings:
+      strict_dates: false
+      intervals: true
+      sets: false
+    third_party_settings: {  }
+    type: edtf_default
     region: content
   status:
     type: boolean_checkbox

@@ -40,6 +40,7 @@ dependencies:
     - field.storage.node.field_subject
     - field.storage.node.field_table_of_contents
     - field.storage.node.field_title_language
+    - field.storage.node.field_years
     - search_api.index.default_solr_index
     - taxonomy.vocabulary.islandora_models
   content:
@@ -265,6 +266,18 @@ display:
           error_message: true
           plugin_id: search_api_term
       sorts:
+        type:
+          id: type
+          table: search_api_index_default_solr_index
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: 'Content type'
+          plugin_id: search_api
         search_api_relevance:
           id: search_api_relevance
           table: search_api_index_default_solr_index
@@ -288,30 +301,6 @@ display:
           exposed: true
           expose:
             label: Title
-          plugin_id: search_api
-        sort_date:
-          id: sort_date
-          table: search_api_index_default_solr_index
-          field: sort_date
-          relationship: none
-          group_type: group
-          admin_label: ''
-          order: ASC
-          exposed: true
-          expose:
-            label: Date
-          plugin_id: search_api
-        type:
-          id: type
-          table: search_api_index_default_solr_index
-          field: type
-          relationship: none
-          group_type: group
-          admin_label: ''
-          order: ASC
-          exposed: false
-          expose:
-            label: 'Content type'
           plugin_id: search_api
         title_1:
           id: title_1
@@ -1240,6 +1229,12 @@ display:
           field: uuid
           entity_type: node
           plugin_id: search_api_field
+        field_years:
+          id: field_years
+          table: search_api_datasource_default_solr_index_entity_node
+          field: field_years
+          entity_type: node
+          plugin_id: search_api_field
     cache_metadata:
       contexts:
         - 'languages:language_content'
@@ -1289,6 +1284,7 @@ display:
         - 'config:field.storage.node.field_subject'
         - 'config:field.storage.node.field_table_of_contents'
         - 'config:field.storage.node.field_title_language'
+        - 'config:field.storage.node.field_years'
         - 'config:search_api.index.default_solr_index'
   page_1:
     display_plugin: page
@@ -1352,6 +1348,7 @@ display:
         - 'config:field.storage.node.field_subject'
         - 'config:field.storage.node.field_table_of_contents'
         - 'config:field.storage.node.field_title_language'
+        - 'config:field.storage.node.field_years'
         - 'config:search_api.index.default_solr_index'
   rest_export_1:
     display_plugin: rest_export
@@ -4919,6 +4916,143 @@ display:
                 view_mode: default
           entity_type: node
           plugin_id: search_api_field
+        field_years:
+          id: field_years
+          table: search_api_datasource_default_solr_index_entity_node
+          field: field_years
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: edtf_default
+          settings:
+            relationship: none
+            field_rendering: 1
+            fieldsets:
+              - more
+              - admin_label
+            custom_label: 0
+            label: ''
+            element_label_colon: 1
+            exclude: 0
+            element_type_enable: 0
+            element_type: ''
+            element_class_enable: 0
+            element_class: ''
+            element_label_type_enable: 0
+            element_label_type: ''
+            element_label_class_enable: 0
+            element_label_class: ''
+            element_wrapper_type_enable: 0
+            element_wrapper_type: ''
+            element_wrapper_class_enable: 0
+            element_wrapper_class: ''
+            element_default_classes: 1
+            alter:
+              alter_text: 0
+              text: ''
+              make_link: 0
+              path: ''
+              absolute: 0
+              replace_spaces: 0
+              external: 0
+              path_case: none
+              link_class: ''
+              alt: ''
+              rel: ''
+              prefix: ''
+              suffix: ''
+              target: ''
+              trim: 0
+              max_length: '0'
+              word_boundary: 1
+              ellipsis: 1
+              more_link: 0
+              more_link_text: ''
+              more_link_path: ''
+              html: 0
+              strip_tags: 0
+              preserve_tags: ''
+              trim_whitespace: 0
+              nl2br: 0
+            empty: ''
+            empty_zero: 0
+            hide_empty: 0
+            hide_alter_empty: 1
+            group_rows: 1
+            multi_type: separator
+            separator: ', '
+            delta_limit: '0'
+            delta_offset: '0'
+            delta_reversed: 0
+            delta_first_last: 0
+            click_sort_column: value
+            type: edtf_default
+            field_api_classes: 0
+            date_separator: dash
+            date_order: big_endian
+            month_format: mm
+            day_format: dd
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+          entity_type: node
+          plugin_id: search_api_field
         nid:
           id: nid
           table: search_api_datasource_default_solr_index_entity_node
@@ -5568,4 +5702,5 @@ display:
         - 'config:field.storage.node.field_subject'
         - 'config:field.storage.node.field_table_of_contents'
         - 'config:field.storage.node.field_title_language'
+        - 'config:field.storage.node.field_years'
         - 'config:search_api.index.default_solr_index'
