@@ -358,6 +358,20 @@ It is not enabled by default.
 # Includes `etcd` as a service.
 INCLUDE_ETCD_SERVICE=false
 ```
+## Add Custom Makefile Commands
+To add custom Makefile commands without adding upstream git conflict complexity, just creat a new `custom.Makefile` and the Makefile will automatically include it. This can be a completely empty file that needs no header information. Just add a function in the following format.
+```makefile
+.PHONY: lowercasename
+.SILENT: lowercasename
+## This is the help description that comes up when using the 'make help` command. This needs to be placed with 2 # characters, after .PHONY & .SILENT but before the function call. And only take up a single line.
+lowercasename:
+	echo "first line in command needs to be indented. There are ecceptions to this, review functions in the Makefile for examples of these exceptions."
+```
+
+Running the new `custom.Makefile` commands are exactly the same as running any other Makefile command. Just run `make` and the function's name.
+```bash
+make lowercasename
+```
 
 ## Troubleshooting/Issues
 
