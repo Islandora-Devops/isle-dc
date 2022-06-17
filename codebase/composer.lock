@@ -8163,12 +8163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "32f8f1dcdf011a7eab4d932602829cdf92fa8264"
+                "reference": "44d56322b2bfc6c5f6b7b93761b98ad7fd7769fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/32f8f1dcdf011a7eab4d932602829cdf92fa8264",
-                "reference": "32f8f1dcdf011a7eab4d932602829cdf92fa8264",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/44d56322b2bfc6c5f6b7b93761b98ad7fd7769fb",
+                "reference": "44d56322b2bfc6c5f6b7b93761b98ad7fd7769fb",
                 "shasum": ""
             },
             "default-branch": true,
@@ -8178,7 +8178,7 @@
                 "source": "https://github.com/jhu-idc/idc-ui-theme/tree/main",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2022-05-19T20:34:43+00:00"
+            "time": "2022-06-17T20:11:13+00:00"
         },
         {
             "name": "jhu-idc/idc_defaults",
@@ -8248,12 +8248,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_ui_module.git",
-                "reference": "5b7ff6c8de994d8243a226724e302cce20c448c7"
+                "reference": "be2d6d0bd50dd062c16b9702fee5b2f6f518526a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/5b7ff6c8de994d8243a226724e302cce20c448c7",
-                "reference": "5b7ff6c8de994d8243a226724e302cce20c448c7",
+                "url": "https://api.github.com/repos/jhu-idc/idc_ui_module/zipball/be2d6d0bd50dd062c16b9702fee5b2f6f518526a",
+                "reference": "be2d6d0bd50dd062c16b9702fee5b2f6f518526a",
                 "shasum": ""
             },
             "default-branch": true,
@@ -8263,7 +8263,7 @@
                 "source": "https://github.com/jhu-idc/idc_ui_module/tree/main",
                 "issues": "https://github.com/jhu-idc/idc_ui_module/issues"
             },
-            "time": "2022-06-10T21:24:51+00:00"
+            "time": "2022-06-17T19:59:58+00:00"
         },
         {
             "name": "jhu-idc/islandora_defaults",
@@ -13665,6 +13665,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": "symfony/error-handler",
             "time": "2021-05-26T17:39:37+00:00"
         },
         {
