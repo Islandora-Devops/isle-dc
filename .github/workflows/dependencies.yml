@@ -15,7 +15,7 @@ jobs:
       dep-filename: ${{ steps.base-dep-filename.outputs.dep_filename }}
     steps:
       - name: Checkout Base Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.base_ref }}
       - name: Start IDC
@@ -42,7 +42,7 @@ jobs:
       dep-filename: ${{ steps.pr-dep-filename.outputs.dep_filename }}
     steps:
       - name: Checkout PR Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Start IDC
         run: make up
       - name: Capture Dependencies
