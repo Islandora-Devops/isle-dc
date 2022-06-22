@@ -255,7 +255,6 @@
                 "SimpleSAMLphp config": "patches/simplesaml_config.patch"
             },
             "drupal/title_length": {
-                "Node title length 1: Apply user config override": "patches/node_title_length_fix-hook-install.patch",
                 "Node title length 2: Taxonomy name length": "patches/node_title_length_termNameCharLength-3041979-8.patch"
             },
             "islandora/islandora": {
