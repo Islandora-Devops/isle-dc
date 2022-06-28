@@ -23,6 +23,7 @@ settings:
   provider: contact_block
   label_display: '0'
   contact_form: repository_item_contact
+  form_display: default
 visibility:
   view_inclusion:
     id: view_inclusion

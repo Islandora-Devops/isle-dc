@@ -232,3 +232,17 @@ db_restore:
 .silent: minio-bucket
 minio-bucket:
 	docker run --rm --env-file .env -v $$(pwd)/minio-init.sh:/minio-init.sh --network idc_default --entrypoint=/minio-init.sh minio/mc
+
+NODE=$(shell which node)
+NPM=$(shell which npm)
+YARN=$(shell which yarn)
+
+# Compile the theme
+.PHONY: theme-compile
+.SILENT: theme-compile
+theme-compile:
+	@[ "${NODE}" ] && echo "Node Found" || ( echo "NodeJS not found. Please install and try again. https://nodejs.org/en/download/package-manager"; exit 1 )
+	@[ "${NPM}" ] && echo "NPM Found" || ( echo "NPM not found. Please install and try again."; exit 1 )
+	@[ "${YARN}" ] && echo "YARN Found" || ( echo "Yarn not found. Please install and run again. https://yarnpkg.com/getting-started/install"; exit 1 )
+	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 composer update jhu-idc/idc-ui-theme'
+	cd codebase/web/themes/contrib/idc-ui-theme/js && bash autobuild.sh
