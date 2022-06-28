@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "856717a706e187e0af7059741255aefb",
+    "content-hash": "f0e85756066765dc18b7f73b5a68a658",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -8271,17 +8271,11 @@
         },
         {
             "name": "jhu-idc/idc_export",
-            "version": "dev-main",
+            "version": "dev-linting_for_9_3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_export.git",
-                "reference": "33c3b31ac884b9dc524ab864620d58660344a346"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_export/zipball/33c3b31ac884b9dc524ab864620d58660344a346",
-                "reference": "33c3b31ac884b9dc524ab864620d58660344a346",
-                "shasum": ""
+                "reference": "84679b97191f3bcc449e49fcedb6120d8ec95b69"
             },
             "require": {
                 "citation-style-language/locales": "@dev",
@@ -8295,14 +8289,9 @@
                 "drupal/search_api": "~1.12",
                 "drupal/xls_serialization": "~1.0"
             },
-            "default-branch": true,
             "type": "drupal-module",
             "description": "Metadata and Citation Export Module for JHU Islandora",
-            "support": {
-                "source": "https://github.com/jhu-idc/idc_export/tree/main",
-                "issues": "https://github.com/jhu-idc/idc_export/issues"
-            },
-            "time": "2021-11-03T14:42:44+00:00"
+            "time": "2022-06-17T16:32:08+00:00"
         },
         {
             "name": "jhu-idc/idc_ui_module",

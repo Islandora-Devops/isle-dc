@@ -61,17 +61,8 @@
             "url": "https://github.com/jhu-idc/idc_defaults.git"
         },
         {
-            "type": "package",
-            "package": {
-                "name": "jhu-idc/idc_export",
-                "version":"dev-main",
-                "type": "drupal-module",
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/jhu-idc/idc_export.git",
-                    "reference": "linting_for_9.3"
-                }
-            }
+            "type": "git",
+            "url": "https://github.com/jhu-idc/idc_export.git"
         },
         {
             "type": "vcs",
@@ -177,7 +168,7 @@
         "islandora/carapace": "dev-8.x-3.x",
         "jhu-idc/idc-ui-theme": "dev-main",
         "jhu-idc/idc_defaults": "dev-main",
-        "jhu-idc/idc_export": "dev-main",
+        "jhu-idc/idc_export": "dev-linting_for_9_3",
         "jhu-idc/idc_ui_module": "dev-main",
         "jhu-idc/islandora_defaults": "dev-8.x-1.x",
         "jhu-idc/islandora_repository_reports": "dev-main",
