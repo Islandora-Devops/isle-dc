@@ -28,17 +28,8 @@
             "url": "git@github.com:jhu-idc/controlled_access_terms.git"
         },
         {
-            "type": "package",
-            "package": {
-                "name": "jhu-idc/reference_value_pair",
-                "version":"dev-main",
-                "type": "drupal-module",
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/jhu-idc/reference_value_pair.git",
-                    "reference": "upstream"
-                }
-            }
+            "type": "git",
+            "url": "https://github.com/jhu-idc/reference_value_pair.git"
         },
         {
             "type": "vcs",
@@ -170,10 +161,10 @@
         "jhu-idc/idc_defaults": "dev-main",
         "jhu-idc/idc_export": "dev-linting_for_9_3",
         "jhu-idc/idc_ui_module": "dev-main",
-        "jhu-idc/islandora_defaults": "dev-8.x-1.x",
+        "jhu-idc/islandora_defaults": "dev-9_3_update",
         "jhu-idc/islandora_repository_reports": "dev-main",
         "jhu-idc/migrate_file": "dev-8.x-1.x",
-        "jhu-idc/reference_value_pair": "dev-main",
+        "jhu-idc/reference_value_pair": "dev-upstream",
         "jhu_idc/idc_migration": "^2.0",
         "maennchen/zipstream-php": "^2.1",
         "masonry/masonry": "^4.2",
