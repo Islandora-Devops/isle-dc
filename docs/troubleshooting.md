@@ -91,7 +91,7 @@ The server configured at `/admin/config/search/search-api` shows a failed connec
 
 This can sometimes be caused by Docker containers not inheriting the DNS configurations from the host machine.
 
-To fix edit `/etc/resolv.conf` in both the Drupal and the Solr containers by adding a valid DNS entry ie `nameserver 223.5.5.5`
+To fix edit `/etc/resolv.conf` in both the Drupal and the Solr containers by adding a valid DNS entry i.e. `nameserver 223.5.5.5`
 
 
 ## Image or other derivatives are not produced, due to insufficient timeout limits
