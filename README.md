@@ -69,7 +69,7 @@ This will pull down images from Dockerhub and generate
 
 Your new Islandora instance will be available at
 [https://islandora.traefik.me](https://islandora.traefik.me). Don't let the
-funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.
+funny URL fool you, it's a dummy domain that resolves to `127.0.0.1`.
 
 If you do not have [secrets enabled](#secrets), you can log into Drupal as
 `admin` using the default password: `password`. Otherwise you can find the
@@ -79,7 +79,7 @@ password in the file
 Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
 the things you can do.  If you want to poke around, here's all the services that are available to visit:
 
-| Service     | Url                                                                                            |
+| Service     | URL                                                                                            |
 | :---------- | :--------------------------------------------------------------------------------------------- |
 | Drupal      | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |
 | Traefik     | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |
@@ -323,7 +323,7 @@ The [traefik](https://containo.us/traefik/) container acts as a reverse proxy,
 and exposes some containers through port ``80``/``443``/``3306``. 
 
 Since Drupal passes links to itself in the messages it passes to the microservices,
-and occasionally other urls need to be resolved on containers that do not have
+and occasionally other URLs need to be resolved on containers that do not have
 external access, we define aliases for most services on the internal network.
 
 Aliases like so are defined on most services to mimic their routing rules in
@@ -359,13 +359,13 @@ It is not enabled by default.
 INCLUDE_ETCD_SERVICE=false
 ```
 ## Add Custom Makefile Commands
-To add custom Makefile commands without adding upstream git conflict complexity, just creat a new `custom.Makefile` and the Makefile will automatically include it. This can be a completely empty file that needs no header information. Just add a function in the following format.
+To add custom Makefile commands without adding upstream git conflict complexity, just create a new `custom.Makefile` and the Makefile will automatically include it. This can be a completely empty file that needs no header information. Just add a function in the following format.
 ```makefile
 .PHONY: lowercasename
 .SILENT: lowercasename
 ## This is the help description that comes up when using the 'make help` command. This needs to be placed with 2 # characters, after .PHONY & .SILENT but before the function call. And only take up a single line.
 lowercasename:
-	echo "first line in command needs to be indented. There are ecceptions to this, review functions in the Makefile for examples of these exceptions."
+	echo "first line in command needs to be indented. There are exceptions to this, review functions in the Makefile for examples of these exceptions."
 ```
 
 Running the new `custom.Makefile` commands are exactly the same as running any other Makefile command. Just run `make` and the function's name.
