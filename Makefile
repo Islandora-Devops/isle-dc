@@ -6,6 +6,9 @@ ENV_FILE=$(shell \
 	fi; \
 	echo .env)
 
+# If custom.makefile exists include it.
+-include custom.Makefile
+
 # Checks to see if the path includes a space character. Intended to be a temporary fix.
 ifneq (1,$(words $(CURDIR)))
 $(error Containing path cannot contain space characters: '$(CURDIR)')
