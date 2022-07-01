@@ -1,0 +1,42 @@
+uuid: 38f0ca3f-cbf9-4d72-a72e-5a07a7e74d40
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.years
+  module:
+    - context
+    - facets
+    - islandora
+  theme:
+    - carapace
+_core:
+  default_config_hash: EF-uCSfrZ9Ra92rvTt4YY85O0WM8WKkAMyZVYBz8kF4
+id: years
+theme: carapace
+region: sidebar_second
+weight: -5
+provider: null
+plugin: 'facet_block:years'
+settings:
+  id: 'facet_block:years'
+  label: Years
+  label_display: visible
+  provider: facets
+  block_id: years
+visibility:
+  request_path_exclusion:
+    id: request_path_exclusion
+    pages: ''
+    negate: null
+    context_mapping: {  }
+  view_inclusion:
+    id: view_inclusion
+    negate: null
+    view_inclusion: {  }
+    context_mapping: {  }
+  media_source_mimetype:
+    id: media_source_mimetype
+    mimetype: ''
+    negate: false
+    context_mapping: {  }

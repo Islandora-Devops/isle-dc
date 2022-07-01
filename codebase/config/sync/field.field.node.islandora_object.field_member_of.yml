@@ -6,11 +6,11 @@ dependencies:
     - field.storage.node.field_member_of
     - node.type.collection_object
     - node.type.islandora_object
+  module:
+    - epp
   enforced:
     module:
       - islandora_defaults
-  module:
-    - epp
 third_party_settings:
   epp:
     value: ''

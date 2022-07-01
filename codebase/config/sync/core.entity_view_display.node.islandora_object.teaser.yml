@@ -50,11 +50,11 @@ dependencies:
     - field.field.node.islandora_object.field_weight
     - field.field.node.islandora_object.field_years
     - node.type.islandora_object
+  module:
+    - user
   enforced:
     module:
       - islandora_defaults
-  module:
-    - user
 _core:
   default_config_hash: zae03KDpB7clOXLmA52wfN-pGOrpH7xV1Y2nQcbSl-Q
 id: node.islandora_object.teaser
@@ -63,15 +63,15 @@ bundle: islandora_object
 mode: teaser
 content:
   display_media_thumbnail:
+    settings: {  }
+    third_party_settings: {  }
     weight: 0
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
-  links:
     weight: 2
     region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
   display_media_entity_view_1: true
   display_media_entity_view_2: true

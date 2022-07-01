@@ -27,14 +27,12 @@ bundle: collection_object
 mode: teaser
 content:
   display_media_thumbnail:
-    weight: 0
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
   field_citable_url:
     type: link
-    weight: 2
-    region: content
     label: above
     settings:
       trim_length: 80
@@ -43,16 +41,18 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
+    weight: 2
+    region: content
   islandora_fits_checksum:
-    weight: 100
     settings: {  }
     third_party_settings: {  }
+    weight: 100
     region: content
   links:
-    weight: 3
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 3
+    region: content
 hidden:
   display_media_entity_view_1: true
   display_media_entity_view_2: true

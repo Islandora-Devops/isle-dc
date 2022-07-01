@@ -14,8 +14,8 @@ dependencies:
     - field.field.node.islandora_object.field_access_terms
     - taxonomy.vocabulary.islandora_access
 id: collection
-label: Communities
 plural_label: Communities
+label: Communities
 scheme: taxonomy
 scheme_settings:
   vocabularies:

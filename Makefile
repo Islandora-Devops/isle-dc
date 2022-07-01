@@ -347,5 +347,5 @@ dev:
 .SILENT: clean
 clean:
 	-docker-compose down -v
-	sudo rm -fr codebase certs
+	sudo rm -fr certs
 	git clean -xffd .

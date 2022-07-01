@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: XgeYJpPmZIOwE_nA73tYvFw-Rcj-HtlbNwfktqSVsaQ
 broker_url: 'tcp://activemq:61613'
 jwt_expiry: '+2 hour'
 gemini_url: 'http://gemini:8000'
@@ -7,5 +9,3 @@ gemini_pseudo_bundles:
   - 'file:media'
   - 'audio:media'
   - 'video:media'
-_core:
-  default_config_hash: XgeYJpPmZIOwE_nA73tYvFw-Rcj-HtlbNwfktqSVsaQ

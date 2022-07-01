@@ -100,6 +100,12 @@ snapshot-push:
 .SILENT: up
 up:  download-default-certs docker-compose.yml start
 
+.PHONY: down
+.SILENT: down
+## Brings down the containers. Same as docker-compose down --remove-orphans
+down:
+	-docker-compose down --remove-orphans
+
 .PHONY: dev-up
 .SILENT: dev-up
 dev-up:  download-default-certs
@@ -207,6 +213,13 @@ static-docker-compose.yml: static-drupal-image
 .SILENT: test
 .PHONY: test
 test:
+	# Check if jq is installed.  If not, install it.
+	if ! [ -x "$(shell command -v jq)" ]; then \
+		echo 'Error: jq is not installed.' >&2 ; \
+		echo '       Please install jq and try again.' >&2 ; \
+		echo '       You can do this by running:  sudo apt-get install jq' >&2 ; \
+		exit 1; \
+	fi; \
 	./run-tests.sh $(test)
 
 .PHONY: db_dump

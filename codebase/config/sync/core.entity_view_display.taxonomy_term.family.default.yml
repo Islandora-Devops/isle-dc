@@ -21,14 +21,14 @@ bundle: family
 mode: default
 content:
   description:
-    label: hidden
     type: text_default
-    weight: 2
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 2
     region: content
   field_authority_link:
-    weight: 3
+    type: authority_formatter_default
     label: above
     settings:
       trim_length: 80
@@ -37,10 +37,10 @@ content:
       rel: ''
       target: _blank
     third_party_settings: {  }
-    type: authority_formatter_default
+    weight: 3
     region: content
   field_date:
-    weight: 5
+    type: edtf_default
     label: above
     settings:
       date_separator: dash
@@ -48,31 +48,31 @@ content:
       month_format: mm
       day_format: dd
     third_party_settings: {  }
-    type: edtf_default
+    weight: 5
     region: content
   field_family_name:
-    weight: 0
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 0
     region: content
   field_relationships:
-    weight: 4
+    type: typed_relation_default
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: typed_relation_default
+    weight: 4
     region: content
   field_title_and_other_words:
-    weight: 1
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
 hidden:
   field_unique_id: true

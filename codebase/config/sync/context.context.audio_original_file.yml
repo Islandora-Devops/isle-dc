@@ -7,8 +7,8 @@ dependencies:
     - islandora
 _core:
   default_config_hash: LF_53zO22iJb5lGnTEum37B_719Nz_EM5iG-fOKt3-I
-name: audio_original_file
 label: 'Audio Derivatives'
+name: audio_original_file
 group: Derivatives
 description: 'Derivatives for Audio'
 requireAllConditions: true
@@ -17,16 +17,16 @@ conditions:
   media_has_term:
     id: media_has_term
     negate: false
-    uri: 'http://pcdm.org/use#OriginalFile'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
+    uri: 'http://pcdm.org/use#OriginalFile'
     logic: and
   parent_node_has_term:
     id: parent_node_has_term
     negate: false
-    uri: 'http://purl.org/coar/resource_type/c_18cc'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
+    uri: 'http://purl.org/coar/resource_type/c_18cc'
     logic: and
   media_use_is_present:
     id: media_use_is_present

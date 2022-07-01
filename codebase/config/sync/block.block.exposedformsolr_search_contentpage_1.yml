@@ -1,0 +1,25 @@
+uuid: 9877bd59-2aaa-4e76-b7db-5afc7dcd1103
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.solr_search_content
+  module:
+    - views
+  theme:
+    - carapace
+_core:
+  default_config_hash: x6dfMAz8P9ofvcrLN37w_Z4-9MHVCsf-NV4bVI8Biqc
+id: exposedformsolr_search_contentpage_1
+theme: carapace
+region: sidebar_second
+weight: -7
+provider: null
+plugin: 'views_exposed_filter_block:solr_search_content-page_1'
+settings:
+  id: 'views_exposed_filter_block:solr_search_content-page_1'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+visibility: {  }

@@ -1,0 +1,106 @@
+features:
+  node_user_picture: 1
+  comment_user_picture: 1
+  comment_user_verification: 1
+  favicon: 1
+logo:
+  use_default: 1
+favicon:
+  use_default: 1
+settings_generated_files_path: themes/contrib/idc-ui-theme/styles/css/generated
+list_info: |
+  name: 'JHU IDC UI Theme'
+  type: theme
+  version: '1.0'
+  description: 'JHU''s Islandora based data repository UI theme'
+  core_version_requirement: '^8 || ^9'
+  'base theme': at_core
+  'base theme original': 1.4.6
+  'subtheme type': adaptive_subtheme
+  layout: page-layout
+  screenshot: themes/contrib/idc-ui-theme/screenshot.png
+  logo: logo.svg
+  libraries:
+    - idcui/idc-styles
+    - idcui/idc-js
+    - idcui/idc-mirador
+  regions:
+    top_menu: 'Top menu'
+    top_nav: 'Top Nav'
+    header_1: 'Sub Header 1'
+    header_2: 'Sub Header 2'
+    highlighted: Highlighted
+    content: Content
+    footer: Footer
+    modal: Modal
+    page_top: 'Page top'
+    page_bottom: 'Page bottom'
+  core_incompatible: false
+  lifecycle: stable
+  mtime: 1656618915
+  engine: twig
+  features:
+    - favicon
+    - logo
+    - node_user_picture
+    - comment_user_picture
+    - comment_user_verification
+  php: 7.3.0
+  libraries_extend: {  }
+  libraries_override: {  }
+  dependencies:
+    - at_core
+  regions_hidden:
+    - page_top
+    - page_bottom
+settings_extensions_form_open: 0
+settings_enable_extensions: 0
+settings_enable_responsive_menus: 0
+settings_enable_images: 0
+settings_enable_touch_icons: 0
+settings_enable_fonts: 0
+settings_enable_titles: 0
+settings_enable_shortcodes: 0
+settings_enable_slideshows: 0
+settings_enable_mobile_blocks: 0
+settings_enable_custom_css: 0
+settings_enable_devel: 0
+settings_enable_legacy_browsers: 0
+settings_enable_markup_overrides: 0
+settings_layouts_form_open: 0
+settings_layouts_enable: 0
+settings_suggestions:
+  page: page
+ts_name: ''
+settings_breakpoint_group_layout: bartik
+settings_max_width_enable: 0
+settings_max_width_value: ''
+settings_max_width_unit: em
+settings_max_width_enable_rows: 0
+settings_enable_backups: 0
+settings:
+  generated_files_path: themes/contrib/idc-ui-theme/styles/css/generated
+  extensions_form_open: 0
+  enable_extensions: 0
+  enable_responsive_menus: 1
+  enable_images: 1
+  enable_touch_icons: 1
+  enable_fonts: 1
+  enable_titles: 1
+  enable_shortcodes: 1
+  enable_slideshows: 1
+  enable_mobile_blocks: 1
+  enable_custom_css: 1
+  enable_devel: 1
+  enable_legacy_browsers: 0
+  enable_markup_overrides: 1
+  layouts_form_open: 0
+  layouts_enable: 0
+  suggestions:
+    page: page
+  breakpoint_group_layout: bartik
+  max_width_enable: 0
+  max_width_value: ''
+  max_width_unit: em
+  max_width_enable_rows: 0
+  enable_backups: 0

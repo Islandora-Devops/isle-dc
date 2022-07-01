@@ -6,8 +6,8 @@ dependencies:
     - islandora
 _core:
   default_config_hash: c7_MtAQ35bFVk9PanoKR52wijgATcHFDBpFQ7MB7NPQ
-name: pdf_derivatives_from_transcript
 label: 'PDF Derivatives from Transcript'
+name: pdf_derivatives_from_transcript
 group: Derivatives
 description: 'Derivatives for PDF documents where the media is a Transcript'
 requireAllConditions: true
@@ -16,16 +16,16 @@ conditions:
   media_has_term:
     id: media_has_term
     negate: false
-    uri: 'http://pcdm.org/use#Transcript'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
+    uri: 'http://pcdm.org/use#Transcript'
     logic: and
   parent_node_has_term:
     id: parent_node_has_term
     negate: false
-    uri: 'http://purl.org/coar/resource_type/c_18cc'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
+    uri: 'http://purl.org/coar/resource_type/c_18cc'
     logic: and
 reactions:
   derivative:

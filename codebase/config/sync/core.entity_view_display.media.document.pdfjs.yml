@@ -25,8 +25,6 @@ mode: pdfjs
 content:
   field_media_document:
     type: pdf_default
-    weight: 0
-    region: content
     label: visually_hidden
     settings:
       keep_pdfjs: '1'
@@ -37,6 +35,8 @@ content:
       custom_zoom: ''
       pagemode: ''
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   created: true
   field_access_terms: true

@@ -1,7 +1,11 @@
+_core:
+  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
   action: 0
   admin_toolbar: 0
   admin_toolbar_links_access_filter: 0
+  admin_toolbar_tools: 0
+  at_tool: 0
   automated_cron: 0
   basic_auth: 0
   big_pipe: 0
@@ -151,5 +155,3 @@ theme:
   carapace: 0
   idcui: 0
 profile: minimal
-_core:
-  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
