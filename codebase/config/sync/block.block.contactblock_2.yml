@@ -25,16 +25,6 @@ settings:
   contact_form: repository_item_contact
   form_display: default
 visibility:
-  view_inclusion:
-    id: view_inclusion
-    negate: false
-    context_mapping: {  }
-    view_inclusion: {  }
-  request_path_exclusion:
-    id: request_path_exclusion
-    negate: true
-    context_mapping: {  }
-    pages: ''
   media_source_mimetype:
     id: media_source_mimetype
     mimetype: ''

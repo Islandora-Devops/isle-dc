@@ -65,7 +65,7 @@ settings:
   apple_touch_icon_path_ipad_retina_3x: images/touch-icons/Icon-60-3x.png
   apple_touch_icon_path_chrome_android: images/touch-icons/Icon-192x192.png
   apple_touch_icon_precomposed: 0
-  generated_files_path: themes/contrib/carapace/styles/css/generated
+  generated_files_path: themes/carapace/styles/css/generated
   extensions_form_open: 1
   layouts_form_open: 1
   image_alignment_article_node_full: center
