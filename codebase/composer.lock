@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ceb35a816b4dc6dc139cf7212fd9913",
+    "content-hash": "2137ef76ce7c2d167de37639606ae8dd",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -8433,12 +8433,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc-ui-theme.git",
-                "reference": "44d56322b2bfc6c5f6b7b93761b98ad7fd7769fb"
+                "reference": "24c6914ef86779469ebd0bfbfd7bd3de1f1dfc46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/44d56322b2bfc6c5f6b7b93761b98ad7fd7769fb",
-                "reference": "44d56322b2bfc6c5f6b7b93761b98ad7fd7769fb",
+                "url": "https://api.github.com/repos/jhu-idc/idc-ui-theme/zipball/24c6914ef86779469ebd0bfbfd7bd3de1f1dfc46",
+                "reference": "24c6914ef86779469ebd0bfbfd7bd3de1f1dfc46",
                 "shasum": ""
             },
             "default-branch": true,
@@ -8448,7 +8448,7 @@
                 "source": "https://github.com/jhu-idc/idc-ui-theme/tree/main",
                 "issues": "https://github.com/jhu-idc/idc-ui-theme/issues"
             },
-            "time": "2022-06-17T20:11:13+00:00"
+            "time": "2022-07-05T18:32:51+00:00"
         },
         {
             "name": "jhu-idc/idc_defaults",
@@ -8479,11 +8479,11 @@
         },
         {
             "name": "jhu-idc/idc_export",
-            "version": "dev-linting_for_9_3",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_export.git",
-                "reference": "84679b97191f3bcc449e49fcedb6120d8ec95b69"
+                "reference": "dc565bd71ad339127e57c93fe71dd196183c5631"
             },
             "require": {
                 "citation-style-language/locales": "@dev",
@@ -8497,9 +8497,10 @@
                 "drupal/search_api": "~1.12",
                 "drupal/xls_serialization": "~1.0"
             },
+            "default-branch": true,
             "type": "drupal-module",
             "description": "Metadata and Citation Export Module for JHU Islandora",
-            "time": "2022-06-17T16:32:08+00:00"
+            "time": "2022-07-05T19:14:48+00:00"
         },
         {
             "name": "jhu-idc/idc_ui_module",

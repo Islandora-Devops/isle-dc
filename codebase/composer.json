@@ -161,7 +161,7 @@
         "islandora/carapace": "dev-8.x-3.x",
         "jhu-idc/idc-ui-theme": "dev-main",
         "jhu-idc/idc_defaults": "dev-main",
-        "jhu-idc/idc_export": "dev-linting_for_9_3",
+        "jhu-idc/idc_export": "dev-main",
         "jhu-idc/idc_ui_module": "dev-main",
         "jhu-idc/islandora_defaults": "dev-9_3_update",
         "jhu-idc/islandora_repository_reports": "dev-main",
