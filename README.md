@@ -368,6 +368,8 @@ lowercasename:
 	echo "first line in command needs to be indented. There are exceptions to this, review functions in the Makefile for examples of these exceptions."
 ```
 
+NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.  
+
 Running the new `custom.Makefile` commands are exactly the same as running any other Makefile command. Just run `make` and the function's name.
 ```bash
 make lowercasename
