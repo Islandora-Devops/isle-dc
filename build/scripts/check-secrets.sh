@@ -68,12 +68,21 @@ function main() {
 	if [ ! "$(ls $(pwd)/secrets/live)" ]; then
 		echo -e "\n${YELLOW}Checking secrets...${RESET}"
 		echo "  No secrets found in $(pwd)/secrets/live/"
-		echo -e "\nThere are 2 basic methods to create secrets:"
-		echo " [1] - Generate new secrets via a script"
-		echo -e " [2] - Copy secrets from a $(pwd)/secrets/template directory into $(pwd)/secrets/live/ and then modify them\n"
-		echo -n "Would you like to generate random secrets? Run a script to create secrets? [y/N] "
-		read ans
-		if [[ ${ans} == [yY] ]] ; then
+		echo ""
+		echo -e "Everything (Drupal, SQL, Solr, etc.) needs passwords to run. These passwords are stored in the ${GREEN}secrets${RESET} directory."
+		echo "  1. ${BLUE}Generate new secrets${RESET}"
+		echo "       ╰ This will generate random new passwords and output them into $(pwd)/secrets/live/"
+		echo "  2. ${BLUE}Copy the existing secrets${RESET}"
+		echo "       ╰ This will copy the existing secrets into the $(pwd)/secrets/live/. Every password will likely be 'password'."
+		echo "  3. ${BLUE}Create your own secrets${RESET}"
+		echo "       ╰ This will copy the secrets from $(pwd)/secrets/template/ to $(pwd)/secrets/live/"
+		echo "            and will exit so you can edit the secrets manually prior to building the Docker image."
+		echo "  4. ${BLUE}Exit${RESET}"
+		echo ""
+		read -p "Enter your choice: " choice
+		case $choice in
+		1)
+			echo "Generating new secrets"
 			docker run --rm -t \
 			-v $(pwd)/secrets:/secrets \
 			-v $(pwd)/build/scripts/generate-secrets.sh:/generate-secrets.sh \
@@ -81,23 +90,24 @@ function main() {
 			--entrypoint bash \
 			${REPOSITORY}/drupal:${TAG} -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
 			echo -e "\n${GREEN}Secrets generated.${RESET}"
-		else
-			echo ""
-			echo -n "Would you like to copy the default secrets? Run a script to copy secrets? [y/N] " && \
-			read second_ans
-			if [[ ${second_ans:-N} == [yY] ]] ; then
-				echo -e "\nCopying secrets from $(pwd)/secrets/template/ to $(pwd)/secrets/live/\n"
-				echo -e "${GREEN}Suggestion${RESET}:\n    It is much easier to modify these before you start isle than to try to figure out how to push them to the containers."
-				cp -n $(pwd)/secrets/template/* $(pwd)/secrets/live/
-				echo -e "This is optional, but it is recommended to modify the secrets in $(pwd)/secrets/live/ before running on a production environment.\n\n"
-				echo -e "Would you like to ${RED}exit${RESET} this build process to change the default values of the secrets manually? [y/N] "
-				read exit_answer
-				if [[ ${exit_answer} == [yY] ]] ; then
-					echo -e "\n${RED}Exiting build${RESET}: Please modify the secrets in $(pwd)/secrets/live/ and then run ${BLUE}make up${RESET} command to continue the build process.\n\n\n\n${RED}Exiting build now!...${RESET}"
-					exit 1
-				fi
-			fi
-		fi
+			;;
+		2)
+			echo "Copying existing secrets"
+			cp -n $(pwd)/secrets/template/* $(pwd)/secrets/live/
+			echo -e "\n${GREEN}Secrets copied.${RESET}"
+			;;
+		3)
+			echo "Creating your own secrets. Copying templates to live directory."
+			cp -n $(pwd)/secrets/template/* $(pwd)/secrets/live/
+			echo -e "\nTemplate ${GREEN}Secrets copied to $(pwd)/secrets/live/.${RESET}"
+			echo "You can now edit the secrets in $(pwd)/secrets/live/ and then run: ${GREEN}make up${RESET} to start building the Docker image."
+			exit 1
+			;;
+		*)
+			echo "Exiting"
+			exit 1
+			;;
+		esac
 	fi
 
 	local secret_live=($(find $(pwd)/secrets/live/* -exec basename {} \;))
