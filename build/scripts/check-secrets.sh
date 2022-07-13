@@ -68,10 +68,10 @@ function main() {
 	if [ ! "$(ls $(pwd)/secrets/live)" ]; then
 		echo -e "\n${YELLOW}Checking secrets...${RESET}"
 		echo "  No secrets found in $(pwd)/secrets/live/"
-		echo -e "\nThere are 2 basic methods to create secrets:"
-		echo " [1] - Generate new secrets via a script"
+		echo -e "\nThere are 2 basic methods to create secrets, which will become admin passwords in various services:"
+		echo " [1] - Generate random secrets via a script"
 		echo -e " [2] - Copy secrets from a $(pwd)/secrets/template directory into $(pwd)/secrets/live/ and then modify them\n"
-		echo -n "Would you like to generate random secrets? Run a script to create secrets? [y/N] "
+		echo -n "Would you like to generate random secrets via a script? [recommended] [Y/n] "
 		read ans
 		if [[ ${ans} == [yY] ]] ; then
 			docker run --rm -t \
