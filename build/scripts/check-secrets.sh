@@ -68,12 +68,31 @@ function main() {
 	if [ ! "$(ls $(pwd)/secrets/live)" ]; then
 		echo -e "\n${YELLOW}Checking secrets...${RESET}"
 		echo "  No secrets found in $(pwd)/secrets/live/"
-		echo -e "\nThere are 2 basic methods to create secrets, which will become admin passwords in various services:"
-		echo " [1] - Generate random secrets via a script"
-		echo -e " [2] - Copy secrets from a $(pwd)/secrets/template directory into $(pwd)/secrets/live/ and then modify them\n"
+		echo -e "\nWith USE_SECRETS enabled, secrets are used to set the admin passwords in various services. At this point, you can:"
+		echo " - generate random secrets (recommended)"
+		echo -e " - copy insecure sample secrets into $(pwd)/secrets/live/ and then modify them manually.\n"
 		echo -n "Would you like to generate random secrets via a script? [recommended] [Y/n] "
 		read ans
-		if [[ ${ans} == [yY] ]] ; then
+		if [[ ${ans} == [nN] ]] ; then
+			echo ""
+			echo -n "Would you like to copy the default secrets into secrets/live? [y/N] " && \
+			read second_ans
+			if [[ ${second_ans:-N} == [yY] ]] ; then
+				echo -e "\nCopying secrets from $(pwd)/secrets/template/ to $(pwd)/secrets/live/\n"
+				cp -n $(pwd)/secrets/template/* $(pwd)/secrets/live/
+				echo -e "${GREEN}Suggestion${RESET}:\n    It is much easier to modify these before you start ISLE than to try to figure out how to push them to the containers."
+				echo -e "It is STRONGLY recommended to modify the default secrets in $(pwd)/secrets/live/ before running on a production environment.\n\n"
+				echo -e "Would you like to ${RED}exit${RESET} this build process to change the default values of the secrets? [y/N] "
+				read exit_answer
+				if [[ ${exit_answer} == [yY] ]] ; then
+					echo -e "\n${RED}Exiting build${RESET}: Please modify the secrets in $(pwd)/secrets/live/ and then run ${BLUE}make up${RESET} command to continue the build process.\n\n\n\n${RED}Exiting build now!...${RESET}"
+					exit 1
+				fi
+                        else
+				echo -e "\nYou will still have the option to use the default, insecure secrets. However if you wish you can cancel the build process, enter secure secrets in $(pwd)/secrets/live/ and then run ${BLUE}make up${RESET} command to continue the build.\n"
+			fi
+
+		else
 			docker run --rm -t \
 			-v $(pwd)/secrets:/secrets \
 			-v $(pwd)/build/scripts/generate-secrets.sh:/generate-secrets.sh \
@@ -81,22 +100,6 @@ function main() {
 			--entrypoint bash \
 			${REPOSITORY}/drupal:${TAG} -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
 			echo -e "\n${GREEN}Secrets generated.${RESET}"
-		else
-			echo ""
-			echo -n "Would you like to copy the default secrets? Run a script to copy secrets? [y/N] " && \
-			read second_ans
-			if [[ ${second_ans:-N} == [yY] ]] ; then
-				echo -e "\nCopying secrets from $(pwd)/secrets/template/ to $(pwd)/secrets/live/\n"
-				echo -e "${GREEN}Suggestion${RESET}:\n    It is much easier to modify these before you start isle than to try to figure out how to push them to the containers."
-				cp -n $(pwd)/secrets/template/* $(pwd)/secrets/live/
-				echo -e "This is optional, but it is recommended to modify the secrets in $(pwd)/secrets/live/ before running on a production environment.\n\n"
-				echo -e "Would you like to ${RED}exit${RESET} this build process to change the default values of the secrets manually? [y/N] "
-				read exit_answer
-				if [[ ${exit_answer} == [yY] ]] ; then
-					echo -e "\n${RED}Exiting build${RESET}: Please modify the secrets in $(pwd)/secrets/live/ and then run ${BLUE}make up${RESET} command to continue the build process.\n\n\n\n${RED}Exiting build now!...${RESET}"
-					exit 1
-				fi
-			fi
 		fi
 	fi
 
