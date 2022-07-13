@@ -512,11 +512,20 @@ set_admin_password:
 # Hot fix section. These are not meant to be run normally but are meant to be run when needed.
 
 LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
+GITHUB_LIMIT := $(shell curl -I https://api.github.com/users/octocat | grep "x-ratelimit-reset: " | sed "s/x-ratelimit-reset: //")
 
 .PHONY: fix-masonry
 .SILENT: fix-masonry
 ## Fix missing masonry library.
 fix-masonry:
+	# If ${LATEST_VERSION} is empty, we're on a dev branch.
+	if [ ! "${LATEST_VERSION}" ]; then \
+		echo ""; \
+		echo "Github API rate limit exceeded. Skipping masonry fix." ; \
+		echo "  Either log into Github via the terminal or wait until $(shell date --date='@${GITHUB_LIMIT}') for the rate limit to reset." ; \
+		echo ""	; \
+		exit 1 ; \
+	fi
 	@echo "Latest version of masonry library is ${LATEST_VERSION}"
 	docker-compose exec drupal bash -lc "[ -d '/var/www/drupal/web/libraries' ] && exit ; mkdir -p /var/www/drupal/web/libraries ; chmod 755 /var/www/drupal/web/libraries ; chown 1000:nginx /var/www/drupal/web/libraries"
 	docker-compose exec drupal bash -lc "cd /var/www/drupal/web/libraries/ ; [ ! -d '/var/www/drupal/web/libraries/masonry' ] && git clone --quiet --branch ${LATEST_VERSION} https://github.com/desandro/masonry.git || echo Ready"
