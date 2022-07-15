@@ -4,14 +4,14 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.open_seadragon
-  enforced:
-    module:
-      - islandora_defaults
   module:
     - eva
     - media
     - taxonomy
     - user
+  enforced:
+    module:
+      - islandora_defaults
 _core:
   default_config_hash: O9ZF3l0lazq_otR6DslN0Gdm82xsmEHhKsD7WqokFiw
 id: openseadragon_media_evas
@@ -23,78 +23,34 @@ base_table: media_field_data
 base_field: mid
 display:
   default:
-    display_plugin: default
     id: default
     display_title: Master
+    display_plugin: default
     position: 0
     display_options:
-      access:
-        type: perm
-        options:
-          perm: 'view media'
-      cache:
-        type: tag
-        options: {  }
-      query:
-        type: views_query
-        options:
-          disable_sql_rewrite: false
-          distinct: false
-          replica: false
-          query_comment: ''
-          query_tags: {  }
-      exposed_form:
-        type: basic
-        options:
-          submit_button: Apply
-          reset_button: false
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      pager:
-        type: some
-        options:
-          items_per_page: 1
-          offset: 0
-      style:
-        type: default
-        options:
-          row_class: ''
-          default_row_class: true
-          uses_fields: false
-      row:
-        type: 'entity:media'
-        options:
-          relationship: none
-          view_mode: open_seadragon
+      title: ''
       fields:
         name:
           id: name
           table: media_field_data
           field: name
+          relationship: none
+          group_type: group
+          admin_label: ''
           entity_type: media
           entity_field: media
+          plugin_id: field
           label: ''
+          exclude: false
           alter:
             alter_text: false
             make_link: false
             absolute: false
-            trim: false
             word_boundary: false
             ellipsis: false
             strip_tags: false
+            trim: false
             html: false
-          hide_empty: false
-          empty_zero: false
-          settings:
-            link_to_entity: true
-          plugin_id: field
-          relationship: none
-          group_type: group
-          admin_label: ''
-          exclude: false
           element_type: ''
           element_class: ''
           element_label_type: ''
@@ -104,9 +60,13 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
+          hide_empty: false
+          empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
           type: string
+          settings:
+            link_to_entity: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -117,35 +77,30 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-      filters:
-        status:
-          value: '1'
-          table: media_field_data
-          field: status
-          plugin_id: boolean
-          entity_type: media
-          entity_field: status
-          id: status
-          expose:
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-          group: 1
-      sorts: {  }
-      title: ''
-      header: {  }
-      footer: {  }
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 1
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      access:
+        type: perm
+        options:
+          perm: 'view media'
+      cache:
+        type: tag
+        options: {  }
       empty: {  }
-      relationships:
-        field_media_use:
-          id: field_media_use
-          table: media__field_media_use
-          field: field_media_use
-          relationship: none
-          group_type: group
-          admin_label: 'field_media_use: Taxonomy term'
-          required: false
-          plugin_id: standard
+      sorts: {  }
       arguments:
         field_media_of_target_id:
           id: field_media_of_target_id
@@ -154,6 +109,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: numeric
           default_action: default
           exception:
             value: all
@@ -167,8 +123,8 @@ display:
           summary_options:
             base_path: ''
             count: true
-            items_per_page: 25
             override: false
+            items_per_page: 25
           summary:
             sort_order: asc
             number_of_records: 0
@@ -180,7 +136,51 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
-          plugin_id: numeric
+      filters:
+        status:
+          id: status
+          table: media_field_data
+          field: status
+          entity_type: media
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+      style:
+        type: default
+        options:
+          row_class: ''
+          default_row_class: true
+          uses_fields: false
+      row:
+        type: 'entity:media'
+        options:
+          relationship: none
+          view_mode: open_seadragon
+      query:
+        type: views_query
+        options:
+          query_comment: ''
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_tags: {  }
+      relationships:
+        field_media_use:
+          id: field_media_use
+          table: media__field_media_use
+          field: field_media_use
+          relationship: none
+          group_type: group
+          admin_label: 'field_media_use: Taxonomy term'
+          plugin_id: standard
+          required: false
+      header: {  }
+      footer: {  }
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -191,27 +191,26 @@ display:
         - user.permissions
       tags: {  }
   entity_view_1:
-    display_plugin: entity_view
     id: entity_view_1
     display_title: 'Original File'
+    display_plugin: entity_view
     position: 1
     display_options:
-      display_extenders: {  }
-      display_description: 'The original creation format of a file'
+      title: 'OpenSeadragon - Original File'
       filters:
         status:
-          value: '1'
+          id: status
           table: media_field_data
           field: status
-          plugin_id: boolean
           entity_type: media
           entity_field: status
-          id: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
           expose:
             operator: ''
             operator_limit_selection: false
             operator_list: {  }
-          group: 1
         field_external_uri_uri:
           id: field_external_uri_uri
           table: taxonomy_term__field_external_uri
@@ -219,6 +218,7 @@ display:
           relationship: field_media_use
           group_type: group
           admin_label: ''
+          plugin_id: string
           operator: '='
           value: 'http://pcdm.org/use#OriginalFile'
           group: 1
@@ -255,22 +255,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          plugin_id: string
-      defaults:
-        filters: false
-        filter_groups: false
-        style: false
-        row: false
       filter_groups:
         operator: AND
         groups:
           1: AND
-      entity_type: node
-      bundles: {  }
-      argument_mode: id
-      default_argument: null
-      title: 'OpenSeadragon - Original File'
-      show_title: false
       style:
         type: default
         options:
@@ -282,6 +270,18 @@ display:
         options:
           relationship: none
           view_mode: open_seadragon
+      defaults:
+        style: false
+        row: false
+        filters: false
+        filter_groups: false
+      display_description: 'The original creation format of a file'
+      display_extenders: {  }
+      entity_type: node
+      bundles: {  }
+      show_title: false
+      argument_mode: id
+      default_argument: null
     cache_metadata:
       max-age: -1
       contexts:
@@ -291,27 +291,26 @@ display:
         - user.permissions
       tags: {  }
   entity_view_2:
-    display_plugin: entity_view
     id: entity_view_2
     display_title: 'Preservation File'
+    display_plugin: entity_view
     position: 1
     display_options:
-      display_extenders: {  }
-      display_description: 'Best quality representation of the Object appropriate for long-term preservation.'
+      title: 'OpenSeadragon - Preservation File'
       filters:
         status:
-          value: '1'
+          id: status
           table: media_field_data
           field: status
-          plugin_id: boolean
           entity_type: media
           entity_field: status
-          id: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
           expose:
             operator: ''
             operator_limit_selection: false
             operator_list: {  }
-          group: 1
         field_external_uri_uri:
           id: field_external_uri_uri
           table: taxonomy_term__field_external_uri
@@ -319,6 +318,7 @@ display:
           relationship: field_media_use
           group_type: group
           admin_label: ''
+          plugin_id: string
           operator: '='
           value: 'http://pcdm.org/use#PreservationFile'
           group: 1
@@ -350,22 +350,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          plugin_id: string
-      defaults:
-        filters: false
-        filter_groups: false
-        style: false
-        row: false
       filter_groups:
         operator: AND
         groups:
           1: AND
-      entity_type: node
-      bundles: {  }
-      argument_mode: id
-      default_argument: null
-      title: 'OpenSeadragon - Preservation File'
-      show_title: false
       style:
         type: default
         options:
@@ -377,6 +365,18 @@ display:
         options:
           relationship: none
           view_mode: open_seadragon
+      defaults:
+        style: false
+        row: false
+        filters: false
+        filter_groups: false
+      display_description: 'Best quality representation of the Object appropriate for long-term preservation.'
+      display_extenders: {  }
+      entity_type: node
+      bundles: {  }
+      show_title: false
+      argument_mode: id
+      default_argument: null
     cache_metadata:
       max-age: -1
       contexts:
@@ -386,27 +386,26 @@ display:
         - user.permissions
       tags: {  }
   service_file:
-    display_plugin: entity_view
     id: service_file
     display_title: 'Service File'
+    display_plugin: entity_view
     position: 1
     display_options:
-      display_extenders: {  }
-      display_description: 'A medium quality representation of the Object appropriate for serving to users.'
+      title: 'OpenSeadragon - Service File'
       filters:
         status:
-          value: '1'
+          id: status
           table: media_field_data
           field: status
-          plugin_id: boolean
           entity_type: media
           entity_field: status
-          id: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
           expose:
             operator: ''
             operator_limit_selection: false
             operator_list: {  }
-          group: 1
         field_external_uri_uri:
           id: field_external_uri_uri
           table: taxonomy_term__field_external_uri
@@ -414,6 +413,7 @@ display:
           relationship: field_media_use
           group_type: group
           admin_label: ''
+          plugin_id: string
           operator: '='
           value: 'http://pcdm.org/use#ServiceFile'
           group: 1
@@ -424,6 +424,8 @@ display:
             description: ''
             use_operator: false
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
             identifier: ''
             required: false
             remember: false
@@ -431,8 +433,6 @@ display:
             remember_roles:
               authenticated: authenticated
             placeholder: ''
-            operator_limit_selection: false
-            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -445,18 +445,18 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          plugin_id: string
-      defaults:
-        filters: false
-        filter_groups: false
-        title: false
       filter_groups:
         operator: AND
         groups:
           1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'A medium quality representation of the Object appropriate for serving to users.'
+      display_extenders: {  }
       entity_type: node
       bundles: {  }
-      title: 'OpenSeadragon - Service File'
     cache_metadata:
       max-age: -1
       contexts:

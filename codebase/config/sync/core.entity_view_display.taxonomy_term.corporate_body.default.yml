@@ -29,26 +29,26 @@ third_party_settings:
         - field_location_of_meeting
         - field_num_of_section_or_meet
         - field_date_of_meeting_or_treaty
+      label: 'Corporate Name'
       parent_name: ''
+      region: content
       weight: 1
       format_type: fieldset
-      region: content
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         description: ''
-      label: 'Corporate Name'
     group_alt_corporate_name:
       children: {  }
+      label: 'Alt Corporate Name'
       parent_name: ''
+      region: content
       weight: 2
       format_type: fieldset
-      region: content
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         description: ''
-      label: 'Alt Corporate Name'
 _core:
   default_config_hash: eg7su46-dvGu8agiWB3umWh6Q43kphzdGfbB3zcmlOc
 id: taxonomy_term.corporate_body.default
@@ -57,14 +57,14 @@ bundle: corporate_body
 mode: default
 content:
   description:
-    label: hidden
     type: text_default
-    weight: 0
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 0
     region: content
   field_authority_link:
-    weight: 3
+    type: authority_formatter_default
     label: above
     settings:
       trim_length: 80
@@ -73,18 +73,18 @@ content:
       rel: ''
       target: _blank
     third_party_settings: {  }
-    type: authority_formatter_default
+    weight: 3
     region: content
   field_corporate_body_alt_name:
-    weight: 7
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 7
     region: content
   field_date:
-    weight: 6
+    type: edtf_default
     label: above
     settings:
       date_separator: dash
@@ -92,10 +92,10 @@ content:
       month_format: mm
       day_format: dd
     third_party_settings: {  }
-    type: edtf_default
+    weight: 6
     region: content
   field_date_of_meeting_or_treaty:
-    weight: 20
+    type: edtf_default
     label: above
     settings:
       date_separator: dash
@@ -103,54 +103,54 @@ content:
       month_format: mm
       day_format: dd
     third_party_settings: {  }
-    type: edtf_default
+    weight: 20
     region: content
   field_location_of_meeting:
-    weight: 10
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 10
     region: content
   field_num_of_section_or_meet:
-    weight: 17
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 17
     region: content
   field_primary_name:
-    weight: 8
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 8
     region: content
   field_relationships:
-    weight: 4
+    type: typed_relation_default
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: typed_relation_default
+    weight: 4
     region: content
   field_subordinate_name:
-    weight: 9
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 9
     region: content
   field_type:
-    weight: 5
+    type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: list_default
+    weight: 5
     region: content
 hidden:
   field_unique_id: true

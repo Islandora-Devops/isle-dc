@@ -6,8 +6,8 @@ dependencies:
     - islandora
 _core:
   default_config_hash: xavOhHKb20w-w4Izd0AAF6xMVnVZJo00Wv3MFho81pc
-name: paged_content_derivatives
 label: 'Paged Content Derivatives'
+name: paged_content_derivatives
 group: Derivatives
 description: 'Derivatives for Paged Content'
 requireAllConditions: true
@@ -16,16 +16,16 @@ conditions:
   parent_node_has_term:
     id: parent_node_has_term
     negate: false
-    uri: 'https://schema.org/Book'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
+    uri: 'https://schema.org/Book'
     logic: and
   media_has_term:
     id: media_has_term
     negate: false
-    uri: 'http://pcdm.org/use#OriginalFile'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
+    uri: 'http://pcdm.org/use#OriginalFile'
     logic: and
 reactions:
   derivative:

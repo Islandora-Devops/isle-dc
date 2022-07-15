@@ -12,19 +12,19 @@ mode: default
 content:
   copy:
     weight: 50
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   field_collection:
+    type: entity_reference_autocomplete
     weight: 51
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   langcode:
     type: language_select
     weight: 2
@@ -34,27 +34,27 @@ content:
     third_party_settings: {  }
   mail:
     weight: -40
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   message:
     type: string_textarea
     weight: 0
+    region: content
     settings:
       rows: 12
       placeholder: ''
-    region: content
     third_party_settings: {  }
   name:
     weight: -50
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   preview:
     weight: 50
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   subject:
     type: string_textfield
     weight: -10

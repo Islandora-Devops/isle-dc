@@ -5,13 +5,13 @@ dependencies:
   config:
     - field.storage.media.field_media_file
     - media.type.file
+  module:
+    - epp
+    - file
   enforced:
     module:
       - media
       - islandora_core_feature
-  module:
-    - epp
-    - file
 third_party_settings:
   epp:
     value: ''
@@ -29,10 +29,10 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
+  handler: 'default:file'
+  handler_settings: {  }
   file_directory: '[date:custom:Y]-[date:custom:m]'
   file_extensions: 'tfw zip tar tgz gz'
   max_filesize: ''
   description_field: false
-  handler: 'default:file'
-  handler_settings: {  }
 field_type: file

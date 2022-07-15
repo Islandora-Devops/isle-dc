@@ -1,6 +1,5 @@
-access_key: ''
-secret_key: ''
-use_instance_profile: false
+_core:
+  default_config_hash: FS38f8_G3S09nKLtUCOEs0IhkjQQRl3UfDJnFD7B1qY
 credentials_file: ''
 bucket: idc
 region: us-east-1
@@ -14,14 +13,15 @@ encryption: ''
 use_https: false
 ignore_cache: false
 redirect_styles_ttl: 0
-no_rewrite_cssjs: false
 root_folder: ''
 public_folder: ''
 private_folder: local
 presigned_urls: ''
 saveas: ''
 torrents: ''
-_core:
-  default_config_hash: FS38f8_G3S09nKLtUCOEs0IhkjQQRl3UfDJnFD7B1qY
 use_cssjs_host: false
 cssjs_host: ''
+access_key: ''
+secret_key: ''
+use_instance_profile: false
+no_rewrite_cssjs: false

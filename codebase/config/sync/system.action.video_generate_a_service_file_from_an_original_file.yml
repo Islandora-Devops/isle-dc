@@ -13,10 +13,10 @@ plugin: generate_video_derivative
 configuration:
   queue: islandora-connector-homarus
   event: 'Generate Derivative'
+  destination_media_type: video
   source_term_uri: 'http://pcdm.org/use#OriginalFile'
   derivative_term_uri: 'http://pcdm.org/use#ServiceFile'
   mimetype: video/mp4
   args: ''
-  destination_media_type: video
   scheme: private
   path: '[date:custom:Y]-[date:custom:m]/[node:nid]-[term:name].mp4'

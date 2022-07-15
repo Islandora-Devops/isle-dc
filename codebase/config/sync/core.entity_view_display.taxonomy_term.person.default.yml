@@ -29,15 +29,15 @@ third_party_settings:
         - field_preferred_name_suffix
         - field_preferred_name_number
         - field_preferred_name_fuller_form
+      label: 'Person Preferred Name'
       parent_name: ''
+      region: content
       weight: 1
       format_type: fieldset
-      region: content
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         description: ''
-      label: 'Person Preferred Name'
 _core:
   default_config_hash: d1WYYSrPyj65a3bdcgSOPjGGaLdNjISkMjC0gY_1fME
 id: taxonomy_term.person.default
@@ -46,14 +46,14 @@ bundle: person
 mode: default
 content:
   description:
-    label: hidden
     type: text_default
-    weight: 0
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 0
     region: content
   field_authority_link:
-    weight: 4
+    type: authority_formatter_default
     label: above
     settings:
       trim_length: 80
@@ -62,10 +62,10 @@ content:
       rel: ''
       target: _blank
     third_party_settings: {  }
-    type: authority_formatter_default
+    weight: 4
     region: content
   field_date:
-    weight: 3
+    type: edtf_default
     label: above
     settings:
       date_separator: dash
@@ -73,71 +73,71 @@ content:
       month_format: mm
       day_format: dd
     third_party_settings: {  }
-    type: edtf_default
+    weight: 3
     region: content
   field_person_alternate_name:
-    weight: 2
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 2
     region: content
   field_preferred_name_fuller_form:
-    weight: 18
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 18
     region: content
   field_preferred_name_number:
-    weight: 17
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 17
     region: content
   field_preferred_name_prefix:
-    weight: 15
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 15
     region: content
   field_preferred_name_rest:
-    weight: 14
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 14
     region: content
   field_preferred_name_suffix:
-    weight: 16
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 16
     region: content
   field_primary_part_of_name:
-    weight: 13
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 13
     region: content
   field_relationships:
-    weight: 5
+    type: typed_relation_default
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: typed_relation_default
+    weight: 5
     region: content
 hidden:
   field_unique_id: true
