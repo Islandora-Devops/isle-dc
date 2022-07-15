@@ -328,61 +328,17 @@ download-default-certs:
 
 .PHONY: demo
 .SILENT: demo
-## Make a demo site.
-demo: generate-secrets
-	$(MAKE) download-default-certs ENVIROMENT=demo
-	$(MAKE) -B docker-compose.yml ENVIROMENT=demo
-	$(MAKE) pull ENVIROMENT=demo
-	mkdir -p "$(CURDIR)/codebase"
-	docker-compose up -d
-	$(MAKE) update-settings-php ENVIROMENT=demo
-	$(MAKE) drupal-public-files-import SRC="$(CURDIR)/build/demo-data/public-files.tgz" ENVIROMENT=demo
-	$(MAKE) drupal-database ENVIROMENT=demo
-	$(MAKE) drupal-database-import SRC="$(CURDIR)/build/demo-data/drupal.sql" ENVIROMENT=demo
-	$(MAKE) hydrate ENVIROMENT=demo
-	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} upwd admin $${DRUPAL_DEFAULT_ACCOUNT_PASSWORD}'
-	$(MAKE) fcrepo-import SRC="$(CURDIR)/build/demo-data/fcrepo-export.tgz" ENVIROMENT=demo
-	$(MAKE) reindex-fcrepo-metadata ENVIROMENT=demo
-	$(MAKE) reindex-solr ENVIROMENT=demo
-	$(MAKE) reindex-triplestore ENVIROMENT=demo
-	$(MAKE) fix-masonry
-	$(MAKE) secrets_warning
-	$(MAKE) login
-
-.PHONY: local
-## Make a local site with codebase directory bind mounted.
-.SILENT: local
-local: QUOTED_CURDIR = "$(CURDIR)"
-local: generate-secrets
-	$(MAKE) download-default-certs ENVIROMENT=local
-	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
-	$(MAKE) pull ENVIRONMENT=local
-	mkdir -p "$(CURDIR)/codebase"
-	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v "$(CURDIR)/codebase":/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project drupal/recommended-project:^9.1 /tmp/codebase; mv /tmp/codebase/* /home/root; cd /home/root; composer config minimum-stability dev; composer require islandora/islandora:^2.0; composer require islandora/islandora_defaults:^2.0; composer require drush/drush:^10.3; composer require drupal/search_api_solr:^4.2'; \
-	fi
-	docker-compose up -d
-	docker-compose exec -T drupal with-contenv bash -lc 'composer require mjordan/islandora_workbench_integration "dev-main"'
-	docker-compose exec -T drupal with-contenv bash -lc 'composer update -W; chown -R nginx:nginx .'
-	$(MAKE) remove_standard_profile_references_from_config ENVIROMENT=local
-	$(MAKE) install ENVIRONMENT=local
-	docker-compose exec -T drupal with-contenv bash -lc "drush en -y search_api_solr_defaults islandora_defaults islandora_workbench_integration"
-	$(MAKE) hydrate ENVIRONMENT=local
-	$(MAKE) set-files-owner SRC="$(CURDIR)/codebase" ENVIROMENT=local
-	$(MAKE) secrets_warning
-	$(MAKE) login
-
-.PHONY: demo-install-profile
 ## Make a local site from the install-profile and TODO then add demo content
-.SILENT: demo-install-profile
-demo-install-profile:
+demo: generate-secrets
 	$(MAKE) local-install-profile
 	$(MAKE) demo_content
 	$(MAKE) login
 
-.PHONY: local-install-profile
+.PHONY: local
+.SILENT: local
 ## Make a local site with codebase directory bind mounted, modeled after sandbox.islandora.ca
-local-install-profile: generate-secrets
+local: QUOTED_CURDIR = "$(CURDIR)"
+local: generate-secrets
 	$(MAKE) download-default-certs ENVIROMENT=local
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
