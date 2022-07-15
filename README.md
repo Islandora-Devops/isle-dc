@@ -23,7 +23,7 @@
 ## Introduction
 
 [Docker Compose] project for creating and managing an Islandora 8 instance
-using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora) 
+using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora)
 that were created by [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit).
 
 In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on configuration
@@ -40,7 +40,7 @@ as database import/export and reindexing.
 
 - Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
 - Docker-CE 19.x+
-- Docker-compose version 1.25.x+ 
+- Docker-compose version 1.25.x+
 - Git 2.0+
 - GNU Make 4.0+
 - At least 8GB of RAM (ideally 16GB)
@@ -58,6 +58,9 @@ To get started with a **demo** environment, run:
 ```bash
 make demo
 ```
+
+Or if this demo environment is too simple, run `make demo` to create a demo site that is modeled after https://sandbox.islandora.ca with some extra content imported via Islandora Workbench.
+
 ⚠️ If prompted during `make up\demo\local\clean` for password, use your computer's password. The build process may need elevated privileges to write or remove files. For other password information see [Secrets](#secrets)
 
 This will pull down images from Dockerhub and generate
@@ -97,7 +100,7 @@ When you're done with your demo environment, shut it down by running
 docker-compose down
 ```
 
-This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and 
+This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and
 all ingested data, use
 
 ```
@@ -129,11 +132,13 @@ INSTALL_EXISTING_CONFIG=true
 DRUPAL_INSTALL_PROFILE=minimal
 ```
 
-In either case, run this command to make a local environment.
+In either case, run one of these commands to make a local environment.
 
 ```bash
 make local
 ```
+
+The former will create a starter site modeled off of https://sandbox.islandora.ca.
 
 If you already have a Drupal site but don't know how to export it,
 log into your server, navigate to the Drupal root, and run the following commands:
@@ -186,7 +191,7 @@ make down
 # Bring isle-dc back up from where it left off
 make up
 
-# If make hasn't been run this will run make demo 
+# If make hasn't been run this will run make demo
 
 ```
 
@@ -320,7 +325,7 @@ INCLUDE_WATCHTOWER_SERVICE=true
 ### Traefik
 
 The [traefik](https://containo.us/traefik/) container acts as a reverse proxy,
-and exposes some containers through port ``80``/``443``/``3306``. 
+and exposes some containers through port ``80``/``443``/``3306``.
 
 Since Drupal passes links to itself in the messages it passes to the microservices,
 and occasionally other URLs need to be resolved on containers that do not have

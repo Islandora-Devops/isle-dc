@@ -68,6 +68,7 @@ site
 config/proxy/acme.json
 .env
 secrets/live/*
+islandora_workbench
 
 #===================
 # Drupal and Mariadb files persistant storage
