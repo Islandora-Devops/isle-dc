@@ -487,19 +487,36 @@ TARGET_MAX_CHAR_NUM=20
 help:
 	@echo ''
 	@echo 'Usage:'
-	@echo '  ${RED}make${RESET} ${BLUE}<target>${RESET}'
+	@echo '  ${RED}make${RESET} ${BLUE}<function>${RESET}'
 	@echo ''
-	@echo 'Targets:'
+	@echo 'Functions to build:'
 	# @grep '^.PHONY: .* #' Makefile | sed 's/\.PHONY: \(.*\) # \(.*\)/\1 \2/'
 	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
 		helpMessage = match(lastLine, /^## (.*)/); \
 		if (helpMessage) { \
 			helpCommand = $$1; sub(/:$$/, "", helpCommand); \
 			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
-			printf "  ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}\n", helpCommand, helpMessage; \
+			if (helpCommand == "up" || helpCommand == "local" || helpCommand == "demo") { \
+				printf "  ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}\n", helpCommand, helpMessage; \
+			} \
 		} \
 	} \
 	{lastLine = $$0}' $(MAKEFILE_LIST)
+	@echo ''
+	@echo 'Other functions:'
+	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
+		helpMessage = match(lastLine, /^## (.*)/); \
+		if (helpMessage) { \
+			helpCommand = $$1; sub(/:$$/, "", helpCommand); \
+			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+			# If helpCommand is not up, local, or demo then it is a target. \
+			if (helpCommand != "up" && helpCommand != "local" && helpCommand != "demo") { \
+				printf "  ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}\n", helpCommand, helpMessage; \
+			} \
+		} \
+	} \
+	{lastLine = $$0}' $(MAKEFILE_LIST)
+	@echo ''
 
 .PHONY: secrets_warning
 .SILENT: secrets_warning
@@ -525,10 +542,10 @@ set_admin_password:
 
 LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
 
-.PHONY: fix-masonry
-.SILENT: fix-masonry
+.PHONY: fix_masonry
+.SILENT: fix_masonry
 ## Fix missing masonry library.
-fix-masonry:
+fix_masonry:
 	@echo "Latest version of masonry library is ${LATEST_VERSION}"
 	docker-compose exec drupal bash -lc "[ -d '/var/www/drupal/web/libraries' ] && exit ; mkdir -p /var/www/drupal/web/libraries ; chmod 755 /var/www/drupal/web/libraries ; chown 1000:nginx /var/www/drupal/web/libraries"
 	docker-compose exec drupal bash -lc "cd /var/www/drupal/web/libraries/ ; [ ! -d '/var/www/drupal/web/libraries/masonry' ] && git clone --quiet --branch ${LATEST_VERSION} https://github.com/desandro/masonry.git || echo Ready"
