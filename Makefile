@@ -330,7 +330,7 @@ download-default-certs:
 .SILENT: demo
 ## Make a local site from the install-profile and TODO then add demo content
 demo: generate-secrets
-	$(MAKE) local-install-profile
+	$(MAKE) local
 	$(MAKE) demo_content
 	$(MAKE) login
 
@@ -343,13 +343,12 @@ local: generate-secrets
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p $(CURDIR)/codebase
-	if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
+	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone https://github.com/islandora-devops/islandora-sandbox -b main /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
-
 	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIROMENT=local
 	docker-compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
 	$(MAKE) delete-shortcut-entities && docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
@@ -363,6 +362,7 @@ local: generate-secrets
 	$(MAKE) login
 
 .PHONY: demo_content
+.SILENT: demo_content
 ## Helper function for demo sites: do a workbench import of sample objects
 demo_content:
 	# fetch repo that has csv and binaries to data/samples
