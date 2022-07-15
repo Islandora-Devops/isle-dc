@@ -59,7 +59,7 @@ To get started with a **demo** environment, run:
 make demo
 ```
 
-Or if this demo environment is too simple, run `make demo-install-profile` to create a demo site that is modeled after https://sandbox.islandora.ca with some extra content imported via Islandora Workbench.
+Or if this demo environment is too simple, run `make demo` to create a demo site that is modeled after https://sandbox.islandora.ca with some extra content imported via Islandora Workbench.
 
 ⚠️ If prompted during `make up\demo\local\clean` for password, use your computer's password. The build process may need elevated privileges to write or remove files. For other password information see [Secrets](#secrets)
 
@@ -138,14 +138,7 @@ In either case, run one of these commands to make a local environment.
 make local
 ```
 
-or
-
-```bash
-make local-install-profile
-```
-
-The former will create a very basic starter site; the latter will create a starter site
-modeled off of https://sandbox.islandora.ca.
+The former will create a starter site modeled off of https://sandbox.islandora.ca.
 
 If you already have a Drupal site but don't know how to export it,
 log into your server, navigate to the Drupal root, and run the following commands:
