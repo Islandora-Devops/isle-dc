@@ -14,11 +14,11 @@ dependencies:
     - field.field.media.audio.field_unique_id
     - field.field.media.audio.field_restricted_access
     - media.type.audio
-  module:
-    - file
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - file
 _core:
   default_config_hash: tDCyYVpxmp1mDsORGEQYEKD7w9ouL0h8HzMl9SFjPYo
 id: media.audio.source
@@ -27,20 +27,20 @@ bundle: audio
 mode: source
 content:
   field_gemini_uri:
+    weight: 100
     settings: {  }
     third_party_settings: {  }
-    weight: 100
     region: content
   field_media_audio_file:
     type: file_audio
+    weight: 0
     label: visually_hidden
     settings:
       controls: true
+      multiple_file_display_type: tags
       autoplay: false
       loop: false
-      multiple_file_display_type: tags
     third_party_settings: {  }
-    weight: 0
     region: content
 hidden:
   created: true

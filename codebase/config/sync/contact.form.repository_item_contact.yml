@@ -8,8 +8,8 @@ dependencies:
 third_party_settings:
   contact_ajax:
     enabled: true
-    render_selector: ''
     prefix_id: ''
+    render_selector: ''
     confirmation_type: 1
   contact_storage:
     submit_text: 'Send message'

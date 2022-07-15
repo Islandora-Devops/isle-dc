@@ -2,11 +2,11 @@ uuid: 63e4faf8-64b0-4bf2-b525-78613bbbbd1d
 langcode: en
 status: true
 dependencies:
-  module:
-    - islandora_fits
   enforced:
     module:
       - islandora_fits
+  module:
+    - islandora_fits
 _core:
   default_config_hash: vW5Yn3Eli5_m4WJB28FERWOkPTXSgkVcjU6J54F15Kk
 id: generate_a_technical_metadata_derivative

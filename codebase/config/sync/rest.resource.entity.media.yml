@@ -2,6 +2,9 @@ uuid: dc3fb1d0-249d-47fa-8a74-5297d71f0bc8
 langcode: en
 status: true
 dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
   module:
     - basic_auth
     - jsonld
@@ -9,9 +12,6 @@ dependencies:
     - media
     - serialization
     - user
-  enforced:
-    module:
-      - islandora_core_feature
 _core:
   default_config_hash: t5fUWKfF1wCsP_kc8DZwfoPHS-Vo8tK8nBZ33aQdFlA
 id: entity.media

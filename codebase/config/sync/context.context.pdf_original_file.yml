@@ -6,8 +6,8 @@ dependencies:
     - islandora
 _core:
   default_config_hash: c7_MtAQ35bFVk9PanoKR52wijgATcHFDBpFQ7MB7NPQ
-label: 'PDF Derivatives'
 name: pdf_original_file
+label: 'PDF Derivatives'
 group: Derivatives
 description: 'Derivatives for PDF documents'
 requireAllConditions: true
@@ -16,16 +16,16 @@ conditions:
   media_has_term:
     id: media_has_term
     negate: false
+    uri: 'http://pcdm.org/use#OriginalFile'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
-    uri: 'http://pcdm.org/use#OriginalFile'
     logic: and
   parent_node_has_term:
     id: parent_node_has_term
     negate: false
+    uri: 'https://schema.org/DigitalDocument'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
-    uri: 'https://schema.org/DigitalDocument'
     logic: and
 reactions:
   derivative:

@@ -1,13 +1,11 @@
-_core:
-  default_config_hash: RMy8ch2MOT68bCD63OGZQRdMk2pD6UXPEZMuCIisbfs
 langcode: en
 activate: true
-auth_source: default-sp
-login_link_display_name: 'JHED Login'
-login_link_show: true
-user_name: eduPersonPrincipalName
-unique_id: eduPersonPrincipalName
 mail_attr: mail
+unique_id: eduPersonPrincipalName
+user_name: eduPersonPrincipalName
+auth_source: default-sp
+login_link_show: true
+login_link_display_name: 'JHED Login'
 header_no_cache: false
 role:
   population: 'global_admin:eduPersonPrincipalName,=,staff1@johnshopkins.edu|collection_level_admin:eduPersonPrincipalName,=,staff2@johnshopkins.edu'
@@ -30,3 +28,5 @@ autoenablesaml: false
 debug: false
 secure: false
 httponly: false
+_core:
+  default_config_hash: RMy8ch2MOT68bCD63OGZQRdMk2pD6UXPEZMuCIisbfs

@@ -4,16 +4,16 @@ status: true
 dependencies:
   config:
     - views.view.members
-  module:
-    - islandora
-    - views
   enforced:
     module:
       - islandora_defaults
+  module:
+    - islandora
+    - views
 _core:
   default_config_hash: r2g4JP9TzR_dhRzzoX7nZDts96oTvWa_d-LzSBkYZno
-label: Collection
 name: collection
+label: Collection
 group: Display
 description: 'Display block of children'
 requireAllConditions: false
@@ -28,23 +28,23 @@ conditions:
     logic: and
 reactions:
   blocks:
-    id: blocks
     blocks:
       41f1d520-14ae-479e-90d2-34aa6f4a750e:
         id: 'views_block:members-block_1'
         label: ''
         provider: views
         label_display: visible
+        views_label: ''
+        items_per_page: none
         region: content_suffix
         weight: '0'
-        custom_id: views_block_members_block_1
+        context_mapping: {  }
         theme: carapace
         css_class: ''
         unique: 0
         context_id: collection
-        context_mapping: {  }
-        views_label: ''
-        items_per_page: none
-    include_default_blocks: 1
+        custom_id: views_block_members_block_1
+    id: blocks
     saved: false
+    include_default_blocks: 1
 weight: 1

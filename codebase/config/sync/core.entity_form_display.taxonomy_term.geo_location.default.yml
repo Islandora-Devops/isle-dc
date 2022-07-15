@@ -22,43 +22,43 @@ content:
   description:
     type: text_textarea
     weight: 2
-    region: content
     settings:
       rows: 9
       placeholder: ''
     third_party_settings: {  }
+    region: content
   field_authority_link:
-    type: authority_link_default
     weight: 3
-    region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+    type: authority_link_default
+    region: content
   field_broader:
-    type: link_default
     weight: 4
-    region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+    type: link_default
+    region: content
   field_geo_alt_name:
-    type: string_textfield
     weight: 1
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_unique_id:
     type: string_textfield
-    weight: 5
     region: content
+  field_unique_id:
+    weight: 5
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -69,10 +69,10 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 6
-    region: content
     settings:
       display_label: true
+    weight: 6
+    region: content
     third_party_settings: {  }
 hidden:
   created: true

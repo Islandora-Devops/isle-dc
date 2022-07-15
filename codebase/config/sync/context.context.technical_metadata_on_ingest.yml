@@ -2,15 +2,15 @@ uuid: abbb8526-11e6-4387-a70a-5bb9f1e27411
 langcode: en
 status: true
 dependencies:
-  module:
-    - islandora
   enforced:
     module:
       - islandora_fits
+  module:
+    - islandora
 _core:
   default_config_hash: XtBYoGhM0h6E6KN_OfmCVMN8ey6inC6fdogp7FuSQPE
-label: 'Technical Metadata on Ingest'
 name: technical_metadata_on_ingest
+label: 'Technical Metadata on Ingest'
 group: Islandora
 description: 'Defines FITS harvesting behavior'
 requireAllConditions: false
@@ -20,9 +20,9 @@ conditions:
     id: media_has_term
     negate: false
     uuid: b270cb14-b960-4494-9ccf-1c9433092837
+    uri: 'http://pcdm.org/use#OriginalFile'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
-    uri: 'http://pcdm.org/use#OriginalFile'
     logic: and
 reactions:
   derivative:

@@ -1,5 +1,3 @@
-_core:
-  default_config_hash: EMWe7Yu4Q5eD-NUfNuQAWGBvYUNZPIinztEtONSmsDc
 map:
   'no': nb
   pt: pt-pt
@@ -11,3 +9,5 @@ map:
   zh-cn: zh-hans
   zh-sg: zh-hans
   zh-chs: zh-hans
+_core:
+  default_config_hash: EMWe7Yu4Q5eD-NUfNuQAWGBvYUNZPIinztEtONSmsDc

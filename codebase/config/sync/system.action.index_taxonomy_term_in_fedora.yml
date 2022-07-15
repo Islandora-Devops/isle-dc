@@ -2,11 +2,11 @@ uuid: 23afecae-b54f-4589-81ec-fc7e7e1ccea2
 langcode: en
 status: true
 dependencies:
-  module:
-    - islandora
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - islandora
 _core:
   default_config_hash: 0B7OiLQjFhZXcas_HOMqgt-3eSVv186aLAQCc3zEmXA
 id: index_taxonomy_term_in_fedora

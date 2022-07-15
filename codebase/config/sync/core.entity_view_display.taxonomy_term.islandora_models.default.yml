@@ -16,14 +16,14 @@ bundle: islandora_models
 mode: default
 content:
   description:
-    type: text_default
     label: hidden
-    settings: {  }
-    third_party_settings: {  }
+    type: text_default
     weight: 0
     region: content
+    settings: {  }
+    third_party_settings: {  }
   field_external_uri:
-    type: link
+    weight: 1
     label: above
     settings:
       trim_length: 80
@@ -32,7 +32,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 1
+    type: link
     region: content
 hidden:
   langcode: true

@@ -4,7 +4,6 @@ status: true
 dependencies:
   module:
     - context
-    - idc_defaults
     - idc_ui_module
     - islandora
   theme:
@@ -18,37 +17,21 @@ plugin: footer_block
 settings:
   id: footer_block
   label: 'Footer block'
-  label_display: '0'
   provider: idc_ui_module
+  label_display: '0'
 visibility:
+  view_inclusion:
+    id: view_inclusion
+    negate: null
+    view_inclusion: {  }
+    context_mapping: {  }
+  request_path_exclusion:
+    id: request_path_exclusion
+    pages: ''
+    negate: null
+    context_mapping: {  }
   media_source_mimetype:
     id: media_source_mimetype
     mimetype: ''
     negate: false
     context_mapping: {  }
-  context_all:
-    id: context_all
-    negate: null
-    values: ''
-  context:
-    id: context
-    negate: null
-    values: ''
-  user_status:
-    id: user_status
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    user_status:
-      viewing_profile: '0'
-      logged_viewing_profile: '0'
-      own_page_true: '0'
-      field_value: '0'
-    user_fields: uid
-  media_use_is_present:
-    id: media_use_is_present
-    logic: and
-    uri: 'http://pcdm.org/use#ThumbnailImage'
-    negate: false
-    context_mapping:
-      media: '@islandora.media_route_context_provider:media'

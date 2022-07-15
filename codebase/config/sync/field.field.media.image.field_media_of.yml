@@ -7,11 +7,11 @@ dependencies:
     - media.type.image
     - node.type.collection_object
     - node.type.islandora_object
-  module:
-    - epp
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - epp
 third_party_settings:
   epp:
     value: ''

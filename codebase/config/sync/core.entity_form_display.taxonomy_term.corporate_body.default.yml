@@ -28,16 +28,16 @@ third_party_settings:
         - field_location_of_meeting
         - field_num_of_section_or_meet
         - field_date_of_meeting_or_treaty
-      label: 'Corporate Name'
-      region: content
       parent_name: ''
       weight: 2
       format_type: fieldset
+      region: content
       format_settings:
-        classes: ''
         id: ''
+        classes: ''
         description: ''
         required_fields: true
+      label: 'Corporate Name'
 _core:
   default_config_hash: Z26S89S-0cqYggliefiijqELUP7YKg5MMaf5abqH1Dg
 id: taxonomy_term.corporate_body.default
@@ -48,101 +48,101 @@ content:
   description:
     type: text_textarea
     weight: 1
-    region: content
     settings:
       rows: 9
       placeholder: ''
     third_party_settings: {  }
-  field_authority_link:
-    type: authority_link_default
-    weight: 5
     region: content
+  field_authority_link:
+    weight: 5
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+    type: authority_link_default
+    region: content
   field_corporate_body_alt_name:
-    type: string_textfield
     weight: 3
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_date:
-    type: edtf_default
     weight: 4
-    region: content
     settings:
       strict_dates: false
       intervals: true
       sets: false
     third_party_settings: {  }
-  field_date_of_meeting_or_treaty:
     type: edtf_default
-    weight: 105
     region: content
+  field_date_of_meeting_or_treaty:
+    weight: 105
     settings:
       strict_dates: false
       intervals: true
       sets: false
     third_party_settings: {  }
+    type: edtf_default
+    region: content
   field_location_of_meeting:
-    type: string_textfield
     weight: 103
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_num_of_section_or_meet:
-    type: string_textfield
     weight: 104
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_primary_name:
     type: string_textfield
-    weight: 101
     region: content
+  field_primary_name:
+    weight: 101
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_relationships:
-    type: typed_relation_default
-    weight: 6
+    type: string_textfield
     region: content
+  field_relationships:
+    weight: 6
     settings:
       match_operator: CONTAINS
       size: '60'
       placeholder: ''
       match_limit: 10
     third_party_settings: {  }
-  field_subordinate_name:
-    type: string_textfield
-    weight: 102
+    type: typed_relation_default
     region: content
+  field_subordinate_name:
+    weight: 102
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_type:
-    type: options_select
-    weight: 7
+    type: string_textfield
     region: content
+  field_type:
+    weight: 7
     settings: {  }
     third_party_settings: {  }
-  field_unique_id:
-    type: string_textfield
-    weight: 9
+    type: options_select
     region: content
+  field_unique_id:
+    weight: 9
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -153,10 +153,10 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 10
-    region: content
     settings:
       display_label: true
+    weight: 10
+    region: content
     third_party_settings: {  }
   translation:
     weight: 8

@@ -2,11 +2,11 @@ uuid: 8d941727-f6cb-4970-9e53-9f8c6fcd17e0
 langcode: en
 status: true
 dependencies:
-  module:
-    - islandora
   enforced:
     module:
       - islandora
+  module:
+    - islandora
 _core:
   default_config_hash: EnxdDotQQOCl34Hxl--D5YLz7H8aINkSkVeQR14ooTQ
 id: delete_media_and_file

@@ -2,11 +2,11 @@ uuid: 856de546-9b1c-4278-b2df-6998aefcf23a
 langcode: en
 status: true
 dependencies:
-  module:
-    - media
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - media
 _core:
   default_config_hash: jkyI5Z7ljFNPNQJzQZymOHcp88hB_I1qgshMSpVsAkM
 id: media.field_mime_type
@@ -15,8 +15,8 @@ entity_type: media
 type: string
 settings:
   max_length: 255
-  case_sensitive: false
   is_ascii: false
+  case_sensitive: false
 module: core
 locked: false
 cardinality: 1

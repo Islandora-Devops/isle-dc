@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - views.view.content_browser
-  module:
-    - views
   enforced:
     module:
       - content_browser
+  module:
+    - views
 _core:
   default_config_hash: iC-sfq_NO-1zMEFcPceGdLn4Mgwt68AcuVn2Ez-IV8w
 name: browse_content
@@ -25,12 +25,12 @@ widget_selector: tabs
 widget_selector_configuration: {  }
 widgets:
   57387ece-c090-4d22-9c00-eaaad74d642b:
-    id: view
-    uuid: 57387ece-c090-4d22-9c00-eaaad74d642b
-    label: 'Content listing'
-    weight: 0
     settings:
-      submit_text: 'Select entities'
-      auto_select: false
       view: content_browser
       view_display: entity_browser
+      submit_text: 'Select entities'
+      auto_select: false
+    uuid: 57387ece-c090-4d22-9c00-eaaad74d642b
+    weight: 0
+    label: 'Content listing'
+    id: view

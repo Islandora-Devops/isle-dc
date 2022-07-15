@@ -1,47 +1,7 @@
 uuid: dd96fbc1-cb9a-42fc-ae6e-82c3eceae88d
 langcode: en
 status: true
-dependencies:
-  config:
-    - filter.format.full_html
-    - filter.format.restricted_html
-    - media.type.audio
-    - media.type.document
-    - media.type.extracted_text
-    - media.type.file
-    - media.type.fits_technical_metadata
-    - media.type.image
-    - media.type.remote_video
-    - media.type.video
-    - node.type.collection_object
-    - node.type.islandora_object
-    - rest.resource.oai_pmh
-    - taxonomy.vocabulary.access_rights
-    - taxonomy.vocabulary.copyright_and_use
-    - taxonomy.vocabulary.corporate_body
-    - taxonomy.vocabulary.family
-    - taxonomy.vocabulary.genre
-    - taxonomy.vocabulary.geo_location
-    - taxonomy.vocabulary.language
-    - taxonomy.vocabulary.person
-    - taxonomy.vocabulary.resource_types
-    - taxonomy.vocabulary.subject
-  module:
-    - captcha
-    - field_permissions
-    - file_replace
-    - filter
-    - islandora
-    - media
-    - migrate_source_ui
-    - migrate_tools
-    - node
-    - rest
-    - system
-    - taxonomy
-    - toolbar
-    - workbench
-    - workbench_access
+dependencies: {  }
 id: collection_level_admin
 label: 'Collection Level Admin'
 weight: -8
@@ -59,6 +19,7 @@ permissions:
   - 'create audio media'
   - 'create document media'
   - 'create extracted_text media'
+  - 'create field_access_control'
   - 'create field_model'
   - 'create file media'
   - 'create fits_technical_metadata media'
@@ -87,11 +48,13 @@ permissions:
   - 'edit any islandora_object content'
   - 'edit any remote_video media'
   - 'edit any video media'
+  - 'edit field_access_control'
   - 'edit field_model'
   - 'edit own audio media'
   - 'edit own collection_object content'
   - 'edit own document media'
   - 'edit own extracted_text media'
+  - 'edit own field_access_control'
   - 'edit own field_model'
   - 'edit own file media'
   - 'edit own fits_technical_metadata media'
@@ -124,7 +87,9 @@ permissions:
   - 'view all media revisions'
   - 'view checksums'
   - 'view collection_object revisions'
+  - 'view field_access_control'
   - 'view islandora_object revisions'
+  - 'view own field_access_control'
   - 'view own unpublished content'
   - 'view own unpublished media'
   - 'view the administration theme'

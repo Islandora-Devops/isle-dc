@@ -19,27 +19,27 @@ content:
   description:
     type: text_textarea
     weight: 1
-    region: content
     settings:
       rows: 9
       placeholder: ''
     third_party_settings: {  }
-  field_authority_link:
-    type: authority_link_default
-    weight: 2
     region: content
+  field_authority_link:
+    weight: 2
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
-  field_unique_id:
-    type: string_textfield
-    weight: 3
+    type: authority_link_default
     region: content
+  field_unique_id:
+    weight: 3
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -50,10 +50,10 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 4
-    region: content
     settings:
       display_label: true
+    weight: 4
+    region: content
     third_party_settings: {  }
 hidden:
   langcode: true

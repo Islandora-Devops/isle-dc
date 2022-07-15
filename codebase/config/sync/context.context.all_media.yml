@@ -6,8 +6,8 @@ dependencies:
     - islandora
 _core:
   default_config_hash: 0ipt7H647M0BLxXJETg1ktGLwD1IsWRJvjveTP-PCKA
-label: 'All Media'
 name: all_media
+label: 'All Media'
 group: Indexing
 description: 'All media, regardless of where it lives'
 requireAllConditions: false

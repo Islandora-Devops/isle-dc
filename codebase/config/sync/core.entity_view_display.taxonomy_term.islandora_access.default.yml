@@ -13,12 +13,12 @@ bundle: islandora_access
 mode: default
 content:
   description:
-    type: text_default
     label: hidden
-    settings: {  }
-    third_party_settings: {  }
+    type: text_default
     weight: 0
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_unique_id: true
   langcode: true

@@ -22,33 +22,33 @@ content:
     weight: 2
     region: content
     settings:
-      rows: 5
       placeholder: ''
+      rows: 5
     third_party_settings: {  }
   field_authority_link:
-    type: authority_link_default
     weight: 3
-    region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+    type: authority_link_default
+    region: content
   field_language_code:
-    type: string_textfield
     weight: 1
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_unique_id:
     type: string_textfield
-    weight: 4
     region: content
+  field_unique_id:
+    weight: 4
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -59,10 +59,10 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 5
-    region: content
     settings:
       display_label: true
+    weight: 5
+    region: content
     third_party_settings: {  }
 hidden:
   langcode: true

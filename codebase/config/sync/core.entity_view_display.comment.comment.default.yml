@@ -15,12 +15,12 @@ bundle: comment
 mode: default
 content:
   comment_body:
-    type: text_default
     label: hidden
-    settings: {  }
-    third_party_settings: {  }
+    type: text_default
     weight: 0
     region: content
+    settings: {  }
+    third_party_settings: {  }
   links:
     weight: 100
     region: content

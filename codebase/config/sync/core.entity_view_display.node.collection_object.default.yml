@@ -27,26 +27,26 @@ bundle: collection_object
 mode: default
 content:
   display_media_entity_view_1:
-    settings: {  }
-    third_party_settings: {  }
     weight: 3
     region: content
-  display_media_service_file:
     settings: {  }
     third_party_settings: {  }
+  display_media_service_file:
     weight: 0
     region: content
+    settings: {  }
+    third_party_settings: {  }
   field_alternative_title:
     type: reference_value_formatter
+    weight: 6
+    region: content
     label: above
     settings:
       display_invalid_reference: 1
       invalid_reference_label: ''
     third_party_settings: {  }
-    weight: 6
-    region: content
   field_citable_url:
-    type: link
+    weight: 11
     label: above
     settings:
       trim_length: 80
@@ -55,52 +55,52 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 11
+    type: link
     region: content
   field_collection_contact_email:
-    type: basic_string
+    weight: 15
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 15
+    type: basic_string
     region: content
   field_collection_contact_name:
-    type: string
+    weight: 8
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 8
+    type: string
     region: content
   field_collection_number:
-    type: string
+    weight: 9
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 9
+    type: string
     region: content
   field_description:
     type: reference_value_formatter
+    weight: 7
+    region: content
     label: above
     settings:
       display_invalid_reference: 1
       invalid_reference_label: ''
     third_party_settings: {  }
-    weight: 7
-    region: content
   field_featured_item:
-    type: boolean
+    weight: 12
     label: above
     settings:
       format: default
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 12
+    type: boolean
     region: content
   field_finding_aid:
-    type: link
+    weight: 10
     label: above
     settings:
       trim_length: 80
@@ -109,57 +109,57 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 10
+    type: link
     region: content
   field_member_of:
-    type: entity_reference_label
+    weight: 13
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 13
+    type: entity_reference_label
     region: content
   field_model:
-    type: entity_reference_label
+    weight: 17
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 17
+    type: entity_reference_label
     region: content
   field_title_language:
-    type: entity_reference_label
+    weight: 5
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 5
+    type: entity_reference_label
     region: content
   islandora_fits_checksum:
-    settings: {  }
-    third_party_settings: {  }
     weight: 16
     region: content
-  links:
     settings: {  }
     third_party_settings: {  }
+  links:
     weight: 4
     region: content
-  openseadragon_media_evas_entity_view_1:
     settings: {  }
     third_party_settings: {  }
+  openseadragon_media_evas_entity_view_1:
     weight: 14
     region: content
-  openseadragon_media_evas_service_file:
     settings: {  }
     third_party_settings: {  }
+  openseadragon_media_evas_service_file:
     weight: 2
     region: content
-  pdfjs_media_evas_service_file:
     settings: {  }
     third_party_settings: {  }
+  pdfjs_media_evas_service_file:
     weight: 1
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   display_media_entity_view_2: true
   display_media_thumbnail: true

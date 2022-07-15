@@ -1,5 +1,3 @@
-_core:
-  default_config_hash: xBSmMXok8BxxG71ZlXi9V_lX2E5XQnN-y7VVz0MHtwM
 account: G-8435EBBK3D
 premium: false
 domain_mode: 0
@@ -35,4 +33,6 @@ codesnippet:
 translation_set: false
 cache: false
 debug: false
+_core:
+  default_config_hash: xBSmMXok8BxxG71ZlXi9V_lX2E5XQnN-y7VVz0MHtwM
 ua_legacy: null

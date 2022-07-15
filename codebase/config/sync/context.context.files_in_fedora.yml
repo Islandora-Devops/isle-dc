@@ -6,8 +6,8 @@ dependencies:
     - islandora
 _core:
   default_config_hash: AVsC4Zx1ZCS4mZosj5AqRYXQiAtj8fS8hzMMmGNHWPM
-label: 'Fedora Files'
 name: files_in_fedora
+label: 'Fedora Files'
 group: Indexing
 description: 'Files in Fedora'
 requireAllConditions: false
@@ -15,10 +15,10 @@ disabled: false
 conditions:
   file_uses_filesystem:
     id: file_uses_filesystem
+    filesystems:
+      fedora: fedora
     negate: false
     context_mapping:
       file: '@islandora.file_route_context_provider:file'
-    filesystems:
-      fedora: fedora
 reactions: {  }
 weight: -6

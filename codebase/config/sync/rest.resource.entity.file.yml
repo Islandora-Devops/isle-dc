@@ -2,6 +2,9 @@ uuid: 3c2561ad-61d5-4d61-9cbe-61b42716ec9e
 langcode: en
 status: true
 dependencies:
+  enforced:
+    module:
+      - islandora_core_feature
   module:
     - basic_auth
     - file
@@ -9,9 +12,6 @@ dependencies:
     - jwt
     - serialization
     - user
-  enforced:
-    module:
-      - islandora_core_feature
 _core:
   default_config_hash: adSrXptX_NpPQC5cFGgYUjjSDncSDxha3towAq-mVzU
 id: entity.file

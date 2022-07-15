@@ -20,39 +20,48 @@ plugin: contact_block
 settings:
   id: contact_block
   label: 'Leave Feedback or Ask a Question'
-  label_display: '0'
   provider: contact_block
+  label_display: '0'
   contact_form: collection_contact
-  form_display: default
 visibility:
+  view_inclusion:
+    id: view_inclusion
+    negate: false
+    view_inclusion: {  }
+    context_mapping: {  }
+  request_path_exclusion:
+    id: request_path_exclusion
+    pages: ''
+    negate: true
+    context_mapping: {  }
   media_source_mimetype:
     id: media_source_mimetype
     mimetype: ''
     negate: false
     context_mapping: {  }
-  context_all:
-    id: context_all
-    negate: null
-    values: ''
-  context:
-    id: context
-    negate: null
-    values: ''
-  user_status:
-    id: user_status
+  node_type:
+    id: node_type
+    bundles:
+      collection_object: collection_object
     negate: false
     context_mapping:
-      user: '@user.current_user_context:current_user'
+      node: '@node.node_route_context:node'
+  context_all:
+    id: context_all
+    values: ''
+    negate: null
+  context:
+    id: context
+    values: ''
+    negate: null
+  user_status:
+    id: user_status
     user_status:
       viewing_profile: '0'
       logged_viewing_profile: '0'
       own_page_true: '0'
       field_value: '0'
     user_fields: uid
-  'entity_bundle:node':
-    id: 'entity_bundle:node'
     negate: false
     context_mapping:
-      node: '@node.node_route_context:node'
-    bundles:
-      collection_object: collection_object
+      user: '@user.current_user_context:current_user'

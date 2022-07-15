@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - media.type.video
-  module:
-    - media
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - media
 _core:
   default_config_hash: 515HB3jhDCZuv_0K14VGKI6hiHebbV4angQpAFr2rl4
 id: media.video

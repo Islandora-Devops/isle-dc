@@ -11,44 +11,44 @@ bundle: repository_item_contact
 mode: default
 content:
   field_collection:
-    type: entity_reference_label
+    weight: 1
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 1
+    type: entity_reference_label
     region: content
   mail:
-    type: basic_string
+    weight: -2
+    region: content
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: -2
-    region: content
+    type: basic_string
   message:
     type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
     weight: 0
-    region: content
-  name:
-    type: string
     label: above
+    region: content
     settings:
       link_to_entity: false
     third_party_settings: {  }
+  name:
     weight: -3
     region: content
-  subject:
-    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    type: string
+  subject:
     weight: -1
     region: content
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
 hidden:
   langcode: true
   search_api_excerpt: true

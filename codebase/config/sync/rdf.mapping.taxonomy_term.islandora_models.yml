@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - taxonomy.vocabulary.islandora_models
-  module:
-    - taxonomy
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - taxonomy
 _core:
   default_config_hash: sz38N7I8V9U-qonlIxwosaKWzpLKCtT7cdHXcFDfMQU
 id: taxonomy_term.islandora_models

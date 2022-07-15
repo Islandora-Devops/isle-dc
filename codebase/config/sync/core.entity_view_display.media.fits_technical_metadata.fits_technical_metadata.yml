@@ -14,13 +14,13 @@ dependencies:
     - field.field.media.fits_technical_metadata.fits_ois_file_information_md5che
     - image.style.thumbnail
     - media.type.fits_technical_metadata
+  enforced:
+    module:
+      - islandora_fits
   module:
     - image
     - islandora_fits
     - user
-  enforced:
-    module:
-      - islandora_fits
 _core:
   default_config_hash: 26WttTG6uQXIDjcL50RF8WEpTDsIDtDaUjZDd0AwBAg
 id: media.fits_technical_metadata.fits_technical_metadata
@@ -29,38 +29,38 @@ bundle: fits_technical_metadata
 mode: fits_technical_metadata
 content:
   created:
-    type: timestamp
     label: hidden
+    type: timestamp
+    weight: 0
+    region: content
     settings:
       date_format: medium
       custom_date_format: ''
       timezone: ''
     third_party_settings: {  }
-    weight: 0
-    region: content
   field_media_file:
-    type: fits_formatter
+    weight: 6
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    type: fits_formatter
     region: content
   thumbnail:
     type: image
+    weight: 5
     label: hidden
     settings:
-      image_link: ''
       image_style: thumbnail
-    third_party_settings: {  }
-    weight: 5
+      image_link: ''
     region: content
-  uid:
-    type: author
-    label: hidden
-    settings: {  }
     third_party_settings: {  }
+  uid:
+    label: hidden
+    type: author
     weight: 0
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_complete: true
   field_file_size: true

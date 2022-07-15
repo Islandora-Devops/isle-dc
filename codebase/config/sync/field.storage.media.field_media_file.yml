@@ -2,14 +2,14 @@ uuid: 81867e86-8433-4cbb-87eb-b5d0fe001833
 langcode: en
 status: true
 dependencies:
-  module:
-    - field_permissions
-    - file
-    - media
   enforced:
     module:
       - media
       - islandora_core_feature
+  module:
+    - field_permissions
+    - file
+    - media
 third_party_settings:
   field_permissions:
     permission_type: public
@@ -20,10 +20,10 @@ field_name: field_media_file
 entity_type: media
 type: file
 settings:
-  target_type: file
   display_field: false
   display_default: false
   uri_scheme: private
+  target_type: file
 module: file
 locked: false
 cardinality: 1

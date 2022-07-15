@@ -7,8 +7,8 @@ dependencies:
     - islandora
 _core:
   default_config_hash: _w1tI4doB71OVhr9ylF4DCZRMGXy8Mtjcuk-8iAOz7Y
-label: 'Image Derivatives'
 name: image_original_file
+label: 'Image Derivatives'
 group: Derivatives
 description: 'Derivatives for Images'
 requireAllConditions: true
@@ -17,16 +17,16 @@ conditions:
   media_has_term:
     id: media_has_term
     negate: false
+    uri: 'http://pcdm.org/use#OriginalFile'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
-    uri: 'http://pcdm.org/use#OriginalFile'
     logic: and
   parent_node_has_term:
     id: parent_node_has_term
     negate: false
+    uri: 'http://purl.org/coar/resource_type/c_c513'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
-    uri: 'http://purl.org/coar/resource_type/c_c513'
     logic: and
   media_mediatype:
     id: media_mediatype

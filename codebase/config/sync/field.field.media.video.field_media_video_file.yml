@@ -5,11 +5,11 @@ dependencies:
   config:
     - field.storage.media.field_media_video_file
     - media.type.video
-  module:
-    - file
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - file
 _core:
   default_config_hash: aVsH94glMbKDyF_GDPdx83nXIjQmnd9chf7vHN1ApGc
 id: media.video.field_media_video_file
@@ -23,10 +23,10 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:file'
-  handler_settings: {  }
-  file_directory: '[date:custom:Y]-[date:custom:m]'
   file_extensions: mp4
+  file_directory: '[date:custom:Y]-[date:custom:m]'
   max_filesize: ''
   description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
 field_type: file

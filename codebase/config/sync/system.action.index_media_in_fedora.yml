@@ -2,11 +2,11 @@ uuid: 65e8ecc0-4929-41a0-a6f0-7d69df2d9604
 langcode: en
 status: true
 dependencies:
-  module:
-    - islandora
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - islandora
 _core:
   default_config_hash: mggprUkJ7WPux2lwvNaiJEp73bAvL9o-F7rw44wrguk
 id: index_media_in_fedora

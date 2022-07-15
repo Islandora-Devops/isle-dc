@@ -25,34 +25,34 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_access_terms:
-    type: options_select
     weight: 4
-    region: content
     settings: {  }
     third_party_settings: {  }
+    type: options_select
+    region: content
   field_media_oembed_video:
     type: oembed_textfield
     weight: 0
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_restricted_access:
-    type: boolean_checkbox
-    weight: 27
     region: content
+  field_restricted_access:
+    weight: 27
     settings:
       display_label: true
     third_party_settings: {  }
-  field_unique_id:
-    type: string_textfield
-    weight: 26
+    type: boolean_checkbox
     region: content
+  field_unique_id:
+    weight: 26
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   langcode:
     type: language_select
     weight: 1
@@ -68,20 +68,20 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 6
-    region: content
     settings:
       display_label: true
+    weight: 6
+    region: content
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
     weight: 2
-    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
+    region: content
     third_party_settings: {  }
 hidden:
   name: true

@@ -6,8 +6,8 @@ dependencies:
     - islandora
 _core:
   default_config_hash: xavOhHKb20w-w4Izd0AAF6xMVnVZJo00Wv3MFho81pc
-label: 'Page Derivatives'
 name: pages
+label: 'Page Derivatives'
 group: Derivatives
 description: 'Derivatives for Pages'
 requireAllConditions: true
@@ -16,16 +16,16 @@ conditions:
   parent_node_has_term:
     id: parent_node_has_term
     negate: false
+    uri: 'http://id.loc.gov/ontologies/bibframe/part'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
-    uri: 'http://id.loc.gov/ontologies/bibframe/part'
     logic: and
   media_has_term:
     id: media_has_term
     negate: false
+    uri: 'http://pcdm.org/use#OriginalFile'
     context_mapping:
       media: '@islandora.media_route_context_provider:media'
-    uri: 'http://pcdm.org/use#OriginalFile'
     logic: and
 reactions:
   derivative:

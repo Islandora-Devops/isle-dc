@@ -29,16 +29,16 @@ third_party_settings:
         - field_preferred_name_suffix
         - field_preferred_name_number
         - field_preferred_name_fuller_form
-      label: 'Person Preferred Name'
-      region: content
       parent_name: ''
       weight: 2
       format_type: fieldset
+      region: content
       format_settings:
-        classes: ''
         id: ''
+        classes: ''
         description: ''
         required_fields: true
+      label: 'Person Preferred Name'
 _core:
   default_config_hash: qds4JFrWp6N4Yx6E62ty4N3PrD4XAmlFbwji_DbYwF4
 id: taxonomy_term.person.default
@@ -49,102 +49,102 @@ content:
   description:
     type: text_textarea
     weight: 1
-    region: content
     settings:
       rows: 9
       placeholder: ''
     third_party_settings: {  }
-  field_authority_link:
-    type: authority_link_default
-    weight: 5
     region: content
+  field_authority_link:
+    weight: 5
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
-  field_date:
-    type: edtf_default
-    weight: 4
+    type: authority_link_default
     region: content
+  field_date:
+    weight: 4
     settings:
       strict_dates: false
       intervals: true
       sets: false
     third_party_settings: {  }
+    type: edtf_default
+    region: content
   field_person_alternate_name:
-    type: string_textfield
     weight: 3
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_preferred_name_fuller_form:
-    type: string_textfield
     weight: 109
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_preferred_name_number:
-    type: string_textfield
     weight: 108
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_preferred_name_prefix:
-    type: string_textfield
     weight: 106
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_preferred_name_rest:
-    type: string_textfield
     weight: 105
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_preferred_name_suffix:
-    type: string_textfield
     weight: 107
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_primary_part_of_name:
     type: string_textfield
-    weight: 104
     region: content
+  field_primary_part_of_name:
+    weight: 104
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_relationships:
-    type: typed_relation_default
-    weight: 6
+    type: string_textfield
     region: content
+  field_relationships:
+    weight: 6
     settings:
       match_operator: CONTAINS
       size: '60'
       placeholder: ''
       match_limit: 10
     third_party_settings: {  }
-  field_unique_id:
-    type: string_textfield
-    weight: 7
+    type: typed_relation_default
     region: content
+  field_unique_id:
+    weight: 7
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    type: string_textfield
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -155,10 +155,10 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 8
-    region: content
     settings:
       display_label: true
+    weight: 8
+    region: content
     third_party_settings: {  }
 hidden:
   langcode: true

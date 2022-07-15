@@ -24,71 +24,71 @@ bundle: extracted_text
 mode: default
 content:
   created:
-    type: timestamp
     label: hidden
+    type: timestamp
+    weight: 1
+    region: content
     settings:
       date_format: medium
       custom_date_format: ''
       timezone: ''
     third_party_settings: {  }
-    weight: 1
-    region: content
   field_access_terms:
-    type: entity_reference_label
+    weight: 5
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 5
+    type: entity_reference_label
     region: content
   field_edited_text:
     type: text_default
+    weight: 3
+    region: content
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 3
-    region: content
   field_media_file:
     type: file_default
+    weight: 2
+    region: content
     label: above
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
-    weight: 2
-    region: content
   field_media_of:
     type: entity_reference_label
+    weight: 4
+    region: content
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 4
-    region: content
   field_restricted_access:
-    type: boolean
+    weight: 7
     label: above
     settings:
       format: default
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 7
+    type: boolean
     region: content
   field_unique_id:
-    type: string
+    weight: 6
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 6
+    type: string
     region: content
   uid:
-    type: author
     label: hidden
-    settings: {  }
-    third_party_settings: {  }
+    type: author
     weight: 0
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_media_use: true
   field_mime_type: true

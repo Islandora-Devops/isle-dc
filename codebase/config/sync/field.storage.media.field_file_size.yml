@@ -2,11 +2,11 @@ uuid: 8c6c2306-35c5-4c38-b48b-3cf16ffd069b
 langcode: en
 status: true
 dependencies:
-  module:
-    - media
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - media
 _core:
   default_config_hash: rRnfKFBmim8aPHiP23lRuWv4BKu72BhmXsB9-YE61jA
 id: media.field_file_size

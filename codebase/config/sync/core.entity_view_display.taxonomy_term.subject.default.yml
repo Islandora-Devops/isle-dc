@@ -17,14 +17,14 @@ bundle: subject
 mode: default
 content:
   description:
-    type: text_default
     label: hidden
+    type: text_default
+    weight: 0
     settings: {  }
     third_party_settings: {  }
-    weight: 0
     region: content
   field_authority_link:
-    type: authority_formatter_default
+    weight: 1
     label: above
     settings:
       trim_length: 80
@@ -33,7 +33,7 @@ content:
       rel: ''
       target: _blank
     third_party_settings: {  }
-    weight: 1
+    type: authority_formatter_default
     region: content
 hidden:
   field_unique_id: true

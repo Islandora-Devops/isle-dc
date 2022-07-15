@@ -14,11 +14,11 @@ dependencies:
     - field.field.media.document.field_unique_id
     - field.field.media.document.field_restricted_access
     - media.type.document
-  module:
-    - file
   enforced:
     module:
       - islandora_core_feature
+  module:
+    - file
 _core:
   default_config_hash: eJoHGrd6TF7Npns7ym-f6x9fqj-Wg3mJku7hJsHV1no
 id: media.document.source
@@ -27,11 +27,11 @@ bundle: document
 mode: source
 content:
   field_media_document:
-    type: file_default
     label: hidden
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
+    type: file_default
     weight: 0
     region: content
 hidden:
