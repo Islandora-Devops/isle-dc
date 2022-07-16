@@ -1,0 +1,17 @@
+# This service will automatically restart a service if a newer image is
+# available on the system, useful for local development but should not
+# be used in production.
+version: "3.7"
+services:
+  watchtower:
+    image: containrrr/watchtower
+    restart: ${RESTART_POLICY:-unless-stopped}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 1 --no-pull
+    deploy:
+      resources:
+          limits:
+            memory: ${WATCHTOWER_MEMORY_LIMIT:-2G}
+          reservations:
+            memory: 1G

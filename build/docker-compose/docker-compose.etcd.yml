@@ -1,0 +1,30 @@
+# Example of using a different backend for confd rather then
+# environment variables.
+version: "3.7"
+networks:
+  default:
+    internal: true
+services:
+  # Single node cluster.
+  #
+  #  If not running the system will fall back on Environment Variables.
+  #  To set key/value pairs use the following:
+  #
+  #  ./commands/etcdctl.sh put /drupal/site/default/name "default"
+  #
+  # @todo copy commands folder over to isle-dc?
+  etcd:
+    restart: ${RESTART_POLICY:-unless-stopped}
+    image: gcr.io/etcd-development/etcd:v3.4.7
+    environment:
+      ETCD_ADVERTISE_CLIENT_URLS: "http://0.0.0.0:2379"
+      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
+    volumes:
+      - etcd-data:/data
+    ports:
+      - 2379
+      - 2380
+      - 4001
+    command: >
+      etcd
+      --data-dir=/data

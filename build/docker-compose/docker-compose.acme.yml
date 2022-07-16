@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  traefik:
+    # Do not set `api.insecure`, `api.dashboard`, `api.debug` to `true` in production.
+    # Also do not expose database 3306/5432, as an entry point.
+    # If the commands below are changed, please copy the changes to `docker-compose.acme.yml`.
+    command:
+      - --api.insecure=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      - --api.dashboard=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      - --api.debug=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      - --entryPoints.http.address=:80
+      - --entryPoints.https.address=:443
+      - --entryPoints.mysql.address=:3306
+      - --entryPoints.postgresql.address=:5432
+      - --entryPoints.fcrepo.address=:8081
+      - --entryPoints.blazegraph.address=:8082
+      - --entryPoints.activemq.address=:8161
+      - --entryPoints.solr.address=:8983
+      - --entryPoints.code-server.address=:8443
+      - --log.level=${TRAEFIK_LOG_LEVEL-ERROR}
+      - --providers.docker
+      - --providers.docker.network=gateway
+      - --providers.docker.exposedByDefault=false
+      - --providers.file.filename=/etc/traefik/tls.yml
+      - '--providers.docker.defaultRule=Host(`${DOMAIN}`)'
+      - --certificatesresolvers.myresolver.acme.httpchallenge=true
+      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=http
+      - --certificatesresolvers.myresolver.acme.email=${ACME_EMAIL-your-email@example.com}
+      - --certificatesresolvers.myresolver.acme.storage=/acme/acme.json
+      - --certificatesResolvers.myresolver.acme.caServer=${ACME_SERVER-https://acme-v02.api.letsencrypt.org/directory}
+    volumes:
+      - ../../acme:/acme:rw
+  cantaloupe:
+    labels:
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.tls.certresolver=myresolver
+  drupal:
+    labels:
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls.certresolver=myresolver
+  matomo:
+    labels:
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.tls.certresolver=myresolver

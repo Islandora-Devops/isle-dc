@@ -1,0 +1,41 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+volumes:
+  postgresql-data:
+services:
+  # This exists side by side with the 'mariadb' service. This is because
+  # Matomo doesn't support PostgreSQL so if we adopt it we still need to have a
+  # MySQL as well.
+  #
+  # Additionally the defaults need to change on services which use PostgreSQL.
+  # For those services there is docker-compose.SERVICE.postgresql.yml files which
+  # are included when the respective 'SERVICENAME_DATABASE_SERVICE' variable is set
+  # to 'postgresql'.
+  postgresql:
+    restart: ${RESTART_POLICY:-unless-stopped}
+    image: ${REPOSITORY:-islandora}/postgresql:${TAG:-latest}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    # Allows for access to the database through traefik to support using Drush locally.
+    # This should not be used in production.
+    #
+    # Since this is not http, but tcp traffic it does does not understand the concept of a "host".
+    # so we must dedicate a port to it in traefik, and direct all traffic to this router: HostSNI(`*`).
+    labels:
+      - traefik.enable=${EXPOSE_POSTGRES:-false}
+      - traefik.tcp.services.${COMPOSE_PROJECT_NAME-isle-dc}-postgresql.loadbalancer.server.port=5432
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-postgresql_tcp.service=${COMPOSE_PROJECT_NAME-isle-dc}-postgresql
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-postgresql_tcp.entrypoints=postgresql
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-postgresql_tcp.rule=HostSNI(`*`)
+    networks:
+      default:
+        # Allow drupal to access the database with it's edge name to reference
+        # this service in addition to `database`. This allows us to use the edge
+        # name in settings.php so Drush on the host machine can be used in the
+        # codebase folder.
+        aliases:
+            - postgresql-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+            - postgresql-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
+      gateway:

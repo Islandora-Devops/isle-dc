@@ -68,6 +68,7 @@ site
 config/proxy/acme.json
 .env
 secrets/live/*
+islandora_workbench
 
 #===================
 # Drupal and Mariadb files persistant storage
@@ -83,6 +84,7 @@ docker-compose.yml
 #===================
 # User overrides for environment variables.
 docker-compose.env.yml
+docker-compose.override.yml
 
 #===================
 # User overrides for building custom image from the codebase directory.

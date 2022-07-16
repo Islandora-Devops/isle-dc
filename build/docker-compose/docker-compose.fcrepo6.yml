@@ -1,0 +1,36 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external: true
+volumes:
+  fcrepo-data:
+services:
+  fcrepo:
+    restart: ${RESTART_POLICY:-unless-stopped}
+    image: ${REPOSITORY:-islandora}/fcrepo6:${TAG:-latest}
+    environment:
+      FCREPO_ALLOW_EXTERNAL_DRUPALHTTP: http://${DOMAIN}/
+      FCREPO_ALLOW_EXTERNAL_DRUPALHTTPS: https://${DOMAIN}/
+      FCREPO_TOMCAT_ADMIN_ROLES: manager-gui,fedoraAdmin
+      FCREPO_TOMCAT_ADMIN_USER: admin
+      FCREPO_DISABLE_SYN: ${DISABLE_SYN}
+    volumes:
+      - fcrepo-data:/data
+    depends_on:
+      - activemq
+    networks:
+      default:
+    labels:
+      # Do not expose in production.
+      - traefik.enable=${EXPOSE_FEDORA:-false}
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo.loadbalancer.server.port=8080
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-fcrepo_http.entrypoints=fcrepo
+    deploy:
+      resources:
+          limits:
+            memory: ${FCREPO_MEMORY_LIMIT:-2G}
+          reservations:
+            memory: 1G

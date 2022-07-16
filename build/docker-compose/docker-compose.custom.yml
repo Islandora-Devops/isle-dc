@@ -1,0 +1,37 @@
+# This file builds a local image from the codebase folder
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external: true
+volumes:
+  drupal-sites-data:
+  solr-data:
+services:
+  # The service name is drupal that is the default host name used by micro-services etc.
+  drupal:
+    build:
+      context: ../../
+      dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./Dockerfile}
+    environment:
+      #
+      # Set environment variables that allow use to install from an existing configuration.
+      #
+      DRUPAL_DEFAULT_CONFIGDIR: /var/www/drupal/config/sync
+      DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"
+      DRUPAL_DEFAULT_PROFILE: minimal
+    volumes:
+      - drupal-sites-data:/var/www/drupal/web/sites/default/files
+      # Used to dump solr configuration directly into solr instance via the search_api_solr module.
+      - solr-data:/opt/solr/server/solr
+    depends_on:
+      # Requires a the very minimum a database.
+      - ${DRUPAL_DATABASE_SERVICE}
+  # Extends docker-compose.solr.yml so that they share a volume.
+  solr:
+    volumes:
+      # On a production site you may not want to take this approach but instead refer to each of the cores
+      # data directories specifically and maintain the configuration as part of a customized image, where
+      # in your configuration is Solr managed under source control somewhere.
+      - solr-data:/opt/solr/server/solr

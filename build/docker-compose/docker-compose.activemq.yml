@@ -1,0 +1,28 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external: true
+volumes:
+  activemq-data:
+services:
+  activemq:
+    image: ${REPOSITORY:-islandora}/activemq:${TAG:-latest}
+    restart: ${RESTART_POLICY:-unless-stopped}
+    volumes:
+      - activemq-data:/opt/activemq/data
+    labels:
+      # Do not expose in production.
+      - traefik.enable=${EXPOSE_ACTIVEMQ:-false}
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-activemq.loadbalancer.server.port=8161
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-activemq_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-activemq
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-activemq_http.entrypoints=activemq
+    networks:
+      default:
+    deploy:
+      resources:
+          limits:
+            memory: ${ACTIVEMQ_MEMORY_LIMIT:-2G}
+          reservations:
+            memory: 1G

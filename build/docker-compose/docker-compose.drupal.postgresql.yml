@@ -1,0 +1,6 @@
+version: "3.7"
+services:
+  # Override defaults so PostgreSQL is used as the database for this service.
+  drupal:
+    environment:
+      DRUPAL_DEFAULT_DB_DRIVER: postgresql

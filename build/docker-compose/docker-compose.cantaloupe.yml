@@ -1,0 +1,38 @@
+version: "3.7"
+networks:
+  default:
+    internal: true
+  gateway:
+    external: true
+volumes:
+  cantaloupe-data:
+services:
+  cantaloupe:
+    restart: ${RESTART_POLICY:-unless-stopped}
+    image: ${REPOSITORY:-islandora}/cantaloupe:${TAG:-latest}
+    environment:
+      CANTALOUPE_DELEGATE_SCRIPT_ENABLED: ${CANTALOUPE_DELEGATE_SCRIPT_ENABLED} # "true"
+      CANTALOUPE_DELEGATE_SCRIPT_PATHNAME: ${CANTALOUPE_DELEGATE_SCRIPT_PATHNAME} #/opt/tomcat/bin/delegates.rb
+      CANTALOUPE_HTTPSOURCE_LOOKUP_STRATEGY: ${CANTALOUPE_HTTPSOURCE_LOOKUP_STRATEGY} # ScriptLookupStrategy
+    volumes:
+      - cantaloupe-data:/data
+    labels:
+      - traefik.enable=${EXPOSE_CANTALOUPE:-true}
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe.loadbalancer.server.port=8080
+      - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.entrypoints=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.rule=Host(`${DOMAIN}`) && PathPrefix(`/cantaloupe`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.middlewares=cantaloupe-redirectscheme
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.entrypoints=https
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.rule=Host(`${DOMAIN}`) && PathPrefix(`/cantaloupe`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.tls=true
+    networks:
+      default:
+    deploy:
+      resources:
+          limits:
+            memory: ${CANTALOUPE_MEMORY_LIMIT:-5G}
+          reservations:
+            memory: 1G

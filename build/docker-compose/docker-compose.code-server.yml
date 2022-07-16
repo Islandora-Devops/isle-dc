@@ -1,0 +1,92 @@
+# Creates the drupal container.
+# 
+# References:
+# - https://www.drupal.org/docs
+version: '3.7'
+networks:
+  default:
+    internal: true
+  gateway:
+    external: true
+secrets:
+  CODE_SERVER_PASSWORD:
+    file: "../../secrets/live/CODE_SERVER_PASSWORD"
+services:
+  code-server:
+    environment:
+      PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
+      PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
+      PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
+      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
+    restart: ${RESTART_POLICY:-unless-stopped}
+    image: ${REPOSITORY:-islandora}/code-server:${TAG:-latest}
+    labels:
+      - traefik.enable=${EXPOSE_CODE_SERVER:-false}
+      # code-server  
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-code-server.loadbalancer.server.port=8443
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-code-server_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-code-server
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-code-server_https.entrypoints=code-server
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-code-server_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-code-server_https.tls=true
+      # drupal
+      - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-drupal
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.entrypoints=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.middlewares=drupal-redirectscheme
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-drupal
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.entrypoints=https
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls=true
+    secrets:
+      - CODE_SERVER_PASSWORD
+    volumes:
+      # Mount and serve contents of Drupal site.
+      - type: volume
+        source: drupal-root
+        target: /var/www/drupal
+        volume:
+          nocopy: true
+      # Mount and serve Drupal files.
+      - type: volume
+        source: drupal-sites-data
+        target: /var/www/drupal/web/sites/default/files
+        volume:
+          nocopy: true
+      # Volumes for code-server cache.
+      - code-server-data:/opt/code-server/data
+    networks:
+      default:
+      gateway:
+    depends_on:
+      - drupal
+    deploy:
+      resources:
+          limits:
+            memory: ${IDE_MEMORY_LIMIT:-5G}
+          reservations:
+            memory: 2G
+  drupal:
+    environment:
+      PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
+      PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
+      PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
+      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
+ # Disable traefik for Drupal as code-server will respond to all requests.
+    labels:
+      - traefik.enable=false
+    volumes:
+      # Allow code-server to serve Drupal / override it.
+      - drupal-root:/var/www/drupal
+    deploy:
+      resources:
+          limits:
+            memory: ${DRUPAL_MEMORY_LIMIT:-5G}
+          reservations:
+            memory: 2G
+volumes:
+  drupal-root: {}
+  drupal-sites-data: {}
+  code-server-data: {}

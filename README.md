@@ -23,7 +23,7 @@
 ## Introduction
 
 [Docker Compose] project for creating and managing an Islandora 8 instance
-using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora) 
+using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora)
 that were created by [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit).
 
 In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on configuration
@@ -40,7 +40,7 @@ as database import/export and reindexing.
 
 - Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
 - Docker-CE 19.x+
-- Docker-compose version 1.25.x+ 
+- Docker-compose version 1.25.x+
 - Git 2.0+
 - GNU Make 4.0+
 - At least 8GB of RAM (ideally 16GB)
@@ -58,6 +58,9 @@ To get started with a **demo** environment, run:
 ```bash
 make demo
 ```
+
+Or if this demo environment is too simple, run `make demo` to create a demo site that is modeled after https://sandbox.islandora.ca with some extra content imported via Islandora Workbench.
+
 ⚠️ If prompted during `make up\demo\local\clean` for password, use your computer's password. The build process may need elevated privileges to write or remove files. For other password information see [Secrets](#secrets)
 
 This will pull down images from Dockerhub and generate
@@ -69,7 +72,7 @@ This will pull down images from Dockerhub and generate
 
 Your new Islandora instance will be available at
 [https://islandora.traefik.me](https://islandora.traefik.me). Don't let the
-funny url fool you, it's a dummy domain that resolves to `127.0.0.1`.
+funny URL fool you, it's a dummy domain that resolves to `127.0.0.1`.
 
 If you do not have [secrets enabled](#secrets), you can log into Drupal as
 `admin` using the default password: `password`. Otherwise you can find the
@@ -79,7 +82,7 @@ password in the file
 Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
 the things you can do.  If you want to poke around, here's all the services that are available to visit:
 
-| Service     | Url                                                                                            |
+| Service     | URL                                                                                            |
 | :---------- | :--------------------------------------------------------------------------------------------- |
 | Drupal      | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |
 | Traefik     | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |
@@ -97,7 +100,7 @@ When you're done with your demo environment, shut it down by running
 docker-compose down
 ```
 
-This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and 
+This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and
 all ingested data, use
 
 ```
@@ -129,11 +132,13 @@ INSTALL_EXISTING_CONFIG=true
 DRUPAL_INSTALL_PROFILE=minimal
 ```
 
-In either case, run this command to make a local environment.
+In either case, run one of these commands to make a local environment.
 
 ```bash
 make local
 ```
+
+The former will create a starter site modeled off of https://sandbox.islandora.ca.
 
 If you already have a Drupal site but don't know how to export it,
 log into your server, navigate to the Drupal root, and run the following commands:
@@ -186,7 +191,7 @@ make down
 # Bring isle-dc back up from where it left off
 make up
 
-# If make hasn't been run this will run make demo 
+# If make hasn't been run this will run make demo
 
 ```
 
@@ -320,10 +325,10 @@ INCLUDE_WATCHTOWER_SERVICE=true
 ### Traefik
 
 The [traefik](https://containo.us/traefik/) container acts as a reverse proxy,
-and exposes some containers through port ``80``/``443``/``3306``. 
+and exposes some containers through port ``80``/``443``/``3306``.
 
 Since Drupal passes links to itself in the messages it passes to the microservices,
-and occasionally other urls need to be resolved on containers that do not have
+and occasionally other URLs need to be resolved on containers that do not have
 external access, we define aliases for most services on the internal network.
 
 Aliases like so are defined on most services to mimic their routing rules in
@@ -357,6 +362,22 @@ It is not enabled by default.
 ```bash
 # Includes `etcd` as a service.
 INCLUDE_ETCD_SERVICE=false
+```
+## Add Custom Makefile Commands
+To add custom Makefile commands without adding upstream git conflict complexity, just create a new `custom.Makefile` and the Makefile will automatically include it. This can be a completely empty file that needs no header information. Just add a function in the following format.
+```makefile
+.PHONY: lowercasename
+.SILENT: lowercasename
+## This is the help description that comes up when using the 'make help` command. This needs to be placed with 2 # characters, after .PHONY & .SILENT but before the function call. And only take up a single line.
+lowercasename:
+	echo "first line in command needs to be indented. There are exceptions to this, review functions in the Makefile for examples of these exceptions."
+```
+
+NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.  
+
+Running the new `custom.Makefile` commands are exactly the same as running any other Makefile command. Just run `make` and the function's name.
+```bash
+make lowercasename
 ```
 
 ## Troubleshooting/Issues
