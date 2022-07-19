@@ -465,9 +465,8 @@ help:
 		if (helpMessage) { \
 			helpCommand = $$1; sub(/:$$/, "", helpCommand); \
 			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
-			# If helpCommand is not up, local, or demo then it is a target. \
 			if (helpCommand != "up" && helpCommand != "local" && helpCommand != "demo") { \
-				printf "  ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}\n", helpCommand, helpMessage; \
+				printf "  ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}\n", helpCommand, helpMessage ; \
 			} \
 		} \
 	} \
