@@ -346,6 +346,8 @@ dev:
 .PHONY: clean
 .SILENT: clean
 clean:
-	-docker-compose down -v
+	-docker-compose down -v --remove-orphans
+	$(MAKE) set-codebase-owner
 	sudo rm -fr certs
 	git clean -xffd .
+	git checkout codebase

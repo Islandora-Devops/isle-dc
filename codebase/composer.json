@@ -115,7 +115,7 @@
         "cweagans/composer-patches": "^1.6.5",
         "drupal/admin_toolbar": "^2.0",
         "drupal/at_theme": "^1.4",
-        "drupal/at_tool": "^1.4",
+        "drupal/at_tool": "^2.0",
         "drupal/auto_entitylabel": "^3.0@beta",
         "drupal/captcha": "^1.1",
         "drupal/console": "~1.0",
@@ -180,8 +180,9 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
         "drupal/coder": "^8.3",
         "drupal/core-dev": "^9.2",
-        "mglaman/drupal-check": "^1.1",
+        "mglaman/drupal-check": "^1.4",
         "phpspec/prophecy-phpunit": "^2",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
         "slevomat/coding-standard": "*"
     },
     "conflict": {

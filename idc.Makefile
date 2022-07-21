@@ -115,6 +115,10 @@ dev-up:  download-default-certs
 		cp /tmp/.env .env && \
 		rm /tmp/.env
 	$(MAKE) -B docker-compose.yml start
+	docker-compose exec drupal with-contenv bash -lc "echo \"alias drupal='vendor/drupal/console/bin/drupal'\" >> ~/.bashrc"
+	docker-compose exec drupal with-contenv bash -lc "echo \"alias drupal-check='vendor/mglaman/drupal-check/drupal-check'\" >> ~/.bashrc"
+	# Temp fix until I can locate why this isn't being mapped properly.
+	docker cp codebase/web/core/modules/media/images/icons/generic.png $(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/web/sites/default/files/media-icons/generic/
 
 .PHONY: dev-down
 .SILENT: dev-down
