@@ -222,7 +222,6 @@ test:
 		echo 'Error: jq is not installed.' >&2 ; \
 		echo '       Please install jq and try again.' >&2 ; \
 		echo '       You can do this by running:  sudo apt-get install jq' >&2 ; \
-		exit 1; \
 	fi; \
 	./run-tests.sh $(test)
 
