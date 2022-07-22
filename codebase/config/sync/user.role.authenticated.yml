@@ -1,7 +1,19 @@
 uuid: 1f8d196f-6d91-4a75-86bf-76445963dc11
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - filter.format.basic_html
+    - rest.resource.oai_pmh
+  module:
+    - captcha
+    - contact
+    - field_permissions
+    - filter
+    - media
+    - rest
+    - shortcut
+    - system
 _core:
   default_config_hash: btW6TFHajhy7Eo6YUvdFiPh4TcPggo8GBXYctjV6zag
 id: authenticated
@@ -12,7 +24,6 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
-  - 'opt-in or out of matomo tracking'
   - 'restful get oai_pmh'
   - 'search content'
   - 'skip CAPTCHA'
