@@ -53,6 +53,8 @@ snapshot-image:
 .PHONY: reset
 .SILENT: reset
 reset: warning-destroy-state destroy-state
+	@echo "Resetting permissions. This will take a while..."
+	$(MAKE) set-codebase-owner
 	@echo "Removing vendored modules"
 	-rm -rf codebase/modules
 	-rm -rf codebase/vendor
@@ -79,7 +81,7 @@ warning-destroy-state:
 	@echo "3. Pull the latest images"
 	@echo "4. Re-install modules from composer.json"
 	@echo "WARNING: continue? [Y/n]"
-	@read line; if [ $(shell echo $$line | tr A-Z a-z) != "y" ]; then echo aborting; exit 1 ; fi
+	@echo -n "Are you sure? [y/N] " && read ans ; [ $${ans:-N} = y ] || [ $${ans:-N} = Y ] || exit 1
 
 .PHONY: snapshot-empty
 .SILENT: snapshot-empty
@@ -261,4 +263,5 @@ theme-compile:
 	@[ "${NPM}" ] && echo "NPM Found" || ( echo "NPM not found. Please install and try again."; exit 1 )
 	@[ "${YARN}" ] && echo "YARN Found" || ( echo "Yarn not found. Please install and run again. https://yarnpkg.com/getting-started/install"; exit 1 )
 	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 composer update jhu-idc/idc-ui-theme'
-	cd codebase/web/themes/contrib/idc-ui-theme/js && bash autobuild.sh
+	sudo find ./codebase/web/themes/contrib/idc-ui-theme/js -exec chown $(shell id -u):101 {} \;
+	cd codebase/web/themes/contrib/idc-ui-theme/js && rm -rf node_modules && npm install --force && bash autobuild.sh
