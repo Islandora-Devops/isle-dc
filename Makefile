@@ -350,7 +350,7 @@ local: generate-secrets
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIROMENT=local
-	docker-compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
+	docker-compose exec -T drupal with-contenv bash -lc "drush si -y demo --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
 	$(MAKE) delete-shortcut-entities && docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
 	docker-compose exec -T drupal with-contenv bash -lc "drush en -y migrate_tools"
 	$(MAKE) hydrate ENVIRONMENT=local
