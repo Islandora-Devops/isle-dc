@@ -362,7 +362,7 @@ local: generate-secrets
 	$(MAKE) login
 
 .PHONY: demo_content
-.SILENT: demo_content
+#.SILENT: demo_content
 ## Helper function for demo sites: do a workbench import of sample objects
 demo_content:
 	# fetch repo that has csv and binaries to data/samples
@@ -377,6 +377,7 @@ ifeq ($(shell uname -s),Darwin)
 	sed -i '' 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
 	sed -i '' 's/http:/https:/g' islandora_workbench/demoBDcreate*
 endif
+	sed -i '' 's/author_email\="mjordan@sfu"\,/author="Mark Jordan", packages=['i7Import', 'i8demo_BD', 'input_data', 'islandora_workbench'],/g' islandora_workbench/setup.py
 	cd islandora_workbench && docker build -t workbench-docker .
 	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install 2>&1 && ./workbench --config demoBDcreate_all_localhost.yml)"
 	$(MAKE) reindex-solr
