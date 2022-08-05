@@ -425,6 +425,12 @@ env:
 		$(MAKE) -B docker-compose.yml ; \
 		$(MAKE) pull ; \
 		$(MAKE) up ; \
+		echo -e '\n\n${BLUE}Fixing the error message: ${RESET} ${RED}In Filesystem.php line 203${RESET}\n\n' ; \
+		docker-compose exec -T drupal with-contenv bash -lc "cp /var/www/drupal/web/sites/default/settings.php /var/www/drupal/web/sites/default/settings.php.bak" ; \
+		docker-compose exec -T drupal with-contenv bash -lc "cp /var/www/drupal/web/sites/default/default.settings.php /var/www/drupal/web/sites/default/settings.php" ; \
+		docker-compose exec -T drupal with-contenv bash -lc "chown nginx:nginx /var/www/drupal/web/sites/default/settings.php" ; \
+		docker-compose exec -T drupal with-contenv bash -lc "chmod 644 /var/www/drupal/web/sites/default/settings.php" ; \
+		$(MAKE) update-settings-php ; \
 	fi
 	if [ ! -f .env ]; then \
 		echo "No .env file found." ; \
