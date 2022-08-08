@@ -335,7 +335,7 @@ demo: generate-secrets
 	$(MAKE) login
 
 .PHONY: local
-.SILENT: local
+#.SILENT: local
 ## Make a local site with codebase directory bind mounted, modeled after sandbox.islandora.ca
 local: QUOTED_CURDIR = "$(CURDIR)"
 local: generate-secrets
@@ -344,7 +344,7 @@ local: generate-secrets
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p $(CURDIR)/codebase
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone https://github.com/islandora-devops/islandora-sandbox -b main /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
 	docker-compose up -d --remove-orphans
@@ -377,7 +377,7 @@ ifeq ($(shell uname -s),Darwin)
 	sed -i '' 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
 	sed -i '' 's/http:/https:/g' islandora_workbench/demoBDcreate*
 endif
-	sed -i '' 's/author_email\="mjordan@sfu"\,/author="Mark Jordan", packages=['i7Import', 'i8demo_BD', 'input_data', 'islandora_workbench'],/g' islandora_workbench/setup.py
+	sed -i '' 's/author_email\="mjordan@sfu"\,/author_email="mjordan@sfu", packages=["i7Import", "i8demo_BD", "input_data"],/g' islandora_workbench/setup.py
 	cd islandora_workbench && docker build -t workbench-docker .
 	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install 2>&1 && ./workbench --config demoBDcreate_all_localhost.yml)"
 	$(MAKE) reindex-solr
