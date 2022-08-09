@@ -273,6 +273,9 @@
                 "Routing definitions": "patches/islandora.routing.yml.patch",
                 "Media Source Serivce": "patches/mediasourceservice.patch",
                 "Media Source Controller": "patches/mediasourcecontroller.patch"
+            },
+            "at_core_preprocess_inc": {
+                "at_core_preprocess_inc": "patches/at_core_preprocess_inc.patch"
             }
         }
     }

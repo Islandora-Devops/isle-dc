@@ -13,6 +13,8 @@ id: contributors
 name: Contributors
 weight: 0
 min_count: 1
+missing: false
+missing_label: others
 url_alias: contributors
 facet_source_id: 'search_api:views_page__solr_search_content__page_1'
 field_identifier: aggregated_field

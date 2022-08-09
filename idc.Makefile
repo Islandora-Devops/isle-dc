@@ -119,8 +119,9 @@ dev-up:  download-default-certs
 	$(MAKE) -B docker-compose.yml start
 	docker-compose exec drupal with-contenv bash -lc "echo \"alias drupal='vendor/drupal/console/bin/drupal'\" >> ~/.bashrc"
 	docker-compose exec drupal with-contenv bash -lc "echo \"alias drupal-check='vendor/mglaman/drupal-check/drupal-check'\" >> ~/.bashrc"
-	# Temp fix until I can locate why this isn't being mapped properly.
 	docker cp codebase/web/core/modules/media/images/icons/generic.png $(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/web/sites/default/files/media-icons/generic/
+	$(MAKE) set-codebase-owner
+	docker-compose exec drupal with-contenv bash -lc "chmod 766 /var/www/drupal/xdebug.log"
 
 .PHONY: dev-down
 .SILENT: dev-down
@@ -156,6 +157,7 @@ start:
 		echo "No Drupal state found.  Loading from snapshot, and importing config from config/sync"; \
 		${MAKE} db_restore; \
 		${MAKE} _docker-up-and-wait; \
+		docker-compose exec drupal with-contenv bash -lc "drush cdel core.extension module.search_api_solr_defaults && drush updatedb -y" ; \
 		${MAKE} config-import; \
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \

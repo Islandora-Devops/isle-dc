@@ -11,6 +11,8 @@ id: years
 name: Years
 weight: 0
 min_count: 1
+missing: false
+missing_label: others
 url_alias: years
 facet_source_id: 'search_api:views_rest__solr_search_content__rest_export_1'
 field_identifier: field_years
