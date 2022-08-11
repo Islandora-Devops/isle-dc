@@ -228,8 +228,8 @@ endif
 ifeq ($(wildcard $(CURDIR)/codebase),)
 	$(error codebase folder does not exists)
 endif
-	docker-compose exec drupal drush -l $(SITE) sql:dump > /tmp/dump.sql
-	docker cp $$(docker-compose ps -q drupal):/tmp/dump.sql $(DEST)
+	docker-compose exec drupal bash -lc "drush -l $(SITE) sql:dump > /tmp/dump.sql"
+	docker cp $$(docker ps --format "{{.Names}}" | grep drupal):/tmp/dump.sql $(DEST)
 
 # Import database.
 database-import: $(SRC)
