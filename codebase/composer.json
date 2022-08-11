@@ -188,7 +188,8 @@
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-symfony": "^1.2",
-        "slevomat/coding-standard": "*"
+        "slevomat/coding-standard": "*",
+        "squizlabs/php_codesniffer": "*"
     },
     "conflict": {
         "drupal/drupal": "*"
