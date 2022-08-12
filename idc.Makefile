@@ -162,6 +162,7 @@ start:
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
 	fi;
+	docker-compose exec drupal with-contenv bash -lc "mkdir -p /tmp/private && chown nginx: /tmp/private"
 
 .PHONY: _docker-up-and-wait
 .SILENT: _docker-up-and-wait
