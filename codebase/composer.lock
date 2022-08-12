@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db9bd3e9d366452e2817aaadfaa469d2",
+    "content-hash": "dbc439116696dad4668d0265aef70b98",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -8500,12 +8500,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/islandora_defaults.git",
-                "reference": "2ba03fe18c7eb5538ae5edb9d8161ed9dee5c807"
+                "reference": "a36a368d426e70d00aa2de206e9410cd175da209"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/2ba03fe18c7eb5538ae5edb9d8161ed9dee5c807",
-                "reference": "2ba03fe18c7eb5538ae5edb9d8161ed9dee5c807",
+                "url": "https://api.github.com/repos/jhu-idc/islandora_defaults/zipball/a36a368d426e70d00aa2de206e9410cd175da209",
+                "reference": "a36a368d426e70d00aa2de206e9410cd175da209",
                 "shasum": ""
             },
             "require": {
@@ -8531,7 +8531,7 @@
                 "issues": "https://github.com/jhu-idc/islandora_defaults/issues",
                 "source": "https://github.com/jhu-idc/islandora_defaults/tree/9_3_update"
             },
-            "time": "2022-06-28T19:54:42+00:00"
+            "time": "2022-08-12T14:49:19+00:00"
         },
         {
             "name": "jhu-idc/islandora_repository_reports",

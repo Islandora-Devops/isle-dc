@@ -165,7 +165,7 @@
         "jhu-idc/idc_defaults": "dev-main#c0b2feaa44392fc5fe699ee437f059cca6493629",
         "jhu-idc/idc_export": "dev-main",
         "jhu-idc/idc_ui_module": "dev-main#c6ec49581700469a520cbc42d7daf1bc1c817fe0",
-        "jhu-idc/islandora_defaults": "dev-9_3_update",
+        "jhu-idc/islandora_defaults": "dev-9_3_update#a36a368d426e70d00aa2de206e9410cd175da209",
         "jhu-idc/islandora_repository_reports": "dev-main",
         "jhu-idc/migrate_file": "dev-8.x-1.x",
         "jhu-idc/reference_value_pair": "dev-upstream",
