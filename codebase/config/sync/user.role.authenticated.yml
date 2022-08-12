@@ -25,7 +25,6 @@ permissions:
   - 'access shortcuts'
   - 'access site-wide contact form'
   - 'restful get oai_pmh'
-  - 'search content'
   - 'skip CAPTCHA'
   - 'use text format basic_html'
   - 'view field_citable_url'

@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: qJhff8pEEWhByuO9T2VbbQ-Oyqwxew2TfEf82H45hzk
+  default_config_hash: fUibOAQqTcKPMH-Rza_j3rjbhpoEEfC1qVVgc40o2Ls
 id: text_und_7_0_0
 label: 'Language Undefined Text Field'
 minimum_solr_version: 7.0.0
