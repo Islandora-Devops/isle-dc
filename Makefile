@@ -162,6 +162,7 @@ solr-reload-cores:
 	docker-compose exec drupal with-contenv bash -lc "drush solr-gsc default_solr_server /var/www/drupal/config.zip 8.11.1"
 	docker cp codebase/config.zip $$(docker ps --format "{{.Names}}" | grep solr):/opt/solr/server/solr
 	docker-compose exec solr with-contenv bash -lc "unzip /opt/solr/server/solr/config.zip -d /opt/solr/server/solr/ISLANDORA/conf -o && rm -f /opt/solr/server/solr/config.zip"
+	rm -f config.zip
 	for i in $(shell docker inspect -f "{{range .NetworkSettings.Networks}}{{println .IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr) | grep .) ; do \
 		curl http://$$i:8983/solr/admin/cores?action=RELOAD&core=ISLANDORA ; \
 		curl http://$$i:8983/solr/admin/cores?action=OPTIMIZE&core=ISLANDORA ; \
