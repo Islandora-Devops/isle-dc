@@ -106,7 +106,7 @@ up:  download-default-certs docker-compose.yml start
 .SILENT: down
 ## Brings down the containers. Same as docker-compose down --remove-orphans
 down:
-	-docker-compose down --remove-orphans
+	-docker-compose down -v --remove-orphans
 
 .PHONY: dev-up
 .SILENT: dev-up
