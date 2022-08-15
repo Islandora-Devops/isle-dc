@@ -346,10 +346,16 @@ dev:
 	$(MAKE) install ENVIRONMENT=local
 	$(MAKE) hydrate ENVIRONMENT=local
 
+.phony: confirm
+confirm:
+	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
+
 # Destroys everything beware!
 .PHONY: clean
 .SILENT: clean
 clean:
+	echo "**DANGER** About to rm your SERVER data subdirs, your docker volumes and your codebase/web"
+	$(MAKE) confirm
 	-docker-compose down -v --remove-orphans
 	$(MAKE) set-codebase-owner
 	sudo rm -fr certs
