@@ -348,7 +348,9 @@ dev:
 
 .phony: confirm
 confirm:
+	@echo "\n\n"
 	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@echo "\n\n"
 
 # Destroys everything beware!
 .PHONY: clean
