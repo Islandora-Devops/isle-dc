@@ -159,16 +159,22 @@ run-islandora-migrations:
 .PHONY: solr-reload-cores
 .SILENT: solr-reload-cores
 solr-reload-cores:
-	docker-compose exec drupal with-contenv bash -lc "drush solr-gsc default_solr_server /var/www/drupal/config.zip 8.11.1"
+	-docker-compose exec solr with-contenv bash -lc "rm -f /opt/solr/server/solr/config.zip"
+	-rm -f codebase/config.zip
+	docker-compose exec drupal with-contenv bash -lc "drush solr-gsc default_solr_server /var/www/drupal/config.zip"
 	docker cp codebase/config.zip $$(docker ps --format "{{.Names}}" | grep solr):/opt/solr/server/solr
-	docker-compose exec solr with-contenv bash -lc "unzip /opt/solr/server/solr/config.zip -d /opt/solr/server/solr/ISLANDORA/conf -o && rm -f /opt/solr/server/solr/config.zip"
+	docker-compose exec solr with-contenv bash -lc "rm -rf /opt/solr/server/solr/ISLANDORA/conf/*.*"
+	docker-compose exec solr bash -lc "unzip /opt/solr/server/solr/config.zip -d /opt/solr/server/solr/ISLANDORA/conf -o && chown -R solr: /opt/solr/server/solr/ISLANDORA/conf"
+	docker-compose exec solr with-contenv bash -lc "rm -f /opt/solr/server/solr/config.zip"
 	rm -f codebase/config.zip
 	for i in $(shell docker inspect -f "{{range .NetworkSettings.Networks}}{{println .IPAddress}}{{end}}" $(shell docker ps --format "{{.Names}}" | grep solr) | grep .) ; do \
 		curl http://$$i:8983/solr/admin/cores?action=RELOAD&core=ISLANDORA ; \
 		curl http://$$i:8983/solr/admin/cores?action=OPTIMIZE&core=ISLANDORA ; \
 		echo "Can be verified at http://$$i:8983/solr/#/~cores/ISLANDORA"; \
 	done
-	echo "400 message will happen if the core is current and optimized. These features only become available when the core isn't current."
+	sleep 5
+	echo "\n\n400 message will happen if the core is current and optimized. These features only become available when the core isn't current.\n"
+	$(MAKE) cache-rebuild
 
 # Creates solr-cores according to the environment variables.
 .PHONY: solr-cores
