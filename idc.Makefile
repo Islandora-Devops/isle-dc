@@ -157,7 +157,6 @@ start:
 		echo "No Drupal state found.  Loading from snapshot, and importing config from config/sync"; \
 		${MAKE} db_restore; \
 		${MAKE} _docker-up-and-wait; \
-		docker-compose exec drupal with-contenv bash -lc "drush cdel core.extension module.search_api_solr_defaults && drush updatedb -y" ; \
 		${MAKE} config-import; \
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
