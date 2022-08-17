@@ -63,7 +63,7 @@
             "type": "package",
             "package": {
                 "name": "citation-style-language/locales",
-                "version":"1.0.0",
+                "version": "1.0.0",
                 "source": {
                     "type": "git",
                     "url": "https://github.com/citation-style-language/locales.git",
@@ -75,7 +75,7 @@
             "type": "package",
             "package": {
                 "name": "citation-style-language/styles-distribution",
-                "version":"1.0.0",
+                "version": "1.0.0",
                 "source": {
                     "type": "git",
                     "url": "https://github.com/citation-style-language/styles-distribution.git",
@@ -164,7 +164,7 @@
         "jhu-idc/idc-ui-theme": "dev-main",
         "jhu-idc/idc_defaults": "dev-main#c0b2feaa44392fc5fe699ee437f059cca6493629",
         "jhu-idc/idc_export": "dev-main",
-        "jhu-idc/idc_ui_module": "dev-main#c6ec49581700469a520cbc42d7daf1bc1c817fe0",
+        "jhu-idc/idc_ui_module": "dev-main#d42bfbeb472cb540991a7beb6a8cf97cf0b88827",
         "jhu-idc/islandora_defaults": "dev-9_3_update#a36a368d426e70d00aa2de206e9410cd175da209",
         "jhu-idc/islandora_repository_reports": "dev-main",
         "jhu-idc/migrate_file": "dev-8.x-1.x",
@@ -194,8 +194,6 @@
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "config": {
         "sort-packages": true,
         "allow-plugins": {
@@ -238,6 +236,22 @@
         ]
     },
     "extra": {
+        "patches": {
+            "simplesamlphp/simplesamlphp": {
+                "SimpleSAMLphp config": "patches/simplesaml_config.patch"
+            },
+            "drupal/title_length": {
+                "Node title length 2: Taxonomy name length": "patches/node_title_length_termNameCharLength-3041979-8.patch"
+            },
+            "islandora/islandora": {
+                "Routing definitions": "patches/islandora.routing.yml.patch",
+                "Media Source Serivce": "patches/mediasourceservice.patch",
+                "Media Source Controller": "patches/mediasourcecontroller.patch"
+            },
+            "drupal/at_theme": {
+                "at_core_preprocess_inc": "patches/at_core_preprocess_inc.patch"
+            }
+        },
         "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"
@@ -266,22 +280,8 @@
             "drush/Commands/contrib/{$name}": [
                 "type:drupal-drush"
             ]
-        },
-        "patches": {
-            "simplesamlphp/simplesamlphp": {
-                "SimpleSAMLphp config": "patches/simplesaml_config.patch"
-            },
-            "drupal/title_length": {
-                "Node title length 2: Taxonomy name length": "patches/node_title_length_termNameCharLength-3041979-8.patch"
-            },
-            "islandora/islandora": {
-                "Routing definitions": "patches/islandora.routing.yml.patch",
-                "Media Source Serivce": "patches/mediasourceservice.patch",
-                "Media Source Controller": "patches/mediasourcecontroller.patch"
-            },
-            "at_core_preprocess_inc": {
-                "at_core_preprocess_inc": "patches/at_core_preprocess_inc.patch"
-            }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

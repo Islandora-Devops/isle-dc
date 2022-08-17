@@ -1,17 +1,16 @@
---- a/web/themes/contrib/at_theme/at_core/includes/preprocess.inc
-+++ b/web/themes/contrib/at_theme/at_core/includes/preprocess.inc
-@@ -390,7 +390,13 @@
+--- at_core/includes/preprocess.inc
++++ at_core/includes/preprocess.inc
+@@ -390,7 +390,12 @@
    $active_theme_name = $variables['theme']['name'];
    $layout_loaded = new LayoutLoad($active_theme_name, $active_regions = NULL);
    $region_source_order = $layout_loaded->regionSourceOrder($variables['region']);
 -  $variables['attributes']['data-at-region'] = $region_source_order[$variables['region']];
-+
 +  // if region_source_order is empty, then the region is not in the layout.
 +  if (!empty($region_source_order)) {
 +    // $variables['attributes']['data-source-order'] = $region_source_order;
++    // $variables['attributes']['data-at-region'] = !empty($region_source_order) ? $region_source_order[$variables['region']] : '';
 +    $variables['attributes']['data-at-region'] = $region_source_order[$variables['region']];
 +  }
-+
  
    // Set variable for the row this region belongs to.
    $region_row = $layout_loaded->regionAttributes($variables['region']);
