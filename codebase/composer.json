@@ -112,7 +112,6 @@
     "require": {
         "php": ">=7.0.8",
         "composer/installers": "^1.2",
-        "cweagans/composer-patches": "^1.6.5",
         "drupal/admin_toolbar": "^2.0",
         "drupal/at_theme": "^1.4",
         "drupal/at_tool": "^2.0",
@@ -174,6 +173,7 @@
         "masonry/masonry": "^4.2",
         "seboettg/citeproc-php": "v2.2.5",
         "symfony/string": "^5.4",
+        "vaimo/composer-patches": "^5.1",
         "vlucas/phpdotenv": "^4.0",
         "webflo/drupal-finder": "^1.0.0",
         "zaporylie/composer-drupal-optimizations": "^1.0"
@@ -208,7 +208,8 @@
             "zaporylie/composer-drupal-optimizations": true,
             "wikimedia/composer-merge-plugin": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "vaimo/composer-patches": true
         }
     },
     "autoload": {
@@ -236,6 +237,10 @@
         ]
     },
     "extra": {
+        "patcher": {
+            "search": "patches"
+            },
+        "enable-patching": true,
         "patches": {
             "simplesamlphp/simplesamlphp": {
                 "SimpleSAMLphp config": "patches/simplesaml_config.patch"
