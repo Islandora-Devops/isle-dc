@@ -68,6 +68,7 @@ test('Normal search', async (t) => {
 
   await t
     .expect(term1.proxy.value).eql('false')
+    .resizeWindow(1024, 3885)
     .typeText(term1.nonproxyTerm.term, 'animal', { paste: true })
     .click(term1.nonproxyTerm.field)
     .click(term1.nonproxyTerm.fields.withText('Title'))
@@ -91,6 +92,7 @@ test('Can initiate search with Enter key', async (t) => {
   await t
     .click(term1.nonproxyTerm.field)
     .click(term1.nonproxyTerm.fields.withText('Title'))
+    .resizeWindow(1024, 3885)
     .typeText(term1.nonproxyTerm.term, 'moo', { paste: true })
     .pressKey('enter')
     .expect(Page.results.count).eql(1);
@@ -104,6 +106,7 @@ test('Collection filter', async (t) => {
   await pager.goToPage(3);
 
   await t
+    .resizeWindow(1024, 3885)
     .expect(Page.results.count).eql(2)
     .expect(pager.pager.withText('22 of 22 items').exists).ok();
 

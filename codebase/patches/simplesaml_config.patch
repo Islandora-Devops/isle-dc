@@ -1034,7 +1034,7 @@
 +     * defined with 'session.check_function' option.
 +     */
 +    'session.rememberme.enable' => false,
-+    'session.rememberme.checked' => false,
++    'session.rememberme.checked' => true,
 +    'session.rememberme.lifetime' => (14 * 86400),
 +
 +    /*

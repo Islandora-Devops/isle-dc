@@ -10,6 +10,7 @@ fixture `Collection Details Page`
 
 test('English description is displayed', async (t) => {
   await t
+    .resizeWindow(1024, 3885)
     .expect(Page.description.exists).ok()
     .expect(Page.description.withText('Collection of ducks').exists).ok()
     .expect(Page.description.withText('(English)').exists).ok();
