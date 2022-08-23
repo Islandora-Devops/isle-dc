@@ -20,6 +20,7 @@ test('Entering a new search term resets current page', async (t) => {
   await Page.listOptions.itemsPerPage.setValue('10');
 
   await t
+    .takeScreenshot({ "fullPage": true })
     // First search for 'moo'
     .typeText(Page.searchInput, 'moo', { paste: true })
     .click(Page.searchSubmit)

@@ -5,6 +5,7 @@ fixture('Collections Page: init from URL')
 
 test('Init from URL', async (t) => {
   await t
+    .resizeWindow(1024, 3885)
     .expect(page.searchInput.value).eql('animal')
     .expect(page.pagers[0].pager.withText('6 – 7').exists).ok()
     .expect(page.results.count).eql(2)

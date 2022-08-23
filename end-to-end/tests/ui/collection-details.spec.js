@@ -105,8 +105,9 @@ test('Contact modal displays correctly', async (t) => {
 
 test('Featured repo items display correctly', async (t) => {
   await t
+    .resizeWindow(1024, 3885)
     .expect(Page.featuredItems.list.exists).ok()
-    .expect(Page.featuredItems.items.count).eql(2)
+    .expect(Page.featuredItems.items.count).eql(1)
     .expect(Page.featuredItems.items.nth(0).find('img').exists).ok()
     // // Mallard item has a Tiff image, which should never be displayed on the page
     .expect(Page.featuredItems.items.nth(0).find('img').withAttribute('src', /\.jpg$/).exists).ok()
@@ -115,6 +116,7 @@ test('Featured repo items display correctly', async (t) => {
 
 test('Breadcrumbs are present', async (t) => {
   await t
+    .resizeWindow(1024, 3885)
     .expect(HeaderFooter.breadcrumbContainer.exists).ok()
     .expect(HeaderFooter.breadcrumbs.count).eql(3)
     .expect(HeaderFooter.breadcrumbs.withText('Home').exists).ok()
@@ -123,6 +125,7 @@ test('Breadcrumbs are present', async (t) => {
 
 test('Export links look good', async (t) => {
   await t
+    .resizeWindow(1024, 3885)
     .useRole(localAdmin)
     .expect(Page.exportColBtn.exists).ok()
     .expect(Page.exportColBtn.getAttribute('href'))
