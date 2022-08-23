@@ -1,4 +1,4 @@
-uuid: 4320d80c-f46b-4bd7-b6a5-bd1068100b5d
+uuid: 3cf41551-2fe6-42c7-9179-3928777172e5
 langcode: en
 status: true
 dependencies:
@@ -11,16 +11,26 @@ _core:
   default_config_hash: 9nE6M_67emVMCKCtiha7XHHa9qO4Ql1B4S1gymsG3FU
 id: subject
 name: Subject
+url_alias: subject
 weight: -2
 min_count: 1
 missing: false
 missing_label: others
-url_alias: subject
-facet_source_id: 'search_api:views_page__solr_search_content__page_1'
+show_only_one_result: false
 field_identifier: field_subject
+facet_source_id: 'search_api:views_page__solr_search_content__page_1'
+widget:
+  type: links
+  config:
+    show_numbers: true
+    soft_limit: 10
+    soft_limit_settings:
+      show_less_label: 'Show less'
+      show_more_label: 'Show more'
+    show_reset_link: true
+    reset_text: 'Show all'
+    hide_reset_when_no_selection: true
 query_operator: or
-hard_limit: 0
-exclude: false
 use_hierarchy: false
 keep_hierarchy_parents_active: false
 hierarchy:
@@ -28,24 +38,9 @@ hierarchy:
   config: {  }
 expand_hierarchy: false
 enable_parent_when_child_gets_disabled: true
-widget:
-  type: links
-  config:
-    show_numbers: true
-    soft_limit: 10
-    show_reset_link: true
-    reset_text: 'Show all'
-    hide_reset_when_no_selection: true
-    soft_limit_settings:
-      show_less_label: 'Show less'
-      show_more_label: 'Show more'
-empty_behavior:
-  behavior: text
-  text_format: plain_text
-  text: '-no matches-'
+hard_limit: 0
+exclude: false
 only_visible_when_facet_source_is_visible: true
-show_only_one_result: false
-show_title: false
 processor_configs:
   active_widget_order:
     processor_id: active_widget_order
@@ -76,3 +71,8 @@ processor_configs:
       pre_query: 50
       build: 15
     settings: {  }
+empty_behavior:
+  behavior: text
+  text_format: plain_text
+  text: '-no matches-'
+show_title: false

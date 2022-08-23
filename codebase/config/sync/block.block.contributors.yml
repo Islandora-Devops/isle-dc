@@ -1,4 +1,4 @@
-uuid: bafac7b9-6f78-4228-9d11-54b24a59b4aa
+uuid: 8401103b-cf27-4bd4-86f1-13a82ae81779
 langcode: en
 status: true
 dependencies:
@@ -27,14 +27,14 @@ settings:
 visibility:
   request_path_exclusion:
     id: request_path_exclusion
+    pages: ''
     negate: null
     context_mapping: {  }
-    pages: ''
   view_inclusion:
     id: view_inclusion
     negate: null
-    context_mapping: {  }
     view_inclusion: {  }
+    context_mapping: {  }
   media_source_mimetype:
     id: media_source_mimetype
     mimetype: ''
