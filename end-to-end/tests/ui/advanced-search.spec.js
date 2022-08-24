@@ -96,7 +96,6 @@ test('Can initiate search with Enter key', async (t) => {
   const term1 = Page.queryTerm(0);
 
   await t
-    .resizeWindow(1024, 3885)
     .click(term1.nonproxyTerm.field)
     .click(term1.nonproxyTerm.fields.withText('Title'))
     .resizeWindow(1024, 3885)
@@ -113,7 +112,6 @@ test('Collection filter', async (t) => {
   await pager.goToPage(3);
 
   await t
-    .resizeWindow(1024, 3885)
     .resizeWindow(1024, 3885)
     .expect(Page.results.count).eql(2)
     .expect(pager.pager.withText('22 of 22 items').exists).ok();
