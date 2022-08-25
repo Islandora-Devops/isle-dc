@@ -137,6 +137,7 @@
         "drupal/google_analytics": "^4.0",
         "drupal/google_tag": "^1.4",
         "drupal/imagemagick": "^3",
+        "drupal/jquery_ui_accordion": "^1.1",
         "drupal/libraries": "3.x-dev@dev",
         "drupal/matomo": "^1.19",
         "drupal/migrate_source_ui": "^1.0@RC",

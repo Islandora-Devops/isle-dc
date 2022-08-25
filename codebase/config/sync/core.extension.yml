@@ -4,7 +4,6 @@ module:
   action: 0
   admin_toolbar: 0
   admin_toolbar_links_access_filter: 0
-  at_tool: 0
   automated_cron: 0
   basic_auth: 0
   big_pipe: 0
@@ -13,7 +12,6 @@ module:
   breakpoint: 0
   captcha: 0
   ckeditor: 0
-  color: 0
   comment: 0
   config: 0
   config_update: 0
@@ -84,6 +82,8 @@ module:
   islandora_text_extraction: 0
   islandora_text_extraction_defaults: 0
   islandora_video: 0
+  jquery_ui: 0
+  jquery_ui_accordion: 0
   jsonapi: 0
   jsonld: 0
   jwt: 0
