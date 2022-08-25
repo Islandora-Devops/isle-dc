@@ -11,3 +11,10 @@ parameters:
 		- '#Plugin manager has cache backend specified but does not declare cache tags.#'
 	drupal:
 		drupal_root: /var/www/drupal
+	# FROM mglaman/drupal-check/phpstan/base_config.neon
+	excludePaths:
+		- */tests/Drupal/Tests/Listeners/Legacy/*
+		- */tests/fixtures/*.php
+		- */settings*.php
+		- */bower_components/*
+		- */node_modules/*
