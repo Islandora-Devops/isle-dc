@@ -164,11 +164,11 @@ start:
 		${MAKE} config-import; \
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
-		docker-compose exec drupal with-contenv bash -lc "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
+		docker-compose exec -T drupal /bin/sh -c "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
 	fi;
-	docker-compose exec drupal with-contenv bash -lc "mkdir -p /tmp/private && chown nginx: /tmp/private"
-	-docker-compose exec drupal with-contenv bash -lc "drush updatedb -y"
-	-docker-compose exec drupal with-contenv bash -lc "mkdir -p /tmp/private && chmod 775 /tmp/private && chown 1000:nginx /tmp/private"
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private && chown nginx: /tmp/private"
+	docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private && chmod 775 /tmp/private && chown 1000:nginx /tmp/private"
 	$(MAKE) set-codebase-owner
 	if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp codebase/web/core/modules/media/images/icons/generic.png codebase/web/sites/default/files/ ; fi
 	$(MAKE) solr-reload-cores
