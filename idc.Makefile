@@ -137,7 +137,6 @@ dev-down:  download-default-certs
 .PHONY: start
 .SILENT: start
 start:
-	find . -maxdepth 1 -type f -empty -size -2b \( -name ".docker-compose.yml" -o -name "docker-compose.yml" \) -exec rm "{}" \;
 	$(MAKE) -B docker-compose.yml
 	docker-compose up -d mariadb snapshot;
 	# Try connecting to mariadb, and get a valid (a number, greater than zero) count of the number of databases.
