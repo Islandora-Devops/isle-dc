@@ -127,7 +127,7 @@ function wait_for_http() {
 # Re-starts the Docker environment with the given environment variables appended to the existing .env
 # Argument is a string that will be concatenatd with the .env file (i.e. like "FOO=BAR").
 function use_env {
-	if [ -f "docker-compose.yml" ]; then cp docker-compose.yml .docker-compose.yml; fi
+	if [ -f "docker-compose.yml" ]; then mv docker-compose.yml docker-compose.yml.bak; fi
 	echo -e "\nUsing additional environment variables and re-loading containers\n\n$1\n\n"
 	ENV_FILE="/tmp/$(date +%s).env"
 	cat .env > "${ENV_FILE}"
@@ -143,7 +143,9 @@ function use_env {
 		echo "Using static environment"
 		make -B static-docker-compose.yml env="${ENV_FILE}";
 	fi
-
+  echo "Using environment variables from ${ENV_FILE} to start containers"
 	make up
-	mv .docker-compose.yml docker-compose.yml || make docker-compose.yml
+  # Not sure why this is necessary, but I left it in for now.
+  if [ -f "docker-compose.yml.bak" ]; then mv docker-compose.yml.bak docker-compose.yml; fi
+	make -B docker-compose.yml
 }

@@ -23,14 +23,18 @@ cache-rebuild:
 .PHONY: destroy-state
 .SILENT: destroy-state
 destroy-state:
+	# In case the file is empty, rebuild it
+	$(MAKE) -B docker-compose.yml
 	echo "Destroying docker-compose volume state"
 	docker-compose down -v
+	-rm -rf docker-compose.yml
+	-rm -rf .docker-compose.yml
 
 .PHONY: composer-install
 .SILENT: composer-install
 composer-install:
 	echo "Installing via composer"
-	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 composer install'
+	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"
 
 .PHONY: snapshot-image
 .SILENT: snapshot-image
@@ -46,8 +50,8 @@ snapshot-image:
 		cat .env | sed s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=$$TAG/ > /tmp/.env && \
 	  cp /tmp/.env .env && \
 	  rm /tmp/.env
-	rm docker-compose.yml
-	$(MAKE) docker-compose.yml
+	-rm -f .docker-compose.yml
+	$(MAKE) -B docker-compose.yml
 	docker-compose up -d
 
 .PHONY: reset
@@ -62,8 +66,6 @@ reset: warning-destroy-state destroy-state
 	-rm -rf codebase/web/modules/contrib
 	-rm -rf codebase/web/themes/contrib
 	@echo "Re-generating docker-compose.yml"
-	-rm -rf docker-compose.yml
-	$(MAKE) docker-compose.yml
 	@echo "Starting ..."
 	@echo "Invoke 'docker-compose logs -f drupal' in another terminal to monitor startup progress"
 	$(MAKE) up
@@ -86,11 +88,10 @@ warning-destroy-state:
 .PHONY: snapshot-empty
 .SILENT: snapshot-empty
 snapshot-empty:
-	-rm docker-compose.yml
 	sed s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=empty/ .env > /tmp/.env && \
-      cp /tmp/.env .env && \
-	    rm /tmp/.env
-	$(MAKE) docker-compose.yml
+		cp /tmp/.env .env && \
+		rm /tmp/.env
+	$(MAKE) -B docker-compose.yml
 	docker build -f snapshot/empty.Dockerfile -t ${REPOSITORY}/snapshot:empty ./snapshot
 
 .PHONY: snapshot-push
@@ -136,6 +137,8 @@ dev-down:  download-default-certs
 .PHONY: start
 .SILENT: start
 start:
+	find . -maxdepth 1 -type f -empty -size -2b \( -name ".docker-compose.yml" -o -name "docker-compose.yml" \) -exec rm "{}" \;
+	$(MAKE) -B docker-compose.yml
 	docker-compose up -d mariadb snapshot;
 	# Try connecting to mariadb, and get a valid (a number, greater than zero) count of the number of databases.
 	# Then, once we're "confident" that mariadb is up and validly query able, see if the Drupal db is in place.
@@ -162,6 +165,13 @@ start:
 		${MAKE} _docker-up-and-wait; \
 	fi;
 	docker-compose exec drupal with-contenv bash -lc "mkdir -p /tmp/private && chown nginx: /tmp/private"
+	-docker-compose exec drupal with-contenv bash -lc "drush updatedb -y"
+	-docker-compose exec drupal with-contenv bash -lc "mkdir -p /tmp/private && chmod 775 /tmp/private && chown 1000:nginx /tmp/private"
+	$(MAKE) set-codebase-owner
+	if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp codebase/web/core/modules/media/images/icons/generic.png codebase/web/sites/default/files/ ; fi
+	$(MAKE) solr-reload-cores
+	$(MAKE) cache-rebuild
+	$(MAKE) config-import
 
 .PHONY: _docker-up-and-wait
 .SILENT: _docker-up-and-wait
@@ -181,10 +191,10 @@ static-drupal-image:
 	IMAGE=${REPOSITORY}/drupal-static:${GIT_TAG} ; \
 	EXISTING=`docker images -q $$IMAGE` ; \
 	if test -z "$$EXISTING" ; then \
-	    docker pull $${IMAGE} 2>/dev/null || \
-	    docker build --build-arg REPOSITORY=$${REPOSITORY} --build-arg TAG=$${TAG} -t $${IMAGE} .; \
+		docker pull $${IMAGE} 2>/dev/null || \
+		docker build --build-arg REPOSITORY=$${REPOSITORY} --build-arg TAG=$${TAG} -t $${IMAGE} .; \
 	else \
-	    echo "Using existing Drupal image $${EXISTING}" ; \
+		echo "Using existing Drupal image $${EXISTING}" ; \
 	fi
 
 # Export a tar of the static drupal image
@@ -201,11 +211,10 @@ static-drupal-image-export: static-drupal-image
 .PHONY: static-docker-compose.yml
 .SILENT: static-docker-compose.yml
 static-docker-compose.yml: static-drupal-image
-	-rm -f docker-compose.yml
 	ENV_FILE=.env ; \
 	if [ "$(env)" != "" ] ; then ENV_FILE=$(env); fi; \
 	echo '' > .env_static && \
-	    while read line; do \
+		while read line; do \
 		if echo $$line | grep -q "ENVIRONMENT" ; then \
 			echo "ENVIRONMENT=static" >> .env_static ; \
 		else \
