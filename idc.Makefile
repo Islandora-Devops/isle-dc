@@ -158,11 +158,13 @@ start:
 	done; \
 	if [ "$${DRUPAL_STATE_EXISTS}" != "1" ] ; then \
 		echo "No Drupal state found.  Loading from snapshot, and importing config from config/sync"; \
+		docker-compose exec drupal with-contenv bash -lc "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
 		${MAKE} db_restore; \
 		${MAKE} _docker-up-and-wait; \
 		${MAKE} config-import; \
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
+		docker-compose exec drupal with-contenv bash -lc "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
 	fi;
 	docker-compose exec drupal with-contenv bash -lc "mkdir -p /tmp/private && chown nginx: /tmp/private"
 	-docker-compose exec drupal with-contenv bash -lc "drush updatedb -y"

@@ -15,9 +15,7 @@ warn() {
 
 reset() {
   printf "\nResetting state to last snapshot\n"
-  docker-compose down -v 2>/dev/null
-  # rm -rf .docker-compose.yml
-  make -B docker-compose.yml
+  docker-compose down -v 2>/dev/null || true
   make -s up 2>/dev/null
 }
 
