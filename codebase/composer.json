@@ -99,6 +99,19 @@
         {
             "type": "package",
             "package": {
+                "name": "islandora/chullo",
+                "version": "dev-dev",
+                "type": "drupal-module",
+                "source": {
+                    "url": "https://github.com/Islandora/chullo.git",
+                    "type": "git",
+                    "reference": "a7c1e051eab2a5077eaf5db2649201fa775c5a02"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
                 "name": "imagesloaded/imagesloaded",
                 "version": "4.1.4",
                 "type": "drupal-library",
@@ -164,8 +177,9 @@
         "imagesloaded/imagesloaded": "^4.1",
         "islandora-rdm/islandora_fits": "dev-8.x-1.x",
         "islandora/carapace": "dev-8.x-3.x",
+        "islandora/chullo": "dev-dev",
         "jhu-idc/idc-ui-theme": "dev-main",
-        "jhu-idc/idc_defaults": "dev-main#c0b2feaa44392fc5fe699ee437f059cca6493629",
+        "jhu-idc/idc_defaults": "dev-main",
         "jhu-idc/idc_export": "dev-main",
         "jhu-idc/idc_ui_module": "dev-main#607991fa83a405727d82da76ea7f32b79cb96e39",
         "jhu-idc/islandora_defaults": "dev-9_3_update#a36a368d426e70d00aa2de206e9410cd175da209",

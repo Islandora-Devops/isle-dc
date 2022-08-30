@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e669c89c67fbe8882f68a042490db53f",
+    "content-hash": "1e858d0fd28c08ad6636c50a0b73c911",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -8421,61 +8421,9 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Islandora/chullo.git",
-                "reference": "d563d5e48ef9b15dcf45029277bbc2f6eeef2454"
+                "reference": "a7c1e051eab2a5077eaf5db2649201fa775c5a02"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Islandora/chullo/zipball/d563d5e48ef9b15dcf45029277bbc2f6eeef2454",
-                "reference": "d563d5e48ef9b15dcf45029277bbc2f6eeef2454",
-                "shasum": ""
-            },
-            "require": {
-                "easyrdf/easyrdf": "^0.9 || ^1",
-                "guzzlehttp/guzzle": "^6.1.0",
-                "ml/json-ld": "^1.0.4",
-                "php": "^7.3 || ^7.4"
-            },
-            "require-dev": {
-                "mockery/mockery": "^0.9",
-                "phpunit/phpunit": "^9.0",
-                "sebastian/phpcpd": "^6.0",
-                "squizlabs/php_codesniffer": "^3.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Islandora\\Chullo\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Islandora Foundation",
-                    "email": "community@islandora.ca",
-                    "role": "Owner"
-                },
-                {
-                    "name": "Daniel Lamb",
-                    "email": "dlamb@islandora.ca",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Nick Ruest",
-                    "email": "ruestn@gmail.com",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "A PHP client for interacting with a Fedora 4 server.",
-            "homepage": "https://github.com/Islandora/chullo",
-            "support": {
-                "issues": "https://github.com/Islandora/documentation/issues",
-                "source": "https://github.com/Islandora/chullo/tree/1.2.0"
-            },
-            "time": "2021-05-05T17:38:36+00:00"
+            "type": "drupal-module"
         },
         {
             "name": "islandora/crayfish-commons",
@@ -8799,12 +8747,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhu-idc/idc_defaults.git",
-                "reference": "c0b2feaa44392fc5fe699ee437f059cca6493629"
+                "reference": "32b72a5c7faacf5647f311576761fd749fbe90c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhu-idc/idc_defaults/zipball/c0b2feaa44392fc5fe699ee437f059cca6493629",
-                "reference": "c0b2feaa44392fc5fe699ee437f059cca6493629",
+                "url": "https://api.github.com/repos/jhu-idc/idc_defaults/zipball/32b72a5c7faacf5647f311576761fd749fbe90c4",
+                "reference": "32b72a5c7faacf5647f311576761fd749fbe90c4",
                 "shasum": ""
             },
             "require": {
@@ -10279,110 +10227,6 @@
                 }
             ],
             "time": "2022-07-18T17:17:55+00:00"
-        },
-        {
-            "name": "ml/iri",
-            "version": "1.1.4",
-            "target-dir": "ML/IRI",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lanthaler/IRI.git",
-                "reference": "cbd44fa913e00ea624241b38cefaa99da8d71341"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lanthaler/IRI/zipball/cbd44fa913e00ea624241b38cefaa99da8d71341",
-                "reference": "cbd44fa913e00ea624241b38cefaa99da8d71341",
-                "shasum": ""
-            },
-            "require": {
-                "lib-pcre": ">=4.0",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "ML\\IRI": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Markus Lanthaler",
-                    "email": "mail@markus-lanthaler.com",
-                    "homepage": "http://www.markus-lanthaler.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "IRI handling for PHP",
-            "homepage": "http://www.markus-lanthaler.com",
-            "keywords": [
-                "URN",
-                "iri",
-                "uri",
-                "url"
-            ],
-            "support": {
-                "issues": "https://github.com/lanthaler/IRI/issues",
-                "source": "https://github.com/lanthaler/IRI/tree/master"
-            },
-            "time": "2014-01-21T13:43:39+00:00"
-        },
-        {
-            "name": "ml/json-ld",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lanthaler/JsonLD.git",
-                "reference": "c74a1aed5979ed1cfb1be35a55a305fd30e30b93"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lanthaler/JsonLD/zipball/c74a1aed5979ed1cfb1be35a55a305fd30e30b93",
-                "reference": "c74a1aed5979ed1cfb1be35a55a305fd30e30b93",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ml/iri": "^1.1.1",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "json-ld/tests": "1.0",
-                "phpunit/phpunit": "^4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ML\\JsonLD\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Markus Lanthaler",
-                    "email": "mail@markus-lanthaler.com",
-                    "homepage": "http://www.markus-lanthaler.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "JSON-LD Processor for PHP",
-            "homepage": "http://www.markus-lanthaler.com",
-            "keywords": [
-                "JSON-LD",
-                "jsonld"
-            ],
-            "support": {
-                "issues": "https://github.com/lanthaler/JsonLD/issues",
-                "source": "https://github.com/lanthaler/JsonLD/tree/1.2.0"
-            },
-            "time": "2020-06-16T17:45:06+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -22890,6 +22734,7 @@
         "drupal/workbench_access": 10,
         "islandora-rdm/islandora_fits": 20,
         "islandora/carapace": 20,
+        "islandora/chullo": 20,
         "jhu-idc/idc-ui-theme": 20,
         "jhu-idc/idc_defaults": 20,
         "jhu-idc/idc_export": 20,
