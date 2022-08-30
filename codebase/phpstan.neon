@@ -1,7 +1,7 @@
 parameters:
 	customRulesetUsed: true
 	reportUnmatchedIgnoredErrors: false
-	checkMissingIterableValeType: false
+	checkMissingIterableValueType: false
 	level: 3
 	# Ignore phpstan-drupal extension's rules.
 	ignoreErrors:
