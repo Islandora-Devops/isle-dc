@@ -26,6 +26,6 @@ settings:
 visibility:
   request_path:
     id: request_path
-    pages: /solr-search/content
     negate: false
     context_mapping: {  }
+    pages: /solr-search/content

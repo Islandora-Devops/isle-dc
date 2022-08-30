@@ -165,6 +165,10 @@ start:
 		${MAKE} _docker-up-and-wait; \
 		docker-compose exec -T drupal /bin/sh -c "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
 	fi;
+	# Move Drupal's tmp so that it doesn't contain the private directory.
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/drupal/tmp"
+	docker-compose exec -T drupal /bin/sh -c "[ $(stat -c \"%u:%G\" \"/tmp/drupal/tmp\") == \"1000:nginx\" ] || chown -R 1000:nginx /tmp/drupal"
+	docker-compose exec -T drupal /bin/sh -c "[ $(stat -c \"%a\" \"/tmp/drupal/tmp\") == \"755\" ] || chmod 775 /tmp/drupal/tmp"
 	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private && chown nginx: /tmp/private"
 	docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
 	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private && chmod 775 /tmp/private && chown 1000:nginx /tmp/private"

@@ -73,4 +73,4 @@ $config['google_tag.container.idc_gtm_info']['container_id'] = getenv('DRUPAL_GT
 $settings['http_client_config']['timeout'] = 99999999;
 
 $settings['trusted_host_patterns'] = explode(',',getenv('TRUSTED_HOST_LIST'));
-$settings['file_temp_path'] = '/tmp';
+$settings['file_temp_path'] = '/tmp/drupal/tmp';

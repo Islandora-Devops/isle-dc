@@ -23,22 +23,20 @@ settings:
   label_display: '0'
   provider: contact_block
   contact_form: collection_contact
+  form_display: default
 visibility:
-  view_inclusion:
-    id: view_inclusion
-    negate: false
-    context_mapping: {  }
-    view_inclusion: {  }
-  request_path_exclusion:
-    id: request_path_exclusion
-    negate: true
-    context_mapping: {  }
-    pages: ''
   media_source_mimetype:
     id: media_source_mimetype
     mimetype: ''
     negate: false
     context_mapping: {  }
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      collection_object: collection_object
   context_all:
     id: context_all
     negate: null
@@ -58,10 +56,3 @@ visibility:
       own_page_true: '0'
       field_value: '0'
     user_fields: uid
-  'entity_bundle:node':
-    id: 'entity_bundle:node'
-    negate: false
-    context_mapping:
-      node: '@node.node_route_context:node'
-    bundles:
-      collection_object: collection_object
