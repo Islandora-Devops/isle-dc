@@ -109,6 +109,20 @@ up:  download-default-certs docker-compose.yml start
 down:
 	-docker-compose down -v --remove-orphans
 
+# Set/Reset tmp directory ownership to nginx.
+.PHONY: set-tmp
+.SILENT: set-tmp
+set-tmp:
+	# This is redundant with the buildkit, but can be overriden by the user.
+	# Set temp directory to /tmp/drupal/tmp
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/drupal/tmp"
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/drupal/tmp) == \"nginx:nginx\" ]] ; then chown -R nginx: /tmp/drupal ; fi ; "
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/drupal/tmp) == \"755\" ]] ; then chmod -R 775 /tmp/drupal ; fi ; "
+	# Set private directory to /tmp/private
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private"
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/private) == \"nginx:nginx\" ]] ; then chown -R nginx: /tmp/private ; fi ; "
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/private) == \"755\" ]] ; then chmod -R 775 /tmp/private ; fi ; "
+
 .PHONY: dev-up
 .SILENT: dev-up
 dev-up:  download-default-certs
@@ -157,24 +171,18 @@ start:
 	done; \
 	if [ "$${DRUPAL_STATE_EXISTS}" != "1" ] ; then \
 		echo "No Drupal state found.  Loading from snapshot, and importing config from config/sync"; \
-		docker-compose exec drupal with-contenv bash -lc "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
 		${MAKE} db_restore; \
 		${MAKE} _docker-up-and-wait; \
+		docker-compose exec drupal with-contenv bash -lc "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
 		${MAKE} config-import; \
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
 		docker-compose exec -T drupal /bin/sh -c "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
 	fi;
-	# Move Drupal's tmp so that it doesn't contain the private directory.
-	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/drupal/tmp"
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/drupal/tmp) == \"1000:nginx\" ]] ; then chown -R 1000:nginx /tmp/drupal ; fi; "
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/drupal/tmp) == \"755\" ]] ; then chmod 775 /tmp/drupal/tmp ; fi; "
-	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private && chown nginx: /tmp/private"
+	$(MAKE) set-tmp
 	docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
-	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private && chmod 775 /tmp/private && chown 1000:nginx /tmp/private"
 	$(MAKE) set-codebase-owner
-	if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp codebase/web/core/modules/media/images/icons/generic.png codebase/web/sites/default/files/ ; fi
-	$(MAKE) solr-reload-cores
+	if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
 	$(MAKE) cache-rebuild
 	$(MAKE) config-import
 
