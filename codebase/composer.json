@@ -10,56 +10,56 @@
             "email": "community@islandora.ca"
         }
     ],
-    "repositories": [
-        {
+    "repositories": {
+        "0": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         },
-        {
+        "1": {
             "type": "vcs",
             "url": "git@github.com:Islandora/islandora.git"
         },
-        {
+        "2": {
             "type": "vcs",
             "url": "git@github.com:jhu-idc/islandora_defaults.git"
         },
-        {
+        "3": {
             "type": "vcs",
             "url": "git@github.com:jhu-idc/controlled_access_terms.git"
         },
-        {
+        "4": {
             "type": "git",
             "url": "https://github.com/jhu-idc/reference_value_pair.git"
         },
-        {
+        "5": {
             "type": "vcs",
             "url": "git@github.com:jhu-idc/idc-ui-theme.git"
         },
-        {
+        "6": {
             "type": "vcs",
             "url": "git@github.com:jhu-idc/idc_ui_module.git"
         },
-        {
+        "7": {
             "type": "vcs",
             "url": "https://github.com/jhu-idc/idc_migration"
         },
-        {
+        "8": {
             "type": "vcs",
             "url": "https://github.com/jhu-idc/migrate_file"
         },
-        {
+        "9": {
             "type": "vcs",
             "url": "https://github.com/jhu-idc/idc_defaults.git"
         },
-        {
+        "10": {
             "type": "git",
             "url": "https://github.com/jhu-idc/idc_export.git"
         },
-        {
+        "11": {
             "type": "vcs",
             "url": "https://github.com/jhu-idc/islandora_repository_reports.git"
         },
-        {
+        "12": {
             "type": "package",
             "package": {
                 "name": "citation-style-language/locales",
@@ -71,7 +71,7 @@
                 }
             }
         },
-        {
+        "13": {
             "type": "package",
             "package": {
                 "name": "citation-style-language/styles-distribution",
@@ -83,7 +83,7 @@
                 }
             }
         },
-        {
+        "14": {
             "type": "package",
             "package": {
                 "name": "masonry/masonry",
@@ -96,7 +96,7 @@
                 }
             }
         },
-        {
+        "15": {
             "type": "package",
             "package": {
                 "name": "islandora/chullo",
@@ -109,7 +109,7 @@
                 }
             }
         },
-        {
+        "16": {
             "type": "package",
             "package": {
                 "name": "imagesloaded/imagesloaded",
@@ -121,7 +121,7 @@
                 }
             }
         }
-    ],
+    },
     "require": {
         "php": ">=7.0.8",
         "composer/installers": "^1.2",
@@ -263,7 +263,7 @@
     "extra": {
         "patcher": {
             "search": "patches"
-            },
+        },
         "enable-patching": true,
         "patches": {
             "simplesamlphp/simplesamlphp": {
