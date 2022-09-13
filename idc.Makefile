@@ -178,13 +178,13 @@ start:
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
 		docker-compose exec -T drupal /bin/sh -c "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
+		$(MAKE) config-import; \
 	fi;
 	$(MAKE) set-tmp
 	docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
 	$(MAKE) set-codebase-owner
 	if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
 	$(MAKE) cache-rebuild
-	$(MAKE) config-import
 
 .PHONY: _docker-up-and-wait
 .SILENT: _docker-up-and-wait

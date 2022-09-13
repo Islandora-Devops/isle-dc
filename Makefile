@@ -144,6 +144,7 @@ update-settings-php:
 .SILENT: update-config-from-environment
 update-config-from-environment:
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
+	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_search_api_solr_module"
 	# Matomo removed for IDC
 	#-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
