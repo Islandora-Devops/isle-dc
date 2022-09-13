@@ -519,3 +519,47 @@ fix_masonry:
 fix_views:
 	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
 	docker-compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
+
+.PHONY: starter
+## Make a local site with codebase directory bind mounted, using starter site.
+starter: QUOTED_CURDIR = "$(CURDIR)"
+starter: generate-secrets
+	$(MAKE) starter-init ENVIRONMENT=starter
+	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project islandora/islandora-starter-site:dev-main /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+	fi
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=starter
+	docker-compose up -d --remove-orphans
+	docker-compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx .'
+	$(MAKE) starter-finalize ENVIROMENT=starter
+
+.PHONY: starter_dev
+## Make a local site with codebase directory bind mounted, using cloned starter site.
+starter_dev: QUOTED_CURDIR = "$(CURDIR)"
+starter_dev: generate-secrets
+	$(MAKE) starter-init ENVIRONMENT=starter_dev
+	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora/islandora-starter-site /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+	fi
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=starter_dev
+	docker-compose up -d --remove-orphans
+	docker-compose exec -T drupal with-contenv bash -lc 'composer install'
+	docker-compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx .'
+	$(MAKE) starter-finalize ENVIROMENT=starter_dev
+
+
+.PHONY: starter-init
+starter-init: generate-secrets
+	$(MAKE) download-default-certs
+	$(MAKE) -B docker-compose.yml
+	$(MAKE) pull
+	mkdir -p $(CURDIR)/codebase
+
+.PHONY: starter-finalize
+starter-finalize:
+	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php
+	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
+	$(MAKE) hydrate
+	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
+	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
+	$(MAKE) login
