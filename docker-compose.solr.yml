@@ -7,7 +7,14 @@ networks:
       name: gateway
 services:
   solr:
+    restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/solr:${TAG:-latest}
+
+    # I am not sure why this works but it fixes the problem.
+    # This is likely a bug in the buildkit and should be fixed there.
+    # But I've spent too much time on this already. Good luck!
+    entrypoint: ["bash","-c","apk add procps && s6-setuidgid solr /opt/solr/bin/solr start -f"]
+
     # No volumes are defined here, other docker-compose.yml files such as
     # docker-compose.demo.yml are expected to extend this definition based
     # on their workflow.
