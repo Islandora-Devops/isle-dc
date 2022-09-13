@@ -539,7 +539,7 @@ starter_dev: QUOTED_CURDIR = "$(CURDIR)"
 starter_dev: generate-secrets
 	$(MAKE) starter-init ENVIRONMENT=starter_dev
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora/islandora-starter-site /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora/islandora-starter-site /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=starter_dev
 	docker-compose up -d --remove-orphans
@@ -557,7 +557,7 @@ starter-init: generate-secrets
 
 .PHONY: starter-finalize
 starter-finalize:
-	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php
+	$(MAKE) drupal-database update-settings-php
 	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
 	$(MAKE) hydrate
 	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
