@@ -177,6 +177,7 @@ solr-reload-cores:
 .SILENT: solr-cores
 solr-cores:
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
+	docker-compose exec drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes"
 
 # Creates namespaces in Blazegraph according to the environment variables.
 .PHONY: namespaces
