@@ -110,3 +110,6 @@ screenshots/
 
 # Ignore docker images
 /images
+
+# Ignore Masonry
+codebase/web/libraries/masonry
