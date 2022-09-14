@@ -2,11 +2,11 @@ uuid: 6f4beb7d-490d-4b59-ae24-1043358679dc
 langcode: en
 status: true
 dependencies:
+  module:
+    - menu_ui
   enforced:
     module:
       - islandora_defaults
-  module:
-    - menu_ui
 third_party_settings:
   menu_ui:
     available_menus:

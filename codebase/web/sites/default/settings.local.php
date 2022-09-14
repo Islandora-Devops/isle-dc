@@ -31,7 +31,7 @@ $config['s3fs.settings']['use_customhost'] = (bool) getenv('DRUPAL_DEFAULT_S3_US
 $config['s3fs.settings']['use_path_style_endpoint'] = (bool) getenv('DRUPAL_DEFAULT_S3_USE_PATH_STYLE_ENDPOINT') ?: false;
 
 # This will be overridden by s3fs, but needs a value in order to enable private FS at all.
-$settings['file_private_path'] = '/tmp';
+$settings['file_private_path'] = '/tmp/private';
 
 # This needs to be defined in in order to avoid crashing
 $settings['flysystem']['fedora']['config']['root'] = 'http://fcrepo.isle-dc.localhost/fcrepo/rest/';
@@ -73,3 +73,4 @@ $config['google_tag.container.idc_gtm_info']['container_id'] = getenv('DRUPAL_GT
 $settings['http_client_config']['timeout'] = 99999999;
 
 $settings['trusted_host_patterns'] = explode(',',getenv('TRUSTED_HOST_LIST'));
+$settings['file_temp_path'] = '/tmp/drupal/tmp';

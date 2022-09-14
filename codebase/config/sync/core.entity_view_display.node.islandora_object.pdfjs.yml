@@ -50,12 +50,12 @@ dependencies:
     - field.field.node.islandora_object.field_weight
     - field.field.node.islandora_object.field_years
     - node.type.islandora_object
-  enforced:
-    module:
-      - islandora_defaults
   module:
     - reference_value_pair
     - user
+  enforced:
+    module:
+      - islandora_defaults
 _core:
   default_config_hash: LL0DwJidNZPoF8xl8g2QIW9bNPeiqUcy0CwmsIqfPvo
 id: node.islandora_object.pdfjs
@@ -65,81 +65,81 @@ mode: pdfjs
 content:
   field_custodial_history:
     type: reference_value_formatter
-    weight: 0
-    region: content
     label: above
     settings:
       display_invalid_reference: 1
       invalid_reference_label: ''
     third_party_settings: {  }
-  field_gemini_uri:
-    weight: 30
+    weight: 0
     region: content
+  field_gemini_uri:
     settings: {  }
     third_party_settings: {  }
+    weight: 30
+    region: content
   field_genre:
     type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
     weight: 14
     region: content
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
   field_language:
     type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
     weight: 12
     region: content
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
   field_member_of:
     type: entity_reference_label
-    weight: 4
-    region: content
     label: above
     settings:
       link: true
     third_party_settings: {  }
+    weight: 4
+    region: content
   field_oclc_number:
     type: string
-    weight: 32
-    region: content
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 32
+    region: content
   field_resource_type:
-    weight: 13
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 13
     region: content
   field_subject:
-    weight: 20
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 20
     region: content
   islandora_fits_checksum:
+    settings: {  }
+    third_party_settings: {  }
     weight: 100
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
-  links:
     weight: 2
     region: content
+  pdfjs_media_evas_entity_view_1:
     settings: {  }
     third_party_settings: {  }
-  pdfjs_media_evas_entity_view_1:
     weight: 3
     region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
   display_media_entity_view_1: true
   display_media_entity_view_2: true

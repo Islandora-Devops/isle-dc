@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - taxonomy.vocabulary.islandora_media_use
+  module:
+    - taxonomy
   enforced:
     module:
       - islandora_core_feature
-  module:
-    - taxonomy
 _core:
   default_config_hash: xUM39UBClrdpA0_0LFr0V9sW5M7YAbb2iT0ji5P6fhU
 id: taxonomy_term.islandora_media_use

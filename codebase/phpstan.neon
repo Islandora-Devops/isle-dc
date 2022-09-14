@@ -1,0 +1,20 @@
+parameters:
+	customRulesetUsed: true
+	reportUnmatchedIgnoredErrors: false
+	checkMissingIterableValueType: false
+	level: 3
+	# Ignore phpstan-drupal extension's rules.
+	ignoreErrors:
+		- '#\Drupal calls should be avoided in classes, use dependency injection instead#'
+		- '#Plugin definitions cannot be altered.#'
+		- '#Missing cache backend declaration for performance.#'
+		- '#Plugin manager has cache backend specified but does not declare cache tags.#'
+	drupal:
+		drupal_root: /var/www/drupal
+	# FROM mglaman/drupal-check/phpstan/base_config.neon
+	excludePaths:
+		- */tests/Drupal/Tests/Listeners/Legacy/*
+		- */tests/fixtures/*.php
+		- */settings*.php
+		- */bower_components/*
+		- */node_modules/*

@@ -5,11 +5,11 @@ dependencies:
   config:
     - field.storage.node.field_model
     - node.type.islandora_object
+  module:
+    - epp
   enforced:
     module:
       - islandora_defaults
-  module:
-    - epp
 third_party_settings:
   epp:
     value: ''

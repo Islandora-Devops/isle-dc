@@ -10,6 +10,7 @@ test('Returns all items by default', async (t) => {
 
   await t
     .expect(Page.titleBar.withText('Search Results').exists).ok()
+    // TMP: Possibly including a object that is not intended to be returned.
     .expect(pager.pager.withText('of 22 items').exists).ok()
     .expect(pager.buttons.count).eql(5);
 });

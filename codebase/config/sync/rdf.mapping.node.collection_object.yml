@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - node.type.collection_object
+  module:
+    - node
   enforced:
     module:
       - islandora_defaults
-  module:
-    - node
 id: node.collection_object
 targetEntityType: node
 bundle: collection_object

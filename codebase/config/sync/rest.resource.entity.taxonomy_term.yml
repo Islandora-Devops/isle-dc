@@ -2,9 +2,6 @@ uuid: 6d96f074-3da1-4c97-9f2d-5f8143d6847a
 langcode: en
 status: true
 dependencies:
-  enforced:
-    module:
-      - islandora_core_feature
   module:
     - basic_auth
     - jsonld
@@ -12,6 +9,9 @@ dependencies:
     - serialization
     - taxonomy
     - user
+  enforced:
+    module:
+      - islandora_core_feature
 _core:
   default_config_hash: G3Adl8KEMsW0Y2f3ZXb1DDDRci7206hfMWMUGCG2KQQ
 id: entity.taxonomy_term

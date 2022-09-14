@@ -14,11 +14,11 @@ dependencies:
     - field.field.media.file.field_unique_id
     - field.field.media.file.field_restricted_access
     - media.type.file
+  module:
+    - openseadragon
   enforced:
     module:
       - islandora_defaults
-  module:
-    - openseadragon
 _core:
   default_config_hash: '-78UGWpsfXyTMx1xpGjziIAWC8LsIDT5K0-OJygDyPg'
 id: media.file.open_seadragon
@@ -27,10 +27,10 @@ bundle: file
 mode: open_seadragon
 content:
   field_media_file:
+    type: openseadragon_image
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: openseadragon_image
     weight: 0
     region: content
 hidden:

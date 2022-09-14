@@ -18,19 +18,19 @@ plugin: idc_search_block
 settings:
   id: idc_search_block
   label: 'IDC Search Block'
-  provider: idc_ui_module
   label_display: '0'
+  provider: idc_ui_module
 visibility:
   view_inclusion:
     id: view_inclusion
     negate: null
-    view_inclusion: {  }
     context_mapping: {  }
+    view_inclusion: {  }
   request_path_exclusion:
     id: request_path_exclusion
-    pages: ''
     negate: null
     context_mapping: {  }
+    pages: ''
   media_source_mimetype:
     id: media_source_mimetype
     mimetype: ''
@@ -38,6 +38,6 @@ visibility:
     context_mapping: {  }
   request_path:
     id: request_path
-    pages: /search
     negate: true
     context_mapping: {  }
+    pages: /search

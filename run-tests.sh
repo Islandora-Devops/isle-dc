@@ -14,9 +14,9 @@ warn() {
 }
 
 reset() {
-	printf "\nResetting state to last snapshot\n"
-	docker-compose down -v 2>/dev/null
-	make -s up 2>/dev/null
+  printf "\nResetting state to last snapshot\n"
+  docker-compose down -v 2>/dev/null || true
+  make -s up 2>/dev/null
 }
 
 # Execute the specified test in a subshell, provided the contents of .env as its environment and tests/.funcs.sh for
@@ -45,6 +45,7 @@ execute() {
 
 # If a test is specified, execute it using the existing state, otherwise run all tests, resetting the state for each
 if [ -n "$1" ] ; then
+  reset
   testscript="$1"
   printf "\n\nRunning ${testscript} using the current Drupal state (i.e. no reset of the environment will occur)\n"
   execute tests/${testscript}
@@ -59,8 +60,8 @@ else
 fi
 
 if [ ! -z "${FAILURES}" ] ; then
-	printf "\nFAIL: ${FAILURES}\n"
-	exit 1
+  printf "\nFAIL: ${FAILURES}\n"
+  exit 1
 fi
 
 printf "\nSUCCESS: All test passed\n"

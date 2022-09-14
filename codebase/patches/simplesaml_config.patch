@@ -1,8 +1,5 @@
-diff --git a/config/acl.php b/config/acl.php
-new file mode 100644
-index 0000000..cb760d0
---- /dev/null
-+++ b/config/acl.php
+--- config/acl.php
++++ config/acl.php
 @@ -0,0 +1,59 @@
 +<?php
 +
@@ -63,11 +60,8 @@ index 0000000..cb760d0
 +        ['allow'],
 +    ],
 +];
-diff --git a/config/authsources.php b/config/authsources.php
-new file mode 100644
-index 00000000..64db1876
---- /dev/null
-+++ b/config/authsources.php
+--- config/authsources.php
++++ config/authsources.php
 @@ -0,0 +1,364 @@
 +<?php
 +
@@ -433,11 +427,8 @@ index 00000000..64db1876
 +    ],
 +    */
 +];
-diff --git a/config/config.php b/config/config.php
-new file mode 100644
-index 00000000..399dde26
---- /dev/null
-+++ b/config/config.php
+--- config/config.php
++++ config/config.php
 @@ -0,0 +1,1224 @@
 +<?php
 +/*
@@ -1043,7 +1034,7 @@ index 00000000..399dde26
 +     * defined with 'session.check_function' option.
 +     */
 +    'session.rememberme.enable' => false,
-+    'session.rememberme.checked' => false,
++    'session.rememberme.checked' => true,
 +    'session.rememberme.lifetime' => (14 * 86400),
 +
 +    /*
@@ -1663,11 +1654,8 @@ index 00000000..399dde26
 +     */
 +    'store.redis.prefix' => 'SimpleSAMLphp',
 +];
-diff --git a/metadata/saml20-idp-remote.php b/metadata/saml20-idp-remote.php
-new file mode 100644
-index 00000000..f98e7b24
---- /dev/null
-+++ b/metadata/saml20-idp-remote.php
+--- metadata/saml20-idp-remote.php
++++ metadata/saml20-idp-remote.php
 @@ -0,0 +1,124 @@
 +<?php
 +

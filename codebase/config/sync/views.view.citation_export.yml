@@ -22,65 +22,11 @@ base_table: search_api_index_default_solr_index
 base_field: search_api_id
 display:
   default:
-    display_plugin: default
     id: default
     display_title: Master
+    display_plugin: default
     position: 0
     display_options:
-      access:
-        type: none
-        options: {  }
-      cache:
-        type: search_api_tag
-        options: {  }
-      query:
-        type: views_query
-        options:
-          bypass_access: false
-          skip_access: false
-          preserve_facet_query_args: false
-      exposed_form:
-        type: basic
-        options:
-          submit_button: Apply
-          reset_button: false
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      pager:
-        type: mini
-        options:
-          items_per_page: 10
-          offset: 0
-          id: 0
-          total_pages: null
-          expose:
-            items_per_page: false
-            items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 25, 50'
-            items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
-            offset: false
-            offset_label: Offset
-          tags:
-            previous: ‹‹
-            next: ››
-      style:
-        type: default
-        options:
-          grouping: {  }
-          row_class: ''
-          default_row_class: true
-          uses_fields: false
-      row:
-        type: fields
-        options:
-          inline: {  }
-          separator: ''
-          hide_empty: false
-          default_field_elements: true
       fields:
         nid:
           id: nid
@@ -89,6 +35,8 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
           label: node_id
           exclude: false
           alter:
@@ -163,8 +111,6 @@ display:
             format_plural_values:
               - '1'
               - '@count'
-          entity_type: node
-          plugin_id: search_api_field
         field_citable_url:
           id: field_citable_url
           table: search_api_datasource_default_solr_index_entity_node
@@ -172,6 +118,8 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
           label: citable_url
           exclude: false
           alter:
@@ -238,8 +186,6 @@ display:
             use_highlighting: false
             multi_type: separator
             multi_separator: ', '
-          entity_type: node
-          plugin_id: search_api_field
         citation_apa:
           id: citation_apa
           table: search_api_index_default_solr_index
@@ -247,6 +193,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: citation_apa
           label: citation_apa
           exclude: false
           alter:
@@ -288,7 +235,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          plugin_id: citation_apa
         citation_chicago:
           id: citation_chicago
           table: search_api_index_default_solr_index
@@ -296,6 +242,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: citation_chicago
           label: citation_chicago
           exclude: false
           alter:
@@ -337,7 +284,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          plugin_id: citation_chicago
         citation_mla:
           id: citation_mla
           table: search_api_index_default_solr_index
@@ -345,6 +291,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: citation_mla
           label: citation_mla
           exclude: false
           alter:
@@ -386,7 +333,43 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          plugin_id: citation_mla
+      pager:
+        type: mini
+        options:
+          offset: 0
+          items_per_page: 10
+          total_pages: null
+          id: 0
+          tags:
+            next: ››
+            previous: ‹‹
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      access:
+        type: none
+        options: {  }
+      cache:
+        type: search_api_tag
+        options: {  }
+      empty: {  }
+      sorts: {  }
+      arguments: {  }
       filters:
         search_api_fulltext:
           id: search_api_fulltext
@@ -395,6 +378,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: search_api_fulltext
           operator: and
           value: ''
           group: 1
@@ -418,8 +402,8 @@ display:
               collection_level_admin: '0'
               fedoraadmin: '0'
               anonymous: '0'
-            placeholder: ''
             expose_fields: false
+            placeholder: ''
             searched_fields_id: search_api_fulltext_searched_fields
           is_grouped: false
           group_info:
@@ -436,7 +420,6 @@ display:
           parse_mode: direct
           min_length: null
           fields: {  }
-          plugin_id: search_api_fulltext
         type:
           id: type
           table: search_api_index_default_solr_index
@@ -444,6 +427,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: search_api_options
           operator: or
           value:
             islandora_object: islandora_object
@@ -477,13 +461,29 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          plugin_id: search_api_options
-      sorts: {  }
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+          uses_fields: false
+      row:
+        type: fields
+        options:
+          default_field_elements: true
+          inline: {  }
+          separator: ''
+          hide_empty: false
+      query:
+        type: search_api_query
+        options:
+          bypass_access: false
+          skip_access: false
+          preserve_facet_query_args: false
+      relationships: {  }
       header: {  }
       footer: {  }
-      empty: {  }
-      relationships: {  }
-      arguments: {  }
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -497,35 +497,11 @@ display:
         - 'config:field.storage.node.field_citable_url'
         - 'config:search_api.index.default_solr_index'
   data_export_1:
-    display_plugin: data_export
     id: data_export_1
     display_title: 'Citation Search Export'
+    display_plugin: data_export
     position: 2
     display_options:
-      display_extenders: {  }
-      path: export_citations
-      style:
-        type: data_export
-        options:
-          formats:
-            csv: csv
-          csv_settings:
-            delimiter: ','
-            enclosure: '"'
-            escape_char: \
-            strip_tags: true
-            trim: true
-            encoding: utf8
-            utf8_bom: '0'
-            use_serializer_encode_only: false
-      row:
-        type: data_field
-        options:
-          field_options:
-            aggregated_field:
-              alias: ''
-              raw_output: false
-      display_description: ''
       fields:
         title:
           id: title
@@ -534,6 +510,8 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
           label: Title
           exclude: false
           alter:
@@ -596,8 +574,6 @@ display:
             use_highlighting: false
             multi_type: separator
             multi_separator: ', '
-          entity_type: node
-          plugin_id: search_api_field
         field_citable_url:
           id: field_citable_url
           table: search_api_datasource_default_solr_index_entity_node
@@ -605,6 +581,8 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
           label: 'Citable URL'
           exclude: false
           alter:
@@ -671,8 +649,6 @@ display:
             use_highlighting: false
             multi_type: separator
             multi_separator: ', '
-          entity_type: node
-          plugin_id: search_api_field
         citation_chicago:
           id: citation_chicago
           table: search_api_index_default_solr_index
@@ -680,6 +656,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: citation_chicago
           label: 'Chicago Style Citation'
           exclude: false
           alter:
@@ -721,15 +698,38 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          plugin_id: citation_chicago
+      style:
+        type: data_export
+        options:
+          formats:
+            csv: csv
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+            utf8_bom: '0'
+            use_serializer_encode_only: false
+      row:
+        type: data_field
+        options:
+          field_options:
+            aggregated_field:
+              alias: ''
+              raw_output: false
       defaults:
         fields: false
+      display_description: ''
+      display_extenders: {  }
+      path: export_citations
       filename: 'idc-export-citations-[date:raw].csv'
       automatic_download: true
-      store_in_public_file_directory: false
       redirect_path: /search
-      redirect_to_display: none
+      store_in_public_file_directory: false
       custom_redirect_path: true
+      redirect_to_display: none
       include_query_params: true
     cache_metadata:
       max-age: -1
@@ -743,27 +743,11 @@ display:
         - 'config:field.storage.node.field_citable_url'
         - 'config:search_api.index.default_solr_index'
   rest_export_1:
-    display_plugin: rest_export
     id: rest_export_1
     display_title: 'Citation Single Item'
+    display_plugin: rest_export
     position: 2
     display_options:
-      display_extenders: {  }
-      path: citation
-      style:
-        type: serializer
-        options:
-          uses_fields: false
-          formats:
-            json: json
-      row:
-        type: data_field
-        options:
-          field_options:
-            aggregated_field:
-              alias: ''
-              raw_output: false
-      display_description: ''
       filters:
         nid:
           id: nid
@@ -772,6 +756,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: search_api_numeric
           operator: '='
           value:
             min: ''
@@ -798,9 +783,9 @@ display:
               collection_level_admin: '0'
               fedoraadmin: '0'
               anonymous: '0'
-            placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ID
@@ -816,7 +801,6 @@ display:
               1: {  }
               2: {  }
               3: {  }
-          plugin_id: search_api_numeric
         type:
           id: type
           table: search_api_index_default_solr_index
@@ -824,6 +808,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: search_api_options
           operator: or
           value:
             islandora_object: islandora_object
@@ -857,14 +842,29 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          plugin_id: search_api_options
-      defaults:
-        filters: false
-        filter_groups: false
       filter_groups:
         operator: AND
         groups:
           1: AND
+      style:
+        type: serializer
+        options:
+          uses_fields: false
+          formats:
+            json: json
+      row:
+        type: data_field
+        options:
+          field_options:
+            aggregated_field:
+              alias: ''
+              raw_output: false
+      defaults:
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders: {  }
+      path: citation
     cache_metadata:
       max-age: -1
       contexts:

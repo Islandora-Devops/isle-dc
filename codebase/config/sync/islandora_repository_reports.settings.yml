@@ -1,6 +1,6 @@
-islandora_repository_reports_randomize_pie_chart_colors: 1
-islandora_repository_reports_pie_or_doughnut: pie
-islandora_repository_reports_cache_report_data: 0
-islandora_repository_reports_bar_chart_color: '#0080ff'
 _core:
   default_config_hash: V2IugEemzNKw5-nmSiW2gRHmjW3799fYSPWQVfZSCKc
+islandora_repository_reports_randomize_pie_chart_colors: 1
+islandora_repository_reports_cache_report_data: 0
+islandora_repository_reports_bar_chart_color: '#0080ff'
+islandora_repository_reports_pie_or_doughnut: pie

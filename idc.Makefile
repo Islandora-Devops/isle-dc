@@ -23,14 +23,18 @@ cache-rebuild:
 .PHONY: destroy-state
 .SILENT: destroy-state
 destroy-state:
+	# In case the file is empty, rebuild it
+	$(MAKE) -B docker-compose.yml
 	echo "Destroying docker-compose volume state"
 	docker-compose down -v
+	-rm -rf docker-compose.yml
+	-rm -rf .docker-compose.yml
 
 .PHONY: composer-install
 .SILENT: composer-install
 composer-install:
 	echo "Installing via composer"
-	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 composer install'
+	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"
 
 .PHONY: snapshot-image
 .SILENT: snapshot-image
@@ -46,13 +50,15 @@ snapshot-image:
 		cat .env | sed s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=$$TAG/ > /tmp/.env && \
 	  cp /tmp/.env .env && \
 	  rm /tmp/.env
-	rm docker-compose.yml
-	$(MAKE) docker-compose.yml
+	-rm -f .docker-compose.yml
+	$(MAKE) -B docker-compose.yml
 	docker-compose up -d
 
 .PHONY: reset
 .SILENT: reset
 reset: warning-destroy-state destroy-state
+	@echo "Resetting permissions. This will take a while..."
+	$(MAKE) set-codebase-owner
 	@echo "Removing vendored modules"
 	-rm -rf codebase/modules
 	-rm -rf codebase/vendor
@@ -60,8 +66,6 @@ reset: warning-destroy-state destroy-state
 	-rm -rf codebase/web/modules/contrib
 	-rm -rf codebase/web/themes/contrib
 	@echo "Re-generating docker-compose.yml"
-	-rm -rf docker-compose.yml
-	$(MAKE) docker-compose.yml
 	@echo "Starting ..."
 	@echo "Invoke 'docker-compose logs -f drupal' in another terminal to monitor startup progress"
 	$(MAKE) up
@@ -79,16 +83,15 @@ warning-destroy-state:
 	@echo "3. Pull the latest images"
 	@echo "4. Re-install modules from composer.json"
 	@echo "WARNING: continue? [Y/n]"
-	@read line; if [ $(shell echo $$line | tr A-Z a-z) != "y" ]; then echo aborting; exit 1 ; fi
+	@echo -n "Are you sure? [y/N] " && read ans ; [ $${ans:-N} = y ] || [ $${ans:-N} = Y ] || exit 1
 
 .PHONY: snapshot-empty
 .SILENT: snapshot-empty
 snapshot-empty:
-	-rm docker-compose.yml
 	sed s/SNAPSHOT_TAG=.*/SNAPSHOT_TAG=empty/ .env > /tmp/.env && \
-      cp /tmp/.env .env && \
-	    rm /tmp/.env
-	$(MAKE) docker-compose.yml
+		cp /tmp/.env .env && \
+		rm /tmp/.env
+	$(MAKE) -B docker-compose.yml
 	docker build -f snapshot/empty.Dockerfile -t ${REPOSITORY}/snapshot:empty ./snapshot
 
 .PHONY: snapshot-push
@@ -100,6 +103,26 @@ snapshot-push:
 .SILENT: up
 up:  download-default-certs docker-compose.yml start
 
+.PHONY: down
+.SILENT: down
+## Brings down the containers. Same as docker-compose down --remove-orphans
+down:
+	-docker-compose down -v --remove-orphans
+
+# Set/Reset tmp directory ownership to nginx.
+.PHONY: set-tmp
+.SILENT: set-tmp
+set-tmp:
+	# This is redundant with the buildkit, but can be overriden by the user.
+	# Set temp directory to /tmp/drupal/tmp
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/drupal/tmp"
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/drupal/tmp) == \"nginx:nginx\" ]] ; then chown -R nginx: /tmp/drupal ; fi ; "
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/drupal/tmp) == \"755\" ]] ; then chmod -R 775 /tmp/drupal ; fi ; "
+	# Set private directory to /tmp/private
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private"
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/private) == \"nginx:nginx\" ]] ; then chown -R nginx: /tmp/private ; fi ; "
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/private) == \"755\" ]] ; then chmod -R 775 /tmp/private ; fi ; "
+
 .PHONY: dev-up
 .SILENT: dev-up
 dev-up:  download-default-certs
@@ -109,6 +132,11 @@ dev-up:  download-default-certs
 		cp /tmp/.env .env && \
 		rm /tmp/.env
 	$(MAKE) -B docker-compose.yml start
+	docker-compose exec drupal with-contenv bash -lc "echo \"alias drupal='vendor/drupal/console/bin/drupal'\" >> ~/.bashrc"
+	docker-compose exec drupal with-contenv bash -lc "echo \"alias drupal-check='vendor/mglaman/drupal-check/drupal-check'\" >> ~/.bashrc"
+	docker cp codebase/web/core/modules/media/images/icons/generic.png $(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/web/sites/default/files/media-icons/generic/
+	$(MAKE) set-codebase-owner
+	docker-compose exec drupal with-contenv bash -lc "chmod 766 /var/www/drupal/xdebug.log"
 
 .PHONY: dev-down
 .SILENT: dev-down
@@ -123,6 +151,7 @@ dev-down:  download-default-certs
 .PHONY: start
 .SILENT: start
 start:
+	$(MAKE) -B docker-compose.yml
 	docker-compose up -d mariadb snapshot;
 	# Try connecting to mariadb, and get a valid (a number, greater than zero) count of the number of databases.
 	# Then, once we're "confident" that mariadb is up and validly query able, see if the Drupal db is in place.
@@ -144,10 +173,18 @@ start:
 		echo "No Drupal state found.  Loading from snapshot, and importing config from config/sync"; \
 		${MAKE} db_restore; \
 		${MAKE} _docker-up-and-wait; \
+		docker-compose exec drupal with-contenv bash -lc "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
 		${MAKE} config-import; \
 	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
+		docker-compose exec -T drupal /bin/sh -c "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
+		$(MAKE) config-import; \
 	fi;
+	$(MAKE) set-tmp
+	docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
+	$(MAKE) set-codebase-owner
+	if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
+	$(MAKE) cache-rebuild
 
 .PHONY: _docker-up-and-wait
 .SILENT: _docker-up-and-wait
@@ -167,10 +204,10 @@ static-drupal-image:
 	IMAGE=${REPOSITORY}/drupal-static:${GIT_TAG} ; \
 	EXISTING=`docker images -q $$IMAGE` ; \
 	if test -z "$$EXISTING" ; then \
-	    docker pull $${IMAGE} 2>/dev/null || \
-	    docker build --build-arg REPOSITORY=$${REPOSITORY} --build-arg TAG=$${TAG} -t $${IMAGE} .; \
+		docker pull $${IMAGE} 2>/dev/null || \
+		docker build --build-arg REPOSITORY=$${REPOSITORY} --build-arg TAG=$${TAG} -t $${IMAGE} .; \
 	else \
-	    echo "Using existing Drupal image $${EXISTING}" ; \
+		echo "Using existing Drupal image $${EXISTING}" ; \
 	fi
 
 # Export a tar of the static drupal image
@@ -187,11 +224,10 @@ static-drupal-image-export: static-drupal-image
 .PHONY: static-docker-compose.yml
 .SILENT: static-docker-compose.yml
 static-docker-compose.yml: static-drupal-image
-	-rm -f docker-compose.yml
 	ENV_FILE=.env ; \
 	if [ "$(env)" != "" ] ; then ENV_FILE=$(env); fi; \
 	echo '' > .env_static && \
-	    while read line; do \
+		while read line; do \
 		if echo $$line | grep -q "ENVIRONMENT" ; then \
 			echo "ENVIRONMENT=static" >> .env_static ; \
 		else \
@@ -207,6 +243,12 @@ static-docker-compose.yml: static-drupal-image
 .SILENT: test
 .PHONY: test
 test:
+	# Check if jq is installed.  If not, install it.
+	if ! [ -x "$(shell command -v jq)" ]; then \
+		echo 'Error: jq is not installed.' >&2 ; \
+		echo '       Please install jq and try again.' >&2 ; \
+		echo '       You can do this by running:  sudo apt-get install jq' >&2 ; \
+	fi; \
 	./run-tests.sh $(test)
 
 .PHONY: db_dump
@@ -232,3 +274,18 @@ db_restore:
 .silent: minio-bucket
 minio-bucket:
 	docker run --rm --env-file .env -v $$(pwd)/minio-init.sh:/minio-init.sh --network idc_default --entrypoint=/minio-init.sh minio/mc
+
+NODE=$(shell which node)
+NPM=$(shell which npm)
+YARN=$(shell which yarn)
+
+# Compile the theme
+.PHONY: theme-compile
+.SILENT: theme-compile
+theme-compile:
+	@[ "${NODE}" ] && echo "Node Found" || ( echo "NodeJS not found. Please install and try again. https://nodejs.org/en/download/package-manager"; exit 1 )
+	@[ "${NPM}" ] && echo "NPM Found" || ( echo "NPM not found. Please install and try again."; exit 1 )
+	@[ "${YARN}" ] && echo "YARN Found" || ( echo "Yarn not found. Please install and run again. https://yarnpkg.com/getting-started/install"; exit 1 )
+	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 composer update jhu-idc/idc-ui-theme'
+	sudo find ./codebase/web/themes/contrib/idc-ui-theme/js -exec chown $(shell id -u):101 {} \;
+	cd codebase/web/themes/contrib/idc-ui-theme/js && rm -rf node_modules && npm install --force && bash autobuild.sh

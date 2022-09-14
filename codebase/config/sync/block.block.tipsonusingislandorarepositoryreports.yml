@@ -18,11 +18,11 @@ plugin: islandora_repository_reports_tips
 settings:
   id: islandora_repository_reports_tips
   label: 'Tips on using Islandora Repository Reports'
-  provider: islandora_repository_reports
   label_display: visible
+  provider: islandora_repository_reports
 visibility:
   request_path:
     id: request_path
-    pages: /admin/reports/islandora_repository_reports
     negate: false
     context_mapping: {  }
+    pages: /admin/reports/islandora_repository_reports
