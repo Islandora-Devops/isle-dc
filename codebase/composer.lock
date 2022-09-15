@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e858d0fd28c08ad6636c50a0b73c911",
+    "content-hash": "7c81ff46e1d540b28f022d4aa20213f7",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -8635,6 +8635,16 @@
                 "source": "https://github.com/Islandora/islandora/tree/8.x-1.x"
             },
             "time": "2021-10-04T15:56:49+00:00"
+        },
+        {
+            "name": "islandora/islandora_ghsa_route_fix",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Islandora/islandora_ghsa_route_fix",
+                "reference": "1.x"
+            },
+            "type": "drupal-module"
         },
         {
             "name": "islandora/jsonld",
@@ -22813,6 +22823,7 @@
         "islandora-rdm/islandora_fits": 20,
         "islandora/carapace": 20,
         "islandora/chullo": 20,
+        "islandora/islandora_ghsa_route_fix": 20,
         "jhu-idc/idc-ui-theme": 20,
         "jhu-idc/idc_defaults": 20,
         "jhu-idc/idc_export": 20,
@@ -22828,5 +22839,5 @@
         "php": ">=7.0.8"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
