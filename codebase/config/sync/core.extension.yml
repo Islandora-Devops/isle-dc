@@ -71,6 +71,7 @@ module:
   islandora_core_feature: 0
   islandora_defaults: 0
   islandora_fits: 0
+  islandora_ghsa_route_fix: 0
   islandora_iiif: 0
   islandora_image: 0
   islandora_oaipmh: 0

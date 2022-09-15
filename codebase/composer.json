@@ -120,6 +120,19 @@
                     "type": "file"
                 }
             }
+        },
+        "17": {
+            "type": "package",
+            "package": {
+                "name": "islandora/islandora_ghsa_route_fix",
+                "version": "dev-dev",
+                "type": "drupal-module",
+                "source": {
+                    "url": "https://github.com/Islandora/islandora_ghsa_route_fix",
+                    "type": "git",
+                    "reference": "1.x"
+                }
+            }
         }
     },
     "require": {
@@ -178,6 +191,7 @@
         "islandora-rdm/islandora_fits": "dev-8.x-1.x",
         "islandora/carapace": "dev-8.x-3.x",
         "islandora/chullo": "dev-dev",
+        "islandora/islandora_ghsa_route_fix": "dev-dev",
         "jhu-idc/idc-ui-theme": "dev-main",
         "jhu-idc/idc_defaults": "dev-main",
         "jhu-idc/idc_export": "dev-main",

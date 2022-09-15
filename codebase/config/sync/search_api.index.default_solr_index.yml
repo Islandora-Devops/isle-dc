@@ -3,24 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.body
     - field.storage.node.field_abstract
     - field.storage.node.field_access_rights
     - field.storage.node.field_access_terms
     - field.storage.node.field_alternative_title
-    - field.storage.node.body
     - field.storage.node.field_citable_url
     - field.storage.node.field_collection_contact_name
     - field.storage.node.field_collection_number
     - field.storage.node.field_contributor
-    - field.storage.taxonomy_term.field_geo_alt_name
-    - field.storage.taxonomy_term.field_family_name
-    - field.storage.taxonomy_term.field_person_alternate_name
-    - field.storage.taxonomy_term.field_preferred_name_fuller_form
-    - field.storage.taxonomy_term.field_preferred_name_number
-    - field.storage.taxonomy_term.field_preferred_name_prefix
-    - field.storage.taxonomy_term.field_primary_part_of_name
-    - field.storage.taxonomy_term.field_preferred_name_rest
-    - field.storage.taxonomy_term.field_preferred_name_suffix
     - field.storage.node.field_copyright_and_use
     - field.storage.node.field_copyright_holder
     - field.storage.node.field_creator
@@ -34,9 +25,11 @@ dependencies:
     - field.storage.node.field_dspace_identifier
     - field.storage.node.field_dspace_item_id
     - field.storage.node.field_extent
+    - field.storage.taxonomy_term.field_family_name
     - field.storage.node.field_featured_item
     - field.storage.node.field_finding_aid
     - field.storage.node.field_genre
+    - field.storage.taxonomy_term.field_geo_alt_name
     - field.storage.node.field_geoportal_link
     - field.storage.node.field_image
     - field.storage.node.field_is_part_of
@@ -44,10 +37,19 @@ dependencies:
     - field.storage.node.field_item_barcode
     - field.storage.node.field_jhir
     - field.storage.node.field_language
+    - field.storage.node.field_title_language
+    - field.storage.taxonomy_term.field_language_code
     - field.storage.node.field_library_catalog_link
     - field.storage.node.field_member_of
     - field.storage.node.field_model
     - field.storage.node.field_oclc_number
+    - field.storage.taxonomy_term.field_person_alternate_name
+    - field.storage.taxonomy_term.field_preferred_name_fuller_form
+    - field.storage.taxonomy_term.field_preferred_name_number
+    - field.storage.taxonomy_term.field_preferred_name_prefix
+    - field.storage.taxonomy_term.field_preferred_name_rest
+    - field.storage.taxonomy_term.field_preferred_name_suffix
+    - field.storage.taxonomy_term.field_primary_part_of_name
     - field.storage.node.field_publisher
     - field.storage.node.field_publisher_country
     - field.storage.node.field_resource_type
@@ -55,8 +57,6 @@ dependencies:
     - field.storage.node.field_subject
     - field.storage.node.field_table_of_contents
     - field.storage.node.field_tags
-    - field.storage.node.field_title_language
-    - field.storage.taxonomy_term.field_language_code
     - field.storage.node.field_unique_id
     - field.storage.node.field_years
     - search_api.server.default_solr_server
@@ -65,9 +65,9 @@ dependencies:
     - search_api_solr
     - node
     - user
+    - content_translation
     - taxonomy
     - token
-    - content_translation
     - search_api
     - idc_ui_module
 third_party_settings:
@@ -101,6 +101,9 @@ third_party_settings:
       maxntp: 2000
       boost: false
       interestingTerms: none
+    term_modifiers:
+      slop: 3
+      fuzzy: 1
     advanced:
       index_prefix: ''
       collection: ''
@@ -912,6 +915,7 @@ processor_settings:
   entity_status:
     weights:
       preprocess_index: -10
+  entity_type: {  }
   hierarchy:
     weights:
       preprocess_index: -45
@@ -923,6 +927,7 @@ processor_settings:
     prefix: '<strong>'
     suffix: '</strong>'
     excerpt: true
+    excerpt_always: false
     excerpt_length: 256
     exclude_fields:
       - rendered_item

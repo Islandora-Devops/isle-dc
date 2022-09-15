@@ -50,12 +50,15 @@ backend_config:
     index_timeout: 10
     optimize_timeout: 15
     finalize_timeout: 30
+    skip_schema_check: false
     solr_version: ''
     http_method: AUTO
     commit_within: 1000
     jmx: false
+    jts: false
     solr_install_dir: ''
   optimize: false
+  fallback_multiple: false
   disabled_field_types: {  }
   disabled_caches: {  }
   disabled_request_handlers:
@@ -65,4 +68,4 @@ backend_config:
   disabled_request_dispatchers:
     - request_dispatcher_httpcaching_default_7_0_0
   rows: 10
-  skip_schema_check: false
+  index_single_documents_fallback_count: 10
