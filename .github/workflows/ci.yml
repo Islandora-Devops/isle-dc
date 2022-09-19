@@ -35,7 +35,7 @@ jobs:
             # Correct the temp directory.
             - name: Fix temp
               run: make set-tmp
-	
+
             # Run the updatedb command.
             - name: Run Update Hooks
               run: docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
