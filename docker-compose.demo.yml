@@ -10,8 +10,7 @@ networks:
   default:
     internal: true
   gateway:
-    external:
-      name: gateway
+    name: gateway
 volumes:
   drupal-sites-data:
   solr-data:
