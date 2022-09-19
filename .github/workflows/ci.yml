@@ -41,7 +41,7 @@ jobs:
               run: docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
 
             # Copy generic missing files if needed.
-            - name: Cope Generic File
+            - name: Copy Generic File
               run: if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
 
             # Drush tests
