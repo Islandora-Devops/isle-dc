@@ -224,6 +224,7 @@ static-drupal-image-export: static-drupal-image
 .PHONY: static-docker-compose.yml
 .SILENT: static-docker-compose.yml
 static-docker-compose.yml: static-drupal-image
+	$(MAKE) set-tmp
 	ENV_FILE=.env ; \
 	if [ "$(env)" != "" ] ; then ENV_FILE=$(env); fi; \
 	echo '' > .env_static && \

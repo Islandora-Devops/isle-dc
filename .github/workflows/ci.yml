@@ -32,18 +32,6 @@ jobs:
             - name: Build Static
               run: make static-docker-compose.yml up
 
-            # Correct the temp directory.
-            - name: Fix temp
-              run: make set-tmp
-
-            # Run the updatedb command.
-            - name: Run Update Hooks
-              run: docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
-
-            # Copy generic missing files if needed.
-            - name: Copy Generic File
-              run: if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
-
             # Drush tests
             - name: Drush test
               run: docker-compose exec -T drupal drush -d status
