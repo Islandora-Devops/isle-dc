@@ -114,14 +114,14 @@ down:
 .SILENT: set-tmp
 set-tmp:
 	# This is redundant with the buildkit, but can be overriden by the user.
-	# Set temp directory to /tmp/drupal/tmp
-	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/drupal/tmp"
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/drupal/tmp) == \"nginx:nginx\" ]] ; then chown -R nginx: /tmp/drupal ; fi ; "
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/drupal/tmp) == \"755\" ]] ; then chmod -R 775 /tmp/drupal ; fi ; "
-	# Set private directory to /tmp/private
-	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private"
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/private) == \"nginx:nginx\" ]] ; then chown -R nginx: /tmp/private ; fi ; "
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/private) == \"755\" ]] ; then chmod -R 775 /tmp/private ; fi ; "
+	# Set temp directory to /var/www/drupal/web/sites/default/files/tmp
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /var/www/drupal/web/sites/default/files/tmp"
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/tmp) == \"nginx:nginx\" ]] ; then chown -R nginx: /var/www/drupal/web/sites/default/files ; fi ; "
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /var/www/drupal/web/sites/default/files/tmp) == \"755\" ]] ; then chmod -R 775 /var/www/drupal/web/sites/default/files/tmp ; fi ; "
+	# Set private directory to /var/www/drupal/web/sites/default/files/private
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /var/www/drupal/web/sites/default/files/private"
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/private) == \"nginx:nginx\" ]] ; then chown -R nginx: /var/www/drupal/web/sites/default/files/private ; fi ; "
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /var/www/drupal/web/sites/default/files/private) == \"755\" ]] ; then chmod -R 775 /var/www/drupal/web/sites/default/files/private ; fi ; "
 
 .PHONY: dev-up
 .SILENT: dev-up
@@ -224,7 +224,6 @@ static-drupal-image-export: static-drupal-image
 .PHONY: static-docker-compose.yml
 .SILENT: static-docker-compose.yml
 static-docker-compose.yml: static-drupal-image
-	$(MAKE) set-tmp
 	ENV_FILE=.env ; \
 	if [ "$(env)" != "" ] ; then ENV_FILE=$(env); fi; \
 	echo '' > .env_static && \
