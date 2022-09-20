@@ -530,7 +530,6 @@ starter: generate-secrets
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=starter
 	docker-compose up -d --remove-orphans
-	docker-compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx .'
 	$(MAKE) starter-finalize ENVIROMENT=starter
 
 .PHONY: starter_dev
@@ -544,7 +543,6 @@ starter_dev: generate-secrets
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=starter_dev
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install'
-	docker-compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx .'
 	$(MAKE) starter-finalize ENVIROMENT=starter_dev
 
 
@@ -557,6 +555,7 @@ starter-init: generate-secrets
 
 .PHONY: starter-finalize
 starter-finalize:
+	docker-compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx .'
 	$(MAKE) drupal-database update-settings-php
 	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
 	docker-compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
