@@ -164,7 +164,7 @@ run-islandora-migrations:
 	#docker-compose exec -T drupal with-contenv bash -lc "for_all_sites import_islandora_migrations"
 	# this line can be reverted when https://github.com/Islandora-Devops/isle-buildkit/blob/fae704f065435438828c568def2a0cc926cc4b6b/drupal/rootfs/etc/islandora/utilities.sh#L557
 	# has been updated to match
-	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import islandora_defaults_tags,islandora_tags'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import ${MIGRATE_IMPORT_USER_OPTION:-} islandora_defaults_tags,islandora_tags'
 
 .PHONY: solr-cores
 ## Creates solr-cores according to the environment variables.
@@ -559,7 +559,9 @@ starter-init: generate-secrets
 starter-finalize:
 	$(MAKE) drupal-database update-settings-php
 	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
-	$(MAKE) hydrate
+	docker-compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
+	$(MAKE) hydrate MIGRATE_IMPORT_USER_OPTION=--userid=1
+	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import --userid=1 islandora_fits_tags'
 	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
 	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
 	$(MAKE) login
