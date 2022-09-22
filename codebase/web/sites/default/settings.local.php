@@ -74,4 +74,4 @@ $settings['http_client_config']['timeout'] = 99999999;
 
 $settings['trusted_host_patterns'] = explode(',',getenv('TRUSTED_HOST_LIST'));
 
-// $settings['file_temp_path'] = '/var/www/drupal/web/sites/default/files/tmp';
+# $settings['file_temp_path'] = '/var/www/drupal/web/sites/default/files/tmp';
