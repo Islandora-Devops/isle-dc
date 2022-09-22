@@ -123,7 +123,6 @@ module:
   s3fs: 0
   search_api: 0
   search_api_solr: 0
-  search_api_solr_defaults: 0
   serialization: 0
   shortcut: 0
   simplesamlphp_auth: 0

@@ -34,7 +34,7 @@ destroy-state:
 .SILENT: composer-install
 composer-install:
 	echo "Installing via composer"
-	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"
+	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer install --no-interaction'
 
 .PHONY: snapshot-image
 .SILENT: snapshot-image
@@ -119,9 +119,9 @@ set-tmp:
 	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/tmp) == \"nginx:nginx\" ]] ; then chown -R nginx: /var/www/drupal/web/sites/default/files ; fi ; "
 	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /var/www/drupal/web/sites/default/files/tmp) == \"755\" ]] ; then chmod -R 775 /var/www/drupal/web/sites/default/files/tmp ; fi ; "
 	# Set private directory to /var/www/drupal/web/sites/default/files/private
-	docker-compose exec -T drupal /bin/sh -c "mkdir -p /var/www/drupal/web/sites/default/files/private"
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/private) == \"nginx:nginx\" ]] ; then chown -R nginx: /var/www/drupal/web/sites/default/files/private ; fi ; "
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /var/www/drupal/web/sites/default/files/private) == \"755\" ]] ; then chmod -R 775 /var/www/drupal/web/sites/default/files/private ; fi ; "
+	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private"
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/private) == \"nginx:nginx\" ]] ; then chown -R nginx: /tmp/private ; fi ; "
+	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/private) == \"755\" ]] ; then chmod -R 775 /tmp/private ; fi ; "
 
 .PHONY: dev-up
 .SILENT: dev-up
@@ -180,11 +180,10 @@ start:
 		docker-compose exec -T drupal /bin/sh -c "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
 		$(MAKE) config-import; \
 	fi;
-	$(MAKE) set-tmp
-	docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
 	$(MAKE) set-codebase-owner
-	if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
-	$(MAKE) cache-rebuild
+	$(MAKE) set-tmp
+	-docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
+	-if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
 
 .PHONY: _docker-up-and-wait
 .SILENT: _docker-up-and-wait

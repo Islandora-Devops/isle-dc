@@ -99,13 +99,13 @@
         "15": {
             "type": "package",
             "package": {
-                "name": "islandora/chullo",
+                "name": "islandora/crayfish-commons",
                 "version": "dev-dev",
                 "type": "drupal-module",
                 "source": {
-                    "url": "https://github.com/Islandora/chullo.git",
+                    "url": "https://github.com/jhu-idc/Crayfish.git",
                     "type": "git",
-                    "reference": "a7c1e051eab2a5077eaf5db2649201fa775c5a02"
+                    "reference": "df49600032ee785d00184da0da0d4baf901c3710"
                 }
             }
         },
@@ -133,6 +133,19 @@
                     "reference": "1.x"
                 }
             }
+        },
+        "18": {
+            "type": "package",
+            "package": {
+                "name": "islandora/chullo",
+                "version": "dev-dev",
+                "type": "drupal-module",
+                "source": {
+                    "url": "https://github.com/Islandora/chullo.git",
+                    "type": "git",
+                    "reference": "a7c1e051eab2a5077eaf5db2649201fa775c5a02"
+                }
+            }
         }
     },
     "require": {
@@ -142,16 +155,16 @@
         "drupal/at_theme": "^1.4",
         "drupal/at_tool": "^2.0",
         "drupal/auto_entitylabel": "^3.0@beta",
-        "drupal/captcha": "^1.1",
+        "drupal/captcha": "^1.5",
         "drupal/console": "~1.0",
         "drupal/contact_ajax": "^1.5",
         "drupal/contact_block": "^1.5",
         "drupal/contact_emails": "^1.19",
         "drupal/contact_storage": "^1.1",
         "drupal/content_browser": "^1.0@alpha",
-        "drupal/core-composer-scaffold": "^9.4",
-        "drupal/core-project-message": "^9.4",
-        "drupal/core-recommended": "^9.4",
+        "drupal/core-composer-scaffold": "9.4.6",
+        "drupal/core-project-message": "9.4.6",
+        "drupal/core-recommended": "9.4.6",
         "drupal/core-vendor-hardening": "^9.2",
         "drupal/devel": "^4.1",
         "drupal/embed": "^1.4",
@@ -159,14 +172,16 @@
         "drupal/entity_reference_unpublished": "^1.2",
         "drupal/epp": "^1.0",
         "drupal/facets": "^2.0",
-        "drupal/file_mdm": "^2.4",
+        "drupal/field_group": "^3.3",
+        "drupal/file_mdm": "^2.5",
         "drupal/google_analytics": "^4.0",
         "drupal/google_tag": "^1.4",
         "drupal/imagemagick": "^3",
         "drupal/jquery_ui_accordion": "^1.1",
+        "drupal/key": "^1.16",
         "drupal/libraries": "3.x-dev@dev",
         "drupal/matomo": "^1.19",
-        "drupal/migrate_source_ui": "^1.0@RC",
+        "drupal/migrate_source_ui": "^1.0",
         "drupal/pager_serializer": "^1.0",
         "drupal/pathauto": "^1.11",
         "drupal/pdf": "1.x-dev",
@@ -177,7 +192,7 @@
         "drupal/role_delegation": "^1.1",
         "drupal/role_hierarchy": "^2.2",
         "drupal/s3fs": "^3.0@beta",
-        "drupal/search_api_solr": "4.2.1",
+        "drupal/search_api_solr": "^4.2",
         "drupal/simplesamlphp_auth": "^3.3",
         "drupal/title_length": "^1.1",
         "drupal/transliterate_filenames": "^1.3",
@@ -185,12 +200,11 @@
         "drupal/upgrade_status": "^3.16",
         "drupal/views_data_export": "^1.0",
         "drupal/workbench": "^1.3",
-        "drupal/workbench_access": "^1.0@beta",
+        "drupal/workbench_access": "^1.1",
         "drush/drush": "^10.0",
         "imagesloaded/imagesloaded": "^4.1",
         "islandora-rdm/islandora_fits": "dev-8.x-1.x",
         "islandora/carapace": "dev-8.x-3.x",
-        "islandora/chullo": "dev-dev",
         "islandora/islandora_ghsa_route_fix": "dev-dev",
         "jhu-idc/idc-ui-theme": "dev-main",
         "jhu-idc/idc_defaults": "dev-main",
@@ -266,12 +280,14 @@
         "post-install-cmd": [
             "@composer drupal:scaffold",
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-            "find ./vendor/ -exec chown 1000:101 {} + "
+            "find ./vendor/ -not -user 1000 -exec chown 1000:101 {} + ",
+            "find ./vendor/ -not -group 101 -exec chown 1000:101 {} + "
         ],
         "post-update-cmd": [
             "@composer drupal:scaffold",
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-            "find ./vendor/ -exec chown 1000:101 {} + "
+            "find ./vendor/ -not -user 1000 -exec chown 1000:101 {} + ",
+            "find ./vendor/ -not -group 101 -exec chown 1000:101 {} + "
         ]
     },
     "extra": {

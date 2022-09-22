@@ -124,6 +124,7 @@ set-codebase-owner:
 .PHONY: databases
 .SILENT: databases
 databases:
+	docker-compose exec -T drupal timeout 300 bash -c "while ! test -e /var/run/nginx/nginx.pid -a -e /var/run/php-fpm7/php-fpm7.pid; do sleep 1; echo 'waiting for databases to start' ; done"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_database"
 
 # Installs drupal site(s) using environment variables.
@@ -172,7 +173,6 @@ solr-reload-cores:
 	done
 	sleep 5
 	echo "\n\n400 message will happen if the core is current and optimized. These features only become available when the core isn't current.\n"
-	$(MAKE) cache-rebuild
 
 # Creates solr-cores according to the environment variables.
 .PHONY: solr-cores
@@ -191,7 +191,6 @@ namespaces:
 .PHONY: hydrate
 .SILENT: hydrate
 hydrate: update-settings-php update-config-from-environment solr-cores namespaces run-islandora-migrations
-	docker-compose exec drupal drush cr -y
 
 # Created by the standard profile, need to be deleted to import a site that was
 # created with the standard profile.
