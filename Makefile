@@ -116,7 +116,7 @@ build:
 .PHONY: set-codebase-owner
 .SILENT: set-codebase-owner
 set-codebase-owner:
-	# Improved Speed by checking if the user is already the owner.
+	@echo "Improved Speed by checking if the user is already the owner."
 	sudo find ./codebase -not -user $(shell id -u) -exec chown $(shell id -u):101 {} \;
 	sudo find ./codebase -not -group 101 -exec chown $(shell id -u):101 {} \;
 
