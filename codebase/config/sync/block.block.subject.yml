@@ -1,4 +1,4 @@
-uuid: b17c8178-0319-48ca-a192-1472893b3283
+uuid: 55f1bdde-3e46-481e-ae4c-b472c7594a21
 langcode: en
 status: true
 dependencies:
@@ -26,6 +26,6 @@ settings:
 visibility:
   request_path:
     id: request_path
+    pages: /solr-search/content
     negate: false
     context_mapping: {  }
-    pages: /solr-search/content

@@ -9,20 +9,22 @@ GIT_TAG := $(shell git describe --tags --always)
 .PHONY: bootstrap
 .SILENT: bootstrap
 bootstrap: snapshot-empty default destroy-state up install \
-		update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
-		cache-rebuild
-		git checkout -- .env
+	update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
+	cache-rebuild
+	git checkout -- .env
+	@echo "  └─ Bootstrap complete."
 
-# Set/Reset tmp directory ownership to nginx.
 .PHONY: set-tmp
-.SILENT: set-tmp
 set-tmp:
+	@echo "Creating and setting permissions on tmp & private directories"
 	docker-compose exec -T drupal /bin/sh -c "mkdir -p /var/www/drupal/web/sites/default/files/tmp"
 	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/tmp) == \"nginx:nginx\" ]] ; then chown -R nginx: /var/www/drupal/web/sites/default/files ; fi ; "
 	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /var/www/drupal/web/sites/default/files/tmp) == \"755\" ]] ; then chmod -R 775 /var/www/drupal/web/sites/default/files/tmp ; fi ; "
 	docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private"
 	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/private) == \"nginx:nginx\" ]] ; then chown -R nginx: /tmp/private ; fi ; "
 	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/private) == \"755\" ]] ; then chmod -R 775 /tmp/private ; fi ; "
+	@echo "  └─ Done"
+	@echo ""
 
 # Rebuilds the Drupal cache
 .PHONY: cache-rebuild
@@ -169,15 +171,11 @@ start:
 		echo "No Drupal state found.  Loading from snapshot, and importing config from config/sync"; \
 		${MAKE} db_restore; \
 		${MAKE} _docker-up-and-wait; \
-	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
+		if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi ; \
+	else \
+		echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
 	fi;
-	docker-compose exec drupal with-contenv bash -lc "composer cc ; COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"
-	$(MAKE) config-import
-	$(MAKE) set-codebase-owner
-	$(MAKE) set-tmp
-	-docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
-	-if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
 
 .PHONY: _docker-up-and-wait
 .SILENT: _docker-up-and-wait

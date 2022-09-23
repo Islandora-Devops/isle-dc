@@ -16,6 +16,7 @@ new_revision: true
 source_configuration:
   source_field: field_media_image
 field_map:
+  name: name
   mimetype: field_mime_type
   filesize: field_file_size
   width: field_width

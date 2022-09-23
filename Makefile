@@ -116,30 +116,44 @@ build:
 .PHONY: set-codebase-owner
 .SILENT: set-codebase-owner
 set-codebase-owner:
-	@echo "Improved Speed by checking if the user is already the owner."
+	@echo ""
+	@echo "Setting codebase/ folder owner back to $(shell id -u):nginx"
 	sudo find ./codebase -not -user $(shell id -u) -exec chown $(shell id -u):101 {} \;
 	sudo find ./codebase -not -group 101 -exec chown $(shell id -u):101 {} \;
+	@echo "  └─ Done"
+	@echo ""
 
 # Creates required databases for drupal site(s) using environment variables.
 .PHONY: databases
 .SILENT: databases
 databases:
-	docker-compose exec -T drupal timeout 300 bash -c "while ! test -e /var/run/nginx/nginx.pid -a -e /var/run/php-fpm7/php-fpm7.pid; do sleep 1; echo 'waiting for databases to start' ; done"
+	@echo ""
+	@echo "Creating databases for $(COMPOSE_PROJECT_NAME)"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_database"
+	@echo "  └─ Done"
 
 # Installs drupal site(s) using environment variables.
 .PHONY: install
 .SILENT: install
 install: databases
+	@echo ""
+	@echo "Installing $(COMPOSE_PROJECT_NAME)"
+	# docker-compose exec drupal with-contenv bash -lc "drush php-eval \"\Drupal::keyValue('system.schema')->delete('search_api_solr_defaults') ; echo 'Removed search_api_solr_defaults' \""
+	# docker-compose exec drupal with-contenv bash -lc "drush php-eval \"\Drupal::keyValue('system.schema')->delete('matomo') ; echo 'Removed matomo' \""
+	# docker-compose exec drupal with-contenv bash -lc "COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer update --lock ; echo 'Updated Composer'"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites install_site"
+	@echo "  └─ Done"
 
 # Updates settings.php according to the environment variables.
 .PHONY: update-settings-php
 .SILENT: update-settings-php
 update-settings-php:
+	@echo ""
+	@echo "Updating settings.php for $(COMPOSE_PROJECT_NAME)"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites update_settings_php"
 	# Make sure the host user can read the settings.php files after they have been updated.
 	sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;
+	@echo "  └─ Done"
 
 # Updates configuration from environment variables.
 # Allow all commands to fail as the user may not have all the modules like matomo, etc.
@@ -148,8 +162,6 @@ update-settings-php:
 update-config-from-environment:
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_search_api_solr_module"
-	# Matomo removed for IDC
-	#-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
 
@@ -173,6 +185,7 @@ solr-reload-cores:
 	done
 	sleep 5
 	echo "\n\n400 message will happen if the core is current and optimized. These features only become available when the core isn't current.\n"
+	$(MAKE) cache-rebuild
 
 # Creates solr-cores according to the environment variables.
 .PHONY: solr-cores
@@ -191,6 +204,7 @@ namespaces:
 .PHONY: hydrate
 .SILENT: hydrate
 hydrate: update-settings-php update-config-from-environment solr-cores namespaces run-islandora-migrations
+	docker-compose exec drupal drush cr -y
 
 # Created by the standard profile, need to be deleted to import a site that was
 # created with the standard profile.
@@ -241,6 +255,7 @@ endif
 
 # Import database.
 database-import: $(SRC)
+	@echo "──── Importing database"
 ifndef SRC
 	$(error SRC is not set)
 endif
@@ -250,6 +265,7 @@ endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/dump.sql
 	# Need to specify the root user to import the database otherwise it will fail due to permissions.
 	docker-compose exec drupal with-contenv bash -lc '`drush -l $(SITE) sql:connect --extra="-u $${DRUPAL_DEFAULT_DB_ROOT_USER} --password=$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD}"` < /tmp/dump.sql'
+	@echo "  └─ Done"
 
 # Creates the codebase folder from a running islandora/demo image.
 .PHONY: create-codebase-from-demo

@@ -16,4 +16,5 @@ source_configuration:
   providers:
     - YouTube
     - Vimeo
-field_map: {  }
+field_map:
+  title: name
