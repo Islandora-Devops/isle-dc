@@ -49,7 +49,7 @@ composer-install:
 	echo "Installing via composer"
 	docker-compose exec drupal with-contenv bash -lc "COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"
 	# Fix the masonry is a submodule error message.
-	[ -d codebase/web/libraries/masonry/.git/ ] && rm -rf codebase/web/libraries/masonry/.git
+	-[ -d codebase/web/libraries/masonry/.git/ ] && rm -rf codebase/web/libraries/masonry/.git
 
 .PHONY: snapshot-image
 .SILENT: snapshot-image

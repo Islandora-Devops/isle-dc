@@ -14,7 +14,7 @@ name: technical_metadata_on_ingest
 group: Islandora
 description: 'Defines FITS harvesting behavior'
 requireAllConditions: false
-disabled: false
+disabled: true
 conditions:
   media_has_term:
     id: media_has_term

@@ -34,4 +34,4 @@ reactions:
       get_ocr_from_image: get_ocr_from_image
       image_generate_a_thumbnail_from_an_original_file: digital_document_generate_a_thumbnail_from_an_original_file
     saved: false
-weight: -6
+weight: -8
