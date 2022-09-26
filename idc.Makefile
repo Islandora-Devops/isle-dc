@@ -185,6 +185,9 @@ _docker-up-and-wait:
 	docker-compose up -d
 	sleep 5
 	docker-compose exec -T drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to start ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
+	-docker-compose exec -T drupal /bin/sh -c "drush php-eval \"\Drupal::keyValue('system.schema')->delete('search_api_solr_defaults')\""
+	-docker-compose exec -T drupal /bin/sh -c "drush php-eval \"\Drupal::keyValue('system.schema')->delete('remote_stream_wrapper')\""
+	-docker-compose exec -T drupal /bin/sh -c "drush php-eval \"\Drupal::keyValue('system.schema')->delete('matomo')\""
 
 
 # Static drupal image, with codebase baked in.  This image
