@@ -265,6 +265,9 @@ endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/dump.sql
 	# Need to specify the root user to import the database otherwise it will fail due to permissions.
 	docker-compose exec drupal with-contenv bash -lc '`drush -l $(SITE) sql:connect --extra="-u $${DRUPAL_DEFAULT_DB_ROOT_USER} --password=$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD}"` < /tmp/dump.sql'
+	# Temporary fix update 9.4
+	docker-compose exec -T mariadb bash -c 'mysql mysql -e "DELETE FROM key_value WHERE collection = system.schema and name = matomo"'; \
+	docker-compose exec -T mariadb bash -c 'mysql mysql -e "DELETE FROM key_value WHERE collection = system.schema and name = search_api_solr_defaults"'; \
 	@echo "  └─ Done"
 
 # Creates the codebase folder from a running islandora/demo image.
