@@ -48,6 +48,7 @@ dependencies:
     - field.field.node.islandora_object.field_title_language
     - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
+    - field.field.node.islandora_object.field_years
     - node.type.islandora_object
   module:
     - user
@@ -176,6 +177,7 @@ hidden:
   field_title_language: true
   field_unique_id: true
   field_weight: true
+  field_years: true
   langcode: true
   openseadragon_media_evas_entity_view_1: true
   openseadragon_media_evas_entity_view_2: true

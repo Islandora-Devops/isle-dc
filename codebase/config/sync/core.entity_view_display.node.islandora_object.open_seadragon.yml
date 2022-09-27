@@ -48,6 +48,7 @@ dependencies:
     - field.field.node.islandora_object.field_title_language
     - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
+    - field.field.node.islandora_object.field_years
     - node.type.islandora_object
   module:
     - controlled_access_terms
@@ -403,6 +404,17 @@ content:
       link: true
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_years:
+    type: edtf_default
+    label: above
+    settings:
+      date_separator: dash
+      date_order: big_endian
+      month_format: mm
+      day_format: dd
+    third_party_settings: {  }
+    weight: 40
     region: content
   islandora_fits_checksum:
     settings: {  }

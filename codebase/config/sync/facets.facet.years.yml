@@ -15,7 +15,7 @@ missing: false
 missing_label: others
 url_alias: years
 facet_source_id: 'search_api:views_rest__solr_search_content__rest_export_1'
-field_identifier: null
+field_identifier: field_years
 query_operator: or
 hard_limit: 0
 exclude: false
