@@ -267,14 +267,14 @@
             "@composer drupal:scaffold",
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
             "find ./vendor/ -exec chown 1000:101 {} + ",
-            "find ./web/sites/default/files/ -exec chown 1000:101 {} + ",
+            "find ./web/sites/default/files/ -exec chown nginx:www-data {} + ",
             "drush updatedb -y"
         ],
         "post-update-cmd": [
             "@composer drupal:scaffold",
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
             "find ./vendor/ -exec chown 1000:101 {} + ",
-            "find ./web/sites/default/files/ -exec chown 1000:101 {} + ",
+            "find ./web/sites/default/files/ -exec chown nginx:www-data {} + ",
             "drush updatedb -y"
         ]
     },

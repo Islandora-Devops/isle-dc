@@ -18,10 +18,10 @@ bootstrap: snapshot-empty default destroy-state up install \
 set-tmp:
 	@echo "Creating and setting permissions on tmp & private directories"
 	-docker-compose exec -T drupal /bin/sh -c "mkdir -p /var/www/drupal/web/sites/default/files/tmp"
-	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/tmp) == \"nginx:nginx\" ]] ; then chown -R nginx: /var/www/drupal/web/sites/default/files ; fi ; "
+	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/tmp) == \"nginx:www-data\" ]] ; then chown -R nginx:www-data /var/www/drupal/web/sites/default/files ; fi ; "
 	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /var/www/drupal/web/sites/default/files/tmp) == \"755\" ]] ; then chmod -R 775 /var/www/drupal/web/sites/default/files/tmp ; fi ; "
 	-docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private"
-	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/private) == \"nginx:nginx\" ]] ; then chown -R nginx: /tmp/private ; fi ; "
+	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/private) == \"nginx:www-data\" ]] ; then chown -R nginx:www-data /tmp/private ; fi ; "
 	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/private) == \"755\" ]] ; then chmod -R 775 /tmp/private ; fi ; "
 	@echo "  └─ Done"
 	@echo ""
@@ -180,6 +180,9 @@ start:
 		${MAKE} _docker-up-and-wait; \
 		${MAKE} config-import; \
 	fi;
+	$(MAKE) solr-cores
+	docker-compose exec drupal bash -lc "bash /var/www/drupal/fix_permissions.sh /var/www/drupal/web nginx"
+	$(MAKE) set-tmp
 
 .PHONY: _docker-up-and-wait
 .SILENT: _docker-up-and-wait

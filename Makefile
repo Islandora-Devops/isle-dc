@@ -118,8 +118,8 @@ build:
 set-codebase-owner:
 	@echo ""
 	@echo "Setting codebase/ folder owner back to $(shell id -u):nginx"
-	sudo find ./codebase -not -user $(shell id -u) -exec chown $(shell id -u):101 {} \;
-	sudo find ./codebase -not -group 101 -exec chown $(shell id -u):101 {} \;
+	sudo find ./codebase -not -user $(shell id -u) -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \;
+	sudo find ./codebase -not -group 101 -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \;
 	@echo "  └─ Done"
 	@echo ""
 
@@ -177,12 +177,13 @@ run-islandora-migrations:
 solr-reload-cores:
 	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep solr)" ] ; then \
 		$(MAKE) solr-cores; \
+	else \
+		docker-compose exec drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes ; drush search-api:rebuild-tracker ; drush search-api:index"; \
 	fi;
-	for i in $(shell docker inspect -f "{{range .NetworkSettings.Networks}}{{println .IPAddress}}{{end}}" $(shell echo $(shell docker ps --format \"{{.Names}}\")) | grep .) ; do \
-		curl http://$$i:8983/solr/admin/cores?action=RELOAD&core=ISLANDORA ; \
-		curl http://$$i:8983/solr/admin/cores?action=OPTIMIZE&core=ISLANDORA ; \
-		echo "Can be verified at http://$$i:8983/solr/#/~cores/ISLANDORA"; \
-	done
+	sleep 2
+	curl http://solr-idc.traefik.me/solr/admin/cores?action=RELOAD&core=ISLANDORA ; \
+	curl http://solr-idc.traefik.me/solr/admin/cores?action=OPTIMIZE&core=ISLANDORA ; \
+	echo "Can be verified at http://solr-idc.traefik.me/solr/#/~cores/ISLANDORA"; \
 	sleep 5
 	echo "\n\n400 message will happen if the core is current and optimized. These features only become available when the core isn't current.\n"
 	$(MAKE) cache-rebuild
@@ -193,6 +194,7 @@ solr-reload-cores:
 solr-cores:
 	-docker-compose exec drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
+	-docker-compose exec drupal with-contenv bash -lc "drush search-api:rebuild-tracker ; drush search-api-solr:finalize-index ; drush search-api:index"
 
 # Creates namespaces in Blazegraph according to the environment variables.
 .PHONY: namespaces
