@@ -657,15 +657,6 @@ process:
         bundle: language
         bundle_key: vid
         value_key: field_unique_id
-  field_years:
-    -
-      plugin: skip_on_empty
-      method: process
-      source: years
-    -
-      plugin: explode
-      delimiter: '||'
-      strict: false
   field_weight: weight
 destination:
   plugin: 'entity:node'
@@ -713,6 +704,5 @@ destination:
     - field_subject
     - field_table_of_contents
     - field_title_language
-    - field_years
     - field_weight
 migration_dependencies: null

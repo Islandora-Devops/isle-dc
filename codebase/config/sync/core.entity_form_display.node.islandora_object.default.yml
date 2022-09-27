@@ -47,7 +47,6 @@ dependencies:
     - field.field.node.islandora_object.field_title_language
     - field.field.node.islandora_object.field_unique_id
     - field.field.node.islandora_object.field_weight
-    - field.field.node.islandora_object.field_years
     - node.type.islandora_object
   module:
     - controlled_access_terms
@@ -195,8 +194,7 @@ third_party_settings:
         description: ''
         required_fields: true
     group_date_solr_year:
-      children:
-        - field_years
+      children: {  }
       label: 'Date - Solr Year'
       region: content
       parent_name: group_dates
@@ -606,15 +604,6 @@ content:
     region: content
     settings:
       placeholder: ''
-    third_party_settings: {  }
-  field_years:
-    type: edtf_default
-    weight: 42
-    region: content
-    settings:
-      strict_dates: false
-      intervals: true
-      sets: false
     third_party_settings: {  }
   status:
     type: boolean_checkbox
