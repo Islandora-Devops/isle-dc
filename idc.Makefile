@@ -174,9 +174,11 @@ start:
 		${MAKE} db_restore; \
 		${MAKE} _docker-up-and-wait; \
 		if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi ; \
+		${MAKE} config-import; \
 	else \
 		echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
+		${MAKE} config-import; \
 	fi;
 	$(MAKE) solr-cores
 	docker-compose exec drupal bash -lc "bash /var/www/drupal/fix_permissions.sh /var/www/drupal/web nginx"
