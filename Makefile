@@ -192,9 +192,16 @@ solr-reload-cores:
 .PHONY: solr-cores
 .SILENT: solr-cores
 solr-cores:
+	@echo ""
+	@echo "Creating solr-cores for $(COMPOSE_PROJECT_NAME)"
+	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep sssss)" ] ; then \
+	    echo "  └─ Solr is not running. Attempting to restart it now."; \
+		docker-compose restart solr ; \
+	fi;
 	-docker-compose exec drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
 	-docker-compose exec drupal with-contenv bash -lc "drush search-api:rebuild-tracker ; drush search-api-solr:finalize-index ; drush search-api:index"
+	@echo "  └─ Done"
 
 # Creates namespaces in Blazegraph according to the environment variables.
 .PHONY: namespaces
