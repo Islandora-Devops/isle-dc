@@ -69,7 +69,7 @@ test('Boolean operators still work as expected', async (t) => {
 });
 
 test('Facet toggle', async (t) => {
-  await t.expect(Page.facetCategories.count).eql(3);
+  await t.expect(Page.facetCategories.count).eql(4);
 
   const category = 'Years';
   const valueContainer = Page.facetValueContainer(category);
