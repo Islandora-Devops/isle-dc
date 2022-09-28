@@ -194,9 +194,16 @@ solr-reload-cores:
 solr-cores:
 	@echo ""
 	@echo "Creating solr-cores for $(COMPOSE_PROJECT_NAME)"
-	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep sssss)" ] ; then \
+	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep solr)" ] ; then \
 	    echo "  └─ Solr is not running. Attempting to restart it now."; \
 		docker-compose restart solr ; \
+		sleep 5 ; \
+	fi;
+	@echo "  └─ Checking for Drupal"
+	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep drupal)" ] ; then \
+	    echo "    └─ Drupal is not running. Attempting to restart it now."; \
+		docker-compose restart drupal ; \
+		${MAKE} _docker-up-and-wait ; \
 	fi;
 	-docker-compose exec drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
