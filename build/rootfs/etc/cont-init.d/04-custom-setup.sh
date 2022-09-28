@@ -24,7 +24,8 @@ function main {
     # to be up and running before they can complete.
     wait_for_required_services "${site}"
     # Create missing solr cores.
-    create_solr_core_with_default_config "${site}"
+    create_solr_core_with_default_config "${site}" || echo -e "\n\nERROR: SOLR was not initialized. Check the logs above for more details.\n\n"
+
     # Create namespace assumed one per site.
     create_blazegraph_namespace_with_default_properties "${site}"
     # Need to run migration to get expected default content, now that our required services are running.
