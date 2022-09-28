@@ -205,9 +205,9 @@ solr-cores:
 		docker-compose restart drupal ; \
 		${MAKE} _docker-up-and-wait ; \
 	fi;
-	-docker-compose exec -T drupal /bin/sh -c "drush search-api-solr:install-missing-fieldtypes"
-	docker-compose exec -T drupal /bin/sh -c "for_all_sites create_solr_core_with_default_config"
-	-docker-compose exec -T drupal /bin/sh -c "drush search-api:rebuild-tracker ; drush search-api-solr:finalize-index ; drush search-api:index"
+	-docker-compose exec drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes"
+	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
+	-docker-compose exec drupal with-contenv bash -lc "drush search-api:rebuild-tracker ; drush search-api-solr:finalize-index ; drush search-api:index"
 	@echo "  └─ Done"
 
 # Creates namespaces in Blazegraph according to the environment variables.
