@@ -173,11 +173,13 @@ start:
 		echo "No Drupal state found.  Loading from snapshot, and importing config from config/sync"; \
 		${MAKE} db_restore; \
 		${MAKE} _docker-up-and-wait; \
+		${MAKE} composer-install; \
 		if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi ; \
 		${MAKE} config-import; \
 	else \
 		echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
+		${MAKE} composer-install; \
 		${MAKE} config-import; \
 	fi;
 	$(MAKE) solr-cores
