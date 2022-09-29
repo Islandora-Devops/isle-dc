@@ -183,9 +183,10 @@ start:
 		${MAKE} config-import; \
 	fi;
 	$(MAKE) solr-cores
-	docker exec --tty $(docker-compose exec drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes") /bin/bash || true
-	docker exec --tty $(docker-compose exec drupal with-contenv bash -lc "drush search-api:rebuild-tracker ; drush search-api-solr:finalize-index ; drush search-api:index") /bin/bash || true
-	docker exec --tty $(docker-compose exec -T drupal bash -lc "bash /var/www/drupal/fix_permissions.sh /var/www/drupal/web nginx") /bin/bash || true
+	# Fix for Github runner "the input device is not a TTY" error
+	docker-compose exec -T drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes"
+	docker-compose exec -T drupal with-contenv bash -lc "drush search-api:rebuild-tracker ; drush search-api-solr:finalize-index ; drush search-api:index"
+	docker-compose exec -T drupal bash -lc "bash /var/www/drupal/fix_permissions.sh /var/www/drupal/web nginx"
 	$(MAKE) set-tmp
 
 .PHONY: _docker-up-and-wait

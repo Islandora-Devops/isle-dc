@@ -197,7 +197,6 @@ solr-cores:
 	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep solr)" ]; then \
 		echo "  └─ Solr is not running. Attempting to restart it now." ; \
 		docker-compose restart solr ; \
-		sleep 5 ; \
 	fi
 	@echo "  └─ Checking for Drupal"
 	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep drupal)" ]; then \
@@ -205,7 +204,7 @@ solr-cores:
 		docker-compose restart drupal ; \
 		${MAKE} _docker-up-and-wait ; \
 	fi
-	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
 	@echo "  └─ Done"
 
 # Creates namespaces in Blazegraph according to the environment variables.
