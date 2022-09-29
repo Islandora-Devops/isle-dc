@@ -36,10 +36,6 @@ jobs:
             - name: Run Update Hooks
               run: docker-compose exec -T drupal drush updatedb -y
 
-            # Copy generic missing files if needed. Can be removed once it has ran once on production.
-            - name: Copy Generic File
-              run: if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
-
             # Drush tests
             - name: Drush test
               run: docker-compose exec -T drupal drush -d status
