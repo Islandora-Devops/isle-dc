@@ -17,15 +17,15 @@
         },
         "1": {
             "type": "vcs",
-            "url": "git@github.com:Islandora/islandora.git"
+            "url": "https://github.com/Islandora/islandora.git"
         },
         "2": {
             "type": "vcs",
-            "url": "git@github.com:jhu-idc/islandora_defaults.git"
+            "url": "https://github.com/jhu-idc/islandora_defaults.git"
         },
         "3": {
             "type": "vcs",
-            "url": "git@github.com:jhu-idc/controlled_access_terms.git"
+            "url": "https://github.com/jhu-idc/controlled_access_terms.git"
         },
         "4": {
             "type": "git",
@@ -33,11 +33,11 @@
         },
         "5": {
             "type": "vcs",
-            "url": "git@github.com:jhu-idc/idc-ui-theme.git"
+            "url": "https://github.com/jhu-idc/idc-ui-theme.git"
         },
         "6": {
             "type": "vcs",
-            "url": "git@github.com:jhu-idc/idc_ui_module.git"
+            "url": "https://github.com/jhu-idc/idc_ui_module.git"
         },
         "7": {
             "type": "vcs",
@@ -266,12 +266,16 @@
         "post-install-cmd": [
             "@composer drupal:scaffold",
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-            "find ./vendor/ -exec chown 1000:101 {} + "
+            "find ./vendor/ -exec chown 1000:101 {} + ",
+            "find ./web/sites/default/files/ -exec chown nginx:www-data {} + ",
+            "drush updatedb -y"
         ],
         "post-update-cmd": [
             "@composer drupal:scaffold",
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-            "find ./vendor/ -exec chown 1000:101 {} + "
+            "find ./vendor/ -exec chown 1000:101 {} + ",
+            "find ./web/sites/default/files/ -exec chown nginx:www-data {} + ",
+            "drush updatedb -y"
         ]
     },
     "extra": {

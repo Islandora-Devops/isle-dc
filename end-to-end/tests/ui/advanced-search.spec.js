@@ -210,7 +210,7 @@ test('Compound boolean search', async (t) => {
     .resizeWindow(1024, 3885)
     .click(term3.opNot)
     .typeText(term3.nonproxyTerm.term, 'item AND rendering', { paste: true, replace: true});
-
+  /** Temp fix */
   await t
     .resizeWindow(1024, 3885)
     .click(Page.submitBtn)

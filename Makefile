@@ -116,29 +116,44 @@ build:
 .PHONY: set-codebase-owner
 .SILENT: set-codebase-owner
 set-codebase-owner:
-	# Improved Speed by checking if the user is already the owner.
-	sudo find ./codebase -not -user $(shell id -u) -exec chown $(shell id -u):101 {} \;
-	sudo find ./codebase -not -group 101 -exec chown $(shell id -u):101 {} \;
+	@echo ""
+	@echo "Setting codebase/ folder owner back to $(shell id -u):nginx"
+	sudo find ./codebase -not -user $(shell id -u) -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \;
+	sudo find ./codebase -not -group 101 -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \;
+	@echo "  └─ Done"
+	@echo ""
 
 # Creates required databases for drupal site(s) using environment variables.
 .PHONY: databases
 .SILENT: databases
 databases:
+	@echo ""
+	@echo "Creating databases for $(COMPOSE_PROJECT_NAME)"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_database"
+	@echo "  └─ Done"
 
 # Installs drupal site(s) using environment variables.
 .PHONY: install
 .SILENT: install
 install: databases
+	@echo ""
+	@echo "Installing $(COMPOSE_PROJECT_NAME)"
+	# docker-compose exec drupal with-contenv bash -lc "drush php-eval \"\Drupal::keyValue('system.schema')->delete('search_api_solr_defaults') ; echo 'Removed search_api_solr_defaults' \""
+	# docker-compose exec drupal with-contenv bash -lc "drush php-eval \"\Drupal::keyValue('system.schema')->delete('matomo') ; echo 'Removed matomo' \""
+	# docker-compose exec drupal with-contenv bash -lc "COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer update --lock ; echo 'Updated Composer'"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites install_site"
+	@echo "  └─ Done"
 
 # Updates settings.php according to the environment variables.
 .PHONY: update-settings-php
 .SILENT: update-settings-php
 update-settings-php:
+	@echo ""
+	@echo "Updating settings.php for $(COMPOSE_PROJECT_NAME)"
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites update_settings_php"
 	# Make sure the host user can read the settings.php files after they have been updated.
 	sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;
+	@echo "  └─ Done"
 
 # Updates configuration from environment variables.
 # Allow all commands to fail as the user may not have all the modules like matomo, etc.
@@ -147,8 +162,6 @@ update-settings-php:
 update-config-from-environment:
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
 	-docker-compose exec -T drupal with-contenv bash -lc "for_all_sites configure_search_api_solr_module"
-	# Matomo removed for IDC
-	#-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
 	-docker-compose exec drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
 
@@ -164,12 +177,13 @@ run-islandora-migrations:
 solr-reload-cores:
 	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep solr)" ] ; then \
 		$(MAKE) solr-cores; \
+	else \
+		docker-compose exec drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes ; drush search-api:rebuild-tracker ; drush search-api:index"; \
 	fi;
-	for i in $(shell docker inspect -f "{{range .NetworkSettings.Networks}}{{println .IPAddress}}{{end}}" $(shell echo $(shell docker ps --format \"{{.Names}}\")) | grep .) ; do \
-		curl http://$$i:8983/solr/admin/cores?action=RELOAD&core=ISLANDORA ; \
-		curl http://$$i:8983/solr/admin/cores?action=OPTIMIZE&core=ISLANDORA ; \
-		echo "Can be verified at http://$$i:8983/solr/#/~cores/ISLANDORA"; \
-	done
+	sleep 2
+	curl http://solr-idc.traefik.me/solr/admin/cores?action=RELOAD&core=ISLANDORA ; \
+	curl http://solr-idc.traefik.me/solr/admin/cores?action=OPTIMIZE&core=ISLANDORA ; \
+	echo "Can be verified at http://solr-idc.traefik.me/solr/#/~cores/ISLANDORA"; \
 	sleep 5
 	echo "\n\n400 message will happen if the core is current and optimized. These features only become available when the core isn't current.\n"
 	$(MAKE) cache-rebuild
@@ -178,8 +192,20 @@ solr-reload-cores:
 .PHONY: solr-cores
 .SILENT: solr-cores
 solr-cores:
-	docker-compose exec drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
-	docker-compose exec drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes"
+	@echo ""
+	@echo "Creating solr-cores for $(COMPOSE_PROJECT_NAME)"
+	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep solr)" ]; then \
+		echo "  └─ Solr is not running. Attempting to restart it now." ; \
+		docker-compose restart solr ; \
+	fi
+	@echo "  └─ Checking for Drupal"
+	if [ ! "$(shell docker ps -a --format \"{{.Names}}\" --filter 'status=running' | grep drupal)" ]; then \
+		echo "    └─ Drupal is not running. Attempting to restart it now."; \
+		docker-compose restart drupal ; \
+		${MAKE} _docker-up-and-wait ; \
+	fi
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
+	@echo "  └─ Done"
 
 # Creates namespaces in Blazegraph according to the environment variables.
 .PHONY: namespaces
@@ -221,6 +247,7 @@ config-export:
 	git checkout $(CURDIR)/codebase/config/sync/
 	docker-compose exec drupal bash -lc "bash /var/www/drupal/fix_permissions.sh /var/www/drupal/web nginx"
 	docker-compose exec drupal drush -l $(SITE) config:export -y
+	$(MAKE) set-codebase-owner
 
 # Import the sites configuration.
 # N.B You may need to run this multiple times in succession due to errors in the configurations dependencies.
@@ -242,6 +269,7 @@ endif
 
 # Import database.
 database-import: $(SRC)
+	@echo "──── Importing database"
 ifndef SRC
 	$(error SRC is not set)
 endif
@@ -251,6 +279,10 @@ endif
 	docker cp $(SRC) $$(docker-compose ps -q drupal):/tmp/dump.sql
 	# Need to specify the root user to import the database otherwise it will fail due to permissions.
 	docker-compose exec drupal with-contenv bash -lc '`drush -l $(SITE) sql:connect --extra="-u $${DRUPAL_DEFAULT_DB_ROOT_USER} --password=$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD}"` < /tmp/dump.sql'
+	# Temporary fix update 9.4
+	docker-compose exec -T mariadb bash -c 'mysql mysql -e "DELETE FROM key_value WHERE collection = system.schema and name = matomo"'; \
+	docker-compose exec -T mariadb bash -c 'mysql mysql -e "DELETE FROM key_value WHERE collection = system.schema and name = search_api_solr_defaults"'; \
+	@echo "  └─ Done"
 
 # Creates the codebase folder from a running islandora/demo image.
 .PHONY: create-codebase-from-demo

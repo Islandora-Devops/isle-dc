@@ -4,4 +4,4 @@ status: false
 dependencies: {  }
 formId: node_islandora_object_form
 captchaType: default
-label: null
+label: node_islandora_object_form

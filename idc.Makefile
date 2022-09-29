@@ -9,14 +9,27 @@ GIT_TAG := $(shell git describe --tags --always)
 .PHONY: bootstrap
 .SILENT: bootstrap
 bootstrap: snapshot-empty default destroy-state up install \
-		update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
-		cache-rebuild
-		git checkout -- .env
+	update-settings-php update-config-from-environment solr-cores run-islandora-migrations \
+	cache-rebuild
+	git checkout -- .env
+	@echo "  └─ Bootstrap complete."
+
+.PHONY: set-tmp
+set-tmp:
+	@echo "Creating and setting permissions on tmp & private directories"
+	-docker-compose exec -T drupal /bin/sh -c "mkdir -p /var/www/drupal/web/sites/default/files/tmp"
+	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/tmp) == \"nginx:www-data\" ]] ; then chown -R nginx:www-data /var/www/drupal/web/sites/default/files ; fi ; "
+	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /var/www/drupal/web/sites/default/files/tmp) == \"755\" ]] ; then chmod -R 775 /var/www/drupal/web/sites/default/files/tmp ; fi ; "
+	-docker-compose exec -T drupal /bin/sh -c "mkdir -p /tmp/private"
+	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /tmp/private) == \"nginx:www-data\" ]] ; then chown -R nginx:www-data /tmp/private ; fi ; "
+	-docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /tmp/private) == \"755\" ]] ; then chmod -R 775 /tmp/private ; fi ; "
+	@echo "  └─ Done"
+	@echo ""
 
 # Rebuilds the Drupal cache
 .PHONY: cache-rebuild
 .SILENT: cache-rebuild
-cache-rebuild:
+cache-rebuild: set-tmp
 	echo "rebuilding Drupal cache..."
 	docker-compose exec -T drupal drush cr -y
 
@@ -34,7 +47,9 @@ destroy-state:
 .SILENT: composer-install
 composer-install:
 	echo "Installing via composer"
-	docker-compose exec drupal with-contenv bash -lc 'COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"
+	docker-compose exec drupal with-contenv bash -lc "COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"
+	# Fix the masonry is a submodule error message.
+	[ -d codebase/web/libraries/masonry/.git/ ] && sudo rm -rf codebase/web/libraries/masonry/.git || true
 
 .PHONY: snapshot-image
 .SILENT: snapshot-image
@@ -109,20 +124,6 @@ up:  download-default-certs docker-compose.yml start
 down:
 	-docker-compose down -v --remove-orphans
 
-# Set/Reset tmp directory ownership to nginx.
-.PHONY: set-tmp
-.SILENT: set-tmp
-set-tmp:
-	# This is redundant with the buildkit, but can be overriden by the user.
-	# Set temp directory to /var/www/drupal/web/sites/default/files/tmp
-	docker-compose exec -T drupal /bin/sh -c "mkdir -p /var/www/drupal/web/sites/default/files/tmp"
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/tmp) == \"nginx:nginx\" ]] ; then chown -R nginx: /var/www/drupal/web/sites/default/files ; fi ; "
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /var/www/drupal/web/sites/default/files/tmp) == \"755\" ]] ; then chmod -R 775 /var/www/drupal/web/sites/default/files/tmp ; fi ; "
-	# Set private directory to /var/www/drupal/web/sites/default/files/private
-	docker-compose exec -T drupal /bin/sh -c "mkdir -p /var/www/drupal/web/sites/default/files/private"
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%u:%G\" /var/www/drupal/web/sites/default/files/private) == \"nginx:nginx\" ]] ; then chown -R nginx: /var/www/drupal/web/sites/default/files/private ; fi ; "
-	docker-compose exec -T drupal /bin/sh -c "if [[ ! \$$(stat -c \"%a\" /var/www/drupal/web/sites/default/files/private) == \"755\" ]] ; then chmod -R 775 /var/www/drupal/web/sites/default/files/private ; fi ; "
-
 .PHONY: dev-up
 .SILENT: dev-up
 dev-up:  download-default-certs
@@ -134,7 +135,6 @@ dev-up:  download-default-certs
 	$(MAKE) -B docker-compose.yml start
 	docker-compose exec drupal with-contenv bash -lc "echo \"alias drupal='vendor/drupal/console/bin/drupal'\" >> ~/.bashrc"
 	docker-compose exec drupal with-contenv bash -lc "echo \"alias drupal-check='vendor/mglaman/drupal-check/drupal-check'\" >> ~/.bashrc"
-	docker cp codebase/web/core/modules/media/images/icons/generic.png $(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/web/sites/default/files/media-icons/generic/
 	$(MAKE) set-codebase-owner
 	docker-compose exec drupal with-contenv bash -lc "chmod 766 /var/www/drupal/xdebug.log"
 
@@ -173,18 +173,21 @@ start:
 		echo "No Drupal state found.  Loading from snapshot, and importing config from config/sync"; \
 		${MAKE} db_restore; \
 		${MAKE} _docker-up-and-wait; \
-		docker-compose exec drupal with-contenv bash -lc "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
+		${MAKE} composer-install; \
+		if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi ; \
 		${MAKE} config-import; \
-	else echo "Pre-existing Drupal state found, not loading db from snapshot"; \
+	else \
+		echo "Pre-existing Drupal state found, not loading db from snapshot"; \
 		${MAKE} _docker-up-and-wait; \
-		docker-compose exec -T drupal /bin/sh -c "COMPOSER_DISCARD_CHANGES=true composer install --no-interaction"; \
-		$(MAKE) config-import; \
+		${MAKE} composer-install; \
+		${MAKE} config-import; \
 	fi;
+	$(MAKE) solr-cores
+	# Fix for Github runner "the input device is not a TTY" error
+	docker-compose exec -T drupal with-contenv bash -lc "drush search-api-solr:install-missing-fieldtypes"
+	docker-compose exec -T drupal with-contenv bash -lc "drush search-api:rebuild-tracker ; drush search-api-solr:finalize-index ; drush search-api:index"
+	docker-compose exec -T drupal bash -lc "bash /var/www/drupal/fix_permissions.sh /var/www/drupal/web nginx"
 	$(MAKE) set-tmp
-	docker-compose exec -T drupal /bin/sh -c "drush updatedb -y"
-	$(MAKE) set-codebase-owner
-	if [ ! -f codebase/web/sites/default/files/generic.png ] ; then cp "codebase/web/core/modules/media/images/icons/generic.png" "codebase/web/sites/default/files/generic.png" ; fi
-	$(MAKE) cache-rebuild
 
 .PHONY: _docker-up-and-wait
 .SILENT: _docker-up-and-wait
@@ -192,6 +195,12 @@ _docker-up-and-wait:
 	docker-compose up -d
 	sleep 5
 	docker-compose exec -T drupal /bin/sh -c "while true ; do echo \"Waiting for Drupal to start ...\" ; if [ -d \"/var/run/s6/services/nginx\" ] ; then s6-svwait -u /var/run/s6/services/nginx && exit 0 ; else sleep 5 ; fi done"
+	# This is a bit of a hack to make the solr update work. This can be removed once the solr update is applied to production.
+	-docker-compose exec -T drupal /bin/sh -c "drush cdel core.extension module.search_api_solr_defaults"
+	-docker-compose exec -T drupal /bin/sh -c "drush sql-query \"DELETE FROM key_value WHERE collection='system.schema' AND name='search_api_solr_defaults';\""
+	-docker-compose exec -T drupal /bin/sh -c "drush php-eval \"\Drupal::keyValue('system.schema')->delete('remote_stream_wrapper')\""
+	-docker-compose exec -T drupal /bin/sh -c "drush php-eval \"\Drupal::keyValue('system.schema')->delete('matomo')\""
+	$(MAKE) cache-rebuild
 
 
 # Static drupal image, with codebase baked in.  This image

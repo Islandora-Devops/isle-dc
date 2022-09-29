@@ -9,5 +9,5 @@ fetch:
   timeout: 30
 notification:
   emails:
-    - admin@example.org
+    - jscholarship-help@jhu.edu
   threshold: all
