@@ -6,6 +6,7 @@ networks:
     name: gateway
 services:
   solr:
+    tty: true
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/solr:${TAG:-latest}
 
