@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c81ff46e1d540b28f022d4aa20213f7",
+    "content-hash": "1b178a3d855e94975ac36cd7d77f6ca1",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -8479,7 +8479,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Islandora/documentation/issues",
-                "source": "https://github.com/Islandora/carapace/tree/4.0.0"
+                "source": "https://github.com/Islandora/carapace/tree/8.x-3.x"
             },
             "time": "2021-04-21T13:06:26+00:00"
         },

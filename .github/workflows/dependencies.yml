@@ -43,6 +43,9 @@ jobs:
     steps:
       - name: Checkout PR Branch
         uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
       - name: Start IDC
         run: make up
       - name: Capture Dependencies
