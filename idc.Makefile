@@ -183,7 +183,7 @@ start:
 		${MAKE} config-import; \
 	fi;
 	$(MAKE) solr-cores
-	docker-compose exec drupal bash -lc "bash /var/www/drupal/fix_permissions.sh /var/www/drupal/web nginx"
+	docker-compose exec -T drupal bash -lc "bash /var/www/drupal/fix_permissions.sh /var/www/drupal/web nginx"
 	$(MAKE) set-tmp
 
 .PHONY: _docker-up-and-wait
