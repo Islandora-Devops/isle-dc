@@ -138,10 +138,11 @@ databases:
 install: databases
 	@echo ""
 	@echo "Installing $(COMPOSE_PROJECT_NAME)"
-	# docker-compose exec drupal with-contenv bash -lc "drush php-eval \"\Drupal::keyValue('system.schema')->delete('search_api_solr_defaults') ; echo 'Removed search_api_solr_defaults' \""
-	# docker-compose exec drupal with-contenv bash -lc "drush php-eval \"\Drupal::keyValue('system.schema')->delete('matomo') ; echo 'Removed matomo' \""
-	# docker-compose exec drupal with-contenv bash -lc "COMPOSER_MEMORY_LIMIT=-1 COMPOSER_DISCARD_CHANGES=true composer update --lock ; echo 'Updated Composer'"
+	-docker-compose exec drupal with-contenv bash -lc "drush php-eval \"\Drupal::keyValue('system.schema')->delete('search_api_solr_defaults') ; echo 'Removed search_api_solr_defaults' \""
+	-docker-compose exec drupal with-contenv bash -lc "drush php-eval \"\Drupal::keyValue('system.schema')->delete('matomo') ; echo 'Removed matomo' \""
 	docker-compose exec drupal with-contenv bash -lc "for_all_sites install_site"
+	sudo find ./codebase/vendor/ -exec chown $(shell id -u):101 {} \;
+	sudo find ./codebase/web/sites/default/files/ -exec chown $(shell id -u):101 {} \;
 	@echo "  └─ Done"
 
 # Updates settings.php according to the environment variables.
