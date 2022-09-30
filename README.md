@@ -1,4 +1,5 @@
 # ISLE: Islandora Enterprise 8 Prototype  <!-- omit in toc -->
+[![Nightly](https://github.com/jhu-idc/idc-isle-dc/actions/workflows/nightly.yml/badge.svg)](https://github.com/jhu-idc/idc-isle-dc/actions/workflows/nightly.yml) [![CI](https://github.com/jhu-idc/idc-isle-dc/actions/workflows/ci.yml/badge.svg)](https://github.com/jhu-idc/idc-isle-dc/actions/workflows/ci.yml)
 
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](./LICENSE)
 
