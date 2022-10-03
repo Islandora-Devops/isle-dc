@@ -33,7 +33,6 @@ services:
     # being set from the buildkit environment. This is likely a bug in the 
     # buildkit and should be fixed there. But I've spent too much time on this
     # already. Good luck!
-    entrypoint: ["mkdir","-p","/tmp/drupal/tmp","&&","chown","-R","nginx:","/tmp/drupal","&&","chmod","-R","775","/tmp/drupal/tmp"]
   # Extends docker-compose.solr.yml so that they share a volume.
   solr:
     volumes:
