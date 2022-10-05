@@ -6,6 +6,14 @@ ENV_FILE=$(shell \
 	fi; \
 	echo .env)
 
+# handle sed -i differences (see https://stackoverflow.com/a/4247319/3204023 for more context)
+ifeq ($(shell uname -s),Darwin)
+	SED_DASH_I=sed -i ''
+else  # GNU/Linux
+	SED_DASH_I=sed -i
+endif
+
+
 # If custom.makefile exists include it.
 -include custom.Makefile
 
@@ -369,15 +377,9 @@ demo_content:
 	# if prod do this by default
 	# if [ -d "islandora_workbench" ]; then rm -rf islandora_workbench; fi
 	[ -d "islandora_workbench" ] || (git clone -b new_staging --single-branch https://github.com/DonRichards/islandora_workbench)
-ifeq ($(shell uname -s),Linux)
-	sed -i 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
-	sed -i 's/http:/https:/g' islandora_workbench/demoBDcreate*
-endif
-ifeq ($(shell uname -s),Darwin)
-	sed -i '' 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
-	sed -i '' 's/http:/https:/g' islandora_workbench/demoBDcreate*
-endif
-	sed -i '' 's/author_email\="mjordan@sfu"\,/author_email="mjordan@sfu", packages=["i7Import", "i8demo_BD", "input_data"],/g' islandora_workbench/setup.py
+	$(SED_DASH_I) 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
+	$(SED_DASH_I) 's/http:/https:/g' islandora_workbench/demoBDcreate*
+	$(SED_DASH_I) 's/author_email\="mjordan@sfu"\,$$/author_email="mjordan@sfu", packages=["i7Import", "i8demo_BD", "input_data"],/g' islandora_workbench/setup.py
 	cd islandora_workbench && docker build -t workbench-docker .
 	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install 2>&1 && ./workbench --config demoBDcreate_all_localhost.yml)"
 	$(MAKE) reindex-solr
