@@ -105,4 +105,6 @@ TBD
 
 ## License Agreements
 
-The Islandora Foundation requires that contributors complete a [Contributor License Agreement](http://islandora.ca/sites/default/files/islandora_cla.pdf) or be covered by a [Corporate Contributor License Agreement](http://islandora.ca/sites/default/files/islandora_ccla.pdf). The signed copy of the license agreement should be sent to <a href="mailto:community@islandora.ca?Subject=Contributor%20License%20Agreement" target="_top">community@islandora.ca</a>. This license is for your protection as a contributor as well as the protection of the Foundation and its users; it does not change your rights to use your own contributions for any other purpose.
+The Islandora Foundation requires that contributors complete a [Contributor License Agreement](https://forms.gle/7YYShuaMfG7F94A87) or be covered by a [Corporate Contributor License Agreement](https://forms.gle/7YYShuaMfG7F94A87). This license is for your protection as a contributor as well as the protection of the Foundation and its users; it does not change your rights to use your own contributions for any other purpose.
+
+**To complete a Contributor License Agreement (Individual or Corporate), please click [**HERE**](https://forms.gle/kS6BKhaf5LBzNvj18) to be taken to the Google Form.** 
