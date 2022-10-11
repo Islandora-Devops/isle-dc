@@ -33,6 +33,11 @@ that you supply in a `.env` file.  And there are three use cases we're trying to
 - **local** *(Local development using composer/drush in the codebase folder)*
 - **custom** *(A custom Dockerfile to deploy created from local)*
 
+Additionally, there's a couple other targets derived from `local` which make use of [the `islandora/islandora-starter-site` project](https://github.com/Islandora/islandora-starter-site):
+
+- **starter**: Uses `composer create-project` to initialize the site, for general use; and,
+- **starter_dev**: Creates a clone of the starter site project, intended for development of the "starter site" proper; however, given a number of different items are configured during provisioning, `starter_dev` may be of limited utility as config exports will be dirtied during provisioning (ideally, these bits that vary could be reworked to use [Drupal's "state API"](https://www.drupal.org/docs/8/api/state-api/overview) instead, or perhaps avoiding reworking of the modules by using [Drupal's configuration override system](https://www.drupal.org/docs/drupal-apis/configuration-api/configuration-override-system)).
+
 On top of that, there's a lot of useful commands for managing an Islandora instance, such
 as database import/export and reindexing.
 

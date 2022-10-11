@@ -172,7 +172,7 @@ run-islandora-migrations:
 	#docker-compose exec -T drupal with-contenv bash -lc "for_all_sites import_islandora_migrations"
 	# this line can be reverted when https://github.com/Islandora-Devops/isle-buildkit/blob/fae704f065435438828c568def2a0cc926cc4b6b/drupal/rootfs/etc/islandora/utilities.sh#L557
 	# has been updated to match
-	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import islandora_defaults_tags,islandora_tags'
+	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import $(MIGRATE_IMPORT_USER_OPTION) islandora_defaults_tags,islandora_tags'
 
 .PHONY: solr-cores
 ## Creates solr-cores according to the environment variables.
@@ -347,17 +347,17 @@ demo: generate-secrets
 ## Make a local site with codebase directory bind mounted, modeled after sandbox.islandora.ca
 local: QUOTED_CURDIR = "$(CURDIR)"
 local: generate-secrets
-	$(MAKE) download-default-certs ENVIROMENT=local
+	$(MAKE) download-default-certs ENVIRONMENT=local
 	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
 	$(MAKE) pull ENVIRONMENT=local
 	mkdir -p $(CURDIR)/codebase
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
 	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIROMENT=local
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
-	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIROMENT=local
+	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIRONMENT=local
 	docker-compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
 	$(MAKE) delete-shortcut-entities && docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
 	docker-compose exec -T drupal with-contenv bash -lc "drush en -y migrate_tools"
@@ -521,3 +521,47 @@ fix_masonry:
 fix_views:
 	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
 	docker-compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
+
+.PHONY: starter
+## Make a local site with codebase directory bind mounted, using starter site.
+starter: QUOTED_CURDIR = "$(CURDIR)"
+starter: generate-secrets
+	$(MAKE) starter-init ENVIRONMENT=starter
+	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project islandora/islandora-starter-site:dev-main /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+	fi
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
+	docker-compose up -d --remove-orphans
+	$(MAKE) starter-finalize ENVIRONMENT=starter
+
+.PHONY: starter_dev
+## Make a local site with codebase directory bind mounted, using cloned starter site.
+starter_dev: QUOTED_CURDIR = "$(CURDIR)"
+starter_dev: generate-secrets
+	$(MAKE) starter-init ENVIRONMENT=starter_dev
+	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora/islandora-starter-site /home/root;'; \
+	fi
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
+	docker-compose up -d --remove-orphans
+	docker-compose exec -T drupal with-contenv bash -lc 'composer install'
+	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
+
+.PHONY: starter-init
+starter-init: generate-secrets
+	$(MAKE) download-default-certs
+	$(MAKE) -B docker-compose.yml
+	$(MAKE) pull
+	mkdir -p $(CURDIR)/codebase
+
+.PHONY: starter-finalize
+starter-finalize:
+	docker-compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx .'
+	$(MAKE) drupal-database update-settings-php
+	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
+	docker-compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
+	MIGRATE_IMPORT_USER_OPTION=--userid=1 $(MAKE) hydrate
+	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import --userid=1 islandora_fits_tags'
+	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
+	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
+	$(MAKE) login
