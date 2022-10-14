@@ -93,7 +93,7 @@ the things you can do.  If you want to poke around, here's all the services that
 | Traefik     | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |
 | Fedora      | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |
 | Blazegraph  | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |
-| Activemq    | [https://islandora.traefik.me:8161](https://islandora.traefik.me:8161)                         |
+| Activemq    | [http://islandora.traefik.me:8161](http://islandora.traefik.me:8161)                         |
 | Solr        | [https://islandora.traefik.me:8983](https://islandora.traefik.me:8983)                         |
 | Cantaloupe  | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |
 | Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |
