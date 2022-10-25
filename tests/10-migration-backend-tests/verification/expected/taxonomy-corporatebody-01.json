@@ -1,0 +1,22 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "corporate_body",
+  "name": "Parent Corporate Body",
+  "unique_id": "corp_01",
+  "description": {
+    "value": "<p>This is a parent corporate body</p>",
+    "format": "basic_html",
+    "processed": "<p>This is a parent corporate body</p>"
+  },
+  "date:": [
+    "2021",
+    "2022"
+  ],
+  "primary_name": "Parent Corporate Body",
+  "relationships": [
+    {
+      "rel_type": "schema:subOrganization",
+      "name": "My Corporate Body"
+    }
+  ]
+}

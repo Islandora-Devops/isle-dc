@@ -1,0 +1,46 @@
+uuid:
+  -
+    value: 827f63c7-5ca1-4b1b-a28f-f6f8e09775dc
+langcode:
+  -
+    value: en
+type:
+  -
+    target_id: carapace_cb_footer_contact
+    target_type: block_content_type
+    target_uuid: 208bc7c7-42fd-4bb8-bbcb-66095184b975
+revision_created:
+  -
+    value: '2021-05-14T14:20:54+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log: {  }
+status:
+  -
+    value: true
+info:
+  -
+    value: 'Footer: Contact'
+changed:
+  -
+    value: '2021-05-14T14:20:54+00:00'
+    format: 'Y-m-d\TH:i:sP'
+reusable:
+  -
+    value: false
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+field_carapace_cb_email: {  }
+field_carapace_cb_inst_address: {  }
+field_carapace_cb_phone: {  }
+_content_sync:
+  entity_type: block_content
+  entity_dependencies: {  }

@@ -1,0 +1,64 @@
+uuid:
+  -
+    value: 17e99e5a-bcb5-427d-88c6-921b1795fd02
+langcode:
+  -
+    value: en
+bundle:
+  -
+    value: menu_link_content
+revision_created:
+  -
+    value: '2021-05-14T14:14:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+enabled:
+  -
+    value: true
+title:
+  -
+    value: 'Page Derivatives'
+description: {  }
+menu_name:
+  -
+    value: admin
+link:
+  -
+    uri: 'route:entity.context.edit_form;context=pages'
+    title: null
+    options: {  }
+external:
+  -
+    value: false
+rediscover:
+  -
+    value: false
+weight:
+  -
+    value: 10
+expanded:
+  -
+    value: true
+parent:
+  -
+    value: entity.context.collection
+changed:
+  -
+    value: '2021-05-14T14:14:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+_content_sync:
+  entity_type: menu_link_content
+  menu_entity_link:
+    context: 309bdd94-6231-4d8b-8e82-241e0788bcef
+  entity_dependencies: {  }

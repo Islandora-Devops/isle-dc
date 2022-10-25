@@ -1,0 +1,42 @@
+Index: web/modules/contrib/features/src/FeaturesManager.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/codebase/web/modules/contrib/features/src/FeaturesManager.php b/codebase/web/modules/contrib/features/src/FeaturesManager.php
+--- a/web/modules/contrib/features/src/FeaturesManager.php	(date 1613155743839)
++++ b/web/modules/contrib/features/src/FeaturesManager.php	(date 1613155743839)
+@@ -1224,20 +1224,19 @@
+         foreach ($config as $item_name => $label) {
+           $name = $this->getFullName($config_type, $item_name);
+           $data = $this->configStorage->read($name);
+-          if ($data) {
+-            $config_collection[$name] = (new ConfigurationItem($name, $data, [
+-              'shortName' => $item_name,
+-              'label' => $label,
+-              'type' => $config_type,
+-              'dependents' => array_keys($dependency_manager->getDependentEntities('config', $name)),
+-              // Default to the install directory.
+-              'subdirectory' => isset($existing_config_by_directory[$name]) ? $existing_config_by_directory[$name] : InstallStorage::CONFIG_INSTALL_DIRECTORY,
+-              'package' => '',
+-              'providerExcluded' => NULL,
+-              'provider' => isset($existing_config[$name]) ? $existing_config[$name] : NULL,
+-              'packageExcluded' => [],
+-            ]));
+-          }
++
++          $config_collection[$name] = (new ConfigurationItem($name, $data, [
++            'shortName' => $item_name,
++            'label' => $label,
++            'type' => $config_type,
++            'dependents' => array_keys($dependency_manager->getDependentEntities('config', $name)),
++            // Default to the install directory.
++            'subdirectory' => isset($existing_config_by_directory[$name]) ? $existing_config_by_directory[$name] : InstallStorage::CONFIG_INSTALL_DIRECTORY,
++            'package' => '',
++            'providerExcluded' => NULL,
++            'provider' => isset($existing_config[$name]) ? $existing_config[$name] : NULL,
++            'packageExcluded' => [],
++          ]));
+         }
+       }
+       $this->setConfigCollection($config_collection);

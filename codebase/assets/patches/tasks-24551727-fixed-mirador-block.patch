@@ -1,0 +1,54 @@
+Index: web/modules/contrib/islandora_defaults/modules/islandora_mirador/src/Plugin/Block/MiradorBlock.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/modules/contrib/islandora_defaults/modules/islandora_mirador/src/Plugin/Block/MiradorBlock.php	(date 1606509418942)
++++ web/modules/contrib/islandora_defaults/modules/islandora_mirador/src/Plugin/Block/MiradorBlock.php	(date 1606509418942)
+@@ -4,6 +4,7 @@
+ 
+ use Drupal\Core\Block\BlockBase;
+ use Drupal\Core\Cache\Cache;
++use Drupal\Core\Entity\EntityBase;
+ use Drupal\Core\Form\FormStateInterface;
+ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+ use Drupal\Core\Routing\RouteMatchInterface;
+@@ -107,21 +108,23 @@
+    */
+   public function build() {
+     $node = $this->routeMatch->getParameter('node');
+-    $manifest_url = $this->token->replace($this->configuration['iiif_manifest_url'], ['node' => $node]);
+-    $id = 'mirador_' . $node->id();
+-    $build = [
+-      "#title" => $this->t('Mirador Viewer'),
+-      "#description" => $this->t("A div for mirador viewer"),
+-      "#theme" => "mirador",
+-      '#mirador_view_id' => $id,
+-      '#iiif_manifest_url' => $manifest_url,
+-      "#attached" => [
+-        'drupalSettings' => [
+-          'iiif_manifest_url' => $manifest_url,
+-          'mirador_view_id' => $id,
+-        ],
+-      ],
+-    ];
++    if ($node instanceof EntityBase) {
++      $manifest_url = $this->token->replace($this->configuration['iiif_manifest_url'], ['node' => $node]);
++      $id = 'mirador_' . $node->id();
++      $build = [
++        "#title" => $this->t('Mirador Viewer'),
++        "#description" => $this->t("A div for mirador viewer"),
++        "#theme" => "mirador",
++        '#mirador_view_id' => $id,
++        '#iiif_manifest_url' => $manifest_url,
++        "#attached" => [
++          'drupalSettings' => [
++            'iiif_manifest_url' => $manifest_url,
++            'mirador_view_id' => $id,
++          ]
++        ]
++      ];
++    }
+ 
+     return $build;
+   }

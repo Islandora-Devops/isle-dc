@@ -1,0 +1,3 @@
+unique_id,name,primary_name,subordinate_name,date_of_meeting_or_treaty,location_of_meeting,num_of_section_or_meet,corporate_body_alt_name,relationships,date,authority,description
+corp_01,Parent Corporate Body,Parent Corporate Body,,,,,,:::corp_02;schema:subOrganization,2021||2022,,<p>This is a parent corporate body</p>
+corp_02,My Corporate Body,My Corporate Body,My Corporate Body Subordinate Name||Another Subordinate Name,2021||2022,"Denver, CO||Atlanta, GA",1st||2nd,Alt name of meeting||Another Alt Name,:::corp_01;schema:parentOrganization,2021||2022,http://loc.gov;lcnaf||http://www.google.com;other,<p>A corporate body description.</p>

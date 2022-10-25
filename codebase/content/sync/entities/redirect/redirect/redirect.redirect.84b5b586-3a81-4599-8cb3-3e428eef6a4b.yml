@@ -1,0 +1,41 @@
+uuid:
+  -
+    value: 84b5b586-3a81-4599-8cb3-3e428eef6a4b
+hash:
+  -
+    value: 44V2uX9QplI8zskqzuIDzO0_iM2UFddQJ2OHmMG3dlA
+type:
+  -
+    value: redirect
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+redirect_source:
+  -
+    path: islandora/example-image-0
+    query: {  }
+redirect_redirect:
+  -
+    uri: 'internal:/node/4'
+    title: null
+    options: {  }
+language:
+  -
+    value: en
+status_code:
+  -
+    value: 301
+created:
+  -
+    value: '2021-05-14T16:53:24+00:00'
+    format: 'Y-m-d\TH:i:sP'
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+_content_sync:
+  entity_type: redirect
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

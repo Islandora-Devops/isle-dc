@@ -1,0 +1,39 @@
+uuid:
+  -
+    value: a732e0ef-19a5-479a-b1b0-a1e8acf17785
+langcode:
+  -
+    value: en
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+filename:
+  -
+    value: '6-FITS File.xml'
+uri:
+  -
+    value: 'public://2021-05/6-FITS File.xml'
+    url: /sites/default/files/2021-05/6-FITS%20File.xml
+filemime:
+  -
+    value: application/xml
+filesize:
+  -
+    value: 6441
+status:
+  -
+    value: true
+created:
+  -
+    value: '2021-05-14T17:44:49+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T17:44:49+00:00'
+    format: 'Y-m-d\TH:i:sP'
+_content_sync:
+  entity_type: file
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

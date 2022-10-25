@@ -1,0 +1,39 @@
+uuid:
+  -
+    value: 2a459cc9-e1d2-42b2-aaaf-b55ced5d1ff9
+langcode:
+  -
+    value: en
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+filename:
+  -
+    value: '5-Thumbnail Image.png'
+uri:
+  -
+    value: 'public://2021-05/5-Thumbnail Image.png'
+    url: /sites/default/files/2021-05/5-Thumbnail%20Image.png
+filemime:
+  -
+    value: image/png
+filesize:
+  -
+    value: 10109220
+status:
+  -
+    value: true
+created:
+  -
+    value: '2021-05-14T17:11:10+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T17:11:10+00:00'
+    format: 'Y-m-d\TH:i:sP'
+_content_sync:
+  entity_type: file
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

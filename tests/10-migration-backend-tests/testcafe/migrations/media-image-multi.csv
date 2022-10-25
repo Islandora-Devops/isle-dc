@@ -1,0 +1,3 @@
+unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url,alt_text,restricted_access,new_filename
+media_img_m_00001,Looking For Fossils Multi,:::media_accesscontrol_01||:::media_accesscontrol_02,TRP_7767.jpg,image/jpeg,:::media_io_1,Original File||Preservation File,http://migration-assets/assets/image/TRP_7767.jpg,Image alt text,0,TRP_7767-multi.jpg
+media_format_file_tiff_m_01,Tiff Image Multi,:::media_accesscontrol_01||:::media_accesscontrol_02,tiff.tif,image/tiff,:::media_io_1,Original File,http://migration-assets/assets/image/formats/tiff.tif,tiff,1,tiff-multi.tiff

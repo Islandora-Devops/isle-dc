@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  traefik:
+    networks:
+      gateway:
+        # I believe upstream has fixed aliases and has this out of the box for traefik,
+        # eliminating the need to do this here
+        aliases:
+          - islandora-${COMPOSE_PROJECT_NAME-isle-dc}.${DRUPAL_SITE_HOST-traefik.me}
+          - islandora-${COMPOSE_PROJECT_NAME-isle-dc}-${DRUPAL_SITE_HOST-traefik.me}
+  testcafe:
+    image: testcafe/testcafe:1.9.4
+    working_dir: /end-to-end
+    environment:
+      XVFB_SCREEN_WIDTH: ${SCREEN_WIDTH-1280}
+      XVFB_SCREEN_HEIGHT: ${SCREEN_HEIGHT-720}
+      DISPLAY: ":1.0"
+    entrypoint: /end-to-end/entrypoint.sh
+    volumes:
+      - ./end-to-end/:/end-to-end 
+    # We limit ourselves strictly to the frontend (i.e. through traefik and other internet-exposed services)
+    networks:
+      - gateway

@@ -1,0 +1,64 @@
+uuid:
+  -
+    value: d51eae3a-cce9-41ab-8781-f69358cab961
+langcode:
+  -
+    value: en
+bundle:
+  -
+    value: menu_link_content
+revision_created:
+  -
+    value: '2021-05-14T14:14:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+enabled:
+  -
+    value: true
+title:
+  -
+    value: Content
+description: {  }
+menu_name:
+  -
+    value: admin
+link:
+  -
+    uri: 'route:entity.context.edit_form;context=repository_content'
+    title: null
+    options: {  }
+external:
+  -
+    value: false
+rediscover:
+  -
+    value: false
+weight:
+  -
+    value: 10
+expanded:
+  -
+    value: true
+parent:
+  -
+    value: entity.context.collection
+changed:
+  -
+    value: '2021-05-14T14:14:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+_content_sync:
+  entity_type: menu_link_content
+  menu_entity_link:
+    context: bdb35197-ba57-486a-96c6-414cd5e1b175
+  entity_dependencies: {  }

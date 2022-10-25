@@ -1,0 +1,39 @@
+uuid:
+  -
+    value: 6b84168d-6c7b-451a-9bc0-106549a06030
+langcode:
+  -
+    value: en
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+filename:
+  -
+    value: 4.jpg
+uri:
+  -
+    value: 'public://2021-05/4.jpg'
+    url: /sites/default/files/2021-05/4.jpg
+filemime:
+  -
+    value: image/jpeg
+filesize:
+  -
+    value: 222369
+status:
+  -
+    value: true
+created:
+  -
+    value: '2021-05-14T15:20:20+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T15:20:20+00:00'
+    format: 'Y-m-d\TH:i:sP'
+_content_sync:
+  entity_type: file
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

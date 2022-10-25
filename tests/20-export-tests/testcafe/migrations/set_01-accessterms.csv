@@ -1,0 +1,7 @@
+unique_id,name,parent,description
+accesscontrol_01,Archives and Special Collections,,<p>Collections from the archives</p>
+accesscontrol_02,Collection A (Animals),:::accesscontrol_01,<p>For items in Collection A</p>
+accesscontrol_03,Collection B (Farm Animals),:::accesscontrol_02,
+accesscontrol_04,Collection C (Zoo Animals),:::accesscontrol_02,
+accesscontrol_05,Collection D,:::accesscontrol_01,
+accesscontrol_06,Collection E,:::accesscontrol_05,

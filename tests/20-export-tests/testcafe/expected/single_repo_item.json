@@ -1,0 +1,106 @@
+{
+  "unique_id": "io_01",
+  "title": "Zoo Animal A",
+  "abstract": [
+    "Abstract for Zoo Animal A English (test);;eng",
+    "日本語のサンプルリポジトリアイテムの要約;;jpn"
+  ],
+  "access_rights": [
+    ":access_rights::accessrights_02",
+    ":access_rights::accessrights_01"
+  ],
+  "access_terms": ":islandora_access::accesscontrol_04",
+  "alternative_title": "Animal A;;eng",
+  "collection_number": [
+    "1",
+    "2"
+  ],
+  "contributor": [
+    "relators:art;:person::io-person_1",
+    "relators:pht;:person::io-person_1"
+  ],
+  "copyright": ":copyright_and_use::copyrightanduse_01",
+  "copyright_holder": [
+    ":person::io-person_2",
+    ":person::io-person_1"
+  ],
+  "creator": [
+    "relators:art;:person::io-person_1",
+    "relators:pht;:person::io-person_2"
+  ],
+  "custodial_history": [
+    "This material was held by the author and donated recently;;eng",
+    "该材料由作者持有，最近捐赠;;chi"
+  ],
+  "date_available": "2020-01-01",
+  "date_copyrighted": [
+    "2010-01-01",
+    "1941-11"
+  ],
+  "date_created": [
+    "1941-11-01",
+    "1941-11"
+  ],
+  "date_published": [
+    "1943",
+    "1944"
+  ],
+  "description": [
+    "Sample Repository Item Description in English (test);;eng",
+    "सैंपल रिपोजिटरी आइटम का विवरण हिंदी मे;;hin"
+  ],
+  "digital_identifier": [
+    "a digital identifier one",
+    "a digital identifier two"
+  ],
+  "digital_publisher": [
+    ":corporate_body::io-corp_01",
+    ":corporate_body::io-corp_04"
+  ],
+  "display_hints": "Open Seadragon",
+  "dspace_identifier": "http://jscholarship.library.jhu.edu",
+  "dspace_itemid": "DSpace Item ID",
+  "extent": [
+    "1 item",
+    "one image file"
+  ],
+  "featured_item": "1",
+  "finding_aid": "http://www.google.com",
+  "genre": [
+    ":genre::io-genre-01",
+    ":genre::io-genre-02"
+  ],
+  "geoportal_link": "http://catalyst.library.jhu.edu",
+  "issn": "12345678",
+  "is_part_of": "https://en.wikipedia.org/wiki/San_Rafael_Reef",
+  "item_barcode": "123456",
+  "jhir_uri": "http://jhir.jhu.edu",
+  "language": [
+    ":language::lang_03",
+    ":language::lang_05"
+  ],
+  "library_catalog_link": "http://catalog.library.jhu.edu",
+  "member_of": ":collection_object::io-collection-04",
+  "model": "Image",
+  "oclc_number": [
+    "oclc_one",
+    "oclc_two"
+  ],
+  "publisher": [
+    ":corporate_body::io-corp_01",
+    ":corporate_body::io-corp_04"
+  ],
+  "publisher_country": ":geo_location::io-geolocation-03",
+  "resource_type": ":resource_types::resourcetype_02",
+  "spatial_coverage": ":geo_location::io-geolocation-03",
+  "subject": ":subject::io-subject-01",
+  "table_of_contents": [
+    "Table of Contents in English (test);;eng",
+    "Inhaltsverzeichnis in deutscher Sprache;;ger"
+  ],
+  "title_language": ":language::lang_03",
+  "years": [
+    "1941",
+    "1943"
+  ]
+}

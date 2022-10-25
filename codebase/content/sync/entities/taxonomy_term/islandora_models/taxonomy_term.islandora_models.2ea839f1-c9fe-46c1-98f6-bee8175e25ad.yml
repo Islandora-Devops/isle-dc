@@ -1,0 +1,78 @@
+uuid:
+  -
+    value: 2ea839f1-c9fe-46c1-98f6-bee8175e25ad
+langcode:
+  -
+    value: en
+vid:
+  -
+    target_id: islandora_models
+    target_type: taxonomy_vocabulary
+    target_uuid: 1ae46113-5f43-4425-80a7-6e7b40d351c2
+revision_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+status:
+  -
+    value: true
+name:
+  -
+    value: 'Publication Issue'
+description:
+  -
+    value: 'A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.'
+    format: null
+    processed: "<p>A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.</p>\n"
+weight:
+  -
+    value: 0
+parent:
+  -
+    target_id: 0
+changed:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/taxonomy/term/31'
+    title: 'Publication Issue | Default'
+    description: 'A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.'
+path:
+  -
+    alias: null
+    pid: null
+    langcode: en
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+content_translation_uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+content_translation_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+field_external_uri:
+  -
+    uri: 'https://schema.org/PublicationIssue'
+    title: null
+    options: {  }
+_content_sync:
+  entity_type: taxonomy_term
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

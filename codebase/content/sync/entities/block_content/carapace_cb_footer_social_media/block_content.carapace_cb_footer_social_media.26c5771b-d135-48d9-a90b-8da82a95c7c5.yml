@@ -1,0 +1,50 @@
+uuid:
+  -
+    value: 26c5771b-d135-48d9-a90b-8da82a95c7c5
+langcode:
+  -
+    value: en
+type:
+  -
+    target_id: carapace_cb_footer_social_media
+    target_type: block_content_type
+    target_uuid: 422b4ce6-461a-4b4d-aa69-339556eda522
+revision_created:
+  -
+    value: '2021-05-14T14:20:54+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log: {  }
+status:
+  -
+    value: true
+info:
+  -
+    value: 'Footer: Social Media'
+changed:
+  -
+    value: '2021-05-14T14:20:54+00:00'
+    format: 'Y-m-d\TH:i:sP'
+reusable:
+  -
+    value: false
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+field_carapace_cb_facebook: {  }
+field_carapace_cb_flickr: {  }
+field_carapace_cb_instagram: {  }
+field_carapace_cb_linkedin: {  }
+field_carapace_cb_pinterest: {  }
+field_carapace_cb_twitter: {  }
+field_carapace_cb_youtube: {  }
+_content_sync:
+  entity_type: block_content
+  entity_dependencies: {  }

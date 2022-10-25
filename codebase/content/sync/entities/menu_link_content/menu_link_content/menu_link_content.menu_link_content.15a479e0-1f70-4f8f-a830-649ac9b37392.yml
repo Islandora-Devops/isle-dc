@@ -1,0 +1,64 @@
+uuid:
+  -
+    value: 15a479e0-1f70-4f8f-a830-649ac9b37392
+langcode:
+  -
+    value: en
+bundle:
+  -
+    value: menu_link_content
+revision_created:
+  -
+    value: '2021-05-14T14:14:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+enabled:
+  -
+    value: true
+title:
+  -
+    value: 'Video Derivatives'
+description: {  }
+menu_name:
+  -
+    value: admin
+link:
+  -
+    uri: 'route:entity.context.edit_form;context=video_original_file'
+    title: null
+    options: {  }
+external:
+  -
+    value: false
+rediscover:
+  -
+    value: false
+weight:
+  -
+    value: 10
+expanded:
+  -
+    value: true
+parent:
+  -
+    value: entity.context.collection
+changed:
+  -
+    value: '2021-05-14T14:14:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+_content_sync:
+  entity_type: menu_link_content
+  menu_entity_link:
+    context: ab8de75b-7b4c-44ef-b335-2ca7c1264bd0
+  entity_dependencies: {  }

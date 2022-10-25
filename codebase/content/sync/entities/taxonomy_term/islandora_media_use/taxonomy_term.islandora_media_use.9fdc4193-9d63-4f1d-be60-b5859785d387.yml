@@ -1,0 +1,78 @@
+uuid:
+  -
+    value: 9fdc4193-9d63-4f1d-be60-b5859785d387
+langcode:
+  -
+    value: en
+vid:
+  -
+    target_id: islandora_media_use
+    target_type: taxonomy_vocabulary
+    target_uuid: 6ced4f9d-dd87-4530-b621-66e956c6c228
+revision_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+status:
+  -
+    value: true
+name:
+  -
+    value: 'Intermediate File'
+description:
+  -
+    value: 'High quality representation of the Object, appropriate for generating derivatives or other additional processing'
+    format: null
+    processed: "<p>High quality representation of the Object, appropriate for generating derivatives or other additional processing</p>\n"
+weight:
+  -
+    value: 0
+parent:
+  -
+    target_id: 0
+changed:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/taxonomy/term/17'
+    title: 'Intermediate File | Default'
+    description: 'High quality representation of the Object, appropriate for generating derivatives or other additional processing'
+path:
+  -
+    alias: null
+    pid: null
+    langcode: en
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+content_translation_uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+content_translation_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+field_external_uri:
+  -
+    uri: 'http://pcdm.org/use#IntermediateFile'
+    title: null
+    options: {  }
+_content_sync:
+  entity_type: taxonomy_term
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

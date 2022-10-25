@@ -1,0 +1,93 @@
+uuid:
+  -
+    value: 89ad1f3d-64ec-4441-860c-679126aef3e9
+langcode:
+  -
+    value: en
+bundle:
+  -
+    target_id: video
+    target_type: media_type
+    target_uuid: 87941c1d-f928-44a9-86f1-adf46ebadce1
+revision_created:
+  -
+    value: '2021-05-14T18:00:02+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+status:
+  -
+    value: true
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+name:
+  -
+    value: '7-Service File.mp4'
+thumbnail:
+  -
+    alt: ''
+    title: null
+    width: 180
+    height: 180
+    target_type: file
+    target_uuid: 6983183d-3f1a-4dac-8b91-3cfa44fca6bd
+created:
+  -
+    value: '2021-05-14T18:00:02+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T18:00:02+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+field_file_size:
+  -
+    value: 4962761
+field_media_of:
+  -
+    target_type: node
+    target_uuid: d507ce97-a1ee-4f91-a3dc-c3091dcd46cb
+field_media_use:
+  -
+    target_type: taxonomy_term
+    target_uuid: 2f44b280-b853-46a6-95de-d15b62fe7863
+field_media_video_file:
+  -
+    display: null
+    description: null
+    target_type: file
+    target_uuid: 87467ac4-fb98-4590-9929-f4f39b9e2e3f
+field_mime_type:
+  -
+    value: video/mp4
+field_original_name: {  }
+field_track: {  }
+_content_sync:
+  entity_type: media
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98
+    file:
+      - file.file.6983183d-3f1a-4dac-8b91-3cfa44fca6bd
+      - file.file.87467ac4-fb98-4590-9929-f4f39b9e2e3f
+    node:
+      - node.islandora_object.d507ce97-a1ee-4f91-a3dc-c3091dcd46cb
+    taxonomy_term:
+      - taxonomy_term.islandora_media_use.2f44b280-b853-46a6-95de-d15b62fe7863

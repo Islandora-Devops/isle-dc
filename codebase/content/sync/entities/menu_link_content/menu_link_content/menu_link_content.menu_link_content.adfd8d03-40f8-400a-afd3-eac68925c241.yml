@@ -1,0 +1,64 @@
+uuid:
+  -
+    value: adfd8d03-40f8-400a-afd3-eac68925c241
+langcode:
+  -
+    value: en
+bundle:
+  -
+    value: menu_link_content
+revision_created:
+  -
+    value: '2021-05-14T14:14:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+enabled:
+  -
+    value: true
+title:
+  -
+    value: 'Compound member object'
+description: {  }
+menu_name:
+  -
+    value: admin
+link:
+  -
+    uri: 'route:entity.context.edit_form;context=compound_member_object'
+    title: null
+    options: {  }
+external:
+  -
+    value: false
+rediscover:
+  -
+    value: false
+weight:
+  -
+    value: 10
+expanded:
+  -
+    value: true
+parent:
+  -
+    value: entity.context.collection
+changed:
+  -
+    value: '2021-05-14T14:14:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+_content_sync:
+  entity_type: menu_link_content
+  menu_entity_link:
+    context: ff65da5e-73cf-4859-9c1e-1f8ea300bec4
+  entity_dependencies: {  }

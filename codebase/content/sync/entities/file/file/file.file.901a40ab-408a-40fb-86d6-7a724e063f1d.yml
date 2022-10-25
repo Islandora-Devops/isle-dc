@@ -1,0 +1,39 @@
+uuid:
+  -
+    value: 901a40ab-408a-40fb-86d6-7a724e063f1d
+langcode:
+  -
+    value: en
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+filename:
+  -
+    value: 1008-article-text-4742-1-10-20131007.pdf
+uri:
+  -
+    value: 'fedora://2021-05/1008-article-text-4742-1-10-20131007.pdf'
+    url: /_flysystem/fedora/2021-05/1008-article-text-4742-1-10-20131007.pdf
+filemime:
+  -
+    value: application/pdf
+filesize:
+  -
+    value: 10615705
+status:
+  -
+    value: true
+created:
+  -
+    value: '2021-05-14T17:10:44+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T17:10:53+00:00'
+    format: 'Y-m-d\TH:i:sP'
+_content_sync:
+  entity_type: file
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

@@ -1,0 +1,16 @@
+{
+  "name": "idc-tests",
+  "version": "1.0.0",
+  "description": "Tests for IDC",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./run-testcafe.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "testcafe": "^1.9.4"
+  }
+}

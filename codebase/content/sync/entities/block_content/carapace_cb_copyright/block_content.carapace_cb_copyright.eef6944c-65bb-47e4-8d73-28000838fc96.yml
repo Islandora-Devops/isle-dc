@@ -1,0 +1,44 @@
+uuid:
+  -
+    value: eef6944c-65bb-47e4-8d73-28000838fc96
+langcode:
+  -
+    value: en
+type:
+  -
+    target_id: carapace_cb_copyright
+    target_type: block_content_type
+    target_uuid: 6a23b596-138b-47b8-ab32-a0f837564092
+revision_created:
+  -
+    value: '2021-05-14T14:20:54+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log: {  }
+status:
+  -
+    value: true
+info:
+  -
+    value: 'Footer: Copyright'
+changed:
+  -
+    value: '2021-05-14T14:20:54+00:00'
+    format: 'Y-m-d\TH:i:sP'
+reusable:
+  -
+    value: false
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+field_carapace_cb_copyright: {  }
+_content_sync:
+  entity_type: block_content
+  entity_dependencies: {  }

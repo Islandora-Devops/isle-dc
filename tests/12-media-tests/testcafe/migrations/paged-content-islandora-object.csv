@@ -1,0 +1,4 @@
+unique_id,node_id,title,member_of,model
+paged_io_01,,Paged Content Repository Item One,::title:Derivative Collection,Paged Content
+paged_io_02,,Page 1,:islandora_object:title:Paged Content Repository Item One,Page
+paged_io_03,,Page 2,:islandora_object:title:Paged Content Repository Item One,Page

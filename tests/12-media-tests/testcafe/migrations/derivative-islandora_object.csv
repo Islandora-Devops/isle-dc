@@ -1,0 +1,7 @@
+unique_id,node_id,title,member_of,model
+derivative_io_01,,Derivative Repository Item One,::title:Derivative Collection,Image
+derivative_io_02,,Derivative Repository Item Video With Deriv,::title:Derivative Collection,Video
+derivative_io_03,,Derivative Repository Item Video With No Deriv,::title:Derivative Collection,Video
+derivative_io_04,,Derivative Repository Item Audio With Deriv,::title:Derivative Collection,Audio
+derivative_io_05,,Derivative Repository Item Audio With No Deriv,::title:Derivative Collection,Audio
+derivative_io_06,,Derivative Repository Item PDF,::title:Derivative Collection,Digital Document

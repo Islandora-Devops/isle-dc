@@ -1,0 +1,84 @@
+uuid:
+  -
+    value: 37595fc2-1310-442a-8235-be6c3cec033b
+langcode:
+  -
+    value: en
+vid:
+  -
+    target_id: resource_types
+    target_type: taxonomy_vocabulary
+    target_uuid: aa9a39cd-128e-4231-a627-0119c447bdf2
+revision_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+status:
+  -
+    value: true
+name:
+  -
+    value: Sound
+description:
+  -
+    value: 'A resource primarily intended to be heard'
+    format: null
+    processed: "<p>A resource primarily intended to be heard</p>\n"
+weight:
+  -
+    value: 0
+parent:
+  -
+    target_id: 0
+changed:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/taxonomy/term/12'
+    title: 'Sound | Default'
+    description: 'A resource primarily intended to be heard'
+path:
+  -
+    alias: null
+    pid: null
+    langcode: en
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+content_translation_uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+content_translation_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+field_authority_link:
+  -
+    uri: 'http://purl.org/dc/dcmitype/Sound'
+    title: null
+    options: {  }
+    source: null
+field_external_uri:
+  -
+    uri: 'http://purl.org/dc/dcmitype/Sound'
+    title: null
+    options: {  }
+_content_sync:
+  entity_type: taxonomy_term
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

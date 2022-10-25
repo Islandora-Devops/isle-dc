@@ -1,0 +1,91 @@
+uuid:
+  -
+    value: 153ca11d-c976-4a40-8aa4-62bd9628505e
+langcode:
+  -
+    value: en
+type:
+  -
+    target_id: home_page
+    target_type: node_type
+    target_uuid: 218fe29c-471c-40c8-a0cb-f8f2ab9d389f
+revision_timestamp:
+  -
+    value: '2021-05-14T14:59:27+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+revision_log: {  }
+status:
+  -
+    value: true
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+title:
+  -
+    value: 'Welcome to Islandora!'
+created:
+  -
+    value: '2021-05-14T14:44:16+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T15:02:08+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  -
+    value: false
+sticky:
+  -
+    value: false
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: 'Welcome to Islandora! | Default'
+    description: "Welcome to your new Islandora instance.\_ It comes pre-loaded with an collection that has examples of several different types items you may want to store in your repository.\_ For more info, check out our documentation and our collection of how-to videos on youtube.\n\n\_\n\nWant to change the banner image? Edit this content and upload a different file for the Main Banner."
+path:
+  -
+    alias: null
+    pid: null
+    langcode: en
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+field_display_title:
+  -
+    value: 'Welcome to Islandora!'
+body:
+  -
+    value: "<p>Welcome to your new Islandora instance.&nbsp; It comes pre-loaded with an collection that has examples of several different types items you may want to store in your repository.&nbsp; For more info, check out our documentation and our collection of how-to videos on youtube.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Want to change the banner image? Edit this content and upload a different file for the <strong>Main Banner</strong>.</p>\r\n"
+    format: full_html
+    processed: "<p>Welcome to your new Islandora instance.\_ It comes pre-loaded with an collection that has examples of several different types items you may want to store in your repository.\_ For more info, check out our documentation and our collection of how-to videos on youtube.</p>\n\n<p>\_</p>\n\n<p>Want to change the banner image? Edit this content and upload a different file for the <strong>Main Banner</strong>.</p>\n"
+    summary: ''
+    summary_processed: ''
+field_main_banner:
+  -
+    alt: 'Graysccale photography of two silos on grass'
+    title: ''
+    width: 5057
+    height: 3071
+    target_type: file
+    target_uuid: 44c31f52-c593-429a-a22e-946b7197b807
+_content_sync:
+  entity_type: node
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98
+    file:
+      - file.file.44c31f52-c593-429a-a22e-946b7197b807

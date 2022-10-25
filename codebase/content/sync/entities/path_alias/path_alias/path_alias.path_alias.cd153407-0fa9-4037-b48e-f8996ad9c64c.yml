@@ -1,0 +1,17 @@
+uuid:
+  -
+    value: cd153407-0fa9-4037-b48e-f8996ad9c64c
+langcode:
+  -
+    value: en
+path:
+  -
+    value: /node/6
+alias:
+  -
+    value: /islandora/example-audio
+status:
+  -
+    value: true
+_content_sync:
+  entity_type: path_alias

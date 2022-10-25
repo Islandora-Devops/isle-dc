@@ -1,0 +1,86 @@
+{
+    "collections": {
+        "io-collection-01": {
+            "unique_id": "io-collection-01",
+            "title": "Archives and Special Collections",
+            "title_language": ":language::lang_03",
+            "alternative_title": "AS and C;;eng",
+            "member_of": "",
+            "access_terms": ":islandora_access::accesscontrol_01",
+            "collection_number": "345",
+            "contact_email": "bseeger@jhu.edu",
+            "contact_name": "Bethany Seeger",
+            "description": "Collection of Animal Images;;eng",
+            "finding_aid": "http://www.example.com/Archives",
+            "featured_item": "0"
+        },
+        "io-collection-02": {
+            "unique_id": "io-collection-02",
+            "title": "Collection A (Animals)",
+            "title_language": ":language::lang_03",
+            "alternative_title": [
+                "Animal Collection;;eng",
+                "動物コレクション;;jpn"
+            ],
+            "member_of": ":collection_object::io-collection-01",
+            "access_terms": ":islandora_access::accesscontrol_02",
+            "collection_number": [
+                "345",
+                "567"
+            ],
+            "contact_email": "bseeger@jhu.edu",
+            "contact_name": "Bethany Seeger",
+            "description": [
+                "Collection of Animal Images;;eng",
+                "Some animal images;;eng"
+            ],
+            "finding_aid": [
+                "http://www.example.com/Collection_A",
+                "http://www.google.com"
+            ],
+            "featured_item": "1"
+        },
+        "io-collection-03": {
+            "unique_id": "io-collection-03",
+            "title": "Collection B (Farm Animals)",
+            "title_language": ":language::lang_03",
+            "alternative_title": "Farm Collection;;eng",
+            "member_of": ":collection_object::io-collection-02",
+            "access_terms": ":islandora_access::accesscontrol_03",
+            "collection_number": "456",
+            "contact_email": "bseeger@jhu.edu",
+            "contact_name": "Bethany Seeger",
+            "description": "Collection of Farm Animal Images;;eng",
+            "finding_aid": "http://www.example.com/Collection_B",
+            "featured_item": "0"
+        },
+        "io-collection-04": {
+            "unique_id": "io-collection-04",
+            "title": "Collection C (Zoo Animals)",
+            "title_language": ":language::lang_03",
+            "alternative_title": "Zoo Collection;;eng",
+            "member_of": ":collection_object::io-collection-02",
+            "access_terms": ":islandora_access::accesscontrol_04",
+            "collection_number": "567",
+            "contact_email": "bseeger@jhu.edu",
+            "contact_name": "Bethany Seeger",
+            "description": "Collection of Zoo Animal Images;;eng",
+            "finding_aid": "http://www.example.com/Collection_C",
+            "featured_item": "0"
+        },
+        "io-collection-05": {
+            "unique_id": "io-collection-05",
+            "title": "Collection D",
+            "title_language": ":language::lang_03",
+            "alternative_title": "Alt title D;;eng",
+            "member_of": ":collection_object::io-collection-01",
+            "access_terms": ":islandora_access::accesscontrol_05",
+            "collection_number": "567",
+            "contact_email": "bseeger@jhu.edu",
+            "contact_name": "Bethany Seeger",
+            "description": "Collection of Zoo Animal Images;;eng",
+            "finding_aid": "http://www.example.com/Collection_D",
+            "featured_item": "1"
+        }
+    }
+}

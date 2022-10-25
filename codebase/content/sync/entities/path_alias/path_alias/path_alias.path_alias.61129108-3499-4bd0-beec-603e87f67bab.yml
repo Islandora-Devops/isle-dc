@@ -1,0 +1,17 @@
+uuid:
+  -
+    value: 61129108-3499-4bd0-beec-603e87f67bab
+langcode:
+  -
+    value: en
+path:
+  -
+    value: /node/7
+alias:
+  -
+    value: /islandora/example-video
+status:
+  -
+    value: true
+_content_sync:
+  entity_type: path_alias

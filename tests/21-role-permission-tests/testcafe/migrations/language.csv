@@ -1,0 +1,7 @@
+unique_id,name,language_code,authority,description
+lang_01,Swedish,swe,http://id.loc.gov/vocabulary/iso639-2/swe;iso639-2b,
+lang_02,Apache,apa,http://id.loc.gov/vocabulary/iso639-2/apa;iso639-2b,
+lang_03,English (test),eng,http://id.loc.gov/vocabulary/iso639-2/eng;iso639-2b,
+lang_04,Hindi (test),hin,http://id.loc.gov/vocabulary/iso639-2/hin;iso639-2b,
+lang_05,German (test),ger,http://id.loc.gov/vocabulary/iso639-2/ger;iso639-2b,
+lang_06,Japanese (test),jpn,http://id.loc.gov/vocabulary/iso639-2/jpn;iso639-2b,

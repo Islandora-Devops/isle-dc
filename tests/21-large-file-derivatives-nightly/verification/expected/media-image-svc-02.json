@@ -1,0 +1,9 @@
+{
+  "type": "media",
+  "bundle": "image",
+  "name": "35-Service File.jpg",
+  "use": [
+    "Service File"
+  ],
+  "media_of": "Derivative Image 02"
+}

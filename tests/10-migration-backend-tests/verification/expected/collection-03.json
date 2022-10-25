@@ -1,0 +1,41 @@
+{
+  "type": "node",
+  "bundle": "collection_object",
+  "title": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibu",
+  "title_language": "eng",
+  "unique_id": "collection-03",
+  "alternative_title": [
+    {
+      "value": "Titre alternatif pour un très long titre",
+      "language": "fre"
+    },
+    {
+      "value": "Alternate Title for A very long title",
+      "language": "eng"
+    }
+  ],
+  "description": [
+    {
+      "value": "This is a description for a collection with a very long title",
+      "language": "eng"
+    },
+    {
+      "value": "Esta es una descripción de la colección de un título muy largo",
+      "language": "spa"
+    }
+  ],
+  "contact_email": "emetsger@gmail.com",
+  "contact_name": "Elliot Metsger",
+  "collection_number": [
+    "1", "2"
+  ],
+  "member_of": "Parent Collection",
+  "finding_aid": [
+    {
+      "uri": "http://wikipedia.org"
+    },
+    {
+      "uri": "http://www.example.com"
+    }
+  ]
+}

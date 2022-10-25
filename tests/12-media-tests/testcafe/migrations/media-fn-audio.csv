@@ -1,0 +1,3 @@
+unique_id,name,access_terms,original_name,mime_type,media_of,media_use,url,restricted_access,new_filename
+media_fn_audio_00001,Moo Cow New Name,:::media_accesscontrol_01||:::media_accesscontrol_02,moo.mp3,audio/mpeg,:::media_io_fn_1,Original File||Service File,http://migration-assets/assets/audio/moo.mp3,1,CowMoo.mp3
+media_fn_audio_00002,Moo Cow Orig Name,:::media_accesscontrol_01||:::media_accesscontrol_02,moo.mp3,audio/mpeg,:::media_io_fn_2,Original File||Service File,http://migration-assets/assets/audio/moo.mp3,1,

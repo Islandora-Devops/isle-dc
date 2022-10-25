@@ -1,0 +1,9 @@
+{
+  "type": "node",
+  "bundle": "collection_object",
+  "title": "Parent Collection",
+  "unique_id": "collection-01",
+  "access_terms": [
+    "Parent Collection"
+  ]
+}

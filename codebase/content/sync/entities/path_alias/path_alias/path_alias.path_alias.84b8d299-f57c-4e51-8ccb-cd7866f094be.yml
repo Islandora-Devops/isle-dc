@@ -1,0 +1,17 @@
+uuid:
+  -
+    value: 84b8d299-f57c-4e51-8ccb-cd7866f094be
+langcode:
+  -
+    value: en
+path:
+  -
+    value: /node/4
+alias:
+  -
+    value: /islandora/example-image
+status:
+  -
+    value: true
+_content_sync:
+  entity_type: path_alias

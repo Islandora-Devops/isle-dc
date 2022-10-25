@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="1.5.0" timestamp="5/14/21 3:20 PM">
+  <identification>
+    <identity format="JPEG EXIF" mimetype="image/jpeg" toolname="FITS" toolversion="1.5.0">
+      <tool toolname="Droid" toolversion="6.4" />
+      <tool toolname="Jhove" toolversion="1.20.1" />
+      <tool toolname="file utility" toolversion="5.39" />
+      <tool toolname="Exiftool" toolversion="11.54" />
+      <tool toolname="NLNZ Metadata Extractor" toolversion="3.6GA" />
+      <version toolname="Droid" toolversion="6.4" status="CONFLICT">2.2</version>
+      <version toolname="file utility" toolversion="5.39" status="CONFLICT">1080</version>
+      <externalIdentifier toolname="Droid" toolversion="6.4" type="puid">x-fmt/391</externalIdentifier>
+    </identity>
+  </identification>
+  <fileinfo>
+    <size toolname="Jhove" toolversion="1.20.1">826119</size>
+    <creatingApplicationName toolname="NLNZ Metadata Extractor" toolversion="3.6GA" status="SINGLE_RESULT">Google</creatingApplicationName>
+    <filepath toolname="OIS File Information" toolversion="1.0" status="SINGLE_RESULT">/opt/tomcat/webapps/fits/upload/1621005619674/stock-graphics-vintage-61.jpg</filepath>
+    <filename toolname="OIS File Information" toolversion="1.0" status="SINGLE_RESULT">stock-graphics-vintage-61.jpg</filename>
+    <md5checksum toolname="OIS File Information" toolversion="1.0" status="SINGLE_RESULT">0131623b8c17cc28d5fbc1b7212f09ed</md5checksum>
+    <fslastmodified toolname="OIS File Information" toolversion="1.0" status="SINGLE_RESULT">1621005619000</fslastmodified>
+  </fileinfo>
+  <filestatus>
+    <well-formed toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">true</well-formed>
+    <valid toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">true</valid>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">Value offset not word-aligned: 69 severity=info offset=42</message>
+  </filestatus>
+  <metadata>
+    <image>
+      <byteOrder toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">big endian</byteOrder>
+      <compressionScheme toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">JPEG</compressionScheme>
+      <imageWidth toolname="Jhove" toolversion="1.20.1">1080</imageWidth>
+      <imageHeight toolname="Jhove" toolversion="1.20.1">659</imageHeight>
+      <iccProfileName toolname="Jhove" toolversion="1.20.1">sRGB IEC61966-2.1</iccProfileName>
+      <YCbCrSubSampling toolname="Exiftool" toolversion="11.54" status="CONFLICT">1 1</YCbCrSubSampling>
+      <YCbCrSubSampling toolname="NLNZ Metadata Extractor" toolversion="3.6GA" status="CONFLICT">1</YCbCrSubSampling>
+      <bitsPerSample toolname="Jhove" toolversion="1.20.1">8 8 8</bitsPerSample>
+      <samplesPerPixel toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">3</samplesPerPixel>
+      <scanningSoftwareName toolname="Exiftool" toolversion="11.54" status="SINGLE_RESULT">Google</scanningSoftwareName>
+      <lightSource toolname="NLNZ Metadata Extractor" toolversion="3.6GA" status="SINGLE_RESULT">unknown</lightSource>
+      <iccProfileVersion toolname="Exiftool" toolversion="11.54" status="SINGLE_RESULT">2.1.0</iccProfileVersion>
+      <exifVersion toolname="Exiftool" toolversion="11.54">0220</exifVersion>
+      <standard>
+        <mix:mix xmlns:mix="http://www.loc.gov/mix/v20">
+          <mix:BasicDigitalObjectInformation>
+            <mix:byteOrder>big endian</mix:byteOrder>
+            <mix:Compression>
+              <mix:compressionScheme>JPEG</mix:compressionScheme>
+            </mix:Compression>
+          </mix:BasicDigitalObjectInformation>
+          <mix:BasicImageInformation>
+            <mix:BasicImageCharacteristics>
+              <mix:imageWidth>1080</mix:imageWidth>
+              <mix:imageHeight>659</mix:imageHeight>
+              <mix:PhotometricInterpretation>
+                <mix:ColorProfile>
+                  <mix:IccProfile>
+                    <mix:iccProfileName>sRGB IEC61966-2.1</mix:iccProfileName>
+                    <mix:iccProfileVersion>2.1.0</mix:iccProfileVersion>
+                  </mix:IccProfile>
+                </mix:ColorProfile>
+                <mix:YCbCr>
+                  <mix:YCbCrSubSampling>
+                    <mix:yCbCrSubsampleHoriz>1</mix:yCbCrSubsampleHoriz>
+                    <mix:yCbCrSubsampleVert>1</mix:yCbCrSubsampleVert>
+                  </mix:YCbCrSubSampling>
+                </mix:YCbCr>
+              </mix:PhotometricInterpretation>
+            </mix:BasicImageCharacteristics>
+          </mix:BasicImageInformation>
+          <mix:ImageCaptureMetadata>
+            <mix:GeneralCaptureInformation />
+            <mix:ScannerCapture>
+              <mix:ScanningSystemSoftware>
+                <mix:scanningSoftwareName>Google</mix:scanningSoftwareName>
+              </mix:ScanningSystemSoftware>
+            </mix:ScannerCapture>
+            <mix:DigitalCameraCapture>
+              <mix:DigitalCameraModel />
+              <mix:CameraCaptureSettings>
+                <mix:ImageData>
+                  <mix:exifVersion>0220</mix:exifVersion>
+                  <mix:lightSource>unknown</mix:lightSource>
+                </mix:ImageData>
+              </mix:CameraCaptureSettings>
+            </mix:DigitalCameraCapture>
+          </mix:ImageCaptureMetadata>
+          <mix:ImageAssessmentMetadata>
+            <mix:SpatialMetrics />
+            <mix:ImageColorEncoding>
+              <mix:BitsPerSample>
+                <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+              </mix:BitsPerSample>
+              <mix:samplesPerPixel>3</mix:samplesPerPixel>
+            </mix:ImageColorEncoding>
+          </mix:ImageAssessmentMetadata>
+        </mix:mix>
+      </standard>
+    </image>
+  </metadata>
+  <statistics fitsExecutionTime="767">
+    <tool toolname="MediaInfo" toolversion="20.09" status="did not run" />
+    <tool toolname="OIS Audio Information" toolversion="0.1" status="did not run" />
+    <tool toolname="ADL Tool" toolversion="0.1" status="did not run" />
+    <tool toolname="VTT Tool" toolversion="0.1" status="did not run" />
+    <tool toolname="Droid" toolversion="6.4" executionTime="195" />
+    <tool toolname="Jhove" toolversion="1.20.1" executionTime="699" />
+    <tool toolname="file utility" toolversion="5.39" executionTime="708" />
+    <tool toolname="Exiftool" toolversion="11.54" executionTime="679" />
+    <tool toolname="NLNZ Metadata Extractor" toolversion="3.6GA" executionTime="649" />
+    <tool toolname="OIS File Information" toolversion="1.0" executionTime="166" />
+    <tool toolname="OIS XML Metadata" toolversion="0.2" status="did not run" />
+    <tool toolname="ffident" toolversion="0.2" executionTime="598" />
+    <tool toolname="Tika" toolversion="1.21" executionTime="279" />
+  </statistics>
+</fits>
+
+

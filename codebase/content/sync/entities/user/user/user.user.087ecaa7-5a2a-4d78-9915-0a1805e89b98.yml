@@ -1,0 +1,46 @@
+uuid:
+  -
+    value: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+langcode:
+  -
+    value: en
+name:
+  -
+    value: admin
+created:
+  -
+    value: '2021-05-14T14:14:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T14:17:08+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/user/1'
+    title: 'admin | Default'
+    description: Default
+path:
+  -
+    alias: null
+    pid: null
+    langcode: en
+user_picture: {  }
+_content_sync:
+  entity_type: user
+  entity_dependencies: {  }
+pass:
+  -
+    value: $S$EeWpLoArfHMwv8g7s0DhjZne3mdn9f9/TsRkYivadDZ6fZt021HV
+    pre_hashed: true
+mail:
+  value: webmaster@localhost.com
+status:
+  value: '1'
+roles:
+  - authenticated
+  - administrator
+  - fedoraadmin

@@ -1,0 +1,39 @@
+uuid:
+  -
+    value: c9ffcc45-89d0-4c68-9bfd-d9c08de49eb1
+langcode:
+  -
+    value: en
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+filename:
+  -
+    value: generic.png
+uri:
+  -
+    value: 'public://media-icons/generic/generic.png'
+    url: /sites/default/files/media-icons/generic/generic.png
+filemime:
+  -
+    value: image/png
+filesize:
+  -
+    value: 3900
+status:
+  -
+    value: true
+created:
+  -
+    value: '2021-05-14T15:20:25+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T15:20:25+00:00'
+    format: 'Y-m-d\TH:i:sP'
+_content_sync:
+  entity_type: file
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

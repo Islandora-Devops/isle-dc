@@ -1,0 +1,23 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "copyright_and_use",
+  "name": "Unknowable Copyright Status",
+  "unique_id": "copyrightanduse_01",
+  "authority": [
+    {
+      "uri": "http://rightsstatements.org/vocab/UND/1.0/",
+      "title": "Copyright Unknowable",
+      "source": "rightsstatements"
+    },
+    {
+      "uri": "https://www.google.com",
+      "title": "Google Knows All",
+      "source": "other"
+    }
+  ],
+  "description": {
+    "value": "<p>The copyright status of the resource is unknowable.</p>",
+    "format": "basic_html",
+    "processed": "<p>The copyright status of the resource is unknowable.</p>"
+  }
+}

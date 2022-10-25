@@ -1,0 +1,39 @@
+uuid:
+  -
+    value: d90703e3-f7f0-47aa-bd34-9c67787ebb84
+langcode:
+  -
+    value: en
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+filename:
+  -
+    value: '6-Service File.mp3'
+uri:
+  -
+    value: 'public://2021-05/6-Service File.mp3'
+    url: /sites/default/files/2021-05/6-Service%20File.mp3
+filemime:
+  -
+    value: audio/mpeg
+filesize:
+  -
+    value: 915855
+status:
+  -
+    value: true
+created:
+  -
+    value: '2021-05-14T17:44:50+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T17:44:50+00:00'
+    format: 'Y-m-d\TH:i:sP'
+_content_sync:
+  entity_type: file
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

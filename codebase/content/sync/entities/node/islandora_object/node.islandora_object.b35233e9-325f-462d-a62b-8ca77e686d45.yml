@@ -1,0 +1,122 @@
+uuid:
+  -
+    value: b35233e9-325f-462d-a62b-8ca77e686d45
+langcode:
+  -
+    value: en
+type:
+  -
+    target_id: islandora_object
+    target_type: node_type
+    target_uuid: 1d21bb86-08c9-4c8f-869c-eb5c38cd9fe2
+revision_timestamp:
+  -
+    value: '2021-05-14T15:13:39+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+revision_log: {  }
+status:
+  -
+    value: true
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+title:
+  -
+    value: 'Example Collection'
+created:
+  -
+    value: '2021-05-14T15:08:12+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T15:13:39+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  -
+    value: true
+sticky:
+  -
+    value: false
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/islandora/example-collection'
+    title: 'Example Collection | Default'
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+field_display_title:
+  -
+    value: 'Example Collection'
+field_alternative_title: {  }
+field_classification: {  }
+field_coordinates: {  }
+field_coordinates_text: {  }
+field_description: {  }
+field_description_long:
+  -
+    value: "<p>Here's an example collection that contains</p>\r\n\r\n<ul>\r\n\t<li>An Image</li>\r\n\t<li>A PDF</li>\r\n\t<li>A Book</li>\r\n\t<li>A Newspaper</li>\r\n\t<li>An audio file</li>\r\n\t<li>A video file</li>\r\n</ul>\r\n"
+    format: full_html
+    processed: "<p>Here's an example collection that contains</p>\n\n<ul>\n\t<li>An Image</li>\n\t<li>A PDF</li>\n\t<li>A Book</li>\n\t<li>A Newspaper</li>\n\t<li>An audio file</li>\n\t<li>A video file</li>\n</ul>\n"
+field_dewey_classification: {  }
+field_display_hints: {  }
+field_edition: {  }
+field_edtf_date: {  }
+field_edtf_date_created: {  }
+field_edtf_date_issued: {  }
+field_extent:
+  -
+    value: '1 item'
+field_genre: {  }
+field_geographic_subject: {  }
+field_identifier: {  }
+field_isbn: {  }
+field_language: {  }
+field_lcc_classification: {  }
+field_linked_agent: {  }
+field_local_identifier: {  }
+field_main_banner: {  }
+field_member_of: {  }
+field_model:
+  -
+    target_type: taxonomy_term
+    target_uuid: 9c416bfd-6200-4f49-8e01-8d5e47a1e606
+field_note: {  }
+field_oclc_number: {  }
+field_physical_form: {  }
+field_pid: {  }
+field_place_published: {  }
+field_resource_type:
+  -
+    target_type: taxonomy_term
+    target_uuid: 8488a17e-d507-40fa-899c-d59266d3dbd8
+field_rights: {  }
+field_subject: {  }
+field_subjects_name: {  }
+field_table_of_contents: {  }
+field_temporal_subject: {  }
+field_weight: {  }
+_content_sync:
+  entity_type: node
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98
+    taxonomy_term:
+      - taxonomy_term.islandora_models.9c416bfd-6200-4f49-8e01-8d5e47a1e606
+      - taxonomy_term.resource_types.8488a17e-d507-40fa-899c-d59266d3dbd8
+path:
+  -
+    alias: /islandora/example-collection

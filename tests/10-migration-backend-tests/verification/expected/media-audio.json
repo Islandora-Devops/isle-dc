@@ -1,0 +1,19 @@
+{
+  "type": "media",
+  "bundle": "audio",
+  "name": "Moo Cow",
+  "unique_id": "media_audio_00001",
+  "original_name": "moo.mp3",
+  "size": 82539,
+  "mime_type": "audio/mpeg",
+  "restricted_access": true,
+  "use": [
+    "Preservation File",
+    "Original File"
+  ],
+  "access_terms": [
+    "Media Group B",
+    "Media Group A"
+  ],
+  "media_of": "Media Migration Repository Item One"
+}

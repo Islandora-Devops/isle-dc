@@ -1,0 +1,19 @@
+{
+  "type": "media",
+  "bundle": "video",
+  "name": "Chair Pop Video",
+  "unique_id": "media_video_00001",
+  "original_name": "chair-pop-gif.mp4",
+  "size": 214707,
+  "mime_type": "video/mp4",
+  "restricted_access": true,
+  "use": [
+    "Preservation File",
+    "Original File"
+  ],
+  "access_terms": [
+    "Media Group B",
+    "Media Group A"
+  ],
+  "media_of": "Media Migration Repository Item One"
+}

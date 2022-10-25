@@ -1,0 +1,84 @@
+uuid:
+  -
+    value: 415b1f56-0cb8-4064-aad4-72da8cb629f1
+langcode:
+  -
+    value: en
+vid:
+  -
+    target_id: resource_types
+    target_type: taxonomy_vocabulary
+    target_uuid: aa9a39cd-128e-4231-a627-0119c447bdf2
+revision_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+status:
+  -
+    value: true
+name:
+  -
+    value: 'Interactive Resource'
+description:
+  -
+    value: 'A resource requiring interaction from the user to be understood, executed, or experienced'
+    format: null
+    processed: "<p>A resource requiring interaction from the user to be understood, executed, or experienced</p>\n"
+weight:
+  -
+    value: 0
+parent:
+  -
+    target_id: 0
+changed:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/taxonomy/term/8'
+    title: 'Interactive Resource | Default'
+    description: 'A resource requiring interaction from the user to be understood, executed, or experienced'
+path:
+  -
+    alias: null
+    pid: null
+    langcode: en
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+content_translation_uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+content_translation_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+field_authority_link:
+  -
+    uri: 'http://purl.org/dc/dcmitype/InteractiveResource'
+    title: null
+    options: {  }
+    source: null
+field_external_uri:
+  -
+    uri: 'http://purl.org/dc/dcmitype/InteractiveResource'
+    title: null
+    options: {  }
+_content_sync:
+  entity_type: taxonomy_term
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

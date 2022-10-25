@@ -1,0 +1,24 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "language",
+  "name": "Klingon",
+  "unique_id": "language-01",
+  "language_code": "kln",
+  "authority": [
+    {
+      "uri": "https://en.wikipedia.org/wiki/Klingon_language",
+      "title": "Wikipedia",
+      "source": "iso639-2b"
+    },
+    {
+      "uri": "http://lc.gov",
+      "title": "Another Authority Source",
+      "source": "iso639-2b"
+    }
+  ],
+  "description": {
+    "value": "<p>Described in the 1985 book&nbsp;<em><a href=\"https://en.wikipedia.org/wiki/The_Klingon_Dictionary\">The Klingon Dictionary</a></em>&nbsp;by&nbsp;<a href=\"https://en.wikipedia.org/wiki/Marc_Okrand\">Marc Okrand</a>&nbsp;and deliberately designed to sound 'alien', it has a number of&nbsp;<a href=\"https://en.wikipedia.org/wiki/Linguistic_typology\">typologically</a>&nbsp;uncommon features. The language's basic sound, along with a few words, was first devised by actor&nbsp;<a href=\"https://en.wikipedia.org/wiki/James_Doohan\">James Doohan</a>&nbsp;(\"<a href=\"https://en.wikipedia.org/wiki/Montgomery_Scott\">Scotty</a>\") and producer&nbsp;<a href=\"https://en.wikipedia.org/wiki/Jon_Povill\">Jon Povill</a>&nbsp;for&nbsp;<em><a href=\"https://en.wikipedia.org/wiki/Star_Trek:_The_Motion_Picture\">Star Trek: The Motion Picture</a></em>. That film marked the first time the language had been heard on screen. In all previous appearances, Klingons spoke in English, even to each other. Klingon was subsequently developed by Okrand into a full-fledged language.</p>",
+    "format": "basic_html",
+    "processed": "<p>Described in the 1985 book\u00a0<em><a href=\"https://en.wikipedia.org/wiki/The_Klingon_Dictionary\">The Klingon Dictionary</a></em>\u00a0by\u00a0<a href=\"https://en.wikipedia.org/wiki/Marc_Okrand\">Marc Okrand</a>\u00a0and deliberately designed to sound 'alien', it has a number of\u00a0<a href=\"https://en.wikipedia.org/wiki/Linguistic_typology\">typologically</a>\u00a0uncommon features. The language's basic sound, along with a few words, was first devised by actor\u00a0<a href=\"https://en.wikipedia.org/wiki/James_Doohan\">James Doohan</a>\u00a0(\"<a href=\"https://en.wikipedia.org/wiki/Montgomery_Scott\">Scotty</a>\") and producer\u00a0<a href=\"https://en.wikipedia.org/wiki/Jon_Povill\">Jon Povill</a>\u00a0for\u00a0<em><a href=\"https://en.wikipedia.org/wiki/Star_Trek:_The_Motion_Picture\">Star Trek: The Motion Picture</a></em>. That film marked the first time the language had been heard on screen. In all previous appearances, Klingons spoke in English, even to each other. Klingon was subsequently developed by Okrand into a full-fledged language.</p>"
+  }
+}

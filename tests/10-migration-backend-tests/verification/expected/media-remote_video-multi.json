@@ -1,0 +1,13 @@
+{
+  "type": "media",
+  "bundle": "remote_video",
+  "name": "A Tour of Go Multi",
+  "restricted_access": true,
+  "unique_id": "media_rvideo_m_00001",
+  "access_terms": [
+    "Media Group B",
+    "Media Group A"
+  ],
+  "media_of": "Media Migration Repository Item One",
+  "embed_url": "https://www.youtube.com/watch?v=ytEkHepK08c"
+}

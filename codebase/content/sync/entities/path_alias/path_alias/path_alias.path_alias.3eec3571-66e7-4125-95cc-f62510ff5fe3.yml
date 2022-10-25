@@ -1,0 +1,17 @@
+uuid:
+  -
+    value: 3eec3571-66e7-4125-95cc-f62510ff5fe3
+langcode:
+  -
+    value: en
+path:
+  -
+    value: /node/2
+alias:
+  -
+    value: /islandora/example-collection
+status:
+  -
+    value: true
+_content_sync:
+  entity_type: path_alias

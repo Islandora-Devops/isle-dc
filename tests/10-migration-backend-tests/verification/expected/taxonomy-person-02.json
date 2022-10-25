@@ -1,0 +1,57 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "person",
+  "name": "Hine, Lewis Wickes, 1874-1940",
+  "unique_id": "person_4",
+  "primary_name": "Hine",
+  "rest_of_name": [
+      "Lewis Wickes",
+      "Lewis W."
+  ],
+  "prefix": [
+      "Mr",
+      "Another Prefix"
+  ],
+  "suffix": [
+      "Suffix1",
+      "Suffix2"
+  ],
+  "number": [
+     "1st",
+     "I"
+  ],
+  "fuller_form": [
+      "Lewis Wickes Hine",
+      "Lewis Hine"
+  ],
+  "date": [
+     "1874/1940",
+     "1874",
+     "1940"
+  ],
+  "alt_name": [
+      "Lewis Hines",
+      "Lewis W. Hine"
+  ],
+  "authority": [
+    {
+      "uri": "https://en.wikipedia.org/wiki/Lewis_Hine",
+      "title": "Wikipedia",
+      "type": "other"
+    },
+    {
+      "uri": "https://id.loc.gov/authorities/names/n50034947.html",
+      "title": "Library of Congress Name",
+      "type": "lcnaf"
+    }
+  ],
+  "knows": [
+    "Adams, Ansel Easton, 1902-1984",
+    "Weston, Edward, 1886-1958"
+  ],
+  "description": {
+    "value": "<p><strong>Lewis Wickes Hine</strong>&nbsp;Hine's photographs supported the NCLC's lobbying to end child labor and in 1912 the <a href=\"https://en.wikipedia.org/wiki/United_States_Children%27s_Bureau\">Children's Bureau</a> was created. The <a href=\"https://en.wikipedia.org/wiki/Fair_Labor_Standards_Act\">Fair Labor Standards Act</a> of 1938 eventually brought child labour in the US to an end.</p><p>After Hine's death, his son Corydon donated his prints and negatives to the <a href=\"https://en.wikipedia.org/wiki/Photo_League\">Photo League</a>, which was dismantled in 1951. The <a href=\"https://en.wikipedia.org/wiki/Museum_of_Modern_Art\">Museum of Modern Art</a> was offered his pictures and did not accept them, but the <a href=\"https://en.wikipedia.org/wiki/George_Eastman_House\">George Eastman House</a> did.</p><p>In 2006, author <a href=\"https://en.wikipedia.org/wiki/Elizabeth_Winthrop\">Elizabeth Winthrop Alsop</a>'s historical fiction middle-grade novel, <strong>Counting on Grace</strong> was published by <a href=\"https://en.wikipedia.org/wiki/Wendy_Lamb_Books\">Wendy Lamb Books</a>. The latter chapters center on 12-year-old Grace and her life-changing encounter with Hine, during his 1910 visit to a Vermont cotton mill known to have many child laborers.  On the cover is the iconic photo of Grace's real-life counterpart, Addie Card(1897–1993), taken during Hine's undercover visit to the Pownal Cotton Mill.</p><p>In 2016, <strong><a href=\"https://en.wikipedia.org/wiki/Time_(magazine)\">Time</a></strong> published colorized versions of several of Hine's photographs of child labor in the US.</p>",
+    "format": "basic_html",
+    "processed": "<p><strong>Lewis Wickes Hine</strong>\u00a0Hine's photographs supported the NCLC's lobbying to end child labor and in 1912 the <a href=\"https://en.wikipedia.org/wiki/United_States_Children%27s_Bureau\">Children's Bureau</a> was created. The <a href=\"https://en.wikipedia.org/wiki/Fair_Labor_Standards_Act\">Fair Labor Standards Act</a> of 1938 eventually brought child labour in the US to an end.</p><p>After Hine's death, his son Corydon donated his prints and negatives to the <a href=\"https://en.wikipedia.org/wiki/Photo_League\">Photo League</a>, which was dismantled in 1951. The <a href=\"https://en.wikipedia.org/wiki/Museum_of_Modern_Art\">Museum of Modern Art</a> was offered his pictures and did not accept them, but the <a href=\"https://en.wikipedia.org/wiki/George_Eastman_House\">George Eastman House</a> did.</p><p>In 2006, author <a href=\"https://en.wikipedia.org/wiki/Elizabeth_Winthrop\">Elizabeth Winthrop Alsop</a>'s historical fiction middle-grade novel, <strong>Counting on Grace</strong> was published by <a href=\"https://en.wikipedia.org/wiki/Wendy_Lamb_Books\">Wendy Lamb Books</a>. The latter chapters center on 12-year-old Grace and her life-changing encounter with Hine, during his 1910 visit to a Vermont cotton mill known to have many child laborers.  On the cover is the iconic photo of Grace's real-life counterpart, Addie Card(1897–1993), taken during Hine's undercover visit to the Pownal Cotton Mill.</p><p>In 2016, <strong><a href=\"https://en.wikipedia.org/wiki/Time_(magazine)\">Time</a></strong> published colorized versions of several of Hine's photographs of child labor in the US.</p>"
+  }
+}

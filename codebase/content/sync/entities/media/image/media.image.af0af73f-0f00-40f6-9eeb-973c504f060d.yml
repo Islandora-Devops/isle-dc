@@ -1,0 +1,99 @@
+uuid:
+  -
+    value: af0af73f-0f00-40f6-9eeb-973c504f060d
+langcode:
+  -
+    value: en
+bundle:
+  -
+    target_id: image
+    target_type: media_type
+    target_uuid: 5e07fd2f-6efa-4e74-8b30-fef837811439
+revision_created:
+  -
+    value: '2021-05-14T15:20:20+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+status:
+  -
+    value: true
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+name:
+  -
+    value: 4.jpg
+thumbnail:
+  -
+    alt: 4.jpg
+    title: null
+    width: 480
+    height: 293
+    target_type: file
+    target_uuid: 6b84168d-6c7b-451a-9bc0-106549a06030
+created:
+  -
+    value: '2021-05-14T15:20:20+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T15:20:20+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+field_file_size:
+  -
+    value: 222369
+field_height:
+  -
+    value: 293
+field_media_image:
+  -
+    alt: 4.jpg
+    title: null
+    width: 480
+    height: 293
+    target_type: file
+    target_uuid: 6b84168d-6c7b-451a-9bc0-106549a06030
+field_media_of:
+  -
+    target_type: node
+    target_uuid: 608e2b49-de86-4ccc-afb5-4f707d22f63c
+field_media_use:
+  -
+    target_type: taxonomy_term
+    target_uuid: 611bf3b6-d1dc-4a0f-802b-e4fe5d7d0144
+field_mime_type:
+  -
+    value: image/jpeg
+field_original_name: {  }
+field_width:
+  -
+    value: 480
+_content_sync:
+  entity_type: media
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98
+    file:
+      - file.file.6b84168d-6c7b-451a-9bc0-106549a06030
+    node:
+      - node.islandora_object.608e2b49-de86-4ccc-afb5-4f707d22f63c
+    taxonomy_term:
+      - taxonomy_term.islandora_media_use.611bf3b6-d1dc-4a0f-802b-e4fe5d7d0144

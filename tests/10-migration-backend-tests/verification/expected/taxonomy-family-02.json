@@ -1,0 +1,32 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "family",
+  "name": "McCoy",
+  "unique_id": "family-02",
+  "description": {
+    "value": "<p>McCoy description</p>",
+    "format": "basic_html",
+    "processed": "<p>McCoy description</p>"
+  },
+  "authority": [
+    {
+      "uri": "https://en.wikipedia.org/wiki/Hatfield%E2%80%93McCoy_feud",
+      "title": "Wikipedia",
+      "source": "other"
+    },
+    {
+      "uri": "http://www.google.com",
+      "title": "Google Alt Link",
+      "source": "other"
+    }
+  ],
+  "date": [
+    "1863",
+    "1891"
+  ],
+  "family_name": "McCoy",
+  "title_and_other_words": "McCoy Title",
+  "knowsAbout": [
+    "Hatfields"
+  ]
+}

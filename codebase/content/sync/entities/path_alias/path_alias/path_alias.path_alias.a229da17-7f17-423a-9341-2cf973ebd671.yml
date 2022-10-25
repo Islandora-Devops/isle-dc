@@ -1,0 +1,17 @@
+uuid:
+  -
+    value: a229da17-7f17-423a-9341-2cf973ebd671
+langcode:
+  -
+    value: en
+path:
+  -
+    value: /node/5
+alias:
+  -
+    value: /islandora/example-pdf
+status:
+  -
+    value: true
+_content_sync:
+  entity_type: path_alias

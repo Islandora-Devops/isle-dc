@@ -1,0 +1,39 @@
+uuid:
+  -
+    value: 8168afb4-c6f3-46d1-903e-5bd030e622ef
+langcode:
+  -
+    value: en
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+filename:
+  -
+    value: '4-Service File.jpg'
+uri:
+  -
+    value: 'public://2021-05/4-Service File.jpg'
+    url: /sites/default/files/2021-05/4-Service%20File.jpg
+filemime:
+  -
+    value: image/jpeg
+filesize:
+  -
+    value: 222369
+status:
+  -
+    value: true
+created:
+  -
+    value: '2021-05-14T15:20:19+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T15:20:19+00:00'
+    format: 'Y-m-d\TH:i:sP'
+_content_sync:
+  entity_type: file
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

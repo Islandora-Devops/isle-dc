@@ -1,0 +1,78 @@
+uuid:
+  -
+    value: 01f044aa-541b-4c39-9f6d-54ee8751bce2
+langcode:
+  -
+    value: en
+vid:
+  -
+    target_id: islandora_display
+    target_type: taxonomy_vocabulary
+    target_uuid: 88ef8169-78bc-4d6a-9cff-c1ed06aa25ca
+revision_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+status:
+  -
+    value: true
+name:
+  -
+    value: PDFjs
+description:
+  -
+    value: 'Display using the PDF.js viewer'
+    format: null
+    processed: "<p>Display using the PDF.js viewer</p>\n"
+weight:
+  -
+    value: 0
+parent:
+  -
+    target_id: 0
+changed:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/taxonomy/term/4'
+    title: 'PDFjs | Default'
+    description: 'Display using the PDF.js viewer'
+path:
+  -
+    alias: null
+    pid: null
+    langcode: en
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+content_translation_uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+content_translation_created:
+  -
+    value: '2021-05-14T14:17:22+00:00'
+    format: 'Y-m-d\TH:i:sP'
+field_external_uri:
+  -
+    uri: 'http://mozilla.github.io/pdf.js'
+    title: null
+    options: {  }
+_content_sync:
+  entity_type: taxonomy_term
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

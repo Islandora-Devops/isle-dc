@@ -1,0 +1,21 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "genre",
+  "name": "Drama",
+  "unique_id": "genre-01",
+  "authority": [
+    {
+      "uri": "https://www.loc.gov/aba/publications/FreeLCGFT/GENRE.pdf",
+      "source": "lgcft"
+    },
+    {
+      "uri": "http://vocab.getty.edu/aat/300054152",
+      "source": "aat"
+    }
+  ],
+  "description": {
+    "value": "<p>Drama Description</p>",
+    "format": "basic_html",
+    "processed": "<p>Drama Description</p>"
+  }
+}

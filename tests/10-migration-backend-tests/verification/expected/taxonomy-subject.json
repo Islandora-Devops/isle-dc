@@ -1,0 +1,23 @@
+{
+  "type": "taxonomy_term",
+  "bundle": "subject",
+  "name": "Analog Photography",
+  "unique_id": "subject-01",
+  "authority": [
+    {
+      "uri": "http://www.google.com?q=Analog%20Photography",
+      "title": "Google",
+      "source": "other"
+    },
+    {
+      "uri": "http://www.ford.com",
+      "title": "Nothing to do with Analog Photography But Works For a Test",
+      "source": "iso19115"
+    }
+  ],
+  "description": {
+    "value": "<p>Analog photography description.</p>",
+    "format": "basic_html",
+    "processed": "<p>Analog photography description.</p>"
+  }
+}

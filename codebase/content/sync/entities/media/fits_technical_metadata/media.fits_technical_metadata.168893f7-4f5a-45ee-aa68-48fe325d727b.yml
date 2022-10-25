@@ -1,0 +1,100 @@
+uuid:
+  -
+    value: 168893f7-4f5a-45ee-aa68-48fe325d727b
+langcode:
+  -
+    value: en
+bundle:
+  -
+    target_id: fits_technical_metadata
+    target_type: media_type
+    target_uuid: 706230f0-d716-416f-9fff-07e8f18d5744
+revision_created:
+  -
+    value: '2021-05-14T15:20:25+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+status:
+  -
+    value: true
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+name:
+  -
+    value: '4-FITS File.xml'
+thumbnail:
+  -
+    alt: ''
+    title: null
+    width: 180
+    height: 180
+    target_type: file
+    target_uuid: c9ffcc45-89d0-4c68-9bfd-d9c08de49eb1
+created:
+  -
+    value: '2021-05-14T15:20:25+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T15:20:25+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/node/1'
+    title: '| Default'
+path:
+  -
+    alias: null
+    pid: null
+    langcode: en
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+field_complete:
+  -
+    value: false
+field_file_size:
+  -
+    value: 7360
+field_media_file:
+  -
+    display: null
+    description: null
+    target_type: file
+    target_uuid: adca7a0f-2f01-429e-a88c-6219d22bd4ed
+field_media_of:
+  -
+    target_type: node
+    target_uuid: 608e2b49-de86-4ccc-afb5-4f707d22f63c
+field_media_use:
+  -
+    target_type: taxonomy_term
+    target_uuid: d0f0a30f-2a0e-427b-91d2-46072736e7ed
+field_mime_type:
+  -
+    value: application/xml
+fits_ois_file_information_md5che: {  }
+_content_sync:
+  entity_type: media
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98
+    file:
+      - file.file.c9ffcc45-89d0-4c68-9bfd-d9c08de49eb1
+      - file.file.adca7a0f-2f01-429e-a88c-6219d22bd4ed
+    node:
+      - node.islandora_object.608e2b49-de86-4ccc-afb5-4f707d22f63c
+    taxonomy_term:
+      - taxonomy_term.islandora_media_use.d0f0a30f-2a0e-427b-91d2-46072736e7ed

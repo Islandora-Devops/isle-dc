@@ -1,0 +1,129 @@
+uuid:
+  -
+    value: d507ce97-a1ee-4f91-a3dc-c3091dcd46cb
+langcode:
+  -
+    value: en
+type:
+  -
+    target_id: islandora_object
+    target_type: node_type
+    target_uuid: 1d21bb86-08c9-4c8f-869c-eb5c38cd9fe2
+revision_timestamp:
+  -
+    value: '2021-05-14T18:01:38+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+revision_log: {  }
+status:
+  -
+    value: true
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+title:
+  -
+    value: 'Example Video'
+created:
+  -
+    value: '2021-05-14T17:57:07+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T18:01:38+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  -
+    value: true
+sticky:
+  -
+    value: false
+default_langcode:
+  -
+    value: true
+revision_translation_affected:
+  -
+    value: true
+metatag:
+  value:
+    canonical_url: 'http://default/islandora/example-video'
+    title: 'Example Video | Default'
+content_translation_source:
+  -
+    value: und
+content_translation_outdated:
+  -
+    value: false
+field_display_title:
+  -
+    value: 'Example Video'
+field_alternative_title: {  }
+field_classification: {  }
+field_coordinates: {  }
+field_coordinates_text: {  }
+field_description: {  }
+field_description_long:
+  -
+    value: "<p>A video taken from a cell phone in a window seat on a commercial airliner.</p>\r\n"
+    format: full_html
+    processed: "<p>A video taken from a cell phone in a window seat on a commercial airliner.</p>\n"
+field_dewey_classification: {  }
+field_display_hints: {  }
+field_edition: {  }
+field_edtf_date: {  }
+field_edtf_date_created: {  }
+field_edtf_date_issued:
+  -
+    value: '2017-03-30'
+field_extent:
+  -
+    value: '1 item'
+field_genre: {  }
+field_geographic_subject: {  }
+field_identifier: {  }
+field_isbn: {  }
+field_language: {  }
+field_lcc_classification: {  }
+field_linked_agent: {  }
+field_local_identifier: {  }
+field_main_banner: {  }
+field_member_of:
+  -
+    target_type: node
+    target_uuid: b35233e9-325f-462d-a62b-8ca77e686d45
+field_model:
+  -
+    target_type: taxonomy_term
+    target_uuid: 2186148e-f080-4a92-a522-fa9a73330e99
+field_note: {  }
+field_oclc_number: {  }
+field_physical_form: {  }
+field_pid: {  }
+field_place_published: {  }
+field_resource_type:
+  -
+    target_type: taxonomy_term
+    target_uuid: cd9f8f8a-9f68-45fb-b859-4eb84b4f2983
+field_rights: {  }
+field_subject: {  }
+field_subjects_name: {  }
+field_table_of_contents: {  }
+field_temporal_subject: {  }
+field_weight: {  }
+_content_sync:
+  entity_type: node
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98
+    node:
+      - node.islandora_object.b35233e9-325f-462d-a62b-8ca77e686d45
+    taxonomy_term:
+      - taxonomy_term.islandora_models.2186148e-f080-4a92-a522-fa9a73330e99
+      - taxonomy_term.resource_types.cd9f8f8a-9f68-45fb-b859-4eb84b4f2983
+path:
+  -
+    alias: /islandora/example-video

@@ -1,0 +1,19 @@
+Index: web/modules/contrib/quicktabs/src/Plugin/TabType/BlockContent.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/modules/contrib/quicktabs/src/Plugin/TabType/BlockContent.php	(date 1605218182192)
++++ web/modules/contrib/quicktabs/src/Plugin/TabType/BlockContent.php	(date 1605218182192)
+@@ -85,6 +85,11 @@
+       $render = $plugin_block->build();
+     }
+ 
++    // If this is a view's block and is empty do not render the tab
++    if ($render['#type'] === 'view' &&  !count($render['#view']->result)) {
++      return [];
++    }
++
+     return $render;
+   }
+ 

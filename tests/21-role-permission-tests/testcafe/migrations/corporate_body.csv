@@ -1,0 +1,5 @@
+unique_id,name,primary_name,subordinate_name,date_of_meeting_or_treaty,location_of_meeting,num_of_section_or_meet,alt_date_of_meeting,alt_location_of_meeting,alt_number_of_section_or_meeting,alt_primary_name,alt_subordinate_name,relationships,date,authority,description
+io-corp_01,Chicago Zoo,Zoo Trust,,,,,,,,,,,1974,,"A zoo in Chicago, IL"
+io-corp_02,Knoxville Zoo,Zoo Trust,,,,,,,,,,,1983,,"A zoo in Knoxville, TN."
+io-corp_03,Small Farm USA,Farm Trust,,,,,,,,,,,1983,,A small farm somewhere.
+io-corp_04,Test University,Test University,Test University,,,,,,,,,,1876,,

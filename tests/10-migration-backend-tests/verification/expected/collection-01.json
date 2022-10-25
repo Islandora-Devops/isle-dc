@@ -1,0 +1,44 @@
+{
+  "type": "node",
+  "bundle": "collection_object",
+  "title": "Test Collection One",
+  "title_language": "eng",
+  "unique_id": "collection-02",
+  "alternative_title": [
+    {
+      "value": "Titre alternatif pour Test Collection One",
+      "language": "fre"
+    },
+    {
+      "value": "Alternate Title for Test Collection One",
+      "language": "eng"
+    }
+  ],
+  "description": [
+    {
+      "value": "This is a description for Test Collection One",
+      "language": "eng"
+    },
+    {
+      "value": "Esta es una descripción de la colección de pruebas uno",
+      "language": "spa"
+    }
+  ],
+  "contact_email": "emetsger@gmail.com",
+  "contact_name": "Elliot Metsger",
+  "collection_number": [
+    "1", "2"
+  ],
+  "member_of": "Parent Collection",
+  "access_terms": [
+    "Parent Collection"
+  ],
+  "finding_aid": [
+    {
+      "uri": "http://wikipedia.org"
+    },
+    {
+      "uri": "http://www.example.com"
+    }
+  ]
+}

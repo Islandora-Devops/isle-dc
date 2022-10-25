@@ -1,0 +1,39 @@
+uuid:
+  -
+    value: 44c31f52-c593-429a-a22e-946b7197b807
+langcode:
+  -
+    value: en
+uid:
+  -
+    target_type: user
+    target_uuid: 087ecaa7-5a2a-4d78-9915-0a1805e89b98
+filename:
+  -
+    value: grayscale-photography-of-two-silo-on-grass-1058398.jpg
+uri:
+  -
+    value: 'public://2021-05/grayscale-photography-of-two-silo-on-grass-1058398.jpg'
+    url: /sites/default/files/2021-05/grayscale-photography-of-two-silo-on-grass-1058398.jpg
+filemime:
+  -
+    value: image/jpeg
+filesize:
+  -
+    value: 10333686
+status:
+  -
+    value: true
+created:
+  -
+    value: '2021-05-14T14:59:27+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  -
+    value: '2021-05-14T14:59:45+00:00'
+    format: 'Y-m-d\TH:i:sP'
+_content_sync:
+  entity_type: file
+  entity_dependencies:
+    user:
+      - user.user.087ecaa7-5a2a-4d78-9915-0a1805e89b98

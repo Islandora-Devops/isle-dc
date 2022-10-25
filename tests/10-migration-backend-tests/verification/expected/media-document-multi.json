@@ -1,0 +1,19 @@
+{
+  "type": "media",
+  "bundle": "document",
+  "name": "Fuji Acros Datasheet Multi",
+  "unique_id": "media_doc_m_00001",
+  "original_name": "Fuji_acros.pdf",
+  "size": 98884,
+  "mime_type": "application/pdf",
+  "restricted_access": true,
+  "use": [
+    "Preservation File",
+    "Original File"
+  ],
+  "access_terms": [
+    "Media Group B",
+    "Media Group A"
+  ],
+  "media_of": "Media Migration Repository Item One"
+}
