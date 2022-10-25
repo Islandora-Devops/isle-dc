@@ -11,6 +11,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "testcafe": "^1.9.4"
+    "testcafe": "^1.20.1"
   }
 }
