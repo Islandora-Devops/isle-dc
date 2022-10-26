@@ -87,17 +87,17 @@ password in the file
 Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
 the things you can do.  If you want to poke around, here's all the services that are available to visit:
 
-| Service     | URL                                                                                            |
-| :---------- | :--------------------------------------------------------------------------------------------- |
-| Drupal      | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |
-| Traefik     | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |
-| Fedora      | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |
-| Blazegraph  | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |
-| Activemq    | [http://islandora.traefik.me:8161](http://islandora.traefik.me:8161)                         |
-| Solr        | [https://islandora.traefik.me:8983](https://islandora.traefik.me:8983)                         |
-| Cantaloupe  | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |
-| Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |
-| Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                       |
+| Service     | URL                                                                                            |  Exposed by default |
+| :---------- | :--------------------------------------------------------------------------------------------- | :------------------ |
+| Drupal      | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |         Yes         |
+| Traefik     | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |         No          |
+| Fedora      | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |         Yes         |
+| Blazegraph  | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |         No          |
+| Activemq    | [http://islandora.traefik.me:8161](http://islandora.traefik.me:8161)                           |         No          |
+| Solr        | [http://islandora.traefik.me:8983](http://islandora.traefik.me:8983)                           |         No          |
+| Cantaloupe  | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |         Yes         |
+| Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |         Yes         |
+| Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                       |         No          |
 
 When you're done with your demo environment, shut it down by running
 
@@ -129,7 +129,7 @@ If you don't provide a codebase, you'll be given a basic setup from vanilla Drup
 installed and the bare minimum configured to run.  This is useful if you want to build your repository
 from scratch and avoid `islandora_defaults`.
 
-If you've included configuration in your exported site using `drush config:export`, then you'll need
+If you've included configuration in your exported site using `drush config:export` or run `make config-export`, then you'll need
 to set two values in your .env file:
 
 ```
@@ -148,7 +148,7 @@ The former will create a starter site modeled off of https://sandbox.islandora.c
 If you already have a Drupal site but don't know how to export it,
 log into your server, navigate to the Drupal root, and run the following commands:
 
-- `drush config:export`
+- `make config-export`
 - `git init`
 - `git add -A .`
 - `git commit -m "First export of site"`
@@ -177,6 +177,8 @@ make build
 At this point you could run it using `docker-compose`:
 
 ```bash
+make up
+# Or in some situations you could run this instead.
 docker-compose up -d
 ```
 
@@ -187,6 +189,7 @@ following to `docker-compose.env.yml`:
 drupal:
   image: YOUR_CUSTOM_IMAGE
 ```
+
 ## Shutting down and bring back up
 To run a non-destructive shutdown and bring it back up without having to know the docker commands needed. This keeps all of the commands for basic operations within the make commands.
 ```shell
