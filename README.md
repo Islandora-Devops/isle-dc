@@ -99,6 +99,14 @@ the things you can do.  If you want to poke around, here's all the services that
 | Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |         Yes         |
 | Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                       |         No          |
 
+> **Exposed**: the act of allowing the containerized application's ports to be accessible to the host machine (or public). In most cases this makes the specified URL available for the browser.
+
+To change a service exposed value edit the *.env* file. The values will start with "EXPOSE_". Make changes then rebuild the docker-compose file and then run the up command (even if it's already running) using the following commands.
+```shell
+make -B docker-compose.yml
+make up
+```
+
 When you're done with your demo environment, shut it down by running
 
 ```bash
