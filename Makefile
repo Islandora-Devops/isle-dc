@@ -388,7 +388,7 @@ demo_content:
 .SILENT: clean
 ## Destroys everything beware!
 clean:
-	echo "**DANGER** About to rm your SERVER data subdirs, your docker volumes and your codebase/web"
+	echo "**DANGER** About to rm your SERVER data subdirs, your docker volumes, codebase, islandora_workbench, certs, secrets, and all untracked/ignored files (including .env)."
 	$(MAKE) confirm
 	-docker-compose down -v
 	sudo rm -fr codebase islandora_workbench certs secrets/live/*
