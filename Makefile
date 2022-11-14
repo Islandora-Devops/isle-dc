@@ -562,6 +562,6 @@ starter-finalize:
 	docker-compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
 	MIGRATE_IMPORT_USER_OPTION=--userid=1 $(MAKE) hydrate
 	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import --userid=1 islandora_fits_tags'
-	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
-	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
+	docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
+	docker-compose exec drupal bash -c "chmod u+w web/sites/default/settings.php"
 	$(MAKE) login
