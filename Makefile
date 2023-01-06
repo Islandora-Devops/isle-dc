@@ -128,7 +128,7 @@ set-files-owner: $(SRC)
 ifndef SRC
 	$(error SRC is not set)
 endif
-	sudo find "$(SRC)" -exec chown $(shell id -u):101 {} \;
+	sudo chown -R $(shell id -u):101 $(SRC)
 
 .PHONY: drupal-database
 ## Creates required databases for drupal site(s) using environment variables.
