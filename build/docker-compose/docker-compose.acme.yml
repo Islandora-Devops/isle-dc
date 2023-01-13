@@ -17,7 +17,7 @@ services:
       - --entryPoints.activemq.address=:8161
       - --entryPoints.solr.address=:8983
       - --entryPoints.code-server.address=:8443
-      - --log.level=${TRAEFIK_LOG_LEVEL-ERROR}
+      - --log.level=${TRAEFIK_LOG_LEVEL:-ERROR}
       - --providers.docker
       - --providers.docker.network=gateway
       - --providers.docker.exposedByDefault=false
@@ -26,8 +26,12 @@ services:
       - --certificatesresolvers.myresolver.acme.httpchallenge=true
       - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=http
       - --certificatesresolvers.myresolver.acme.email=${ACME_EMAIL-your-email@example.com}
+      - --certificatesresolvers.myresolver.acme.keyType=${ACME_KEY_TYPE-RSA4096}
       - --certificatesresolvers.myresolver.acme.storage=/acme/acme.json
       - --certificatesResolvers.myresolver.acme.caServer=${ACME_SERVER-https://acme-v02.api.letsencrypt.org/directory}
+      - --certificatesresolvers.myresolver.acme.certificatesduration=${ACME_CERT_DURATION-2160}
+      - --certificatesresolvers.myresolver.acme.eab.kid=${ACME_EAB_KID-}
+      - --certificatesresolvers.myresolver.acme.eab.hmacencoded=${ACME_EAB_HMAC-}
     volumes:
       - ../../acme:/acme:rw
   cantaloupe:
