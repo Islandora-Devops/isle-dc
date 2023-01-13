@@ -311,6 +311,22 @@ download-default-certs:
 composer_update:
 	docker-compose exec -T drupal with-contenv bash -lc 'composer update'
 
+.PHONY: set-codebase-owner
+.SILENT: set-codebase-owner
+## JHU: Updates codebase folder to be owned by the host user and nginx group.
+set-codebase-owner:
+	@echo ""
+	@echo "Setting codebase/ folder owner back to $(shell id -u):101"
+	sudo find ./codebase -not -user $(shell id -u) -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \;
+	sudo find ./codebase -not -group 101 -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \;
+	@echo "  └─ Done"
+	@echo ""
+
+.PHONY: config-export
+.SILENT: config-export
+## Exports the sites configuration.
+config-export:
+	docker-compose exec -T drupal drush -l $(SITE) config:export -y
 
 reindex-fcrepo-metadata:
 	# Re-index RDF in Fedora
