@@ -317,8 +317,9 @@ composer_update:
 set-codebase-owner:
 	@echo ""
 	@echo "Setting codebase/ folder owner back to $(shell id -u):101"
-	sudo find ./codebase -not -user $(shell id -u) -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \;
-	sudo find ./codebase -not -group 101 -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \;
+	[ -d ./codebase ] || echo "  └─ No codebase/ folder found, skipping"
+	[ -d ./codebase ] && sudo find ./codebase -not -user $(shell id -u) -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \; || true
+	[ -d ./codebase ] && sudo find ./codebase -not -group 101 -not -path '*/sites/default/files/*' -exec chown $(shell id -u):101 {} \; || true
 	@echo "  └─ Done"
 	@echo ""
 
