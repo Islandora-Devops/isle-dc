@@ -528,10 +528,8 @@ starter: QUOTED_CURDIR = "$(CURDIR)"
 starter: generate-secrets
 	$(MAKE) starter-init ENVIRONMENT=starter
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project islandora/islandora-starter-site:dev-main /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project --no-install islandora/islandora-starter-site:dev-main /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
 	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
-	docker-compose up -d --remove-orphans
 	$(MAKE) starter-finalize ENVIRONMENT=starter
 
 .PHONY: starter_dev
@@ -542,9 +540,6 @@ starter_dev: generate-secrets
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
 	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
-	docker-compose up -d --remove-orphans
-	docker-compose exec -T drupal with-contenv bash -lc 'composer install'
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 .PHONY: starter-init
@@ -554,8 +549,22 @@ starter-init: generate-secrets
 	$(MAKE) pull
 	mkdir -p $(CURDIR)/codebase
 
+define composer-install-will-upgrade-fallback
+if composer install ; then
+  echo "Installed via 'composer install'."
+elif composer upgrade; then
+  echo "Installed via 'composer upgrade'."
+else
+  echo "Failed to install composer project."
+  exit 1
+fi
+endef
+
 .PHONY: starter-finalize
 starter-finalize:
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase
+	docker-compose up -d --remove-orphans
+	docker-compose exec -T drupal with-contenv bash -lc '$(composer-install-wtih-upgrade-fallback)'
 	docker-compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx .'
 	$(MAKE) drupal-database update-settings-php
 	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
