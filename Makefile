@@ -375,8 +375,7 @@ local: generate-secrets
 demo_content:
 	# fetch repo that has csv and binaries to data/samples
 	# if prod do this by default
-	# Once the blocker is merged this needs to be pointed at the main branch https://github.com/mjordan/islandora_workbench
-	[ -d "islandora_workbench" ] || (git clone -b update_docker --single-branch https://github.com/DonRichards/islandora_workbench)
+	[ -d "islandora_workbench" ] || (git clone https://github.com/mjordan/islandora_workbench)
 	cd islandora_workbench ; cd islandora_workbench_demo_content || git clone https://github.com/DonRichards/islandora_workbench_demo_content
 	$(SED_DASH_I) 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/islandora_workbench_demo_content/example_content.yml
 	cd islandora_workbench && docker build -t workbench-docker .
