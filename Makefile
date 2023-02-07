@@ -327,6 +327,7 @@ set-codebase-owner:
 .SILENT: config-export
 ## Exports the sites configuration.
 config-export:
+	$(MAKE) set-codebase-owner
 	docker-compose exec -T drupal drush -l $(SITE) config:export -y
 
 reindex-fcrepo-metadata:
