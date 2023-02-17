@@ -372,6 +372,7 @@ local: generate-secrets
 .PHONY: demo_content
 #.SILENT: demo_content
 ## Helper function for demo sites: do a workbench import of sample objects
+demo_content: QUOTED_CURDIR = "$(CURDIR)"
 demo_content:
 	# fetch repo that has csv and binaries to data/samples
 	# if prod do this by default
@@ -379,7 +380,7 @@ demo_content:
 	cd islandora_workbench ; cd islandora_workbench_demo_content || git clone https://github.com/DonRichards/islandora_workbench_demo_content
 	$(SED_DASH_I) 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/islandora_workbench_demo_content/example_content.yml
 	cd islandora_workbench && docker build -t workbench-docker .
-	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd):/workbench --name my-running-workbench workbench-docker bash -lc "./workbench --config /workbench/islandora_workbench_demo_content/example_content.yml"
+	cd islandora_workbench && docker run -it --rm --network="host" -v $(QUOTED_CURDIR)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "./workbench --config /workbench/islandora_workbench_demo_content/example_content.yml"
 	$(MAKE) reindex-solr
 
 .PHONY: clean
