@@ -372,16 +372,15 @@ local: generate-secrets
 .PHONY: demo_content
 #.SILENT: demo_content
 ## Helper function for demo sites: do a workbench import of sample objects
+demo_content: QUOTED_CURDIR = "$(CURDIR)"
 demo_content:
 	# fetch repo that has csv and binaries to data/samples
 	# if prod do this by default
-	# if [ -d "islandora_workbench" ]; then rm -rf islandora_workbench; fi
-	[ -d "islandora_workbench" ] || (git clone -b new_staging --single-branch https://github.com/DonRichards/islandora_workbench)
-	$(SED_DASH_I) 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/demoBDcreate*
-	$(SED_DASH_I) 's/http:/https:/g' islandora_workbench/demoBDcreate*
-	$(SED_DASH_I) 's/author_email\="mjordan@sfu"\,$$/author_email="mjordan@sfu", packages=["i7Import", "i8demo_BD", "input_data"],/g' islandora_workbench/setup.py
+	[ -d "islandora_workbench" ] || (git clone https://github.com/mjordan/islandora_workbench)
+	cd islandora_workbench ; cd islandora_workbench_demo_content || git clone https://github.com/DonRichards/islandora_workbench_demo_content
+	$(SED_DASH_I) 's/^nopassword.*/password\: $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD) /g' islandora_workbench/islandora_workbench_demo_content/example_content.yml
 	cd islandora_workbench && docker build -t workbench-docker .
-	cd islandora_workbench && docker run -it --rm --network="host" -v $(shell pwd)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "(cd /workbench && python setup.py install 2>&1 && ./workbench --config demoBDcreate_all_localhost.yml)"
+	cd islandora_workbench && docker run -it --rm --network="host" -v $(QUOTED_CURDIR)/islandora_workbench:/workbench --name my-running-workbench workbench-docker bash -lc "./workbench --config /workbench/islandora_workbench_demo_content/example_content.yml"
 	$(MAKE) reindex-solr
 
 .PHONY: clean
