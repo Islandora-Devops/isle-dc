@@ -13,7 +13,6 @@ else  # GNU/Linux
 	SED_DASH_I=sed -i
 endif
 
-
 # If custom.makefile exists include it.
 -include custom.Makefile
 
@@ -37,7 +36,7 @@ export
 EXTERNAL_SERVICES := etcd watchtower traefik
 
 # The minimal set of docker-compose files required to be able to run anything.
-REQUIRED_SERVICES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal mariadb matomo solr
+REQUIRED_SERVICES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal fcrepo6 mariadb matomo solr
 
 ifeq ($(USE_SECRETS), true)
 	SECRETS := secrets
@@ -68,17 +67,10 @@ ifeq ($(INCLUDE_ETCD_SERVICE), true)
 	ETCD_SERVICE := etcd
 endif
 
-# etcd is an optional dependency, by default it is not included.
-ifeq ($(FEDORA_6), true)
-	FCREPO_SERVICE := fcrepo6
-else
-	FCREPO_SERVICE := fcrepo
-endif
-
 # Some services can optionally depend on PostgreSQL.
 # Either way their environment variables get customized
 # depending on the database service they have choosen.
-DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) $(FCREPO_SERVICE).$(FCREPO_DATABASE_SERVICE)
+DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) fcrepo6.$(FCREPO_DATABASE_SERVICE)
 
 ifeq ($(DRUPAL_DATABASE_SERVICE), postgresql)
 	DATABASE_SERVICES += postgresql
@@ -94,7 +86,7 @@ DATABASE_SERVICES := $(sort $(DATABASE_SERVICES))
 # The services to be run (order is important), as services can override one
 # another. Traefik must be last if included as otherwise its network
 # definition for `gateway` will be overriden.
-SERVICES := $(REQUIRED_SERVICES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(SECRETS) $(CODE_SERVER_SERVICE) $(TRAEFIK_SERVICE) $(ACME)
+SERVICES := $(REQUIRED_SERVICES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(SECRETS) $(CODE_SERVER_SERVICE) $(TRAEFIK_SERVICE) $(ACME)
 
 default: download-default-certs docker-compose.yml pull
 
@@ -277,15 +269,11 @@ endif
 	docker-compose up -d fcrepo
 	docker cp "$(SRC)" $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz
 	docker-compose exec -T fcrepo with-contenv bash -lc 'cd /tmp && tar zxvf fcrepo-export.tgz && chown -R tomcat:tomcat fcrepo-export && rm fcrepo-export.tgz'
-ifeq ($(FEDORA_6), true)
 	docker-compose exec -T fcrepo with-contenv bash -lc 'java -jar fcrepo-upgrade-utils-6.0.0-beta-1.jar -i /tmp/fcrepo-export -o /data/home -s 5+ -t 6+ -u http://${DOMAIN}:8081/fcrepo/rest && chown -R tomcat:tomcat /data/home'
 ifeq ($(FCREPO_DATABASE_SERVICE), postgresql)
 	$(error Postgresql not implemented yet in fcrepo-import)
 else
 	docker-compose exec -T fcrepo with-contenv bash -lc 'mysql -u $${DB_ROOT_USER} -p$${DB_ROOT_PASSWORD} -h $${DB_MYSQL_HOST} -e "DROP DATABASE $${FCREPO_DB_NAME}"'
-endif
-else
-	docker-compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.1.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${TOMCAT_ADMIN_NAME}:$${TOMCAT_ADMIN_PASSWORD}'
 endif
 	$(MAKE) -B docker-compose.yml
 	docker-compose up -d fcrepo
