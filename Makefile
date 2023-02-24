@@ -120,6 +120,10 @@ build:
 	fi
 	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t "$(CUSTOM_DRUPAL_NAMESPACE)/$(COMPOSE_PROJECT_NAME)_drupal" --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
 
+.PHONY: push-image
+## Push your custom drupal image to dockerhub or a container registry
+push-image:
+	docker push "$(CUSTOM_DRUPAL_NAMESPACE)/$(COMPOSE_PROJECT_NAME)_drupal"
 
 .PHONY: set-files-owner
 ## Updates codebase folder to be owned by the host user and nginx group.
