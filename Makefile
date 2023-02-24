@@ -118,7 +118,7 @@ build:
 	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
 		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
 	fi
-	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(COMPOSE_PROJECT_NAME)_drupal --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
+	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t "$(CUSTOM_DRUPAL_NAMESPACE)/$(COMPOSE_PROJECT_NAME)_drupal" --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
 
 
 .PHONY: set-files-owner
