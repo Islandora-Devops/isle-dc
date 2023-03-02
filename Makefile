@@ -118,12 +118,8 @@ build:
 	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
 		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
 	fi
-	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t "$(CUSTOM_DRUPAL_NAMESPACE)/$(COMPOSE_PROJECT_NAME)_drupal" --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
+	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(COMPOSE_PROJECT_NAME)_drupal --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
 
-.PHONY: push-image
-## Push your custom drupal image to dockerhub or a container registry
-push-image:
-	docker push "$(CUSTOM_DRUPAL_NAMESPACE)/$(COMPOSE_PROJECT_NAME)_drupal"
 
 .PHONY: set-files-owner
 ## Updates codebase folder to be owned by the host user and nginx group.
@@ -154,7 +150,9 @@ update-settings-php:
 	docker-compose exec -T drupal with-contenv bash -lc "if [ ! -f /var/www/drupal/web/sites/default/settings.php ]; then cp /var/www/drupal/web/sites/default/default.settings.php  /var/www/drupal/web/sites/default/settings.php; fi"
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
 	# Make sure the host user can read the settings.php files after they have been updated.
+ifneq ($(ENVIRONMENT), custom)
 	sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;
+endif
 
 .PHONY: update-config-from-environment
 ## Updates configuration from environment variables.
@@ -568,3 +566,13 @@ starter-finalize:
 	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
 	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
 	$(MAKE) login
+
+.PHONY: production
+production: generate-secrets
+	$(MAKE) download-default-certs
+	$(MAKE) -B docker-compose.yml
+	$(MAKE) pull
+	docker-compose up -d --remove-orphans
+	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php
+	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
