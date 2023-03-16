@@ -189,6 +189,17 @@ starter_dev: generate-secrets
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
+.PHONY: production
+production: generate-secrets
+	$(MAKE) download-default-certs
+	$(MAKE) -B docker-compose.yml
+	$(MAKE) pull
+	docker-compose up -d --remove-orphans
+	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php
+	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
+
+
 #############################################
 ## Helper Rules for managing your install  ##
 #############################################
