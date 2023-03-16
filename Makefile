@@ -148,7 +148,7 @@ local: generate-secrets
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
 	docker-compose up -d --remove-orphans
-	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	docker-compose exec -T drupal with-contenv bash -lc "su nginx -s /bin/bash -c 'composer install'; chown -R nginx:nginx ."
 	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIRONMENT=local
 	docker-compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
 	$(MAKE) delete-shortcut-entities && docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
@@ -185,7 +185,7 @@ starter_dev: generate-secrets
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
 	docker-compose up -d --remove-orphans
-	docker-compose exec -T drupal with-contenv bash -lc 'composer install'
+	docker-compose exec -T drupal with-contenv bash -lc "su nginx -s /bin/bash -c 'composer install'"
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
@@ -309,7 +309,7 @@ download-default-certs:
 
 # Run Composer Update in your Drupal container
 composer_update:
-	docker-compose exec -T drupal with-contenv bash -lc 'composer update'
+	docker-compose exec -T drupal with-contenv bash -lc su nginx -s /bin/bash -c 'composer update'"
 
 
 reindex-fcrepo-metadata:
