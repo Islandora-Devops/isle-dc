@@ -331,13 +331,6 @@ set-codebase-owner:
 	@echo "    └─ Done"
 	@echo ""
 
-.PHONY: config-export
-.SILENT: config-export
-## Exports the sites configuration.
-config-export:
-	$(MAKE) set-codebase-owner
-	docker-compose exec -T drupal drush -l $(SITE) config:export -y
-
 reindex-fcrepo-metadata:
 	# Re-index RDF in Fedora
 	docker-compose exec -T drupal with-contenv bash -lc 'drush --root /var/www/drupal/web -l $${DRUPAL_DEFAULT_SITE_URL} vbo-exec non_fedora_files emit_file_event --configuration="queue=islandora-indexing-fcrepo-file-external&event=Update"'
@@ -407,6 +400,7 @@ endif
 .SILENT: config-export
 ## Exports the sites configuration.
 config-export:
+	$(MAKE) set-codebase-owner
 	docker-compose exec -T drupal drush -l $(SITE) config:export -y
 
 
