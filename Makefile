@@ -259,13 +259,9 @@ docker-compose.yml: $(SERVICES:%=build/docker-compose/docker-compose.%.yml) .env
 
 .PHONY: up
 .SILENT: up
-## Brings up the containers or builds demo if no docker-compose.yml file is found.
+## Brings up the containers or builds demo if no containers were found.
 up:
-	if [ -f docker-compose.yml ]; then \
-		docker-compose up -d --remove-orphans; \
-	else \
-		$(MAKE) demo; \
-	fi
+	test -f docker-compose.yml && docker-compose up -d --remove-orphans || $(MAKE) demo
 	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish building.\n"
 	sleep 10
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
