@@ -165,17 +165,18 @@ Then you can `git push` your site to Github and `git clone` it down whenever you
 
 This environment is used to run your custom `drupal` image which can be produced
 outside of this repository, or from another isle-dc instance, such as a local
-development environment as described above. You can specify a namespace and the
-image name in your `.env` file.
+development environment as described above. You can specify a namespace, the
+image name, and tag in your `.env` file.
 
 This assumes you have already created an image and have it stored in a container
 registry like Dockerhub or Gitlab. If you are setting this up for the first time
 you should first create a local environment as described above. Once you have
 your local environment created you can do the following:
 - In your .env set the name of the image to create using
-`COMPOSE_PROJECT_NAME` and the namespace using `CUSTOM_DRUPAL_NAMESPACE`
+`CUSTOM_IMAGE_NAME`, the namespace using `CUSTOM_IMAGE_NAMESPACE`, and the tag
+using `CUSTOM_IMAGE_TAG`
 - Run `make build` to create an image based on the codebase folder
-    - This will create an image named `namespace/projectname_drupal`
+    - This will create an image named `namespace/name:tag`
 - Run `make push-image` to push that image to your container registry
 
 For convenience a `sample.Dockerfile` is provided which `make build` will use to
@@ -187,9 +188,9 @@ Once you have done that you can create your production or staging site by:
 - Modify your .env
     - Set ENVIRONMENT=custom
     - Set DOMAIN=yourdomain.com
-    - Set the namespace and the name of the image using
-      `CUSTOM_DRUPAL_NAMESPACE` and `COMPOSE_PROJECT_NAME`
-        - They should be the same values as on your local machine
+    - Set the namespace, the name of the image, and the tag using
+      `CUSTOM_IMAGE_NAMESPACE`, `CUSTOM_IMAGE_NAME`, and `CUSTOM_IMAGE_TAG`
+        - They should be the same values you used on your local machine when creating the image
 - Create your production site using `make production`
 - Export the database from your local machine and import it to your production
 site
