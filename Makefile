@@ -186,7 +186,7 @@ starter_dev: generate-secrets
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
 	docker-compose up -d --remove-orphans
-	docker-compose exec -T drupal with-contenv bash -lc "su nginx -s /bin/bash -c 'composer install'"
+	docker-compose exec --user nginx -T drupal with-contenv bash -lc "composer install"
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
