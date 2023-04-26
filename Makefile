@@ -196,10 +196,11 @@ production: generate-secrets
 	$(MAKE) pull
 	docker-compose up -d --remove-orphans
 	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
-	$(MAKE) remove_standard_profile_references_from_config drupal-database
-	docker-compose exec -T drupal with-contenv bash -lc "if [ ! -f /var/www/drupal/web/sites/default/settings.php ]; then cp /var/www/drupal/web/sites/default/default.settings.php  /var/www/drupal/web/sites/default/settings.php; fi"
-	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
-	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass $(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)"
+	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
+	docker-compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
+	MIGRATE_IMPORT_USER_OPTION=--userid=1 $(MAKE) hydrate
+	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import --userid=1 islandora_fits_tags'
+	$(MAKE) login
 
 
 #############################################
@@ -531,7 +532,7 @@ update-settings-php:
 	docker-compose exec -T drupal with-contenv bash -lc "if [ ! -f /var/www/drupal/web/sites/default/settings.php ]; then cp /var/www/drupal/web/sites/default/default.settings.php  /var/www/drupal/web/sites/default/settings.php; fi"
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
 	# Make sure the host user can read the settings.php files after they have been updated.
-	sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;
+	if [ -d ./codebase ]; then sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;; fi
 
 
 # Created by the standard profile, need to be deleted to import a site that was
