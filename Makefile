@@ -191,6 +191,20 @@ starter_dev: generate-secrets
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
+.PHONY: production
+production: generate-secrets
+	$(MAKE) download-default-certs
+	$(MAKE) -B docker-compose.yml
+	$(MAKE) pull
+	docker-compose up -d --remove-orphans
+	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
+	docker-compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
+	MIGRATE_IMPORT_USER_OPTION=--userid=1 $(MAKE) hydrate
+	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import --userid=1 islandora_fits_tags'
+	$(MAKE) login
+
+
 #############################################
 ## Helper Rules for managing your install  ##
 #############################################
@@ -248,7 +262,13 @@ build:
 	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
 		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
 	fi
-	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(COMPOSE_PROJECT_NAME)_drupal --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
+	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(CUSTOM_IMAGE_NAMESPACE)/$(CUSTOM_IMAGE_NAME):${CUSTOM_IMAGE_TAG} --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
+
+
+.PHONY: push-image
+## Push your custom drupal image to dockerhub or a container registry
+push-image:
+	docker push "$(CUSTOM_IMAGE_NAMESPACE)/$(CUSTOM_IMAGE_NAME):${CUSTOM_IMAGE_TAG}"
 
 
 .SILENT: docker-compose.yml
@@ -515,7 +535,7 @@ update-settings-php:
 	docker-compose exec -T drupal with-contenv bash -lc "if [ ! -f /var/www/drupal/web/sites/default/settings.php ]; then cp /var/www/drupal/web/sites/default/default.settings.php  /var/www/drupal/web/sites/default/settings.php; fi"
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
 	# Make sure the host user can read the settings.php files after they have been updated.
-	sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;
+	if [ -d ./codebase ]; then sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;; fi
 
 
 # Created by the standard profile, need to be deleted to import a site that was
@@ -649,6 +669,4 @@ fix_masonry:
 fix_views:
 	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
 	docker-compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
-
-
-
+  

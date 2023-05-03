@@ -164,37 +164,36 @@ Then you can `git push` your site to Github and `git clone` it down whenever you
 ## Custom Environment
 
 This environment is used to run your custom `drupal` image which can be produced
-outside of this repository. You can specify the image in your `.env` file using
-the settings `PROJECT_DRUPAL_DOCKERFILE` if you want to build it in the context
-of this repository. You can also set the memory limits for each containers here as well.
+outside of this repository, or from another isle-dc instance, such as a local
+development environment as described above. You can specify a namespace, the
+image name, and tag in your `.env` file.
 
-For convenience a `sample.Dockerfile` is provided from which you can generate a
-custom image from the [codebase](./codebase) folder. For example if you followed
-the guide above to create the codebase folder from the `islandora/demo` image.
+This assumes you have already created an image and have it stored in a container
+registry like Dockerhub or Gitlab. If you are setting this up for the first time
+you should first create a local environment as described above. Once you have
+your local environment created you can do the following:
+- In your .env set the name of the image to create using
+`CUSTOM_IMAGE_NAME`, the namespace using `CUSTOM_IMAGE_NAMESPACE`, and the tag
+using `CUSTOM_IMAGE_TAG`
+- Run `make build` to create an image based on the codebase folder
+    - This will create an image named `namespace/name:tag`
+- Run `make push-image` to push that image to your container registry
 
-And then run it by changing `ENVIRONMENT` to be `custom` and regenerating the
-`docker-compose.yml` file and building the image.
+For convenience a `sample.Dockerfile` is provided which `make build` will use to
+generate a custom image from the [codebase](./codebase) folder. For example if
+you followed the guide above to create the codebase folder from the
+`islandora/demo` image.
 
-```bash
-make docker-compose.yml
-make build
-```
-
-At this point you could run it using `docker-compose`:
-
-```bash
-make up
-# Or in some situations you could run this instead.
-docker-compose up -d
-```
-
-To specify an image created outside of this repository, you can add the
-following to `docker-compose.env.yml`:
-
-```yaml
-drupal:
-  image: YOUR_CUSTOM_IMAGE
-```
+Once you have done that you can create your production or staging site by:
+- Modify your .env
+    - Set ENVIRONMENT=custom
+    - Set DOMAIN=yourdomain.com
+    - Set the namespace, the name of the image, and the tag using
+      `CUSTOM_IMAGE_NAMESPACE`, `CUSTOM_IMAGE_NAME`, and `CUSTOM_IMAGE_TAG`
+        - They should be the same values you used on your local machine when creating the image
+- Create your production site using `make production`
+- Export the database from your local machine and import it to your production
+site
 
 ## Shutting down and bring back up
 To run a non-destructive shutdown and bring it back up without having to know the docker commands needed. This keeps all of the commands for basic operations within the make commands.
