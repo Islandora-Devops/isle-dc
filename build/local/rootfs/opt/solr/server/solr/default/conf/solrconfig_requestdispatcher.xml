@@ -1,0 +1,5 @@
+<!--
+  HTTP Cache Never
+  7.0.0
+-->
+<httpCaching never304="true"/>

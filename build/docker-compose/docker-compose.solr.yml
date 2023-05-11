@@ -6,8 +6,8 @@ networks:
     external: true
 services:
   solr:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/solr:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/solr:${TAG}
     # No volumes are defined here, other docker-compose.yml files such as
     # docker-compose.demo.yml are expected to extend this definition based
     # on their workflow.
@@ -16,9 +16,9 @@ services:
     labels:
       # Do not expose in production.
       - traefik.enable=${EXPOSE_SOLR:-false}
-      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-solr.loadbalancer.server.port=8983
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-solr_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-solr
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-solr_http.entrypoints=solr
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}-solr.loadbalancer.server.port=8983
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-solr_http.service=${COMPOSE_PROJECT_NAME}-solr
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-solr_http.entrypoints=solr
     deploy:
       resources:
           limits:

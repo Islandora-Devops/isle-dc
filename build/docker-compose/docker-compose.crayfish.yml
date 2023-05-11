@@ -6,8 +6,8 @@ networks:
     external: true
 services:
   homarus:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/homarus:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/homarus:${TAG}
     deploy:
       resources:
           limits:
@@ -15,8 +15,8 @@ services:
           reservations:
             memory: 512M
   houdini:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/houdini:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/houdini:${TAG}
     deploy:
       resources:
           limits:
@@ -24,8 +24,8 @@ services:
           reservations:
             memory: 512M
   hypercube:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/hypercube:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/hypercube:${TAG}
     deploy:
       resources:
           limits:
@@ -33,8 +33,8 @@ services:
           reservations:
             memory: 256M
   milliner:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/milliner:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/milliner:${TAG}
     environment:
       MILLINER_FEDORA6: ${FEDORA_6}
     networks:
@@ -44,14 +44,5 @@ services:
       resources:
           limits:
             memory: ${MILLINER_MEMORY_LIMIT:-1G}
-          reservations:
-            memory: 512M
-  recast:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/recast:${TAG:-latest}
-    deploy:
-      resources:
-          limits:
-            memory: ${RECAST_MEMORY_LIMIT:-1G}
           reservations:
             memory: 512M

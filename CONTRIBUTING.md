@@ -6,7 +6,7 @@ We also have an Slack channel -- #isle -- on islandora.slack.com Feel free to ha
 
 ## Workflows
 
-The [Islandora ISLE Interest Group](https://github.com/islandora-interest-groups/Islandora-ISLE-Interest-Group) meetings are open to everybody on alternating Wednesdays, 3:00pm EDT 
+The [Islandora ISLE Interest Group](https://github.com/islandora-interest-groups/Islandora-ISLE-Interest-Group) meetings are open to everybody on alternating Wednesdays, 3:00pm EDT
   * The meetings are generally held on Zoom (free client), and you can join reading more [here](https://github.com/islandora-interest-groups/Islandora-ISLE-Interest-Group/#how-to-join)
 
 ### Documentation
@@ -107,4 +107,4 @@ TBD
 
 The Islandora Foundation requires that contributors complete a [Contributor License Agreement](https://forms.gle/7YYShuaMfG7F94A87) or be covered by a [Corporate Contributor License Agreement](https://forms.gle/7YYShuaMfG7F94A87). This license is for your protection as a contributor as well as the protection of the Foundation and its users; it does not change your rights to use your own contributions for any other purpose.
 
-**To complete a Contributor License Agreement (Individual or Corporate), please click [**HERE**](https://forms.gle/kS6BKhaf5LBzNvj18) to be taken to the Google Form.** 
+**To complete a Contributor License Agreement (Individual or Corporate), please click [**HERE**](https://forms.gle/kS6BKhaf5LBzNvj18) to be taken to the Google Form.**

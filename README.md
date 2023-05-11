@@ -2,17 +2,22 @@
 
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](./LICENSE)
 
+## Table of Contents <!-- omit in toc -->
+
 - [Introduction](#introduction)
 - [Requirements](#requirements)
 - [Getting Started](#getting-started)
 - [Local Development](#local-development)
 - [Custom Environment](#custom-environment)
+- [Shutting down and bring back up](#shutting-down-and-bring-back-up)
 - [Secrets](#secrets)
+  - [Quick Drupal "admin" password reset](#quick-drupal-admin-password-reset)
 - [Services](#services)
   - [Code Server](#code-server)
   - [Watchtower](#watchtower)
   - [Traefik](#traefik)
   - [ETCD](#etcd)
+- [Add Custom Makefile Commands](#add-custom-makefile-commands)
 - [Troubleshooting/Issues](#troubleshootingissues)
 - [Development](#development)
 - [Maintainers/Sponsors](#maintainerssponsors)
@@ -22,39 +27,36 @@
 
 ## Introduction
 
-[Docker Compose] project for creating and managing an Islandora 8 instance
-using [Docker] containers from [Docker Hub](https://hub.docker.com/u/islandora)
-that were created by [isle-buildkit](https://github.com/Islandora-Devops/isle-buildkit).
+[Docker Compose] project for creating and managing an Islandora site using
+[Docker] containers from [Docker Hub] that were created by [isle-buildkit].
 
-In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on configuration
-that you supply in a `.env` file.  And there are three use cases we're trying to accomplish:
+In a nutshell, `isle-dc` generates a docker-compose.yml file for you based on
+configuration that you supply in a `.env` file. And there are three use cases
+we're trying to accomplish:
 
 - **demo** *(Example site for kicking the tires and looking at Islandora)*
-- **local** *(Local development using composer/drush in the codebase folder)*
-- **custom** *(A custom Dockerfile to deploy created from local)*
+- **local** *(Starting point for local development, based on the [islandora-starter-site] project)*
+- **custom** *(A custom image to deploy created from local)*
 
-Additionally, there's a couple other targets derived from `local` which make use of [the `islandora/islandora-starter-site` project](https://github.com/Islandora/islandora-starter-site):
+On top of that, there's a lot of useful commands for managing an Islandora
+instance, such as database import/export and re-indexing.
 
-- **starter**: Uses `composer create-project` to initialize the site, for general use; and,
-- **starter_dev**: Creates a clone of the starter site project, intended for development of the "starter site" proper; however, given a number of different items are configured during provisioning, `starter_dev` may be of limited utility as config exports will be dirtied during provisioning (ideally, these bits that vary could be reworked to use [Drupal's "state API"](https://www.drupal.org/docs/8/api/state-api/overview) instead, or perhaps avoiding reworking of the modules by using [Drupal's configuration override system](https://www.drupal.org/docs/drupal-apis/configuration-api/configuration-override-system)).
-
-On top of that, there's a lot of useful commands for managing an Islandora instance, such
-as database import/export and reindexing.
+> N.B. This is the **not** the only way to manage your Islandora installation,
+> please also see [isle-site-template] and [islandora-playbook], and consult
+> with the wider community on the [Islandora Slack].
 
 ## Requirements
 
-- Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
-- Docker-CE 19.x+
-- Docker-compose version 1.25.x+
+- Desktop / laptop / VM (*Docker must have sufficient resources to run*)
+- Docker-CE 23.x+
+- Docker-compose version 2.17.x+
 - Git 2.0+
 - GNU Make 4.0+
 - At least 8GB of RAM (ideally 16GB)
 
-before running any of the make commands below.
+Before running any of the make commands below.
 
-
-See release notes at https://docs.docker.com/compose/cli-command/.
-
+See release notes at <https://docs.docker.com/compose/cli-command/>.
 
 ## Getting Started
 
@@ -64,44 +66,46 @@ To get started with a **demo** environment, run:
 make demo
 ```
 
-⚠️ If prompted during `make up\demo\local\clean` for password, use your computer's password. The build process may need elevated privileges to write or remove files. For other password information see [Secrets](#secrets)
-
-This will pull down images from Dockerhub and generate
+This will pull down images from [Docker Hub] and generate
 
 | File                 | Purpose                                                                                                                                                                                                                                                                     |
 | :------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `.env`               | A configuration file that is yours to customize. This file controls how the docker-compose.yml file gets generated to meet your use case.</br>It also allows you to set variables that make their way into the final `docker-compose.yml` file, such as your site's domain. |
 | `docker-compose.yml` | A ready to run `docker-compose.yml` file based on your `.env` file.  This file is considered disposable. When you change your `.env` file, you will generate a new one.                                                                                                     |
 
-Your new Islandora instance will be available at
-[https://islandora.traefik.me](https://islandora.traefik.me). Don't let the
-funny URL fool you, it's a dummy domain that resolves to `127.0.0.1`.
+Your new Islandora instance will be available at <https://islandora.traefik.me>.
+Don't let the funny URL fool you, it's a dummy domain that resolves to
+`127.0.0.1`.
 
 If you do not have [secrets enabled](#secrets), you can log into Drupal as
 `admin` using the default password: `password`. Otherwise you can find the
-password in the file
-[./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD](./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD).
+password in the file [./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD].
 
-Enjoy your Islandora instance!  Check out the [Islandora documentation](https://islandora.github.io/documentation) to see all
-the things you can do.  If you want to poke around, here's all the services that are available to visit:
+Enjoy your Islandora instance! Check out the [Islandora documentation] to see
+all the things you can do. If you want to poke around, here's all the services
+that are available to visit:
 
-| Service     | URL                                                                                            |  Exposed by default |
-| :---------- | :--------------------------------------------------------------------------------------------- | :------------------ |
-| Drupal      | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |         Yes         |
-| Traefik     | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |         No          |
-| Fedora      | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |         Yes         |
-| Blazegraph  | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |         No          |
-| Activemq    | [http://islandora.traefik.me:8161](http://islandora.traefik.me:8161)                           |         No          |
-| Solr        | [http://islandora.traefik.me:8983](http://islandora.traefik.me:8983)                           |         No          |
-| Cantaloupe  | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |         Yes         |
-| Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |         Yes         |
-| Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                       |         No          |
+| Service     | URL                                                                                          | Exposed by default |
+| :---------- | :------------------------------------------------------------------------------------------- | :----------------- |
+| Drupal      | [https://islandora.traefik.me](https://islandora.traefik.me)                                 | Yes                |
+| Traefik     | [http://islandora.traefik.me:8080](http://islandora.traefik.me:8080)                         | No                 |
+| Fedora      | [http://islandora.traefik.me:8081/fcrepo/rest](http://islandora.traefik.me:8081/fcrepo/rest) | Yes                |
+| Blazegraph  | [http://islandora.traefik.me:8082/bigdata](http://islandora.traefik.me:8082/bigdata)         | No                 |
+| Activemq    | [http://islandora.traefik.me:8161](http://islandora.traefik.me:8161)                         | No                 |
+| Solr        | [http://islandora.traefik.me:8983](http://islandora.traefik.me:8983)                         | No                 |
+| Cantaloupe  | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)           | Yes                |
+| Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                 | Yes                |
+| Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                     | No                 |
 
-> **Exposed**: the act of allowing the containerized application's ports to be accessible to the host machine (or public). In most cases this makes the specified URL available for the browser.
+> **Exposed**: the act of allowing the containerized application's ports to be
+> accessible to the host machine (or public). In most cases this makes the
+> specified URL available for the browser.
 
-To change a service exposed value edit the *.env* file. The values will start with "EXPOSE_". Make changes then rebuild the docker-compose file and then run the up command (even if it's already running) using the following commands.
+To change a service exposed value edit the `.env` file. The values will start
+with `EXPOSE_`. Make changes then rebuild the docker-compose file and then run
+the up command (even if it's already running) using the following commands.
+
 ```shell
-make -B docker-compose.yml
 make up
 ```
 
@@ -111,8 +115,8 @@ When you're done with your demo environment, shut it down by running
 docker-compose down
 ```
 
-This will keep your data around until the next time you start your instance.  If you want to completely destroy the repository and
-all ingested data, use
+This will keep your data around until the next time you start your instance. If
+you want to completely destroy the repository and all ingested data, use
 
 ```
 docker-compose down -v
@@ -121,38 +125,40 @@ docker-compose down -v
 # resets all files back to their original states. This takes it back to a clean slate.
 
 make clean
-
 ```
 
 ## Local Development
 
-When developing locally, your Drupal site resides in the `codebase` folder and is bind-mounted into your
-Drupal container.  This lets you update code using the IDE of your choice on your host machine, and the
-changes are automatically reflected on the Drupal container.  Simply place any exported Drupal site as
-the `codebase` folder in `isle-dc` and you're good to go.
+When developing locally, your Drupal site resides in the `codebase` folder and
+is bind-mounted into your Drupal container. This lets you update code using the
+IDE of your choice on your host machine, and the changes are automatically
+reflected in the Drupal container. Simply place any exported Drupal site as the
+`codebase` folder in `isle-dc` and you're good to go.
 
-If you don't provide a codebase, you'll be given a basic setup from vanilla Drupal 9 instance with the Islandora module
-installed and the bare minimum configured to run.  This is useful if you want to build your repository
-from scratch and avoid `islandora_defaults`.
+If you don't provide a codebase, you'll be given a basic setup from vanilla
+Drupal 9 instance with the Islandora module installed and the bare minimum
+configured to run. This is useful if you want to build your repository from
+scratch and avoid `islandora_defaults`.
 
-If you've included configuration in your exported site using `drush config:export` or run `make config-export`, then you'll need
-to set two values in your .env file:
+If you've included configuration in your exported site using
+`drush config:export` or run `make config-export`, then you'll need to set two
+values in your `.env` file:
 
 ```
 INSTALL_EXISTING_CONFIG=true
 DRUPAL_INSTALL_PROFILE=minimal
 ```
 
-In either case, run one of these commands to make a local environment.
+In either case, run this command to make a local environment.
 
 ```bash
 make local
 ```
 
-The former will create a starter site modeled off of https://sandbox.islandora.ca.
+The former will create a starter site modeled off of <https://sandbox.islandora.ca>.
 
-If you already have a Drupal site but don't know how to export it,
-log into your server, navigate to the Drupal root, and run the following commands:
+If you already have a Drupal site but don't know how to export it, log into your
+server, navigate to the Drupal root, and run the following commands:
 
 - `make config-export`
 - `git init`
@@ -169,7 +175,7 @@ development environment as described above. You can specify a namespace, the
 image name, and tag in your `.env` file.
 
 This assumes you have already created an image and have it stored in a container
-registry like Dockerhub or Gitlab. If you are setting this up for the first time
+registry like [Docker Hub] or [Gitlab]. If you are setting this up for the first time
 you should first create a local environment as described above. Once you have
 your local environment created you can do the following:
 - In your .env set the name of the image to create using
@@ -196,7 +202,11 @@ Once you have done that you can create your production or staging site by:
 site
 
 ## Shutting down and bring back up
-To run a non-destructive shutdown and bring it back up without having to know the docker commands needed. This keeps all of the commands for basic operations within the make commands.
+
+To run a non-destructive shutdown and bring it back up without having to know
+the docker commands needed. This keeps all of the commands for basic operations
+within the make commands.
+
 ```shell
 # Shut down isle-dc with losing work.
 make down
@@ -205,7 +215,6 @@ make down
 make up
 
 # If make hasn't been run this will run make demo
-
 ```
 
 ## Secrets
@@ -225,7 +234,7 @@ To enable using secrets prior to running the `make` commands, copy sample.env
 to .env. Set `USE_SECRETS=true` in your .env file. Make a copy of the files in
 /secrets/template/ to /secrets/live/.
 
-To enable using secrets after run `make local` or `make up`, set 
+To enable using secrets after run `make local` or `make up`, set
 `USE_SECRETS=true` in your .env file. When you run `make docker-compose.yml`, a
 large block of `secrets` will be added at the top of your `docker-compose.yml`
 file.
@@ -386,7 +395,7 @@ lowercasename:
 	echo "first line in command needs to be indented. There are exceptions to this, review functions in the Makefile for examples of these exceptions."
 ```
 
-NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.  
+NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.
 
 Running the new `custom.Makefile` commands are exactly the same as running any other Makefile command. Just run `make` and the function's name.
 ```bash
@@ -456,9 +465,18 @@ This project has been sponsored by:
 
 [MIT](https://opensource.org/licenses/MIT)
 
+[./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD]: ./secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD
 [Docker Compose]: https://docs.docker.com/compose
 [Docker for Windows Bug]: https://github.com/docker/for-win/issues/6016
 [Docker for Windows Patch]: https://download-stage.docker.com/win/stable/43542/Docker%20Desktop%20Installer.exe
+[Docker Hub]: https://hub.docker.com/u/islandora
 [Docker]: https://docs.docker.com
+[GitLab]: https://gitlab.com/
+[Islandora documentation]: https://islandora.github.io/documentation
+[Islandora Slack]: https://islandora.slack.com/
+[islandora-playbook]: https://github.com/Islandora-Devops/islandora-playbook
+[islandora-starter-site]: https://github.com/Islandora/islandora-starter-site
+[isle-buildkit]: https://github.com/Islandora-Devops/isle-buildkit
+[isle-site-template]: https://github.com/Islandora-Devops/isle-site-template
 [MariaDB]: https://mariadb.org/
 [MySQL]: https://www.mysql.com/

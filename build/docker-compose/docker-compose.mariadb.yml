@@ -9,8 +9,8 @@ services:
   # Always included even if PostgreSQL is included as Matomo only works with MySQL.
   # https://github.com/matomo-org/matomo/issues/500
   mariadb:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/mariadb:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/mariadb:${TAG}
     volumes:
       - mariadb-data:/var/lib/mysql
       - mariadb-files:/var/lib/mysql-files
@@ -21,10 +21,10 @@ services:
     # so we must dedicate a port to it in traefik, and direct all traffic to this router: HostSNI(`*`).
     labels:
       - traefik.enable=${EXPOSE_MYSQL:-false}
-      - traefik.tcp.services.${COMPOSE_PROJECT_NAME-isle-dc}-mysql.loadbalancer.server.port=3306
-      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-mysql_tcp.service=${COMPOSE_PROJECT_NAME-isle-dc}-mysql
-      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-mysql_tcp.entrypoints=mysql
-      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME-isle-dc}-mysql_tcp.rule=HostSNI(`*`)
+      - traefik.tcp.services.${COMPOSE_PROJECT_NAME}-mysql.loadbalancer.server.port=3306
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME}-mysql_tcp.service=${COMPOSE_PROJECT_NAME}-mysql
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME}-mysql_tcp.entrypoints=mysql
+      - traefik.tcp.routers.${COMPOSE_PROJECT_NAME}-mysql_tcp.rule=HostSNI(`*`)
     networks:
       default:
     deploy:

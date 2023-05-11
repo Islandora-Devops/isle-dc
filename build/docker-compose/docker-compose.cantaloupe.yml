@@ -8,8 +8,8 @@ volumes:
   cantaloupe-data:
 services:
   cantaloupe:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/cantaloupe:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/cantaloupe:${TAG}
     environment:
       CANTALOUPE_DELEGATE_SCRIPT_ENABLED: ${CANTALOUPE_DELEGATE_SCRIPT_ENABLED} # "true"
       CANTALOUPE_DELEGATE_SCRIPT_PATHNAME: ${CANTALOUPE_DELEGATE_SCRIPT_PATHNAME} #/opt/tomcat/bin/delegates.rb
@@ -18,16 +18,20 @@ services:
       - cantaloupe-data:/data
     labels:
       - traefik.enable=${EXPOSE_CANTALOUPE:-true}
-      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe.loadbalancer.server.port=8080
-      - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.cantaloupe-custom-request-headers.headers.customrequestheaders.X-Forwarded-Path=/cantaloupe
       - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.permanent=true
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.entrypoints=http
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.rule=Host(`${DOMAIN}`) && PathPrefix(`/cantaloupe`)
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_http.middlewares=cantaloupe-redirectscheme
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.entrypoints=https
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.rule=Host(`${DOMAIN}`) && PathPrefix(`/cantaloupe`)
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.tls=true
+      - traefik.http.middlewares.cantaloupe-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.cantaloupe-strip-prefix.stripprefix.prefixes=/cantaloupe
+      - traefik.http.middlewares.cantaloupe.chain.middlewares=cantaloupe-strip-prefix,cantaloupe-custom-request-headers
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-cantaloupe_http.entrypoints=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-cantaloupe_http.middlewares=cantaloupe-redirectscheme
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-cantaloupe_http.rule=Host(`${DOMAIN}`) && PathPrefix(`/cantaloupe`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-cantaloupe_http.service=${COMPOSE_PROJECT_NAME}-cantaloupe
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-cantaloupe_https.entrypoints=https
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-cantaloupe_https.middlewares=cantaloupe
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-cantaloupe_https.rule=Host(`${DOMAIN}`) && PathPrefix(`/cantaloupe`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-cantaloupe_https.tls=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}-cantaloupe.loadbalancer.server.port=8182
     networks:
       default:
     deploy:

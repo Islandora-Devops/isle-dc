@@ -8,17 +8,17 @@ volumes:
   blazegraph-data:
 services:
   blazegraph:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/blazegraph:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/blazegraph:${TAG}
     volumes:
       - blazegraph-data:/data
     networks:
       default:
     labels:
       - traefik.enable=${EXPOSE_BLAZEGRAPH:-false}
-      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph.loadbalancer.server.port=8080
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-blazegraph_http.entrypoints=blazegraph
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}-blazegraph.loadbalancer.server.port=8080
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-blazegraph_http.service=${COMPOSE_PROJECT_NAME}-blazegraph
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-blazegraph_http.entrypoints=blazegraph
     deploy:
       resources:
           limits:

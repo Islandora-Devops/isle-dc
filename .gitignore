@@ -69,6 +69,7 @@ config/proxy/acme.json
 .env
 secrets/live/*
 islandora_workbench
+build/custom
 
 #===================
 # Drupal and Mariadb files persistant storage

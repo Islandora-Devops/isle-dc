@@ -4,8 +4,8 @@ networks:
     internal: true
 services:
   crayfits:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/crayfits:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/crayfits:${TAG}
     depends_on:
       - fits
     deploy:
@@ -15,8 +15,8 @@ services:
           reservations:
             memory: 512M
   fits:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/fits:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/fits:${TAG}
     deploy:
       resources:
           limits:

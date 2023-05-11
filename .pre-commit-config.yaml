@@ -1,0 +1,26 @@
+# We do not want to modify whitespace or add newlines to specific files, namely:
+# - Certs
+# - Keys
+# - Patches (Should match 100% the source from which they were derived)
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-yaml
+      - id: end-of-file-fixer
+        exclude: &format-exclude secrets/.*|.patch
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+        exclude: *format-exclude
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.17
+    hooks:
+      - id: shellcheck
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
+    hooks:
+      - id: shfmt

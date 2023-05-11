@@ -4,8 +4,8 @@ networks:
     internal: true
 services:
   alpaca:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/alpaca:${TAG:-latest}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/alpaca:${TAG}
     environment:
       ALPACA_OCR_TIMEOUT: ${ALPACA_OCR_TIMEOUT:-10000}
       ALPACA_HOUDINI_TIMEOUT: ${ALPACA_HOUDINI_TIMEOUT:-10000}

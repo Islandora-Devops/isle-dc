@@ -1,14 +1,8 @@
+SHELL := bash
+
 ############################################################
 ## Create / include any necessary files and configuration ##
 ############################################################
-
-# Allows for customization of the behavior of the Makefile as well as Docker Compose.
-# If it does not exist create it from sample.env.
-ENV_FILE=$(shell \
-	if [ ! -f .env ]; then \
-		cp sample.env .env; \
-	fi; \
-	echo .env)
 
 # handle sed -i differences (see https://stackoverflow.com/a/4247319/3204023 for more context)
 ifeq ($(shell uname -s),Darwin)
@@ -29,7 +23,8 @@ endif
 # Include the sample.env so new values can be added with defaults without requiring
 # users to regenerate their .env files losing their changes.
 include sample.env
-include $(ENV_FILE)
+-include .env
+
 # The site to operate on when using drush -l $(SITE) commands
 SITE?=default
 
@@ -45,7 +40,21 @@ export
 EXTERNAL_SERVICES := etcd watchtower traefik
 
 # The minimal set of docker-compose files required to be able to run anything.
-REQUIRED_SERVICES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal mariadb matomo solr
+REQUIRED_SERVICES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal fcrepo mariadb matomo solr
+
+# Check if we are requesting a target that doesn't match the current environment.
+ENVIRONMENTS := demo local
+$(foreach environment, $(ENVIRONMENTS), \
+	$(if $(filter $(environment),$(MAKECMDGOALS)), \
+	$(if $(filter-out $(environment),$(ENVIRONMENT)), \
+		$(error "ENVIRONMENT in .env '$(ENVIRONMENT)' does not match the target '$(environment)'."))))
+
+# Conditional targets shared by all environments (e.g. generate-secrets).
+ENVIRONMENT_DEFAULT_TARGETS := \
+	$(if $(filter true,$(USE_SECRETS)),generate-secrets) \
+	$(if $(filter %.traefik.me,$(DOMAIN)),download-default-certs) \
+	docker-compose.yml \
+	codebase
 
 ifeq ($(USE_SECRETS), true)
 	SECRETS := secrets
@@ -68,7 +77,7 @@ endif
 
 # The service traefik may be optional if we are sharing one from another project.
 ifeq ($(INCLUDE_CODE_SERVER_SERVICE), true)
-	CODE_SERVER_SERVICE := code-server
+	CODE_SERVER_SERVICE := code-server $(ENVIRONMENT).code-server
 endif
 
 # etcd is an optional dependency, by default it is not included.
@@ -76,17 +85,10 @@ ifeq ($(INCLUDE_ETCD_SERVICE), true)
 	ETCD_SERVICE := etcd
 endif
 
-# etcd is an optional dependency, by default it is not included.
-ifeq ($(FEDORA_6), true)
-	FCREPO_SERVICE := fcrepo6
-else
-	FCREPO_SERVICE := fcrepo
-endif
-
 # Some services can optionally depend on PostgreSQL.
 # Either way their environment variables get customized
 # depending on the database service they have choosen.
-DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) $(FCREPO_SERVICE).$(FCREPO_DATABASE_SERVICE)
+DATABASE_SERVICES ?= drupal.$(DRUPAL_DATABASE_SERVICE) fcrepo.$(FCREPO_DATABASE_SERVICE)
 
 ifeq ($(DRUPAL_DATABASE_SERVICE), postgresql)
 	DATABASE_SERVICES += postgresql
@@ -102,113 +104,117 @@ DATABASE_SERVICES := $(sort $(DATABASE_SERVICES))
 # The services to be run (order is important), as services can override one
 # another. Traefik must be last if included as otherwise its network
 # definition for `gateway` will be overriden.
-SERVICES := $(REQUIRED_SERVICES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(SECRETS) $(CODE_SERVER_SERVICE) $(TRAEFIK_SERVICE) $(ACME)
+SERVICES := $(REQUIRED_SERVICES) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(SECRETS) $(CODE_SERVER_SERVICE) $(TRAEFIK_SERVICE) $(ACME)
 
 RESET=$(shell tput sgr0)
 RED=$(shell tput setaf 9)
 BLUE=$(shell tput setaf 6)
 TARGET_MAX_CHAR_NUM=20
 
+ROW_MESSAGE := ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}
+
 IS_DRUPAL_PSSWD_FILE_READABLE := $(shell test -r secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD -a -w secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD && echo 1 || echo 0)
 CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 'sudo -k tee')
 
 LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
 
+
+#############################################
+## Functions                               ##
+#############################################
+
+# Bash snippet to check for the existance an executable.
+define wait-for-installation
+	@printf "Waiting for installation...\n"
+	@docker compose exec drupal timeout 600 bash -c "while ! test -f /installed; do sleep 5; done"
+endef
+
+# Bash snippet to check for the existance an executable.
+define access-message
+	@printf "  Credentials:\n"
+	@printf "  $(ROW_MESSAGE)\n" "Username" "admin"
+	@if [ "$(USE_SECRETS)" = "true" ]; then \
+		PASSWORD=$$(cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD); \
+		printf "  $(ROW_MESSAGE)\n" "Password" "$${PASSWORD}"; \
+	else \
+		printf "  $(ROW_MESSAGE)\n" "Password" "password"; \
+	fi
+	@printf "\n  Services Available:\n"
+	@if [ "$(EXPOSE_DRUPAL)" = "true" ]; then printf "  $(ROW_MESSAGE)\n" "Drupal" "https://$(DOMAIN)"; fi
+	@if [ "$(EXPOSE_CODE_SERVER)" = "true" ]; then printf "  $(ROW_MESSAGE)\n" "IDE" "https://$(DOMAIN):$(CODE_SERVER_PORT)"; fi
+	@if [ "$(EXPOSE_ACTIVEMQ)" = "true" ]; then printf "  $(ROW_MESSAGE)\n" "ActiveMQ" "http://$(DOMAIN):$(ACTIVEMQ_PORT)"; fi
+	@if [ "$(EXPOSE_BLAZEGRAPH)" = "true" ]; then printf "  $(ROW_MESSAGE)\n" "Blazegraph" "http://$(DOMAIN):$(BLAZEGRAPH_PORT)/bigdata"; fi
+	@if [ "$(EXPOSE_FEDORA)" = "true" ]; then printf "  $(ROW_MESSAGE)\n" "Fedora" "http://$(DOMAIN):$(FEDORA_PORT)/fcrepo/rest"; fi
+	@if [ "$(EXPOSE_MATOMO)" = "true" ]; then printf "  $(ROW_MESSAGE)\n" "Matomo" "https://$(DOMAIN)/matomo/index.php"; fi
+	@if [ "$(EXPOSE_CANTALOUPE)" = "true" ]; then printf "  $(ROW_MESSAGE)\n" "Cantaloupe" "https://$(DOMAIN)/cantaloupe"; fi
+	@if [ "$(EXPOSE_SOLR)" = "true" ]; then printf "  $(ROW_MESSAGE)\n" "Solr" "http://$(DOMAIN):$(SOLR_PORT)/solr/#/"; fi
+	@if [ "$(EXPOSE_TRAEFIK_DASHBOARD)" = "true" ]; then printf "  $(ROW_MESSAGE)\n" "Traefik" "http://$(DOMAIN):$(TRAEFIK_DASHBOARD_PORT)"; fi
+endef
+
 #############################################
 ## Default Rule                            ##
 #############################################
+default: help .env
 
-default: download-default-certs docker-compose.yml pull
+#############################################
+## Actual Targets                          ##
+#############################################
+codebase:
+	mkdir -p $(CURDIR)/codebase
 
+.env:
+	cp sample.env .env
+
+# Although not actually phony we need to force it to run every time, as environment variables can change the output.
+.PHONY: docker-compose.yml
+# Create or regenrate docker-compose.yml based on variables in your .env
+docker-compose.yml: $(SERVICES:%=build/docker-compose/docker-compose.%.yml) .env
+	HOST_UID=$(shell id -u) docker-compose $(SERVICES:%=-f build/docker-compose/docker-compose.%.yml) config > docker-compose.yml
+
+Dockerfile:
+	cp sample.Dockerfile Dockerfile
+
+build/custom:
+	cp -r build/local build/custom
 
 #############################################
 ## Rules for installing Islandora          ##
 #############################################
-
 .PHONY: demo
 .SILENT: demo
-## Make a local site from the install-profile and TODO then add demo content
-demo: generate-secrets
-	$(MAKE) local
-	$(MAKE) demo_content
-	$(MAKE) login
-
+## Make a demo site
+demo: $(ENVIRONMENT_DEFAULT_TARGETS)
+	docker-compose up -d --remove-orphans
+	$(call wait-for-installation)
+	$(call access-message)
 
 .PHONY: local
-#.SILENT: local
-## Make a local site with codebase directory bind mounted, modeled after sandbox.islandora.ca
-local: QUOTED_CURDIR = "$(CURDIR)"
-local: generate-secrets
-	$(MAKE) download-default-certs ENVIRONMENT=local
-	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
-	$(MAKE) pull ENVIRONMENT=local
-	mkdir -p $(CURDIR)/codebase
-	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+.SILENT: local
+## Make a site with codebase directory bind mounted, (using starter site if no codebase provided).
+local: $(ENVIRONMENT_DEFAULT_TARGETS)
+	if [ -z "$$(ls -A '$(CURDIR)/codebase')" ]; then \
+		if [ "$(STARTER_DEV)" = "true" ]; then \
+			git clone -b main https://github.com/Islandora/islandora-starter-site '$(CURDIR)/codebase'; \
+		else \
+			docker container run --rm \
+				-v $(CURDIR):/work \
+				-u $(shell id -u):101 \
+				--entrypoint composer $(REPOSITORY)/nginx:$(TAG) \
+				--no-cache create-project $(CODEBASE_PACKAGE) /work/codebase; \
+		fi; \
+		docker container run --rm \
+			-v $(CURDIR)/codebase:/var/www/drupal \
+			-v $(CURDIR)/build/local/rootfs/var/www/drupal/assets/patches/default_settings.txt:/var/www/drupal/assets/patches/default_settings.txt \
+			--entrypoint composer $(REPOSITORY)/nginx:$(TAG) install -d /var/www/drupal \
 	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
-	docker-compose up -d --remove-orphans
-	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
-	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIRONMENT=local
-	docker-compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
-	$(MAKE) delete-shortcut-entities && docker-compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
-	docker-compose exec -T drupal with-contenv bash -lc "drush en -y migrate_tools"
-	$(MAKE) hydrate ENVIRONMENT=local
-	-docker-compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
-	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
-	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
-	curl -k -u admin:'$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)' -H "Content-Type: application/json" -d "@build/demo-data/homepage.json" https://${DOMAIN}/node?_format=json
-	curl -k -u admin:'$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)' -H "Content-Type: application/json" -d "@build/demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
-	$(MAKE) login
-
-
-.PHONY: starter
-## Make a local site with codebase directory bind mounted, using starter site unless other package specified in .env or present already.
-starter: QUOTED_CURDIR = "$(CURDIR)"
-starter: generate-secrets
-	$(MAKE) starter-init ENVIRONMENT=starter
-	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
-	else \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root; composer install'; \
-	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
-	docker-compose up -d --remove-orphans
-	$(MAKE) starter-finalize ENVIRONMENT=starter
-
-
-.PHONY: starter_dev
-## Make a local site with codebase directory bind mounted, using cloned starter site.
-starter_dev: QUOTED_CURDIR = "$(CURDIR)"
-starter_dev: generate-secrets
-	$(MAKE) starter-init ENVIRONMENT=starter_dev
-	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
-	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
-	docker-compose up -d --remove-orphans
-	docker-compose exec -T drupal with-contenv bash -lc 'composer install'
-	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
-
-
-.PHONY: production
-production: generate-secrets
-	$(MAKE) download-default-certs
-	$(MAKE) -B docker-compose.yml
-	$(MAKE) pull
-	docker-compose up -d --remove-orphans
-	docker-compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
-	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
-	docker-compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
-	MIGRATE_IMPORT_USER_OPTION=--userid=1 $(MAKE) hydrate
-	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import --userid=1 islandora_fits_tags'
-	$(MAKE) login
-
+	docker compose build drupal
+	docker compose up -d --remove-orphans
+	$(call wait-for-installation)
+	$(call access-message)
 
 #############################################
 ## Helper Rules for managing your install  ##
 #############################################
-
 .PHONY: help
 .SILENT: help
 help:
@@ -244,49 +250,33 @@ help:
 	{lastLine = $$0}' $(MAKEFILE_LIST)
 	@echo ''
 
-
 .PHONY: pull
 ## Fetches the latest images from the registry.
 pull: docker-compose.yml
-ifeq ($(REPOSITORY), local)
-	# Only need to pull external services if using local images.
-	docker-compose pull $(filter $(EXTERNAL_SERVICES), $(SERVICES))
-else
-	docker-compose pull
-endif
+	docker-compose pull --ignore-pull-failures
 
+.PHONY: push
+## Push images (See README.md for more information on pushing images)
+push: docker-compose.yml
+	docker compose push
 
 .PHONY: build
-## Create Dockerfile from example if it does not exist.
-build:
-	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
-		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
-	fi
-	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(CUSTOM_IMAGE_NAMESPACE)/$(CUSTOM_IMAGE_NAME):${CUSTOM_IMAGE_TAG} --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
-
-
-.PHONY: push-image
-## Push your custom drupal image to dockerhub or a container registry
-push-image:
-	docker push "$(CUSTOM_IMAGE_NAMESPACE)/$(CUSTOM_IMAGE_NAME):${CUSTOM_IMAGE_TAG}"
-
-
-.SILENT: docker-compose.yml
-# Create or regenrate docker-compose.yml based on variables in your .env
-docker-compose.yml: $(SERVICES:%=build/docker-compose/docker-compose.%.yml) .env
-	docker-compose $(SERVICES:%=-f build/docker-compose/docker-compose.%.yml) config > docker-compose.yml
+## Build images (See README.md for more information on building images)
+build: docker-compose.yml
+	docker compose build
 
 
 .PHONY: up
 .SILENT: up
-## Brings up the containers or builds demo if no containers were found.
-up:
-	test -f docker-compose.yml && docker-compose up -d --remove-orphans || $(MAKE) demo
-	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish building.\n"
-	sleep 10
-	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
-	$(MAKE) secrets_warning
-
+## Brings up the containers or builds $(ENVIRONMENT) if no containers were found.
+ifeq ($(wildcard docker-compose.yml),)
+up: $(ENVIRONMENT)
+else
+up: pull build docker-compose.yml
+	docker-compose up -d --remove-orphans
+	$(call wait-for-installation)
+	$(call access-message)
+endif
 
 .PHONY: down
 .SILENT: down
@@ -359,11 +349,11 @@ reindex-triplestore:
 .SILENT: set_admin_password
 ## Sets the Drupal admin password and accomodates for permissions restrictions to the secrets directory. Only runs sudo when needed.
 set_admin_password:
-	@$(eval PASSWORD ?= $(shell bash -c 'read -s -p "New Password: " pwd; echo $$pwd'))
-	@echo "\n\nSetting admin password now"
+	$(eval PASSWORD ?= $(shell bash -c 'read -s -p "New Password: " pwd; echo $$pwd'))
+	echo "\n\nSetting admin password now"
 	docker-compose exec -T drupal with-contenv bash -lc 'drush user:password admin "$(PASSWORD)"'
-	echo "$(PASSWORD)" | $(CMD) secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD >> /dev/null
-	@echo "\ndone."
+	echo -n "$(PASSWORD)" > secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD
+	echo "\ndone."
 
 
 .PHONY: clean
@@ -373,8 +363,8 @@ clean:
 	echo "**DANGER** About to rm your SERVER data subdirs, your docker volumes, codebase, islandora_workbench, certs, secrets, and all untracked/ignored files (including .env)."
 	$(MAKE) confirm
 	-docker-compose down -v
-	sudo rm -fr codebase islandora_workbench certs secrets/live/*
-	git clean -xffd .
+	-chmod -R a+w codebase/web/sites/default
+	git clean -xfd .
 
 #############################################
 ## Rules for backing up and restoring      ##
@@ -395,7 +385,7 @@ ifndef SRC
 	$(error SRC is not set)
 endif
 	docker cp "$(SRC)" $$(docker-compose ps -q drupal):/tmp/dump.sql
-	# Need to specify the root user to import the database otherwise it will fail due to permissions.
+  # Need to specify the root user to import the database otherwise it will fail due to permissions.
 	docker-compose exec -T drupal with-contenv bash -lc 'chown root:root /tmp/dump.sql && mysql -u $${DRUPAL_DEFAULT_DB_ROOT_USER} -p$${DRUPAL_DEFAULT_DB_ROOT_PASSWORD} -h $${DRUPAL_DEFAULT_DB_HOST} $${DRUPAL_DEFAULT_DB_NAME} < /tmp/dump.sql'
 	docker-compose exec -T drupal with-contenv bash -lc 'drush cache-rebuild'
 
@@ -451,15 +441,11 @@ endif
 	docker-compose up -d fcrepo
 	docker cp "$(SRC)" $$(docker-compose ps -q fcrepo):/tmp/fcrepo-export.tgz
 	docker-compose exec -T fcrepo with-contenv bash -lc 'cd /tmp && tar zxvf fcrepo-export.tgz && chown -R tomcat:tomcat fcrepo-export && rm fcrepo-export.tgz'
-ifeq ($(FEDORA_6), true)
 	docker-compose exec -T fcrepo with-contenv bash -lc 'java -jar fcrepo-upgrade-utils-6.0.0-beta-1.jar -i /tmp/fcrepo-export -o /data/home -s 5+ -t 6+ -u http://${DOMAIN}:8081/fcrepo/rest && chown -R tomcat:tomcat /data/home'
 ifeq ($(FCREPO_DATABASE_SERVICE), postgresql)
 	$(error Postgresql not implemented yet in fcrepo-import)
 else
 	docker-compose exec -T fcrepo with-contenv bash -lc 'mysql -u $${DB_ROOT_USER} -p$${DB_ROOT_PASSWORD} -h $${DB_MYSQL_HOST} -e "DROP DATABASE $${FCREPO_DB_NAME}"'
-endif
-else
-	docker-compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.1.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${TOMCAT_ADMIN_NAME}:$${TOMCAT_ADMIN_PASSWORD}'
 endif
 	$(MAKE) -B docker-compose.yml
 	docker-compose up -d fcrepo
@@ -536,7 +522,7 @@ update-settings-php:
 	docker-compose exec -T drupal with-contenv bash -lc "if [ ! -f /var/www/drupal/web/sites/default/settings.php ]; then cp /var/www/drupal/web/sites/default/default.settings.php  /var/www/drupal/web/sites/default/settings.php; fi"
 	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
 	# Make sure the host user can read the settings.php files after they have been updated.
-	if [ -d ./codebase ]; then sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;; fi
+	sudo find ./codebase -type f -name "settings.php" -exec chown $(shell id -u):101 {} \;
 
 
 # Created by the standard profile, need to be deleted to import a site that was
@@ -561,27 +547,6 @@ login:
 	echo "\n\n=========== LOGIN ==========="
 	docker-compose exec -T drupal with-contenv bash -lc "drush uli --uri=$(DOMAIN)"
 	echo "=============================\n"
-
-
-.PHONY: starter-init
-starter-init: generate-secrets
-	$(MAKE) download-default-certs
-	$(MAKE) -B docker-compose.yml
-	$(MAKE) pull
-	mkdir -p $(CURDIR)/codebase
-
-
-.PHONY: starter-finalize
-starter-finalize:
-	docker-compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx .'
-	$(MAKE) drupal-database update-settings-php
-	docker-compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
-	docker-compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
-	MIGRATE_IMPORT_USER_OPTION=--userid=1 $(MAKE) hydrate
-	docker-compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import --userid=1 islandora_fits_tags'
-	#docker-compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
-	#docker-compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
-	$(MAKE) login
 
 
 .PHONY: install
@@ -670,4 +635,3 @@ fix_masonry:
 fix_views:
 	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
 	docker-compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
-  

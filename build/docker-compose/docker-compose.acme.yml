@@ -5,9 +5,9 @@ services:
     # Also do not expose database 3306/5432, as an entry point.
     # If the commands below are changed, please copy the changes to `docker-compose.acme.yml`.
     command:
-      - --api.insecure=${EXPOSE_TRAEFIK_DASHBOARD:-false}
-      - --api.dashboard=${EXPOSE_TRAEFIK_DASHBOARD:-false}
-      - --api.debug=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      - --api.insecure=${EXPOSE_TRAEFIK_DASHBOARD}
+      - --api.dashboard=${EXPOSE_TRAEFIK_DASHBOARD}
+      - --api.debug=${EXPOSE_TRAEFIK_DASHBOARD}
       - --entryPoints.http.address=:80
       - --entryPoints.https.address=:443
       - --entryPoints.mysql.address=:3306
@@ -17,7 +17,7 @@ services:
       - --entryPoints.activemq.address=:8161
       - --entryPoints.solr.address=:8983
       - --entryPoints.code-server.address=:8443
-      - --log.level=${TRAEFIK_LOG_LEVEL:-ERROR}
+      - --log.level=${TRAEFIK_LOG_LEVEL}
       - --providers.docker
       - --providers.docker.network=gateway
       - --providers.docker.exposedByDefault=false
@@ -25,21 +25,21 @@ services:
       - '--providers.docker.defaultRule=Host(`${DOMAIN}`)'
       - --certificatesresolvers.myresolver.acme.httpchallenge=true
       - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=http
-      - --certificatesresolvers.myresolver.acme.email=${ACME_EMAIL-your-email@example.com}
-      - --certificatesresolvers.myresolver.acme.keyType=${ACME_KEY_TYPE-RSA4096}
+      - --certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}
+      - --certificatesresolvers.myresolver.acme.keyType=${ACME_KEY_TYPE}
       - --certificatesresolvers.myresolver.acme.storage=/acme/acme.json
-      - --certificatesResolvers.myresolver.acme.caServer=${ACME_SERVER-https://acme-v02.api.letsencrypt.org/directory}
-      - --certificatesresolvers.myresolver.acme.certificatesduration=${ACME_CERT_DURATION-2160}
-      - --certificatesresolvers.myresolver.acme.eab.kid=${ACME_EAB_KID-}
-      - --certificatesresolvers.myresolver.acme.eab.hmacencoded=${ACME_EAB_HMAC-}
+      - --certificatesResolvers.myresolver.acme.caServer=${ACME_SERVER}
+      - --certificatesresolvers.myresolver.acme.certificatesduration=${ACME_CERT_DURATION}
+      - --certificatesresolvers.myresolver.acme.eab.kid=${ACME_EAB_KID}
+      - --certificatesresolvers.myresolver.acme.eab.hmacencoded=${ACME_EAB_HMAC}
     volumes:
       - ../../acme:/acme:rw
   cantaloupe:
     labels:
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-cantaloupe_https.tls.certresolver=myresolver
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-cantaloupe_https.tls.certresolver=myresolver
   drupal:
     labels:
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls.certresolver=myresolver
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_https.tls.certresolver=myresolver
   matomo:
     labels:
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.tls.certresolver=myresolver
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-matomo_https.tls.certresolver=myresolver

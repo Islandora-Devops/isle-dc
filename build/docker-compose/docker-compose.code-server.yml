@@ -1,5 +1,5 @@
 # Creates the drupal container.
-# 
+#
 # References:
 # - https://www.drupal.org/docs
 version: '3.7'
@@ -14,41 +14,58 @@ secrets:
 services:
   code-server:
     environment:
+      DEVELOPMENT_ENVIRONMENT: ${DEVELOPMENT_ENVIRONMENT:-true}
+      DRUPAL_DEFAULT_BROKER_URL: tcp://activemq:61613
+      DRUPAL_DEFAULT_CANTALOUPE_URL: https://${DOMAIN}/cantaloupe/iiif/2
+      DRUPAL_DEFAULT_CONFIGDIR: /var/www/drupal/config/sync
+      DRUPAL_DEFAULT_FCREPO_HOST: ${DOMAIN}
+      DRUPAL_DEFAULT_FCREPO_PORT: 8081
+      DRUPAL_DEFAULT_FCREPO_URL: http://${DOMAIN}:8081/fcrepo/rest/
+      DRUPAL_DEFAULT_MATOMO_URL_HTTP: http://${DOMAIN}/matomo/
+      DRUPAL_DEFAULT_MATOMO_URL_HTTPS: https://${DOMAIN}/matomo/
+      DRUPAL_DEFAULT_MATOMO_URL: https://${DOMAIN}/matomo/
+      DRUPAL_DEFAULT_NAME: "Islandora Digital Collections"
+      DRUPAL_DEFAULT_PROFILE: minimal
+      DRUPAL_DEFAULT_SITE_URL: ${DOMAIN}
+      DRUPAL_DEFAULT_SOLR_CORE: "default"
+      DRUPAL_DRUSH_URI: https://${DOMAIN}
+      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
       PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
       PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
-      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/code-server:${TAG:-latest}
+      UID: ${HOST_UID:-100}
+    restart: ${RESTART_POLICY}
+    image: ${REPOSITORY}/code-server:${TAG}
     labels:
       - traefik.enable=${EXPOSE_CODE_SERVER:-false}
-      # code-server  
-      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-code-server.loadbalancer.server.port=8443
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-code-server_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-code-server
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-code-server_https.entrypoints=code-server
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-code-server_https.rule=Host(`${DOMAIN}`)
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-code-server_https.tls=true
+      # code-server
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}-code-server.loadbalancer.server.port=8443
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-code-server_https.service=${COMPOSE_PROJECT_NAME}-code-server
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-code-server_https.entrypoints=code-server
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-code-server_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-code-server_https.tls=true
       # drupal
       - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.scheme=https
       - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.permanent=true
-      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-drupal
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.entrypoints=http
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.rule=Host(`${DOMAIN}`)
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.middlewares=drupal-redirectscheme
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.service=${COMPOSE_PROJECT_NAME-isle-dc}-drupal
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.entrypoints=https
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.rule=Host(`${DOMAIN}`)
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}-drupal.loadbalancer.server.port=80
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_http.service=${COMPOSE_PROJECT_NAME}-drupal
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_http.entrypoints=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_http.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_http.middlewares=drupal-redirectscheme
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_https.service=${COMPOSE_PROJECT_NAME}-drupal
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_https.entrypoints=https
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_https.tls=true
     secrets:
       - CODE_SERVER_PASSWORD
     volumes:
-      # Mount and serve contents of Drupal site.
+      # Cache for when using jetbrains ssh connection feature.
       - type: volume
-        source: drupal-root
-        target: /var/www/drupal
-        volume:
-          nocopy: true
+        source: jetbrains-cache
+        target: /var/lib/nginx/.cache/JetBrains
+      - type: volume
+        source: jetbrains-config
+        target: /var/lib/nginx/.config/JetBrains
       # Mount and serve Drupal files.
       - type: volume
         source: drupal-sites-data
@@ -74,12 +91,9 @@ services:
       PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
       PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
       PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
- # Disable traefik for Drupal as code-server will respond to all requests.
+    # Disable traefik for Drupal as code-server will respond to all requests.
     labels:
       - traefik.enable=false
-    volumes:
-      # Allow code-server to serve Drupal / override it.
-      - drupal-root:/var/www/drupal
     deploy:
       resources:
           limits:
@@ -87,6 +101,7 @@ services:
           reservations:
             memory: 2G
 volumes:
-  drupal-root: {}
   drupal-sites-data: {}
   code-server-data: {}
+  jetbrains-cache: {}
+  jetbrains-config: {}

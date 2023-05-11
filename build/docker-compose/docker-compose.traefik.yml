@@ -14,16 +14,16 @@ networks:
     internal: false
 services:
   traefik:
-    restart: ${RESTART_POLICY:-unless-stopped}
+    restart: ${RESTART_POLICY}
     image: traefik:2.7
     container_name: traefik
     # Do not set `api.insecure`, `api.dashboard`, `api.debug` to `true` in production.
     # Also do not expose database 3306/5432, as an entry point.
     # If the commands below are changed, please copy the changes to `docker-compose.acme.yml`.
     command:
-      - --api.insecure=${EXPOSE_TRAEFIK_DASHBOARD:-false}
-      - --api.dashboard=${EXPOSE_TRAEFIK_DASHBOARD:-false}
-      - --api.debug=${EXPOSE_TRAEFIK_DASHBOARD:-false}
+      - --api.insecure=${EXPOSE_TRAEFIK_DASHBOARD}
+      - --api.dashboard=${EXPOSE_TRAEFIK_DASHBOARD}
+      - --api.debug=${EXPOSE_TRAEFIK_DASHBOARD}
       - --entryPoints.http.address=:80
       - --entryPoints.https.address=:443
       - --entryPoints.mysql.address=:3306
@@ -33,7 +33,7 @@ services:
       - --entryPoints.activemq.address=:8161
       - --entryPoints.solr.address=:8983
       - --entryPoints.code-server.address=:8443
-      - --log.level=${TRAEFIK_LOG_LEVEL:-ERROR}
+      - --log.level=${TRAEFIK_LOG_LEVEL}
       - --providers.docker
       - --providers.docker.network=gateway
       - --providers.docker.exposedByDefault=false

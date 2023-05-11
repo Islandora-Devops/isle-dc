@@ -9,14 +9,14 @@ RESET=$(tput -Txterm sgr0)
 TARGET_MAX_CHAR_NUM=20
 
 source .env || {
-  echo "${RED}ERROR: .env file not found.${RESET}"
-  exit 1
+	echo "${RED}ERROR: .env file not found.${RESET}"
+	exit 1
 }
 FOUND_INSECURE_SECRETS=false
 
 function print_security_warning() {
 	if [ "${FOUND_INSECURE_SECRETS}" == true ]; then
-cat << EOF
+		cat <<EOF
 
 
 	${YELLOW} --- --- WARNING --- --- ${RESET}${RED} --- --- WARNING --- --- ${RESET}
@@ -25,17 +25,17 @@ cat << EOF
 		Using default values for secrets in a production environment is a
 
 					Security Risk${RESET}
-		
+
 		Default values are identified in ${GREEN}$(pwd)/secrets/live/${RESET}
 
-		If you are using the default values, you can either change the values of 
-		the file found in $(pwd)/secrets/live/ 
+		If you are using the default values, you can either change the values of
+		the file found in $(pwd)/secrets/live/
 		Or generate new secrets by running:
 			${GREEN}make generate-secrets ${RESET}
 
 		This will generate new secrets in /secrets/live/ but will not update
 		the ISLE containers.
-		
+
 		If you are not sure how to push updated secrets to ISLE, please consult
 		the documentation.${BLUE}
 		https://islandora.github.io/documentation/installation/docker-custom/#secrets
@@ -51,12 +51,12 @@ EOF
 function main() {
 	unameOut="$(uname -s)"
 	case "${unameOut}" in
-		Linux*)     hash=sha1sum;;
-		*)          hash="UNKNOWN"
+	Linux*) hash=sha1sum ;;
+	*) hash="UNKNOWN" ;;
 	esac
 	# Check if $USE_SECRETS is set to true.
 	if [ "$USE_SECRETS" = true ]; then
-		local secret_live=[];
+		local secret_live=[]
 		# Check if the $(pwd)/secrets/live directory is empty.
 		if [ "$(ls $(pwd)/secrets/live)" ]; then
 			local secret_live=($(find $(pwd)/secrets/live/* -exec basename {} \;))
@@ -84,11 +84,11 @@ function main() {
 		1)
 			echo "Generating new secrets"
 			docker run --rm -t \
-			-v $(pwd)/secrets:/secrets \
-			-v $(pwd)/build/scripts/generate-secrets.sh:/generate-secrets.sh \
-			-w / \
-			--entrypoint bash \
-			${REPOSITORY}/drupal:${TAG} -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
+				-v $(pwd)/secrets:/secrets \
+				-v $(pwd)/build/scripts/generate-secrets.sh:/generate-secrets.sh \
+				-w / \
+				--entrypoint bash \
+				${REPOSITORY}/drupal:${TAG} -c "/generate-secrets.sh && chown -R $(id -u):$(id -g) /secrets"
 			echo -e "\n${GREEN}Secrets generated.${RESET}"
 			;;
 		2)
@@ -114,7 +114,7 @@ function main() {
 	for secret in "${secret_templates[@]}"; do
 		if [[ ! "${secret_live[@]}" =~ "${secret}" ]]; then
 			missing_secret_identified=true
-			break;
+			break
 		fi
 
 		if [[ $hash == "UNKNOWN" ]]; then
@@ -126,7 +126,7 @@ function main() {
 				fi
 			fi
 		else
-			if [[ "$($hash $(pwd)/secrets/template/${secret}| awk '{print $1}')" == "$($hash $(pwd)/secrets/live/${secret}| awk '{print $1}')" ]]; then
+			if [[ "$($hash $(pwd)/secrets/template/${secret} | awk '{print $1}')" == "$($hash $(pwd)/secrets/live/${secret} | awk '{print $1}')" ]]; then
 				# Ignore the config location directory. This won't pose a security risk.
 				if [[ ! "${secret}" = "DRUPAL_DEFAULT_CONFIGDIR" ]]; then
 					echo -e "${RED}Default Secret${RESET} ${BLUE}->${RESET} $(pwd)/secrets/live/${secret}"
@@ -140,7 +140,7 @@ function main() {
 		echo -e "\n\nIdentified a few missing SECRETS.\n"
 		echo -e "   Would you like to copy the missing secrets from $(pwd)/secrets/template/? [y/N] "
 		read thr_ans
-		if [[ ${thr_ans} == [yY] ]] ; then
+		if [[ ${thr_ans} == [yY] ]]; then
 			echo ""
 			for secret in "${secret_templates[@]}"; do
 				if [[ ! "${secret_live[@]}" =~ "${secret}" ]]; then
@@ -167,11 +167,11 @@ function main() {
 # Just incase the wishes to automate generation of secrets.
 if [[ $1 == 'yes' ]]; then
 	docker run --rm -t \
-	-v $(pwd)/secrets:/secrets \
-	-v $(pwd)/build/scripts/generate-secrets.sh:/generate-secrets.sh \
-	-w / \
-	--entrypoint bash \
-	${REPOSITORY}/drupal:${TAG} -c "/generate-secrets.sh && chown -R `id -u`:`id -g` /secrets"
+		-v $(pwd)/secrets:/secrets \
+		-v $(pwd)/build/scripts/generate-secrets.sh:/generate-secrets.sh \
+		-w / \
+		--entrypoint bash \
+		${REPOSITORY}/drupal:${TAG} -c "/generate-secrets.sh && chown -R $(id -u):$(id -g) /secrets"
 	echo -e "\n${GREEN}Secrets generated.${RESET}"
 fi
 

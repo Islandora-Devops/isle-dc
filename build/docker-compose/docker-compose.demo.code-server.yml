@@ -1,0 +1,16 @@
+version: '3.7'
+volumes:
+  drupal-root: {}
+services:
+  drupal:
+    volumes:
+      # Allow code-server to serve Drupal / override it.
+      - drupal-root:/var/www/drupal
+  code-server:
+    volumes:
+      # Mount and serve contents of Drupal site.
+      - type: volume
+        source: drupal-root
+        target: /var/www/drupal
+        volume:
+          nocopy: true

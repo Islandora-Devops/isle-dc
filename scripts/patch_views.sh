@@ -18,7 +18,7 @@ if [[ $ERROR_MESSAGE == *'InvalidArgumentException'* ]]; then
 	fi
 
 	# Reinstall views
-	enabled_view=`/var/www/drupal/vendor/drupal/console/bin/drupal debug:views --status='Enabled' | cut -d ' ' -f 2 | tail -n +2`
+	enabled_view=$(/var/www/drupal/vendor/drupal/console/bin/drupal debug:views --status='Enabled' | cut -d ' ' -f 2 | tail -n +2)
 	for dis_view in $enabled_view; do
 		echo "Disabling view $dis_view"
 		/var/www/drupal/vendor/drupal/console/bin/drupal views:disable $dis_view
@@ -42,7 +42,7 @@ if [[ $ERROR_MESSAGE == *'InvalidArgumentException'* ]]; then
 
 	echo -e "\n\nThis will likely throw an error, but that's okay.  It's just a patch.\n\n"
 	{ # try
-    drush dev:reinstall -y islandora
+		drush dev:reinstall -y islandora
 	} || { # catch
 		echo -e "\nIgnore these errors. This will fail if any content is already created.\n\n"
 	}

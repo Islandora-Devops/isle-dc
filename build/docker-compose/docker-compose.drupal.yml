@@ -9,30 +9,40 @@ services:
   # The service name is drupal that is the default host name used by micro-services etc.
   # Needs to match against demo, custom, and local.
   drupal:
-    restart: ${RESTART_POLICY:-unless-stopped}
+    restart: ${RESTART_POLICY}
     environment:
+      DEVELOPMENT_ENVIRONMENT: ${DEVELOPMENT_ENVIRONMENT:-false}
+      DRUPAL_DEFAULT_BROKER_URL: tcp://activemq:61613
       DRUPAL_DEFAULT_CANTALOUPE_URL: https://${DOMAIN}/cantaloupe/iiif/2
+      DRUPAL_DEFAULT_CONFIGDIR: /var/www/drupal/config/sync
       DRUPAL_DEFAULT_FCREPO_HOST: ${DOMAIN}
       DRUPAL_DEFAULT_FCREPO_PORT: 8081
+      DRUPAL_DEFAULT_FCREPO_URL: http://${DOMAIN}:8081/fcrepo/rest/
+      DRUPAL_DEFAULT_MATOMO_URL_HTTP: http://${DOMAIN}/matomo/
+      DRUPAL_DEFAULT_MATOMO_URL_HTTPS: https://${DOMAIN}/matomo/
       DRUPAL_DEFAULT_MATOMO_URL: https://${DOMAIN}/matomo/
-      DRUPAL_DEFAULT_SITE_URL: http://${DOMAIN} # Make sure this is just http and not https!
+      DRUPAL_DEFAULT_NAME: "Islandora Digital Collections"
       DRUPAL_DEFAULT_PROFILE: ${DRUPAL_INSTALL_PROFILE}
+      DRUPAL_DEFAULT_SITE_URL: ${DOMAIN}
+      DRUPAL_DEFAULT_SOLR_CORE: "default"
+      DRUPAL_DRUSH_URI: https://${DOMAIN}
+      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
       PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
       PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
-      PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
+      UID: ${HOST_UID:-100}
     labels:
       - traefik.enable=${EXPOSE_DRUPAL:-true}
-      - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}-drupal.loadbalancer.server.port=80
       - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.scheme=https
       - traefik.http.middlewares.drupal-redirectscheme.redirectscheme.permanent=true
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.service=${COMPOSE_PROJECT_NAME-isle-dc}-drupal
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.entrypoints=http
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.rule=Host(`${DOMAIN}`)
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_http.middlewares=drupal-redirectscheme
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.entrypoints=https
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.rule=Host(`${DOMAIN}`)
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls=true
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_http.service=${COMPOSE_PROJECT_NAME}-drupal
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_http.entrypoints=http
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_http.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_http.middlewares=drupal-redirectscheme
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_https.entrypoints=https
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_https.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-drupal_https.tls=true
     networks:
       default:
       gateway:
