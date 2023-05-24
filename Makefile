@@ -309,7 +309,7 @@ download-default-certs:
 
 # Run Composer Update in your Drupal container
 composer_update:
-	docker-compose exec -T drupal with-contenv bash -lc su nginx -s /bin/bash -c 'composer update'"
+	docker-compose exec -T drupal with-contenv bash -lc su nginx -s /bin/bash -c "composer update"
 
 
 reindex-fcrepo-metadata:
