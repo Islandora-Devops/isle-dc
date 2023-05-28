@@ -155,7 +155,7 @@ In either case, run this command to make a local environment.
 make local
 ```
 
-The former will create a starter site modeled off of <https://sandbox.islandora.ca>.
+This will create a starter site modeled off of <https://sandbox.islandora.ca>.
 
 If you already have a Drupal site but don't know how to export it, log into your
 server, navigate to the Drupal root, and run the following commands:

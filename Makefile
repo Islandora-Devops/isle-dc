@@ -116,8 +116,6 @@ ROW_MESSAGE := ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}
 IS_DRUPAL_PSSWD_FILE_READABLE := $(shell test -r secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD -a -w secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD && echo 1 || echo 0)
 CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 'sudo -k tee')
 
-LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
-
 
 #############################################
 ## Functions                               ##
@@ -361,7 +359,7 @@ set_admin_password:
 ## Destroys everything beware!
 clean:
 	echo "**DANGER** About to rm your SERVER data subdirs, your docker volumes, codebase, islandora_workbench, certs, secrets, and all untracked/ignored files (including .env)."
-	$(MAKE) confirm
+	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
 	-docker-compose down -v
 	-chmod -R a+w codebase/web/sites/default
 	git clean -xfd .
@@ -601,12 +599,6 @@ namespaces:
 set-site-uuid:
 	docker-compose exec -T drupal with-contenv bash -lc "set_site_uuid"
 
-
-.phony: confirm
-confirm:
-	@echo -n "Are you sure you want to continue and drop your data? [y/N] " && read ans && [ $${ans:-N} = y ]
-
-
 .PHONY: secrets_warning
 .SILENT: secrets_warning
 ## Check to see if the secrets directory contains default secrets.
@@ -623,6 +615,7 @@ secrets_warning:
 .PHONY: fix_masonry
 .SILENT: fix_masonry
 ## Fix missing masonry library.
+fix_masonry: LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
 fix_masonry:
 	@echo "Latest version of masonry library is ${LATEST_VERSION}"
 	docker-compose exec drupal bash -lc "[ -d '/var/www/drupal/web/libraries' ] && exit ; mkdir -p /var/www/drupal/web/libraries ; chmod 755 /var/www/drupal/web/libraries ; chown 1000:nginx /var/www/drupal/web/libraries"
