@@ -262,7 +262,7 @@ build:
 	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
 		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
 	fi
-	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(CUSTOM_IMAGE_NAMESPACE)/$(CUSTOM_IMAGE_NAME):${CUSTOM_IMAGE_TAG} --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
+	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(CUSTOM_IMAGE_NAMESPACE)/$(CUSTOM_IMAGE_NAME):${CUSTOM_IMAGE_TAG} --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) --platform linux/amd64 .
 
 
 .PHONY: push-image
