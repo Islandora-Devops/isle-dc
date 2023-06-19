@@ -4,3 +4,5 @@ services:
   drupal:
     environment:
       DRUPAL_DEFAULT_DB_DRIVER: mysql
+      DRUPAL_DEFAULT_DB_HOST: mariadb
+      DRUPAL_DEFAULT_DB_PORT: ${MYSQL_PORT}
