@@ -160,7 +160,8 @@ local: generate-secrets
 	curl -k -u admin:'$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)' -H "Content-Type: application/json" -d "@build/demo-data/homepage.json" https://${DOMAIN}/node?_format=json
 	curl -k -u admin:'$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)' -H "Content-Type: application/json" -d "@build/demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
 	$(MAKE) login
-
+	# make private file directory
+	docker-compose exec -T drupal mkdir -p $(CURDIR)/codebase/web/sites/default/private_files
 
 .PHONY: starter
 ## Make a local site with codebase directory bind mounted, using starter site unless other package specified in .env or present already.
@@ -183,7 +184,7 @@ starter_dev: QUOTED_CURDIR = "$(CURDIR)"
 starter_dev: generate-secrets
 	$(MAKE) starter-init ENVIRONMENT=starter_dev
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b islandora_group https://github.com/kylehuynh205/islandora-starter-site.git /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
 	docker compose up -d --remove-orphans
@@ -200,6 +201,7 @@ production: generate-secrets
 	docker compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
 	docker compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
+	docker-compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add administrator admin"
 	MIGRATE_IMPORT_USER_OPTION=--userid=1 $(MAKE) hydrate
 	docker compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import --userid=1 islandora_fits_tags'
 	$(MAKE) login
