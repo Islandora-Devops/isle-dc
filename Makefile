@@ -160,8 +160,6 @@ local: generate-secrets
 	curl -k -u admin:'$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)' -H "Content-Type: application/json" -d "@build/demo-data/homepage.json" https://${DOMAIN}/node?_format=json
 	curl -k -u admin:'$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)' -H "Content-Type: application/json" -d "@build/demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
 	$(MAKE) login
-	# make private file directory
-	docker-compose exec -T drupal mkdir -p $(CURDIR)/codebase/web/sites/default/private_files
 
 .PHONY: starter
 ## Make a local site with codebase directory bind mounted, using starter site unless other package specified in .env or present already.
