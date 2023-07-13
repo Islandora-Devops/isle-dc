@@ -182,7 +182,7 @@ starter_dev: QUOTED_CURDIR = "$(CURDIR)"
 starter_dev: generate-secrets
 	$(MAKE) starter-init ENVIRONMENT=starter_dev
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b islandora_group https://github.com/kylehuynh205/islandora-starter-site.git /home/root;'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site.git /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
 	docker compose up -d --remove-orphans
