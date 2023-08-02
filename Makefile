@@ -420,8 +420,8 @@ drupal-public-files-dump:
 ifndef DEST
 	$(error DEST is not set)
 endif
-	docker compose exec -T drupal with-contenv bash -lc 'tar zcvf /tmp/public-files.tgz /var/www/drupal/web/sites/default/files'
-	docker cp $$(docker compose ps -q drupal):/tmp/public-files.tgz $(DEST)
+	docker compose exec -T drupal with-contenv bash -lc 'tar zcvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files ${PUBLIC_FILES_TAR_DUMP_PATH}'
+	docker cp $$(docker-compose ps -q drupal):/tmp/public-files.tgz $(DEST)
 
 
 # import Drupal's public files from zipped tarball
