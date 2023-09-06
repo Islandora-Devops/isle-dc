@@ -157,7 +157,7 @@ function main() {
 	fi
 
 	# Check if Salt matches the one in secrets/live/.
-	SALT=$(echo $(docker-compose exec drupal with-contenv bash -lc "cat web/sites/default/settings.php | grep hash_salt | grep '^\$settings' | cut -d\= -f2| cut -d\' -f2 | cut -f1 -d\"'\" | tr -d '\n' | cut -f1 -d\"%\""))
+	SALT=$(echo $(docker compose exec drupal with-contenv bash -lc "cat web/sites/default/settings.php | grep hash_salt | grep '^\$settings' | cut -d\= -f2| cut -d\' -f2 | cut -f1 -d\"'\" | tr -d '\n' | cut -f1 -d\"%\""))
 	SETTINGS_SALT=$(echo $(cat secrets/live/DRUPAL_DEFAULT_SALT | tr -d '\n' | cut -f1 -d"%"))
 	if [[ $(echo "${SALT}") != $(echo "${SETTINGS_SALT}") ]]; then
 		echo "${SALT} ${SETTINGS_SALT} Updates to the salt are not automatically added to web/sites/default/settings.php file. Please make this change manually and then run the same ${BLUE}make down && make up${RESET} command again."
