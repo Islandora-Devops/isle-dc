@@ -203,6 +203,7 @@ production: generate-secrets
 	$(MAKE) pull
 	docker compose up -d --remove-orphans
 	docker compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	$(MAKE) drupal-database update-settings-php
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
 	docker compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
 	MIGRATE_IMPORT_USER_OPTION=--userid=1 $(MAKE) hydrate
@@ -267,7 +268,7 @@ build:
 	if [ ! -f $(PROJECT_DRUPAL_DOCKERFILE) ]; then \
 		cp "$(CURDIR)/sample.Dockerfile" $(PROJECT_DRUPAL_DOCKERFILE); \
 	fi
-	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(CUSTOM_IMAGE_NAMESPACE)/$(CUSTOM_IMAGE_NAME):${CUSTOM_IMAGE_TAG} --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) .
+	docker build -f $(PROJECT_DRUPAL_DOCKERFILE) -t $(CUSTOM_IMAGE_NAMESPACE)/$(CUSTOM_IMAGE_NAME):${CUSTOM_IMAGE_TAG} --build-arg REPOSITORY=$(REPOSITORY) --build-arg TAG=$(TAG) --platform linux/amd64 .
 
 
 .PHONY: push-image
@@ -424,8 +425,8 @@ drupal-public-files-dump:
 ifndef DEST
 	$(error DEST is not set)
 endif
-	docker compose exec -T drupal with-contenv bash -lc 'tar zcvf /tmp/public-files.tgz /var/www/drupal/web/sites/default/files'
-	docker cp $$(docker compose ps -q drupal):/tmp/public-files.tgz $(DEST)
+	docker compose exec -T drupal with-contenv bash -lc 'tar zcvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files ${PUBLIC_FILES_TAR_DUMP_PATH}'
+	docker cp $$(docker-compose ps -q drupal):/tmp/public-files.tgz $(DEST)
 
 
 # import Drupal's public files from zipped tarball
