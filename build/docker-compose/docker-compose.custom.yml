@@ -11,9 +11,7 @@ volumes:
 services:
   # The service name is drupal that is the default host name used by micro-services etc.
   drupal:
-    build:
-      context: ../../
-      dockerfile: ${PROJECT_DRUPAL_DOCKERFILE:-./Dockerfile}
+    image: ${CUSTOM_IMAGE_NAMESPACE}/${CUSTOM_IMAGE_NAME}:${CUSTOM_IMAGE_TAG}
     environment:
       #
       # Set environment variables that allow use to install from an existing configuration.
