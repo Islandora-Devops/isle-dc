@@ -147,7 +147,7 @@ local: generate-secrets
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
-	docker-compose up -d --remove-orphans
+	docker compose up -d --remove-orphans
 	@echo "Wait for the /var/www/drupal directory to be available"
 	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
 		echo "Waiting for /var/www/drupal directory to be available..."; \
@@ -191,7 +191,7 @@ starter_dev: generate-secrets
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
-	docker-compose up -d --remove-orphans
+	docker compose up -d --remove-orphans
 		@echo "Wait for the /var/www/drupal directory to be available"
 	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
 		echo "Waiting for /var/www/drupal directory to be available..."; \
@@ -431,7 +431,7 @@ ifndef DEST
 	$(error DEST is not set)
 endif
 	docker compose exec -T drupal with-contenv bash -lc 'tar zcvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files ${PUBLIC_FILES_TAR_DUMP_PATH}'
-	docker cp $$(docker-compose ps -q drupal):/tmp/public-files.tgz $(DEST)
+	docker cp $$(docker compose ps -q drupal):/tmp/public-files.tgz $(DEST)
 
 
 # import Drupal's public files from zipped tarball
