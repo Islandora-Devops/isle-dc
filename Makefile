@@ -148,7 +148,12 @@ local: generate-secrets
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
 	docker compose up -d --remove-orphans
-	docker compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
+	@echo "Wait for the /var/www/drupal directory to be available"
+	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
+		echo "Waiting for /var/www/drupal directory to be available..."; \
+		sleep 2; \
+	done
+	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ && su nginx -s /bin/bash -c "composer install"'
 	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIRONMENT=local
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
 	$(MAKE) delete-shortcut-entities && docker compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
@@ -187,7 +192,12 @@ starter_dev: generate-secrets
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
 	docker compose up -d --remove-orphans
-	docker compose exec -T drupal with-contenv bash -lc 'composer install'
+		@echo "Wait for the /var/www/drupal directory to be available"
+	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
+		echo "Waiting for /var/www/drupal directory to be available..."; \
+		sleep 2; \
+	done
+	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ && su nginx -s /bin/bash -c "composer install"'
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
@@ -332,7 +342,7 @@ download-default-certs:
 
 # Run Composer Update in your Drupal container
 composer_update:
-	docker compose exec -T drupal with-contenv bash -lc 'composer update'
+	docker compose exec -T drupal with-contenv bash -lc su nginx -s /bin/bash -c "composer update"
 
 
 reindex-fcrepo-metadata:
@@ -421,7 +431,7 @@ ifndef DEST
 	$(error DEST is not set)
 endif
 	docker compose exec -T drupal with-contenv bash -lc 'tar zcvf /tmp/public-files.tgz -C /var/www/drupal/web/sites/default/files ${PUBLIC_FILES_TAR_DUMP_PATH}'
-	docker cp $$(docker-compose ps -q drupal):/tmp/public-files.tgz $(DEST)
+	docker cp $$(docker compose ps -q drupal):/tmp/public-files.tgz $(DEST)
 
 
 # import Drupal's public files from zipped tarball
