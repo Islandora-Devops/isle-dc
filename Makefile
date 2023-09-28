@@ -114,6 +114,11 @@ CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 
 
 LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
 
+PHP_FPM_PID=/var/run/php-fpm7/php-fpm7.pid
+ifeq ($(shell expr $(TAG) \>= 2.0), 1)
+	PHP_FPM_PID=/var/run/php-fpm81/php-fpm81.pid
+endif
+
 #############################################
 ## Default Rule                            ##
 #############################################
@@ -536,7 +541,7 @@ remove_standard_profile_references_from_config:
 ## Creates required databases for drupal site(s) using environment variables.
 .SILENT: drupal-database
 drupal-database:
-	docker compose exec -T drupal timeout 300 bash -c "while ! test -e /var/run/nginx/nginx.pid -a -e /var/run/php-fpm7/php-fpm7.pid; do sleep 1; done"
+	docker compose exec -T drupal timeout 300 bash -c "while ! test -e /var/run/nginx/nginx.pid -a -e $(PHP_FPM_PID); do echo 'Waiting for nginx and php-fpm'; sleep 1; done"
 	docker compose exec -T drupal with-contenv bash -lc "for_all_sites create_database"
 
 
