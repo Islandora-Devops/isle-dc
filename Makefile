@@ -158,7 +158,7 @@ local: generate-secrets
 		echo "Waiting for /var/www/drupal directory to be available..."; \
 		sleep 2; \
 	done
-	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ && su nginx -s /bin/bash -c "composer install"'
+	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ ; su nginx -s /bin/bash -c "composer install"'
 	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIRONMENT=local
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
 	$(MAKE) delete-shortcut-entities && docker compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
@@ -202,7 +202,7 @@ starter_dev: generate-secrets
 		echo "Waiting for /var/www/drupal directory to be available..."; \
 		sleep 2; \
 	done
-	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ && su nginx -s /bin/bash -c "composer install"'
+	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ ; su nginx -s /bin/bash -c "composer install"'
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
@@ -526,7 +526,12 @@ set-files-owner: $(SRC)
 ifndef SRC
 	$(error SRC is not set)
 endif
-	sudo chown -R $(shell id -u):101 $(SRC)
+	@echo "Changing ownership of $(SRC) to $(shell id -u):101"
+	@if sudo chown -R $(shell id -u):101 $(SRC); then \
+		echo "Ownership changed successfully."; \
+	else \
+		echo "Error: Failed to change ownership."; \
+	fi
 
 
 # RemovesForces the site uuid to match that in the config_sync_directory so that
@@ -589,7 +594,7 @@ starter-init: generate-secrets
 
 .PHONY: starter-finalize
 starter-finalize:
-	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx .'
+	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx . & echo "Chown Complete"'
 	$(MAKE) drupal-database update-settings-php
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
 	docker compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
