@@ -594,7 +594,7 @@ starter-init: generate-secrets
 
 .PHONY: starter-finalize
 starter-finalize:
-	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx . & echo "Chown Complete"'
+	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx . ; echo "Chown Complete"'
 	$(MAKE) drupal-database update-settings-php
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
 	docker compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
