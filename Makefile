@@ -132,44 +132,14 @@ default: download-default-certs docker-compose.yml pull
 
 .PHONY: demo
 .SILENT: demo
-## Make a local site from the install-profile and TODO then add demo content
-demo: generate-secrets
-	$(MAKE) local
-	$(MAKE) demo_content
-	$(MAKE) login
+demo:
+	echo "make demo has been removed. To create a demo site, please follow the instructions at https://islandora.github.io/documentation/installation/docker-local/"
 
 
 .PHONY: local
-#.SILENT: local
-## Make a local site with codebase directory bind mounted, modeled after sandbox.islandora.ca
-local: QUOTED_CURDIR = "$(CURDIR)"
-local: generate-secrets
-	$(MAKE) download-default-certs ENVIRONMENT=local
-	$(MAKE) -B docker-compose.yml ENVIRONMENT=local
-	$(MAKE) pull ENVIRONMENT=local
-	mkdir -p $(CURDIR)/codebase
-	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/islandora-devops/islandora-sandbox /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
-	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=local
-	docker compose up -d --remove-orphans
-	@echo "Wait for the /var/www/drupal directory to be available"
-	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
-		echo "Waiting for /var/www/drupal directory to be available..."; \
-		sleep 2; \
-	done
-	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ ; su nginx -s /bin/bash -c "composer install"'
-	$(MAKE) remove_standard_profile_references_from_config drupal-database update-settings-php ENVIRONMENT=local
-	docker compose exec -T drupal with-contenv bash -lc "drush si -y islandora_install_profile_demo --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
-	$(MAKE) delete-shortcut-entities && docker compose exec -T drupal with-contenv bash -lc "drush pm:un -y shortcut"
-	docker compose exec -T drupal with-contenv bash -lc "drush en -y migrate_tools"
-	$(MAKE) hydrate ENVIRONMENT=local
-	-docker compose exec -T drupal with-contenv bash -lc 'mkdir -p /var/www/drupal/config/sync && chmod -R 775 /var/www/drupal/config/sync'
-	#docker compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
-	#docker compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
-	curl -k -u admin:'$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)' -H "Content-Type: application/json" -d "@build/demo-data/homepage.json" https://${DOMAIN}/node?_format=json
-	curl -k -u admin:'$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)' -H "Content-Type: application/json" -d "@build/demo-data/browse-collections.json" https://${DOMAIN}/node?_format=json
-	$(MAKE) login
+.SILENT: local
+local:
+	echo "make local has been removed. To create a development site, please follow the instructions at https://islandora.github.io/documentation/installation/docker-local/"
 
 
 .PHONY: starter
@@ -239,7 +209,7 @@ help:
 		if (helpMessage) { \
 			helpCommand = $$1; sub(/:$$/, "", helpCommand); \
 			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
-			if (helpCommand == "up" || helpCommand == "local" || helpCommand == "demo") { \
+			if (helpCommand == "up") { \
 				printf "  ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}\n", helpCommand, helpMessage; \
 			} \
 		} \
@@ -252,7 +222,7 @@ help:
 		if (helpMessage) { \
 			helpCommand = $$1; sub(/:$$/, "", helpCommand); \
 			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
-			if (helpCommand != "up" && helpCommand != "local" && helpCommand != "demo") { \
+			if (helpCommand != "up") { \
 				printf "  ${RED}%-$(TARGET_MAX_CHAR_NUM)s${RESET} ${BLUE}%s${RESET}\n", helpCommand, helpMessage ; \
 			} \
 		} \
@@ -264,12 +234,7 @@ help:
 .PHONY: pull
 ## Fetches the latest images from the registry.
 pull: docker-compose.yml
-ifeq ($(REPOSITORY), local)
-	# Only need to pull external services if using local images.
-	docker compose pull $(filter $(EXTERNAL_SERVICES), $(SERVICES))
-else
 	docker compose pull
-endif
 
 
 .PHONY: build
@@ -295,9 +260,9 @@ docker-compose.yml: $(SERVICES:%=build/docker-compose/docker-compose.%.yml) .env
 
 .PHONY: up
 .SILENT: up
-## Brings up the containers or builds demo if no containers were found.
+## Brings up the containers or builds starter if no containers were found.
 up:
-	test -f docker-compose.yml && docker compose up -d --remove-orphans || $(MAKE) demo
+	test -f docker-compose.yml && docker compose up -d --remove-orphans || $(MAKE) starter
 	@echo "\n Sleeping for 10 seconds to wait for Drupal to finish building.\n"
 	sleep 10
 	docker compose exec -T drupal with-contenv bash -lc "for_all_sites update_settings_php"
