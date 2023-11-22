@@ -115,7 +115,9 @@ CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 
 LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
 
 PHP_FPM_PID=/var/run/php-fpm7/php-fpm7.pid
-ifeq ($(shell expr $(TAG) \>= 2.0), 1)
+ifeq ($(shell expr $(TAG) \>= 3.0), 1)
+	PHP_FPM_PID=/var/run/php-fpm82/php-fpm82.pid
+else ifeq ($(shell expr $(TAG) \>= 2.0), 1)
 	PHP_FPM_PID=/var/run/php-fpm81/php-fpm81.pid
 endif
 
