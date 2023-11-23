@@ -420,13 +420,32 @@ fcrepo-export:
 ifndef DEST
 	$(error DEST is not set)
 endif
+	docker compose exec -T fcrepo with-contenv bash -lc 'tar zcvf fcrepo-export.tgz -C /data/home/data/ocfl-root/ .'
+	docker compose exec -T fcrepo with-contenv bash -lc 'mv fcrepo-export.tgz /tmp'
+	docker cp $$(docker compose ps -q fcrepo):/tmp/fcrepo-export.tgz $(DEST)
+
+
+# Import fcrepo from zipped tarball
+fcrepo-import: $(SRC)
+ifndef SRC
+	$(error SRC is not set)
+endif
+	docker cp "$(SRC)" $$(docker compose ps -q fcrepo):/tmp/fcrepo-export.tgz
+	docker compose exec -T fcrepo with-contenv bash -lc 'tar zxvf /tmp/fcrepo-export.tgz -C /data/home/data/ocfl-root/ && chown -R tomcat:tomcat /data/home/data/ocfl-root/ && rm /tmp/fcrepo-export.tgz'
+
+
+# Dump fcrepo as zipped tarball
+fcrepo5-export:
+ifndef DEST
+	$(error DEST is not set)
+endif
 	docker compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.1.jar --mode export -r http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${FCREPO_TOMCAT_ADMIN_USER}:$${FCREPO_TOMCAT_ADMIN_PASSWORD}'
 	docker compose exec -T fcrepo with-contenv bash -lc 'cd /tmp && tar zcvf fcrepo-export.tgz fcrepo-export'
 	docker cp $$(docker compose ps -q fcrepo):/tmp/fcrepo-export.tgz $(DEST)
 
 
 # Import fcrepo from zipped tarball
-fcrepo-import: $(SRC)
+fcrepo5-import: $(SRC)
 ifndef SRC
 	$(error SRC is not set)
 endif
