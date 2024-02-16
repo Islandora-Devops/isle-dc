@@ -431,7 +431,10 @@ ifndef SRC
 	$(error SRC is not set)
 endif
 	docker cp "$(SRC)" $$(docker compose ps -q fcrepo):/tmp/fcrepo-export.tgz
+	docker compose exec -T fcrepo with-contenv bash -lc 'rm -r /data/home/data/ocfl-root/*'
 	docker compose exec -T fcrepo with-contenv bash -lc 'tar zxvf /tmp/fcrepo-export.tgz -C /data/home/data/ocfl-root/ && chown -R tomcat:tomcat /data/home/data/ocfl-root/ && rm /tmp/fcrepo-export.tgz'
+	docker compose exec -T mariadb with-contenv bash -lc 'mysql -e "drop database fcrepo;"'
+	docker compose restart fcrepo
 
 
 # Dump fcrepo as zipped tarball
