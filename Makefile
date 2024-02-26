@@ -608,7 +608,23 @@ run-islandora-migrations:
 .SILENT: solr-cores
 solr-cores:
 	docker compose exec -T drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
+	mkdir -p data
+	curl -k -L https://github.com/dbmdz/solr-ocrhighlighting/releases/download/0.8.4/solr-ocrhighlighting-0.8.4.jar > data/solr-ocrhighlighting.jar
+	docker-compose exec -T solr with-contenv bash -lc "mkdir -p /opt/solr/server/solr/contrib/ocrhighlighting/lib /opt/solr/server/solr/ISLANDORA/"
+	docker cp data/solr-ocrhighlighting.jar $$(docker-compose ps -q solr):/opt/solr/server/solr/contrib/ocrhighlighting/lib/solr-ocrhighlighting.jar
+	$(MAKE) solr-cores-lucene-highlighter
+	docker-compose exec -T solr with-contenv bash -lc "chown -R solr:solr /opt/solr/server/solr/contrib/ocrhighlighting"
+	docker-compose restart solr
+	sleep 10
+	docker-compose restart solr
+	sleep 10
+	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_solr_core"
 
+.PHONY: solr-cores-lucene-highlighter
+.SILENT: solr-cores-lucene-highlighter
+solr-cores-lucene-highlighter:
+	curl -k -L https://repo1.maven.org/maven2/org/apache/lucene/lucene-queries/9.4.0/lucene-queries-9.4.0.jar > data/lucene-queries-8.0.0.jar
+	docker cp data/lucene-queries-8.0.0.jar $$(docker-compose ps -q solr):/opt/solr/server/solr/contrib/ocrhighlighting/lib/lucene-queries-8.0.0.jar
 
 .PHONY: namespaces
 ## Creates namespaces in Blazegraph according to the environment variables.
@@ -658,4 +674,13 @@ fix_masonry:
 fix_views:
 	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
 	docker compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
-  
+
+
+.PHONY: xdebug
+xdebug:
+	sleep 6
+	docker-compose exec -T drupal with-contenv bash -lc "apk add php82-pecl-xdebug"
+	docker cp scripts/extra/xdebug.ini $$(docker-compose ps -q drupal):/etc/php82/conf.d/xdebug.ini
+	-docker-compose exec -T drupal with-contenv bash -lc "chown root:root /etc/php82/conf.d/xdebug.ini "
+	docker-compose restart drupal
+	docker-compose exec -T drupal with-contenv bash -lc "php -i | grep xdebug"
