@@ -308,6 +308,17 @@ the following.
 - [Chrome](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en)
 - [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/xdebug-helper-for-firefox/)
 
+## make xdebug
+
+XDebug can be temporarily installed in the Drupal container via the 'make xdebug' command.
+
+It uploads the contents of scripts/extra/xdebug.ini to the server.
+
+This default configuration will automatically connect to the Docker host on every
+request. You may wish to customize this file to your preference.
+
+When you run 'make down' and 'make up' again, XDebug will be gone.
+
 ### Watchtower
 
 The [watchtower](https://hub.docker.com/r/v2tec/watchtower/) container monitors
