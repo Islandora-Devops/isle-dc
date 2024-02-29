@@ -608,23 +608,7 @@ run-islandora-migrations:
 .SILENT: solr-cores
 solr-cores:
 	docker compose exec -T drupal with-contenv bash -lc "for_all_sites create_solr_core_with_default_config"
-	mkdir -p data
-	curl -k -L https://github.com/dbmdz/solr-ocrhighlighting/releases/download/0.8.4/solr-ocrhighlighting-0.8.4.jar > data/solr-ocrhighlighting.jar
-	docker-compose exec -T solr with-contenv bash -lc "mkdir -p /opt/solr/server/solr/contrib/ocrhighlighting/lib /opt/solr/server/solr/ISLANDORA/"
-	docker cp data/solr-ocrhighlighting.jar $$(docker-compose ps -q solr):/opt/solr/server/solr/contrib/ocrhighlighting/lib/solr-ocrhighlighting.jar
-	$(MAKE) solr-cores-lucene-highlighter
-	docker-compose exec -T solr with-contenv bash -lc "chown -R solr:solr /opt/solr/server/solr/contrib/ocrhighlighting"
-	docker-compose restart solr
-	sleep 10
-	docker-compose restart solr
-	sleep 10
-	docker-compose exec -T drupal with-contenv bash -lc "for_all_sites create_solr_core"
 
-.PHONY: solr-cores-lucene-highlighter
-.SILENT: solr-cores-lucene-highlighter
-solr-cores-lucene-highlighter:
-	curl -k -L https://repo1.maven.org/maven2/org/apache/lucene/lucene-queries/9.4.0/lucene-queries-9.4.0.jar > data/lucene-queries-8.0.0.jar
-	docker cp data/lucene-queries-8.0.0.jar $$(docker-compose ps -q solr):/opt/solr/server/solr/contrib/ocrhighlighting/lib/lucene-queries-8.0.0.jar
 
 .PHONY: namespaces
 ## Creates namespaces in Blazegraph according to the environment variables.
