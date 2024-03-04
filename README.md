@@ -319,6 +319,17 @@ request. You may wish to customize this file to your preference.
 
 When you run 'make down' and 'make up' again, XDebug will be gone.
 
+### samplle-dev.env and XDebug
+
+The default PHP and NGinx configurationns don't work well for
+debugging with xdebug, as the timeouts will cause
+the connection to be lost after about a minute.
+
+sample-ddev.env is a copy of sampple.env with the timesouts all
+set to 1 hour, so if you wish to run a local development setup that supports debugging
+simply copy sample-dev.env to .env before running
+your first make command to spin up an environment.
+
 ### Sample launch.json file
 
 For Visual Studio: Code users, there is a sample launch.json file in scripts/extras. Put this in
