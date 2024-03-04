@@ -163,6 +163,8 @@ starter: generate-secrets
 ## Make a local site with codebase directory bind mounted, using cloned starter site.
 starter_dev: QUOTED_CURDIR = "$(CURDIR)"
 starter_dev: generate-secrets
+
+	-include dev.env
 	$(MAKE) starter-init ENVIRONMENT=starter_dev
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
