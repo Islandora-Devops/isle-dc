@@ -35,6 +35,8 @@ services:
       NGINX_PROXY_READ_TIMEOUT: ${NGINX_PROXY_READ_TIMEOUT}
       NGINX_PROXY_SEND_TIMEOUT: ${NGINX_PROXY_SEND_TIMEOUT}
       NGINX_SEND_TIMEOUT: ${NGINX_SEND_TIMEOUT}
+      SOLR_HOCR_PLUGIN_PATH: ${SOLR_HOCR_PLUGIN_PATH}
+
     labels:
       - traefik.enable=${EXPOSE_DRUPAL:-true}
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
