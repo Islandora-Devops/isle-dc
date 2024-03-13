@@ -3,7 +3,7 @@ networks:
   default:
     internal: true
   gateway:
-    external: true
+    internal: false
 volumes:
   blazegraph-data:
 services:
