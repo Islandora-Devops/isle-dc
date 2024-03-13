@@ -1,4 +1,4 @@
-############################################################
+starter_dev:############################################################
 ## Create / include any necessary files and configuration ##
 ############################################################
 
@@ -19,7 +19,7 @@ endif
 
 
 # If custom.makefile exists include it.
--include custom.Makefile
+include custom.Makefile
 
 # Checks to see if the path includes a space character. Intended to be a temporary fix.
 ifneq (1,$(words $(CURDIR)))
