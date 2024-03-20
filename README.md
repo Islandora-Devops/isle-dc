@@ -319,7 +319,7 @@ request. You may wish to customize this file to your preference.
 
 When you run 'make down' and 'make up' again, XDebug will be gone.
 
-### samplle-dev.env and XDebug
+### sample-dev.env and XDebug
 
 The default PHP and NGinx configurationns don't work well for
 debugging with xdebug, as the timeouts will cause
