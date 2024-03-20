@@ -163,6 +163,7 @@ starter: generate-secrets
 ## Make a local site with codebase directory bind mounted, using cloned starter site.
 starter_dev: QUOTED_CURDIR = "$(CURDIR)"
 starter_dev: generate-secrets
+
 	$(MAKE) starter-init ENVIRONMENT=starter_dev
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
@@ -658,4 +659,13 @@ fix_masonry:
 fix_views:
 	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
 	docker compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
-  
+
+
+.PHONY: xdebug
+xdebug:
+	sleep 6
+	docker-compose exec -T drupal with-contenv bash -lc "apk add php82-pecl-xdebug"
+	docker cp scripts/extra/xdebug.ini $$(docker-compose ps -q drupal):/etc/php82/conf.d/xdebug.ini
+	-docker-compose exec -T drupal with-contenv bash -lc "chown root:root /etc/php82/conf.d/xdebug.ini "
+	docker-compose restart drupal
+	docker-compose exec -T drupal with-contenv bash -lc "php -i | grep xdebug"

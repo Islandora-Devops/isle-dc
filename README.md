@@ -225,7 +225,7 @@ To enable using secrets prior to running the `make` commands, copy sample.env
 to .env. Set `USE_SECRETS=true` in your .env file. Make a copy of the files in
 /secrets/template/ to /secrets/live/.
 
-To enable using secrets after run `make local` or `make up`, set 
+To enable using secrets after run `make local` or `make up`, set
 `USE_SECRETS=true` in your .env file. When you run `make docker-compose.yml`, a
 large block of `secrets` will be added at the top of your `docker-compose.yml`
 file.
@@ -308,6 +308,39 @@ the following.
 - [Chrome](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en)
 - [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/xdebug-helper-for-firefox/)
 
+## make xdebug
+
+XDebug can be temporarily installed in the Drupal container via the 'make xdebug' command.
+
+The make xdebug command also uploads the contents of scripts/extra/xdebug.ini to the server.
+
+This default configuration will automatically connect to the Docker host port 9003 on every
+request. You may wish to customize this file to your preference.
+
+When you run 'make down' and 'make up' again, XDebug will be gone.
+
+### sample-dev.env and XDebug
+
+The default PHP and NGinx configurationns don't work well for
+debugging with xdebug, as the timeouts will cause
+the connection to be lost after about a minute.
+
+sample-ddev.env is a copy of sample.env with the timesouts all
+set to 1 hour, so if you wish to run a local development setup that supports debugging
+simply copy sample-dev.env to .env before running
+your first make command to spin up an environment.
+
+### Sample launch.json file
+
+For Visual Studio: Code users, there is a sample launch.json file in scripts/extras. Put this in
+your project codebase's .vscode folder and you should be able to launch "Listen for XDebug" to have
+your editor stop at breakpoints you set. Check that the relative paths
+correspond to your codebase, the file assumes
+it sits in the root of an ISLE-DC project folder.
+
+The file also contains a "Launch Chrome" debug profile
+which lets you set breakpoints in JavaScript code.
+
 ### Watchtower
 
 The [watchtower](https://hub.docker.com/r/v2tec/watchtower/) container monitors
@@ -386,7 +419,7 @@ lowercasename:
 	echo "first line in command needs to be indented. There are exceptions to this, review functions in the Makefile for examples of these exceptions."
 ```
 
-NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.  
+NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.
 
 Running the new `custom.Makefile` commands are exactly the same as running any other Makefile command. Just run `make` and the function's name.
 ```bash
