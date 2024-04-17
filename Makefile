@@ -172,10 +172,7 @@ starter_dev: generate-secrets
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
 	docker compose up -d --remove-orphans
 		@echo "Wait for the /var/www/drupal directory to be available"
-	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
-		echo "Waiting for /var/www/drupal directory to be available..."; \
-		sleep 2; \
-	done
+	$(MAKE) wait-for-drupal
 	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ ; su nginx -s /bin/bash -c "composer install"'
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
@@ -584,7 +581,7 @@ starter-init: generate-secrets
 
 
 .PHONY: starter-finalize
-starter-finalize:
+starter-finalize: wait-for-drupal
 	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx . ; echo "Chown Complete"'
 	$(MAKE) drupal-database update-settings-php
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
@@ -682,4 +679,11 @@ fix_masonry:
 fix_views:
 	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
 	docker compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
-  
+
+.PHONY: wait-for-drupal
+.SILENT: wait-for-drupal
+wait-for-drupal:
+	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
+		echo "Waiting for /var/www/drupal directory to be available..."; \
+		sleep 1; \
+	done
