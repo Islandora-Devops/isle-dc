@@ -3,8 +3,6 @@ version: "3.7"
 networks:
   default:
     internal: true
-  gateway:
-    external: true
 volumes:
   drupal-sites-data:
   solr-data:

@@ -2,8 +2,6 @@ version: "3.7"
 networks:
   default:
     internal: true
-  gateway:
-    external: true
 volumes:
   activemq-data:
 services:
