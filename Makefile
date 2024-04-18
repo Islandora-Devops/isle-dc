@@ -157,7 +157,7 @@ starter: generate-secrets
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root; composer install'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
-	docker compose up -d --remove-orphans
+	$(MAKE) compose-up
 	$(MAKE) starter-finalize ENVIRONMENT=starter
 
 
@@ -170,19 +170,14 @@ starter_dev: generate-secrets
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
-	docker compose up -d --remove-orphans
-		@echo "Wait for the /var/www/drupal directory to be available"
-	$(MAKE) wait-for-drupal-container
+	$(MAKE) compose-up
 	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ ; su nginx -s /bin/bash -c "composer install"'
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
 .PHONY: production
-production: generate-secrets
-	$(MAKE) download-default-certs
-	$(MAKE) -B docker-compose.yml
-	$(MAKE) pull
-	docker compose up -d --remove-orphans
+production: init
+	$(MAKE) compose-up
 	docker compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) drupal-database update-settings-php
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
@@ -572,16 +567,18 @@ login:
 	echo "=============================\n"
 
 
-.PHONY: starter-init
-starter-init: generate-secrets
+.PHONY: init
+init: generate-secrets
 	$(MAKE) download-default-certs
 	$(MAKE) -B docker-compose.yml
 	$(MAKE) pull
+
+.PHONY: starter-init
+starter-init: init
 	mkdir -p $(CURDIR)/codebase
 
-
 .PHONY: starter-finalize
-starter-finalize: wait-for-drupal-container
+starter-finalize:
 	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx . ; echo "Chown Complete"'
 	$(MAKE) drupal-database update-settings-php
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
@@ -678,9 +675,10 @@ fix_views:
 	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
 	docker compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
 
-.PHONY: wait-for-drupal-container
-.SILENT: wait-for-drupal-container
-wait-for-drupal-container:
+.PHONY: compose-up
+.SILENT: compose-up
+compose-up:
+	docker compose up -d --remove-orphans
 	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
 		echo "Waiting for /var/www/drupal directory to be available..."; \
 		sleep 1; \
