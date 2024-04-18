@@ -1,0 +1,70 @@
+name: Test
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+  schedule:
+    # UTC
+    - cron: '15 12 * * *'
+jobs:
+  make:
+    permissions:
+      contents: read
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set make and secrets for Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install mingw -y
+          echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
+          
+          C:\Program Files\Git\bin\bash.exe ./build/scripts/check-secrets.sh yes
+
+      - name: init secrets
+        if: matrix.os != 'windows-latest'
+        run: ./build/scripts/check-secrets.sh yes
+        shell: bash
+
+      - name: make starter
+        run: make starter
+        shell: bash
+
+      - name: check online
+        # TODO: what's a windows curl?
+        if: matrix.os != 'windows-latest'
+        run: |-
+          STATUS=$(curl -k \
+            -w '%{http_code}' -o /dev/null \
+            https://islandora.traefik.me/)
+          echo "Site check returned ${STATUS}"
+          if [ ${STATUS} -ne 200 ]; then
+            echo "Failed to bring up site"
+            exit 1
+          fi
+
+      - name: make build
+        run: make build
+        shell: bash
+
+      - name: make production
+        run: make production
+        shell: bash
+
+      - name: check online
+        # TODO: what's a windows curl?
+        if: matrix.os != 'windows-latest'
+        run: |-
+          STATUS=$(curl -k \
+            -w '%{http_code}' -o /dev/null \
+            https://islandora.traefik.me/)
+          echo "Site check returned ${STATUS}"
+          if [ ${STATUS} -ne 200 ]; then
+            echo "Failed to bring up site"
+            exit 1
+          fi
