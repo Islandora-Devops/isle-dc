@@ -6,10 +6,10 @@ on:
   schedule:
     # UTC
     - cron: '15 12 * * *'
+env:
+  TERM: xterm-256color
 jobs:
   make:
-    environment:
-      TERM: xterm-256color
     permissions:
       contents: read
     runs-on: ${{ matrix.os }}
