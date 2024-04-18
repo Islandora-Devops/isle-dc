@@ -15,7 +15,9 @@ jobs:
       matrix:
         # TODO: someone with more windows chops please add windows test support
         # os: [windows-latest, ubuntu-latest, macos-latest]
-        os: [ubuntu-latest, macos-latest]
+        # TODO: figure out how to install docker in a mac runner :facepalm:
+        # os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
