@@ -23,8 +23,7 @@ jobs:
         shell: bash
         run: |
           # we obviously don't want to do this here, just want to see if it builds
-          curl "https://github.com/docker/buildx/releases/download/v0.14.0/buildx-v0.14.0.windows-amd64.exe" -o C:\ProgramData\Docker\cli-plugins\docker-buildx
-          docker buildx install
+          curl -s "https://github.com/docker/buildx/releases/download/v0.14.0/buildx-v0.14.0.windows-amd64.exe" -o "C:\ProgramData\Docker\cli-plugins\docker-buildx.exe"
           git clone https://github.com/Islandora-Devops/isle-buildkit /tmp/ibk
           cd /tmp/ibk
           make bake TAGS=3.2.1
