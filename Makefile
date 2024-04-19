@@ -157,7 +157,7 @@ starter: generate-secrets
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root; composer install'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
-	docker compose up -d --remove-orphans
+	$(MAKE) compose-up
 	$(MAKE) starter-finalize ENVIRONMENT=starter
 
 
@@ -170,22 +170,14 @@ starter_dev: generate-secrets
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
-	docker compose up -d --remove-orphans
-		@echo "Wait for the /var/www/drupal directory to be available"
-	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
-		echo "Waiting for /var/www/drupal directory to be available..."; \
-		sleep 2; \
-	done
+	$(MAKE) compose-up
 	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ ; su nginx -s /bin/bash -c "composer install"'
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
 .PHONY: production
-production: generate-secrets
-	$(MAKE) download-default-certs
-	$(MAKE) -B docker-compose.yml
-	$(MAKE) pull
-	docker compose up -d --remove-orphans
+production: init
+	$(MAKE) compose-up
 	docker compose exec -T drupal with-contenv bash -lc 'composer install; chown -R nginx:nginx .'
 	$(MAKE) drupal-database update-settings-php
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
@@ -575,13 +567,15 @@ login:
 	echo "=============================\n"
 
 
-.PHONY: starter-init
-starter-init: generate-secrets
+.PHONY: init
+init: generate-secrets
 	$(MAKE) download-default-certs
 	$(MAKE) -B docker-compose.yml
 	$(MAKE) pull
-	mkdir -p $(CURDIR)/codebase
 
+.PHONY: starter-init
+starter-init: init
+	mkdir -p $(CURDIR)/codebase
 
 .PHONY: starter-finalize
 starter-finalize:
@@ -591,10 +585,8 @@ starter-finalize:
 	docker compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
 	MIGRATE_IMPORT_USER_OPTION=--userid=1 $(MAKE) hydrate
 	docker compose exec -T drupal with-contenv bash -lc 'drush -l $(SITE) migrate:import --userid=1 --tag=islandora'
-	#docker compose exec -T drupal with-contenv bash -lc 'chown -R `id -u`:nginx /var/www/drupal'
-	#docker compose exec -T drupal with-contenv bash -lc 'drush migrate:rollback islandora_defaults_tags,islandora_tags'
 	$(MAKE) login
-
+	$(MAKE) wait-for-drupal-locally
 
 .PHONY: install
 ## Installs drupal site(s) using environment variables.
@@ -682,4 +674,20 @@ fix_masonry:
 fix_views:
 	docker cp scripts/patch_views.sh $$(docker ps --format "{{.Names}}" | grep drupal):/var/www/drupal/patch_views.sh
 	docker compose exec -T drupal with-contenv bash -lc "bash /var/www/drupal/patch_views.sh ; rm /var/www/drupal/patch_views.sh ; drush cr"
-  
+
+.PHONY: compose-up
+.SILENT: compose-up
+compose-up:
+	docker compose up -d --remove-orphans
+	while ! docker compose exec -T drupal with-contenv bash -lc 'test -d /var/www/drupal'; do \
+		echo "Waiting for /var/www/drupal directory to be available..."; \
+		sleep 1; \
+	done
+
+.PHONY: wait-for-drupal-locally
+.SILENT: wait-for-drupal-locally
+wait-for-drupal-locally:
+	while ! curl -s -o /dev/null -m 5 https://islandora.traefik.me/ ; do \
+		echo "Waiting for https://islandora.traefik.me to be available..."; \
+		sleep 1; \
+	done
