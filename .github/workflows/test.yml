@@ -8,7 +8,6 @@ on:
     - cron: '15 12 * * *'
 env:
   TERM: xterm-256color
-  DOCKER_DEFAULT_PLATFORM: linux/amd64
 jobs:
   make:
     permissions:
