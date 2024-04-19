@@ -21,12 +21,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup make and secrets for Windows
+      - name: Setup make
         if: matrix.os == 'windows-latest'
         shell: bash
         run: |
-          cp sample.env .env
-          ./build/scripts/check-secrets.sh yes
+          echo "Not sure if make will be available or not"
+          make help
 
       - name: init secrets
         if: matrix.os != 'windows-latest'
