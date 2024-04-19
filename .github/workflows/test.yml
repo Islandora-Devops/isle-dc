@@ -25,7 +25,8 @@ jobs:
           # we obviously don't want to do this here, just want to see if it builds
           mkdir -p "/c/Users/runneradmin/.docker/cli-plugins"
           export PATH="$PATH:/c/Users/runneradmin/.docker/cli-plugins"
-          curl -s "https://github.com/docker/buildx/releases/download/v0.14.0/buildx-v0.14.0.windows-amd64.exe" -o "/c/Users/runneradmin/.docker/cli-plugins/docker-buildx.exe"
+          curl -L -s "https://github.com/docker/buildx/releases/download/v0.14.0/buildx-v0.14.0.windows-amd64.exe" -o "/c/Users/runneradmin/.docker/cli-plugins/docker-buildx.exe"
+
           ls -l /c/Users/runneradmin/.docker/cli-plugins
           docker system info
           git clone https://github.com/Islandora-Devops/isle-buildkit /tmp/ibk
