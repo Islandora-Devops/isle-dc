@@ -687,7 +687,7 @@ compose-up:
 .PHONY: wait-for-drupal-locally
 .SILENT: wait-for-drupal-locally
 wait-for-drupal-locally:
-	while ! curl -s -o /dev/null -m 5 https://islandora.traefik.me/ ; do \
-		echo "Waiting for https://islandora.traefik.me to be available..."; \
+	while ! curl -s -o /dev/null -m 5 https://$(DOMAIN)/ ; do \
+		echo "Waiting for https://$(DOMAIN) to be available..."; \
 		sleep 1; \
 	done
