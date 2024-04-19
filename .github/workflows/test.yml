@@ -31,6 +31,7 @@ jobs:
           docker system info
           git clone https://github.com/Islandora-Devops/isle-buildkit /tmp/ibk
           cd /tmp/ibk
+          curl -s "https://gist.githubusercontent.com/joecorall/83f521d3ef23e50317d1948a3357ce4c/raw/05e2995b338b29faee25fe946b37198741bdf62b/Dockerfile.bind-less" -o base/Dockerfile
           make bake TAGS=3.2.1
 
       - name: Checkout code
