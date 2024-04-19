@@ -25,6 +25,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           choco install mingw -y
+          ls -l C:\ProgramData\mingw64\mingw64\bin
           echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
           cp sample.env .env
           C:\Program Files\Git\bin\bash.exe ./build/scripts/check-secrets.sh yes
