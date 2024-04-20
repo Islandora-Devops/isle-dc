@@ -180,7 +180,7 @@ using `CUSTOM_IMAGE_TAG`
 - Run `make push-image` to push that image to your container registry
 
 For convenience a `sample.Dockerfile` is provided which `make build` will use to
-generate a custom image from the [codebase](./codebase) folder. For example if
+generate a custom image from the `codebase` folder. For example if
 you followed the guide above to create the codebase folder from the
 `islandora/demo` image.
 
