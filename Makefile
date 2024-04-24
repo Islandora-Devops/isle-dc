@@ -562,10 +562,7 @@ hydrate: update-settings-php update-config-from-environment solr-cores namespace
 .SILENT: login
 ## Runs "drush uli" to provide a direct login link for user 1
 login:
-	echo "\n\n=========== LOGIN ==========="
-	docker compose exec -T drupal with-contenv bash -lc "drush uli --uri=$(DOMAIN)"
-	echo "=============================\n"
-
+	docker compose exec -T drupal with-contenv bash -lc "drush uli --uri=https://$(DOMAIN)"
 
 .PHONY: init
 init: generate-secrets

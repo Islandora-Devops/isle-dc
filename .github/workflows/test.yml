@@ -23,6 +23,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Make nightly build check latest isle-buildkit
+        if: github.event_name == 'schedule'
+        run: |-
+          echo "TAG=main" >> $GITHUB_OUTPUT
+
       - name: Setup make and secrets for Windows
         if: matrix.os == 'windows-latest'
         run: |
@@ -55,6 +60,24 @@ jobs:
             exit 1
           fi
 
+      - name: "Make sure we can export the site config through the UI"
+        run: |-
+          # login as admin
+          COOKIE=$(curl -s -c -  $(make login))
+
+          # try exporting the config through the UI
+          STATUS=$(curl -s \
+            --cookie <(echo "$COOKIE") \
+            -w '%{http_code}' \
+            -o /dev/null \
+            https://islandora.traefik.me/admin/config/development/configuration/full/export-download)
+
+          # make sure the config export worked
+          if [ ${STATUS} -ne 200 ]; then
+            echo "Could not export config through Drupal UI"
+            echo ${STATUS}
+            exit 1
+          fi
       - name: make build
         run: make build
         shell: bash
