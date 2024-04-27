@@ -62,8 +62,11 @@ jobs:
 
       - name: "Make sure we can export the site config through the UI"
         run: |-
+
           # login as admin
-          COOKIE=$(curl -s -c -  $(make login | grep traefik))
+          ULI=$(make login | grep traefik)
+          echo "getting cookie from $ULI"
+          COOKIE=$(curl -s -c - "${ULI}")
 
           # try exporting the config through the UI
           STATUS=$(curl -s \
