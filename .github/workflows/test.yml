@@ -81,6 +81,9 @@ jobs:
             echo ${STATUS}
             exit 1
           fi
+
+          # see if /tmp/config.tar.gz is still left around
+          docker compose exec -T drupal with-contenv bash -lc "ls -l /tmp"
       - name: make build
         run: make build
         shell: bash
