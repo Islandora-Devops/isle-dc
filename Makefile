@@ -566,7 +566,6 @@ login:
 	docker compose exec -T drupal with-contenv bash -lc "drush uli --uri=$(DOMAIN)"
 	echo "=============================\n"
 
-
 .PHONY: init
 init: generate-secrets
 	$(MAKE) download-default-certs

@@ -23,6 +23,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Make nightly build check latest isle-buildkit
+        if: github.event_name == 'schedule'
+        run: |-
+          echo "TAG=main" >> $GITHUB_OUTPUT
+
       - name: Setup make and secrets for Windows
         if: matrix.os == 'windows-latest'
         run: |
@@ -54,6 +59,9 @@ jobs:
             echo "Failed to bring up site"
             exit 1
           fi
+
+      - name: "Make sure we can export the site config through the UI"
+        run: ./scripts/ci/drush-cex-ui.sh
 
       - name: make build
         run: make build
