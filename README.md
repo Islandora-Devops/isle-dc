@@ -224,7 +224,7 @@ To enable using secrets prior to running the `make` commands, copy sample.env
 to .env. Set `USE_SECRETS=true` in your .env file. Make a copy of the files in
 /secrets/template/ to /secrets/live/.
 
-To enable using secrets after run `make local` or `make up`, set 
+To enable using secrets after run `make local` or `make up`, set
 `USE_SECRETS=true` in your .env file. When you run `make docker-compose.yml`, a
 large block of `secrets` will be added at the top of your `docker-compose.yml`
 file.
@@ -257,6 +257,26 @@ Setting admin password now
  [success] Changed password for admin.
 
 ```
+
+### Enable XDebug
+
+```shell
+make xdebug
+```
+
+This will download and enable the [XDebug](https://xdebug.org)
+PHP debugger.
+
+It also changes all of the PHP and Nginx timeouts so your
+debugging session doesn't get shut down while you're working.
+
+Bringing ISLE down and back up will disable the debugger again.
+
+You can put custom XDebug config settings in scripts/extra/xdebug.ini
+
+See the documentation for your code editor for further
+details on how to debug PHP applications.
+Specifically the 'Listen for XDebug' command.
 
 ## Services
 
@@ -385,7 +405,7 @@ lowercasename:
 	echo "first line in command needs to be indented. There are exceptions to this, review functions in the Makefile for examples of these exceptions."
 ```
 
-NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.  
+NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.
 
 Running the new `custom.Makefile` commands are exactly the same as running any other Makefile command. Just run `make` and the function's name.
 ```bash

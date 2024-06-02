@@ -112,6 +112,7 @@ TARGET_MAX_CHAR_NUM=20
 IS_DRUPAL_PSSWD_FILE_READABLE := $(shell test -r secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD -a -w secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD && echo 1 || echo 0)
 CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 'sudo -k tee')
 
+PHP_VERSION=83
 LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
 
 PHP_FPM_PID=/var/run/php-fpm7/php-fpm7.pid
@@ -687,3 +688,36 @@ wait-for-drupal-locally:
 		echo "Waiting for https://$(DOMAIN) to be available..."; \
 		sleep 1; \
 	done
+
+
+.PHONY: xdebug
+## Turn on xdebug.
+xdebug: TIMEOUT_VALUE=3600
+xdebug:
+
+	$(MAKE) set-timeout TIMEOUT_VALUE=3600
+	sleep 10
+	docker compose exec -T drupal with-contenv bash -lc "apk add php${PHP_VERSION}-pecl-xdebug"
+	docker cp scripts/extra/xdebug.ini $$(docker compose ps -q drupal):/etc/php${PHP_VERSION}/conf.d/xdebug.ini
+	-docker compose exec -T drupal with-contenv bash -lc "chown root:root /etc/php${PHP_VERSION}_/conf.d/xdebug.ini"
+	docker compose restart drupal
+	sleep 6
+	docker compose exec -T drupal with-contenv bash -lc "php -i | grep xdebug"
+
+.phony: set-timeout
+## Update all PHP and NGinx timeouts to TIMEOUT_VALUE
+set-timeout:
+	$(SED_DASH_I) 's/NGINX_FASTCGI_READ_TIMEOUT: .*s/NGINX_FASTCGI_READ_TIMEOUT: $(TIMEOUT_VALUE)s/g' docker-compose.yml
+	$(SED_DASH_I) 's/NGINX_FASTCGI_CONNECT_TIMEOUT: .*s/NGINX_FASTCGI_CONNECT_TIMEOUT: $(TIMEOUT_VALUE)s/g' docker-compose.yml
+	$(SED_DASH_I) 's/NGINX_FASTCGI_SEND_TIMEOUT: .*s/NGINX_FASTCGI_SEND_TIMEOUT: $(TIMEOUT_VALUE)s/g' docker-compose.yml
+	$(SED_DASH_I) 's/NGINX_KEEPALIVE_TIMEOUT: .*s/NGINX_KEEPALIVE_TIMEOUT: $(TIMEOUT_VALUE)s/g' docker-compose.yml
+	$(SED_DASH_I) 's/NGINX_PROXY_CONNECT_TIMEOUT: .*s/NGINX_PROXY_CONNECT_TIMEOUT: $(TIMEOUT_VALUE)s/g' docker-compose.yml
+	$(SED_DASH_I) 's/NGINX_PROXY_READ_TIMEOUT: .*s/NGINX_PROXY_READ_TIMEOUT: $(TIMEOUT_VALUE)s/g' docker-compose.yml
+	$(SED_DASH_I) 's/NGINX_PROXY_SEND_TIMEOUT: .*s/NGINX_PROXY_SEND_TIMEOUT: $(TIMEOUT_VALUE)s/g' docker-compose.yml
+	$(SED_DASH_I) 's/NGINX_SEND_TIMEOUT: .*s/NGINX_SEND_TIMEOUT: $(TIMEOUT_VALUE)s/g' docker-compose.yml
+	$(SED_DASH_I) 's/PHP_DEFAULT_SOCKET_TIMEOUT: ".*"/PHP_DEFAULT_SOCKET_TIMEOUT: "$(TIMEOUT_VALUE)"/g' docker-compose.yml
+	$(SED_DASH_I) 's/PHP_MAX_EXECUTION_TIME: ".*"/PHP_MAX_EXECUTION_TIME: "$(TIMEOUT_VALUE)"/g' docker-compose.yml
+	$(SED_DASH_I) 's/PHP_MAX_INPUT_TIME: ".*"/PHP_MAX_INPUT_TIME: "$(TIMEOUT_VALUE)"/g' docker-compose.yml
+	$(SED_DASH_I) 's/PHP_PROCESS_CONTROL_TIMEOUT: ".*"/PHP_PROCESS_CONTROL_TIMEOUT: "$(TIMEOUT_VALUE)"/g' docker-compose.yml
+	$(SED_DASH_I) 's/PHP_REQUEST_TERMINATE_TIMEOUT: ".*"/PHP_REQUEST_TERMINATE_TIMEOUT: "$(TIMEOUT_VALUE)"/g' docker-compose.yml
+	docker compose up -d --force-recreate --remove-orphans
