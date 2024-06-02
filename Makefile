@@ -17,6 +17,15 @@ else  # GNU/Linux
 	SED_DASH_I=sed -i
 endif
 
+# Deal with the lack of host.docker.internal on Linux hosts.
+ifeq ($(shell uname -s),Darwin)
+	XDEBUG_HOST_COMMAND=# On a Mac, using host.docker.internal to connect back to host.
+else  # GNU/Linux
+	XDEBUG_HOST_COMMAND=docker compose exec drupal bash -lc 'echo -e "\n\# Connect back to host for XDebug\n172.17.0.1    host.docker.internal\n" >> /etc/hosts'
+endif
+
+
+
 
 # If custom.makefile exists include it.
 -include custom.Makefile
@@ -689,7 +698,6 @@ wait-for-drupal-locally:
 		sleep 1; \
 	done
 
-
 .PHONY: xdebug
 ## Turn on xdebug.
 xdebug: TIMEOUT_VALUE=3600
@@ -699,7 +707,9 @@ xdebug:
 	sleep 10
 	docker compose exec -T drupal with-contenv bash -lc "apk add php${PHP_VERSION}-pecl-xdebug"
 	docker cp scripts/extra/xdebug.ini $$(docker compose ps -q drupal):/etc/php${PHP_VERSION}/conf.d/xdebug.ini
-	-docker compose exec -T drupal with-contenv bash -lc "chown root:root /etc/php${PHP_VERSION}_/conf.d/xdebug.ini"
+	-docker compose exec -T drupal with-contenv bash -lc "chown root:root /etc/php${PHP_VERSION}/conf.d/xdebug.ini"
+	$(XDEBUG_HOST_COMMAND)
+
 	docker compose restart drupal
 	sleep 6
 	docker compose exec -T drupal with-contenv bash -lc "php -i | grep xdebug"
