@@ -45,7 +45,7 @@ export
 EXTERNAL_SERVICES := etcd watchtower traefik
 
 # The minimal set of docker compose files required to be able to run anything.
-REQUIRED_SERVICES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal mariadb matomo solr
+REQUIRED_SERVICES ?= activemq alpaca blazegraph cantaloupe crayfish crayfits drupal mariadb solr
 
 ifeq ($(USE_SECRETS), true)
 	SECRETS := secrets
@@ -594,14 +594,13 @@ install: drupal-database
 
 .PHONY: update-config-from-environment
 ## Updates configuration from environment variables.
-## Allow all commands to fail as the user may not have all the modules like matomo, etc.
+## Allow all commands to fail as the user may not have all the modules.
 .SILENT: update-config-from-environment
 update-config-from-environment:
 	-docker compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_module"
 	-docker compose exec -T drupal with-contenv bash -lc "for_all_sites configure_jwt_module"
 	-docker compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
 	-docker compose exec -T drupal with-contenv bash -lc "for_all_sites configure_search_api_solr_module"
-	-docker compose exec -T drupal with-contenv bash -lc "for_all_sites configure_matomo_module"
 	-docker compose exec -T drupal with-contenv bash -lc "for_all_sites configure_openseadragon"
 	-docker compose exec -T drupal with-contenv bash -lc "for_all_sites configure_islandora_default_module"
 
