@@ -40,6 +40,3 @@ services:
   drupal:
     labels:
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls.certresolver=myresolver
-  matomo:
-    labels:
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.tls.certresolver=myresolver

@@ -40,7 +40,7 @@ services:
       - --providers.file.filename=/etc/traefik/tls.yml
       - '--providers.docker.defaultRule=Host(`${DOMAIN}`)'
     ports:
-      - 80:80       # drupal, cantaloupe, matomo
+      - 80:80       # drupal, cantaloupe
       - 443:443     # https for ^^^
       - ${FEDORA_PORT:-8081}:8081   # fedora, needs to be exposed for cantaloupe
       # Don't do any of these in production
