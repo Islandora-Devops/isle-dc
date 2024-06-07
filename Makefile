@@ -17,16 +17,6 @@ else  # GNU/Linux
 	SED_DASH_I=sed -i
 endif
 
-# Deal with the lack of host.docker.internal on Linux hosts.
-ifeq ($(shell uname -s),Darwin)
-	XDEBUG_HOST_COMMAND=# On a Mac, using host.docker.internal to connect back to host.
-else  # GNU/Linux
-	XDEBUG_HOST_COMMAND=docker compose exec drupal bash -lc 'echo -e "\n\# Connect back to host for XDebug\n172.17.0.1    host.docker.internal\n" >> /etc/hosts'
-endif
-
-
-
-
 # If custom.makefile exists include it.
 -include custom.Makefile
 
@@ -49,6 +39,9 @@ export
 #############################################
 ## Add necessary variables                 ##
 #############################################
+
+PHP_MAJOR_VERSION?=8
+PHP_MINOR_VERSION?=3
 
 # Services that are not produced by isle-buildkit.
 EXTERNAL_SERVICES := etcd watchtower traefik
@@ -121,7 +114,6 @@ TARGET_MAX_CHAR_NUM=20
 IS_DRUPAL_PSSWD_FILE_READABLE := $(shell test -r secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD -a -w secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD && echo 1 || echo 0)
 CMD := $(shell [ $(IS_DRUPAL_PSSWD_FILE_READABLE) -eq 1 ] && echo 'tee' || echo 'sudo -k tee')
 
-PHP_VERSION=83
 LATEST_VERSION := $(shell curl -s https://api.github.com/repos/desandro/masonry/releases/latest | grep '\"tag_name\":' | sed -E 's/.*\"([^\"]+)\".*/\1/')
 
 PHP_FPM_PID=/var/run/php-fpm7/php-fpm7.pid
@@ -705,9 +697,9 @@ xdebug:
 
 	$(MAKE) set-timeout TIMEOUT_VALUE=3600
 	sleep 10
-	docker compose exec -T drupal with-contenv bash -lc "apk add php${PHP_VERSION}-pecl-xdebug"
-	docker cp scripts/extra/xdebug.ini $$(docker compose ps -q drupal):/etc/php${PHP_VERSION}/conf.d/xdebug.ini
-	-docker compose exec -T drupal with-contenv bash -lc "chown root:root /etc/php${PHP_VERSION}/conf.d/xdebug.ini"
+	docker compose exec -T drupal with-contenv bash -lc "apk add php${PHP_MAJOR_VERSION}${PHP_MINOR_VERSION}-pecl-xdebug"
+	docker cp scripts/extra/xdebug.ini $$(docker compose ps -q drupal):/etc/php${PHP_MAJOR_VERSION}${PHP_MINOR_VERSION}/conf.d/xdebug.ini
+	-docker compose exec -T drupal with-contenv bash -lc "chown root:root /etc/php${PHP_MAJOR_VERSION}${PHP_MINOR_VERSION}/conf.d/xdebug.ini"
 	$(XDEBUG_HOST_COMMAND)
 
 	docker compose restart drupal
