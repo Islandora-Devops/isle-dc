@@ -30,6 +30,8 @@ services:
       PHP_MAX_INPUT_TIME: ${PHP_MAX_EXECUTION_TIME}
       PHP_PROCESS_CONTROL_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}
       PHP_REQUEST_TERMINATE_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}
+    extra_hosts:
+      host.docker.internal: host-gateway
     labels:
       - traefik.enable=${EXPOSE_DRUPAL:-true}
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
