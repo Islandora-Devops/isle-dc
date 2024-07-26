@@ -154,9 +154,9 @@ starter: QUOTED_CURDIR = "$(CURDIR)"
 starter: generate-secrets
 	$(MAKE) starter-init ENVIRONMENT=starter
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) -u nginx bash -lc 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase; mv /tmp/codebase/* /home/root;'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root -u nginx $(REPOSITORY)/nginx:$(TAG) bash -c 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase && mv /tmp/codebase/* /home/root'; \
 	else \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) -u nginx bash -lc 'cd /home/root; composer install'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root -u nginx $(REPOSITORY)/nginx:$(TAG) bash -c 'cd /home/root && composer install'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
 	$(MAKE) compose-up
@@ -173,14 +173,14 @@ starter_dev: generate-secrets
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
 	$(MAKE) compose-up
-	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ ; su nginx -s /bin/bash -c "composer install"'
+	docker compose exec -T -u nginx drupal sh -c 'composer install && chown -R nginx:nginx .'
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
 .PHONY: production
 production: init
 	$(MAKE) compose-up
-	docker compose exec -u nginx -T drupal -lc 'composer install; chown -R nginx:nginx .'
+	docker compose exec -T -u nginx drupal sh -c 'composer install && chown -R nginx:nginx .'
 	$(MAKE) starter-finalize ENVIRONMENT=starter
 
 
