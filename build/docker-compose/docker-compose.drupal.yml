@@ -9,10 +9,12 @@ services:
   drupal:
     restart: ${RESTART_POLICY:-unless-stopped}
     environment:
+      DRUPAL_DEFAULT_BROKER_URL: tcp://activemq:61613
       DRUPAL_DEFAULT_CANTALOUPE_URL: https://${DOMAIN}/cantaloupe/iiif/2
       DRUPAL_DEFAULT_FCREPO_HOST: ${DOMAIN}
       DRUPAL_DEFAULT_FCREPO_PORT: 8081
-      DRUPAL_DEFAULT_SITE_URL: http://${DOMAIN} # Make sure this is just http and not https!
+      DRUPAL_DEFAULT_FCREPO_URL: ${DOMAIN}
+      DRUPAL_DEFAULT_SITE_URL: ${DOMAIN}
       DRUPAL_DEFAULT_PROFILE: ${DRUPAL_INSTALL_PROFILE}
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
       PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
