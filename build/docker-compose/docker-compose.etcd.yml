@@ -1,6 +1,5 @@
 # Example of using a different backend for confd rather then
 # environment variables.
-version: "3.7"
 networks:
   default:
     internal: true

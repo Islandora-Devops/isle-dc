@@ -7,7 +7,6 @@
 # For a traefik to be able to route traffic to a given container, that
 # container needs to be on the `gateway` network, otherwise traefik will
 # discover it via Docker but will not be able to redirect traffic to it.
-version: "3.7"
 networks:
   gateway:
     driver: bridge
