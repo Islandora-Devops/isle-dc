@@ -4,7 +4,6 @@
 # - composer requires / install
 # - Drush commands
 # - Manual changes to the codebase directory
-version: "3.7"
 networks:
   default:
     internal: true

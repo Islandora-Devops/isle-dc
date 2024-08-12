@@ -1,4 +1,3 @@
-version: "3.7"
 services:
   # Override defaults so PostgreSQL is used as the database for this service.
   drupal:

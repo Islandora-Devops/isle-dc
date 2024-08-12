@@ -1,5 +1,4 @@
 # These are the common settings for any drupal when used with any of the environment types.
-version: "3.7"
 networks:
   default:
     internal: true

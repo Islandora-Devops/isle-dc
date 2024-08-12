@@ -2,7 +2,6 @@
 # 
 # References:
 # - https://www.drupal.org/docs
-version: '3.7'
 networks:
   default:
     internal: true
