@@ -154,9 +154,9 @@ starter: QUOTED_CURDIR = "$(CURDIR)"
 starter: generate-secrets
 	$(MAKE) starter-init ENVIRONMENT=starter
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) bash -c 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase && mv /tmp/codebase/* /home/root'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase && mv /tmp/codebase/* /home/root'; \
 	else \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) bash -c 'cd /home/root && composer install'; \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root && composer install'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
 	$(MAKE) compose-up
