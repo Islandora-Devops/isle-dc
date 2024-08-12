@@ -152,7 +152,6 @@ local:
 ## Make a local site with codebase directory bind mounted, using starter site unless other package specified in .env or present already.
 starter: QUOTED_CURDIR = "$(CURDIR)"
 starter: generate-secrets
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
 	$(MAKE) starter-init ENVIRONMENT=starter
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
 		docker container run --rm -v $(CURDIR)/codebase:/home/root -u nginx $(REPOSITORY)/nginx:$(TAG) bash -c 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase && mv /tmp/codebase/* /home/root'; \
@@ -174,7 +173,7 @@ starter_dev: generate-secrets
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
 	$(MAKE) compose-up
-	docker compose exec -T -u nginx drupal sh -c 'composer install && chown -R nginx:nginx .'
+	docker compose exec -T -u nginx drupal sh -c 'composer install'
 	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
 
 
