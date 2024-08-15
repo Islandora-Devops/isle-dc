@@ -558,7 +558,7 @@ delete-shortcut-entities:
 .PHONY: hydrate
 .SILENT: hydrate
 ## Reconstitute the site from environment variables.
-hydrate: update-settings-php update-config-from-environment solr-cores namespaces run-islandora-migrations
+hydrate: update-config-from-environment solr-cores namespaces run-islandora-migrations
 	docker compose exec -T drupal drush cr -y
 
 

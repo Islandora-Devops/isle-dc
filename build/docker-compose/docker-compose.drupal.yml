@@ -1,5 +1,4 @@
 # These are the common settings for any drupal when used with any of the environment types.
-version: "3.7"
 networks:
   default:
     internal: true
@@ -11,9 +10,7 @@ services:
     environment:
       DRUPAL_DEFAULT_BROKER_URL: tcp://activemq:61613
       DRUPAL_DEFAULT_CANTALOUPE_URL: https://${DOMAIN}/cantaloupe/iiif/2
-      DRUPAL_DEFAULT_FCREPO_HOST: ${DOMAIN}
-      DRUPAL_DEFAULT_FCREPO_PORT: 8081
-      DRUPAL_DEFAULT_FCREPO_URL: ${DOMAIN}
+      DRUPAL_DEFAULT_FCREPO_URL: http://${DOMAIN}:8081/fcrepo/rest/
       DRUPAL_DEFAULT_SITE_URL: ${DOMAIN}
       DRUPAL_DEFAULT_PROFILE: ${DRUPAL_INSTALL_PROFILE}
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
