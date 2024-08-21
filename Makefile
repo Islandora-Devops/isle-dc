@@ -159,7 +159,11 @@ starter: generate-secrets
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root && composer install'; \
 	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
+	rm ./codebase/assets/patches/default_settings.txt
+	cp default_settings.txt ./codebase/assets/patches
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
 	$(MAKE) compose-up
+	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ ; su nginx -s /bin/bash -c "composer install"'
 	$(MAKE) starter-finalize ENVIRONMENT=starter
 
 
@@ -171,6 +175,9 @@ starter_dev: generate-secrets
 	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
 		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
 	fi
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
+	rm ./codebase/assets/patches/default_settings.txt
+	cp default_settings.txt ./codebase/assets/patches
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
 	$(MAKE) compose-up
 	docker compose exec -T -u nginx drupal sh -c 'composer install'
@@ -551,7 +558,7 @@ delete-shortcut-entities:
 .PHONY: hydrate
 .SILENT: hydrate
 ## Reconstitute the site from environment variables.
-hydrate: update-settings-php update-config-from-environment solr-cores namespaces run-islandora-migrations
+hydrate: update-config-from-environment solr-cores namespaces run-islandora-migrations
 	docker compose exec -T drupal drush cr -y
 
 
@@ -576,7 +583,8 @@ starter-init: init
 .PHONY: starter-finalize
 starter-finalize:
 	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx . ; echo "Chown Complete"'
-	$(MAKE) drupal-database update-settings-php
+	$(MAKE) drupal-database
+
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
 	docker compose exec -T drupal with-contenv bash -lc "drush cr"
 	docker compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
