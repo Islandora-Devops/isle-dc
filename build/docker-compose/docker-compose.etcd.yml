@@ -3,6 +3,8 @@
 networks:
   default:
     internal: true
+volumes:
+  etcd-data:
 services:
   # Single node cluster.
   #
