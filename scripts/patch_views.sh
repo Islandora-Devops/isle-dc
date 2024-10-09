@@ -59,6 +59,5 @@ if [[ $ERROR_MESSAGE == *'InvalidArgumentException'* ]]; then
     # Clear caches
     drush cache:rebuild
     drush cr
-    drush node-access-rebuild
     drush cron
 # fi
