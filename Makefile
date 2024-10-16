@@ -314,6 +314,35 @@ download-default-certs:
 composer_update:
 	docker compose exec -T drupal with-contenv bash -lc su nginx -s /bin/bash -c "composer update"
 
+.PHONY: set-codebase-owner
+.SILENT: set-codebase-owner
+## JHU: Updates codebase folder to be owned by the host user and nginx group and ensures vendor directory permissions.
+set-codebase-owner:
+	@echo ""
+	@echo "Setting codebase/ folder owner back to $(shell id -u):101"
+	if [ -n "$$(docker ps -q -f name=drupal)" ]; then \
+		echo "  └─ Using docker-compose codebase/ directory"; \
+		docker-compose exec -T drupal with-contenv bash -lc "find . -not -user $(shell id -u) -not -path '*/sites/default/files' -exec chown $(shell id -u):101 {} \;" ; \
+		docker-compose exec -T drupal with-contenv bash -lc "find . -not -group 101 -not -path '*/sites/default/files' -exec chown $(shell id -u):101 {} \;" ; \
+		# Check and fix vendor directory ownership and permissions \
+		echo "  └─ Checking vendor directory permissions"; \
+		docker-compose exec -T drupal with-contenv bash -lc "[ ! -d ./vendor ] && mkdir -p ./vendor" ; \
+		docker-compose exec -T drupal with-contenv bash -lc "[ ! -d ./vendor ] || find ./vendor -not -user $(shell id -u) -exec chown $(shell id -u):101 {} \;" ; \
+		docker-compose exec -T drupal with-contenv bash -lc "[ ! -d ./vendor ] || chmod -R 775 ./vendor" ; \
+	elif [ -d "codebase" ]; then \
+		echo "  └─ Using local codebase/ directory"; \
+		sudo find ./codebase -not -user $(shell id -u) -not -path '*/sites/default/files' -exec chown $(shell id -u):101 {} \; ; \
+		sudo find ./codebase -not -group 101 -not -path '*/sites/default/files' -exec chown $(shell id -u):101 {} \; ; \
+		# Check and fix vendor directory ownership and permissions \
+		echo "  └─ Checking vendor directory permissions"; \
+		[ ! -d ./codebase/vendor ] || sudo mkdir -p ./codebase/vendor ; \
+		[ ! -d ./codebase/vendor ] || sudo find ./codebase/vendor -not -user $(shell id -u) -exec chown $(shell id -u):101 {} \; ; \
+		[ ! -d ./codebase/vendor ] || sudo chmod -R 775 ./codebase/vendor ; \
+	else \
+		echo "  └─ No codebase/ directory found, skipping"; \
+	fi
+	@echo "    └─ Done"
+	@echo ""
 
 reindex-fcrepo-metadata:
 	# Re-index RDF in Fedora
@@ -385,8 +414,8 @@ endif
 .SILENT: config-export
 ## Exports the sites configuration.
 config-export:
+	$(MAKE) set-codebase-owner
 	docker compose exec -T drupal drush -l $(SITE) config:export -y
-
 
 .PHONY: config-import
 .SILENT: config-import
