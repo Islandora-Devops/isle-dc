@@ -17,7 +17,6 @@ function main {
     update_settings_php "${site}"
     # Ensure that settings which depend on environment variables like service urls are set dynamically on startup.
     configure_islandora_module "${site}"
-    configure_matomo_module "${site}"
     configure_openseadragon "${site}"
     configure_islandora_default_module "${site}"
     # The following commands require several services

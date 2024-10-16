@@ -2,12 +2,9 @@
 # 
 # References:
 # - https://www.drupal.org/docs
-version: '3.7'
 networks:
   default:
     internal: true
-  gateway:
-    external: true
 secrets:
   CODE_SERVER_PASSWORD:
     file: "../../secrets/live/CODE_SERVER_PASSWORD"

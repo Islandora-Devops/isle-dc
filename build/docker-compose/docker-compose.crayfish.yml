@@ -1,9 +1,6 @@
-version: "3.7"
 networks:
   default:
     internal: true
-  gateway:
-    external: true
 services:
   homarus:
     restart: ${RESTART_POLICY:-unless-stopped}
@@ -44,14 +41,5 @@ services:
       resources:
           limits:
             memory: ${MILLINER_MEMORY_LIMIT:-1G}
-          reservations:
-            memory: 512M
-  recast:
-    restart: ${RESTART_POLICY:-unless-stopped}
-    image: ${REPOSITORY:-islandora}/recast:${TAG:-latest}
-    deploy:
-      resources:
-          limits:
-            memory: ${RECAST_MEMORY_LIMIT:-1G}
           reservations:
             memory: 512M

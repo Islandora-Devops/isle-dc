@@ -1,0 +1,94 @@
+name: Test
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+  schedule:
+    # UTC
+    - cron: '15 12 * * *'
+env:
+  TERM: xterm-256color
+jobs:
+  make:
+    permissions:
+      contents: read
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # TODO: someone with more windows chops please add windows test support
+        # os: [windows-latest, ubuntu-latest, macos-latest]
+        # TODO: keep an eye when macos-14+ (M1) support is available
+        os: [ubuntu-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Make nightly build check latest isle-buildkit
+        if: github.event_name == 'schedule'
+        run: |-
+          echo "TAG=main" >> $GITHUB_OUTPUT
+
+      - name: Setup make and secrets for Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install mingw -y
+          echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
+          cp sample.env .env <-- do not know what windows cp. COPY?
+          C:\Program Files\Git\bin\bash.exe ./build/scripts/check-secrets.sh yes
+
+      - name: init secrets
+        if: matrix.os != 'windows-latest'
+        run: |-
+          cp sample.env .env
+          ./build/scripts/check-secrets.sh yes
+        shell: bash
+
+      - name: make starter
+        run: make starter
+        shell: bash
+
+      - name: check online
+        # TODO: what's a windows curl?
+        if: matrix.os != 'windows-latest'
+        run: |-
+          STATUS=$(curl -k \
+            -w '%{http_code}' -o /dev/null \
+            https://islandora.traefik.me/)
+          echo "Site check returned ${STATUS}"
+          if [ ${STATUS} -ne 200 ]; then
+            echo "Failed to bring up site"
+            exit 1
+          fi
+
+      - name: "Make sure we can export the site config through the UI"
+        run: ./scripts/ci/drush-cex-ui.sh
+
+      - name: make build
+        run: make build
+        shell: bash
+
+      - name: make production
+        run: make production
+        shell: bash
+
+      - name: check online
+        # TODO: what's a windows curl?
+        if: matrix.os != 'windows-latest'
+        run: |-
+          STATUS=$(curl -k \
+            -w '%{http_code}' -o /dev/null \
+            https://islandora.traefik.me/)
+          echo "Site check returned ${STATUS}"
+          if [ ${STATUS} -ne 200 ]; then
+            echo "Failed to bring up site"
+            exit 1
+          fi
+
+      - name: Notify Slack on nightly test failure
+        if: failure() && github.event_name == 'schedule'
+        run: |-
+          curl -s -o /dev/null -XPOST $SLACK_WEBHOOK_URL -d '{
+            "text": "🚨 Scheduled job failed! Click to view the run: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|GitHub Actions Run>",
+          }'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

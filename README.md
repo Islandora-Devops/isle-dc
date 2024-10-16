@@ -94,7 +94,6 @@ the things you can do.  If you want to poke around, here's all the services that
 | Activemq    | [http://islandora.traefik.me:8161](http://islandora.traefik.me:8161)                           |         No          |
 | Solr        | [http://islandora.traefik.me:8983](http://islandora.traefik.me:8983)                           |         No          |
 | Cantaloupe  | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |         Yes         |
-| Matomo      | [https://islandora.traefik.me/matomo/](https://islandora.traefik.me/matomo/)                   |         Yes         |
 | Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                       |         No          |
 
 > **Exposed**: the act of allowing the containerized application's ports to be accessible to the host machine (or public). In most cases this makes the specified URL available for the browser.
@@ -164,37 +163,36 @@ Then you can `git push` your site to Github and `git clone` it down whenever you
 ## Custom Environment
 
 This environment is used to run your custom `drupal` image which can be produced
-outside of this repository. You can specify the image in your `.env` file using
-the settings `PROJECT_DRUPAL_DOCKERFILE` if you want to build it in the context
-of this repository. You can also set the memory limits for each containers here as well.
+outside of this repository, or from another isle-dc instance, such as a local
+development environment as described above. You can specify a namespace, the
+image name, and tag in your `.env` file.
 
-For convenience a `sample.Dockerfile` is provided from which you can generate a
-custom image from the [codebase](./codebase) folder. For example if you followed
-the guide above to create the codebase folder from the `islandora/demo` image.
+This assumes you have already created an image and have it stored in a container
+registry like Dockerhub or Gitlab. If you are setting this up for the first time
+you should first create a local environment as described above. Once you have
+your local environment created you can do the following:
+- In your .env set the name of the image to create using
+`CUSTOM_IMAGE_NAME`, the namespace using `CUSTOM_IMAGE_NAMESPACE`, and the tag
+using `CUSTOM_IMAGE_TAG`
+- Run `make build` to create an image based on the codebase folder
+    - This will create an image named `namespace/name:tag`
+- Run `make push-image` to push that image to your container registry
 
-And then run it by changing `ENVIRONMENT` to be `custom` and regenerating the
-`docker-compose.yml` file and building the image.
+For convenience a `sample.Dockerfile` is provided which `make build` will use to
+generate a custom image from the `codebase` folder. For example if
+you followed the guide above to create the codebase folder from the
+`islandora/demo` image.
 
-```bash
-make docker-compose.yml
-make build
-```
-
-At this point you could run it using `docker-compose`:
-
-```bash
-make up
-# Or in some situations you could run this instead.
-docker-compose up -d
-```
-
-To specify an image created outside of this repository, you can add the
-following to `docker-compose.env.yml`:
-
-```yaml
-drupal:
-  image: YOUR_CUSTOM_IMAGE
-```
+Once you have done that you can create your production or staging site by:
+- Modify your .env
+    - Set ENVIRONMENT=custom
+    - Set DOMAIN=yourdomain.com
+    - Set the namespace, the name of the image, and the tag using
+      `CUSTOM_IMAGE_NAMESPACE`, `CUSTOM_IMAGE_NAME`, and `CUSTOM_IMAGE_TAG`
+        - They should be the same values you used on your local machine when creating the image
+- Create your production site using `make production`
+- Export the database from your local machine and import it to your production
+site
 
 ## Shutting down and bring back up
 To run a non-destructive shutdown and bring it back up without having to know the docker commands needed. This keeps all of the commands for basic operations within the make commands.
@@ -226,7 +224,7 @@ To enable using secrets prior to running the `make` commands, copy sample.env
 to .env. Set `USE_SECRETS=true` in your .env file. Make a copy of the files in
 /secrets/template/ to /secrets/live/.
 
-To enable using secrets after run `make local` or `make up`, set 
+To enable using secrets after run `make local` or `make up`, set
 `USE_SECRETS=true` in your .env file. When you run `make docker-compose.yml`, a
 large block of `secrets` will be added at the top of your `docker-compose.yml`
 file.
@@ -259,6 +257,26 @@ Setting admin password now
  [success] Changed password for admin.
 
 ```
+
+### Enable XDebug
+
+```shell
+make xdebug
+```
+
+This will download and enable the [XDebug](https://xdebug.org)
+PHP debugger.
+
+It also changes all of the PHP and Nginx timeouts so your
+debugging session doesn't get shut down while you're working.
+
+Bringing ISLE down and back up will disable the debugger again.
+
+You can put custom XDebug config settings in scripts/extra/xdebug.ini
+
+See the documentation for your code editor for further
+details on how to debug PHP applications.
+Specifically the 'Listen for XDebug' command.
 
 ## Services
 
@@ -387,7 +405,7 @@ lowercasename:
 	echo "first line in command needs to be indented. There are exceptions to this, review functions in the Makefile for examples of these exceptions."
 ```
 
-NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.  
+NOTE: A target you add in the custom.Makefile will not override an existing target with the same label in this repository's defautl Makefile.
 
 Running the new `custom.Makefile` commands are exactly the same as running any other Makefile command. Just run `make` and the function's name.
 ```bash

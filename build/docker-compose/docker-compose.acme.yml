@@ -1,4 +1,3 @@
-version: "3.7"
 services:
   traefik:
     # Do not set `api.insecure`, `api.dashboard`, `api.debug` to `true` in production.
@@ -40,6 +39,3 @@ services:
   drupal:
     labels:
       - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-drupal_https.tls.certresolver=myresolver
-  matomo:
-    labels:
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME-isle-dc}-matomo_https.tls.certresolver=myresolver

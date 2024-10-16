@@ -5,12 +5,9 @@
 #
 # Organizations should not use this as their base instead they should refer
 # to the documentation in this project for the correct approach.
-version: "3.7"
 networks:
   default:
     internal: true
-  gateway:
-    external: true
 volumes:
   drupal-sites-data:
   solr-data:

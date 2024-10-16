@@ -1,26 +1,36 @@
 # These are the common settings for any drupal when used with any of the environment types.
-version: "3.7"
 networks:
   default:
     internal: true
-  gateway:
-    external: true
 services:
   # The service name is drupal that is the default host name used by micro-services etc.
   # Needs to match against demo, custom, and local.
   drupal:
     restart: ${RESTART_POLICY:-unless-stopped}
     environment:
+      DRUPAL_DEFAULT_BROKER_URL: tcp://activemq:61613
       DRUPAL_DEFAULT_CANTALOUPE_URL: https://${DOMAIN}/cantaloupe/iiif/2
-      DRUPAL_DEFAULT_FCREPO_HOST: ${DOMAIN}
-      DRUPAL_DEFAULT_FCREPO_PORT: 8081
-      DRUPAL_DEFAULT_MATOMO_URL: https://${DOMAIN}/matomo/
-      DRUPAL_DEFAULT_SITE_URL: http://${DOMAIN} # Make sure this is just http and not https!
+      DRUPAL_DEFAULT_FCREPO_URL: http://${DOMAIN}:8081/fcrepo/rest/
+      DRUPAL_DEFAULT_SITE_URL: ${DOMAIN}
       DRUPAL_DEFAULT_PROFILE: ${DRUPAL_INSTALL_PROFILE}
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT}
       PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE}
       PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE}
+      NGINX_FASTCGI_CONNECT_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}s
+      NGINX_FASTCGI_READ_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}s
+      NGINX_FASTCGI_SEND_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}s
+      NGINX_KEEPALIVE_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}s
+      NGINX_PROXY_CONNECT_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}s
+      NGINX_PROXY_READ_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}s
+      NGINX_PROXY_SEND_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}s
+      NGINX_SEND_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}s
+      PHP_DEFAULT_SOCKET_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}
       PHP_MAX_EXECUTION_TIME: ${PHP_MAX_EXECUTION_TIME}
+      PHP_MAX_INPUT_TIME: ${PHP_MAX_EXECUTION_TIME}
+      PHP_PROCESS_CONTROL_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}
+      PHP_REQUEST_TERMINATE_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}
+    extra_hosts:
+      host.docker.internal: host-gateway
     labels:
       - traefik.enable=${EXPOSE_DRUPAL:-true}
       - traefik.http.services.${COMPOSE_PROJECT_NAME-isle-dc}-drupal.loadbalancer.server.port=80
