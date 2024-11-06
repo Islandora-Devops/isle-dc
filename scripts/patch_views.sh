@@ -7,7 +7,7 @@ ERROR_MESSAGE=$(drush watchdog:show --severity=Error --filter="InvalidArgumentEx
 # If error message equals to "InvalidArgumentException", then exit.
 if [[ $ERROR_MESSAGE == *'InvalidArgumentException'* ]]; then
 
-    Check if drush is installed (Drupal Console replacement).
+    # Check if drush is installed (Drupal Console replacement).
     drush_installed() {
         composer show 'drush/drush' | grep -q '/var/www/drupal/vendor/drush/drush'
     }
