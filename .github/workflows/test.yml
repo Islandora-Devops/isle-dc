@@ -15,10 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # TODO: someone with more windows chops please add windows test support
-        # os: [windows-latest, ubuntu-latest, macos-latest]
-        # TODO: keep an eye when macos-14+ (M1) support is available
-        os: [ubuntu-latest]
+        os: [ubuntu-22.04, ubuntu-24.04]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,16 +25,7 @@ jobs:
         run: |-
           echo "TAG=main" >> $GITHUB_OUTPUT
 
-      - name: Setup make and secrets for Windows
-        if: matrix.os == 'windows-latest'
-        run: |
-          choco install mingw -y
-          echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
-          cp sample.env .env <-- do not know what windows cp. COPY?
-          C:\Program Files\Git\bin\bash.exe ./build/scripts/check-secrets.sh yes
-
       - name: init secrets
-        if: matrix.os != 'windows-latest'
         run: |-
           cp sample.env .env
           ./build/scripts/check-secrets.sh yes
@@ -48,17 +36,7 @@ jobs:
         shell: bash
 
       - name: check online
-        # TODO: what's a windows curl?
-        if: matrix.os != 'windows-latest'
-        run: |-
-          STATUS=$(curl -k \
-            -w '%{http_code}' -o /dev/null \
-            https://islandora.traefik.me/)
-          echo "Site check returned ${STATUS}"
-          if [ ${STATUS} -ne 200 ]; then
-            echo "Failed to bring up site"
-            exit 1
-          fi
+        run: ./scripts/ci/ping.sh
 
       - name: "Make sure we can export the site config through the UI"
         run: ./scripts/ci/drush-cex-ui.sh
@@ -72,17 +50,7 @@ jobs:
         shell: bash
 
       - name: check online
-        # TODO: what's a windows curl?
-        if: matrix.os != 'windows-latest'
-        run: |-
-          STATUS=$(curl -k \
-            -w '%{http_code}' -o /dev/null \
-            https://islandora.traefik.me/)
-          echo "Site check returned ${STATUS}"
-          if [ ${STATUS} -ne 200 ]; then
-            echo "Failed to bring up site"
-            exit 1
-          fi
+        run: ./scripts/ci/ping.sh
 
       - name: Notify Slack on nightly test failure
         if: failure() && github.event_name == 'schedule'
