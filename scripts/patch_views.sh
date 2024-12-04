@@ -45,12 +45,12 @@ troubleshoot_drupal() {
     echo "---------------------"
 
     # Always process views, regardless of error message
-    # while IFS= read -r dis_view; do
-    #     log "Processing view: $dis_view"
-    #     drush views:disable "$dis_view" || log "Error disabling view: $dis_view"
-    #     sleep 1
-    #     drush views:enable "$dis_view" || log "Error enabling view: $dis_view"
-    # done < "$VIEWS_FILE"
+    while IFS= read -r dis_view; do
+         log "Processing view: $dis_view"
+         drush views:disable "$dis_view" || log "Error disabling view: $dis_view"
+         sleep 1
+         drush views:enable "$dis_view" || log "Error enabling view: $dis_view"
+    done < "$VIEWS_FILE"
 
     # Ensure Devel module
     DEVEL_INITIALLY_ENABLED=$(drush pm:list | grep devel | grep -F 'Devel (devel)' | grep -q "Enabled" && echo "Enabled" || echo "Disabled")
@@ -66,9 +66,9 @@ troubleshoot_drupal() {
         drush pm:enable -y devel || log "Error: Devel module enabling failed"
     fi
 
-    # Attempt to reinstall Islandora (with error suppression)
-    log "Attempting Islandora module uninstallation..."
-    drush devel:reinstall -y islandora || log "Islandora uninstall may have partial failure. This can be ignored."
+    # Attempt to reinstall Islandora (with error suppression). For new installs only.
+    # log "Attempting Islandora module uninstallation..."
+    # drush devel:reinstall -y islandora || log "Islandora uninstall may have partial failure. This can be ignored."
 
     # Clear caches
     log "Rebuilding caches..."
