@@ -297,17 +297,25 @@ env:
 	fi
 
 
+.PHONY: mkcert
+# Install mkcert following instructions https://github.com/FiloSottile/mkcert?tab=readme-ov-file#installation
+mkcert: 
+ifeq ($(shell uname -s),Darwin)
+	which mkcert || (brew install mkcert && brew install nss)
+else  # GNU/Linux
+	which certutil || (sudo apt install libnss3-tools)
+	which mkcert || (curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/amd64" && chmod +x mkcert-v*-linux-amd64 && sudo cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert)
+endif
+
 .PHONY: download-default-certs
-## Helper function to generate keys for the user to use in their docker-compose.env.yml
+## Helper function to generate keys for islandora.traefik.me now that traefik.me doesn't supply them any longer
 .SILENT: download-default-certs
 download-default-certs:
 	mkdir -p certs
-	if [ ! -f certs/cert.pem ]; then \
-		curl http://traefik.me/fullchain.pem -o certs/cert.pem; \
-	fi
-	if [ ! -f certs/privkey.pem ]; then \
-		curl http://traefik.me/privkey.pem -o certs/privkey.pem; \
-	fi
+	-rm -f certs/cert.pem certs/privkey.pem
+	echo "THE NEXT COMMAND WILL ASK FOR SUDO PWD AND LIKELY MORE..."
+	mkcert -install
+	mkcert -key-file certs/privkey.pem -cert-file certs/fullchain.pem islandora.traefik.me "*.traefik.me" localhost 127.0.0.1 ::1
 
 
 # Run Composer Update in your Drupal container
