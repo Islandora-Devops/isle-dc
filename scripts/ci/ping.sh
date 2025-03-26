@@ -6,7 +6,7 @@ while true; do
   echo "Ping returned http status ${HTTP_STATUS}, exit code $?"
   if [ "${HTTP_STATUS}" -eq 200 ]; then
     echo "We're live 🚀"
-    exit 0
+    break
   fi
 
   ((COUNTER++))
@@ -16,3 +16,6 @@ while true; do
   fi
   sleep 5;
 done
+
+echo "Making sure containers trust the self-signed cert"
+docker compose exec houdini curl -vf https://islandora.traefik.me -o /dev/null
