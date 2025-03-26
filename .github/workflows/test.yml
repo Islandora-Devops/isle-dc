@@ -25,20 +25,6 @@ jobs:
         run: |-
           echo "TAG=main" >> $GITHUB_OUTPUT
 
-      - name: install mkcert (ubuntu or macos)
-        shell: bash
-        run: |-
-          ARCH="linux/amd64"
-          if [ "${{ matrix.os }}" = "macos-latest" ]; then
-            ARCH="darwin/arm64"
-          elif [ "${{ matrix.os }}" = "macos-13" ]; then
-            ARCH="darwin/amd64"
-          fi
-
-          curl -JLO "https://dl.filippo.io/mkcert/latest?for=$ARCH"
-          chmod +x mkcert-v*
-          cp mkcert-v* /usr/local/bin/mkcert
-
       - name: init secrets
         run: |-
           cp sample.env .env

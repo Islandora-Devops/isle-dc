@@ -310,7 +310,7 @@ endif
 .PHONY: download-default-certs
 ## Helper function to generate keys for islandora.traefik.me now that traefik.me doesn't supply them any longer
 .SILENT: download-default-certs
-download-default-certs:
+download-default-certs: mkcert
 	mkdir -p certs
 	-rm -f certs/cert.pem certs/privkey.pem
 	echo "THE NEXT COMMAND WILL ASK FOR SUDO PWD AND LIKELY MORE..."

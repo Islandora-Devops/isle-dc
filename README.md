@@ -49,7 +49,7 @@ as database import/export and reindexing.
 - Git 2.0+
 - GNU Make 4.0+
 - At least 8GB of RAM (ideally 16GB)
-- - [mkcert 1.4+](https://github.com/FiloSottile/mkcert)
+- [mkcert 1.4+](https://github.com/FiloSottile/mkcert)
 
 before running any of the make commands below.
 
