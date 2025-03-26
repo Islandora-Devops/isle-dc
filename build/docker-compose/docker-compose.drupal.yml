@@ -30,6 +30,9 @@ services:
       PHP_MAX_INPUT_TIME: ${PHP_MAX_EXECUTION_TIME}
       PHP_PROCESS_CONTROL_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}
       PHP_REQUEST_TERMINATE_TIMEOUT: ${PHP_MAX_EXECUTION_TIME}
+    secrets:
+        - source: CERT_PUBLIC_KEY
+        - source: CERT_AUTHORITY
     extra_hosts:
       host.docker.internal: host-gateway
     labels:

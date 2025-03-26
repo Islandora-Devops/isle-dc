@@ -1,8 +1,13 @@
+x-ca-cert: &ca-cert
+    secrets:
+        - source: CERT_PUBLIC_KEY
+        - source: CERT_AUTHORITY
 networks:
   default:
     internal: true
 services:
   homarus:
+    <<: [*ca-cert]
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/homarus:${TAG:-latest}
     deploy:
@@ -12,6 +17,7 @@ services:
           reservations:
             memory: 512M
   houdini:
+    <<: [*ca-cert]
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/houdini:${TAG:-latest}
     deploy:
@@ -21,6 +27,7 @@ services:
           reservations:
             memory: 512M
   hypercube:
+    <<: [*ca-cert]
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/hypercube:${TAG:-latest}
     deploy:
@@ -30,6 +37,7 @@ services:
           reservations:
             memory: 256M
   milliner:
+    <<: [*ca-cert]
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/milliner:${TAG:-latest}
     environment:
