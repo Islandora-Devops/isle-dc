@@ -315,7 +315,7 @@ download-default-certs:
 	-rm -f certs/cert.pem certs/privkey.pem
 	echo "THE NEXT COMMAND WILL ASK FOR SUDO PWD AND LIKELY MORE..."
 	mkcert -install
-	mkcert -key-file certs/privkey.pem -cert-file certs/fullchain.pem islandora.traefik.me "*.traefik.me" localhost 127.0.0.1 ::1
+	mkcert -key-file certs/privkey.pem -cert-file certs/cert.pem islandora.traefik.me "*.traefik.me" localhost 127.0.0.1 ::1
 
 
 # Run Composer Update in your Drupal container
