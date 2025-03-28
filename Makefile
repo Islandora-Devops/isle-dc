@@ -594,6 +594,12 @@ starter-finalize:
 	$(MAKE) drupal-database
 
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
+
+	# see https://github.com/Islandora-Devops/isle-site-template/pull/76
+	@CACHE_KEY=$$(docker compose exec -T drupal with-contenv bash -lc "/var/www/drupal/web/core/scripts/rebuild_token_calculator.sh 2>/dev/null") ; \
+	echo "curl https://islandora.dev/core/rebuild.php?$$CACHE_KEY"; \
+	docker compose exec -T drupal with-contenv bash -lc "curl -sLo /dev/null \"https://islandora.dev/core/rebuild.php?$$CACHE_KEY\""
+
 	docker compose exec -T drupal with-contenv bash -lc "drush cr"
 	docker compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
 	@echo "Checking if Solr's healthy"
