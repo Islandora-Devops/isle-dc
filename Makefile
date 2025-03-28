@@ -299,7 +299,7 @@ env:
 
 .PHONY: mkcert
 # Install mkcert following instructions https://github.com/FiloSottile/mkcert?tab=readme-ov-file#installation
-mkcert: 
+mkcert:
 ifeq ($(shell uname -s),Darwin)
 	which mkcert || (brew install mkcert && brew install nss)
 else  # GNU/Linux
@@ -308,14 +308,14 @@ else  # GNU/Linux
 endif
 
 .PHONY: download-default-certs
-## Helper function to generate keys for islandora.traefik.me now that traefik.me doesn't supply them any longer
+## Helper function to generate keys for islandora.dev now that traefik.me doesn't supply them any longer
 .SILENT: download-default-certs
 download-default-certs: mkcert
 	mkdir -p certs
 	-rm -f certs/cert.pem certs/privkey.pem
 	echo "THE NEXT COMMAND WILL ASK FOR SUDO PWD AND LIKELY MORE..."
 	mkcert -install
-	mkcert -key-file certs/privkey.pem -cert-file certs/cert.pem islandora.dev "*.traefik.me" localhost 127.0.0.1 ::1
+	mkcert -key-file certs/privkey.pem -cert-file certs/cert.pem islandora.dev "*.islandora.dev" localhost 127.0.0.1 ::1
 
 
 # Run Composer Update in your Drupal container
@@ -470,7 +470,7 @@ else
 	docker compose exec -T fcrepo with-contenv bash -lc 'mysql -u $${DB_ROOT_USER} -p$${DB_ROOT_PASSWORD} -h $${DB_MYSQL_HOST} -e "DROP DATABASE $${FCREPO_DB_NAME}"'
 endif
 else
-	docker compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.1.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${TOMCAT_ADMIN_NAME}:$${TOMCAT_ADMIN_PASSWORD}'
+	docker compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.1.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.dev:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${TOMCAT_ADMIN_NAME}:$${TOMCAT_ADMIN_PASSWORD}'
 endif
 	$(MAKE) -B docker-compose.yml
 	docker compose up -d fcrepo

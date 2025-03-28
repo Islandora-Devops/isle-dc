@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-ULI=$(make login | grep traefik)
+ULI=$(make login | grep islandora.dev)
 echo "getting cookie from $ULI"
 COOKIE=$(curl -L -s -c - "${ULI}")
 
@@ -11,7 +11,7 @@ STATUS=$(curl -s \
     --cookie <(echo "$COOKIE") \
     -w '%{http_code}' \
     -o /dev/null \
-    https://islandora.traefik.me/admin/config/development/configuration/full/export-download)
+    https://islandora.dev/admin/config/development/configuration/full/export-download)
 
 # make sure the config export worked
 if [ ${STATUS} -ne 200 ]; then
