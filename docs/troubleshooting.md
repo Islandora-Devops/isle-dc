@@ -6,19 +6,6 @@ This document lists common ISLE problems and their solutions. It is currently a 
 
 To view the Drupal logs from the shell, from your `isle-dc` directory, enter `docker-compose logs -f drupal`. That last argument is the service name, which can be swapped out or can actually be multiple (e.g. `drupal solr fcrepo`) or it can be empty, in which case you will see ALL logs.
 
-## "Your clock is ahead/behind" certificate error
-
-Issue: Your browser will not let you access your site because it claims your computer's clock is incorrect,
-even when your clock is correct.
-
-Solution: In your isle directory, run the following commands:
-
-```
-curl http://traefik.me/fullchain.pem -o certs/cert.pem
-curl http://traefik.me/privkey.pem -o certs/privkey.pem
-```
-
-Then restart the containers.
 
 ## Errors doing `drush config:import -y`:
 
@@ -98,8 +85,8 @@ To fix edit `/etc/resolv.conf` in both the Drupal and the Solr containers by add
 
 **Symptoms:**
 
-Houdini converts images which is needed to produce image derivatives.  Output from `docker-compose logs -f houdini` 
-such as this which is repeats (even when no further media have been uploaded) is an indication that the timeout 
+Houdini converts images which is needed to produce image derivatives.  Output from `docker-compose logs -f houdini`
+such as this which is repeats (even when no further media have been uploaded) is an indication that the timeout
 is exceeded, and alpaca is re-attempting:
 
 ```
@@ -114,11 +101,11 @@ houdini_1     | [2022-01-05 21:41:03] app.INFO: Imagemagick Command: {"cmd":"con
 Output from `docker-compose logs -f alpaca` like this, which shows that it has hit a timeout and is giving up:
 
 ```
-alpaca_1      | 2022-01-05 21:42:52,863 | ERROR | nnector-houdini] | DefaultErrorHandler              
-| 56 - org.apache.camel.camel-core - 2.20.4 | Failed delivery for (MessageId: 
-queue_islandora-connector-houdini_ID_94ca62ced546-38129-1641418608853-3_6_-1_1_5 on ExchangeId: 
-ID-bea81bcc2a4e-1641418615223-3-11). Exhausted after delivery attempt: 11 caught: 
-java.net.SocketTimeoutException: Read timed out. Processed by failure processor: 
+alpaca_1      | 2022-01-05 21:42:52,863 | ERROR | nnector-houdini] | DefaultErrorHandler
+| 56 - org.apache.camel.camel-core - 2.20.4 | Failed delivery for (MessageId:
+queue_islandora-connector-houdini_ID_94ca62ced546-38129-1641418608853-3_6_-1_1_5 on ExchangeId:
+ID-bea81bcc2a4e-1641418615223-3-11). Exhausted after delivery attempt: 11 caught:
+java.net.SocketTimeoutException: Read timed out. Processed by failure processor:
 FatalFallbackErrorHandler[Channel[Log(ca.islandora.alpaca.connector.derivative.DerivativeConnector)
 [Error connecting generating derivative with http://houdini:8000/convert: ${exception.message}
 ```

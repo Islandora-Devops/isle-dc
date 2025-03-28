@@ -5,6 +5,9 @@ services:
   crayfits:
     restart: ${RESTART_POLICY:-unless-stopped}
     image: ${REPOSITORY:-islandora}/crayfits:${TAG:-latest}
+    secrets:
+        - source: CERT_PUBLIC_KEY
+        - source: CERT_AUTHORITY
     depends_on:
       - fits
     deploy:
