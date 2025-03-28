@@ -297,17 +297,25 @@ env:
 	fi
 
 
+.PHONY: mkcert
+# Install mkcert following instructions https://github.com/FiloSottile/mkcert?tab=readme-ov-file#installation
+mkcert:
+ifeq ($(shell uname -s),Darwin)
+	which mkcert || (brew install mkcert && brew install nss)
+else  # GNU/Linux
+	which certutil || (sudo apt install libnss3-tools)
+	which mkcert || (curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/amd64" && chmod +x mkcert-v*-linux-amd64 && sudo cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert)
+endif
+
 .PHONY: download-default-certs
-## Helper function to generate keys for the user to use in their docker-compose.env.yml
+## Helper function to generate keys for islandora.dev now that traefik.me doesn't supply them any longer
 .SILENT: download-default-certs
-download-default-certs:
+download-default-certs: mkcert
 	mkdir -p certs
-	if [ ! -f certs/cert.pem ]; then \
-		curl http://traefik.me/fullchain.pem -o certs/cert.pem; \
-	fi
-	if [ ! -f certs/privkey.pem ]; then \
-		curl http://traefik.me/privkey.pem -o certs/privkey.pem; \
-	fi
+	-rm -f certs/cert.pem certs/privkey.pem
+	echo "THE NEXT COMMAND WILL ASK FOR SUDO PWD AND LIKELY MORE..."
+	mkcert -install
+	mkcert -key-file certs/privkey.pem -cert-file certs/cert.pem islandora.dev "*.islandora.dev" localhost 127.0.0.1 ::1
 
 
 # Run Composer Update in your Drupal container
@@ -462,7 +470,7 @@ else
 	docker compose exec -T fcrepo with-contenv bash -lc 'mysql -u $${DB_ROOT_USER} -p$${DB_ROOT_PASSWORD} -h $${DB_MYSQL_HOST} -e "DROP DATABASE $${FCREPO_DB_NAME}"'
 endif
 else
-	docker compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.1.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.traefik.me:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${TOMCAT_ADMIN_NAME}:$${TOMCAT_ADMIN_PASSWORD}'
+	docker compose exec -T fcrepo with-contenv bash -lc 'java -jar /opt/tomcat/fcrepo-import-export-1.0.1.jar --mode import -r http://$(DOMAIN):8081/fcrepo/rest --map http://islandora.dev:8081/fcrepo/rest,http://$(DOMAIN):8081/fcrepo/rest -d /tmp/fcrepo-export -b -u $${TOMCAT_ADMIN_NAME}:$${TOMCAT_ADMIN_PASSWORD}'
 endif
 	$(MAKE) -B docker-compose.yml
 	docker compose up -d fcrepo
@@ -586,6 +594,12 @@ starter-finalize:
 	$(MAKE) drupal-database
 
 	docker compose exec -T drupal with-contenv bash -lc "drush si -y --existing-config minimal --account-pass '$(shell cat secrets/live/DRUPAL_DEFAULT_ACCOUNT_PASSWORD)'"
+
+	# see https://github.com/Islandora-Devops/isle-site-template/pull/76
+	@CACHE_KEY=$$(docker compose exec -T drupal with-contenv bash -lc "/var/www/drupal/web/core/scripts/rebuild_token_calculator.sh 2>/dev/null") ; \
+	echo "curl https://islandora.dev/core/rebuild.php?$$CACHE_KEY"; \
+	docker compose exec -T drupal with-contenv bash -lc "curl -sLo /dev/null \"https://islandora.dev/core/rebuild.php?$$CACHE_KEY\""
+
 	docker compose exec -T drupal with-contenv bash -lc "drush cr"
 	docker compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
 	@echo "Checking if Solr's healthy"
