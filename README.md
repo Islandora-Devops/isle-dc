@@ -45,7 +45,7 @@ as database import/export and reindexing.
 
 - Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
 - Docker-CE 19.x+
-- Docker-compose version 1.25.x+
+- Docker-compose version 2.x+
 - Git 2.0+
 - GNU Make 4.0+
 - At least 8GB of RAM (ideally 16GB)
