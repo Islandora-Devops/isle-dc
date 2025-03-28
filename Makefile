@@ -153,15 +153,6 @@ local:
 starter: QUOTED_CURDIR = "$(CURDIR)"
 starter: generate-secrets
 	$(MAKE) starter-init ENVIRONMENT=$(ENVIRONMENT)
-	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		if [ "$(ENVIRONMENT)" = "starter_dev" ]; then \
-			docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
-		else \
-			docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase && mv /tmp/codebase/* /home/root'; \
-		fi \
-	else \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root && composer install'; \
-	fi
 	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=$(ENVIRONMENT)
 	rm ./codebase/assets/patches/default_settings.txt
 	cp default_settings.txt ./codebase/assets/patches
@@ -571,6 +562,20 @@ init: generate-secrets
 .PHONY: starter-init
 starter-init: init
 	mkdir -p $(CURDIR)/codebase
+ifeq ($(ENVIRONMENT),starter_dev)
+	@if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root'; \
+	else \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root && composer install'; \
+	fi
+else
+	@if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase && mv /tmp/codebase/* /home/root'; \
+	else \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root && composer install'; \
+	fi
+endif
+
 
 .PHONY: starter-finalize
 starter-finalize:
