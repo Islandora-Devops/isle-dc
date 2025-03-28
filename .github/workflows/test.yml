@@ -35,7 +35,7 @@ jobs:
       - name: check online
         run: ./scripts/ci/ping.sh
 
-      - run: make down && rm -rf codebase
+      - run: make down && sudo rm -rf codebase
 
       - run: make starter_dev
       - name: check online
