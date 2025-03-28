@@ -152,36 +152,19 @@ local:
 ## Make a local site with codebase directory bind mounted, using starter site unless other package specified in .env or present already.
 starter: QUOTED_CURDIR = "$(CURDIR)"
 starter: generate-secrets
-	$(MAKE) starter-init ENVIRONMENT=starter
-	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase && mv /tmp/codebase/* /home/root'; \
-	else \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root && composer install'; \
-	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
+	$(MAKE) starter-init ENVIRONMENT=$(ENVIRONMENT)
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=$(ENVIRONMENT)
 	rm ./codebase/assets/patches/default_settings.txt
 	cp default_settings.txt ./codebase/assets/patches
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter
+	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=$(ENVIRONMENT)
 	$(MAKE) compose-up
 	docker compose exec -T drupal with-contenv bash -lc 'chown -R nginx:nginx /var/www/drupal/ ; su nginx -s /bin/bash -c "composer install"'
 	$(MAKE) starter-finalize ENVIRONMENT=starter
 
 
 .PHONY: starter_dev
-## Make a local site with codebase directory bind mounted, using cloned starter site.
-starter_dev: QUOTED_CURDIR = "$(CURDIR)"
-starter_dev: generate-secrets
-	$(MAKE) starter-init ENVIRONMENT=starter_dev
-	if [ -z "$$(ls -A $(QUOTED_CURDIR)/codebase)" ]; then \
-		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root;'; \
-	fi
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
-	rm ./codebase/assets/patches/default_settings.txt
-	cp default_settings.txt ./codebase/assets/patches
-	$(MAKE) set-files-owner SRC=$(CURDIR)/codebase ENVIRONMENT=starter_dev
-	$(MAKE) compose-up
-	docker compose exec -T -u nginx drupal sh -c 'composer install'
-	$(MAKE) starter-finalize ENVIRONMENT=starter_dev
+starter_dev: ENVIRONMENT=starter_dev
+starter_dev: starter
 
 
 .PHONY: production
@@ -587,6 +570,20 @@ init: generate-secrets
 .PHONY: starter-init
 starter-init: init
 	mkdir -p $(CURDIR)/codebase
+ifeq ($(ENVIRONMENT),starter_dev)
+	@if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'git clone -b main https://github.com/Islandora-Devops/islandora-starter-site /home/root'; \
+	else \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root && composer install'; \
+	fi
+else
+	@if [ -z "$$(ls -A $(CURDIR)/codebase)" ]; then \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'composer create-project $(CODEBASE_PACKAGE) /tmp/codebase && mv /tmp/codebase/* /home/root'; \
+	else \
+		docker container run --rm -v $(CURDIR)/codebase:/home/root $(REPOSITORY)/nginx:$(TAG) with-contenv bash -lc 'cd /home/root && composer install'; \
+	fi
+endif
+
 
 .PHONY: starter-finalize
 starter-finalize:

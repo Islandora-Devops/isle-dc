@@ -2,10 +2,10 @@ name: Test
 on:
   push:
     paths-ignore:
-      - '**/*.md'
+      - "**/*.md"
   schedule:
     # UTC
-    - cron: '15 12 * * *'
+    - cron: "15 12 * * *"
 env:
   TERM: xterm-256color
 jobs:
@@ -31,10 +31,13 @@ jobs:
           ./build/scripts/check-secrets.sh yes
         shell: bash
 
-      - name: make starter
-        run: make starter
-        shell: bash
+      - run: make starter
+      - name: check online
+        run: ./scripts/ci/ping.sh
 
+      - run: make down && sudo rm -rf codebase
+
+      - run: make starter_dev
       - name: check online
         run: ./scripts/ci/ping.sh
 
