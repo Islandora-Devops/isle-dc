@@ -45,10 +45,11 @@ as database import/export and reindexing.
 
 - Desktop / laptop / VM (*Docker must have sufficient resources to run GNU Make*)
 - Docker-CE 19.x+
-- Docker-compose version 1.25.x+
+- Docker-compose version 2.x+
 - Git 2.0+
 - GNU Make 4.0+
 - At least 8GB of RAM (ideally 16GB)
+- [mkcert 1.4+](https://github.com/FiloSottile/mkcert)
 
 before running any of the make commands below.
 
@@ -74,7 +75,7 @@ This will pull down images from Dockerhub and generate
 | `docker-compose.yml` | A ready to run `docker-compose.yml` file based on your `.env` file.  This file is considered disposable. When you change your `.env` file, you will generate a new one.                                                                                                     |
 
 Your new Islandora instance will be available at
-[https://islandora.traefik.me](https://islandora.traefik.me). Don't let the
+[https://islandora.dev](https://islandora.dev). Don't let the
 funny URL fool you, it's a dummy domain that resolves to `127.0.0.1`.
 
 If you do not have [secrets enabled](#secrets), you can log into Drupal as
@@ -87,14 +88,14 @@ the things you can do.  If you want to poke around, here's all the services that
 
 | Service     | URL                                                                                            |  Exposed by default |
 | :---------- | :--------------------------------------------------------------------------------------------- | :------------------ |
-| Drupal      | [https://islandora.traefik.me](https://islandora.traefik.me)                                   |         Yes         |
-| Traefik     | [https://islandora.traefik.me:8080](https://islandora.traefik.me:8080)                         |         No          |
-| Fedora      | [https://islandora.traefik.me:8081/fcrepo/rest](https://islandora.traefik.me:8081/fcrepo/rest) |         Yes         |
-| Blazegraph  | [https://islandora.traefik.me:8082/bigdata](https://islandora.traefik.me:8082/bigdata)         |         No          |
-| Activemq    | [http://islandora.traefik.me:8161](http://islandora.traefik.me:8161)                           |         No          |
-| Solr        | [http://islandora.traefik.me:8983](http://islandora.traefik.me:8983)                           |         No          |
-| Cantaloupe  | [https://islandora.traefik.me/cantaloupe](https://islandora.traefik.me/cantaloupe)             |         Yes         |
-| Code Server | [https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/)                       |         No          |
+| Drupal      | [https://islandora.dev](https://islandora.dev)                                   |         Yes         |
+| Traefik     | [https://islandora.dev:8080](https://islandora.dev:8080)                         |         No          |
+| Fedora      | [https://islandora.dev:8081/fcrepo/rest](https://islandora.dev:8081/fcrepo/rest) |         Yes         |
+| Blazegraph  | [https://islandora.dev:8082/bigdata](https://islandora.dev:8082/bigdata)         |         No          |
+| Activemq    | [http://islandora.dev:8161](http://islandora.dev:8161)                           |         No          |
+| Solr        | [http://islandora.dev:8983](http://islandora.dev:8983)                           |         No          |
+| Cantaloupe  | [https://islandora.dev/cantaloupe](https://islandora.dev/cantaloupe)             |         Yes         |
+| Code Server | [https://islandora.dev:8443/](https://islandora.dev:8443/)                       |         No          |
 
 > **Exposed**: the act of allowing the containerized application's ports to be accessible to the host machine (or public). In most cases this makes the specified URL available for the browser.
 
@@ -308,7 +309,7 @@ INCLUDE_CODE_SERVER_SERVICE=true
 It will then report it created the **code-server** and recreated **traefik** and **drupal** containers.
 
 By default this will accessible at
-[https://islandora.traefik.me:8443/](https://islandora.traefik.me:8443/).
+[https://islandora.dev:8443/](https://islandora.dev:8443/).
 
 If you do not have [secrets enabled](#secrets), you can login with the default
 password: `password`. Otherwise you can find the password in the file
@@ -373,7 +374,7 @@ drupal:
     networks:
       default:
         aliases:
-          - islandora-isle-dc.traefik.me
+          - islandora.dev
 ```
 
 The `traefik` service can be disabled/enabled via the `INCLUDE_TRAEFIK_SERVICE`
