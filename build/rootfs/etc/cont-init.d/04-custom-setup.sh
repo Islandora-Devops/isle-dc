@@ -13,6 +13,7 @@ function main {
     drush islandora:settings:set-config-sync-directory "${DRUPAL_DEFAULT_CONFIGDIR}"
     restore_settings_ownership ${site} ${previous_owner_group}
     install_site "${site}"
+
     # Settings like the hash / flystem can be affected by environment variables at runtime.
     update_settings_php "${site}"
     # Ensure that settings which depend on environment variables like service urls are set dynamically on startup.

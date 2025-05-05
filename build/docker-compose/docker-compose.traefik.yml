@@ -37,19 +37,19 @@ services:
       - --providers.docker.network=gateway
       - --providers.docker.exposedByDefault=false
       - --providers.file.filename=/etc/traefik/tls.yml
-      - '--providers.docker.defaultRule=Host(`${DOMAIN}`)'
+      - "--providers.docker.defaultRule=Host(`${DOMAIN}`)"
     ports:
-      - 80:80       # drupal, cantaloupe
-      - 443:443     # https for ^^^
-      - ${FEDORA_PORT:-8081}:8081   # fedora, needs to be exposed for cantaloupe
+      - 80:80 # drupal, cantaloupe
+      - 443:443 # https for ^^^
+      - ${FEDORA_PORT:-8081}:8081 # fedora, needs to be exposed for cantaloupe
       # Don't do any of these in production
-      - ${MYSQL_PORT:-3306}:3306   # mysql
-      - ${POSTGRES_PORT:-5432}:5432   # postgres
-      - ${TRAEFIK_DASHBOARD_PORT:-8080}:8080   # traefik admin dashboard - helpful for debugging
-      - ${BLAZEGRAPH_PORT:-8082}:8082   # blazegraph
-      - ${ACTIVEMQ_PORT:-8161}:8161   # activemq
-      - ${SOLR_PORT:-8983}:8983   # solr
-      - ${CODE_SERVER_PORT:-8443}:8443   # code-server
+      - ${MYSQL_PORT:-3306}:3306 # mysql
+      - ${POSTGRES_PORT:-5432}:5432 # postgres
+      - ${TRAEFIK_DASHBOARD_PORT:-8080}:8080 # traefik admin dashboard - helpful for debugging
+      - ${BLAZEGRAPH_PORT:-8082}:8082 # blazegraph
+      - ${ACTIVEMQ_PORT:-8161}:8161 # activemq
+      - ${SOLR_PORT:-8983}:8983 # solr
+      - ${CODE_SERVER_PORT:-8443}:8443 # code-server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ../../build/traefik-tls.yml:/etc/traefik/tls.yml
@@ -64,10 +64,10 @@ services:
       gateway: {}
     deploy:
       resources:
-          limits:
-            memory: ${TRAEFIK_MEMORY_LIMIT:-8G}
-          reservations:
-            memory: 4G
+        limits:
+          memory: ${TRAEFIK_MEMORY_LIMIT:-8G}
+        reservations:
+          memory: 4G
   drupal:
     depends_on:
       - traefik
