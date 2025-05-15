@@ -296,9 +296,7 @@ endif
 download-default-certs: mkcert
 	mkdir -p certs
 	-rm -f certs/cert.pem certs/privkey.pem
-	echo "THE NEXT COMMAND WILL ASK FOR SUDO PWD AND LIKELY MORE..."
-	mkcert -install
-	mkcert -key-file certs/privkey.pem -cert-file certs/cert.pem islandora.dev "*.islandora.dev" localhost 127.0.0.1 ::1
+	./scripts/generate-certs.sh
 
 
 # Run Composer Update in your Drupal container
