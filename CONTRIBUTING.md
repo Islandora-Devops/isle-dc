@@ -6,9 +6,7 @@ We also have a Slack channel [#isle](https://islandora.slack.com/archives/CM6F4C
 
 ## Workflows
 
-The [Islandora ISLE Interest Group](https://github.com/islandora-interest-groups/Islandora-ISLE-Interest-Group) meetings are open to everybody on alternating Wednesdays, 3:00pm EDT 
-
-* The meetings are generally held on Zoom. [Find out more, and how to join, here](https://github.com/islandora-interest-groups/Islandora-ISLE-Interest-Group/#how-to-join).
+For guidance or assistance, jump in the Slack channel above and ask before getting started!
 
 ### Documentation
 
@@ -20,12 +18,12 @@ To request a new feature you should [open an issue](https://github.com/Islandora
 
 In order to help us understand the feature request, it would be great if you could provide us with a use case:
 
-| Title (Goal)  | The title or goal of your use case                            |
---------------- |------------------------------------                           |
-| Primary Actor | Repository architect, implementer, repository admin, user     |
-| Scope         | The scope of the project. Example: architecture, access       |
-| Level         | The priority the use case should be given; High, Medium, Low  |
-| Story         | This is a [user story](http://en.wikipedia.org/wiki/User_story).
+| Title (Goal)  | The title or goal of your use case                               |
+--------------- |------------------------------------------------------------------|
+| Primary Actor | Repository architect, implementer, repository admin, user        |
+| Scope         | The scope of the project. Example: architecture, access          |
+| Level         | The priority the use case should be given; High, Medium, Low     |
+| Story         | Provide a [user story](http://en.wikipedia.org/wiki/User_story). |
 
 ----
 
