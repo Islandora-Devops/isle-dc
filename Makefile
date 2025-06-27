@@ -621,8 +621,8 @@ starter-finalize:
 
 	# see https://github.com/Islandora-Devops/isle-site-template/pull/76
 	@CACHE_KEY=$$(docker compose exec -T drupal with-contenv bash -lc "/var/www/drupal/web/core/scripts/rebuild_token_calculator.sh 2>/dev/null") ; \
-	echo "curl https://islandora.dev/core/rebuild.php?$$CACHE_KEY"; \
-	docker compose exec -T drupal with-contenv bash -lc "curl -sLo /dev/null \"https://islandora.dev/core/rebuild.php?$$CACHE_KEY\""
+	echo "curl https://$(DOMAIN)/core/rebuild.php?$$CACHE_KEY"; \
+	docker compose exec -T drupal with-contenv bash -lc "curl -sLo /dev/null \"https://$(DOMAIN)/core/rebuild.php?$$CACHE_KEY\""
 
 	docker compose exec -T drupal with-contenv bash -lc "drush cr"
 	docker compose exec -T drupal with-contenv bash -lc "drush -l $(SITE) user:role:add fedoraadmin admin"
