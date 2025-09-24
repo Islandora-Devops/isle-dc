@@ -68,11 +68,6 @@ ifeq ($(USE_ACME), true)
 	ACME := acme
 endif
 
-# The service traefik may be optional if we are sharing one from another project.
-ifeq ($(INCLUDE_CODE_SERVER_SERVICE), true)
-	CODE_SERVER_SERVICE := code-server
-endif
-
 # etcd is an optional dependency, by default it is not included.
 ifeq ($(INCLUDE_ETCD_SERVICE), true)
 	ETCD_SERVICE := etcd
@@ -104,7 +99,7 @@ DATABASE_SERVICES := $(sort $(DATABASE_SERVICES))
 # The services to be run (order is important), as services can override one
 # another. Traefik must be last if included as otherwise its network
 # definition for `gateway` will be overriden.
-SERVICES := $(REQUIRED_SERVICES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(SECRETS) $(CODE_SERVER_SERVICE) $(TRAEFIK_SERVICE) $(ACME)
+SERVICES := $(REQUIRED_SERVICES) $(FCREPO_SERVICE) $(WATCHTOWER_SERVICE) $(ETCD_SERVICE) $(DATABASE_SERVICES) $(ENVIRONMENT) $(SECRETS) $(TRAEFIK_SERVICE) $(ACME)
 
 RESET=$(shell tput sgr0)
 RED=$(shell tput setaf 9)

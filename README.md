@@ -9,7 +9,6 @@
 - [Custom Environment](#custom-environment)
 - [Secrets](#secrets)
 - [Services](#services)
-  - [Code Server](#code-server)
   - [Watchtower](#watchtower)
   - [Traefik](#traefik)
   - [ETCD](#etcd)
@@ -95,7 +94,6 @@ the things you can do.  If you want to poke around, here's all the services that
 | Activemq    | [http://islandora.dev:8161](http://islandora.dev:8161)                           |         No          |
 | Solr        | [http://islandora.dev:8983](http://islandora.dev:8983)                           |         No          |
 | Cantaloupe  | [https://islandora.dev/cantaloupe](https://islandora.dev/cantaloupe)             |         Yes         |
-| Code Server | [https://islandora.dev:8443/](https://islandora.dev:8443/)                       |         No          |
 
 > **Exposed**: the act of allowing the containerized application's ports to be accessible to the host machine (or public). In most cases this makes the specified URL available for the browser.
 
@@ -290,43 +288,6 @@ For in-depth documentation of the various `islandora` images see the
 
 Other services will be documented below:
 
-### Code Server
-
-The [code-server](https://github.com/cdr/code-server) container allows a user to
-edit / debug their Drupal site from their browser.
-
-The code-server service can be disabled/enabled via the
-`INCLUDE_CODE_SERVER_SERVICE` variable in your `.env` file.
-
-```bash
-# Includes `code-server` as a service.
-INCLUDE_CODE_SERVER_SERVICE=true
-```
-
-* Run `make local`, `make up`, or `make demo` to build the containers and local file system(s).
-* Then modify the `.env` file.
-* Then `make pull` then `make up` to fetch the builds.
-It will then report it created the **code-server** and recreated **traefik** and **drupal** containers.
-
-By default this will accessible at
-[https://islandora.dev:8443/](https://islandora.dev:8443/).
-
-If you do not have [secrets enabled](#secrets), you can login with the default
-password: `password`. Otherwise you can find the password in the file
-[./secrets/live/CODE_SERVER_PASSWORD](./secrets/live/CODE_SERVER_PASSWORD).
-
-**N.B:** Do not expose this service on the internet without setting a strong
-password via the `./secrets/live/CODE_SERVER_PASSWORD`, or better yet do not
-expose it at all, and instead use port forward to access it if you have the
-need. Exposing this service in an insecure way will allow root access to your
-server to the public.
-
-To enable xdebug for your request, you must also send an `XDEBUG_SESSION` cookie
-with your request, this can be toggled on and off via a browser plugin such as
-the following.
-
-- [Chrome](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en)
-- [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/xdebug-helper-for-firefox/)
 
 ### Watchtower
 
