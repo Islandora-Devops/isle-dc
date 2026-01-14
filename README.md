@@ -1,5 +1,5 @@
 > [!WARNING]
-> This repository is deprecated in favor of [isle-site-template]([/documentation/installation/docker/site-template/site-template/](https://github.com/islandora-devops/isle-site-template)).
+> This repository is deprecated in favor of [isle-site-template](https://github.com/islandora-devops/isle-site-template).
 
 # ISLE: Islandora Enterprise 2 <!-- omit in toc -->
 
