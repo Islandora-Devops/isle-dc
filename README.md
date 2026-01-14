@@ -1,5 +1,7 @@
 > [!WARNING]
 > This repository is deprecated in favor of [isle-site-template](https://github.com/islandora-devops/isle-site-template).
+>
+> Existing ISLE-DC installs can review [the documentation for more information about ISLE Site Template](https://islandora.github.io/documentation/installation/docker/converting/)
 
 # ISLE: Islandora Enterprise 2 <!-- omit in toc -->
 
