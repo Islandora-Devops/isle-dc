@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repository is deprecated in favor of [isle-site-template]([/documentation/installation/docker/site-template/site-template/](https://github.com/islandora-devops/isle-site-template)).
+
 # ISLE: Islandora Enterprise 2 <!-- omit in toc -->
 
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](./LICENSE)
